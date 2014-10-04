@@ -1,0 +1,333 @@
+﻿@using DotPay.Language
+@using DotPay.Web
+@using FC.Framework
+<ul class="tabs">
+    <li class="active"><a href="/profile">@Html.Lang("Profile")</a></li>
+    <li><a href="/balances">@Html.Lang("Balances")</a></li>
+    <li><a href="/orders">@Html.Lang("Orders")</a></li>
+    <li><a href="/trades">@Html.Lang("Trade History")</a></li>
+    <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
+</ul>
+
+<h2>@Html.Lang("Account Profile")</h2>
+
+<div class="success box" id="sucessBox" style="display:none;">
+    <img src="/public/images/success.png" alt="Success!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_success")!</strong><br><span id="spanSuccessBox"></span>
+</div>
+<div class="fail box" id="failBox" style="display:none;">
+    <img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
+</div>
+
+<form id="profileForm" class="regform">
+    @Html.AntiForgeryToken()
+    <hr>
+    <h3>@Html.Lang("Your Details")</h3>
+    <table class="table register">
+        <tbody>
+            <tr>
+                <th style="width:180px;">@Html.Lang("Nick Name")</th>
+                <td><input minlength="2" type="text" required="" name="nickname" id="nickname" value="@ViewBag.CurrentUser.NickName"></td>
+            </tr>
+            <tr>
+                <th>@Html.Lang("Identity Information")</th>
+                <td>
+                    @if (string.IsNullOrEmpty(ViewBag.CurrentUser.IdNo))
+                    {
+                        @Html.Lang("no identity information") <br>
+                        <span><a id="goto_identity_verify" href="###">@Html.Lang("Click here for identity verification.")</a></span>
+                    }
+                    else
+                    {
+                        <span class="identitytitle">@Html.Lang("Full Name")</span>@(" : ")<span> @ViewBag.CurrentUser.RealName</span> <br>
+                        <span class="identitytitle">@Html.Lang("Id Type")</span>@(" : ")<span> @Html.GetEnumDescription(typeof(DotPay.Common.IdNoType), (string)(ViewBag.CurrentUser.IdNoType.ToString()))</span> <br>
+                        <span class="identitytitle">@Html.Lang("Id No").</span>@(" : ")<span> @ViewBag.CurrentUser.IdNo</span> <br>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.Lang("Email Address")</th>
+                <td>
+                    @ViewBag.CurrentUser.Email (<b>@(ViewBag.CurrentUser.IsVerifyEmail ? " " + Html.Lang("email_status_verified") + " " :" " + Html.Lang("email_status_verified") + " ")</b>)<br>
+                    @if (!ViewBag.CurrentUser.IsVerifyEmail)
+                    {
+                        <span><a id='resendValidateEmail'>@Html.Lang("Click here to resend active email.")</a></span>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <input type="submit" value="@Html.Lang("Update NickName")">
+    <br>
+</form>
+<form id="passwordChangeForm" class="regform">
+    @Html.AntiForgeryToken()
+    <hr>
+    <h3>@Html.Lang("Your Login Password")</h3>
+    @Html.Lang("You can change your login password using the form below. Only enter a new password if you wish to change it.")
+    <br><br>
+    <table class="table register">
+        <tbody>
+            <tr>
+                <th style="width:180px;">@Html.Lang("Old Login Password")</th>
+                <td>
+                    <input type="password" name="oldpassword" id="oldpassword" value="" autocomplete="off"><br>
+                    <span>@Html.Lang("Please enter 6 characters minimum, including 1 or more digits.")</span>
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.Lang("Login Password")</th>
+                <td>
+                    <input type="password" name="newpassword" id="newpassword" value="" autocomplete="off"><br>
+                    <span>@Html.Lang("Please enter 6 characters minimum, including 1 or more digits.")</span>
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.Lang("Confirm Login Password")</th>
+                <td>
+                    <input type="password" name="confirmpassword" id="confirmpassword" value="" autocomplete="off"><br>
+                    <span>@Html.Lang("Please type your password again.")</span>
+                </td>
+            </tr>
+            @if (ViewBag.CurrentUser.IsOpenTwoFactorGA)
+            {
+                <tr>
+                    <th>@Html.Lang("Google OTP")</th>
+                    <td>
+                        <input type="text" name="ga_Otp" id="ga_Otp_modifyPassword" value="" autocomplete="off"><br>
+                    </td>
+                </tr>
+            }
+            @if (ViewBag.CurrentUser.IsOpenTwoFactorSMS)
+            {
+                <tr>
+                    <th>@Html.Lang("SMS OTP")</th>
+                    <td>
+                        <input type="text" name="sms_Otp" id="sms_Otp_modifyPassword" value="" autocomplete="off"><br>
+                        <a id="btnSendSMSForModifyLoginPassword">@Html.Lang("Click here to get SMS Authentication Code")</a><br>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <input type="submit" value="@Html.Lang("Update Login Password")">
+    <br>
+</form>
+
+<form id="tradePasswordChangeForm" class="regform">
+    @Html.AntiForgeryToken()
+    <hr>
+    <h3>@Html.Lang("Your Trade Password")</h3>
+    @Html.Lang("You can set or change your trade password using the form below.")
+    <br><br>
+    <table class="table register">
+        <tbody>
+            <tr>
+                <th style="width:180px;">@Html.Lang("Old Trade Password")</th>
+                <td>
+                    @if (ViewBag.CurrentUser.IsSetTradePassword)
+                    {
+                        <input type="password" name="oldtradepassword" id="oldtradepassword" value="" autocomplete="off"><br>
+                        <span>@Html.Lang("Please enter 6 characters minimum, including 1 or more digits.")</span>
+                    }
+                    else
+                    {
+                        <span>@Html.Lang("Never set trade password, do not need to input.")</span>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <th>@Html.Lang("Trade Password")</th>
+                <td>
+                    <input type="password" name="newtradepassword" id="newtradepassword" value="" autocomplete="off"><br>
+                    <span>@Html.Lang("Please enter 6 characters minimum, including 1 or more digits.")</span>
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.Lang("Confirm Trade Password")</th>
+                <td>
+                    <input type="password" name="confirmtradepassword" id="confirmtradepassword" value="" autocomplete="off"><br>
+                    <span>@Html.Lang("Please type your trade password again.")</span>
+                </td>
+            </tr>
+            @if (ViewBag.CurrentUser.IsOpenTwoFactorGA)
+            {
+                <tr>
+                    <th>@Html.Lang("Google Authentication OTP")</th>
+                    <td>
+                        <input type="text" name="ga_Otp" id="ga_Otp_modifyTradePassword" value="" autocomplete="off"><br>
+                        <span>@Html.Lang("Please enter code from your Google Authenticator App.")</span>
+                    </td>
+                </tr>
+            }
+            @if (ViewBag.CurrentUser.IsOpenTwoFactorSMS)
+            {
+                <tr>
+                    <th>@Html.Lang("SMS Authentication OTP")</th>
+                    <td>
+                        <input type="text" name="sms_Otp" id="sms_Otp_modifyTradePassword" value="" autocomplete="off"><br>
+                        <a id="btnSendSMSForModifyTradePassword">@Html.Lang("Click here to get SMS Authentication Code")</a><br>
+                        <span>@Html.Lang("Please enter code from your Sms.")</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <input type="submit" value="@Html.Lang("Update Trade Password")">
+    <br>
+</form>
+@if (string.IsNullOrEmpty(ViewBag.CurrentUser.IdNo))
+{
+    <hr>
+    <form id="identity_verify_form" class="regform">
+        @Html.AntiForgeryToken()
+        <h3>@Html.Lang("You should complete identity verifation before withdraw.")</h3>
+        <table class="table register">
+            <tr>
+                <th>
+                    <strong>@Html.Lang("Full Name"):</strong>
+                </th>
+                <td>
+                    <input type="text" name="fullname" id="fullname" value="">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <strong>@Html.Lang("Id Type"):</strong>
+                </th>
+                @* IdNoType的name改变不了 *@
+                <td>@Html.SelectForEnumWithDescription(typeof(DotPay.Common.IdNoType), LangHelpers.Lang("please choose one"), new { @id = "IdNoType", @name = "IdNoType" })</td>
+            </tr>
+            <tr>
+                <th>
+                    <strong>@Html.Lang("Id No").:</strong>
+                </th>
+                <td>
+                    <input type="text" name="idno" id="idno" value="">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="@Html.Lang("Save Identity Information")">
+        <br>
+    </form>
+}
+<form class="regform">
+    <hr>
+    <h3>@Html.Lang("Two-Factor") (2FA)</h3>
+    <span>@Html.Lang("You can enable 2FA on your account below. We strongly advise that you take advantage of the additional security 2FA offers.")</span>
+    @*--------------------------------------------谷歌身份验证----------------------------------*@
+    <h4>@Html.Lang("Google Authentication Status"): <span id="ga2faStatus">@(ViewBag.CurrentUser.IsBindGA ? Html.Lang("2FA_Enabled") : Html.Lang("2FA_Disabled"))</span></h4>
+    <a id="enableGA2FA" @(ViewBag.CurrentUser.IsBindGA ? "style=display:none;" : "")>@Html.Lang("Click here to enable Google Authenticator")</a>
+    <a id="disableGA2FA" @(ViewBag.CurrentUser.IsBindGA ? "" : "style=display:none;")>@Html.Lang("Click here to disable Google Authenticator")</a>
+    <div id="GA2FAEnabled" style="display:none;">
+        @Html.LangAsHtmlString("Download the <strong>Google Authenticator</strong> app on to your mobile phone.")<br><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">@Html.Lang("Android")</a>, <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iPhone / iPad</a> , <a href="http://www.windowsphone.com/en-us/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b">Windows Phone</a><br><br>
+        @Html.LangAsHtmlString("Scan the following QR code using the app and enter the six digit code generated for the account below.")<br><br>
+        <strong>@Html.Lang("QR Code"):</strong><br>
+        <img src="" id="GA2FAimg">
+        <br><br>
+        <strong>@Html.Lang("GA2FA Secret"):</strong> <span id="GA2FACode"></span><br>
+        (@Html.Lang("IMPORTANT - keep this safe in case you lose your phone"))
+        <br><br>
+        <strong>@Html.Lang("Verify (enter code from Google Authenticator App)"):</strong><br>
+        <input type="hidden" name="ga_secretkey" id="ga_secretkey" value="">
+        <input type="text" name="ga_otpverify" id="ga_otpverify" value="">&nbsp; <input type="submit" id="btnVerifyGA2FA" value="@Html.Lang("btn_Verify")">
+    </div>
+    <span id="GA2FADisable" style="display:none;">
+        <strong>@Html.Lang("Verify (enter code from Google Authenticator App)"))</strong><br>
+        <input type="text" name="ga2faVerifyDisable" id="ga2faVerifyDisable" value="">&nbsp; <input type="submit" id="btnVerifyGA2FADisable" value="@Html.Lang("btn_Verify")">
+    </span>
+    @*--------------------------------------------SMS身份验证----------------------------------*@
+    <h4>@Html.Lang("SMS Authentication Status"): <span id="sms2faStatus">@(string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile) ? Html.Lang("2FA_Disabled") : Html.Lang("2FA_Enabled") + "(" + @ViewBag.CurrentUser.Mobile.Substring(0, 3) + "******" + @ViewBag.CurrentUser.Mobile.Substring(9, 2) + ")")</span></h4>
+    <a id="enableSMS2FA" @(string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile) ? "" : "style=display:none;")>Click here to enable SMS Authenticator</a>
+    @Html.Lang("Once you have set up mobile, will not be allowed to change, if your mobile phone number lost, please contact us") <a href="mailto:support@fullcoin.com">support@fullcoin.com</a>
+    <div id="SMS2FAEnabled" style="display:none;">
+        <br><br>
+        <strong>@Html.Lang("Enter your mobile"):</strong>&nbsp;
+        <input type="text" name="mobilenumber" id="mobilenumber" value=""><br><a id="btnSendSMSForBindSMS">@Html.Lang("Click here to get SMS Authentication Code")</a>
+        <br>
+        <span style="display:none;color:red" id="mobileInvalidate">@Html.Lang("Please enter a validate mobile number!")</span>
+        <br>
+        <div id="enableSmsVerify" style="display:none">
+            <strong>@Html.Lang("Verify (enter sms code your mobile received)"):</strong><br>
+            <input type="text" name="sms_otpverify" id="sms_otpverify" value="">&nbsp; <input type="submit" id="btnVerifySMS2FA" value="@Html.Lang("btn_Verify")">
+        </div>
+    </div>
+</form>
+@*------------------------------------开放/关闭登录时的双重身份验证----------------------------------*@
+<br>
+<div id="Login2FADisabled" style="@(((!string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile) || ViewBag.CurrentUser.IsBindGA) && ViewBag.CurrentUser.IsOpenLoginTwoFactor) ? "display:none;" : "")">
+    <form id="enable_login2fa_form" class="regform">
+        @Html.AntiForgeryToken()
+        <h5>@Html.Lang("You can enable Login-2FA on your account using the form below. We strongly advise that you open Login-2FA.")</h5>
+        <table class="table register">
+            @if (ViewBag.CurrentUser.IsBindGA)
+            {
+                <tr>
+                    <th>
+                        <strong>>@Html.Lang("Enter code from Google Authenticator App"):</strong>
+                    </th>
+                    <td>
+                        <input type="text" name="ga_otp" id="ga_otp_login2fa" value="">
+                    </td>
+                </tr>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile))
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.Lang("Enter code from your sms"):</strong>
+                    </th>
+                    <td>
+                        <input type="text" name="sms_otp" id="sms_otp_enable_login2fa" value=""><br><a id="btnSendSMSForEnableLogin2FA">@Html.Lang("Click here to get SMS Authentication Code")</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br>
+        <input type="submit" id="btn_ga_otp_enable_login2fa" value="@Html.Lang("Enable Login-2FA")">
+        <br>
+    </form>
+</div>
+<div id="Login2FAEnabled" style="@(((!string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile) || ViewBag.CurrentUser.IsBindGA) && ViewBag.CurrentUser.IsOpenLoginTwoFactor) ? "" : "display:none;")">
+    <form id="disable_login2fa_form" class="regform">
+        @Html.AntiForgeryToken()
+        <h5>@Html.Lang("You can disable Login-2FA on your account using the form below.But We strongly advise you open Login-2FA.")</h5><br>
+        <table class="table register">
+            @if (ViewBag.CurrentUser.IsBindGA)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.Lang("Enter code from Google Authenticator App"):</strong>
+                    </th>
+                    <td>
+                        <input type="text" name="ga_otp" id="ga_otp_login2fa" value="">
+                    </td>
+                </tr>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile))
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.Lang("Enter code from your sms"):</strong>
+                    </th>
+                    <td>
+                        <input type="text" name="sms_otp" id="sms_otp_disable_login2fa" value=""><br><a id="btnSendSMSForDisableLogin2FA">@Html.Lang("Click here to get SMS Authentication Code")</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br>
+        <input type="submit" id="btn_ga_otp_disable_login2fa" value="@Html.Lang("Dsiable Login-2FA")">
+        <br>
+    </form>
+</div>
+
+<script src="/public/js/jquery.validate.min.js"></script>
+<script src="/public/js/profile.js"></script>

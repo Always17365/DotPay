@@ -1,0 +1,27 @@
+﻿@using DotPay.Language
+<div class="banner">
+    <div id="feature">
+        <ul id="imgs">
+            <li><img src="~/public/images/banner1.jpg" /></li>
+            <li><img src="~/public/images/banner2.jpg" /></li>
+            <li><img src="~/public/images/banner4.jpg" /></li>
+            <li><img src="~/public/images/banner5.jpg" /></li>
+            <li><img src="~/public/images/banner6.jpg" /></li>
+            <li><img src="~/public/images/banner7.jpg" /></li>
+        </ul>
+        <div id="featurenav" style="margin-top:-30px"></div>
+    </div>
+    <script src="~/public/js/jquery.cycle.all.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#imgs').cycle({
+                fx: "fade",
+                speed: 'fast',
+                timeout: 3000,
+                pager: '#featurenav',
+                slideexpr: 'li'
+            });
+        });
+    </script>
+
+</div>

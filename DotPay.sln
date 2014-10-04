@@ -1,0 +1,157 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{2194CC78-6B40-4ACC-998D-D2174C5CAF3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F08F67E2-1C5A-476C-9315-04D5F92876BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Command", "Application\DotPay.Command.csproj", "{C5F3D8A7-7639-46CA-9B4B-C602C966347D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Command.Executor", "Application.Impl\DotPay.Command.Executor.csproj", "{BBC4A647-AFB1-42E2-AB93-AE7386031E75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Query", "Query", "{0C95D736-0EEB-4084-905E-3C119EE059E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.QueryService", "QueryService\DotPay.QueryService.csproj", "{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.QueryService.Impl", "QueryService.Impl\DotPay.QueryService.Impl.csproj", "{38760D77-6A50-4348-9E2F-9B8556F224AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Domain", "Domain\DotPay.Domain.csproj", "{200C8615-6F01-4D57-9F19-5E4CD12E2860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Persistence", "Persistence\DotPay.Persistence.csproj", "{DEE26A7C-B646-4783-8A06-DF8CF1A44B51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Common", "Common\DotPay.Common.csproj", "{A020172A-243C-4DB0-A006-7373C2725994}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Language", "Language\DotPay.Language.csproj", "{9E132226-8ECC-4EA6-8982-4B13096843C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{92ED51AD-DCA5-445A-8C70-E4FA8447A040}"
+	ProjectSection(SolutionItems) = preProject
+		Library\FC.Framework.Autofac.dll = Library\FC.Framework.Autofac.dll
+		Library\FC.Framework.CouchbaseCache.dll = Library\FC.Framework.CouchbaseCache.dll
+		Library\FC.Framework.dll = Library\FC.Framework.dll
+		Library\FC.Framework.Log4net.dll = Library\FC.Framework.Log4net.dll
+		Library\FC.Framework.NHibernate.dll = Library\FC.Framework.NHibernate.dll
+		Library\FC.Framework.RabbitMQ.dll = Library\FC.Framework.RabbitMQ.dll
+		Library\Gma.QrCodeNet.Encoding.Net45.dll = Library\Gma.QrCodeNet.Encoding.Net45.dll
+		Library\HibernatingRhinos.Profiler.Appender.dll = Library\HibernatingRhinos.Profiler.Appender.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Web", "Web\Front\DotPay.Web.csproj", "{148794F5-355C-410E-929A-54B8A98B86E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F5D6B007-34C0-4071-8B41-3D456F40E63F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModel", "ViewModel", "{391CCCF4-E690-46E2-83CE-22E492B0A837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Web.Admin", "Web\Admin\DotPay.Web.Admin.csproj", "{D96CDE25-4625-4987-AD05-33F92C8CFE95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.ViewModel", "ViewModel\DotPay.ViewModel.csproj", "{9518179C-8907-47D8-89FE-C589502AF71A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{507D104C-39D6-40AD-8A28-203505933F47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Tools.SmsInterface", "Tools\SmsInterface\DotPay.Tools.SmsInterface.csproj", "{9716EE13-AA13-4BC2-B468-575114DCE68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Tools.DistributedMessageSender", "Tools\DistributedMessageSender\DotPay.Tools.DistributedMessageSender.csproj", "{526AE764-0A7D-4E4F-858E-F252FF524BAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.CommandExecutor.Test", "UnitTest\DotPay.CommandExecutor.Test\DotPay.CommandExecutor.Test.csproj", "{164B941A-4F5F-46CB-B362-19C3FA5F20AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Common.Test", "UnitTest\DotPay.Common.Test\DotPay.Common.Test.csproj", "{AF1EABBF-19A2-494E-8F49-1FDC52C72D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.QueryService.Impl.Test", "UnitTest\DotPay.QueryService.Impl.Test\DotPay.QueryService.Impl.Test.csproj", "{DE31237D-A271-4D72-B6F7-962D21EE36F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Tools.Test", "UnitTest\DotPay.Tools.Test\DotPay.Tools.Test.csproj", "{65579074-CF4E-4D34-B033-9D3B042FA01A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5F3D8A7-7639-46CA-9B4B-C602C966347D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F3D8A7-7639-46CA-9B4B-C602C966347D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F3D8A7-7639-46CA-9B4B-C602C966347D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F3D8A7-7639-46CA-9B4B-C602C966347D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38760D77-6A50-4348-9E2F-9B8556F224AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38760D77-6A50-4348-9E2F-9B8556F224AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38760D77-6A50-4348-9E2F-9B8556F224AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38760D77-6A50-4348-9E2F-9B8556F224AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200C8615-6F01-4D57-9F19-5E4CD12E2860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200C8615-6F01-4D57-9F19-5E4CD12E2860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200C8615-6F01-4D57-9F19-5E4CD12E2860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200C8615-6F01-4D57-9F19-5E4CD12E2860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE26A7C-B646-4783-8A06-DF8CF1A44B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE26A7C-B646-4783-8A06-DF8CF1A44B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE26A7C-B646-4783-8A06-DF8CF1A44B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE26A7C-B646-4783-8A06-DF8CF1A44B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A020172A-243C-4DB0-A006-7373C2725994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A020172A-243C-4DB0-A006-7373C2725994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A020172A-243C-4DB0-A006-7373C2725994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A020172A-243C-4DB0-A006-7373C2725994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{148794F5-355C-410E-929A-54B8A98B86E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148794F5-355C-410E-929A-54B8A98B86E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148794F5-355C-410E-929A-54B8A98B86E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148794F5-355C-410E-929A-54B8A98B86E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D96CDE25-4625-4987-AD05-33F92C8CFE95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D96CDE25-4625-4987-AD05-33F92C8CFE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D96CDE25-4625-4987-AD05-33F92C8CFE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D96CDE25-4625-4987-AD05-33F92C8CFE95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9518179C-8907-47D8-89FE-C589502AF71A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9518179C-8907-47D8-89FE-C589502AF71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9518179C-8907-47D8-89FE-C589502AF71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9518179C-8907-47D8-89FE-C589502AF71A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9716EE13-AA13-4BC2-B468-575114DCE68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9716EE13-AA13-4BC2-B468-575114DCE68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9716EE13-AA13-4BC2-B468-575114DCE68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9716EE13-AA13-4BC2-B468-575114DCE68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526AE764-0A7D-4E4F-858E-F252FF524BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526AE764-0A7D-4E4F-858E-F252FF524BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526AE764-0A7D-4E4F-858E-F252FF524BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526AE764-0A7D-4E4F-858E-F252FF524BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164B941A-4F5F-46CB-B362-19C3FA5F20AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164B941A-4F5F-46CB-B362-19C3FA5F20AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164B941A-4F5F-46CB-B362-19C3FA5F20AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164B941A-4F5F-46CB-B362-19C3FA5F20AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE31237D-A271-4D72-B6F7-962D21EE36F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE31237D-A271-4D72-B6F7-962D21EE36F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE31237D-A271-4D72-B6F7-962D21EE36F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE31237D-A271-4D72-B6F7-962D21EE36F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5F3D8A7-7639-46CA-9B4B-C602C966347D} = {F08F67E2-1C5A-476C-9315-04D5F92876BC}
+		{BBC4A647-AFB1-42E2-AB93-AE7386031E75} = {F08F67E2-1C5A-476C-9315-04D5F92876BC}
+		{F63CF20F-3A78-4D5E-9044-99FCE8A7C2AB} = {0C95D736-0EEB-4084-905E-3C119EE059E4}
+		{38760D77-6A50-4348-9E2F-9B8556F224AA} = {0C95D736-0EEB-4084-905E-3C119EE059E4}
+		{148794F5-355C-410E-929A-54B8A98B86E5} = {F5D6B007-34C0-4071-8B41-3D456F40E63F}
+		{D96CDE25-4625-4987-AD05-33F92C8CFE95} = {F5D6B007-34C0-4071-8B41-3D456F40E63F}
+		{9518179C-8907-47D8-89FE-C589502AF71A} = {391CCCF4-E690-46E2-83CE-22E492B0A837}
+		{9716EE13-AA13-4BC2-B468-575114DCE68C} = {507D104C-39D6-40AD-8A28-203505933F47}
+		{526AE764-0A7D-4E4F-858E-F252FF524BAA} = {507D104C-39D6-40AD-8A28-203505933F47}
+		{164B941A-4F5F-46CB-B362-19C3FA5F20AA} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
+		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
+		{DE31237D-A271-4D72-B6F7-962D21EE36F1} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
+		{65579074-CF4E-4D34-B033-9D3B042FA01A} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
+	EndGlobalSection
+EndGlobal

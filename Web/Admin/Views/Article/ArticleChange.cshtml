@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">修改文章</h4>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <td>标题</td>
+            <td>
+                <input type="text" name="title" ng-model="articleContents.Title" size="30" maxlength="200">
+            </td>
+        </tr>
+        <tr>
+            <td>类型</td>
+            <td>
+                <input type="checkbox" name="type" ng-model="articleContents.IsTop"> 置顶
+            </td>
+        </tr>
+        <tr>
+            <td><label>分类</label>
+            <td>
+                <select class="form-control" ng-model="categoryType" ng-options="c.Key for c in category"></select>
+            </td>
+        </tr>    
+        <tr>
+            <td><label>语言</label>
+            <td>
+                <select class="form-control" ng-model="LangType" ng-options="c.Key for c in lang"></select>
+            </td>
+        </tr>    
+        <tr>
+            <td>内容</td>
+            <td>
+                <div ueditor content="data" style="height:400px; width:100%;"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center;"><input class="input_button" type="button" value="发布" ng-click="changeArticle(articleContents,categoryType,LangType)" /></td>
+        </tr>
+
+    </table>
+
+</div>

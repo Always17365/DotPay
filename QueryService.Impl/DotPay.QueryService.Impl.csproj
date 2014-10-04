@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38760D77-6A50-4348-9E2F-9B8556F224AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotPay.QueryService.Impl</RootNamespace>
+    <AssemblyName>DotPay.QueryService.Impl</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FC.Framework">
+      <HintPath>..\Library\FC.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework.Autofac">
+      <HintPath>..\Library\FC.Framework.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentData">
+      <HintPath>..\packages\FluentData.3.0.0.0\lib\FluentData.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account\AccountQuery.cs" />
+    <Compile Include="City\CityQuery.cs" />
+    <Compile Include="Cms\AnnouncementQuery.cs" />
+    <Compile Include="Cms\ArticleQuery.cs" />
+    <Compile Include="Logs\LogsQuery.cs" />
+    <Compile Include="VipSetting\VipSettingQuery.cs" />
+    <Compile Include="VirtualCoin\VirtualCoinStatisticsQuery.cs" />
+    <Compile Include="VirtualCoin\PaymentAddressQuery.cs" />
+    <Compile Include="User\UserQuery.cs" />
+    <Compile Include="Manager\ManagerQuery.cs" />
+    <Compile Include="Token\TokenQuery.cs" />
+    <Compile Include="Deposit\DepositQuery.cs" />
+    <Compile Include="CapitalAccount\CapitalAccountQuery.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AbstractQuery.cs" />
+    <Compile Include="QueryRegister.cs" />
+    <Compile Include="Account\CurrencyQuery.cs" />
+    <Compile Include="SmsInterface\SmsInterfaceQuery.cs" />
+    <Compile Include="Withdraw\BankOutletsQuery.cs" />
+    <Compile Include="Withdraw\WithdrawQuery.cs" />
+    <Compile Include="Withdraw\WithdrawReceiverAccountQuery.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\DotPay.Common.csproj">
+      <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
+      <Name>DotPay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QueryService\DotPay.QueryService.csproj">
+      <Project>{f63cf20f-3a78-4d5e-9044-99fce8a7c2ab}</Project>
+      <Name>DotPay.QueryService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel\DotPay.ViewModel.csproj">
+      <Project>{9518179c-8907-47d8-89fe-c589502af71a}</Project>
+      <Name>DotPay.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

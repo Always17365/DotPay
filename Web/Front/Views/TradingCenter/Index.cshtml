@@ -1,0 +1,161 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using FC.Framework;
+@using DotPay.ViewModel
+@using DotPay.Common
+@using DotPay.Language
+<script src="~/public/js/jquery.noty.packaged.min.js"></script>
+<script src="~/public/js/Highstock/highstock.js"></script>
+
+@Html.Action("GetCurrentStatistics", new { baseCurrency = ViewData["BaseCurrency"].ToString(), TargetCurrency = ViewData["TargetCurrency"].ToString() })
+<div style="clear:right;"></div>
+<div class="chartcontainer">
+    <div id="chartdiv_candlestick">
+        <div style="position: relative;">
+            <div>
+                <!-- 5 分钟15 分钟30 分钟1 小时8 小时日 线 -->
+                <div class="amChartsPeriodSelector" style="padding-bottom: 8px; overflow: hidden;">
+                    <div style="float: right; padding-right: 55px;display: inline;">
+                        @Html.Lang("Zoom"):
+                        <input type="button" value="5 @Html.Lang("Minute")" class="amChartsButton" crt="6" style="box-sizing: border-box;">
+                        <input type="button" value="15 @Html.Lang("Minute")" class="amChartsButton" crt="5" style="box-sizing: border-box;">
+                        <input type="button" value="30 @Html.Lang("Minute")" class="amChartsButton" crt="4" style="box-sizing: border-box;">
+                        <input type="button" value="1  @Html.Lang("Hours")" class="amChartsButton" crt="3" style="box-sizing: border-box;">
+                        <input type="button" value="8 @Html.Lang("Hours")" class="amChartsButton" crt="2" style="box-sizing: border-box;">
+                        <input type="button" value="@Html.Lang("Day")" class="amChartsButton" crt="1" style="box-sizing: border-box;">
+                    </div>
+                    <div id="container" style="height: 500px; width:1600px; min-width: 310px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+@if (ViewBag.CurrentUser == null)
+{
+    <div class="warning box" style="margin:25px 0 0;">@Html.Lang("Please login to trade.")</div>
+}
+<div class="row" id="trade_buysell">
+    <div class="item50">
+        <h2>@Html.Lang("Sell Orders")</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="23%">@Html.Lang("trade_price") (@ViewData["BaseCurrency"].ToString())</th>
+                    <th width="23%">@ViewData["TargetCurrency"].ToString()</th>
+                    <th width="23%">@ViewData["BaseCurrency"].ToString()</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+        <div class="scrolltable">
+            @Html.Action("GetAskOrder", new { baseCurrency = ViewData["BaseCurrency"].ToString(), TargetCurrency = ViewData["TargetCurrency"].ToString() })
+        </div>
+    </div>
+    <div class="item50">
+        <h2>@Html.Lang("Buy Orders")</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="23%">@Html.Lang("trade_price") (@ViewData["BaseCurrency"].ToString())</th>
+                    <th width="23%">@ViewData["TargetCurrency"].ToString()</th>
+                    <th width="23%">@ViewData["BaseCurrency"].ToString()</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+        <div class="scrolltable">
+            @Html.Action("GetBidOrder", new { baseCurrency = ViewData["BaseCurrency"].ToString(), TargetCurrency = ViewData["TargetCurrency"].ToString() })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="item50">
+        <h2>@Html.Lang("trade_buy") @ViewData["TargetCurrency"]</h2>
+        <div class="success box">@Html.Lang("Your {0} balance is", ViewData["BaseCurrency"].ToString()) <strong><a id="baseBalance" class="exchangeBalance">@(ViewBag.BaseAccount != null ? ((Decimal)ViewBag.BaseAccount.Balance).ToFixed(4) : 0)</a></strong></div>
+        <form id="form_bid" class="buyForm">
+            <input type="hidden" id="m_userID" value="@(ViewBag.CurrentUser == null ? 0 : ViewBag.CurrentUser.UserID)" />
+            <input type="hidden" id="m_priceDeimal" value="@(ViewBag.MarketSetting.PriceDecimal)" />
+            <input type="hidden" id="m_amountDecimal" value="@(ViewBag.MarketSetting.AmountDecimal)" />
+            <input type="hidden" id="m_volumeDecimal" value="@(ViewBag.MarketSetting.VolumeDecimal)" />
+            <input type="hidden" id="m_minAmount" value="@(ViewBag.MarketSetting.MinAmount)" />
+            <input type="hidden" id="m_feeRate" value="@(ViewBag.MarketSetting.FeeRate)" />
+            <input type="hidden" id="m_target" value="@ViewData["TargetCurrency"]" />
+            <input type="hidden" id="m_base" value="@ViewData["BaseCurrency"]" />
+            <div class="box options">
+                <div class="orderrow"><span class="label">@Html.Lang("Amount"):</span> <input maxlength="14" onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" name="volume" type="text" /><div class="coinbox">@ViewData["TargetCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("Price Per {0}", ViewData["BaseCurrency"].ToString()):</span> <input maxlength="@(ViewBag.MarketSetting.PriceDecimal+8)" onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" name="price" type="text" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("trade_total"):</span> <input onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" name="baseVolume" type="text" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("trade_fee") (@ViewBag.MarketSetting.FeeRate.ToString("P")):</span> <input readonly="readonly" class="txtlabel" name="fee" type="text" value="0" disabled="disabled" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+
+            </div>
+            <input type="submit" value="@Html.Lang("Submit Buy Order")">
+        </form>
+    </div>
+
+    <div class="item50">
+        <h2>@Html.Lang("trade_sell") @ViewData["TargetCurrency"]</h2>
+        <div class="fail box">@Html.Lang("Your {0} balance is", ViewData["TargetCurrency"].ToString()) <strong><a id="targetBalance" class="coinBalance">@(ViewBag.TargetAccount != null ? ((Decimal)ViewBag.TargetAccount.Balance).ToFixed(4) : 0)</a></strong></div>
+        <form id="form_ask" class="sellForm">
+            <div class="box options">
+                <div class="orderrow"><span class="label">@Html.Lang("Amount"):</span> <input name="volume" maxlength="14" onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" type="text" /><div class="coinbox">@ViewData["TargetCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("Price Per {0}", ViewData["BaseCurrency"].ToString()):</span> <input name="price" maxlength="@(ViewBag.MarketSetting.PriceDecimal+8)" onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" type="text" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("trade_total"):</span> <input name="baseVolume" type="text" onkeydown="return onlyNumAndPoint(event)" onkeyup="fixNumInput(event); calcFee(event)" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+                <div class="orderrow"><span class="label">@Html.Lang("trade_fee") (@ViewBag.MarketSetting.FeeRate.ToString("P")):</span> <input readonly="readonly" class="txtlabel" name="fee" type="text" value="0" disabled="disabled" /><div class="coinbox">@ViewData["BaseCurrency"]</div></div>
+            </div>
+            <input type="submit" value="@Html.Lang("Submit Sell Order")">
+        </form>
+    </div>
+</div> 
+@if (ViewBag.CurrentUser != null)
+{
+    <div id="yourOrders" style="">
+        <h2>@Html.Lang("Your Active Orders")</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="16%">@Html.Lang("trade_time")</th>
+                    <th width="16%">@Html.Lang("trade_type")</th>
+                    <th width="16%">@ViewData["TargetCurrency"] @Html.Lang("trade_amount")</th>
+                    <th width="16%">@Html.Lang("trade_price") (@ViewData["BaseCurrency"])</th>
+                    <th width="16%">@Html.Lang("trade_total")</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="u_profile_order" class="scrolltable">
+            @Html.Action("GetMyOrders", new { baseCurrency = ViewData["BaseCurrency"].ToString(), TargetCurrency = ViewData["TargetCurrency"].ToString() })
+        </div>
+    </div>
+}
+<h2>@Html.Lang("Recent Market History")</h2>
+<table class="table">
+    <tbody>
+        <tr>
+            <th width="15%">@Html.Lang("trade_time")</th>
+            <th width="15%">@Html.Lang("trade_type")</th>
+            <th width="15%">@Html.Lang("trade_price") (@ViewData["BaseCurrency"])</th>
+            <th width="15%">@ViewData["TargetCurrency"]</th>
+            <th width="15%">@ViewData["BaseCurrency"]</th>
+            <th></th>
+        </tr>
+    </tbody>
+</table>
+<div class="scrolltable">
+    <table class="table" id="historyTable">
+        <tbody>
+            @Html.Action("GetTradeHistory", new { baseCurrency = ViewData["BaseCurrency"].ToString(), TargetCurrency = ViewData["TargetCurrency"].ToString() })
+        </tbody>
+    </table>
+</div>
+<script src="~/public/js/trade.js"></script>
+<link href="/public/css/messi.css" rel="stylesheet" />
+<script src="/public/js/messi.min.js"></script>
+

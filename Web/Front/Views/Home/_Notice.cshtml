@@ -1,0 +1,19 @@
+﻿@using FC.Framework
+
+<div class="in_left">
+    <div class="indexnew_title indexnew_ico1">
+        <a class="more" href="/notices" title="more...">more...</a>网站公告
+    </div>
+    <div class="indexnew_con">
+        <ul>
+            @foreach (var notice in (IEnumerable<DotPay.ViewModel.ArticleInListModel>)ViewBag.Notices)
+            {
+                <li>
+                    <span>[@notice.CreateAt.ToLocalDateTime().ToString("yyyy-MM-dd")]</span>
+                    <a href="/notices" class="@(notice.IsTop?"topnew":"")">@notice.Title</a> 
+                    @MvcHtmlString.Create(notice.IsTop ? "<img src='/content/images/new.gif' alt='new' />" : "")
+                </li>
+            }
+        </ul>
+    </div>
+</div>

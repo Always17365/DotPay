@@ -1,0 +1,1146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Forgotten password" xml:space="preserve">
+    <value>忘记密码</value>
+  </data>
+  <data name="Identity Information" xml:space="preserve">
+    <value>身份信息</value>
+  </data>
+  <data name="Invalid username / password. Please try again.You still have {0} chances" xml:space="preserve">
+    <value>无效的用户名/密码。请再试一次。你还有{0}机会</value>
+  </data>
+  <data name="Login too frequently,Please try again 2 hours later." xml:space="preserve">
+    <value>登录太频繁，请2小时后再。</value>
+  </data>
+  <data name="Nick Name" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="no identity information" xml:space="preserve">
+    <value>没有的身份信息</value>
+  </data>
+  <data name="Unable to update your login password. Please try again." xml:space="preserve">
+    <value>未成功修改您的登录密码，请再试一次。</value>
+  </data>
+  <data name="Unable to update your nick name. Please try again." xml:space="preserve">
+    <value>无法更新您的昵称。请再试一次。</value>
+  </data>
+  <data name="Unable to verify Google Authentication code. Please try again." xml:space="preserve">
+    <value>谷歌认证码验证失败，请再试一次。</value>
+  </data>
+  <data name="Unknow Exception,Please refresh the page and try again" xml:space="preserve">
+    <value>未知的异常，请刷新页面重试</value>
+  </data>
+  <data name="Unable to update your mobile. Your Sms Authenticator code error." xml:space="preserve">
+    <value>手机号设置失败，您的短信验证码错误。</value>
+  </data>
+  <data name="This mobile {0} is exist." xml:space="preserve">
+    <value>这个手机号{0}是存在的。</value>
+  </data>
+  <data name="You send too much sms,Please try again next day." xml:space="preserve">
+    <value>您今天发送的短信过多，请明日再试</value>
+  </data>
+  <data name="Unable to switch your Login-2FA. Your Google Authenticator code error." xml:space="preserve">
+    <value>无法打开/关闭您的登录双重身份验证，您的谷歌验证码错误。</value>
+  </data>
+  <data name="Unable to switch your Login-2FA. Your Sms Authenticator code error." xml:space="preserve">
+    <value>无法打开/关闭您的登录双重身份验证，您的短信验证码错误。</value>
+  </data>
+  <data name="Unable to update your login password. Your Google Authenticator code error." xml:space="preserve">
+    <value>未成功修改您的登录密码，您的谷歌认证码错误。</value>
+  </data>
+  <data name="Unable to update your login password. Your old password error." xml:space="preserve">
+    <value>未成功修改您的登录密码，您的原登录密码错误。</value>
+  </data>
+  <data name="Unable to update your login password. Your Sms Authenticator code error." xml:space="preserve">
+    <value>未成功修改您的登录密码，您的短信验证码错误。</value>
+  </data>
+  <data name="Unable to update your trade password. Your Google Authenticator code error." xml:space="preserve">
+    <value>未成功修改您的交易密码，您的谷歌认证码错误。</value>
+  </data>
+  <data name="Unable to update your trade password. Your old trade password error." xml:space="preserve">
+    <value>未成功修改您的交易密码，您的旧的交易密码错误。</value>
+  </data>
+  <data name="Unable to update your trade password. Your Sms Authenticator code error." xml:space="preserve">
+    <value>未成功修改您的交易密码，您的短信验证码错误。</value>
+  </data>
+  <data name="Unable to update your trade password. Please try again." xml:space="preserve">
+    <value>未成功修改您的交易密码，请再试一次。</value>
+  </data>
+  <data name="An account with that email address already exists. Please try again or use the forgotten password feature." xml:space="preserve">
+    <value>该电子邮件地址已注册。请再试一次或使用遗忘密码功能。</value>
+  </data>
+  <data name="Disable Google Authenticator successfully." xml:space="preserve">
+    <value>禁用谷歌认证成功。</value>
+  </data>
+  <data name="Disable Login2FA successfully." xml:space="preserve">
+    <value>禁用双层验证</value>
+  </data>
+  <data name="Disable Sms Authenticator successfully." xml:space="preserve">
+    <value>禁用短信验证</value>
+  </data>
+  <data name="Enable Google Authenticator successfully.Your Login2FA enabled by default." xml:space="preserve">
+    <value>使用谷歌认证成功。你的双重身份验证默认启用。</value>
+  </data>
+  <data name="Enable Login2FA successfully." xml:space="preserve">
+    <value>启用登录双重身份验证成功</value>
+  </data>
+  <data name="Enable Sms Authenticator successfully.Your Login2FA enabled by default." xml:space="preserve">
+    <value>启用短信认证成功。你的双层身份验证默认启用。</value>
+  </data>
+  <data name="Login password updated successfully." xml:space="preserve">
+    <value>登录密码修改成功。</value>
+  </data>
+  <data name="Mail has been sent.Please check your email." xml:space="preserve">
+    <value>邮件已发送。请检查您的电子邮件。</value>
+  </data>
+  <data name="Nickname updated successfully." xml:space="preserve">
+    <value>昵称修改成功</value>
+  </data>
+  <data name="Send email too frequently, please try again 15 minutes later." xml:space="preserve">
+    <value>发送电子邮件太频繁，请15分钟后再试。</value>
+  </data>
+  <data name="Trade password updated successfully." xml:space="preserve">
+    <value>交易密码修改成功</value>
+  </data>
+  <data name="Unable to send email to you,Please refresh the page and try again." xml:space="preserve">
+    <value>无法发送邮件给你，请刷新页面重试。</value>
+  </data>
+  <data name="Verification code error." xml:space="preserve">
+    <value>验证码错误。</value>
+  </data>
+  <data name="Your Mobile set yet,don't need set again." xml:space="preserve">
+    <value>已设置手机，无需重复设置</value>
+  </data>
+  <data name="Account successfully verified. Please login below." xml:space="preserve">
+    <value>帐户验证成功。请重新登录。</value>
+  </data>
+  <data name="IdentificationCard" xml:space="preserve">
+    <value>身份证</value>
+  </data>
+  <data name="Invalid email verify link.Please check the link then try again or contact Support." xml:space="preserve">
+    <value>无效的邮箱激活链接。请再试一次或联系客服</value>
+  </data>
+  <data name="Passport" xml:space="preserve">
+    <value>护照</value>
+  </data>
+  <data name="please choose one" xml:space="preserve">
+    <value>请选择一个</value>
+  </data>
+  <data name="Identity information updated successfuly." xml:space="preserve">
+    <value>实名认证信息保存成功。</value>
+  </data>
+  <data name="Identity informations have updated yet! Please refresh the page to see your identity infomations." xml:space="preserve">
+    <value>已完成实名认证！请刷新页面来查看您的身份信息。</value>
+  </data>
+  <data name="Unable to update your identity informations. Please try again." xml:space="preserve">
+    <value>无法保存您的实名认证信息，请再试一次。</value>
+  </data>
+  <data name="BitCoin" xml:space="preserve">
+    <value>比特币</value>
+  </data>
+  <data name="China Yuan" xml:space="preserve">
+    <value>人民币</value>
+  </data>
+  <data name="DogeCoin" xml:space="preserve">
+    <value>狗狗币</value>
+  </data>
+  <data name="FootballCoin" xml:space="preserve">
+    <value>足球币</value>
+  </data>
+  <data name="InfiniteCoin" xml:space="preserve">
+    <value>无限币</value>
+  </data>
+  <data name="LiteCoin" xml:space="preserve">
+    <value>莱特币</value>
+  </data>
+  <data name="NextCoin" xml:space="preserve">
+    <value>未来币</value>
+  </data>
+  <data name="StrellarCoin" xml:space="preserve">
+    <value>恒星币</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="Unable to verify 2 Factor Authentication. Please try again." xml:space="preserve">
+    <value>双重身份验证失败，请再试一次。</value>
+  </data>
+  <data name="Unable to verify 2 Factor Authentication. Your Google Authenticator code error." xml:space="preserve">
+    <value>双重身份验证失败，谷歌认证码错误。</value>
+  </data>
+  <data name="Unable to verify 2 Factor Authentication. Your Sms Authenticator code error." xml:space="preserve">
+    <value>双重身份验证失败，短信验证码错误。</value>
+  </data>
+  <data name="Generating deposit address ..." xml:space="preserve">
+    <value>正在生成充值地址…</value>
+  </data>
+  <data name="NXT Account Public Key" xml:space="preserve">
+    <value>NXT的帐户 Public Key</value>
+  </data>
+  <data name="You need the public key for the first deposit." xml:space="preserve">
+    <value>您第一次充值时可能需要public key </value>
+  </data>
+  <data name="Cpatcha  error." xml:space="preserve">
+    <value>验证码错误</value>
+  </data>
+  <data name="Deposit" xml:space="preserve">
+    <value>充值</value>
+  </data>
+  <data name="Deposit Amount :" xml:space="preserve">
+    <value>充值金额 :</value>
+  </data>
+  <data name="Deposit code has been used." xml:space="preserve">
+    <value>充值码已被使用。</value>
+  </data>
+  <data name="Deposit code locked by other user." xml:space="preserve">
+    <value>充值码已被其它用户锁定</value>
+  </data>
+  <data name="Deposits are confirmed and will be available to use after &lt;strong&gt;{0}&lt;/strong&gt; confirmations. Once our system has picked up the transaction it will show in the deposits listing as pending, this may take a few minutes from when the transaction has been broadcast to the network." xml:space="preserve">
+    <value>充值需要等待&lt;strong&gt; {0} &lt;/strong&gt;确认。一旦我们得到您充值的transaction信息，该笔充值将显示在您的充值列表中(待确认)，不过这需要您发送的交易后10分钟左右才可以看到。</value>
+  </data>
+  <data name="Generate deposit address will not change." xml:space="preserve">
+    <value>生成后的充值地址将不会发生改变</value>
+  </data>
+  <data name="If a long time has not arrived, please contact business QQ {0}." xml:space="preserve">
+    <value>如果长时间未到帐，请联系企业QQ {0}。</value>
+  </data>
+  <data name="Image Captcha :" xml:space="preserve">
+    <value>验证码：</value>
+  </data>
+  <data name="Invalid deposit code." xml:space="preserve">
+    <value>无效的充值码。</value>
+  </data>
+  <data name="Lock Deposit Code" xml:space="preserve">
+    <value>锁存充值码</value>
+  </data>
+  <data name="Locked deposit code successfuly." xml:space="preserve">
+    <value>锁存代充值码成功。</value>
+  </data>
+  <data name="Locked! Unlocked after {0}." xml:space="preserve">
+    <value>锁定！解锁于{0}。</value>
+  </data>
+  <data name="Please do not mine directly to the deposit address and / or auto withdraw from pools." xml:space="preserve">
+    <value>请不要把充值地址设置为您的采矿自动提币地址</value>
+  </data>
+  <data name="Polite Notice:" xml:space="preserve">
+    <value>公告:</value>
+  </data>
+  <data name="Refresh Captcha" xml:space="preserve">
+    <value>刷新验证码</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="Unlock Deposit Code" xml:space="preserve">
+    <value>解锁充值码</value>
+  </data>
+  <data name="Unlocked deposit code successfuly." xml:space="preserve">
+    <value>解锁充值码成功。</value>
+  </data>
+  <data name="Valid deposit code.Face value {0}." xml:space="preserve">
+    <value>有效存款面值代码{0}。</value>
+  </data>
+  <data name="You do not currently have a deposit address. Use the button below to generate a {0} address to deposit to." xml:space="preserve">
+    <value>您目前还没有生成充值地址。点击下方按钮按钮生成{0}地址充值。</value>
+  </data>
+  <data name="Your current available {0} balance:" xml:space="preserve">
+    <value>您的当前可用{0}余额：</value>
+  </data>
+  <data name="Your Deposit Address" xml:space="preserve">
+    <value>您的充值地址</value>
+  </data>
+  <data name="{0} deposited  successfuly." xml:space="preserve">
+    <value>{0} 充值成功。</value>
+  </data>
+  <data name="Please enter a valid number." xml:space="preserve">
+    <value>请输入一个有效的数字</value>
+  </data>
+  <data name="Please input captcha code." xml:space="preserve">
+    <value>请输入验证码。</value>
+  </data>
+  <data name="Please input deposit amount." xml:space="preserve">
+    <value>请输入存款金额。</value>
+  </data>
+  <data name="Please transfer STR to this address." xml:space="preserve">
+    <value>请将str这个地址。</value>
+  </data>
+  <data name="Amount to Withdraw" xml:space="preserve">
+    <value>提取金额</value>
+  </data>
+  <data name="Click here to get SMS Authentication Code" xml:space="preserve">
+    <value>点击这里获取短信验证码</value>
+  </data>
+  <data name="Confirm Trade Password" xml:space="preserve">
+    <value>确认交易密码</value>
+  </data>
+  <data name="Google OTP" xml:space="preserve">
+    <value>谷歌身份验证码</value>
+  </data>
+  <data name="Net Withdraw Amount" xml:space="preserve">
+    <value>取款金额</value>
+  </data>
+  <data name="Please enter code from your Google Authenticator App." xml:space="preserve">
+    <value>请输入您的谷歌验证码。</value>
+  </data>
+  <data name="Please enter code from your Sms." xml:space="preserve">
+    <value>请输入手机验证码</value>
+  </data>
+  <data name="SMS OTP" xml:space="preserve">
+    <value>短信验证码</value>
+  </data>
+  <data name="Withdraw Fee" xml:space="preserve">
+    <value>提现费用</value>
+  </data>
+  <data name="Withdrawal limit of one time :" xml:space="preserve">
+    <value>提现单次限额 </value>
+  </data>
+  <data name="Deposit Code:" xml:space="preserve">
+    <value>充值码</value>
+  </data>
+  <data name="Widraew No fee" xml:space="preserve">
+    <value>免手续费</value>
+  </data>
+  <data name="Please don't withdraw to your deposit address." xml:space="preserve">
+    <value>请不要提现到您的充值地址。</value>
+  </data>
+  <data name="Please update your identity informations before withdraw." xml:space="preserve">
+    <value>提现前请完整实名认证</value>
+  </data>
+  <data name="Please verify your email before withdraw." xml:space="preserve">
+    <value>提现前请验证您的电子邮件。</value>
+  </data>
+  <data name="Process Withdrawal" xml:space="preserve">
+    <value>提现审核</value>
+  </data>
+  <data name="Submit successfuly." xml:space="preserve">
+    <value>提交成功。</value>
+  </data>
+  <data name="Unable to submit your request. Request amount out of range." xml:space="preserve">
+    <value>无法提交您的请求，提现金额超出范围。</value>
+  </data>
+  <data name="Unable to submit your request. You lack of withdrawal limit today." xml:space="preserve">
+    <value>无法提交您的请求，超出您今日的提现限额</value>
+  </data>
+  <data name="Unable to submit your request. Your balance is not enough." xml:space="preserve">
+    <value>无法提交您的请求，您的余额不足</value>
+  </data>
+  <data name="Unable to submit your request. Your Google Authenticator code error." xml:space="preserve">
+    <value>无法提交您的请求，您的谷歌认证码错误。</value>
+  </data>
+  <data name="Unable to submit your request. Your Sms Authenticator code error." xml:space="preserve">
+    <value>无法提交您的请求，您的短信验证码错误。</value>
+  </data>
+  <data name="Unable to submit your request. Your trade password error." xml:space="preserve">
+    <value>无法提交您的请求，您的交易密码错误。</value>
+  </data>
+  <data name="Withdraw to FullCoin Deposit Code" xml:space="preserve">
+    <value>提现到FullCoin充值码</value>
+  </data>
+  <data name="Withdraw to FullCoin Deposit Code successfully." xml:space="preserve">
+    <value>提现到FullCoin充值码成功</value>
+  </data>
+  <data name="Withdrawal Address" xml:space="preserve">
+    <value>提现地址</value>
+  </data>
+  <data name="Your remaining withdrawal limit is &lt;strong&gt;{0}&lt;/strong&gt; today." xml:space="preserve">
+    <value>您今天的提现额度还剩余&lt;strong&gt;{0}&lt;/strong&gt;。</value>
+  </data>
+  <data name="Please confirm the password reset via email." xml:space="preserve">
+    <value>确认密码重置电子邮件。</value>
+  </data>
+  <data name="Unable to locate an account with that email address" xml:space="preserve">
+    <value>无法找到一个帐户的电子邮件地址</value>
+  </data>
+  <data name="Invalid password reset link." xml:space="preserve">
+    <value>无效的密码重置链接。</value>
+  </data>
+  <data name="Please enter a new password." xml:space="preserve">
+    <value>请输入新的密码。</value>
+  </data>
+  <data name="Reset login password link is expired." xml:space="preserve">
+    <value>重置登录密码链接已过期。</value>
+  </data>
+  <data name="Reset login password successfully." xml:space="preserve">
+    <value>重置密码登录成功。</value>
+  </data>
+  <data name="User_Reset_Password_Email_Body" xml:space="preserve">
+    <value>&lt;p&gt;尊敬的用户 {0}:&lt;br /&gt;
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;这封邮件是有人使用这个邮箱地址，在FullCoin找回登录登录之后发送给您的&lt;br /&gt;
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;请点击以下链接，重置您的密码(30分钟有效) &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;br /&gt;
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;a href="https://www.fullcoin.com/resetPwd-{1}-{2}"&gt;点击重置登录密码&lt;/a&gt;(https://www.fullcoin.com/resetPwd-{1}-{2})&lt;br /&gt;
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;为了您的账号安全,请不要将邮件转发给任何人！&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;如果不是您操作的，请忽略该邮件&lt;/p&gt;
+
+&lt;p&gt;{2}  聚宝盆官方团队&lt;/p&gt;</value>
+  </data>
+  <data name="User_Reset_Password_Email_Title" xml:space="preserve">
+    <value>聚宝盆FullCoin-忘记密码</value>
+  </data>
+  <data name="Welcome_Register_Email_Body" xml:space="preserve">
+    <value>&lt;p&gt;&lt;span style="color: rgb(0, 0, 0); font-family: Helvetica, 'Microsoft Yahei', verdana; font-size: 14px; line-height: 23.32400131225586px;"&gt;尊敬的用户: &lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style="color: rgb(0, 0, 0); font-family: Helvetica, 'Microsoft Yahei', verdana; font-size: 14px; line-height: 23.32400131225586px;"&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;欢迎您加入聚宝盆交易平台，请您点击以下链接激活您的邮箱，以便您在忘记密码时，通过邮箱找回登录密码!&amp;nbsp;&lt;/span&gt;&lt;a href="https://www.fullcoin.com/active/{0}/{1}" style="color: rgb(6, 73, 119); font-family: Helvetica, 'Microsoft Yahei', verdana; font-size: 14px; line-height: 23.32400131225586px;"&gt;点击激活&lt;/a&gt;&lt;span style="color: rgb(0, 0, 0); font-family: Helvetica, 'Microsoft Yahei', verdana; font-size: 14px; line-height: 23.32400131225586px;"&gt;&amp;nbsp;或将以下链接复制到浏览器中打开https://www.fullcoin.com/active/{0}/{1} &lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span style="color: rgb(0, 0, 0); font-family: Helvetica, 'Microsoft Yahei', verdana; font-size: 14px; line-height: 23.32400131225586px;"&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; {2} &amp;nbsp;聚宝盆官方团队&lt;/span&gt;&lt;/p&gt;</value>
+  </data>
+  <data name="Welcome_Register_Email_Title" xml:space="preserve">
+    <value>FullCoin邮箱验证邮件</value>
+  </data>
+  <data name="Your password has been reset successfully. You may login using your new password below" xml:space="preserve">
+    <value>您的密码已重置成功，您可以使用在您的新密码登录</value>
+  </data>
+  <data name="Please verify your email first." xml:space="preserve">
+    <value>请先验证您的电子邮箱</value>
+  </data>
+  <data name="Please confirm the trade password reset via email." xml:space="preserve">
+    <value>请确认交易密码重置电子邮件。</value>
+  </data>
+  <data name="forgot trade password? click here to reset your trade password" xml:space="preserve">
+    <value>忘了交易密码？点击重置您的交易密码</value>
+  </data>
+  <data name="Invalidate link." xml:space="preserve">
+    <value>无效的链接。</value>
+  </data>
+  <data name="Please enter a new trade password." xml:space="preserve">
+    <value>请输入一个新的交易密码。</value>
+  </data>
+  <data name="Reset your trade password successfully" xml:space="preserve">
+    <value>重置您的交易密码成功</value>
+  </data>
+  <data name="Account Balances" xml:space="preserve">
+    <value>帐户余额</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Active Markets" xml:space="preserve">
+    <value>交易市场</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>成交量</value>
+  </data>
+  <data name="Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Available Balance" xml:space="preserve">
+    <value>可用余额</value>
+  </data>
+  <data name="Balances" xml:space="preserve">
+    <value>我的资金</value>
+  </data>
+  <data name="Below is a list of all active markets on FullCoin, ordered by 24 hour volume." xml:space="preserve">
+    <value>Full Coin 交易24小时统计列表</value>
+  </data>
+  <data name="Below is a list of deposits that you have made. Click the expander icon on the left of each row to reveal more details about the deposit." xml:space="preserve">
+    <value>下面是一个充值列表。点击每一行的左边的三角图标显示更详细的存款。</value>
+  </data>
+  <data name="Below is a list of withdraws that you have made. Click the expander icon on the left of each row to reveal more details about the withdraw." xml:space="preserve">
+    <value>下面您的提现列表，点击每一行的左边的三角图标查看提现详细信息</value>
+  </data>
+  <data name="Click here for identity verification." xml:space="preserve">
+    <value>点击这里进行身份验证。</value>
+  </data>
+  <data name="Click here to disable Google Authenticator" xml:space="preserve">
+    <value>点击此处禁用谷歌验证器</value>
+  </data>
+  <data name="Click here to enable Google Authenticator" xml:space="preserve">
+    <value>点击启动谷歌身份验证</value>
+  </data>
+  <data name="Click here to resend active email." xml:space="preserve">
+    <value>点击这里重新获取邮件。</value>
+  </data>
+  <data name="Coin Code" xml:space="preserve">
+    <value>币种代码</value>
+  </data>
+  <data name="Coin Deposits" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Coin Name" xml:space="preserve">
+    <value>币种</value>
+  </data>
+  <data name="Coin Withdraws" xml:space="preserve">
+    <value>虚拟币提现</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>上海币福网络科技有限公司 版权所有</value>
+  </data>
+  <data name="Confirm Login Password" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
+  <data name="ContractInfo" xml:space="preserve">
+    <value>电话：400-055-0698  备案号：沪ICP备14018960号-1</value>
+  </data>
+  <data name="Cpatcha" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="Deposit {0}" xml:space="preserve">
+    <value>充值 {0}</value>
+  </data>
+  <data name="Don't have your Google Authenticator token any more? You'll need to contact support with your &lt;strong&gt;2FA secret&lt;/strong&gt; in order to regain access to your account." xml:space="preserve">
+    <value>您的谷歌身份验证设备丢失了吗？请联系客服获取您的&lt;strong&gt; 谷歌双重身份验证的密钥 &lt;/strong&gt;。</value>
+  </data>
+  <data name="Download the &lt;strong&gt;Google Authenticator&lt;/strong&gt; app on to your mobile phone." xml:space="preserve">
+    <value>下载&lt;strong&gt;谷歌验证器&lt;/strong&gt;程序在你的手机。</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>电子邮件地址</value>
+  </data>
+  <data name="Enable Login-2FA" xml:space="preserve">
+    <value>启用登录双重身份验证</value>
+  </data>
+  <data name="Enter code from Google Authenticator App" xml:space="preserve">
+    <value>输入谷歌身份验证的应用程序显示的代码</value>
+  </data>
+  <data name="Enter code from your sms" xml:space="preserve">
+    <value>输入短信代码</value>
+  </data>
+  <data name="Enter your mobile" xml:space="preserve">
+    <value>输入您的手机</value>
+  </data>
+  <data name="Excellent Support" xml:space="preserve">
+    <value>优质客服服务</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="FullCoin Exchange" xml:space="preserve">
+    <value>FULLCOIN交易市场</value>
+  </data>
+  <data name="FullCoin free of all currency exchange transaction fees currently" xml:space="preserve">
+    <value>聚宝盆目前所有币种交易手续费全免</value>
+  </data>
+  <data name="GA2FA Secret" xml:space="preserve">
+    <value>谷歌身份验证器密钥</value>
+  </data>
+  <data name="Google Authentication Status" xml:space="preserve">
+    <value>谷歌双重身份验证状态</value>
+  </data>
+  <data name="Google Authentication Token" xml:space="preserve">
+    <value>谷歌身份验证码</value>
+  </data>
+  <data name="Held for Orders" xml:space="preserve">
+    <value>挂单金额</value>
+  </data>
+  <data name="Hot And Cold Double Secure Storage" xml:space="preserve">
+    <value>冷热双备安全存储</value>
+  </data>
+  <data name="Id No" xml:space="preserve">
+    <value>证件号码</value>
+  </data>
+  <data name="Id Type" xml:space="preserve">
+    <value>证件类型</value>
+  </data>
+  <data name="If you have forgotten your password, please fill out your email address below and follow the instructions emailed to you." xml:space="preserve">
+    <value>如果您忘记了密码，请填写您的电子邮件地址和遵循指示发送给你。</value>
+  </data>
+  <data name="IMPORTANT - keep this safe in case you lose your phone" xml:space="preserve">
+    <value>重要的-保持这个安全如果你失去了你的手机</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Login History" xml:space="preserve">
+    <value>登录历史记录</value>
+  </data>
+  <data name="Login Password" xml:space="preserve">
+    <value>登录密码</value>
+  </data>
+  <data name="Login to your Account" xml:space="preserve">
+    <value>账户登录</value>
+  </data>
+  <data name="Never set trade password, do not need to input." xml:space="preserve">
+    <value>没有设置交易密码，不需要输入。</value>
+  </data>
+  <data name="No  Fee" xml:space="preserve">
+    <value>免手续费</value>
+  </data>
+  <data name="Old Trade Password" xml:space="preserve">
+    <value>原交易密码</value>
+  </data>
+  <data name="Once you have set up mobile, will not be allowed to change, if your mobile phone number lost, please contact us" xml:space="preserve">
+    <value>一旦设置了手机号，将不允许改变，如果您的手机号码丢了，请与我们联系</value>
+  </data>
+  <data name="Open Auth" xml:space="preserve">
+    <value>授权登录</value>
+  </data>
+  <data name="Optimizing multi-currency transactions" xml:space="preserve">
+    <value>精选优质币种</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>我的挂单</value>
+  </data>
+  <data name="Our carefully selected innovative and creative premium digital assets" xml:space="preserve">
+    <value>我们精心选择优质的创新和创意的数字资产</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Please accept our TOS." xml:space="preserve">
+    <value>请接受我们的服务条款。</value>
+  </data>
+  <data name="Please enter 6 characters minimum, including 1 or more digits." xml:space="preserve">
+    <value>请输入最少6个字符，至少包含一个字母。</value>
+  </data>
+  <data name="Please enter a valid email address." xml:space="preserve">
+    <value>请输入有效的电子邮件地址。</value>
+  </data>
+  <data name="Please enter a validate mobile number!" xml:space="preserve">
+    <value>请输入手机验证码！</value>
+  </data>
+  <data name="Please enter the same password as above" xml:space="preserve">
+    <value>请输入上面相同的密码</value>
+  </data>
+  <data name="Please enter your Google Authentication OTP." xml:space="preserve">
+    <value>请输入您的谷歌认证的OTP。</value>
+  </data>
+  <data name="Please enter your SMS Authentication OTP." xml:space="preserve">
+    <value>请输入您的手机短信认证的OTP。</value>
+  </data>
+  <data name="Please provide a password" xml:space="preserve">
+    <value>请输入密码</value>
+  </data>
+  <data name="Please type your login password again." xml:space="preserve">
+    <value>请键入您的登录密码。</value>
+  </data>
+  <data name="Please type your password again." xml:space="preserve">
+    <value>请再次输入密码。</value>
+  </data>
+  <data name="Please type your trade password again." xml:space="preserve">
+    <value>请输入您的交易密码。</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>个人设置</value>
+  </data>
+  <data name="QQ" xml:space="preserve">
+    <value>QQ登录</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="Register Account" xml:space="preserve">
+    <value>账户注册</value>
+  </data>
+  <data name="Reset Login Password" xml:space="preserve">
+    <value>重置登录密码</value>
+  </data>
+  <data name="Reset Trade Password" xml:space="preserve">
+    <value>重置交易密码</value>
+  </data>
+  <data name="Reset your login password successfully" xml:space="preserve">
+    <value>重置您的登录密码成功</value>
+  </data>
+  <data name="Save Identity Information" xml:space="preserve">
+    <value>保存的身份信息</value>
+  </data>
+  <data name="Scan the following QR code using the app and enter the six digit code generated for the account below." xml:space="preserve">
+    <value>扫描以下的二维码使用的应用程序和输入六位数的代码生成以下帐户。</value>
+  </data>
+  <data name="SMS Authentication Status" xml:space="preserve">
+    <value>短信双重身份验证状态</value>
+  </data>
+  <data name="SMS Authentication Token" xml:space="preserve">
+    <value>短信验证码</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="The fast, efficient and secure cryptocurrency exchange" xml:space="preserve">
+    <value>快速、高效、安全的数字货币交易所</value>
+  </data>
+  <data name="There are no deposits to display" xml:space="preserve">
+    <value>没有充值信息显示</value>
+  </data>
+  <data name="There are no withdraws to display" xml:space="preserve">
+    <value>没有提现信息显示</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="To make a new deposit, please visit the {0} page and select the Deposit option under the actions menu for {1}." xml:space="preserve">
+    <value>如果您需要充值，请进入{0}页面并是【操作】菜单下的【充值】来{1}。</value>
+  </data>
+  <data name="To make a new withdraw, please visit the {0} page and select the Withdraw option under the actions menu for {1}." xml:space="preserve">
+    <value>如果您需要体现，请进入{0}页面并是【操作】菜单下的【提现】来{1}。</value>
+  </data>
+  <data name="Trade History" xml:space="preserve">
+    <value>交易记录</value>
+  </data>
+  <data name="Trade Password" xml:space="preserve">
+    <value>交易密码</value>
+  </data>
+  <data name="Two-Factor" xml:space="preserve">
+    <value>双重身份认证</value>
+  </data>
+  <data name="Update Login Password" xml:space="preserve">
+    <value>更新登录密码</value>
+  </data>
+  <data name="Update NickName" xml:space="preserve">
+    <value>更新昵称</value>
+  </data>
+  <data name="Update Trade Password" xml:space="preserve">
+    <value>更新交易密码</value>
+  </data>
+  <data name="Use the actions button to deposit, withdraw or view orders/trades for that specific coin." xml:space="preserve">
+    <value>使用【操作】按钮--可查看特定币种的充值记录、提现记录、挂单、成交记录。</value>
+  </data>
+  <data name="User Login" xml:space="preserve">
+    <value>用户登录</value>
+  </data>
+  <data name="Verify (enter code from Google Authenticator App)" xml:space="preserve">
+    <value>验证（输入谷歌身份验证码）</value>
+  </data>
+  <data name="View {0} Deposits" xml:space="preserve">
+    <value>查看{0}充值</value>
+  </data>
+  <data name="View {0} Orders" xml:space="preserve">
+    <value>查看{0}订单</value>
+  </data>
+  <data name="View {0} Trades" xml:space="preserve">
+    <value>查看{0}交易</value>
+  </data>
+  <data name="View {0} Withdrawals" xml:space="preserve">
+    <value>查看{0}取款</value>
+  </data>
+  <data name="We offer 7 * 24 hours service" xml:space="preserve">
+    <value>我们提供7×24小时服务</value>
+  </data>
+  <data name="Weibo" xml:space="preserve">
+    <value>微博登录</value>
+  </data>
+  <data name="Withdraw Address" xml:space="preserve">
+    <value>提现地址</value>
+  </data>
+  <data name="Withdraw {0}" xml:space="preserve">
+    <value>提现{0}</value>
+  </data>
+  <data name="You can change your login password using the form below. Only enter a new password if you wish to change it." xml:space="preserve">
+    <value>您可以通过下方的表格修改您的登录密码</value>
+  </data>
+  <data name="You can disable Login-2FA on your account using the form below.But We strongly advise you open Login-2FA." xml:space="preserve">
+    <value>您可以通过下方表格关闭登录双重身份验证。但是，我们强烈建议你打开双重身份验证。</value>
+  </data>
+  <data name="You can enable 2FA on your account below. We strongly advise that you take advantage of the additional security 2FA offers." xml:space="preserve">
+    <value>您可以启用双重身份验证，我们强烈建议你启用双重身份验证，以提高账户安全性。</value>
+  </data>
+  <data name="You can enable Login-2FA on your account using the form below. We strongly advise that you open Login-2FA." xml:space="preserve">
+    <value>您可以通过下方表格启动登录双重身份验证，我们强烈建议您开启双重身份验证。</value>
+  </data>
+  <data name="You can set or change your trade password using the form below." xml:space="preserve">
+    <value>您可以通过下方表格设置或修改您的交易密码</value>
+  </data>
+  <data name="You should complete identity verifation before withdraw." xml:space="preserve">
+    <value>您需要在提现前完成实名认证</value>
+  </data>
+  <data name="Your Details" xml:space="preserve">
+    <value>个人信息</value>
+  </data>
+  <data name="Your digital assets at here, just as there in a strong safes" xml:space="preserve">
+    <value>您的数字资产存进聚宝盆,就像放进了高强度的保险柜</value>
+  </data>
+  <data name="Your Login Password" xml:space="preserve">
+    <value>您的登录密码</value>
+  </data>
+  <data name="Your password must be at least 6 characters long" xml:space="preserve">
+    <value>您的密码必须至少6个字符长</value>
+  </data>
+  <data name="Your password must be at least 6 characters long." xml:space="preserve">
+    <value>您的密码必须至少6个字符长.</value>
+  </data>
+  <data name="Your Trade Password" xml:space="preserve">
+    <value>您的交易密码</value>
+  </data>
+  <data name="order canceled" xml:space="preserve">
+    <value>挂单已取消</value>
+  </data>
+  <data name="order done" xml:space="preserve">
+    <value>挂单已成交</value>
+  </data>
+  <data name="Order volume too small" xml:space="preserve">
+    <value>挂单量过小</value>
+  </data>
+  <data name="Your balance is not enough for this order" xml:space="preserve">
+    <value>订单超出您的账户余额</value>
+  </data>
+  <data name="24HR High" xml:space="preserve">
+    <value>24小时最高成交价</value>
+  </data>
+  <data name="24HR Low" xml:space="preserve">
+    <value>24小时最低成交价</value>
+  </data>
+  <data name="24HR Volume" xml:space="preserve">
+    <value>24小时成交量</value>
+  </data>
+  <data name="Buy Orders" xml:space="preserve">
+    <value>买单</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="Last Price" xml:space="preserve">
+    <value>最新成交价</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="Please login to trade." xml:space="preserve">
+    <value>请登录后进行交易</value>
+  </data>
+  <data name="Price Per {0}" xml:space="preserve">
+    <value>价格 ({0})</value>
+  </data>
+  <data name="Recent Market History" xml:space="preserve">
+    <value>最近的成交记录</value>
+  </data>
+  <data name="Sell Orders" xml:space="preserve">
+    <value>卖单</value>
+  </data>
+  <data name="Submit Buy Order" xml:space="preserve">
+    <value>买入</value>
+  </data>
+  <data name="Submit Sell Order" xml:space="preserve">
+    <value>卖出</value>
+  </data>
+  <data name="trade_amount" xml:space="preserve">
+    <value>金额</value>
+  </data>
+  <data name="trade_buy" xml:space="preserve">
+    <value>买入</value>
+  </data>
+  <data name="trade_fee" xml:space="preserve">
+    <value>交易费</value>
+  </data>
+  <data name="trade_price" xml:space="preserve">
+    <value>成交价</value>
+  </data>
+  <data name="trade_sell" xml:space="preserve">
+    <value>卖出</value>
+  </data>
+  <data name="trade_time" xml:space="preserve">
+    <value>成交时间</value>
+  </data>
+  <data name="trade_total" xml:space="preserve">
+    <value>挂单金额</value>
+  </data>
+  <data name="trade_type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Your {0} balance is" xml:space="preserve">
+    <value>我的 {0} 余额</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AskOrder" xml:space="preserve">
+    <value>卖出</value>
+  </data>
+  <data name="BidOrder" xml:space="preserve">
+    <value>买入</value>
+  </data>
+  <data name="Buy order create success. &lt;br&gt; Amount : {0} &lt;br&gt; Price: {1}" xml:space="preserve">
+    <value>购买订单创建成功。&lt;br&gt;金额：{0} &lt;BR&gt;单价：{1}</value>
+  </data>
+  <data name="Cancel_Order" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Order canceled success." xml:space="preserve">
+    <value>挂单撤销成功</value>
+  </data>
+  <data name="Sell order create success. &lt;br&gt; Volume : {0} &lt;br&gt; Price: {1}" xml:space="preserve">
+    <value>卖单创建成功。&lt;br&gt;数量：{0} &lt;BR&gt;单价：{1}</value>
+  </data>
+  <data name="Your Active Orders" xml:space="preserve">
+    <value>我的挂单</value>
+  </data>
+  <data name="2FA_Disabled" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="2FA_Enabled" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Account Profile" xml:space="preserve">
+    <value>账户资料</value>
+  </data>
+  <data name="email_status_not_verified" xml:space="preserve">
+    <value>未验证</value>
+  </data>
+  <data name="email_status_verified" xml:space="preserve">
+    <value>已验证</value>
+  </data>
+  <data name="Google Authentication OTP" xml:space="preserve">
+    <value>谷歌认证的OTP</value>
+  </data>
+  <data name="header_nav_about" xml:space="preserve">
+    <value>关于我们</value>
+  </data>
+  <data name="header_nav_terms" xml:space="preserve">
+    <value>服务条款</value>
+  </data>
+  <data name="header_nav_trading" xml:space="preserve">
+    <value>交易市场</value>
+  </data>
+  <data name="Hide zero balances" xml:space="preserve">
+    <value>隐藏零余额</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="msg_box_error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="msg_box_success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Old Login Password" xml:space="preserve">
+    <value>原登录密码</value>
+  </data>
+  <data name="QR Code" xml:space="preserve">
+    <value>二维码;</value>
+  </data>
+  <data name="Verify (enter sms code your mobile received)" xml:space="preserve">
+    <value>验证（输入手机收到短信代码）</value>
+  </data>
+  <data name="SMS Authentication OTP" xml:space="preserve">
+    <value>短信验证码</value>
+  </data>
+  <data name="btn_Verify" xml:space="preserve">
+    <value>验证</value>
+  </data>
+  <data name="header_nav_notices" xml:space="preserve">
+    <value>公告</value>
+  </data>
+  <data name="Site_Notice_Title" xml:space="preserve">
+    <value>网站公告</value>
+  </data>
+  <data name="Team Name" xml:space="preserve">
+    <value>FullCoin官方团队</value>
+  </data>
+  <data name="Withdraw" xml:space="preserve">
+    <value>提现</value>
+  </data>
+  <data name="DepositStatusCompleted" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="DepositStatusPending" xml:space="preserve">
+    <value>待确认</value>
+  </data>
+  <data name="DepositStatusVerified" xml:space="preserve">
+    <value>已审核</value>
+  </data>
+  <data name="PayWay Alipay" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="PayWay FullCoin Code" xml:space="preserve">
+    <value>FullCoin Code</value>
+  </data>
+  <data name="PayWay Ripple" xml:space="preserve">
+    <value>Ripple</value>
+  </data>
+  <data name="PayWay Virtual Coin Tranfer" xml:space="preserve">
+    <value>虚拟币转账</value>
+  </data>
+  <data name="Below is a list of open orders that you have made. Any completed orders will show up under your {0}." xml:space="preserve">
+    <value>下边是您的挂单列表。任何订单完成后，都会出现在您的 {0}</value>
+  </data>
+  <data name="myordres_Orders" xml:space="preserve">
+    <value>我的挂单</value>
+  </data>
+  <data name="mytrades_Trade History" xml:space="preserve">
+    <value>交易记录</value>
+  </data>
+  <data name="header_nav_Hello" xml:space="preserve">
+    <value>欢迎</value>
+  </data>
+  <data name="header_nav_index" xml:space="preserve">
+    <value>首页</value>
+  </data>
+  <data name="header_nav_news" xml:space="preserve">
+    <value>新闻资讯</value>
+  </data>
+  <data name="header_nav_support" xml:space="preserve">
+    <value>客服支持</value>
+  </data>
+  <data name="I have read and agree to the {0} ." xml:space="preserve">
+    <value>我已阅读并同意{0}</value>
+  </data>
+  <data name="index_statistics_Volume" xml:space="preserve">
+    <value>市场成交量</value>
+  </data>
+  <data name="Next Page" xml:space="preserve">
+    <value>下一页</value>
+  </data>
+  <data name="Pre Page" xml:space="preserve">
+    <value>上一页</value>
+  </data>
+  <data name="register_image_Code" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="register_Terms of Service" xml:space="preserve">
+    <value>服务条款</value>
+  </data>
+  <data name="side_24 Hour Statistics" xml:space="preserve">
+    <value>24小时成交统计</value>
+  </data>
+  <data name="Site_News_Title" xml:space="preserve">
+    <value>新闻资讯</value>
+  </data>
+  <data name="website_Title" xml:space="preserve">
+    <value>点付科技</value>
+  </data>
+  <data name="trade_volume" xml:space="preserve">
+    <value>挂单量</value>
+  </data>
+  <data name="my balance estimation" xml:space="preserve">
+    <value>CNY估值</value>
+  </data>
+  <data name="Total funds estimation" xml:space="preserve">
+    <value>当前资金总估</value>
+  </data>
+  <data name="Generate Deposit Address" xml:space="preserve">
+    <value>生成充值地址</value>
+  </data>
+  <data name="VIP Level" xml:space="preserve">
+    <value>Vip 等级</value>
+  </data>
+  <data name="VIP Score" xml:space="preserve">
+    <value>Vip积分</value>
+  </data>
+  <data name="Disable Login-2FA" xml:space="preserve">
+    <value>关闭登录双重身份验证</value>
+  </data>
+  <data name="Please verify your email or enable Google/Sms Authenticator first." xml:space="preserve">
+    <value>您没有绑定邮件、也没有绑定谷歌、短信验证，无法为您重置密码</value>
+  </data>
+  <data name="features_anywhere" xml:space="preserve">
+    <value>方便</value>
+  </data>
+  <data name="features_fast" xml:space="preserve">
+    <value>实时</value>
+  </data>
+  <data name="features_free" xml:space="preserve">
+    <value>几乎免费</value>
+  </data>
+  <data name="features_open" xml:space="preserve">
+    <value>开放</value>
+  </data>
+</root>

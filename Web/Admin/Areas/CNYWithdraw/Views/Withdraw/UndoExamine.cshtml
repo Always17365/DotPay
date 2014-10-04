@@ -1,0 +1,99 @@
+﻿@{     
+    Layout = null;
+}
+@using DotPay.Web.Admin;
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title" ng-bind="title"></h4>
+    </div>
+    <div class="panel-body">
+        <div class="pull-left">
+            <button type="button" class="btn btn-primary" ng-click="changerUserBank()">修改用户银行</button> 
+            <!--<button type="button" class="btn btn-primary" ng-click="undoApplication()">驳回提现申请</button> -->
+        </div>
+        <div class="pull-right padding-right100">            
+            <label>提现流水号:</label><input type="text" class="form-control inline-control " ng-model="transfer_Search">
+            <label>提现金额:</label><input type="text" class="form-control inline-control " ng-model="amount_Search">
+            <button type="button" class="btn btn-success" ng-click="search()"><span class="glyphicon glyphicon-search"></span>搜索</button>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>用户ID</th>
+                <th>银行</th>
+                <th>开户人</th>
+                <th>银行账户</th>
+                <th>金额</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="withdraw in withdraws">
+                <td><input type="checkbox" ng-model="withdraw.Checked" ng-change="checkedChange(withdraw)"></td>
+                <td ng-bind="withdraw.ID"></td>
+                <td ng-bind="withdraw.UserID"></td>
+                <td ng-bind="withdraw.CNBank"></td>
+                <td ng-bind="withdraw.ReceiverName"></td>
+                <td ng-bind="withdraw.BankAccount"></td>
+                <td ng-bind="withdraw.Amount"></td>
+                <td ng-bind="withdraw.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination total-items="totalCount" page="currentPage" first-text="首页" on-select-page="pageChange(page)" next-text="下一页" previous-text="上一页" last-text="尾页" max-size="10" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+    <pre>共{{totalCount}}条数据  第{{currentPage}}页 /共{{numPages}}页</pre>
+</div>
+<div>
+    <script type="text/ng-template" id="undoExamineModalContent.html">
+        <div class="modal-header">
+            <h3 ng-bind="title"></h3>
+        </div>
+        <div class="modal-body">
+            <form name="lockForm" role="form">
+                <div class="form-group">
+                    <label>原因</label>
+                    <textarea rows="3" ng-trim="true" class="form-control" required ng-model="reason"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                    <button class="btn btn-primary" ng-click="save(reason)">保存</button>
+                </div>
+             </form>
+        </div>
+    </script>
+    <script type="text/ng-template" id="changerUserBankModalContent.html">
+        <div class="modal-header">
+        <h3 ng-bind="title"></h3>
+    </div>
+    <div class="modal-body">
+        <form name="capitalAccountForm" role="form">
+            <table class="table-condensed" style="width: 95%">
+                <tr>
+                    <td><label>订单ID</label></td>
+                    <td>
+                        <input type="text" ng-trim="true" class="form-control" required ng-model="selectWithdraw.ID" disabled>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>银行名称</label></td>
+                    <td>
+                        <select class="form-control" ng-model="changerUserBank.capitalAccountType" ng-options="c.Key for c in capitalAccountTypes"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>银行卡号</label>
+                    <td><input type="text" ng-trim="true" class="form-control" required ng-model="changerUserBank.bankAccount"></td>
+                </tr>     
+               
+            </table>
+            <div class="modal-footer">
+                <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                <button class="btn btn-primary" ng-click="add(changerUserBank)">保存</button>
+            </div>
+         </form>
+    </div>
+    </script>
+</div>

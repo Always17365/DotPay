@@ -1,0 +1,94 @@
+﻿@using DotPay.Language
+<ul class="tabs">
+    <li><a href="/profile">@Html.Lang("Profile")</a></li>
+    <li class="active"><a href="/balances">@Html.Lang("Balances")</a></li> 
+    <li><a href="/orders">@Html.Lang("Orders")</a></li>
+    <li><a href="/trades">@Html.Lang("Trade History")</a></li>
+    <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
+</ul>
+
+<h2>@Html.Lang("Deposit") @ViewBag.CurrencyCode <span class="coinname">@ViewBag.Currency</span></h2>
+
+<div class="success box" id="sucessBox" style="display:none;"><img src="/public/images/generating.gif" alt="Generating!" class="left 2x" width="32"><strong>Generating...</strong><br><span id="spanSuccessBox"></span></div>
+<div class="fail box" id="failBox" style="display:none;"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span></div>
+@Html.Lang("Your current available {0} balance:", (string)ViewBag.Currency.ToString())  <strong>@ViewBag.Balance.ToString("0.########")</strong>
+
+<form id="strDepositForm">
+    <div id="subDepositCode" class="inputcode">
+        @Html.AntiForgeryToken()
+        <div id="afterSubmit" style="display:none">
+            <div class="options box" style="display: inline-block;">
+                <span class="lock"> @Html.Lang("Please transfer STR to this address.") </span> <span id="address"></span> &nbsp;<input type="button" class="inline copy-button" data-clipboard-target="address" value="Copy">
+            </div>
+        </div><br>
+        <div class="inputcodep">
+            <p>
+                <span class="title">@Html.Lang("Deposit Amount :") </span><input name="depositAmount" autocomplete="off" type="text" />
+            </p>
+            <p>
+                <span class="title">@Html.Lang("Image Captcha :") </span><input autocomplete="off" name="checkcode" id="txtCheckCode" type="text" /><img id="imgCode" src="/cci" /> <a href="###" id="changeCode">@Html.Lang("Refresh Captcha")</a>
+            </p>
+            <p>
+                <input type="submit" value="@Html.Lang("Submit")">
+            </p>
+        </div>
+    </div>
+</form>
+<div class="box fail" style="margin: 25px 0 0;">
+    <strong>@Html.Lang("Polite Notice:")</strong>@Html.LangAsHtmlString("If a long time has not arrived, please contact business QQ {0}.", "<a style='font-weight:bolder' target='_blank' href='http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzkzODAwNDMxNV8xNjE3MzlfNDAwMDU1MDY5OF8yXw'>4000550698</a>")<br>
+</div>
+<script src="/public/js/ZeroClipboard/ZeroClipboard.min.js"></script>
+<script type="text/javascript">
+    ZeroClipboard.config({ swfPath: "/public/js/zeroclipboard/zeroclipboard.swf" });
+
+    var client = new ZeroClipboard($(".copy-button"));
+
+    client.on("ready", function (readyEvent) {
+        client.on("aftercopy", function (event) {
+            $(event.target).css("background", "#666");
+            $(event.target).val("Copied");
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $("#changeCode").click(function () {
+            $("#imgCode").attr("src", "/cci?t=" + Math.random())
+        });
+
+        $("#strDepositForm").validate({
+            rules: {
+                depositAmount: { required: true, number: true },
+                checkcode: "required"
+            },
+            messages: {
+                depositAmount: {
+                    required: "@Html.Lang("Please input deposit amount.")",
+                    number: "@Html.Lang("Please enter a valid number.")"
+                },
+                checkcode: "@Html.Lang("Please input captcha code.")"
+            }
+        });
+        $("#strDepositForm").submit(function () {
+            event.preventDefault();
+            if ($(this).valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/depositstellar',
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        if (data.Code == 1) {
+                            $("#afterSubmit").show(500);
+                            $("#address").html(data.Address);
+                        }
+                        else
+                            commonFormFailCallback(data);
+                    },
+                    complete: function () {
+                        $("#imgCode").attr("src", "/cci?t=" + Math.random())
+                    }
+                });
+            }
+        });
+    });
+</script>

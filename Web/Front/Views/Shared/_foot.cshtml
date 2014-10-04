@@ -1,0 +1,29 @@
+﻿@using DotPay.Language
+<div id="copyright">
+    <div id="copyright1"> 
+        <div id="copyright1b">
+            <a href="/about/about.html">关于安芯</a> | <a href="/news/">新闻中心</a> | <a href="/about/hz.html">合作伙伴</a> | <a href="/zfdh.html">支付导航</a>
+            | <a href="/about/cp.html">诚聘英才</a> | <a href="/about/lx.html">联系安芯</a> | <a href="/about/yq.html">友情链接</a>
+            | <a href="/about/dt.html">网站地图</a><br>
+            Copyright©2008-2014 All Rights Reserved 安芯版权所有 |
+            ICP备案：闽ICP备14014914号-2
+        </div>
+        <script> 
+            $(document).ready(function () { 
+                $("ul li a").mouseover(function () {
+                    var def = $(this).attr('class');
+                    $(this).removeClass(def);
+                    $(this).addClass(def + '-1');
+
+                });
+
+                $("ul li a").mouseout(function () {
+                    var def = $(this).attr('class').replace('-1', '');
+                    $(this).removeClass($(this).attr('class'));
+                    $(this).addClass(def);
+
+                });
+            });
+        </script>
+    </div>
+</div>

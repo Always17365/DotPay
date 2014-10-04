@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+@using DotPay.Web.Admin;
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title" ng-bind="title"></h4>
+    </div>
+    <div class="panel-body">
+        <div class="pull-left">
+           
+        </div>
+    </div>
+    <table class="table table-striped table-bordered">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>卖家UID</th>
+                <th>买家UID</th>
+                <th>订单类型</th>
+                <th>趋势</th>
+                <th>卖单的ID</th>
+                <th>买单的ID</th>
+                <th>卖手续费</th>
+                <th>买手续费</th>
+                <th>成交量({{targetcurrency}})</th>
+                <th>成交价({{basecurrency}})</th>
+                <th>成交金额({{basecurrency}})</th>
+                <th>成交时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="marketTransactionRecords in marketTransactionRecordss">               
+                <td ng-bind="marketTransactionRecords.ID"></td>
+                <td ng-bind="marketTransactionRecords.AskUserID"></td>
+                <td ng-bind="marketTransactionRecords.BidUserID"></td>
+                <td ng-bind="(marketTransactionRecords.AskID>=marketTransactionRecords.BidID)?'卖':'买'"></td>
+                <td ng-bind="marketTransactionRecords.CNTrend"></td>
+                <td ng-bind="marketTransactionRecords.AskID"></td>
+                <td ng-bind="marketTransactionRecords.BidID"></td>
+                <td ng-bind="marketTransactionRecords.AskFee"></td>
+                <td ng-bind="marketTransactionRecords.BidFee"></td>
+                <td ng-bind="marketTransactionRecords.Volume"></td>
+                <td ng-bind="marketTransactionRecords.Price.toString()"></td>
+                <td ng-bind="marketTransactionRecords.Volume * marketTransactionRecords.Price"></td>
+                <td ng-bind="marketTransactionRecords.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination total-items="totalCount" page="currentPage" first-text="首页" on-select-page="pageChange(page)" next-text="下一页" previous-text="上一页" last-text="尾页" max-size="10" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+    <pre>共{{totalCount}}条数据  第{{currentPage}}页 /共{{numPages}}页</pre>
+</div>

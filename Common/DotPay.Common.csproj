@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A020172A-243C-4DB0-A006-7373C2725994}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotPay.Common</RootNamespace>
+    <AssemblyName>DotPay.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FC.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=72601afd44ce5b3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\FC.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OATH.Net">
+      <HintPath>..\packages\OATH.Net.0.2\lib\net40\OATH.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.0\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Enum\ArticleCategory.cs" />
+    <Compile Include="Enum\Lang.cs" />
+    <Compile Include="Enum\StatisticsType.cs" />
+    <Compile Include="Enum\UserVipLevel.cs" />
+    <Compile Include="Enum\TwoFactorType.cs" />
+    <Compile Include="Enum\IdNoType.cs" />
+    <Compile Include="Enum\TokenType.cs" />
+    <Compile Include="Enum\AccountModifyType.cs" />
+    <Compile Include="Enum\DepositState.cs" />
+    <Compile Include="Enum\DepositType.cs" />
+    <Compile Include="Enum\PayWay.cs" />
+    <Compile Include="Enum\Bank.cs" />
+    <Compile Include="Enum\VirtualCoinTxState.cs" />
+    <Compile Include="Enum\ManagerType.cs" />
+    <Compile Include="Enum\FundSourceState.cs" />
+    <Compile Include="Enum\CurrencyType.cs" />
+    <Compile Include="Enum\WithdrawState.cs" />
+    <Compile Include="Enum\OrderType.cs" />
+    <Compile Include="Enum\OrderState.cs" />
+    <Compile Include="Enum\OrderSource.cs" />
+    <Compile Include="CheckCode.cs" />
+    <Compile Include="MarketType.cs" />
+    <Compile Include="Enum\TradeTrend.cs" />
+    <Compile Include="Enum\SmsInterfaceType.cs" />
+    <Compile Include="Enum\OpenAuthType.cs" />
+    <Compile Include="Enum\ValidState.cs" />
+    <Compile Include="Enum\ScoreSource.cs" />
+    <Compile Include="MQConnectionPool.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CacheKey.cs" />
+    <Compile Include="LangKey.cs" />
+    <Compile Include="ErrorCode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,20 @@
+﻿@using FC.Framework
+@using System.Collections.Generic
+@using DotPay.ViewModel
+@section _banner{
+    @Html.Partial("_banner")
+} 
+<div class="news">
+    <div class="news_con"> 
+        <div class="notice_detail">
+            <div>
+                <h2 class="title txtshadow">
+                    @ViewBag.Article.Title
+                    <span class="date">@ViewBag.CreateAt</span>
+                </h2>
+                <div class="content">@MvcHtmlString.Create(ViewBag.Article.Content)</div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

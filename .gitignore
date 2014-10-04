@@ -1,0 +1,39 @@
+#ignore packages
+packages
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vsp
+*.psess
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Ll]ogWarn*/
+[Ll]ogInfo*/
+[Ll]ogDebug*/
+[Ll]ogError*/
+NHLog*/
+ElmahLog/
+ueditor/net/update/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*

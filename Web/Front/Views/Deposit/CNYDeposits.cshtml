@@ -1,0 +1,108 @@
+@using DotPay.Language
+<ul class="tabs">
+    <li><a href="/profile">@Html.Lang("Profile")</a></li>
+    <li class="active"><a href="/balances">@Html.Lang("Balances")</a></li>
+    <li><a href="/orders">@Html.Lang("Orders")</a></li>
+    <li><a href="/trades">@Html.Lang("Trade History")</a></li>
+    <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
+</ul>
+
+<h2>人民币充值 - @ViewBag.CurrencyCode</h2>
+@Html.Lang("Below is a list of deposits that you have made. Click the expander icon on the left of each row to reveal more details about the deposit.")
+<br><br>
+@Html.LangAsHtmlString("To make a new deposit, please visit the {0} page and select the Deposit option under the actions menu for {1}.", "<a href='/balances'>" + Html.Lang("Balances") + "</a>", (string)ViewBag.CurrencyCode.ToString())
+<br><br>
+
+<script src="/public/js/mustache.js" type="text/javascript"></script>
+<script src="/public/js/rich.base.js" type="text/javascript"></script>
+<script src="/public/js/rich.grid.js" type="text/javascript"></script>
+<link href="/public/css/rich.grid.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Setup the ticket grid
+        ticketGrid = new RichHTML.grid({
+            el: 'ticketGrid',
+            tableclass: 'table',
+            url: '/action/getdeposits', 
+            emptyText: '@Html.Lang("There are no deposits to display")',
+            baseParams: {
+                limit: 30, 
+                start: 0,
+                currencyType: "@(ViewBag.CurrencyCode)",
+            },
+            root: 'data',
+            totalProperty: 'totalCount',
+            columns: [
+            {
+                text: "",
+                dataIndex: "ID",
+                xtype: "expander",
+                renderer: function (text, row, el) {
+                    return '<span style="font-size: 90%"><strong>订单 ID:</strong> ' + row.ID + '<br /><strong> 充值用户 ID:</strong> ' + (row.UserID + 980000) + '</span>';
+                }
+            },
+            {
+                text: "充值方式",
+                dataIndex: "CNPayWay",
+                align: "center",
+                sortable: false
+            },
+            {
+                text: "充值金额(CNY)",
+                dataIndex: "Amount",
+                align: "center",
+                sortable: false
+            },
+            {
+                text: "手续费",
+                dataIndex: "Fee",
+                align: "center",
+                sortable: false
+            },
+            {
+                text: "充值时间",
+                dataIndex: "CreateAt",
+                align: "center",
+                sortable: false,
+                renderer: function (text, row, el) {
+                    return new Date(row.CreateAt * 1000);
+                }
+            },
+            {
+                text: "备注",
+                dataIndex: "Memo",
+                align: "center",
+                sortable: false
+            },
+            {
+                text: "状态",
+                dataIndex: "CNState",
+                align: "center",
+                sortable: false,
+                renderer: function (text, row, el) {
+                    return '<strong>' + row.CNState + '</strong>';
+                }
+            }]
+        });
+
+        // Bind to some grid events
+        $(ticketGrid).bind({
+            // Loading data
+            "load": function (event, data) {
+                if (data.paging.start == null) {
+                    var paging = "@Html.Lang("Displaying deposits") 0 - 0 of 0<br />";
+                } else {
+                    var paging = "@Html.Lang("Displaying deposits") " + (data.paging.start + 1) + " - " + (data.paging.start + data.paging.items) + " of " + data.paging.totalItems + "<br />";
+                }
+                // Setup the paging information
+                $('#tablemetadata').html(paging);
+            }
+        });
+
+        ticketGrid.render();
+
+    });
+</script>
+<div id="tablemetadata"></div>
+<div id="ticketGrid"></div>

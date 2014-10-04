@@ -1,0 +1,22 @@
+﻿@using DotPay.Language;
+
+<ul class="tabs">
+    <li><a href="/profile">@Html.Lang("Profile")</a></li>
+    <li><a href="/balances">@Html.Lang("Balances")</a></li>
+    <li><a href="/orders">@Html.Lang("Orders")</a></li>
+    <li><a href="/trades">@Html.Lang("Trade History")</a></li>
+    <li class="active"><a href="/loginHistory">@Html.Lang("Login History")</a></li>
+</ul>
+
+<h2>@Html.Lang("Login History")</h2>
+
+<script src="/public/js/mustache.js" type="text/javascript"></script>
+<script src="/public/js/rich.base.js" type="text/javascript"></script>
+<script src="/public/js/rich.grid.js" type="text/javascript"></script>
+<link href="/public/css/rich.grid.css" rel="stylesheet" type="text/css">
+ 
+<script src="~/public/js/loginHistory.js"></script>
+<div id="tablemetadata"></div>
+<div id="ticketGrid"></div>
+
+

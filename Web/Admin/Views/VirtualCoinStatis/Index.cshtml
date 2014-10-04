@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">{{title}}统计概括</h4>
+    </div>
+    <div class="panel-body">
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>统计项</th>
+                <th>统计数值</th>
+                <th>更新时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td>{{title}}冷钱包</td>
+                <td ng-bind="virtualCoinStatiss[0][0].Amount"></td>
+                <td ng-bind="virtualCoinStatiss[0][0].Datetime*1000 | date:'yyyy-MM-dd hh:mm'"></td>
+            </tr>
+            <tr>
+                <td>今日流量</td>
+                <td>充值:{{virtualCoinStatiss[1][0].AmountDeposit.toFixed(4)}},提现:{{virtualCoinStatiss[1][0].AmountWithdraw.toFixed(4)}}</td>
+                <td>@ViewData["NowDateTime"]</td>
+            </tr>
+            <tr>
+                <td >总流量</td>
+                <td>充值:{{virtualCoinStatiss[1][1].AmountDeposit.toFixed(4)}},提现:{{virtualCoinStatiss[1][1].AmountWithdraw.toFixed(4)}}</td>
+                <td>@ViewData["NowDateTime"]</td>
+            </tr>
+            <tr>
+                <td >成交统计</td>
+                <td>
+                    BTC市场 {{virtualCoinStatiss[2][0].Volume}}&nbsp;{{title}}, {{virtualCoinStatiss[2][0].Amount.toFixed(4)}}元<br>
+                    LTC市场 {{virtualCoinStatiss[2][1].Volume}}&nbsp;{{title}}, {{virtualCoinStatiss[2][1].Amount.toFixed(4)}}元<br>
+                    CNY市场 {{virtualCoinStatiss[2][2].Volume}}&nbsp;{{title}}, {{virtualCoinStatiss[2][2].Amount.toFixed(4)}}元
+                 </td>
+                <td>@ViewData["NowDateTime"]</td>
+            </tr>
+            <tr>
+                <td >挂单统计</td>
+                <td>
+                    BTC市场 {{virtualCoinStatiss[3][0].Volume}}&nbsp;{{action}}, {{virtualCoinStatiss[3][0].Amount.toFixed(4)}}元<br>
+                    LTC市场 {{virtualCoinStatiss[3][1].Volume}}&nbsp;{{action}}, {{virtualCoinStatiss[3][1].Amount.toFixed(4)}}元<br>
+                    CNY市场 {{virtualCoinStatiss[3][2].Volume}}&nbsp;{{action}}, {{virtualCoinStatiss[3][2].Amount.toFixed(4)}}元
+                 </td>
+                <td>@ViewData["NowDateTime"]</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

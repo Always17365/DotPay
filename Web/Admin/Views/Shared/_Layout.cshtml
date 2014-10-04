@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh" ng-app="mgApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>后台管理</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrapcss")
+    <!--[if lt IE 9]>
+        <script src="//cdnjscn.b0.upaiyun.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+        <script src="//cdnjscn.b0.upaiyun.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    @Html.Action("AdminHeader")
+    <div id="main" class="container-fluid">
+        <div class="row" ng-controller="LeftNavCtrl">
+            <div class="col-md-2 col-lg-2" style="widsth: 200px !important;">
+                <accordion>
+                    <accordion-group ng-repeat="group in groups">
+                        <accordion-heading>
+                            {{group.title}}
+                        </accordion-heading>
+                        <ul>
+                            <li ng-repeat="item in group.items"><a href="#{{item.url}}" style="cursor: pointer;">{{item.name}}</a> </li>
+                        </ul>
+                    </accordion-group>
+                </accordion>
+            </div>
+            <div class="col-md-10 col-lg-10" style="padding-left: 15px;">
+                <div ng-view>
+                    @RenderBody()
+                </div>
+                <div style="position: absolute; top: 30px; right: 10px;" alert-box></div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/timejsctrl")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-animate")
+    @Scripts.Render("~/bundles/angular-route")
+    @Scripts.Render("~/bundles/angular-alerts")
+    @Scripts.Render("~/bundles/angular-ui-bootstrap")
+    @Scripts.Render("~/bundles/adminctrl")
+    @Styles.Render("~/Content/ueditor")
+    @Scripts.Render("~/bundles/ueditorctrl")
+    @RenderSection("scripts", required: false)
+    <footer>
+        <div class="navbar-fixed-bottom">
+            <div>
+                <p>&copy; v0.1</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

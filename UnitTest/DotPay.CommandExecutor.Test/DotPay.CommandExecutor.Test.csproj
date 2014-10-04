@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{164B941A-4F5F-46CB-B362-19C3FA5F20AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotPay.CommandExecutor.Test</RootNamespace>
+    <AssemblyName>DotPay.CommandExecutor.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Couchbase, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Couchbase.dll</HintPath>
+    </Reference>
+    <Reference Include="Enyim.Caching, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Enyim.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=72601afd44ce5b3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\FC.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework.Autofac">
+      <HintPath>..\..\Library\FC.Framework.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework.CouchbaseCache">
+      <HintPath>..\..\Library\FC.Framework.CouchbaseCache.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework.Log4net">
+      <HintPath>..\..\Library\FC.Framework.Log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="FC.Framework.NHibernate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\FC.Framework.NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="xunit">
+      <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise />
+  </Choose>
+  <ItemGroup>
+    <Compile Include="TestEnvironment.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserCommandTest.cs" />
+    <Compile Include="TokenCommandTest.cs" />
+    <Compile Include="AccountCommandTest.cs" />
+    <Compile Include="AnnouncementCommandTest.cs" />
+    <Compile Include="CurrencyCommandTest.cs" />
+    <Compile Include="ArticleCommandTest.cs" />
+    <Compile Include="SmsInterfaceCommandTest.cs" />
+    <Compile Include="CNYDepositCommandTest.cs" />
+    <Compile Include="FundSourceCommandTest.cs" />
+    <Compile Include="CapitalAccountCommandTest.cs" />
+    <Compile Include="CNYWithdrawCommandTest.cs" />
+    <Compile Include="PaymentAddressCommandTest.cs" />
+    <Compile Include="ReceivePaymentTransactionCommandTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="hibernate.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <Content Include="app.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>app.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>app.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application.Impl\DotPay.Command.Executor.csproj">
+      <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
+      <Name>DotPay.Command.Executor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Application\DotPay.Command.csproj">
+      <Project>{c5f3d8a7-7639-46ca-9b4b-c602c966347d}</Project>
+      <Name>DotPay.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\DotPay.Common.csproj">
+      <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
+      <Name>DotPay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\DotPay.Domain.csproj">
+      <Project>{200c8615-6f01-4d57-9f19-5e4cd12e2860}</Project>
+      <Name>DotPay.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\DotPay.Persistence.csproj">
+      <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
+      <Name>DotPay.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QueryService.Impl\DotPay.QueryService.Impl.csproj">
+      <Project>{38760d77-6a50-4348-9e2f-9b8556f224aa}</Project>
+      <Name>DotPay.QueryService.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QueryService\DotPay.QueryService.csproj">
+      <Project>{f63cf20f-3a78-4d5e-9044-99fce8a7c2ab}</Project>
+      <Name>DotPay.QueryService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ViewModel\DotPay.ViewModel.csproj">
+      <Project>{9518179c-8907-47d8-89fe-c589502af71a}</Project>
+      <Name>DotPay.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

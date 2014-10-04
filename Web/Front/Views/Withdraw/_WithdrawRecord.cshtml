@@ -1,0 +1,58 @@
+﻿@using DotPay.ViewModel
+@using FC.Framework
+<h2 class="withdraw_title txtshadow">最近10次提现记录</h2>
+<div class="withdraw_record">
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="50">
+                    单号
+                </th>
+                <th>
+                    收币地址(充值码)
+                </th>
+                <th width="160">
+                    提现金额金额(@(ViewBag.Currency))
+                </th>
+
+                <th width="170">
+                    提现时间
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Records != null)
+            {
+                foreach (WithdrawListModel record in (IEnumerable<WithdrawListModel>)ViewBag.Records)
+                {
+                    <tr>
+                        <td>
+                            @record.ID
+                        </td>
+                        @if (record.PayWay == DotPay.Common.PayWay.VirutalTransfer)
+                        {
+                            <td>@record.ReceiveAddress</td>
+                        }
+                        else
+                        {
+                            <td>@record.ReceiveAddress (@(record.DepositCodeIsUsed ? "已使用" : "有效"))</td>
+                        }
+                        <td>
+                            @record.Amount.ToString("0.########")
+                        </td>
+                        <td>
+                            @if (record.State == DotPay.Common.WithdrawState.Cancel)
+                            {<span>已取消</span>}
+                            else if (record.State != DotPay.Common.WithdrawState.Complete)
+                            {<span>正在处理</span>}
+                            else
+                            {
+                                <span> @record.CreateAt.ToLocalDateTime().ToString("yyyy-MM-dd")</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

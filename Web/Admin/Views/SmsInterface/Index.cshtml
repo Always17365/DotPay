@@ -1,0 +1,28 @@
+﻿@{     
+    Layout = null;
+}
+@using DotPay.Web.Admin;
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title" ng-bind="title"></h4>
+    </div>
+    <div class="panel-body">
+        <div class="pull-left">
+            <div class="jumbotron">
+                <h1 ng-show="account">互亿无线短信接口</h1>  <h1 ng-show="!account">请设置短信接口</h1>
+                <p></p>
+            </div>
+        </div>
+        <div class="pull-right">
+            <div class="input-group">
+                <label>短信接口账号:</label><input type="text" class="form-control  " ng-model="account">
+            </div>
+            <div class="input-group">
+                <label>短信接口密码:</label><input type="text" class="form-control  " ng-model="password">
+            </div>
+            <button type="button" class="btn btn-primary pull-right" ng-click="modify(account,password)">保存</button>
+        </div>
+    </div>
+</div>
+
+

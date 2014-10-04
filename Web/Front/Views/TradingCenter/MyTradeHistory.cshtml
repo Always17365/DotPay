@@ -1,0 +1,31 @@
+﻿@model  IEnumerable<DotPay.ViewModel.TradeListFrontModel>
+@using FC.Framework
+<table cellpadding="0" cellspacing="0">
+    <colgroup>
+        <col width="100" />
+        <col width="100" />
+        <col width="120" />
+        <col width="140" />
+        <col />
+    </colgroup>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>
+                @order.CreateAt.ToLocalDateTime().ToString("MM-dd HH:mm:ss")
+            </td>
+            <td style="color:@(order.Type == DotPay.Common.OrderType.Ask ? "#bd432c" : "#2ea728")">
+                @(order.Type == DotPay.Common.OrderType.Ask ? "卖出" : "买入")
+            </td>
+            <td>
+                @order.Price
+            </td>
+            <td>
+                @order.Volume
+            </td>
+            <td>
+                @order.Amount
+            </td>
+        </tr>
+    }
+</table>
