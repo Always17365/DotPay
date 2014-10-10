@@ -61,8 +61,6 @@
     <Compile Include="Cms\ArticleQuery.cs" />
     <Compile Include="Logs\LogsQuery.cs" />
     <Compile Include="VipSetting\VipSettingQuery.cs" />
-    <Compile Include="VirtualCoin\VirtualCoinStatisticsQuery.cs" />
-    <Compile Include="VirtualCoin\PaymentAddressQuery.cs" />
     <Compile Include="User\UserQuery.cs" />
     <Compile Include="Manager\ManagerQuery.cs" />
     <Compile Include="Token\TokenQuery.cs" />

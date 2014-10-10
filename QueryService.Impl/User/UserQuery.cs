@@ -307,7 +307,7 @@ namespace DotPay.QueryService.Impl
                                      AND   (t2.IsLocked = @2)";
 
         private readonly string users_Sql =
-                                @"SELECT   t1.ID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,
+                                @"SELECT   t1.ID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,t1.RippleAddress,
                                            t1.ScoreBalance,t1.VipLevel,t2.LastPasswordVerifyAt
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID 
@@ -319,7 +319,7 @@ namespace DotPay.QueryService.Impl
         private readonly string getUserByID_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
                                             t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,
-                                            t1.VipLevel,t2.TradePassword
+                                            t1.RippleAddress,t1.RippleSecret,t1.VipLevel,t2.TradePassword
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   
                                    WHERE   t1.ID=@id ";
@@ -327,7 +327,7 @@ namespace DotPay.QueryService.Impl
         private readonly string getUserByEmail_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                             t1.CreateAt ,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
-                                            t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo 
+                                            t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo ,t1.RippleAddress,t1.RippleSecret
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
                                    WHERE   t1.Email=@email";
@@ -368,7 +368,7 @@ namespace DotPay.QueryService.Impl
         public readonly string getUserByOpenID_Sql =
                               @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                          t1.CreateAt ,t2.IsLocked,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,
-                                         t1.ScoreBalance,t1.VipLevel,t2.TradePassword
+                                         t1.ScoreBalance,t1.VipLevel,t2.TradePassword, t1.RippleAddress,t1.RippleSecret
                                    FROM    " + Config.Table_Prefix + @"OpenAuthShip t0
                                            INNER JOIN " + Config.Table_Prefix + @"User t1 ON t0.UserID=t1.ID 
                                            INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   

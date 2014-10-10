@@ -147,8 +147,8 @@
         $("#requestWithdrawal").submit(function (event) {
             event.preventDefault();
             if ($(this).valid()) {
-                new Messi('Are you sure you would like to withdraw this amount?<br /><br />Please ensure the withdraw amount and address are correct before confirming. We will be unable to stop a withdrawal when it has been processed.', {
-                    title: 'Please confirm', titleClass: 'info', buttons: [{ id: 0, label: 'Yes', val: 'Y', btnClass: 'btn-success' }, { id: 1, label: 'No', val: 'N', btnClass: 'btn-danger' }], modal: true,
+                new Messi(LABEL_Confirm_V_Withdraw, {
+                    title: LABEL_Confirm, titleClass: 'info', buttons: [{ id: 0, label: 'Yes', val: 'Y', btnClass: 'btn-success' }, { id: 1, label: 'No', val: 'N', btnClass: 'btn-danger' }], modal: true,
                     callback: function (val) {
                         if (val == 'Y') {
                             $.ajax({

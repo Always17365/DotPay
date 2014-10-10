@@ -43,9 +43,10 @@
     <br><br>
     <input type="submit" value="@Html.Lang("Register Account")" id="postbut">
 </form>
+<script src="~/public/js/crypto-md5.js"></script>
+<script src="~/public/js/rpwapper.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
         $("#registerForm").validate({
             rules: {
                 answer1: {
@@ -88,22 +89,28 @@
         $("#registerForm").submit(function (event) {
             event.preventDefault();
             if ($(this).valid()) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/registerUser',
-                    data: $(this).serialize(),
-                    success: function (data) {
-                        if (data.Code == 1) {
-                            window.location = '/market/CNY/BTC';
-                        } else {
-                            $('#spanFailBox').html(data.Message);
-                            $('#failBox').show();
-                            $('html, body').animate({
-                                scrollTop: $("#failBox").offset().top - 95
-                            }, 1000);
+                var wallet = ripple.Wallet.generate();
+                var password = $("#password").val();
+                var rpwd = Crypto.MD5(password);
+                if (wallet) {
+                    var secret_encypt = ripple.sjcl.encrypt(rpwd, wallet.secret);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/registerUser',
+                        data: $(this).serialize() + "&address=" + wallet.address + "&secret=" + secret_encypt ,
+                        success: function (data) {
+                            if (data.Code == 1) {
+                                window.location = '/';
+                            } else {
+                                $('#spanFailBox').html(data.Message);
+                                $('#failBox').show();
+                                $('html, body').animate({
+                                    scrollTop: $("#failBox").offset().top - 95
+                                }, 1000);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     });

@@ -26,35 +26,6 @@ namespace DotPay.Domain
                     accountVersion = new CNYAccountVersion(userID, accountID,
                                 amount, balance, locked, @in, @out, modifyID, modifyType);
                     break;
-                case CurrencyType.BTC:
-                    accountVersion = new BTCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-                case CurrencyType.LTC:
-                    accountVersion = new LTCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-                case CurrencyType.IFC:
-                    accountVersion = new IFCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-                case CurrencyType.NXT:
-                    accountVersion = new NXTAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-                case CurrencyType.DOGE:
-                    accountVersion = new DOGEAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-
-                case CurrencyType.STR:
-                    accountVersion = new STRAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
-                case CurrencyType.FBC:
-                    accountVersion = new FBCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, modifyID, modifyType);
-                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -74,34 +45,7 @@ namespace DotPay.Domain
                     accountVersion = new CNYAccountVersion(userID, accountID,
                                 amount, balance, locked, @in, @out, depositCode, modifyType);
                     break;
-                case CurrencyType.BTC:
-                    accountVersion = new BTCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.LTC:
-                    accountVersion = new LTCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.IFC:
-                    accountVersion = new IFCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.NXT:
-                    accountVersion = new NXTAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.DOGE:
-                    accountVersion = new DOGEAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.STR:
-                    accountVersion = new STRAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
-                case CurrencyType.FBC:
-                    accountVersion = new FBCAccountVersion(userID, accountID,
-                                amount, balance, locked, @in, @out, depositCode, modifyType);
-                    break;
+            
                 default:
                     throw new NotImplementedException();
             }

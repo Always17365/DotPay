@@ -12,20 +12,25 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
     {
-        public UserRegister(string email, string password, int timezone, int commendBy = 0)
+        public UserRegister(string email, string password, string rippleAddress, string rippleSecret, int timezone, int commendBy = 0)
         {
             Check.Argument.IsNotNegative(commendBy, "commendBy");
+            Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
             Check.Argument.IsNotInvalidEmail(email, "email");
             Check.Argument.IsNotEmpty(password, "password");
 
             this.Email = email;
             this.Password = password;
+            this.RippleAddress = rippleAddress;
+            this.RippleSecret = rippleSecret;
             this.TimeZone = timezone;
             this.CommendBy = commendBy;
         }
 
         public string Email { get; private set; }
         public string Password { get; private set; }
+        public string RippleAddress { get; private set; }
+        public string RippleSecret { get; private set; }
         public int TimeZone { get; private set; }
         public int CommendBy { get; private set; }
     }
@@ -56,14 +61,18 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserQQLogin : FC.Framework.Command
     {
-        public UserQQLogin(string openID, string nickName, string ip, int commendBy = 0)
+        public UserQQLogin(string openID, string nickName, string rippleAddress, string rippleSecret, string ip, int commendBy = 0)
         {
             Check.Argument.IsNotEmpty(openID, "openID");
+            Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
+            Check.Argument.IsNotEmpty(rippleSecret, "rippleSecret");
             Check.Argument.IsNotEmpty(ip, "ip");
             Check.Argument.IsNotNegative(commendBy, "commendBy");
 
             this.OpenID = openID;
             this.IP = ip;
+            this.RippleAddress = rippleAddress;
+            this.RippleSecret = rippleSecret;
             this.NickName = nickName;
             this.CommendBy = commendBy;
         }
@@ -71,6 +80,8 @@ namespace DotPay.Command
         public string OpenID { get; private set; }
         public string IP { get; private set; }
         public string NickName { get; private set; }
+        public string RippleAddress { get; private set; }
+        public string RippleSecret { get; private set; }
         public int CommendBy { get; private set; }
     }
     #endregion
@@ -79,20 +90,26 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserWeiboLogin : FC.Framework.Command
     {
-        public UserWeiboLogin(string openID, string nickName, string ip, int commendBy = 0)
+        public UserWeiboLogin(string openID, string nickName, string rippleAddress, string rippleSecret, string ip, int commendBy = 0)
         {
             Check.Argument.IsNotEmpty(openID, "openID");
+            Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
+            Check.Argument.IsNotEmpty(rippleSecret, "rippleSecret");
             Check.Argument.IsNotEmpty(ip, "ip");
             Check.Argument.IsNotNegative(commendBy, "commendBy");
 
             this.OpenID = openID;
             this.NickName = nickName;
+            this.RippleAddress = RippleAddress;
+            this.RippleSecret = rippleSecret;
             this.IP = ip;
             this.CommendBy = commendBy;
         }
 
         public string OpenID { get; private set; }
         public string NickName { get; private set; }
+        public string RippleAddress { get; private set; }
+        public string RippleSecret { get; private set; }
         public string IP { get; private set; }
         public int CommendBy { get; private set; }
     }
@@ -176,7 +193,7 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserOpenGoogleAuthentication : FC.Framework.Command
     {
-        public UserOpenGoogleAuthentication(int userID, string googleSecret,string ga_otp)
+        public UserOpenGoogleAuthentication(int userID, string googleSecret, string ga_otp)
         {
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
             Check.Argument.IsNotEmpty(googleSecret, "googleSecret");
@@ -233,7 +250,7 @@ namespace DotPay.Command
     }
     #endregion
 
-    #region User Open/Close Two-Factor  Command 
+    #region User Open/Close Two-Factor  Command
     [ExecuteSync]
     public class UserOpenLoginTwoFactor : FC.Framework.Command
     {
@@ -248,7 +265,7 @@ namespace DotPay.Command
 
         public int UserID { get; private set; }
         public string SmsOtp { get; private set; }
-        public string GaOtp { get; private set; } 
+        public string GaOtp { get; private set; }
     }
     [ExecuteSync]
     public class UserCloseLoginTwoFactor : FC.Framework.Command
@@ -267,7 +284,7 @@ namespace DotPay.Command
         public string GaOtp { get; private set; }
     }
     #endregion
-     
+
     #region User Modify Password Command
     [ExecuteSync]
     public class UserModifyPassword : FC.Framework.Command
@@ -312,7 +329,7 @@ namespace DotPay.Command
         public string OneTimePassword_GA { get; private set; }
         public string OneTimePassword_Sms { get; private set; }
     }
- 
+
     [ExecuteSync]
     public class UserResetPasswordByEmailToken : FC.Framework.Command
     {

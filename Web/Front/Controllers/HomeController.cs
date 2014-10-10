@@ -28,10 +28,10 @@ namespace DotPay.Web.Controllers
         [Route("~/index")]
         [AllowAnonymous]
         public ActionResult Index()
-        { 
+        {
             return View();
         }
-        #endregion 
+        #endregion
         #region 关于我们
         [Route("~/about")]
         [AllowAnonymous]
@@ -135,7 +135,7 @@ namespace DotPay.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(string email, string password, string checkcode)
+        public ActionResult Register(string email, string password, string address, string secret, string checkcode)
         {
             var tmpObj = new object();
             var cacheKey = CacheKey.USER_REGISTER_EMAIL + email;
@@ -157,10 +157,9 @@ namespace DotPay.Web.Controllers
 
                     try
                     {
-                        var cmd = new UserRegister(email, password, 8, conmentBy);
+                        var cmd = new UserRegister(email, password, address, secret, 8, conmentBy);
                         this.CommandBus.Send(cmd);
                         var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
-
                         Session[Constants.TmpUserKey] = loginUser;
 
                         this.CurrentUserPassTwoFactoryVerify();
@@ -328,28 +327,28 @@ namespace DotPay.Web.Controllers
                     var qqUser = qzone.GetCurrentUser();
                     var openId = qzone.OAuthToken.OpenId;
 
-                    var cmd = new UserQQLogin(openId, qqUser.Nickname, this.GetUserIPAddress());
-                    this.CommandBus.Send(cmd);
+                    //var cmd = new UserQQLogin(openId, qqUser.Nickname, this.GetUserIPAddress());
+                    //this.CommandBus.Send(cmd);
 
-                    var loginUser = IoC.Resolve<IUserQuery>().GetUserByOpenID(openId, OpenAuthType.QQ);
+                    //var loginUser = IoC.Resolve<IUserQuery>().GetUserByOpenID(openId, OpenAuthType.QQ);
 
-                    if (loginUser.IsLocked) return Redirect("~/index");
-                    else
-                    {
-                        //暂存用户信息
-                        var verifyHash = KeepCurrentUserInfoInTmpAndReturnHash(loginUser);
-                        //判断用户是否开了双重身份验证
-                        var code = 1 | (loginUser.IsOpenLoginGA ? 2 : 0) | (loginUser.IsOpenLoginSMS ? 4 : 0);
-                        if (code > 1)
-                        {
-                            return Json(new { Code = 2, ReturnUrl = string.Empty, Hash = verifyHash });
-                        }
-                        else
-                        {
-                            this.CurrentUserPassTwoFactoryVerify();
-                            return Json(new { Code = 1, ReturnUrl = string.Empty });
-                        }
-                    }
+                    //if (loginUser.IsLocked) return Redirect("~/index");
+                    //else
+                    //{
+                    //    //暂存用户信息
+                    //    var verifyHash = KeepCurrentUserInfoInTmpAndReturnHash(loginUser);
+                    //    //判断用户是否开了双重身份验证
+                    //    var code = 1 | (loginUser.IsOpenLoginGA ? 2 : 0) | (loginUser.IsOpenLoginSMS ? 4 : 0);
+                    //    if (code > 1)
+                    //    {
+                    //        return Json(new { Code = 2, ReturnUrl = string.Empty, Hash = verifyHash });
+                    //    }
+                    //    else
+                    //    {
+                    //        this.CurrentUserPassTwoFactoryVerify();
+                    //        return Json(new { Code = 1, ReturnUrl = string.Empty });
+                    //    }
+                    //}
                 }
             }
             return Redirect("~/index");
@@ -382,28 +381,28 @@ namespace DotPay.Web.Controllers
 
                     var asd = weiboClient.API.Entity.Users.Show(openId);
 
-                    var cmd = new UserWeiboLogin(openId, asd.Name, this.GetUserIPAddress());
-                    this.CommandBus.Send(cmd);
+                    //var cmd = new UserWeiboLogin(openId, asd.Name, this.GetUserIPAddress());
+                    //this.CommandBus.Send(cmd);
 
-                    var loginUser = IoC.Resolve<IUserQuery>().GetUserByOpenID(openId, OpenAuthType.WEIBO);
+                    //var loginUser = IoC.Resolve<IUserQuery>().GetUserByOpenID(openId, OpenAuthType.WEIBO);
 
-                    if (loginUser.IsLocked) return Redirect("~/index");
-                    else
-                    {
-                        //暂存用户信息
-                        var verifyHash = KeepCurrentUserInfoInTmpAndReturnHash(loginUser);
-                        //判断用户是否开了双重身份验证
-                        var code = 1 | (loginUser.IsOpenLoginGA ? 2 : 0) | (loginUser.IsOpenLoginSMS ? 4 : 0);
-                        if (code > 1)
-                        {
-                            return Json(new { Code = 2, ReturnUrl = string.Empty, Hash = verifyHash });
-                        }
-                        else
-                        {
-                            this.CurrentUserPassTwoFactoryVerify();
-                            return Json(new { Code = 1, ReturnUrl = string.Empty });
-                        }
-                    }
+                    //if (loginUser.IsLocked) return Redirect("~/index");
+                    //else
+                    //{
+                    //    //暂存用户信息
+                    //    var verifyHash = KeepCurrentUserInfoInTmpAndReturnHash(loginUser);
+                    //    //判断用户是否开了双重身份验证
+                    //    var code = 1 | (loginUser.IsOpenLoginGA ? 2 : 0) | (loginUser.IsOpenLoginSMS ? 4 : 0);
+                    //    if (code > 1)
+                    //    {
+                    //        return Json(new { Code = 2, ReturnUrl = string.Empty, Hash = verifyHash });
+                    //    }
+                    //    else
+                    //    {
+                    //        this.CurrentUserPassTwoFactoryVerify();
+                    //        return Json(new { Code = 1, ReturnUrl = string.Empty });
+                    //    }
+                    //}
                 }
             }
             return Redirect("~/index");
@@ -505,7 +504,7 @@ namespace DotPay.Web.Controllers
         }
 
         #endregion
-         
+
         #region 验证邮件是否已存在
         [HttpPost]
         [Route("~/existEmail")]
@@ -531,12 +530,11 @@ namespace DotPay.Web.Controllers
             var totalCount = IoC.Resolve<ILogsQuery>().CountUserLoginHistory(this.CurrentUser.UserID);
             var result = IoC.Resolve<ILogsQuery>().GetUserLoginHistory(this.CurrentUser.UserID, start, limit);
 
-            return Json(new { data = result, Code=1, totalCount = totalCount }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = result, Code = 1, totalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
         #endregion
-
 
         #region 私有方法
         public string GetUserIPAddress()

@@ -51,13 +51,8 @@
     <Compile Include="Cms\Announcement.cs" />
     <Compile Include="Login\Login.cs" />
     <Compile Include="Logs\Logs.cs" />
-    <Compile Include="MarketTradeRecords\MarketTradeRecords.cs" />
     <Compile Include="FundSource\FundSource.cs" />
     <Compile Include="VipSetting\VipSetting.cs" />
-    <Compile Include="Order\Order.cs" />
-    <Compile Include="Market\Market.cs" />
-    <Compile Include="IndexInfo\IndexInfo.cs" />
-    <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="VirtualCoin\VitrtualCoin.cs" />
     <Compile Include="Withdraw\WithdrawReceiverAccount.cs" />
     <Compile Include="Withdraw\BankOutlets.cs" />

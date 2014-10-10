@@ -30,19 +30,6 @@ namespace DotPay.CommandExecutor.Test
         }
 
 
-        [Fact]
-        public void TestCreatePaymentAddress()
-        {
-            var userID = new Random().Next(1, 10);
-            var paymentAddress = "RrXzSnqQCqPigKdDDyc5oNDppgdhsg4oBc";
-
-            var cmd = new CreatePaymentAddress(userID, paymentAddress, CurrencyType.BTC);
-
-            Assert.DoesNotThrow(delegate
-            {
-                this.commandBus.Send(cmd);
-            });
-        }
     }
 }
 

@@ -18,7 +18,9 @@ namespace DotPay.Persistence
             Property(x => x.CommendCounter, map => { map.NotNullable(true); });
             Property(x => x.CommendBy, map => { map.NotNullable(true); });
             Property(x => x.Role, map => map.NotNullable(true));
-            //Property(x => x.TimeZone, map => map.NotNullable(true));
+            Property(x => x.RippleAddress, map => map.NotNullable(true));
+            Property(x => x.RippleSecret, map => map.NotNullable(true));
+            Property(x => x.TimeZone, map => map.NotNullable(true));
             Property(x => x.TwoFactorFlg, map => map.NotNullable(true));
             Property(x => x.Mobile, map => { map.Length(20); map.NotNullable(true); });
             Property(x => x.VipLevel, map => map.NotNullable(true));

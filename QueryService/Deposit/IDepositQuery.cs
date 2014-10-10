@@ -25,7 +25,6 @@ namespace DotPay.QueryService
         int QueryCompleteCNYDeposit(int depositID, int UserID);
 
          int CountReceivePayMentTransactionBySearch(CurrencyType currency, DepositState state);
-        IEnumerable<VirtualCurrencyDepositInListModel> GetReceivePayMentTransactionBySearch(CurrencyType currency, DepositState state, int page, int pageCount);
          
     }
 }

@@ -116,24 +116,6 @@ namespace DotPay.QueryService.Impl
                                .QuerySingle<int>();
         }
 
-        public IEnumerable<DotPay.ViewModel.VirtualCurrencyDepositInListModel> GetReceivePayMentTransactionBySearch(CurrencyType currency, DepositState state, int page, int pageCount)
-        {
-            var paramters = new object[] { (int)state, (page - 1) * pageCount, pageCount };
-            if (currency == CurrencyType.STR)
-            {
-                var users = this.Context.Sql(getSTRReceivePayMentTransactionBySearch_Sql.FormatWith(currency.ToString()))
-                                       .Parameters(paramters)
-                                       .QueryMany<VirtualCurrencyDepositInListModel>();
-                return users;
-            }else{
-                var users = this.Context.Sql(getBTCReceivePayMentTransactionBySearch_Sql.FormatWith(currency.ToString()))
-                                      .Parameters(paramters)
-                                      .QueryMany<VirtualCurrencyDepositInListModel>();
-                return users;
-            }
-        }
-
-
         #region SQL
         #region admin web use
         private readonly string countReceivePayMentTransactionBySearch_Sql =

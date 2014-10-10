@@ -47,7 +47,7 @@
             <tr>
                 <th>@Html.Lang("Email Address")</th>
                 <td>
-                    @ViewBag.CurrentUser.Email (<b>@(ViewBag.CurrentUser.IsVerifyEmail ? " " + Html.Lang("email_status_verified") + " " :" " + Html.Lang("email_status_verified") + " ")</b>)<br>
+                    @ViewBag.CurrentUser.Email (<b>@(ViewBag.CurrentUser.IsVerifyEmail ? " " + Html.Lang("email_status_verified") + " " :" " + Html.Lang("email_status_notverified") + " ")</b>)<br>
                     @if (!ViewBag.CurrentUser.IsVerifyEmail)
                     {
                         <span><a id='resendValidateEmail'>@Html.Lang("Click here to resend active email.")</a></span>

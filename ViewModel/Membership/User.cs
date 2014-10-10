@@ -81,7 +81,8 @@ namespace DotPay.ViewModel
         public bool IsOpenTwoFactorSMS { get { return (this.TwoFactorFlg & 16) == 16; } }
         public bool LoginTwoFactoryVerify { get; set; }
         public int Role { get; set; }
-
+        public string RippleAddress { get; set; }
+        public string RippleSecret { get; set; } 
         public string RealName { get; set; }
         public string IdNo { get; set; }
         public IdNoType IdNoType { get; set; }

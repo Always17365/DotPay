@@ -31,9 +31,7 @@ namespace DotPay.Command.Executor
             {
                 if (account == null) throw new AccountBalanceNotEnoughException();
 
-                var withdraw = VirtualCoinWithdrawFactory.CreateWithdraw(cmd.Currency, cmd.WithdrawUserID, account.ID, cmd.Amount, cmd.ReceiveAddress);
-
-                repos.Add(withdraw);
+             
             }
             else throw new TradePasswordErrorException();
         }

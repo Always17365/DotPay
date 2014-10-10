@@ -41,41 +41,6 @@ namespace DotPay.Web.Controllers
         {
         }
 
-        #region 格式化小数点
-        private IEnumerable<decimal[]> ParseData(IEnumerable<DotPay.ViewModel.OrderListModel> orderList, MarketType marketTypeint)
-        {
-            var result = new List<decimal[]>();
-            int priceFixed = 0;
-            int volumeFixed = 0;
-            if (marketTypeint.BaseCurrency == CurrencyType.CNY)
-            {
-                switch (marketTypeint.TargetCurrency)
-                {
-                    case CurrencyType.IFC: { priceFixed = 8; volumeFixed = 3; } break;
-                    case CurrencyType.BTC: { priceFixed = 2; volumeFixed = 5; } break;
-                    case CurrencyType.LTC: { priceFixed = 2; volumeFixed = 4; } break;
-                    case CurrencyType.NXT: { priceFixed = 4; volumeFixed = 4; } break;
-                    case CurrencyType.DOGE: { priceFixed = 8; volumeFixed = 3; } break;
-                    default: { priceFixed = 2; volumeFixed = 2; } break;
-                }
-            }
-            else if (marketTypeint.BaseCurrency == CurrencyType.BTC || marketTypeint.BaseCurrency == CurrencyType.LTC)
-            {
-                switch (marketTypeint.TargetCurrency)
-                {
-                    case CurrencyType.IFC: { priceFixed = 8; volumeFixed = 3; ;} break;
-                    case CurrencyType.NXT: { priceFixed = 8; volumeFixed = 3; ;} break;
-                    case CurrencyType.DOGE: { priceFixed = 8; volumeFixed = 3; } break;
-                    default: { priceFixed = 2; volumeFixed = 2; } break;
-                }
-            }
-            foreach (var temp in orderList)
-            {
-                result.Add(new decimal[] { decimal.Parse(temp.Price).ToFixed(priceFixed), decimal.Parse(temp.Volume).ToFixed(volumeFixed) });
-            }
-
-            return result;
-        }
-        #endregion
+     
     }
 }

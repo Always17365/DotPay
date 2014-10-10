@@ -36,30 +36,6 @@ namespace DotPay.CommandExecutor.Test
             var userID = new Random().Next(1, 10);
             var paymentAddress = Guid.NewGuid().Shrink();
 
-            var currencyLtc = IoC.Resolve<IRepository>().FindById<Currency>((int)(CurrencyType.LTC));
-
-            if (currencyLtc == null)
-                this.commandBus.Send(new CreateCurrency((int)(CurrencyType.LTC), CurrencyType.LTC.ToString(), CurrencyType.LTC.ToString(), userID));
-
-            this.commandBus.Send(new CreatePaymentAddress(userID, paymentAddress, CurrencyType.LTC));
-
-
-            var txid = Guid.NewGuid().Shrink() + Guid.NewGuid().Shrink();
-            var amount = new Random().Next(1, 1000);
-
-            var cmd = new CreateReceivePaymentTransaction(txid, paymentAddress, amount, CurrencyType.LTC);
-
-            Assert.DoesNotThrow(() =>
-            {
-                this.commandBus.Send(cmd);
-            });
-
-            var cmd_Confirm = new ConfirmReceivePaymentTransaction(txid, paymentAddress, 6, amount, CurrencyType.LTC);
-
-            Assert.DoesNotThrow(() =>
-            {
-                this.commandBus.Send(cmd_Confirm);
-            });
 
         }
     }

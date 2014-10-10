@@ -57,43 +57,5 @@ namespace DotPay.Web.Admin.Areas.VirtualCurrencyDeposit.Controllers
             return Json(users);
         }
 
-
-        [HttpPost]
-        public ActionResult GetReceivePayMentTransactionBySearch(CurrencyType currencyType, int page)
-        {
-            var users = IoC.Resolve<IDepositQuery>().GetReceivePayMentTransactionBySearch(currencyType, DepositState.Verify, page, Constants.DEFAULT_PAGE_COUNT);
-
-            return Json(users);
-        }
-        /***************************************************/
-
-
-
-        [HttpPost]
-        public ActionResult ConfirmReceivePaymentTransaction(int receivePaymentTxId, string txid, decimal amount, CurrencyType currency)
-        {
-            try
-            {
-                var confirmations = 0;
-                if (currency == CurrencyType.IFC)
-                {
-                    receivePaymentTxId = 0;
-                    confirmations = 101;
-                }
-                else if (currency == CurrencyType.STR)
-                    confirmations = 10;
-
-                var cmd = new ConfirmReceivePaymentTransaction(txid, "stellar", confirmations, amount, currency, this.CurrentUser.UserID, receivePaymentTxId);
-                this.CommandBus.Send(cmd);
-
-                return Json(JsonResult.Success);
-            }
-            catch (CommandExecutionException ex)
-            {
-                return Json(new JsonResult(ex.ErrorCode));
-            }
-        }
-        /*************************************************************************************************************************/
-
     }
 }

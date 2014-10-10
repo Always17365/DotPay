@@ -221,7 +221,6 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
-    <Compile Include="Controllers\VirtualCoinStatisController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SmsInterfaceController.cs" />
     <Compile Include="Controllers\CapitalAccountController.cs" />

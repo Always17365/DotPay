@@ -150,8 +150,8 @@
         $("#withdrawForm").submit(function (event) {
             event.preventDefault();
             if ($(this).valid()) {
-                new Messi('Are you sure you would like to withdraw this amount?', {
-                    title: 'Please confirm', titleClass: 'info',
+                new Messi(LABEL_Confirm_Withdraw, {
+                    title:LABEL_Confirm, titleClass: 'info',
                     buttons: [{ id: 0, label: 'Yes', val: 'Y', btnClass: 'btn-success' },
                         { id: 1, label: 'No', val: 'N', btnClass: 'btn-danger' }
                     ],

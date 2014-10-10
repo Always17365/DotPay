@@ -131,17 +131,10 @@ namespace DotPay.Web.Controllers
                     if (!withdrawToCode)
                     {
                         var otherUserID = 0;
-                        otherUserID = IoC.Resolve<IPaymentAddressQuery>().GetUserIDByPaymentAddress(currency, address.Trim());
-                        if (currency != CurrencyType.STR && otherUserID == this.CurrentUser.UserID)
-                        {
-                            result = FCJsonResult.CreateFailResult(this.Lang("Please don't withdraw to your deposit address."));
-                        }
-                        else
-                        {
+                       
                             var cmd = new SubmitVirtualCoinWithdraw(this.CurrentUser.UserID, currency, amount, address.Trim(), tradePassword);
                             this.CommandBus.Send(cmd);
                             result = FCJsonResult.CreateSuccessResult(this.Lang("Submit successfuly."));
-                        }
                     }
                     else
                     {

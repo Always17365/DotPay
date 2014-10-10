@@ -29,42 +29,6 @@ namespace DotPay.Persistence.Repository
                                          .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
                                          .SingleOrDefault();
                     break;
-                case CurrencyType.BTC:
-                    accountVersion = this._session.QueryOver<BTCAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.LTC:
-                    accountVersion = this._session.QueryOver<LTCAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.NXT:
-                    accountVersion = this._session.QueryOver<NXTAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.IFC:
-                    accountVersion = this._session.QueryOver<IFCAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.DOGE:
-                    accountVersion = this._session.QueryOver<DOGEAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.STR:
-                    accountVersion = this._session.QueryOver<STRAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-
-                case CurrencyType.FBC:
-                    accountVersion = this._session.QueryOver<FBCAccountVersion>()
-                                         .Where(av => av.ModifyID == depositID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -90,44 +54,6 @@ namespace DotPay.Persistence.Repository
                                          .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
                                          .SingleOrDefault();
                     break;
-                case CurrencyType.BTC:
-                    accountVersion = this._session.QueryOver<BTCAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.LTC:
-                    accountVersion = this._session.QueryOver<LTCAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.NXT:
-                    accountVersion = this._session.QueryOver<NXTAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.IFC:
-                    accountVersion = this._session.QueryOver<IFCAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-                case CurrencyType.DOGE:
-                    accountVersion = this._session.QueryOver<DOGEAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break; 
-                
-                case CurrencyType.STR:
-                    accountVersion = this._session.QueryOver<STRAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-
-                case CurrencyType.FBC:
-                    accountVersion = this._session.QueryOver<FBCAccountVersion>()
-                                         .Where(av => av.ModifyUniqueID == withdrawUniqueID && av.ModifyType == modifyType)
-                                         .SingleOrDefault();
-                    break;
-
                 default:
                     throw new NotImplementedException();
             }

@@ -10,20 +10,7 @@ namespace DotPay.Common
     public class Utilities
     {
         #region message queue
-        /// <summary>
-        /// generate  order process exchange name 
-        /// </summary>
-        /// <param name="string">market</param>
-        /// <returns></returns>
-        public static string GenerateMarketExchange(MarketType market)
-        {
-            Check.Argument.IsNotEmpty(market, "market");
-
-            var exchangeName = market.ToString() + "_MARKET_EXCHANGE";
-
-            return exchangeName;
-        }
-
+         
         /// <summary>
         /// generate exchange and queue name of generate virtual coin address 
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
@@ -115,23 +102,7 @@ namespace DotPay.Common
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
-
-        /// <summary>
-        /// generate virtual trade push message exchange and queue name
-        /// <para>tuple's item1 is exchange name and item2  is queue name</para>
-        /// </summary>
-        /// <param name="ManagerType">market</param>
-        ///<returns></returns>
-        public static Tuple<string, string> GenerateTradeMessageExchangeAndQueueName(MarketType market)
-        {
-            Check.Argument.IsNotNull(market, "market");
-
-            var exchangeName = market.ToString() + "_TRADE_MESSAGE_EXCHANGE";
-            var queueName1 = market.ToString() + "_TRADE_MESSAGE_QUEUE";
-
-            return new Tuple<string, string>(exchangeName, queueName1);
-        }
-
+         
         /// <summary>
         /// generate virtual coin tranfer fail or address invalid exchange and queue name
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>

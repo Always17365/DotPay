@@ -308,19 +308,6 @@ namespace DotPay.Domain
             var cache_key = CacheKey.USER_ACCOUNTS + userID.ToString();
             Cache.Remove(cache_key);
         }
-
-        private void ClearUserOrdersCache(int userID, MarketType market)
-        {
-            var cache_key = CacheKey.ORDER_USER_CURRENT + market.ToString() + userID.ToString();
-
-            Cache.Remove(cache_key);
-        }
-        private void ClearUserTradeHistoryCache(int userID, MarketType market)
-        {
-            var cache_key = CacheKey.TRADE_HISTORY_USER_RECENT + market.ToString() + userID.ToString();
-
-            Cache.Remove(cache_key);
-        }
         #endregion
 
         #region VIP设置相关

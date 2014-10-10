@@ -21,27 +21,7 @@ namespace DotPay.Domain
 
             switch (currencyType)
             {
-                case CurrencyType.BTC:
-                    log = new BTCWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.LTC:
-                    log = new LTCWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.DOGE:
-                    log = new DOGEWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.IFC:
-                    log = new IFCWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.NXT:
-                    log = new NXTWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.STR:
-                    log = new STRWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
-                case CurrencyType.FBC:
-                    log = new FBCWithdrawProcessLog(withdrawID, processorID, memo);
-                    break;
+                
                 default:
                     throw new NotImplementedException();
             }

@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.QueryService.Impl.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Tools.Test", "UnitTest\DotPay.Tools.Test\DotPay.Tools.Test.csproj", "{65579074-CF4E-4D34-B033-9D3B042FA01A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Tools.RippleClient", "Tools\NXTMonitor\DotPay.Tools.RippleClient.csproj", "{4D607F19-1915-4FF4-8062-D76315C9DB4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65579074-CF4E-4D34-B033-9D3B042FA01A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,5 +159,6 @@ Global
 		{AF1EABBF-19A2-494E-8F49-1FDC52C72D75} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
 		{DE31237D-A271-4D72-B6F7-962D21EE36F1} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
 		{65579074-CF4E-4D34-B033-9D3B042FA01A} = {2194CC78-6B40-4ACC-998D-D2174C5CAF3E}
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A} = {507D104C-39D6-40AD-8A28-203505933F47}
 	EndGlobalSection
 EndGlobal

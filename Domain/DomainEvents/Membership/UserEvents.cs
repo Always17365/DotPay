@@ -13,16 +13,20 @@ namespace DotPay.Domain.Events
     #region UserReigisted event
     public class UserRegisted : DomainEvent
     {
-        public UserRegisted(int commendBy, string email, string password, int timezone, User registUser)
+        public UserRegisted(int commendBy, string email, string password, string rippleAddress, string rippleSecret, int timezone, User registUser)
         {
             this.CommendBy = commendBy;
             this.TimeZone = timezone;
-            this.Email = email;
+            this.RippleAddress = rippleAddress;
+            this.RippleSecret = rippleSecret;
+            this.Email = email; 
             this.Password = password;
             this.RegistUser = registUser;
         }
         public int CommendBy { get; private set; }
         public int TimeZone { get; private set; }
+        public string RippleAddress { get; private set; }
+        public string RippleSecret { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
         public User RegistUser { get; private set; }
@@ -30,14 +34,18 @@ namespace DotPay.Domain.Events
 
     public class UserRegistedByOpenAuth : DomainEvent
     {
-        public UserRegistedByOpenAuth(int commendBy, string nickName, string password)
+        public UserRegistedByOpenAuth(int commendBy, string nickName, string rippleAddress, string rippleSecret, string password)
         {
             this.CommendBy = commendBy;
             this.NickName = nickName;
+            this.RippleAddress = rippleAddress;
+            this.RippleSecret = rippleSecret;
             this.Password = password;
         }
         public int CommendBy { get; private set; }
         public string NickName { get; private set; }
+        public string RippleAddress { get; private set; }
+        public string RippleSecret { get; private set; }
         public string Password { get; private set; }
     }
     #endregion
@@ -274,7 +282,7 @@ namespace DotPay.Domain.Events
 
     public class UserPasswordResetedByEmail : DomainEvent
     {
-        public UserPasswordResetedByEmail(int userID,string nickName, string email, string resetToken)
+        public UserPasswordResetedByEmail(int userID, string nickName, string email, string resetToken)
         {
             this.UserID = userID;
             this.Email = email;
@@ -283,7 +291,7 @@ namespace DotPay.Domain.Events
         }
         public int UserID { get; private set; }
         public string Email { get; private set; }
-        public string PasswordResetToken { get; private set; } 
+        public string PasswordResetToken { get; private set; }
         public string NickName { get; private set; }
     }
 
@@ -407,7 +415,7 @@ namespace DotPay.Domain.Events
     #region UserOpenGoogleAuthentication event
     public class UserSetGoogleAuthentication : DomainEvent
     {
-        public UserSetGoogleAuthentication(int userID, string otpSecret,string otp)
+        public UserSetGoogleAuthentication(int userID, string otpSecret, string otp)
         {
             this.UserID = userID;
             this.OTPSecret = otpSecret;
@@ -434,7 +442,7 @@ namespace DotPay.Domain.Events
     #region UserModifyMobile event
     public class UserModifiedMobile : DomainEvent
     {
-        public UserModifiedMobile(int userID, string mobile, string newOTPSecret,string smsOTP)
+        public UserModifiedMobile(int userID, string mobile, string newOTPSecret, string smsOTP)
         {
             this.UserID = userID;
             this.Mobile = mobile;
@@ -443,7 +451,7 @@ namespace DotPay.Domain.Events
         }
         public int UserID { get; private set; }
         public string Mobile { get; private set; }
-        public string NewOTPSecret { get; private set; } 
+        public string NewOTPSecret { get; private set; }
         public string OneTimePassword { get; private set; }
     }
     #endregion

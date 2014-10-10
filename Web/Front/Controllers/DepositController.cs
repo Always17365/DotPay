@@ -16,46 +16,7 @@ namespace DotPay.Web.Controllers
 {
     public class DepositController : BaseController
     {
-        #region view
-        [Route("~/deposit/{currency}")]
-        public ActionResult Index(CurrencyType currency)
-        {
-            ViewBag.Currency = this.Lang(currency.GetDescription());
-            ViewBag.CurrencyCode = currency.ToString();
-            var currentUserID = this.CurrentUser.UserID;
-            var account = IoC.Resolve<IAccountQuery>().GetAccountByUserID(currentUserID, currency);
-            var paymentAddress = string.Empty;
-            var viewName = string.Empty;
-
-            ViewBag.CurrencySettings = IoC.Resolve<ICurrencyQuery>().GetCurrency(currency);
-
-            ViewBag.Balance = (account == null || account.ID == 0) ? 0 : account.Balance;
-
-            #region 获取充值地址
-            if (currency == CurrencyType.CNY) viewName = "CNY";
-            else if (currency == CurrencyType.STR) viewName = "Stellar";
-            else
-            {
-                viewName = "VirtualCoin";
-                paymentAddress = IoC.Resolve<IPaymentAddressQuery>().GetPaymentAddressByUserID(currency, currentUserID);
-
-                if (!string.IsNullOrEmpty(paymentAddress))
-                {
-                    var addressPair = paymentAddress.Split(Constants.DefaultSplitChars, StringSplitOptions.RemoveEmptyEntries);
-
-                    ViewBag.PaymentAddress = addressPair[0];
-
-                    if (currency == CurrencyType.NXT)
-                    {
-                        ViewBag.NxtNumericPaymentAddress = addressPair[1];
-                        ViewBag.NxtPublicKey = addressPair[2];
-                    }
-                }
-            }
-            #endregion
-
-            return View(viewName);
-        }
+       
         [Route("~/deposits/{currency}")]
         public ActionResult Deposits(CurrencyType currency)
         {
@@ -70,38 +31,9 @@ namespace DotPay.Web.Controllers
             return View(viewName);
         }
 
-        #endregion
 
         #region Post
  
-
-        #region 提交恒星币充值
-        [HttpPost]
-        [Route("~/depositstellar")]
-        public ActionResult StellarDeposit(decimal depositamount, string checkcode)
-        {
-            var result = FCJsonResult.CreateFailResult(this.Lang("Unknow Exception,Please refresh the page and try again"));
-            if (!Config.Debug && !CheckImageCode(checkcode))
-                result = FCJsonResult.CreateFailResult(this.Lang("Cpatcha  error."));
-
-            if (depositamount > 0)
-            {
-                try
-                {
-                    var txid = "waiting user transfer";
-                    var cmd = new CreateReceivePaymentTransaction(txid, "stellar", depositamount, CurrencyType.STR, this.CurrentUser.UserID);
-                    this.CommandBus.Send(cmd);
-                    return Json(new { Code = 1, Address = "ghT2PjssWmFJkS5UPicDDiReMyt6ZZ7xMH" });
-                }
-                catch (CommandExecutionException ex)
-                {
-                    Log.Error("Action depositstellar Error", ex);
-                }
-            }
-            return Json(result);
-        }
-        #endregion
-
         #region 生成充值地址
         [Route("~/deposit/generateNewAddress")]
         [HttpPost]
@@ -129,21 +61,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 获取最新生成地址
-        [Route("~/deposit/getDepositAddress")]
-        [HttpPost]
-        public ActionResult GetNewAddress(CurrencyType currency)
-        {
-            var paymentAddress = IoC.Resolve<IPaymentAddressQuery>().GetPaymentAddressByUserID(currency, this.CurrentUser.UserID);
-            var addressPair = paymentAddress.Split(Constants.DefaultSplitChars, StringSplitOptions.RemoveEmptyEntries);
-
-            if (currency == CurrencyType.NXT)
-                return Json(new { PaymentAddress = addressPair[0], NxtNumericPaymentAddress = addressPair[1], NxtPublicKey = addressPair[2] });
-            else
-                return Json(new { PaymentAddress = addressPair[0] });
-        }
-        #endregion
-        #endregion
+             #endregion
 
         #region 私有方法
         private CurrencyType GetCurrencyTypeByDepositCode(string code)

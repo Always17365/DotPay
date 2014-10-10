@@ -75,7 +75,6 @@
     <Compile Include="Enum\OrderState.cs" />
     <Compile Include="Enum\OrderSource.cs" />
     <Compile Include="CheckCode.cs" />
-    <Compile Include="MarketType.cs" />
     <Compile Include="Enum\TradeTrend.cs" />
     <Compile Include="Enum\SmsInterfaceType.cs" />
     <Compile Include="Enum\OpenAuthType.cs" />

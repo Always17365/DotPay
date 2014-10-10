@@ -23,27 +23,6 @@ namespace DotPay.Domain
                 case CurrencyType.CNY:
                     deposit = new CNYDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
                     break;
-                case CurrencyType.BTC:
-                    deposit = new BTCDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.LTC:
-                    deposit = new LTCDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.DOGE:
-                    deposit = new DOGEDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.IFC:
-                    deposit = new IFCDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.NXT:
-                    deposit = new NXTDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.STR:
-                    deposit = new STRDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
-                case CurrencyType.FBC:
-                    deposit = new FBCDepositProcessLog(depositID, depositUniqueID, operatorID, memo);
-                    break;
                 default:
                     throw new NotImplementedException();
             }

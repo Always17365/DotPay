@@ -26,29 +26,7 @@ namespace DotPay.Persistence.Repository
                 case CurrencyType.CNY:
                     withdraw = this._session.QueryOver<CNYWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
                     break;
-                case CurrencyType.BTC:
-                    withdraw = this._session.QueryOver<BTCWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-                case CurrencyType.LTC:
-                    withdraw = this._session.QueryOver<LTCWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-                case CurrencyType.IFC:
-                    withdraw = this._session.QueryOver<IFCWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-                case CurrencyType.NXT:
-                    withdraw = this._session.QueryOver<NXTWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-                case CurrencyType.DOGE:
-                    withdraw = this._session.QueryOver<DOGEWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-                case CurrencyType.STR:
-                    withdraw = this._session.QueryOver<STRWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-
-                case CurrencyType.FBC:
-                    withdraw = this._session.QueryOver<FBCWithdraw>().Where(wd => wd.ID == id).SingleOrDefault();
-                    break;
-
+              
                 default:
                     throw new NotImplementedException();
             }
@@ -66,27 +44,7 @@ namespace DotPay.Persistence.Repository
                 case CurrencyType.CNY:
                     withdraw = this._session.QueryOver<CNYWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
                     break;
-                case CurrencyType.BTC:
-                    withdraw = this._session.QueryOver<BTCWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.LTC:
-                    withdraw = this._session.QueryOver<LTCWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.IFC:
-                    withdraw = this._session.QueryOver<IFCWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.NXT:
-                    withdraw = this._session.QueryOver<NXTWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.DOGE:
-                    withdraw = this._session.QueryOver<DOGEWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.STR:
-                    withdraw = this._session.QueryOver<STRWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
-                case CurrencyType.FBC:
-                    withdraw = this._session.QueryOver<FBCWithdraw>().Where(wd => wd.UniqueID == uniqueID).SingleOrDefault();
-                    break;
+               
                 default:
                     throw new NotImplementedException();
             }

@@ -23,27 +23,7 @@ namespace DotPay.Persistence.Repository
 
             switch (currency)
             {
-                case CurrencyType.BTC:
-                    deposit = this._session.QueryOver<BTCDeposit>().Where(d => d.TxID==txid).SingleOrDefault();
-                    break;
-                case CurrencyType.LTC:
-                    deposit = this._session.QueryOver<LTCDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
-                case CurrencyType.IFC:
-                    deposit = this._session.QueryOver<IFCDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
-                case CurrencyType.NXT:
-                    deposit = this._session.QueryOver<NXTDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
-                case CurrencyType.DOGE:
-                    deposit = this._session.QueryOver<DOGEDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
-                case CurrencyType.STR:
-                    deposit = this._session.QueryOver<STRDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
-                case CurrencyType.FBC:
-                    deposit = this._session.QueryOver<FBCDeposit>().Where(d => d.TxID == txid).SingleOrDefault();
-                    break;
+             
                 default:
                     throw new NotImplementedException();
             }
@@ -58,9 +38,9 @@ namespace DotPay.Persistence.Repository
 
             switch (currency)
             { 
-                case CurrencyType.STR:
-                    deposit = this._session.QueryOver<STRDeposit>().Where(d => d.ReceivePaymentTxUniqueID == txUnqiueId).SingleOrDefault();
-                    break;
+                //case CurrencyType.STR:
+                //    deposit = this._session.QueryOver<STRDeposit>().Where(d => d.ReceivePaymentTxUniqueID == txUnqiueId).SingleOrDefault();
+                //    break;
                 default:
                     throw new NotImplementedException();
             }

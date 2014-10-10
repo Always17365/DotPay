@@ -24,8 +24,6 @@ namespace DotPay.Domain
     {
         public void Handle(VirtualCoinWithdrawVerified @event)
         {
-            if (@event.Currency == CurrencyType.STR) return;
-
             var withdraw = IoC.Resolve<IWithdrawRepository>().FindByIdAndCurrency(@event.WithdrawID, @event.Currency) as VirtualCoinWithdraw;
 
             var msgID = @event.Currency.ToString() + "__withdraw_" + @event.WithdrawUniqueID;
@@ -53,8 +51,6 @@ namespace DotPay.Domain
 
         public void Handle(VirtualCoinWithdrawSkipVerify @event)
         {
-            if (@event.Currency == CurrencyType.STR) return;
-
             var withdraw = @event.WithdrawEntity;
 
             var msgID = @event.Currency.ToString() + "__withdraw_" + @event.WithdrawUniqueID;
