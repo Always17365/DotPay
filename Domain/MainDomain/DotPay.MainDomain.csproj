@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{200C8615-6F01-4D57-9F19-5E4CD12E2860}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotPay.Domain</RootNamespace>
+    <AssemblyName>DotPay.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FC.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\FC.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainEvents\Account\CurrencyEvents.cs" />
+    <Compile Include="DomainEvents\Account\AccountEvents.cs" />
+    <Compile Include="DomainEvents\CapitalAccount\CapitalAccountEvents.cs" />
+    <Compile Include="DomainEvents\Cms\AnnouncementEvents.cs" />
+    <Compile Include="DomainEvents\Cms\ArticleEvents.cs" />
+    <Compile Include="DomainEvents\Deposit\VirtualDepositEvents.cs" />
+    <Compile Include="DomainEvents\Deposit\DepositProcessLogEvents.cs" />
+    <Compile Include="DomainEvents\Deposit\CNYDepositEvents.cs" />
+    <Compile Include="DomainEvents\FundSource\FundSourceEvents.cs" />
+    <Compile Include="DomainEvents\Log\LoginLogEvents.cs" />
+    <Compile Include="DomainEvents\Log\OpreateLogEvents.cs" />
+    <Compile Include="DomainEvents\Membership\TokenEvents.cs" />
+    <Compile Include="DomainEvents\Membership\VipSettingEvents.cs" />
+    <Compile Include="DomainEvents\OpenAuthShip\OpenAuthShipEvents.cs" />
+    <Compile Include="DomainEvents\SmsInterface\SmsInterfaceEvents.cs" />
+    <Compile Include="DomainEvents\VirtualCoinPayment\PaymentAddressEvents.cs" />
+    <Compile Include="DomainEvents\VirtualCoinPayment\PaymentTransactionEvents.cs" />
+    <Compile Include="DomainEvents\Withdraw\BankOutletsEvents.cs" />
+    <Compile Include="DomainEvents\Withdraw\CNYWithdrawEvents.cs" />
+    <Compile Include="DomainEvents\Withdraw\VirtualCoinWithdrawEvents.cs" />
+    <Compile Include="DomainEvents\Withdraw\UserBankAccountEvents.cs" />
+    <Compile Include="Domain\Account\AccountVersion.cs" />
+    <Compile Include="DomainEvents\Membership\UserEvents.cs" />
+    <Compile Include="Domain\Account\ConcreteAccount\CNYAccount.cs" />
+    <Compile Include="Domain\Account\Exceptions\AccountExceptions.cs" />
+    <Compile Include="Domain\Account\AccountVersionMonitor.cs" />
+    <Compile Include="Domain\Account\Exceptions\CurrencyExceptions.cs" />
+    <Compile Include="Domain\Account\CurrencyLog.cs" />
+    <Compile Include="Domain\Account\ConcreteAccountVersion\CNYAccountVersion.cs" />
+    <Compile Include="Domain\Account\Factory\AccountVersionFactory.cs" />
+    <Compile Include="Domain\Account\Factory\AccountFactory.cs" />
+    <Compile Include="Domain\Account\AccountMonitor.cs" />
+    <Compile Include="Domain\Cms\Announcement.cs" />
+    <Compile Include="Domain\Cms\Article.cs" />
+    <Compile Include="Domain\Deposit\ConcreteProcessLog\CNYDepositProcessLog.cs" />
+    <Compile Include="Domain\Deposit\DepositMonitor.cs" />
+    <Compile Include="Domain\Deposit\Factory\DepositProcessLogFactory.cs" />
+    <Compile Include="Domain\FundSource\FundSource.cs" />
+    <Compile Include="Domain\FundSource\FundSourceExceptions.cs" />
+    <Compile Include="Domain\FundSource\FundSourceMonitor.cs" />
+    <Compile Include="Domain\Membership\OpenAuthShip.cs" />
+    <Compile Include="Domain\Membership\CommendMonitor.cs" />
+    <Compile Include="Domain\Membership\UserRegistedMessageSubmiter.cs" />
+    <Compile Include="Domain\Membership\ScoreRecord.cs" />
+    <Compile Include="Domain\Membership\ScoreMonitor.cs" />
+    <Compile Include="Domain\Membership\VipSetting.cs" />
+    <Compile Include="Domain\Membership\VipSettingLog.cs" />
+    <Compile Include="Domain\Membership\GoogleAuthentication.cs" />
+    <Compile Include="Domain\Membership\SmsAuthentication.cs" />
+    <Compile Include="Domain\Membership\UserLockLog.cs" />
+    <Compile Include="Domain\Membership\UserAssignRoleLog.cs" />
+    <Compile Include="Domain\OpreateLog.cs" />
+    <Compile Include="Domain\CapitalAccount\CapitalAccount.cs" />
+    <Compile Include="Domain\Deposit\Exceptions\DepositExceptions.cs" />
+    <Compile Include="Domain\Deposit\StateMachine\DepositStateMachineFactory.cs" />
+    <Compile Include="Domain\Deposit\StateMachine\IDepositStateMachine.cs" />
+    <Compile Include="Domain\Deposit\StateMachine\DepositWaitProcessStateMachine.cs" />
+    <Compile Include="Domain\Deposit\StateMachine\DepositVerifyStateMachine.cs" />
+    <Compile Include="Domain\Deposit\StateMachine\DepositCompleteStateMachine.cs" />
+    <Compile Include="Domain\Deposit\ConcreteDeposit\CNYDeposit.cs" />
+    <Compile Include="Domain\Deposit\IDeposit.cs" />
+    <Compile Include="Domain\Deposit\VirtualCoinDeposit.cs" />
+    <Compile Include="Domain\LogWriter\OperateLogWriter.cs" />
+    <Compile Include="Domain\CapitalAccount\CapitalAccountOpreateLog.cs" />
+    <Compile Include="Domain\Membership\Exceptions\UserExceptions.cs" />
+    <Compile Include="Domain\Membership\Exceptions\TokenExceptions.cs" />
+    <Compile Include="Domain\Membership\Exceptions\ManagerExceptions.cs" />
+    <Compile Include="Domain\Membership\Manager.cs" />
+    <Compile Include="Domain\Membership\User.cs" />
+    <Compile Include="Domain\Membership\Membership.cs" />
+    <Compile Include="Domain\Account\Account.cs" />
+    <Compile Include="Domain\Membership\LoginLog.cs" />
+    <Compile Include="Domain\EmailSender.cs" />
+    <Compile Include="Domain\ExceptionThrower.cs" />
+    <Compile Include="Domain\Membership\Token.cs" />
+    <Compile Include="Domain\Membership\UserRoleMinitor.cs" />
+    <Compile Include="Domain\Membership\UserRoleVerifier.cs" />
+    <Compile Include="Domain\Membership\TokenProcessor.cs" />
+    <Compile Include="Domain\CacheManager.cs" />
+    <Compile Include="Domain\LogWriter\LoginLogWriter.cs" />
+    <Compile Include="Domain\SmsInterface\SmsInterface.cs" />
+    <Compile Include="Domain\VirtualCoinPayment\Exceptions\PaymentTransactionExceptions.cs" />
+    <Compile Include="Domain\VirtualCoinPayment\PaymentAddress.cs" />
+    <Compile Include="Domain\VirtualCoinPayment\ReceivePaymentTransaction.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\CNYWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\BTCWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\IFCWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\DOGEWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\FBCWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\STRWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\NXTWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdrawProcessLog\LTCWithdrawProcessLog.cs" />
+    <Compile Include="Domain\Withdraw\Exceptions\WithdrawExceptions.cs" />
+    <Compile Include="Domain\Withdraw\Factory\VirtualCoinWithdrawProcessLogFactory.cs" />
+    <Compile Include="Domain\Withdraw\IWithdraw.cs" />
+    <Compile Include="Domain\Withdraw\ConcreteWithdraw\CNYWithdraw.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawStateMachineFactory.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\IWithdrawStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawWaitVerifyStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawWaitSubmitStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawProcessingStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawCompleteStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\StateMachine\WithdrawFailStateMachine.cs" />
+    <Compile Include="Domain\Withdraw\BankOutlets.cs" />
+    <Compile Include="Domain\Withdraw\VirtualCoinWithdraw.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawOnceLimitVerifyMonitor.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawVerifyMonitor.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawReceiverBankAccount.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawFeeCalculator.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawProcessSubmitter.cs" />
+    <Compile Include="Domain\SMSSender.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\Account\Currency.cs" />
+    <Compile Include="Domain\DomainBase.cs" />
+    <Compile Include="Repository\IFundSourceRepository.cs" />
+    <Compile Include="Repository\IDepositRepository.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\IAccountRepository.cs" />
+    <Compile Include="Repository\IManagerRepository.cs" />
+    <Compile Include="Repository\IAccountVersionRepository.cs" />
+    <Compile Include="Repository\IOpenAuthShipRepository.cs" />
+    <Compile Include="Repository\IReceivePaymentTransactionRepository.cs" />
+    <Compile Include="Repository\ISendPaymentTransactionRepository.cs" />
+    <Compile Include="Repository\ICurrencyRepository.cs" />
+    <Compile Include="Repository\IWithdrawReceiverAccountRepository.cs" />
+    <Compile Include="Repository\IWithdrawRepository.cs" />
+    <Compile Include="Repository\IScoreRecordRepository.cs" />
+    <Compile Include="Repository\IVipSettingRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DomainDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\DotPay.Common.csproj">
+      <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
+      <Name>DotPay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Language\DotPay.Language.csproj">
+      <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>
+      <Name>DotPay.Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\DistributedMessageSender\DotPay.Tools.DistributedMessageSender.csproj">
+      <Project>{526ae764-0a7d-4e4f-858e-f252ff524baa}</Project>
+      <Name>DotPay.Tools.DistributedMessageSender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\SmsInterface\DotPay.Tools.SmsInterface.csproj">
+      <Project>{9716ee13-aa13-4bc2-b468-575114dce68c}</Project>
+      <Name>DotPay.Tools.SmsInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

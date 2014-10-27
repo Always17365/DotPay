@@ -63,27 +63,9 @@ namespace DotPay.Common
         WithdrawIsFailed = 166,
         WithdrawIsOverDayLimit = 167,
         WithdrawIsCanceled = 168,
-        WithdrawAmountOutOfRange= 169,
+        WithdrawAmountOutOfRange = 169,
 
-
-        OrderHasNotEnoughVolume = 180,
-        OrderDone = 181,
-        OrderCanceled = 182,
-        OrderPriceIsTooHigh = 183,
-        OrderPriceIsTooLow = 184,
-        OrderVolumeTooSmall = 185,
-
-        MarketIsClosed = 201,
-
-        DepositCodeIsLocked = 301,
-        DepositCodeIsUsed = 302,
-        DepositCodeIsLockedByOtherUser = 311,
-        DepositCodeIsNotCreateByCustomerServiceUser = 312,
-        DepositCodeIsCreateByOtherCustomerServiceUser=313,
-        DepositCodeError= 314, 
-        DepositCodeIsMarkedFundSource = 315,
-
-        DepositAuthorizationAmountNotEnough = 351,
+        RippleTransactionNotPending = 201,
 
         NotAllowAssignSuperManager = 901,
         NoPermission = 902,

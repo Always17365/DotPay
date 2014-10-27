@@ -12,17 +12,14 @@ namespace DotPay.Common
         #region message queue
          
         /// <summary>
-        /// generate exchange and queue name of generate virtual coin address 
+        /// 获取用户注册成功的消息exchange and queue 名字
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
-        /// </summary>
-        /// <param name="CurrencyType">currency</param>
+        /// </summary> 
         /// <returns></returns>
-        public static Tuple<string, string> GenerateExchangeAndQueueNameOfGenerateNewAddress(CurrencyType currency)
-        {
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-            var exchangeName = currency.ToString() + "_GENERATE_ADDRESS_EXCHANGE";
-            var queueName = currency.ToString() + "_GENERATE_ADDRESS_QUEUE";
+        public static Tuple<string, string> GetExchangeAndQueueNameOfUserRegistered()
+        { 
+            var exchangeName =   "_USER_REGISTER_EXCHANGE";
+            var queueName =   "_USER_REGISTER_QUEUE";
 
             return new Tuple<string, string>(exchangeName, queueName);
         }

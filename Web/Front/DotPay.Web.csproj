@@ -90,10 +90,6 @@
     <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\..\Library\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -119,8 +115,9 @@
     <Reference Include="NetDimension.Weibo">
       <HintPath>..\..\packages\NetDimension.Weibo.1.40.0.24636\lib\net40\NetDimension.Weibo.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -390,11 +387,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Application.Impl\DotPay.Command.Executor.csproj">
+    <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Application\DotPay.Command.csproj">
+    <ProjectReference Include="..\..\Application\Command\MainCommand\DotPay.Command.csproj">
       <Project>{c5f3d8a7-7639-46ca-9b4b-c602c966347d}</Project>
       <Name>DotPay.Command</Name>
     </ProjectReference>
@@ -406,7 +403,7 @@
       <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>
       <Name>DotPay.Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\DotPay.Persistence.csproj">
+    <ProjectReference Include="..\..\Persistence\Main\DotPay.Persistence.csproj">
       <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
       <Name>DotPay.Persistence</Name>
     </ProjectReference>

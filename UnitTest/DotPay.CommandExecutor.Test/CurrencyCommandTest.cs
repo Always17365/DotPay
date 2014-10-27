@@ -9,12 +9,11 @@ using FC.Framework.Repository;
 using DotPay.Command;
 using DotPay.Common;
 using DotPay.Persistence;
+using DotPay.MainDomain;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using System.IO;
-using DotPay.Domain.Repository;
-using DotPay.Domain;
+using System.IO; 
 using FC.Framework.Utilities;
 
 namespace DotPay.CommandExecutor.Test
@@ -79,25 +78,7 @@ namespace DotPay.CommandExecutor.Test
             savedCurrency = IoC.Resolve<IRepository>().FindById<Currency>(currency.ID);
             Assert.True(savedCurrency.IsEnable);
 
-        }
-
-        [Fact]
-        public void TestModifyCurrencyDepositFeeRate()
-        {
-            var userID = new Random().Next(1, 10);
-            var currency = GetOneCurrency();
-            var depositFixedFee = 2M;
-            var depositFeeRate = 0.002M;
-
-            var cmd = new ModifyCurrencyDepositFeeRate(currency.ID, depositFixedFee, depositFeeRate, userID);
-
-            Assert.DoesNotThrow(() => { this.commandBus.Send(cmd); });
-
-            var savedCurrency = IoC.Resolve<IRepository>().FindById<Currency>(currency.ID);
-
-            Assert.Equal(savedCurrency.DepositFixedFee, depositFixedFee);
-            Assert.Equal(savedCurrency.DepositFeeRate, depositFeeRate);
-        }
+        } 
 
         [Fact]
         public void TestModifyCurrencyWithdrawFeeRate()
@@ -115,23 +96,7 @@ namespace DotPay.CommandExecutor.Test
 
             Assert.Equal(savedCurrency.WithdrawFixedFee, withdrawFixedFee);
             Assert.Equal(savedCurrency.WithdrawFeeRate, withdrawFeeRate);
-        }
-
-        [Fact]
-        public void TestModifyCurrencyNeedConfirm()
-        {
-            var userID = new Random().Next(1, 10);
-            var currency = GetOneCurrency();
-            var needConfirm = 6;
-
-            var cmd = new ModifyCurrencyNeedConfirm(currency.ID, needConfirm, userID);
-
-            Assert.DoesNotThrow(() => { this.commandBus.Send(cmd); });
-
-            var savedCurrency = IoC.Resolve<IRepository>().FindById<Currency>(currency.ID);
-
-            Assert.Equal(savedCurrency.NeedConfirm, needConfirm);
-        }
+        } 
 
         [Fact]
         public void TestModifyCurrencyWithdrawVerifyLine()

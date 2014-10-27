@@ -1,8 +1,7 @@
 ﻿using FC.Framework;
 using FC.Framework.Repository;
 using DotPay.Command;
-using DotPay.Common;
-using DotPay.Domain;
+using DotPay.Common; 
 using DotPay.QueryService;
 using DotPay.QueryService.Impl;
 using System.Linq;

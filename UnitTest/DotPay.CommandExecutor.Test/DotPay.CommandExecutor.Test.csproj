@@ -75,8 +75,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="xunit">
@@ -122,11 +123,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Application.Impl\DotPay.Command.Executor.csproj">
+    <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Application\DotPay.Command.csproj">
+    <ProjectReference Include="..\..\Application\Command\MainCommand\DotPay.Command.csproj">
       <Project>{c5f3d8a7-7639-46ca-9b4b-c602c966347d}</Project>
       <Name>DotPay.Command</Name>
     </ProjectReference>
@@ -134,13 +135,9 @@
       <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
       <Name>DotPay.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Domain\DotPay.Domain.csproj">
+    <ProjectReference Include="..\..\Domain\MainDomain\DotPay.MainDomain.csproj">
       <Project>{200c8615-6f01-4d57-9f19-5e4cd12e2860}</Project>
-      <Name>DotPay.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\DotPay.Persistence.csproj">
-      <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
-      <Name>DotPay.Persistence</Name>
+      <Name>DotPay.MainDomain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\QueryService.Impl\DotPay.QueryService.Impl.csproj">
       <Project>{38760d77-6a50-4348-9e2f-9b8556f224aa}</Project>

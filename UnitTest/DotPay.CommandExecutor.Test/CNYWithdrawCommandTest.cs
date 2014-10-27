@@ -12,11 +12,11 @@ using DotPay.Persistence;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using System.IO;
-using DotPay.Domain.Repository;
-using DotPay.Domain;
+using System.IO; 
 using FC.Framework.Utilities;
 using System.Threading;
+using DotPay.MainDomain.Repository;
+using DotPay.MainDomain;
 
 namespace DotPay.CommandExecutor.Test
 {

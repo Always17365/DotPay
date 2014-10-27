@@ -75,7 +75,7 @@ namespace DotPay.QueryService.Impl
                                    .QueryMany<WithdrawListModel>();
             result.ForEach(r =>
             {
-                r.PayWay = r.Bank == default(Bank) ? PayWay.DepositCode : PayWay.BankTransfer;
+                r.PayWay = r.Bank == default(Bank) ? PayWay.ABC : PayWay.BCM;
             });
 
             return result;
@@ -196,7 +196,7 @@ namespace DotPay.QueryService.Impl
                                      FROM    " + Config.Table_Prefix + @"{0}withdraw
                                     WHERE    userid = @userID)
                                    UNION     ALL
-                                  (SELECT    ID,CreateBy AS UserID," + PayWay.DepositCode.ToString("D") + @" AS PayWay,CONCAT(`Code`,'-',`password`) AS ReceiveAddress,Amount,0 AS Fee,CreateAt,0 as State,IsUsed AS DepositCodeIsUsed 
+                                  (SELECT    ID,CreateBy AS UserID," + PayWay.BCM.ToString("D") + @" AS PayWay,CONCAT(`Code`,'-',`password`) AS ReceiveAddress,Amount,0 AS Fee,CreateAt,0 as State,IsUsed AS DepositCodeIsUsed 
                                     FROM     " + Config.Table_Prefix + @"{0}depositcode
                                     WHERE    CreateBy = @userID)
                                     ORDER    BY CreateAt DESC
