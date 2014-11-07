@@ -78,9 +78,9 @@ namespace DotPay.QueryService.Impl
         }
 
         private readonly string currencies_Sql =
-                         @"SELECT   ID,Code,Name,DepositFixedFee,DepositFeeRate,WithdrawFeeRate,
+                         @"SELECT   ID,Code,Name,WithdrawFeeRate,
                                     WithdrawFixedFee,WithdrawOnceLimit,WithdrawDayLimit,WithdrawVerifyLine,
-                                    NeedConfirm,IsEnable,IsLocked,CreateAt,WithdrawOnceMin
+                                    IsEnable,IsLocked,CreateAt,WithdrawOnceMin
                              FROM   " + Config.Table_Prefix + @"Currency
                             WHERE   IsEnable=1
                             ";

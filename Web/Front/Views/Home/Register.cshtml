@@ -97,10 +97,10 @@
                     $.ajax({
                         type: 'POST',
                         url: '/registerUser',
-                        data: $(this).serialize() + "&address=" + wallet.address + "&secret=" + secret_encypt ,
+                        data: $(this).serialize() + "&address=" + wallet.address + "&secret=" + secret_encypt,
                         success: function (data) {
                             if (data.Code == 1) {
-                                window.location = '/';
+                                window.location = '/my/profile';
                             } else {
                                 $('#spanFailBox').html(data.Message);
                                 $('#failBox').show();

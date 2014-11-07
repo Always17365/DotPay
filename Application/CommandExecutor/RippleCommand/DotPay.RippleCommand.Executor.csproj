@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9518179C-8907-47D8-89FE-C589502AF71A}</ProjectGuid>
+    <ProjectGuid>{348A0490-C89E-4BB6-8426-3146CBEDBE51}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotPay.ViewModel</RootNamespace>
-    <AssemblyName>DotPay.ViewModel</AssemblyName>
+    <RootNamespace>DotPay.RippleCommand.Executor</RootNamespace>
+    <AssemblyName>DotPay.RippleCommand.Executor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FC.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=72601afd44ce5b3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\FC.Framework.dll</HintPath>
+    <Reference Include="FC.Framework">
+      <HintPath>..\..\..\Library\FC.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,39 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\Currency.cs" />
-    <Compile Include="Account\Account.cs" />
-    <Compile Include="CapitalAccount\CapitalAccount.cs" />
-    <Compile Include="City\City.cs" />
-    <Compile Include="Cms\Announcement.cs" />
-    <Compile Include="Login\Login.cs" />
-    <Compile Include="Logs\Logs.cs" />
-    <Compile Include="FundSource\FundSource.cs" />
-    <Compile Include="Records\TransactionRecord.cs" />
-    <Compile Include="VipSetting\VipSetting.cs" />
-    <Compile Include="VirtualCoin\VitrtualCoin.cs" />
-    <Compile Include="Withdraw\WithdrawReceiverAccount.cs" />
-    <Compile Include="Withdraw\BankOutlets.cs" />
-    <Compile Include="Withdraw\Processing.cs" />
-    <Compile Include="Withdraw\CheckPending.cs" />
-    <Compile Include="DepositCode\DepositCode.cs" />
-    <Compile Include="Withdraw\Withdraw.cs" />
-    <Compile Include="Membership\User.cs" />
-    <Compile Include="Deposit\Deposit.cs" />
+    <Compile Include="RippleActiveTxCommandsExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsInterface\SmsInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\DotPay.Common.csproj">
-      <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
-      <Name>DotPay.Common</Name>
+    <ProjectReference Include="..\..\..\Domain\RippleDomain\DotPay.RippleDomain.csproj">
+      <Project>{330457d3-9bec-49f0-b42c-f83eb3b3f1a2}</Project>
+      <Name>DotPay.RippleDomain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Language\DotPay.Language.csproj">
-      <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>
-      <Name>DotPay.Language</Name>
+    <ProjectReference Include="..\..\Command\RippleCommand\DotPay.RippleCommand.csproj">
+      <Project>{a2856bd1-d1df-4cf4-bc49-4d3bc3b7e782}</Project>
+      <Name>DotPay.RippleCommand</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

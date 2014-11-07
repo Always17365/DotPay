@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Persistence", "Persi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RipplePersistence", "Persistence\Ripple\DotPay.RipplePersistence.csproj", "{666500EE-30C4-4EE4-876A-DC1E6AAB4378}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RippleCommand.Executor", "Application\CommandExecutor\RippleCommand\DotPay.RippleCommand.Executor.csproj", "{348A0490-C89E-4BB6-8426-3146CBEDBE51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,10 @@ Global
 		{666500EE-30C4-4EE4-876A-DC1E6AAB4378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{666500EE-30C4-4EE4-876A-DC1E6AAB4378}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{666500EE-30C4-4EE4-876A-DC1E6AAB4378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,5 +191,6 @@ Global
 		{A2856BD1-D1DF-4CF4-BC49-4D3BC3B7E782} = {7231FD75-3F1F-45B4-B696-AF1748CA7BA6}
 		{DEE26A7C-B646-4783-8A06-DF8CF1A44B51} = {BC9B3D91-7F9F-4FEF-8188-73E86CCB6CB3}
 		{666500EE-30C4-4EE4-876A-DC1E6AAB4378} = {BC9B3D91-7F9F-4FEF-8188-73E86CCB6CB3}
+		{348A0490-C89E-4BB6-8426-3146CBEDBE51} = {CAA5FF23-8DA0-4C7F-AC0A-B7C330896C97}
 	EndGlobalSection
 EndGlobal

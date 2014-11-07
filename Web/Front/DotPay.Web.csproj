@@ -254,6 +254,7 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\FCPublish.pubxml" />
+    <Content Include="public\body.jpg" />
     <Content Include="public\css\layout.css" />
     <Content Include="public\css\main.css" />
     <Content Include="public\images\anywhere.png" />
@@ -269,6 +270,7 @@
     <Content Include="public\images\error.png" />
     <Content Include="public\images\fast.png" />
     <Content Include="public\images\free.png" />
+    <Content Include="public\images\icons-v2.png" />
     <Content Include="public\images\icons\arrowdown.png" />
     <Content Include="public\images\icons\search.png" />
     <Content Include="public\images\icons\toggledown.png" />
@@ -279,6 +281,7 @@
     <Content Include="public\images\sprite.png" />
     <Content Include="public\images\ss.png" />
     <Content Include="public\images\success.png" />
+    <Content Include="public\index.htm" />
     <Content Include="public\js\crypto-md5.js" />
     <Content Include="public\js\rpwapper.js" />
     <Content Include="public\js\lang\en-US\lang.js" />
@@ -299,6 +302,7 @@
     <Content Include="public\js\ripple\ripple-debug.js" />
     <Content Include="public\js\ripple\ripple-min.js" />
     <Content Include="public\js\ripple\ripple.js" />
+    <Content Include="public\logo.png" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\_Notice.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -370,6 +374,10 @@
     <Content Include="Views\Home\Support.cshtml" />
     <Content Include="public\js\lib\ZeroClipboard\ZeroClipboard.min.map" />
     <Content Include="Views\Shared\_nav.cshtml" />
+    <Content Include="Views\Shared\_about.cshtml" />
+    <Content Include="Views\Shared\_Layout_Profile.cshtml" />
+    <Content Include="Views\Profile\Index1.cshtml" />
+    <Content Include="Views\Shared\_top.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -5,18 +5,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@Html.Lang("website_Title")</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="dotpay" name="keywords">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta content="dotpay" name="keywords"> 
     <script src="~/public/js/lib/jquery/jquery.min.js"></script>
-    <script src="~/public/js/lib/jquery/jquery.validate.min.js"></script>
+    <script src="~/public/js/lib/jquery/jquery.validate.min.js"></script> 
     <script src="~/public/js/ripple/ripple.js"></script>
     <link href="~/public/css/layout.css" rel="stylesheet" />
     <link href="~/public/css/main.css" rel="stylesheet" />
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false) 
 </head>
 <body>
-    @Html.Partial("_header")
-    @RenderBody()
-    @Html.Partial("_foot")
+    @Html.Partial("_top") 
+    <div id="contentinner">
+        @RenderBody()
+    </div>
+    @Html.Partial("_foot") 
 </body>
 </html>

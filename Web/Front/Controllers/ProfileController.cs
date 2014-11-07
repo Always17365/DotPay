@@ -24,7 +24,7 @@ namespace DotPay.Web.Controllers
 
         #region Views
         #region Profile
-        [Route("~/profile")]
+        [Route("~/my/profile")]
         public ActionResult Index()
         {
             return View();

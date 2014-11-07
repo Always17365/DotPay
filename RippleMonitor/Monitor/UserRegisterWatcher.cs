@@ -1,5 +1,5 @@
 ﻿using DotPay.Common;
-using DotPay.RippleCommand; 
+using DotPay.RippleCommand;
 using FC.Framework;
 using FC.Framework.Repository;
 using RabbitMQ.Client;
@@ -63,7 +63,7 @@ namespace DotPay.RippleMonitor
 
                         var registerMessage = IoC.Resolve<IJsonSerializer>().Deserialize<UserReisterMessage>(message);
 
-                        Log.Info("收到用户注册消息:{1}", message);
+                        Log.Info("收到用户注册消息:{0}", message);
 
 
                         var exist = string.Empty;
@@ -93,7 +93,7 @@ namespace DotPay.RippleMonitor
                                     var cmd = new RecordActiveWalletTx(result.Transaction.Hash, result.TxBlob, Config.RippleAccount, registerMessage.RippleAddress, activeAmount, transferFee);
                                     IoC.Resolve<ICommandBus>().Send(cmd);
                                     var recordID = cmd.Result;
-
+                                    Log.Info("SIGN OK" + result.Transaction.Hash);
                                     rippleClient.Submit(result.TxBlob, (submitError, payment) =>
                                     {
                                         try
@@ -120,10 +120,10 @@ namespace DotPay.RippleMonitor
                                                     channel.BasicAck(ea.DeliveryTag, false);
                                             }
                                         }
-                                        catch(Exception ex)
+                                        catch (Exception ex)
                                         {
                                             Log.Error("激活钱包回到过程中出现未处理的异常:" + message, ex);
-                                        } 
+                                        }
                                     });
                                 }
                                 else

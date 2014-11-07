@@ -52,6 +52,7 @@
     <Compile Include="City\ICityQuery.cs" />
     <Compile Include="Cms\IAnnouncementQuery.cs" />
     <Compile Include="Cms\IArticleQuery.cs" />
+    <Compile Include="Records\TransactionQuery.cs" />
     <Compile Include="VipSetting\IVipSettingQuery.cs" />
     <Compile Include="Logs\ILogsQuery.cs" />
     <Compile Include="Withdraw\IBankOutletsQuery.cs" />

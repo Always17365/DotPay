@@ -52,7 +52,7 @@
                 data: $(this).serialize(),
                 success: function (data) {
                     if (data.Code == 1) {
-                        window.location = ("@ViewBag.ReturnUrl".length > 0 ? "@ViewBag.ReturnUrl" : "/");
+                        window.location = ("@ViewBag.ReturnUrl".length > 0 ? "@ViewBag.ReturnUrl" : "/my/profile");
                     } else {
                         if (data.Code == 2) {
                             window.location = "/login/twofactor/" + data.Hash + ("@ViewBag.ReturnUrl".length > 0 ? '?ReturnUrl=' + "@ViewBag.ReturnUrl" : "");

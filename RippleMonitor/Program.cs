@@ -73,12 +73,12 @@ namespace DotPay.RippleMonitor
                                     //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
                                     .Start();
 
-            var rippleClient = new RippleClient(new Uri(Config.WssServer), 30, true);
+            var rippleClient = new RippleClient(new Uri(Config.WssServer), 30, true); 
             IoC.Register<IRippleClient>(rippleClient);
 
             if (Config.Debug)
             {
-                SessionManager.CreateTables();
+                //SessionManager.CreateTables();
             }
             Log.Info("运行环境初始化完毕!");
         }

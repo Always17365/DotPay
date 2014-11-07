@@ -1,0 +1,24 @@
+﻿@using DotPay.Language
+<div class="top">
+    <div class="content">
+        @if (ViewBag.CurrentUser == null)
+        {
+            <a href="/login" target="_blank">登录</a> @(" | ")
+            <a href="/register" target="_blank">注册</a> @(" | ")
+        }
+        else
+        {
+            @("你好, ")<a href="/my/profile" target="_blank">@ViewBag.CurrentUser.Email</a> @(" | ")
+            <a href="/logout">@Html.Lang("Logout")</a>
+        }
+        <a href="/bzzx.html">帮助中心</a> | <a href="/about/lx.html">联系我们</a>
+    </div>
+</div>
+<div class="header">
+    <div class="left">
+        <a href="/"><img src="/public/images/logo.jpg" alt="点付 Dotpay" title="点付 Dotpay"></a>
+    </div>
+    @*<div class="right">
+            <img src="/public/images/dianhua.jpg">
+        </div>*@
+</div>  
