@@ -29,10 +29,19 @@ namespace DotPay.Web.Controllers
         public ActionResult InsideTransferConfirm(CurrencyType currency, string orderID)
         {
             ViewBag.Currency = currency.ToString();
-            var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
-            var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
-            ViewBag.Transfer = transfer;
-            ViewBag.Receiver = user;
+
+            //try
+            //{
+            //    var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
+            //    var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
+            //    ViewBag.Transfer = transfer;
+            //    ViewBag.Receiver = user;
+            //}
+            //finally
+            //{
+
+            //}
+
             return View("InsideConfirm");
         }
 
@@ -64,7 +73,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 内存转账
+        #region 内存转账提交
 
         [Route("~/transfer/inside/{currency}/submit")]
         [HttpPost]
@@ -86,6 +95,28 @@ namespace DotPay.Web.Controllers
                 return Redirect("~/transfer/{0}/confirm?orderid={1}".FormatWith(currency, transferCMD.Result));
             }
 
+            return Redirect("/Error");
+        }
+        #endregion
+
+        #region 内存转账付款
+
+        [Route("~/transfer/inside/{currency}/confirm")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InsideTransferConfirm(CurrencyType currency, int transferId)
+        {
+            try
+            {
+                var transferConfirm = new InsideTransferComplete(transferId, currency);
+
+                this.CommandBus.Send(transferConfirm);
+
+                return Redirect("~/transfer/{0}/confirm?orderid={1}");
+            }
+            catch (CommandExecutionException ex)
+            {
+            }
             return Redirect("/Error");
         }
         #endregion

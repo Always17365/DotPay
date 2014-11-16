@@ -53,6 +53,7 @@
     <Compile Include="Logs\Logs.cs" />
     <Compile Include="FundSource\FundSource.cs" />
     <Compile Include="Records\TransactionRecord.cs" />
+    <Compile Include="Transfer\InsideTransfer.cs" />
     <Compile Include="VipSetting\VipSetting.cs" />
     <Compile Include="VirtualCoin\VitrtualCoin.cs" />
     <Compile Include="Withdraw\WithdrawReceiverAccount.cs" />
