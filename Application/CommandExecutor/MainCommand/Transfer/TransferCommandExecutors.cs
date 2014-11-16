@@ -22,8 +22,9 @@ namespace DotPay.Command.Executor
             Check.Argument.IsNotNull(cmd, "cmd");
 
             var insideTransfer = InsideTransferTransactionFactory.CreateInsideTransferTransaction(cmd.FromUserID, cmd.ToUserID, cmd.Currency, cmd.Amount, PayWay.Inside, cmd.Description);
-
+            cmd.Result = insideTransfer.SequenceNo;
             IoC.Resolve<IRepository>().Add(insideTransfer);
+
         }
 
         public void Execute(OutsideTransfer cmd)

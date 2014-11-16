@@ -28,6 +28,10 @@ namespace DotPay.Command
         public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }
         public string Description { get; private set; }
+        /// <summary>
+        /// 订单的sequence no
+        /// </summary>
+        public string Result { get; set; }
     }
 
     public class InsideTransferComplete : FC.Framework.Command

@@ -61,7 +61,7 @@ namespace DotPay.MainDomain
             this.Amount = @event.Amount;
             this.PayWay = @event.PayWay;
             this.Description = @event.Description;
-            this.State = TransactionState.Pending;
+            this.State = TransactionState.Init;
             this.Memo = string.Empty;
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
         }

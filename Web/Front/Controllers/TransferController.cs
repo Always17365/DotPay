@@ -19,10 +19,21 @@ namespace DotPay.Web.Controllers
 
         #region Views
         [Route("~/transfer/{currency}/payment")]
-        public ActionResult TransferCNY(CurrencyType currency)
+        public ActionResult InsideTransferCNY(CurrencyType currency)
         {
             ViewBag.Currency = currency.ToString();
             return View("Inside");
+        }
+
+        [Route("~/transfer/{currency}/confirm")]
+        public ActionResult InsideTransferConfirm(CurrencyType currency, string orderID)
+        {
+            ViewBag.Currency = currency.ToString();
+            var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
+            var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
+            ViewBag.Transfer = transfer;
+            ViewBag.Receiver = user;
+            return View("InsideConfirm");
         }
 
         #endregion
@@ -69,9 +80,13 @@ namespace DotPay.Web.Controllers
                 var user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
 
                 var transferCMD = new InsideTransfer(this.CurrentUser.UserID, user.UserID, currency, amount, description);
+
                 this.CommandBus.Send(transferCMD);
+
+                return Redirect("~/transfer/{0}/confirm?orderid={1}".FormatWith(currency, transferCMD.Result));
             }
-            return Json(new { Valid = false });
+
+            return Redirect("/Error");
         }
         #endregion
         #endregion

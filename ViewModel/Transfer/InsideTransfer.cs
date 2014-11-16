@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 namespace DotPay.ViewModel
 {
     [Serializable]
-    public class TransactionRecord
+    public class InsideTransferModel
     {
+        public int ID { get; set; }
+        public int FromUserID { get; set; }
+        public int ToUserID { get; set; }
         public string SequenceNo { get; set; }
         public int Date { get; set; }
-        public string Category { get; set; }
         public string Description { get; set; }
-        public decimal Income { get; set; }
-        public decimal Output { get; set; }
+        public decimal Amount { get; set; }
         public string Payway { get; set; }
         public decimal Balance { get; set; }
         public CurrencyType Currency { get; set; }
         public string TradeNo { get; set; }
-        public string Destination { get; set; }
     }
 }
