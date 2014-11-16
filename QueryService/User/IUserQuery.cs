@@ -20,7 +20,7 @@ namespace DotPay.QueryService
         LoginUser GetUserByEmail(string email);
         LoginUser GetUserByMobile(string mobile);
         LoginUser GetUserByOpenID(string openID, OpenAuthType authType);
-
+        bool ExistUserByEmail(string email);
         int CountUserByEmail(string email);
         int CountUserByMobile(string mobile);
         int GetUserCommendCounter(int userID);

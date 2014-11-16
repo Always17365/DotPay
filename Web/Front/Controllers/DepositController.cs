@@ -16,7 +16,7 @@ namespace DotPay.Web.Controllers
 {
     public class DepositController : BaseController
     {
-       
+
         [Route("~/deposits/{currency}")]
         public ActionResult Deposits(CurrencyType currency)
         {
@@ -25,15 +25,28 @@ namespace DotPay.Web.Controllers
             string viewName = string.Empty;
             #region 获取充值地址
             if (currency == CurrencyType.CNY) viewName = "CNYDeposits";
-            else  viewName = "VirtualCoinDeposits";
+            else viewName = "VirtualCoinDeposits";
             #endregion
 
             return View(viewName);
         }
 
-
+        [Route("~/deposit/{currency}")]
+        public ActionResult Index(CurrencyType currency)
+        {
+            ViewBag.Currency = this.Lang(currency.GetDescription());
+            ViewBag.CurrencyCode = currency.ToString();
+            var currentUserID = this.CurrentUser.UserID;
+            var account = IoC.Resolve<IAccountQuery>().GetAccountByUserID(currentUserID, currency);
+            var paymentAddress = string.Empty;
+            var viewName = string.Empty;
+             
+            ViewBag.Balance = (account == null || account.ID == 0) ? 0 : account.Balance;
+            if (currency == CurrencyType.CNY) viewName = "CNY";
+            return View(viewName);
+        }
         #region Post
- 
+
         #region 生成充值地址
         [Route("~/deposit/generateNewAddress")]
         [HttpPost]
@@ -61,7 +74,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-             #endregion
+        #endregion
 
         #region 私有方法
         private CurrencyType GetCurrencyTypeByDepositCode(string code)
@@ -85,19 +98,21 @@ namespace DotPay.Web.Controllers
         [Route("~/action/getdeposits")]
         public ActionResult GenerateStatisticsForInterval(int start, int limit, CurrencyType currencyType)
         {
-             int totalCount = 0;
-             IEnumerable<DepositInListModel> result = default(IEnumerable<DepositInListModel>);
+            int totalCount = 0;
+            IEnumerable<DepositInListModel> result = default(IEnumerable<DepositInListModel>);
             if (currencyType == CurrencyType.CNY)
             {
-                 totalCount = IoC.Resolve<IDepositQuery>().CountCNYDepositByUserID(this.CurrentUser.UserID);
-                 result = IoC.Resolve<IDepositQuery>().GetCNYDepositByUserID(this.CurrentUser.UserID, start, limit);
-            } else {
-                totalCount = IoC.Resolve<IDepositQuery>().CountVirtualCoinDepositByUserID(this.CurrentUser.UserID, currencyType);
-                result = IoC.Resolve<IDepositQuery>().GetVirtualCoinDepositByUserID(this.CurrentUser.UserID, currencyType, start, limit);   
+                totalCount = IoC.Resolve<IDepositQuery>().CountCNYDepositByUserID(this.CurrentUser.UserID);
+                result = IoC.Resolve<IDepositQuery>().GetCNYDepositByUserID(this.CurrentUser.UserID, start, limit);
             }
-            return Json(new { data = result, Code=1, totalCount = totalCount}, JsonRequestBehavior.AllowGet);
+            else
+            {
+                totalCount = IoC.Resolve<IDepositQuery>().CountVirtualCoinDepositByUserID(this.CurrentUser.UserID, currencyType);
+                result = IoC.Resolve<IDepositQuery>().GetVirtualCoinDepositByUserID(this.CurrentUser.UserID, currencyType, start, limit);
+            }
+            return Json(new { data = result, Code = 1, totalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
-     
+
 
         #endregion
     }

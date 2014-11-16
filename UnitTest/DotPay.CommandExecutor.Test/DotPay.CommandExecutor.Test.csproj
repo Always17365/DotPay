@@ -139,6 +139,10 @@
       <Project>{200c8615-6f01-4d57-9f19-5e4cd12e2860}</Project>
       <Name>DotPay.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\Main\DotPay.Persistence.csproj">
+      <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
+      <Name>DotPay.Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\QueryService.Impl\DotPay.QueryService.Impl.csproj">
       <Project>{38760d77-6a50-4348-9e2f-9b8556f224aa}</Project>
       <Name>DotPay.QueryService.Impl</Name>

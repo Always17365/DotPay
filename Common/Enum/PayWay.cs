@@ -11,15 +11,17 @@ namespace DotPay.Common
     /// </summary>
     public enum PayWay
     {
-        [EnumDescription("PayWay Alipay")]
-        Alipay = 1,
-        [EnumDescription("PayWay Tenpay")]
-        Tenpay = 2,  
+        [EnumDescription("Inside")]
+        Inside = 1,
+        [EnumDescription("Alipay")]
+        Alipay,
+        [EnumDescription("Tenpay")]
+        Tenpay,
         /// <summary>
         /// 中国工商银行
         /// </summary>
         [EnumDescription("中国工商银行")]
-        ICBC = 3,
+        ICBC,
         /// <summary>
         /// 中国银行
         /// </summary>

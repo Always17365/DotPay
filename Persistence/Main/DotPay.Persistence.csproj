@@ -100,6 +100,8 @@
     <Compile Include="Mapper\Membership\VIPSettingMap.cs" />
     <Compile Include="Mapper\ScoreRecord\ScoreRecordMap.cs" />
     <Compile Include="Mapper\SmsInterface\SmsInterfaceMap.cs" />
+    <Compile Include="Mapper\Transfer\InsideTransfer\USDInsideTransferTransactionMap.cs" />
+    <Compile Include="Mapper\Transfer\InsideTransfer\CNYInsideTransferTransactionMap.cs" />
     <Compile Include="Mapper\Withdraw\BankOutletsMap.cs" />
     <Compile Include="Mapper\Withdraw\CNYWithdrawMap.cs" />
     <Compile Include="Mapper\Withdraw\ProcessLog\CNYWithdrawProcessLogMap.cs" />

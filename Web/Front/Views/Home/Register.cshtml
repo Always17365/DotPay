@@ -1,117 +1,150 @@
 ﻿@using DotPay.Language
-<h1>@Html.Lang("Register Account")</h1>
 <div class="fail box" id="failBox" style="display:none;">
     <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
 </div>
-<form id="registerForm">
-    @Html.AntiForgeryToken()
-    <h3>@Html.Lang("Your Details")</h3>
-    <table class="table register">
-        <tbody>
-            <tr>
-                <th>@Html.Lang("Email Address")</th>
-                <td>
-                    <input type="text" name="email" id="email" required="" value=""> <br>
-                </td>
-            </tr>
-            <tr>
-                <th>@Html.Lang("Password")</th>
-                <td>
-                    <input type="password" name="password" id="password" value=""><br>
-                    <span>@Html.Lang("Please enter 6 characters minimum, including 1 or more digits.")</span>
-                </td>
-            </tr>
-            <tr>
-                <th>@Html.Lang("Confirm Login Password")</th>
-                <td>
-                    <input type="password" name="confirmPassword" id="confirmPassword" value=""><br>
-                    <span> @Html.Lang("Please type your password again.")</span>
-                </td>
-            </tr>
-            <tr>
-                <th>@Html.Lang("register_image_Code")</th>
-                <td>
-                    <input name="checkcode" type="text" id="txt_checkcode" style="width:200px" class="text" /><a href="###" id="imglink"><img style="vertical-align:middle;margin-left:20px" src="/cci" /></a>
-                    <br>
+<style>
+    #registerForm .form-control-feedback { top: 25px; right: 0px; }
+</style>
+<div id="main" class="container">
+    <div class="row row-6">
+        <div class="col-sm-6 col-sm-offset-3 ptl-5">
+            <div class="panel panel-default panel-page">
+                <div class="panel-heading"><h2>注册</h2></div>
+                <form id="registerForm" class="form-vertical">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label" for="register_email">邮箱地址</label>
+                        <div class="controls">
+                            <input type="text" id="register_email" autocomplete="off" placeholder="请输入邮箱地址" name="email" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="register_password">密码</label>
+                        <div class="controls">
+                            <input type="password" id="register_password" name="password" placeholder="请输入密码" required="required" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="register_confirmPassword">确认密码</label>
+                        <div class="controls">
+                            <input type="password" id="register_confirmPassword" placeholder="请再次输入密码" name="confirmPassword" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <button type="submit" id="register-btn" class="btn btn-primary btn-large btn-block">注册</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="social-logins">
+                    <a href="https://api.weibo.com:443/oauth2/authorize?client_id=156073260&redirect_uri=http%3A%2F%2Fwww.fullcoin.com%2Fweibologin&response_type=code&display=default" class="social-login-btn"><i class="social-icon social-icon-weibo"></i>微博帐号登录</a>
+                    <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101081985&redirect_uri=http://www.fullcoin.com/qqlogin&state=fc&scope=get_user_info" class="social-login-btn"><i class="social-icon social-icon-qq"></i>QQ帐号登录</a>
+                </div>
+            </div>
 
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    <input type="checkbox" name="termsofservice" id="termsofservice">@Html.LangAsHtmlString("I have read and agree to the {0} .", "<a href='/terms'>" + Html.Lang("register_Terms of Service") + "</a>")
-    <br><br>
-    <input type="submit" value="@Html.Lang("Register Account")" id="postbut">
-</form>
-<script src="~/public/js/crypto-md5.js"></script>
-<script src="~/public/js/rpwapper.js"></script>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#registerForm").validate({
-            rules: {
-                answer1: {
-                    required: true,
-                    minlength: 2
-                },
-                password: {
-                    required: true,
-                    minlength: 6
-                },
-                confirmPassword: {
-                    required: true,
-                    minlength: 6,
-                    equalTo: "#password"
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                termsofservice: "required"
+        $('#registerForm').bootstrapValidator({
+            message: '请输入合法的值',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
             },
-            messages: {
+            trigger: 'cut paste blur',
+            fields: {
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: '邮箱地址不能为空!'
+                        },
+                        emailAddress: {
+                            message: '请输入一个正确的邮箱地址'
+                        },
+                        remote: {
+                            url: '/validateEmail',
+                            type: "post",
+                            data: { "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                            delay:1000
+                        }
+                    }
+                },
                 password: {
-                    required: "@Html.Lang("Please provide a password")",
-                    minlength: "@Html.Lang("Your password must be at least 6 characters long")"
-                },
-                confirmPassword: {
-                    required: "@Html.Lang("Please provide a password")",
-                    minlength: "@Html.Lang("Your password must be at least 6 characters long")",
-                    equalTo: "@Html.Lang("Please enter the same password as above")"
-                },
-                email: "@Html.Lang("Please enter a valid email address.")",
-                termsofservice: "@Html.Lang("Please accept our TOS.")"
-            }
-        });
-
-        $("#imglink").click(function () {
-            $(this).find("img").attr("src", "/cci?" + Math.random())
-        });
-        $("#registerForm").submit(function (event) {
-            event.preventDefault();
-            if ($(this).valid()) {
-                var wallet = ripple.Wallet.generate();
-                var password = $("#password").val();
-                var rpwd = Crypto.MD5(password);
-                if (wallet) {
-                    var secret_encypt = ripple.sjcl.encrypt(rpwd, wallet.secret);
-                    $.ajax({
-                        type: 'POST',
-                        url: '/registerUser',
-                        data: $(this).serialize() + "&address=" + wallet.address + "&secret=" + secret_encypt,
-                        success: function (data) {
-                            if (data.Code == 1) {
-                                window.location = '/my/profile';
-                            } else {
-                                $('#spanFailBox').html(data.Message);
-                                $('#failBox').show();
-                                $('html, body').animate({
-                                    scrollTop: $("#failBox").offset().top - 95
-                                }, 1000);
+                    validators: {
+                        notEmpty: {
+                            message: '请输入密码'
+                        },
+                        different: {
+                            field: 'email',
+                            message: '请不要使用与邮箱地址完全相同的密码'
+                        },
+                        callback: {
+                            callback: function (value, validator) {
+                                // Check the password strength
+                                if (value.length < 6) {
+                                    return {
+                                        valid: false,
+                                        message: '密码不能少于6个字符'
+                                    }
+                                }
+                                return true;
                             }
                         }
-                    });
+                    }
+                },
+                confirmPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: '请再次输入密码'
+                        },
+                        identical: {
+                            field: 'password',
+                            message: '两次输入密码不一致'
+                        },
+                        callback: {
+                            callback: function (value, validator) {
+                                // Check the password strength
+                                if (value.length < 6) {
+                                    return {
+                                        valid: false,
+                                        message: '密码不能少于6个字符'
+                                    }
+                                }
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
+            var $form = $(e.target);
+
+            $.ajax({
+                type: 'POST',
+                url: '/registerUser',
+                data: $form.serialize(), //+ "&address=" + wallet.address + "&secret=" + secret_encypt,
+                success: function (data) {
+                    if (data.Code == 1) {
+                        window.location = '/my/profile';
+                    } else {
+                        $('#spanFailBox').html(data.Message);
+                        $('#failBox').show();
+                        $('html, body').animate({
+                            scrollTop: $("#failBox").offset().top - 95
+                        }, 1000);
+                    }
+                }
+            });
+        }).on('error.validator.bv', function (e, data) {
+            data.element
+                .data('bv.messages')
+                .find('.help-block[data-bv-for="' + data.field + '"]').hide()
+                .filter('[data-bv-validator="' + data.validator + '"]').show();
         });
+         
     });
 </script>

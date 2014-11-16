@@ -12,7 +12,7 @@ using DotPay.Persistence;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using System.IO; 
+using System.IO;
 using FC.Framework.Utilities;
 using DotPay.MainDomain.Repository;
 using DotPay.MainDomain;
@@ -34,10 +34,10 @@ namespace DotPay.CommandExecutor.Test
         {
             var password = Guid.NewGuid().Shrink();
             var email = "test" + password.GetHashCode() + "@mytest.com";
-            var rippleAddress = "test" + password.GetHashCode() + "@mytest.com";
-            var rippleSecret = "test" + password.GetHashCode() + "@mytest.com";
+            //var rippleAddress = "test" + password.GetHashCode() + "@mytest.com";
+            //var rippleSecret = "test" + password.GetHashCode() + "@mytest.com";
 
-            var cmd = new UserRegister(email, password, rippleAddress, rippleSecret, 8);
+            var cmd = new UserRegister(email, password, /*rippleAddress, rippleSecret,*/ 8);
             Assert.DoesNotThrow(delegate
             {
                 this.commandBus.Send(cmd);

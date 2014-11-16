@@ -2,23 +2,32 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@Html.Lang("website_Title")</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="dotpay" name="keywords">
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <meta content="dotpay" name="keywords"> 
-    <script src="~/public/js/lib/jquery/jquery.min.js"></script>
-    <script src="~/public/js/lib/jquery/jquery.validate.min.js"></script> 
-    <script src="~/public/js/ripple/ripple.js"></script>
+    <link href="~/public/libs/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/public/libs/bootstrap-validator/css/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/public/css/layout.css" rel="stylesheet" />
-    <link href="~/public/css/main.css" rel="stylesheet" />
-    @RenderSection("scripts", required: false) 
+    <link href="~/public/css/profile.css" rel="stylesheet" />
+    <script src="~/public/libs/jquery/jquery.min.js"></script>
+    <script src="~/public/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="~/public/libs/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+    <script src="~/public/libs/ripple/ripple-min.js"></script>
+    @RenderSection("scripts", required: false)
 </head>
-<body>
-    @Html.Partial("_top") 
-    <div id="contentinner">
-        @RenderBody()
-    </div>
-    @Html.Partial("_foot") 
+<body style="padding-bottom: 70px;">
+    @Html.Partial("_top")
+    @RenderBody()
+    <footer id="footer" class="dotpay-footer navbar-fixed-bottom">
+        <div>
+            <div id="copyright">
+                Copyright©2008-2014 All Rights Reserved 点付科技版权所有 |
+                ICP备案：沪ICP备123456789号-2
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

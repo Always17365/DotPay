@@ -56,7 +56,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Enum\ArticleCategory.cs" />
     <Compile Include="Enum\Bank.cs" />
-    <Compile Include="Enum\RippleTxState.cs" />
+    <Compile Include="Enum\TransactionState.cs" />
     <Compile Include="Enum\Lang.cs" />
     <Compile Include="Enum\StatisticsType.cs" />
     <Compile Include="Enum\UserVipLevel.cs" />

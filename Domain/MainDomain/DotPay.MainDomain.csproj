@@ -66,6 +66,8 @@
     <Compile Include="DomainEvents\Membership\VipSettingEvents.cs" />
     <Compile Include="DomainEvents\OpenAuthShip\OpenAuthShipEvents.cs" />
     <Compile Include="DomainEvents\SmsInterface\SmsInterfaceEvents.cs" />
+    <Compile Include="DomainEvents\TransferTransaction\OutputTransferTransactionEvents.cs" />
+    <Compile Include="DomainEvents\TransferTransaction\InternalTransferTransactionEvents.cs" />
     <Compile Include="DomainEvents\VirtualCoinPayment\PaymentAddressEvents.cs" />
     <Compile Include="DomainEvents\VirtualCoinPayment\PaymentTransactionEvents.cs" />
     <Compile Include="DomainEvents\Withdraw\BankOutletsEvents.cs" />
@@ -132,6 +134,13 @@
     <Compile Include="Domain\CacheManager.cs" />
     <Compile Include="Domain\LogWriter\LoginLogWriter.cs" />
     <Compile Include="Domain\SmsInterface\SmsInterface.cs" />
+    <Compile Include="Domain\Transfer\ConcreteInsideTransfer\USDInsideTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
+    <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />
+    <Compile Include="Domain\Transfer\TransferTransactionExceptions.cs" />
+    <Compile Include="Domain\Transfer\OutputTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\InsideTransferTransaction.cs" />
     <Compile Include="Domain\VirtualCoinPayment\Exceptions\PaymentTransactionExceptions.cs" />
     <Compile Include="Domain\VirtualCoinPayment\PaymentAddress.cs" />
     <Compile Include="Domain\VirtualCoinPayment\ReceivePaymentTransaction.cs" />
@@ -165,6 +174,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Account\Currency.cs" />
     <Compile Include="Domain\DomainBase.cs" />
+    <Compile Include="Repository\IInsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\IFundSourceRepository.cs" />
     <Compile Include="Repository\IDepositRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />

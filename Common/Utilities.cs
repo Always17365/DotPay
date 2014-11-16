@@ -25,17 +25,15 @@ namespace DotPay.Common
         }
 
         /// <summary>
-        /// generate exchange and queue name of create payment address
+        /// generate exchange and queue name for inside transafer
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
         /// </summary>
         /// <param name="CurrencyType">currency</param>
         /// <returns></returns>
-        public static Tuple<string, string> GenerateExchangeAndQueueNameOfCreatePaymentAddress(CurrencyType currency)
+        public static Tuple<string, string> GenerateExchangeAndQueueNameOfInsideTransfer()
         {
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-            var exchangeName = currency.ToString() + "_CREATE_ADDRESS_EXCHANGE";
-            var queueName = currency.ToString() + "_CREATE_ADDRESS_QUEUE";
+            var exchangeName = "_INSIDE_TRANSFER_EXCHANGE";
+            var queueName = "_INSIDE_TRANSFER_QUEUE";
 
             return new Tuple<string, string>(exchangeName, queueName);
         }

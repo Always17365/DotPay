@@ -17,6 +17,8 @@ namespace DotPay.MainDomain
                                   IEventHandler<VirtualCoinDepositCompleted>,         //虚拟币充值完成 
                                   IEventHandler<CNYWithdrawCreated>,                  //cny提现创建 
                                   IEventHandler<CNYWithdrawSetFee>,                   //cny提现计入提现费
+                                  IEventHandler<InsideTransferTransactionCreated>,
+                                  IEventHandler<InsideTransferTransactionComplete>,
         //IEventHandler<CNYWithdrawCompleted>,                //cny提现完成
                                   IEventHandler<CNYWithdrawCanceled>,                 //cny提现撤销
                                   IEventHandler<VirtualCoinWithdrawCreated>,          //虚拟币提现创建
@@ -130,5 +132,32 @@ namespace DotPay.MainDomain
                                                            @event.WithdrawEntity.UniqueID, @event.Currency));
         }
 
+
+        public void Handle(InsideTransferTransactionComplete @event)
+        {
+            var transferTransaction = IoC.Resolve<IInsideTransferTransactionRepository>().FindTransferTxByID(@event.InternalTransferID, @event.Currency);
+            var toAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transferTransaction.ToUserID, @event.Currency);
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transferTransaction.ToUserID, @event.Currency);
+
+            if (toAccount == null)
+            {
+                toAccount = AccountFactory.CreateAccount(transferTransaction.ToUserID, @event.Currency);
+                IoC.Resolve<IRepository>().Add(toAccount);
+            }
+
+            fromAccount.BalanceDecrease(transferTransaction.Amount); 
+            toAccount.BalanceIncrease(transferTransaction.Amount); 
+        }
+
+        public void Handle(InsideTransferTransactionCreated @event)
+        {
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(@event.FromUserID, @event.Currency);
+
+            if (fromAccount == null)
+            {
+                fromAccount = AccountFactory.CreateAccount(@event.FromUserID, @event.Currency);
+                IoC.Resolve<IRepository>().Add(fromAccount);
+            }
+        }
     }
 }

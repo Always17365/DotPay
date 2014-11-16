@@ -1,0 +1,203 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@using FC.Framework;
+@using DotPay.ViewModel
+@using DotPay.Common
+@using DotPay.Language
+<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/assets"> 我的资金</a></li>
+                <li><a href="/txrecords">交易记录</a></li>
+                <li><a href="/settings">账户设置</a></li>
+                <li class="active"><a href="/apps">应用中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container dotpay-apps">
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading app-group">
+                <strong>转账</strong>
+            </div>
+            <div class="list-group">
+                <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> CNY转账</a>
+                <a href="/transfer/usd/payment" class="list-group-item app-link usd-transfer"> USD转账</a>
+            </div>
+            <div class="panel-heading dotpay-transfer-title">
+                汇兑
+            </div>
+            <div class="list-group">
+                <a class="list-group-item app-link exchange">货币兑换</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-info">
+            <div class="panel-heading dotpay-transfer-title">
+                <h4>转账到点付- @ViewBag.Currency</h4>
+            </div>
+            <div class="panel-body">
+                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfer/inside/cny/submit">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-sm-2 control-label">收款人：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail" name="frontEmail" placeholder="邮箱地址">
+                            <input type="hidden" id="realEmail" name="account" placeholder="邮箱地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">付款金额：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="amount" name="amount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">付款说明：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="转账">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <button type="submit" class="btn btn-default">提 交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#transferFrom').bootstrapValidator({
+                message: '请输入合法的值',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                trigger: 'cut paste blur',
+                fields: {
+                    frontEmail: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入邮箱地址!'
+                            },
+                            emailAddress: {
+                                message: '请输入一个正确的邮箱地址'
+                            },
+                            callback: {
+                                callback: function (value, validator) {
+                                    $.post("/transfer/queryacct",
+                                         { "account": value, "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                                         function (data) {
+                                             if (data.Valid == true) {
+                                                 $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
+                                                 $("#realEmail").val(data.Account);
+                                                 validator.updateStatus('frontEmail', 'VALID', 'callback');
+                                             }
+                                             else {
+                                                 $("#inputEmail").tooltip({
+                                                     trigger: 'click',
+                                                     placement: 'bottom',
+                                                     template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+                                                     title: data.Message
+                                                 }).tooltip('show');
+                                                 validator.updateStatus('frontEmail', validator.STATUS_INVALID, 'callback');
+                                             }
+                                         });
+                                    return { valid: false, message: " " };
+                                }
+                            }
+                        }
+                    },
+                    amount: {
+                        validators: {
+                            notEmpty: {
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            regexp: {
+                                regexp: /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/,
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            callback: {
+                                callback: function (value, validator) {
+                                    if (parseFloat(value) < 0.01) {
+                                        return {
+                                            valid: false,
+                                            message: '金额不能小于0.01'
+                                        }
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+             /*   .on('success.form.bv', function (e) {
+                e.preventDefault();
+                var $form = $(e.target);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/transfer/inside/{currency}/submit',
+                    data: $form.serialize(),
+                    success: function (data) {
+                        if (data.Code == 1) {
+                            window.location = '/my/profile';
+                        } else {
+                            $('#spanFailBox').html(data.Message);
+                            $('#failBox').show();
+                            $('html, body').animate({
+                                scrollTop: $("#failBox").offset().top - 95
+                            }, 1000);
+                        }
+                    }
+                });
+            })*/
+            .on('error.validator.bv', function (e, data) {
+                data.element
+                    .data('bv.messages')
+                    .find('.help-block[data-bv-for="' + data.field + '"]').hide()
+                    .filter('[data-bv-validator="' + data.validator + '"]').show();
+            });
+        });
+        $("#inputEmail").on("click", function () {
+            var val = $("#realEmail").val();
+            if (val)
+                $(this).val(val);
+        });
+        //$("#inputEmail").on("blur", function () {
+        //    var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
+        //    if (reg.test($(this).val())) {
+        //        $.post("/transfer/queryacct",
+        //               { "account": $(this).val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+        //               function (data) {
+        //                   if (data.Valid == true) {
+        //                       $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
+        //                       $("#realEmail").val(data.Account);
+        //                   }
+        //                   else {
+        //                       $("#inputEmail").tooltip({
+        //                           trigger: 'click',
+        //                           placement: 'bottom',
+        //                           template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+        //                           title: data.Message
+        //                       }).tooltip('show')
+        //                   }
+        //               })
+        //    }
+        //});
+    </script>
+</div>

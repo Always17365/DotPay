@@ -1,11 +1,16 @@
 ﻿@using DotPay.Language
-<ul class="tabs">
-    <li><a href="/profile">@Html.Lang("Profile")</a></li>
-    <li class="active"><a href="/balances">@Html.Lang("Balances")</a></li>
-    <li><a href="/orders">@Html.Lang("Orders")</a></li>
-    <li><a href="/trades">@Html.Lang("Trade History")</a></li>
-    <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
-</ul>
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+<div class="profile_nav">
+    <ul class="tabs">
+        <li class="active"><a href="/my/profile">我的点付</a></li>
+        <li><a href="/balances">@Html.Lang("Balances")</a></li>
+        <li><a href="/txrecords">交易记录</a></li>
+        <li><a href="/settings">账户设置</a></li>
+        <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
+    </ul>
+</div>
 
 <h2>人民币充值 <span class="coinname">CNY</span></h2>
 
@@ -78,7 +83,6 @@
 </div>
 <div class="box fail" style="margin: 25px 0 0;">
     <strong>请注意:</strong> 聚宝盆推出充值码站内转账服务，所有币种均可生成或冲入聚宝盆充值码。请在保证安全的情况下，从其他用户或者代理手中购买充值码。如有问题请务必通过官方企业QQ联系在线客服：4000550698 ，或致电我们 4000550698。 如下班时间客服不在线，请发邮件到 Email: support@fullcoin.com，我们会及时为您处理。
-    <script src="/public/js/jquery.validate.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#changeCode").click(function () {

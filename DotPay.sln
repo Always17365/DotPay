@@ -57,8 +57,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.MainDomain", "Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RippleDomain", "Domain\RippleDomain\DotPay.RippleDomain.csproj", "{330457D3-9BEC-49F0-B42C-F83EB3B3F1A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RippleMonitor", "RippleMonitor\DotPay.RippleMonitor.csproj", "{4D607F19-1915-4FF4-8062-D76315C9DB4A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Command", "Command", "{7231FD75-3F1F-45B4-B696-AF1748CA7BA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandExecutor", "CommandExecutor", "{CAA5FF23-8DA0-4C7F-AC0A-B7C330896C97}"
@@ -76,6 +74,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RipplePersistence", "Persistence\Ripple\DotPay.RipplePersistence.csproj", "{666500EE-30C4-4EE4-876A-DC1E6AAB4378}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.RippleCommand.Executor", "Application\CommandExecutor\RippleCommand\DotPay.RippleCommand.Executor.csproj", "{348A0490-C89E-4BB6-8426-3146CBEDBE51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.TransferMonitor", "OutsideTransferMonitor\DotPay.TransferMonitor.csproj", "{4D607F19-1915-4FF4-8062-D76315C9DB4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,10 +139,6 @@ Global
 		{330457D3-9BEC-49F0-B42C-F83EB3B3F1A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{330457D3-9BEC-49F0-B42C-F83EB3B3F1A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{330457D3-9BEC-49F0-B42C-F83EB3B3F1A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBC4A647-AFB1-42E2-AB93-AE7386031E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -167,6 +163,10 @@ Global
 		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{348A0490-C89E-4BB6-8426-3146CBEDBE51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D607F19-1915-4FF4-8062-D76315C9DB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

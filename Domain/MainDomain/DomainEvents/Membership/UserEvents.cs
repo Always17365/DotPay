@@ -13,20 +13,20 @@ namespace DotPay.MainDomain.Events
     #region UserReigisted event
     public class UserRegisted : DomainEvent
     {
-        public UserRegisted(int commendBy, string email, string password, string rippleAddress, string rippleSecret, int timezone, User registUser)
+        public UserRegisted(int commendBy, string email, string password, /*string rippleAddress, string rippleSecret,*/ int timezone, User registUser)
         {
             this.CommendBy = commendBy;
             this.TimeZone = timezone;
-            this.RippleAddress = rippleAddress;
-            this.RippleSecret = rippleSecret;
-            this.Email = email; 
+            //this.RippleAddress = rippleAddress;
+            //this.RippleSecret = rippleSecret;
+            this.Email = email;
             this.Password = password;
             this.RegistUser = registUser;
         }
         public int CommendBy { get; private set; }
         public int TimeZone { get; private set; }
-        public string RippleAddress { get; private set; }
-        public string RippleSecret { get; private set; }
+        //public string RippleAddress { get; private set; }
+        //public string RippleSecret { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
         public User RegistUser { get; private set; }
@@ -34,18 +34,18 @@ namespace DotPay.MainDomain.Events
 
     public class UserRegistedByOpenAuth : DomainEvent
     {
-        public UserRegistedByOpenAuth(int commendBy, string nickName, string rippleAddress, string rippleSecret, string password)
+        public UserRegistedByOpenAuth(int commendBy, string nickName, /*string rippleAddress, string rippleSecret,*/ string password)
         {
             this.CommendBy = commendBy;
             this.NickName = nickName;
-            this.RippleAddress = rippleAddress;
-            this.RippleSecret = rippleSecret;
+            //this.RippleAddress = rippleAddress;
+            //this.RippleSecret = rippleSecret;
             this.Password = password;
         }
         public int CommendBy { get; private set; }
         public string NickName { get; private set; }
-        public string RippleAddress { get; private set; }
-        public string RippleSecret { get; private set; }
+        //public string RippleAddress { get; private set; }
+        //public string RippleSecret { get; private set; }
         public string Password { get; private set; }
     }
     #endregion

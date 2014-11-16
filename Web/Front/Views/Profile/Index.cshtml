@@ -4,63 +4,105 @@
 @using DotPay.Language
 @using DotPay.Web
 @using FC.Framework
-<div class="profile_nav">
-    <ul class="tabs">
-        <li class="active"><a href="/my/profile">我的点付</a></li>
-        <li><a href="/balances">@Html.Lang("Balances")</a></li>
-        <li><a href="/orders">@Html.Lang("Orders")</a></li>
-        <li><a href="/trades">@Html.Lang("Trade History")</a></li>
-        <li><a href="/loginHistory">@Html.Lang("Login History")</a></li>
-    </ul>
-</div>
+<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/assets"> 我的资金</a></li>
+                <li><a href="/txrecords">交易记录</a></li>
+                <li><a href="/settings">账户设置</a></li>
+                <li class="active"><a href="/apps">应用中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row dotpay-i-assets-panel">
+    <div class="container">
+        <div class="acct_status">
+            <label>账户状态:</label>未认证<i> <a href="#">获得账户认证</a></i>
+        </div>
+        <table class="table acct_assets">
+            <tr>
+                <td>
+                    <div class="assets-content">
+                        <label class="assets-header">人民币余额:</label>
+                        <div>
+                            <p class=" assets-amount">
+                                <strong class="amount">10<span class="fen">.41</span></strong>
+                            </p>
+                            <p class="assets-des">
+                                <a class="btn btn-default btn-xs" href="/deposit/cny">充值</a>
+                                <a class="btn btn-default btn-xs" href="/withdraw/cny">提现</a>
+                                <a class="btn btn-default btn-xs" href="/transfer/cny">转账</a>
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td rowspan="2" class="assets-chart">占位文字，将来放置一个图表</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="assets-content">
+                        <label class="assets-header">美元余额:</label>
+                        <div>
+                            <p class=" assets-amount">
+                                <strong class="amount">670<span class="fen">.24</span></strong>
+                            </p>
+                            <p class="assets-des">
+                                <a class="btn btn-default btn-xs" href="/deposit/usd">充值</a>
+                                <a class="btn btn-default btn-xs" href="/withdraw/usd">提现</a>
+                                <a class="btn btn-default btn-xs" href="/transfer/usd">转账</a>
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<h2>欢迎您，@ViewBag.CurrentUser.NickName</h2>
-<div class="success box" id="sucessBox" style="display:none;">
-    <img src="/public/images/success.png" alt="Success!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_success")!</strong><br><span id="spanSuccessBox"></span>
+    <div class="container panel panel-default  tx-records">
+        <div class="panel-heading tx-heading">
+            <h3 class="panel-title">交易记录</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:180px;">流水号</th>
+                        <th style="width:180px;">日期</th>
+                        <th style="width:180px;">名称|备注</th>
+                        <th style="width:180px;">收入</th>
+                        <th style="width:180px;">支出</th>
+                        <th style="width:180px;">账户余额</th>
+                        <th style="width:180px;">支付方式</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div class="fail box" id="failBox" style="display:none;">
-    <img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
-</div>
-<div id="acct_status">
-    <label>状态:</label> <span>未认证 <a href="#">获得账户认证</a></span>
-</div>
-<div id="acct_balance" class="balance" style="font-size: 16px;padding: 10px;">
-    <label>人民币余额:</label> <span>￥ 10</span> <a href="#">充值</a> <a href="#">提现</a> <a href="#">转账</a>
-</div>
-
-<div id="transaction_records" class="tx_records">
-    <div class="title">交易记录</div>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th style="width:180px;">流水号</th>
-                <th style="width:180px;">日期</th>
-                <th style="width:180px;">名称|备注</th>
-                <th style="width:180px;">收入</th>
-                <th style="width:180px;">支出</th>
-                <th style="width:180px;">账户余额</th>
-                <th style="width:180px;">支付方式</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<script src="/public/js/jquery.validate.min.js"></script>
-<script src="/public/js/profile.js"></script>

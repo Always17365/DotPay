@@ -12,25 +12,25 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
     {
-        public UserRegister(string email, string password, string rippleAddress, string rippleSecret, int timezone, int commendBy = 0)
+        public UserRegister(string email, string password, /*string rippleAddress, string rippleSecret, */int timezone, int commendBy = 0)
         {
             Check.Argument.IsNotNegative(commendBy, "commendBy");
-            Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
+            //Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
             Check.Argument.IsNotInvalidEmail(email, "email");
             Check.Argument.IsNotEmpty(password, "password");
 
             this.Email = email;
             this.Password = password;
-            this.RippleAddress = rippleAddress;
-            this.RippleSecret = rippleSecret;
+            //this.RippleAddress = rippleAddress;
+            //this.RippleSecret = rippleSecret;
             this.TimeZone = timezone;
             this.CommendBy = commendBy;
         }
 
         public string Email { get; private set; }
         public string Password { get; private set; }
-        public string RippleAddress { get; private set; }
-        public string RippleSecret { get; private set; }
+        //public string RippleAddress { get; private set; }
+        //public string RippleSecret { get; private set; }
         public int TimeZone { get; private set; }
         public int CommendBy { get; private set; }
     }

@@ -49,7 +49,7 @@ namespace DotPay.CommandExecutor.Test
                 while (i < 10)
                 {
                     i++;
-                    var cmd = new UserRegister("email" + i.ToString() + "@11.com", "1", "2", i.ToString(), 8);
+                    var cmd = new UserRegister("email" + i.ToString() + "@11.com", "1", 8);
 
                     IoC.Resolve<ICommandBus>().Send(cmd);
                 }

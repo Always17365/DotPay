@@ -1,0 +1,15 @@
+﻿[accounts]
+rM8199qFwspxiWNZRChZdZbGN5WrCepVP1
+
+[domain]
+dotpay.co
+ 
+[hotwallets]
+#CNY
+rHTLdR8F4v9gJmLoW6Fk6zmBvCM2bqzqLP 
+
+[currencies]
+CNY 
+USD
+[federation_url]
+https://www.dotpay.co/bridge

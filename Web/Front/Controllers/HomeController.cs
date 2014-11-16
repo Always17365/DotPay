@@ -32,6 +32,16 @@ namespace DotPay.Web.Controllers
             return View();
         }
         #endregion
+
+        #region ripple txt
+        [Route("~/ripple.txt")] 
+        [AllowAnonymous]
+        public ActionResult RippleTxt()
+        { 
+            return File("~/App_Data/ripple.txt", "text/plain" );
+        }
+        #endregion
+
         #region 关于我们
         [Route("~/about")]
         [AllowAnonymous]
@@ -130,12 +140,34 @@ namespace DotPay.Web.Controllers
         #endregion
 
         #region Post
+        #region ValidateEmail
+        [Route("~/ValidateEmail")]
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ValidateEmail(string email)
+        {
+            var valid = false;
+            email = email.NullSafe().Trim();
+
+            if (!string.IsNullOrEmpty(email) && email.IsEmail())
+            {
+                valid = !IoC.Resolve<IUserQuery>().ExistUserByEmail(email);
+                if (!valid)
+                    return Json(new { valid = false, message = "该邮件地址已存在" });
+                else
+                    return Json(new { valid = true });
+            }
+
+            return Json(new { valid = false });
+        }
+        #endregion
         #region Register
         [Route("~/registerUser")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(string email, string password, string address, string secret, string checkcode)
+        public ActionResult Register(string email, string password, /*string address, string secret,*/ string checkcode)
         {
             var tmpObj = new object();
             var cacheKey = CacheKey.USER_REGISTER_EMAIL + email;
@@ -147,7 +179,7 @@ namespace DotPay.Web.Controllers
             }
             if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password))
             {
-                if (Cache.TryGet(cacheKey, out tmpObj))
+                if (IoC.Resolve<IUserQuery>().ExistUserByEmail(email))
                     result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
                 else
                 {
@@ -157,7 +189,7 @@ namespace DotPay.Web.Controllers
 
                     try
                     {
-                        var cmd = new UserRegister(email, password, address, secret, 8, conmentBy);
+                        var cmd = new UserRegister(email, password, /*address, secret,*/ 8, conmentBy);
                         this.CommandBus.Send(cmd);
                         var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
                         Session[Constants.TmpUserKey] = loginUser;
@@ -500,23 +532,6 @@ namespace DotPay.Web.Controllers
                 {
                     return Redirect("~/emailActiveSuccess-3");
                 }
-            }
-        }
-
-        #endregion
-
-        #region 验证邮件是否已存在
-        [HttpPost]
-        [Route("~/existEmail")]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExistEmail(string email)
-        {
-            if (!email.NullSafe().IsEmail()) return Json(-1);
-            else
-            {
-                var count = IoC.Resolve<IUserQuery>().CountUserByEmail(email);
-                return Json(count);
             }
         }
 

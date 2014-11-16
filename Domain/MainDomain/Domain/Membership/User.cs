@@ -43,15 +43,15 @@ namespace DotPay.MainDomain
         #region ctor
         protected User() { }
 
-        public User(int commendBy, string email, string password, string rippleAddress, string rippleSecret, int timezone)
+        public User(int commendBy, string email, string password, /*string rippleAddress, string rippleSecret,*/ int timezone)
         {
-            this.RaiseEvent(new UserRegisted(commendBy, email, password, rippleAddress, rippleSecret, timezone, this));
+            this.RaiseEvent(new UserRegisted(commendBy, email, password,/* rippleAddress, rippleSecret,*/ timezone, this));
             if (commendBy > 0) this.Apply(new UserCommendSuccess(commendBy));
         }
 
-        public User(int commendBy, string nickName, string password, string rippleAddress, string rippleSecret, OpenAuthType openAuthType)
+        public User(int commendBy, string nickName, string password, /*string rippleAddress, string rippleSecret,*/ OpenAuthType openAuthType)
         {
-            this.RaiseEvent(new UserRegistedByOpenAuth(commendBy, nickName, rippleAddress, rippleSecret, password));
+            this.RaiseEvent(new UserRegistedByOpenAuth(commendBy, nickName, /*rippleAddress, rippleSecret,*/ password));
             if (commendBy > 0) this.Apply(new UserCommendSuccess(commendBy));
         }
         #endregion
@@ -62,8 +62,6 @@ namespace DotPay.MainDomain
         public virtual int CommendCounter { get; protected set; }
         public virtual string NickName { get; protected set; }
         public virtual string Email { get; set; }
-        public virtual string RippleAddress { get; protected set; }
-        public virtual string RippleSecret { get; protected set; }
         public virtual UserVipLevel VipLevel { get; protected set; }
         public virtual int Role { get; protected set; }
         public virtual string Mobile { get; protected set; }
@@ -411,8 +409,8 @@ namespace DotPay.MainDomain
             this.VipLevel = UserVipLevel.Vip0;
             this.IsOpenAuth = false;
             this.TimeZone = @event.TimeZone;
-            this.RippleAddress = @event.RippleAddress;
-            this.RippleSecret = @event.RippleSecret;
+            //this.RippleAddress = @event.RippleAddress;
+            //this.RippleSecret = @event.RippleSecret;
             this.Role = 0;
             this.TwoFactorFlg = 0;
             this.Mobile = string.Empty;
@@ -427,8 +425,8 @@ namespace DotPay.MainDomain
             this.TwoFactorFlg = 0;
             this.TimeZone = 8;
             this.IsOpenAuth = true;
-            this.RippleAddress = @event.RippleAddress;
-            this.RippleSecret = @event.RippleSecret;
+            //this.RippleAddress = @event.RippleAddress;
+            //this.RippleSecret = @event.RippleSecret;
             this.Email = string.Empty;
             this.VipLevel = UserVipLevel.Vip0;
             this.Role = 0;

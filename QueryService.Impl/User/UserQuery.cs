@@ -93,7 +93,7 @@ namespace DotPay.QueryService.Impl
                                    .QuerySingle<LoginUser>();
 
                 if (user != null)
-                    Cache.Add(cacheKey, user);
+                    Cache.Add(cacheKey, user, new TimeSpan(1, 0, 0));
             }
             return user;
         }
@@ -114,7 +114,7 @@ namespace DotPay.QueryService.Impl
                                    .QuerySingle<LoginUser>();
 
                 if (user != null)
-                    Cache.Add(cacheKey, user);
+                    Cache.Add(cacheKey, user, new TimeSpan(1, 0, 0));
             }
 
             return user;
@@ -129,6 +129,15 @@ namespace DotPay.QueryService.Impl
                                     .QuerySingle<int>();
 
             return count;
+        }
+
+        public bool ExistUserByEmail(string email)
+        {
+            Check.Argument.IsNotEmpty(email, "email");
+
+            var count = this.CountUserByEmail(email);
+
+            return count > 0;
         }
 
         public int CountUserByMobile(string mobile)
@@ -228,7 +237,7 @@ namespace DotPay.QueryService.Impl
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
 
             UserVipInfoModel vipInfo;
-            var cacheKey = CacheKey.USER_SCORE_BALANCE + userID; 
+            var cacheKey = CacheKey.USER_SCORE_BALANCE + userID;
 
             if (Config.Debug || !Cache.TryGet(cacheKey, out vipInfo))
             {
@@ -241,7 +250,7 @@ namespace DotPay.QueryService.Impl
         /***********************************************************************************/
         public int GetUsersCurrencyCountBySearch(int? userID, string email, CurrencyType currencyType)
         {
-            var paramters = new object[] { (userID.HasValue ? userID.Value : 0), email.NullSafe()};
+            var paramters = new object[] { (userID.HasValue ? userID.Value : 0), email.NullSafe() };
 
             return this.Context.Sql(getUsersCurrencyCountBySearch_Sql.FormatWith(currencyType.ToString()))
                                .Parameters(paramters)
@@ -252,7 +261,7 @@ namespace DotPay.QueryService.Impl
         {
             var paramters = new object[] { userID.HasValue ? userID.Value : 0, email.NullSafe(), (page - 1) * pageCount, pageCount };
 
-            var users = this.Context.Sql(getUsersCurrencyBySearch_Sql.FormatWith(currencyType.ToString(),order))
+            var users = this.Context.Sql(getUsersCurrencyBySearch_Sql.FormatWith(currencyType.ToString(), order))
                                    .Parameters(paramters)
                                    .QueryMany<UsersCurrencyListModel>();
 
@@ -319,7 +328,7 @@ namespace DotPay.QueryService.Impl
         private readonly string getUserByID_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
                                             t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,
-                                            t1.RippleAddress,t1.RippleSecret,t1.VipLevel,t2.TradePassword
+                                            t1.VipLevel,t2.TradePassword
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   
                                    WHERE   t1.ID=@id ";
@@ -327,7 +336,7 @@ namespace DotPay.QueryService.Impl
         private readonly string getUserByEmail_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                             t1.CreateAt ,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
-                                            t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo ,t1.RippleAddress,t1.RippleSecret
+                                            t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
                                    WHERE   t1.Email=@email";
@@ -339,10 +348,10 @@ namespace DotPay.QueryService.Impl
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
                                    WHERE   t1.Mobile=@mobile";
 
-//        private readonly string userRealNameInfo_Sql =
-//                               @"SELECT    RealName,IdNoType,IdNo 
-//                                    FROM   " + Config.Table_Prefix + @"Membership  
-//                                   WHERE   UserID=@userID";
+        //        private readonly string userRealNameInfo_Sql =
+        //                               @"SELECT    RealName,IdNoType,IdNo 
+        //                                    FROM   " + Config.Table_Prefix + @"Membership  
+        //                                   WHERE   UserID=@userID";
 
         private readonly string countUserByEmail_Sql =
                                @"SELECT   COUNT(*)
@@ -368,12 +377,11 @@ namespace DotPay.QueryService.Impl
         public readonly string getUserByOpenID_Sql =
                               @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                          t1.CreateAt ,t2.IsLocked,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,
-                                         t1.ScoreBalance,t1.VipLevel,t2.TradePassword, t1.RippleAddress,t1.RippleSecret
+                                         t1.ScoreBalance,t1.VipLevel,t2.TradePassword, 
                                    FROM    " + Config.Table_Prefix + @"OpenAuthShip t0
                                            INNER JOIN " + Config.Table_Prefix + @"User t1 ON t0.UserID=t1.ID 
                                            INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   
                                   WHERE   t0.OpenID=@openID AND   t0.Type=@authType";
         #endregion
-
     }
 }

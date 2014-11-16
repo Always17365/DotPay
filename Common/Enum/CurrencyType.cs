@@ -11,9 +11,11 @@ namespace DotPay.Common
     /// </summary>
     public enum CurrencyType
     {
-        [EnumDescription("China Yuan")] 
+        [EnumDescription("CNY")]
         CNY = 1,
         [EnumDescription("XRP")]
-        XRP = 2 
+        XRP = 2,
+        [EnumDescription("USD")]
+        USD = 3
     }
 }

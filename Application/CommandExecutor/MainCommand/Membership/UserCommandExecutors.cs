@@ -48,7 +48,7 @@ namespace DotPay.Command.Executor
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
-            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), cmd.RippleAddress, cmd.RippleSecret, cmd.TimeZone);
+            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password),/*cmd.RippleAddress, cmd.RippleSecret,*/ cmd.TimeZone);
 
             IoC.Resolve<IUserRepository>().Add(user);
         }
@@ -80,7 +80,7 @@ namespace DotPay.Command.Executor
             if (openAuthShip == null)
             {
                 var randomPassword = PasswordHelper.EncryptMD5(Guid.NewGuid().ToString());
-                var user = new User(cmd.CommendBy, nickName, randomPassword, cmd.RippleAddress, cmd.RippleSecret, openAuthType);
+                var user = new User(cmd.CommendBy, nickName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
 
                 commonRepos.Add(user);
 
@@ -108,7 +108,7 @@ namespace DotPay.Command.Executor
             if (openAuthShip == null)
             {
                 var randomPassword = PasswordHelper.EncryptMD5(Guid.NewGuid().ToString());
-                var user = new User(cmd.CommendBy, nickName, randomPassword, cmd.RippleAddress, cmd.RippleSecret, openAuthType);
+                var user = new User(cmd.CommendBy, nickName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
 
                 commonRepos.Add(user);
 
