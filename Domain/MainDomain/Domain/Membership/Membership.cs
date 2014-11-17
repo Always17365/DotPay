@@ -19,21 +19,21 @@ namespace DotPay.MainDomain
         {
         }
 
-        public Membership(User owner, string userEmail, string password)
+        public Membership(User owner, string userEmail, string password, string tradePassword)
         {
             this.Owner = owner;
 
             //set the default value   
-            this.Email = userEmail; 
+            this.Email = userEmail;
             this.IsLocked = false;
             this.Password = password;
             this.PasswordResetToken = string.Empty;
             this.TradePasswordResetToken = string.Empty;
-            this.TradePassword = string.Empty;
+            this.TradePassword = tradePassword;
             this.CreateAt = DateTime.Now.ToUnixTimestamp();
             this.IdNo = string.Empty;
             this.IdNoType = default(Common.IdNoType);
-            this.RealName = string.Empty;  
+            this.RealName = string.Empty;
         }
         #endregion
 
@@ -44,7 +44,7 @@ namespace DotPay.MainDomain
         public virtual IdNoType IdNoType { get; protected set; }
         public virtual string RealName { get; protected set; }
         public virtual int RegisterAt { get; protected set; }
-        public virtual int CreateAt { get; protected set; } 
+        public virtual int CreateAt { get; protected set; }
         public virtual bool IsLocked { get; protected set; }
         public virtual int LockAt { get; protected set; }
         public virtual int UnLockAt { get; protected set; }
@@ -90,7 +90,7 @@ namespace DotPay.MainDomain
 
             return verify;
         }
- 
+
         public virtual void ChangePassword(string newPassword)
         {
             this.Password = newPassword;
@@ -158,6 +158,6 @@ namespace DotPay.MainDomain
         {
             this.LastReceiveScoreAt = DateTime.Now.ToUnixTimestamp();
         }
-        #endregion 
+        #endregion
     }
 }

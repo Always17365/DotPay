@@ -13,7 +13,7 @@ namespace DotPay.MainDomain.Events
     #region UserReigisted event
     public class UserRegisted : DomainEvent
     {
-        public UserRegisted(int commendBy, string email, string password, /*string rippleAddress, string rippleSecret,*/ int timezone, User registUser)
+        public UserRegisted(int commendBy, string email, string password, string tradePassword, int timezone, User registUser)
         {
             this.CommendBy = commendBy;
             this.TimeZone = timezone;
@@ -21,10 +21,12 @@ namespace DotPay.MainDomain.Events
             //this.RippleSecret = rippleSecret;
             this.Email = email;
             this.Password = password;
+            this.TradePassword = tradePassword;
             this.RegistUser = registUser;
         }
         public int CommendBy { get; private set; }
         public int TimeZone { get; private set; }
+        public string TradePassword { get; private set; }
         //public string RippleAddress { get; private set; }
         //public string RippleSecret { get; private set; }
         public string Email { get; private set; }

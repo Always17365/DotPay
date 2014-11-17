@@ -37,7 +37,7 @@ namespace DotPay.CommandExecutor.Test
             //var rippleAddress = "test" + password.GetHashCode() + "@mytest.com";
             //var rippleSecret = "test" + password.GetHashCode() + "@mytest.com";
 
-            var cmd = new UserRegister(email, password, /*rippleAddress, rippleSecret,*/ 8);
+            var cmd = new UserRegister(email, password, password, 8);
             Assert.DoesNotThrow(delegate
             {
                 this.commandBus.Send(cmd);
@@ -47,7 +47,7 @@ namespace DotPay.CommandExecutor.Test
 
             Assert.NotNull(savedUser);
             Assert.Equal(savedUser.Email, email);
-            Assert.True(savedUser.ID > 0); 
+            Assert.True(savedUser.ID > 0);
             Assert.Null(savedUser.GoogleAuthentication);
             Assert.Null(savedUser.SmsAuthentication);
 

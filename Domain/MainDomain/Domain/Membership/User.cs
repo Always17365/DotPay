@@ -42,9 +42,9 @@ namespace DotPay.MainDomain
         #region ctor
         protected User() { }
 
-        public User(int commendBy, string email, string password, /*string rippleAddress, string rippleSecret,*/ int timezone)
+        public User(int commendBy, string email, string password, string tradePassword, int timezone)
         {
-            this.RaiseEvent(new UserRegisted(commendBy, email, password,/* rippleAddress, rippleSecret,*/ timezone, this));
+            this.RaiseEvent(new UserRegisted(commendBy, email, password, tradePassword, timezone, this));
             if (commendBy > 0) this.Apply(new UserCommendSuccess(commendBy));
         }
 
@@ -107,7 +107,7 @@ namespace DotPay.MainDomain
         {
             this.RaiseEvent(new UserLoginSuccess(this.ID, this.Email, ip));
         }
-        #endregion 
+        #endregion
 
         #region set nick name
         public virtual void SetNickName(string nickName)
@@ -383,7 +383,7 @@ namespace DotPay.MainDomain
 
         #endregion
 
-        #region inner event handlers 
+        #region inner event handlers
 
         #region User Registed event handler
         void IEventHandler<UserRegisted>.Handle(UserRegisted @event)
@@ -399,7 +399,7 @@ namespace DotPay.MainDomain
             this.Role = 0;
             this.TwoFactorFlg = 0;
             this.Mobile = string.Empty;
-            this.Membership = new Membership(this, @event.Email, @event.Password);
+            this.Membership = new Membership(this, @event.Email, @event.Password, @event.TradePassword);
             this.CreateAt = DateTime.Now.ToUnixTimestamp();
         }
 
@@ -416,7 +416,7 @@ namespace DotPay.MainDomain
             this.VipLevel = UserVipLevel.Vip0;
             this.Role = 0;
             this.Mobile = string.Empty;
-            this.Membership = new Membership(this, string.Empty, @event.Password);
+            this.Membership = new Membership(this, string.Empty, @event.Password, string.Empty);
             this.CreateAt = DateTime.Now.ToUnixTimestamp();
         }
         #endregion

@@ -163,7 +163,7 @@ namespace DotPay.Web.Controllers
 
             if (!string.IsNullOrEmpty(email) && email.IsEmail())
             {
-                valid = !IoC.Resolve<IUserQuery>().ExistUserByEmail(email);
+                valid = !IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmail(email);
                 if (!valid)
                     return Json(new { valid = false, message = "该邮件地址已存在" });
                 else
@@ -226,21 +226,19 @@ namespace DotPay.Web.Controllers
                 var email = Session["PreRegistrationEmail"].ToString();
                 var token = Session["PreRegistrationToken"].ToString();
 
-                var tmpObj = new object(); 
+                var tmpObj = new object();
                 var result = FCJsonResult.UnknowFail;
 
 
                 if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password))
                 {
-                    if (IoC.Resolve<IUserQuery>().ExistUserByEmail(email))
+                    if (IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
                         result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
                     else
                     {
-                        var conmentBy = Session["commendBy"] == null ? 0 : (int)Session["commendBy"];
-
                         try
                         {
-                            var cmd = new UserRegister(email, password, /*address, secret,*/ 8, conmentBy);
+                            var cmd = new UserRegister(email, password, tradepassword, 8, 0);
                             this.CommandBus.Send(cmd);
                             var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
                             Session[Constants.TmpUserKey] = loginUser;
@@ -543,45 +541,6 @@ namespace DotPay.Web.Controllers
             catch (CommandExecutionException ex)
             {
                 return Json(new FCJsonResult(ex.ErrorCode));
-            }
-        }
-
-        #endregion
-
-        #region Email Active
-        [Route("~/active/{email}/{token}")]
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult ActiveEmail(string email, string token)
-        {
-            email = HttpUtility.UrlDecode(email.NullSafe());
-
-            if (!email.NullSafe().IsEmail())
-            {
-                return Redirect("~/emailActiveSuccess-1");
-            }
-
-            var user = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
-
-            if (user == null)
-            {
-                return Redirect("~/emailActiveSuccess-2");
-            }
-            else
-            {
-                try
-                {
-                    var cmd = new UserActiveEmail(user.UserID, token);
-                    this.CommandBus.Send(cmd);
-                    if (this.CurrentUser != null)
-                        this.CurrentUser.IsVerifyEmail = true;
-
-                    return Redirect("~/emailActiveSuccess");
-                }
-                catch (CommandExecutionException)
-                {
-                    return Redirect("~/emailActiveSuccess-3");
-                }
             }
         }
 

@@ -17,8 +17,7 @@ namespace DotPay.Command.Executor
                                         ICommandExecutor<UserLogin>,                               //用户登录   
                                         ICommandExecutor<UserQQLogin>,                             //用户使用QQ登录
                                         ICommandExecutor<UserWeiboLogin>,                          //用户使用微博登录
-                                        ICommandExecutor<UserSetNickName>,                         //修改昵称  
-                                        ICommandExecutor<UserActiveEmail>,                         //用户邮箱验证通过
+                                        ICommandExecutor<UserSetNickName>,                         //修改昵称   
                                         ICommandExecutor<UserRealNameAuth>,                        //实名认证
                                         ICommandExecutor<UserModifyPassword>,                      //修改密码
                                         ICommandExecutor<UserResetPasswordByTwoFactor>,            //修改密码 --通过2FA  
@@ -47,7 +46,7 @@ namespace DotPay.Command.Executor
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
-            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password),/*cmd.RippleAddress, cmd.RippleSecret,*/ cmd.TimeZone);
+            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), cmd.TradePassword, cmd.TimeZone);
 
             IoC.Resolve<IUserRepository>().Add(user);
         }
@@ -314,18 +313,7 @@ namespace DotPay.Command.Executor
             var user = IoC.Resolve<IUserRepository>().FindById<User>(cmd.UserID);
 
             user.SmsAuthentication.CounterAdd();
-        }
-
-
-        public void Execute(UserActiveEmail cmd)
-        {
-            Check.Argument.IsNotNull(cmd, "cmd");
-
-            var user = IoC.Resolve<IUserRepository>().FindById<User>(cmd.UserID);
-
-            user.VerifyEmail(cmd.Token);
-        }
-
+        } 
         public void Execute(UserResetTradePasswordByTwoFactor cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");

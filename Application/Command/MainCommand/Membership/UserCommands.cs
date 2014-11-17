@@ -14,13 +14,13 @@ namespace DotPay.Command
     public class UserPreRegister : FC.Framework.Command
     {
         public UserPreRegister(string email)
-        {  
-            Check.Argument.IsNotInvalidEmail(email, "email"); 
+        {
+            Check.Argument.IsNotInvalidEmail(email, "email");
 
-            this.Email = email; 
+            this.Email = email;
         }
 
-        public string Email { get; private set; }  
+        public string Email { get; private set; }
     }
     #endregion
 
@@ -28,7 +28,7 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
     {
-        public UserRegister(string email, string password, /*string rippleAddress, string rippleSecret, */int timezone, int commendBy = 0)
+        public UserRegister(string email, string password, string tradePassword, int timezone, int commendBy = 0)
         {
             Check.Argument.IsNotNegative(commendBy, "commendBy");
             //Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
@@ -37,6 +37,7 @@ namespace DotPay.Command
 
             this.Email = email;
             this.Password = password;
+            this.TradePassword = tradePassword;
             //this.RippleAddress = rippleAddress;
             //this.RippleSecret = rippleSecret;
             this.TimeZone = timezone;
@@ -45,6 +46,7 @@ namespace DotPay.Command
 
         public string Email { get; private set; }
         public string Password { get; private set; }
+        public string TradePassword { get; private set; }
         //public string RippleAddress { get; private set; }
         //public string RippleSecret { get; private set; }
         public int TimeZone { get; private set; }
@@ -596,25 +598,7 @@ namespace DotPay.Command
         public int ManagerID { get; private set; }
         public int CurrentUserID { get; private set; }
     }
-    #endregion 
-
-    #region User Active Email
-    public class UserActiveEmail : FC.Framework.Command
-    {
-        public UserActiveEmail(int userID, string token)
-        {
-            Check.Argument.IsNotNegativeOrZero(userID, "userID");
-            Check.Argument.IsNotEmpty(token, "token");
-
-            this.UserID = userID;
-            this.Token = token;
-        }
-
-        public int UserID { get; private set; }
-        public string Token { get; private set; }
-    }
     #endregion
-
 
     #region Sms Counter Command
     [ExecuteAsync]

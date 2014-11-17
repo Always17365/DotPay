@@ -55,6 +55,7 @@
     <Compile Include="City\ICityQuery.cs" />
     <Compile Include="Cms\IAnnouncementQuery.cs" />
     <Compile Include="Cms\IArticleQuery.cs" />
+    <Compile Include="PreRegistratorQuery\IPreRegistratorQuery.cs" />
     <Compile Include="Records\TransactionQuery.cs" />
     <Compile Include="Transfer\IInsideTransferQuery.cs" />
     <Compile Include="VipSetting\IVipSettingQuery.cs" />
