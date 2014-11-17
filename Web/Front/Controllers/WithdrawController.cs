@@ -130,11 +130,9 @@ namespace DotPay.Web.Controllers
                 {
                     if (!withdrawToCode)
                     {
-                        var otherUserID = 0;
-                       
-                            var cmd = new SubmitVirtualCoinWithdraw(this.CurrentUser.UserID, currency, amount, address.Trim(), tradePassword);
-                            this.CommandBus.Send(cmd);
-                            result = FCJsonResult.CreateSuccessResult(this.Lang("Submit successfuly."));
+                        var cmd = new SubmitVirtualCoinWithdraw(this.CurrentUser.UserID, currency, amount, address.Trim(), tradePassword);
+                        this.CommandBus.Send(cmd);
+                        result = FCJsonResult.CreateSuccessResult(this.Lang("Submit successfuly."));
                     }
                     else
                     {
@@ -157,7 +155,6 @@ namespace DotPay.Web.Controllers
             return Json(result);
         }
         #endregion
-
 
         #region 城市数据
 
@@ -258,7 +255,8 @@ namespace DotPay.Web.Controllers
         }
         #endregion
         #endregion
-        #region 
+
+        #region 获取提现记录
         [AllowAnonymous]
         [Route("~/action/getwithdraw")]
         public ActionResult GenerateStatisticsForInterval(int start, int limit, CurrencyType currencyType)
@@ -267,7 +265,7 @@ namespace DotPay.Web.Controllers
             IEnumerable<WithdrawListModel> result = default(IEnumerable<WithdrawListModel>);
             if (currencyType == CurrencyType.CNY)
             {
-                totalCount = IoC.Resolve<IWithdrawQuery>().CountMyCoinWithdraw_Sql(this.CurrentUser.UserID,CurrencyType.CNY);
+                totalCount = IoC.Resolve<IWithdrawQuery>().CountMyCoinWithdraw_Sql(this.CurrentUser.UserID, CurrencyType.CNY);
                 result = IoC.Resolve<IWithdrawQuery>().GetMyCNYWithdraw(this.CurrentUser.UserID, start, limit);
             }
             else
@@ -275,9 +273,9 @@ namespace DotPay.Web.Controllers
                 totalCount = IoC.Resolve<IWithdrawQuery>().CountMyCoinWithdraw_Sql(this.CurrentUser.UserID, currencyType);
                 result = IoC.Resolve<IWithdrawQuery>().GetMyVirtualCoinWithdraw(this.CurrentUser.UserID, currencyType, start, limit);
             }
-            return Json(new { data = result, Code=1, totalCount = totalCount }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = result, Code = 1, totalCount = totalCount }, JsonRequestBehavior.AllowGet);
         }
-      
+
         #endregion
     }
 }

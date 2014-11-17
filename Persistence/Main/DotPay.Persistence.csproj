@@ -87,6 +87,7 @@
     <Compile Include="Mapper\Deposit\ProcessLog\CNYDepositProcessLogMap.cs" />
     <Compile Include="Mapper\Membership\LoginLogMap.cs" />
     <Compile Include="Mapper\Membership\ManagerMap.cs" />
+    <Compile Include="Mapper\Membership\PreRegistrationMap.cs" />
     <Compile Include="Mapper\Membership\MembershipMap.cs" />
     <Compile Include="Mapper\Membership\OpenAuthShipMap.cs" />
     <Compile Include="Mapper\Membership\TokenMap.cs" />

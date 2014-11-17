@@ -18,12 +18,16 @@ namespace DotPay.Web.Controllers
         #region 验证码
         [AllowAnonymous]
         [Route("~/cci")]
-        public ActionResult CheckCodeImage()
-        {
-            var code = CheckCode.GenerateCode(4);
-            Session["ValidateCode"] = code;
+        public ActionResult CheckCodeImage(CaptchaType type)
+        { 
+            var captchaCode = new CheckCode(); 
+            var code = captchaCode.GetRandomString(4); 
+            var imgBytes = captchaCode.CreateImage(code);
 
-            return File(CheckCode.CreateCheckImage(code), @"image/jpeg");
+            var key = "CaptchaCode" + type.ToString();
+            Session[key] = code;
+
+            return File(imgBytes, @"image/jpeg");
         }
         #endregion
 
@@ -43,7 +47,7 @@ namespace DotPay.Web.Controllers
             if (currentUser != null)
             {
                 mobile = string.IsNullOrEmpty(mobile) ? currentUser.Mobile : mobile.Substring(mobile.Length - 11, 11);
-                var key =currentUser.UserID+"sendsms";
+                var key = currentUser.UserID + "sendsms";
                 if (isBindMobile)
                 {
                     var existUserCount = IoC.Resolve<IUserQuery>().CountUserByMobile(mobile);
@@ -117,7 +121,7 @@ namespace DotPay.Web.Controllers
             ModifyTradePwd = 5,
             ResetTradePwd = 6,
             Login2FA = 7,
-            ResetLoginPwd=8
+            ResetLoginPwd = 8
         }
     }
 }

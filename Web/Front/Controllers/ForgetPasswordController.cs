@@ -112,7 +112,7 @@ namespace DotPay.Web.Controllers
 
             var user = IoC.Resolve<IUserQuery>().GetUserByEmail(email.NullSafe().Trim());
 
-            if (!this.CheckImageCode(checkCode)) result = FCJsonResult.CreateFailResult(this.Lang("Cpatcha  error."));
+            if (!this.CheckImageCode(checkCode, CaptchaType.ForgetPassword)) result = FCJsonResult.CreateFailResult(this.Lang("Cpatcha  error."));
             else if (user == null) return Json(FCJsonResult.CreateFailResult(this.Lang("Unable to locate an account with that email address")));
             else if (user.IsBindGA || !string.IsNullOrEmpty(user.Mobile))
             {

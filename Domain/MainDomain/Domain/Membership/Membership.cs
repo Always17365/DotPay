@@ -24,8 +24,7 @@ namespace DotPay.MainDomain
             this.Owner = owner;
 
             //set the default value   
-            this.Email = userEmail;
-            this.IsEmailVerify = false;
+            this.Email = userEmail; 
             this.IsLocked = false;
             this.Password = password;
             this.PasswordResetToken = string.Empty;
@@ -34,8 +33,7 @@ namespace DotPay.MainDomain
             this.CreateAt = DateTime.Now.ToUnixTimestamp();
             this.IdNo = string.Empty;
             this.IdNoType = default(Common.IdNoType);
-            this.RealName = string.Empty;
-            this.GenerteEmailValidateToken(userEmail);
+            this.RealName = string.Empty;  
         }
         #endregion
 
@@ -46,9 +44,7 @@ namespace DotPay.MainDomain
         public virtual IdNoType IdNoType { get; protected set; }
         public virtual string RealName { get; protected set; }
         public virtual int RegisterAt { get; protected set; }
-        public virtual int CreateAt { get; protected set; }
-        public virtual bool IsEmailVerify { get; protected set; }
-        public virtual string EmailValidateToken { get; protected set; }
+        public virtual int CreateAt { get; protected set; } 
         public virtual bool IsLocked { get; protected set; }
         public virtual int LockAt { get; protected set; }
         public virtual int UnLockAt { get; protected set; }
@@ -94,20 +90,7 @@ namespace DotPay.MainDomain
 
             return verify;
         }
-
-        public virtual void VerifyEmail(string token)
-        {
-            if (!this.IsEmailVerify)
-            {
-                var verify = this.EmailValidateToken.Equals(token);
-
-                if (verify)
-                    this.IsEmailVerify = true;
-                else
-                    throw new UserIDOfTokenNotMatchException();
-            }
-        }
-
+ 
         public virtual void ChangePassword(string newPassword)
         {
             this.Password = newPassword;
@@ -175,13 +158,6 @@ namespace DotPay.MainDomain
         {
             this.LastReceiveScoreAt = DateTime.Now.ToUnixTimestamp();
         }
-        #endregion
-
-        #region private method
-        private void GenerteEmailValidateToken(string email)
-        {
-            this.EmailValidateToken = CryptoHelper.MD5(email + DateTime.Now.ToLongDateString());
-        }
-        #endregion
+        #endregion 
     }
 }

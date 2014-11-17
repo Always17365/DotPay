@@ -261,13 +261,15 @@
     <Content Include="public\images\icons\cny.png" />
     <Content Include="public\images\icons\euro.png" />
     <Content Include="public\images\icons\exchange.png" />
+    <Content Include="public\images\icons\ico-circle-active.png" />
+    <Content Include="public\images\icons\ico-circle.png" />
     <Content Include="public\images\icons\usd.png" />
     <Content Include="public\images\logo.png" />
     <Content Include="public\libs\bootstrap\bootstrap.min.js" />
     <Content Include="public\libs\bootstrap\bootstrap.css" />
     <Content Include="public\libs\bootstrap\bootstrap.min.css" />
     <Content Include="public\css\main.css" />
-    <Content Include="public\css\main1.css" />
+    <Content Include="public\css\reg.css" />
     <Content Include="public\images\bq-wz.png" />
     <Content Include="public\images\bq-wz1.png" />
     <Content Include="public\images\dianhua.jpg" />
@@ -422,7 +424,9 @@
     <Content Include="public\libs\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="public\libs\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Views\Transfer\Inside.cshtml" />
+    <Content Include="Views\Transfer\InsideComplete.cshtml" />
     <Content Include="Views\Transfer\InsideConfirm.cshtml" />
+    <Content Include="Views\Home\PreRegister.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

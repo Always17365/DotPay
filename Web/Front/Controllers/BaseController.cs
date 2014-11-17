@@ -96,9 +96,10 @@ namespace DotPay.Web.Controllers
             return hash.Equals(verifyHash.Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
-        public bool CheckImageCode(string checkcode)
+        public bool CheckImageCode(string checkcode, CaptchaType captchaType)
         {
-            var code = Session["ValidateCode"] == null ? string.Empty : Session["ValidateCode"].ToString();
+            var key = "CaptchaCode" + captchaType.ToString();
+            var code = Session[key] == null ? string.Empty : Session[key].ToString();
 
             return code.Equals(checkcode.NullSafe().Trim(), StringComparison.OrdinalIgnoreCase);
         }
@@ -117,6 +118,12 @@ namespace DotPay.Web.Controllers
             }
 
             return new SelectList(enumValueList, "Key", "Value");
+        }
+
+        public enum CaptchaType
+        {
+            PreRegistration = 1,
+            ForgetPassword=2
         }
     }
 }

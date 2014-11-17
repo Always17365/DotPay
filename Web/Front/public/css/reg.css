@@ -1,0 +1,11 @@
+﻿.prereg { height: 700px; }
+    .prereg .steps { height: 46px; border-bottom: 2px solid #e6e6e6; position: relative; }
+        .prereg .steps ol { width: 720px; margin: 0 auto; list-style: none; }
+            .prereg .steps ol li.active { color: #3e3e3e; border-bottom: 2px solid #ff4700; }
+            .prereg .steps ol .active { border-bottom-color: #c40000 !important; }
+            .prereg .steps ol li { display: inline; float: left; width: 220px; padding-left: 70px; height: 46px; line-height: 46px; font-size: 16px; font-weight: bold; color: #999; }
+                .prereg .steps ol li i { display: inline-block; zoom: 1; margin-right: 5px; width: 24px; height: 24px; text-align: center; font-style: normal; line-height: 24px; font-size: 14px; font-weight: bold; color: #FFF; background: url(../images/icons/ico-circle.png) no-repeat 0 0; }
+            .prereg .steps ol .active i { background-image: url(../images/icons/ico-circle-active.png) !important; }
+    .prereg .teamservice { padding-top: 10px; font-size: 12px; font-weight: normal; }
+        .prereg .teamservice .agree { vertical-align: middle; margin: 0; }
+        .prereg .teamservice a, .prereg .teamservice a :hover { color: #eb5717; }

@@ -45,6 +45,27 @@ namespace DotPay.Web.Controllers
             return View("InsideConfirm");
         }
 
+        [Route("~/transfer/{currency}/complete")]
+        public ActionResult InsideTransferConfirm(CurrencyType currency, string orderID, string tradePassword)
+        {
+            ViewBag.Currency = currency.ToString();
+
+            //try
+            //{
+            //    var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
+            //    var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
+            //    ViewBag.Transfer = transfer;
+            //    ViewBag.Receiver = user;
+            //}
+            //finally
+            //{
+
+            //}
+
+            return View("InsideConfirm");
+        }
+
+
         #endregion
 
         #region Posts
@@ -99,24 +120,14 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 内存转账付款
+        #region 内存转账确认
 
-        [Route("~/transfer/inside/{currency}/confirm")]
+        [Route("~/transfer/{currency}/confirm")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult InsideTransferConfirm(CurrencyType currency, int transferId)
         {
-            try
-            {
-                var transferConfirm = new InsideTransferComplete(transferId, currency);
 
-                this.CommandBus.Send(transferConfirm);
-
-                return Redirect("~/transfer/{0}/confirm?orderid={1}");
-            }
-            catch (CommandExecutionException ex)
-            {
-            }
             return Redirect("/Error");
         }
         #endregion

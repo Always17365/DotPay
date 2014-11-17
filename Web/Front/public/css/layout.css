@@ -4,7 +4,7 @@
  * Licensed under the Creative Commons Attribution 3.0 Unported License. For
  * details, see http://creativecommons.org/licenses/by/3.0/.
  */
-body { position: relative; background-color: #f5f5f5; font-family: "Microsoft Yahei",Arial, Helvetica, sans-serif; }
+body { position: relative; /*background-color: #f5f5f5;*/ font-family: "Microsoft Yahei",Arial, Helvetica, sans-serif; }
 .table code { font-size: 13px; font-weight: 400; }
 .btn-outline { color: #011c44; background-color: transparent; border-color: #011c44; }
     .btn-outline:hover, .btn-outline:focus, .btn-outline:active { color: #fff; background-color: #011c44; border-color: #011c44; }
@@ -166,7 +166,7 @@ h1[id] { padding-top: 20px; margin-top: 0; }
     .tooltip.tooltip-danger .tooltip-inner { background-color: #d9534f; color: #fff; border: 1px solid #ac2925; }
     .tooltip.tooltip-warning .tooltip-inner { background-color: #FFFF99; color: #000; border: 1px solid #FFCC66; }
 
-
+.captcha-refresh { margin-left:15px;}
 .ptl-1 { padding-top: 10px; }
 .ptl-2 { padding-top: 20px; }
 .ptl-3 { padding-top: 30px; }

@@ -18,9 +18,7 @@ namespace DotPay.Persistence
             Property(x => x.RealName, map => { map.Length(30); map.NotNullable(true); });
             Property(x => x.RegisterAt, map => map.NotNullable(true));
             Property(x => x.LastPasswordVerifyAt, map => map.NotNullable(true));
-            Property(x => x.CreateAt, map => map.NotNullable(true));
-            Property(x => x.IsEmailVerify, map => map.NotNullable(true));
-            Property(x => x.EmailValidateToken, map => map.NotNullable(true));
+            Property(x => x.CreateAt, map => map.NotNullable(true)); 
             Property(x => x.IsLocked, map => map.NotNullable(true));
             Property(x => x.LockAt, map => map.NotNullable(true));
             Property(x => x.UnLockAt, map => map.NotNullable(true));

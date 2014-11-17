@@ -15,8 +15,7 @@ namespace DotPay.MainDomain
     public class User : DomainBase, IAggregateRoot,
                  IEventHandler<UserRegisted>,                  //注册
                  IEventHandler<UserRegistedByOpenAuth>,        //使用OpenAuth注册
-                 IEventHandler<UserLoginSuccess>,              //使用用户登录成功
-                 IEventHandler<VerifiedEmail>,                 //邮箱验证
+                 IEventHandler<UserLoginSuccess>,              //使用用户登录成功 
                  IEventHandler<UserPasswordChanged>,           //密码修改 
                  IEventHandler<UserFirstSetTradePassword>,     //第一次设置资金密码 
                  IEventHandler<UserTradePasswordChanged>,      //资金密码修改 
@@ -108,14 +107,7 @@ namespace DotPay.MainDomain
         {
             this.RaiseEvent(new UserLoginSuccess(this.ID, this.Email, ip));
         }
-        #endregion
-
-        #region resend active email
-        public virtual void ResendActiveEmail()
-        {
-            this.RaiseEvent(new ResendActiveEmail(this.ID, this.Email, this.Membership.EmailValidateToken));
-        }
-        #endregion
+        #endregion 
 
         #region set nick name
         public virtual void SetNickName(string nickName)
@@ -391,14 +383,7 @@ namespace DotPay.MainDomain
 
         #endregion
 
-        #region inner event handlers
-
-        #region Verified Email event handler
-        void IEventHandler<VerifiedEmail>.Handle(VerifiedEmail @event)
-        {
-            this.Membership.VerifyEmail(@event.VerifyToken);
-        }
-        #endregion
+        #region inner event handlers 
 
         #region User Registed event handler
         void IEventHandler<UserRegisted>.Handle(UserRegisted @event)

@@ -47,9 +47,7 @@ namespace DotPay.CommandExecutor.Test
 
             Assert.NotNull(savedUser);
             Assert.Equal(savedUser.Email, email);
-            Assert.True(savedUser.ID > 0);
-            Assert.False(savedUser.Membership.IsEmailVerify);
-            Assert.True(savedUser.Membership.EmailValidateToken.Length > 0);
+            Assert.True(savedUser.ID > 0); 
             Assert.Null(savedUser.GoogleAuthentication);
             Assert.Null(savedUser.SmsAuthentication);
 

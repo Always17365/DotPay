@@ -63,6 +63,7 @@
     <Compile Include="DomainEvents\Log\LoginLogEvents.cs" />
     <Compile Include="DomainEvents\Log\OpreateLogEvents.cs" />
     <Compile Include="DomainEvents\Membership\TokenEvents.cs" />
+    <Compile Include="DomainEvents\Membership\PreRegistrationEvents.cs" />
     <Compile Include="DomainEvents\Membership\VipSettingEvents.cs" />
     <Compile Include="DomainEvents\OpenAuthShip\OpenAuthShipEvents.cs" />
     <Compile Include="DomainEvents\SmsInterface\SmsInterfaceEvents.cs" />
@@ -93,8 +94,10 @@
     <Compile Include="Domain\FundSource\FundSource.cs" />
     <Compile Include="Domain\FundSource\FundSourceExceptions.cs" />
     <Compile Include="Domain\FundSource\FundSourceMonitor.cs" />
+    <Compile Include="Domain\Membership\Exceptions\PreRegistrationExceptions.cs" />
     <Compile Include="Domain\Membership\OpenAuthShip.cs" />
     <Compile Include="Domain\Membership\CommendMonitor.cs" />
+    <Compile Include="Domain\Membership\PreRegistration.cs" />
     <Compile Include="Domain\Membership\UserRegistedMessageSubmiter.cs" />
     <Compile Include="Domain\Membership\ScoreRecord.cs" />
     <Compile Include="Domain\Membership\ScoreMonitor.cs" />
@@ -177,6 +180,7 @@
     <Compile Include="Repository\IInsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\IFundSourceRepository.cs" />
     <Compile Include="Repository\IDepositRepository.cs" />
+    <Compile Include="Repository\IPreRegistrationRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\IAccountRepository.cs" />
     <Compile Include="Repository\IManagerRepository.cs" />

@@ -333,41 +333,8 @@ namespace DotPay.Web.Controllers
             return Json(result);
         }
 
-        #endregion
-
-        #region  Resend active email
-        [Route("~/resendActiveEmail")]
-        [HttpPost]
-        public ActionResult ResendActiveEmail()
-        {
-            var cacheKey = CacheKey.USER_RESEND_ACTIVE_EMAIL + this.CurrentUser.Email.ToLower();
-            var result = FCJsonResult.CreateFailResult(this.Lang("Unable to send email to you,Please refresh the page and try again."));
-            DateTime lastSendEmailTime;
-            if (!Config.Debug)
-                if (Cache.TryGet<DateTime>(cacheKey, out lastSendEmailTime))
-                {
-                    if (lastSendEmailTime.AddMinutes(15) > DateTime.Now)
-                        return Json(FCJsonResult.CreateFailResult(this.Lang("Send email too frequently, please try again 15 minutes later.")));
-                }
-
-
-            try
-            {
-                var cmd = new ResendActiveEmail(this.CurrentUser.UserID);
-                this.CommandBus.Send(cmd);
-                Cache.Add(cacheKey, DateTime.Now);
-                result = FCJsonResult.CreateSuccessResult(this.Lang("Mail has been sent.Please check your email."));
-            }
-            catch (CommandExecutionException ex)
-            {
-                Cache.Remove(cacheKey);
-                Log.Error("Action ResendActiveEmail Error", ex);
-            }
-
-            return Json(result);
-        }
-
-        #endregion
+        #endregion 
+       
         #endregion
         #endregion
 

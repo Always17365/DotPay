@@ -25,6 +25,7 @@ namespace DotPay.Common
         SMSPasswordError = 116,
         MobileHasSet = 99,
         UserHasNo2FA = 98,
+        EmailHasVerified = 97,
         #endregion
 
         CurrencyIsLocked = 117,

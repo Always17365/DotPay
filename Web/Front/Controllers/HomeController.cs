@@ -11,6 +11,7 @@ using DotPay.QueryService;
 using QConnectSDK.Context;
 using QConnectSDK;
 using System.IO;
+using FC.Framework.Utilities;
 
 namespace DotPay.Web.Controllers
 {
@@ -34,11 +35,11 @@ namespace DotPay.Web.Controllers
         #endregion
 
         #region ripple txt
-        [Route("~/ripple.txt")] 
+        [Route("~/ripple.txt")]
         [AllowAnonymous]
         public ActionResult RippleTxt()
-        { 
-            return File("~/App_Data/ripple.txt", "text/plain" );
+        {
+            return File("~/App_Data/ripple.txt", "text/plain");
         }
         #endregion
 
@@ -51,12 +52,22 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
+        #region 预注册页
+        [Route("~/preregister")]
+        [AllowAnonymous]
+        public ActionResult PreRegister()
+        {
+            return View();
+        }
+        #endregion
+
         #region 注册页
         [Route("~/register")]
         [AllowAnonymous]
-        public ActionResult Register(int? uid)
+        public ActionResult Register(string email, string token)
         {
-            if (uid.HasValue) Session["commendBy"] = (uid - 980000);
+            Session["PreRegistrationEmail"] = email;
+            Session["PreRegistrationToken"] = token;
             return View();
         }
         #endregion
@@ -162,51 +173,90 @@ namespace DotPay.Web.Controllers
             return Json(new { valid = false });
         }
         #endregion
-        #region Register
-        [Route("~/registerUser")]
+
+        #region PreRegister
+        [Route("~/preregister")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(string email, string password, /*string address, string secret,*/ string checkcode)
+        public ActionResult PreRegister(string email, string checkcode)
         {
             var tmpObj = new object();
-            var cacheKey = CacheKey.USER_REGISTER_EMAIL + email;
-            var result = FCJsonResult.CreateFailResult(this.Lang("Unknow Exception,Please refresh the page and try again"));
+            var result = FCJsonResult.UnknowFail;
 
-            if (!CheckImageCode(checkcode))
+            if (!CheckImageCode(checkcode, CaptchaType.PreRegistration))
             {
                 result = FCJsonResult.CreateFailResult(this.Lang("Verification code error."));
             }
-            if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password))
+            if (email.NullSafe().Trim().IsEmail())
             {
                 if (IoC.Resolve<IUserQuery>().ExistUserByEmail(email))
                     result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
                 else
                 {
-                    //先存在已注册邮件缓存
-                    Cache.Add(cacheKey, email);
-                    var conmentBy = Session["commendBy"] == null ? 0 : (int)Session["commendBy"];
-
                     try
                     {
-                        var cmd = new UserRegister(email, password, /*address, secret,*/ 8, conmentBy);
+                        var cmd = new UserPreRegister(email);
                         this.CommandBus.Send(cmd);
-                        var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
-                        Session[Constants.TmpUserKey] = loginUser;
-
-                        this.CurrentUserPassTwoFactoryVerify();
-                        result = FCJsonResult.Success;
                     }
                     catch (CommandExecutionException ex)
                     {
-                        //如果注册失败，则删除注册缓存
-                        Cache.Remove(cacheKey);
-                        Log.Error("Action UserRegistter Error", ex);
+                        Log.Error("Action PreRegister Error", ex);
                     }
                 }
             }
 
             return Json(result);
+        }
+        #endregion
+
+        #region Register
+        [Route("~/register")]
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterPost(string password, string tradepassword)
+        {
+            if (Session["PreRegistrationEmail"] == null || Session["PreRegistrationToken"] == null)
+            {
+                return Json(FCJsonResult.UnknowFail);
+            }
+            else
+            {
+                var email = Session["PreRegistrationEmail"].ToString();
+                var token = Session["PreRegistrationToken"].ToString();
+
+                var tmpObj = new object(); 
+                var result = FCJsonResult.UnknowFail;
+
+
+                if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password))
+                {
+                    if (IoC.Resolve<IUserQuery>().ExistUserByEmail(email))
+                        result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
+                    else
+                    {
+                        var conmentBy = Session["commendBy"] == null ? 0 : (int)Session["commendBy"];
+
+                        try
+                        {
+                            var cmd = new UserRegister(email, password, /*address, secret,*/ 8, conmentBy);
+                            this.CommandBus.Send(cmd);
+                            var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
+                            Session[Constants.TmpUserKey] = loginUser;
+
+                            this.CurrentUserPassTwoFactoryVerify();
+                            result = FCJsonResult.Success;
+                        }
+                        catch (CommandExecutionException ex)
+                        {
+                            Log.Error("Action UserRegistter Error", ex);
+                        }
+                    }
+                }
+
+                return Json(result);
+            }
         }
         #endregion
 

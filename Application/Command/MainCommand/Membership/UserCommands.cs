@@ -8,6 +8,22 @@ using System.Text;
 
 namespace DotPay.Command
 {
+
+    #region User PreRegister Command
+    [ExecuteSync]
+    public class UserPreRegister : FC.Framework.Command
+    {
+        public UserPreRegister(string email)
+        {  
+            Check.Argument.IsNotInvalidEmail(email, "email"); 
+
+            this.Email = email; 
+        }
+
+        public string Email { get; private set; }  
+    }
+    #endregion
+
     #region User Register Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
@@ -580,22 +596,7 @@ namespace DotPay.Command
         public int ManagerID { get; private set; }
         public int CurrentUserID { get; private set; }
     }
-    #endregion
-
-
-    #region Resend Active Email
-    public class ResendActiveEmail : FC.Framework.Command
-    {
-        public ResendActiveEmail(int userID)
-        {
-            Check.Argument.IsNotNegativeOrZero(userID, "userID");
-
-            this.UserID = userID;
-        }
-
-        public int UserID { get; private set; }
-    }
-    #endregion
+    #endregion 
 
     #region User Active Email
     public class UserActiveEmail : FC.Framework.Command
