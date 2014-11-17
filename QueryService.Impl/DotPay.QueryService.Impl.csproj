@@ -60,6 +60,7 @@
     <Compile Include="Cms\AnnouncementQuery.cs" />
     <Compile Include="Cms\ArticleQuery.cs" />
     <Compile Include="Logs\LogsQuery.cs" />
+    <Compile Include="Transfer\InsideTransferQuery.cs" />
     <Compile Include="VipSetting\VipSettingQuery.cs" />
     <Compile Include="User\UserQuery.cs" />
     <Compile Include="Manager\ManagerQuery.cs" />
@@ -93,9 +94,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Transfer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

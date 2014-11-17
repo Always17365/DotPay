@@ -34,42 +34,38 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Couchbase, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Couchbase.dll</HintPath>
+    <Reference Include="Couchbase">
+      <HintPath>..\packages\CouchbaseNetClient.1.3.10\lib\net40\Couchbase.dll</HintPath>
     </Reference>
-    <Reference Include="Enyim.Caching, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Enyim.Caching.dll</HintPath>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\packages\CouchbaseNetClient.1.3.10\lib\net40\Enyim.Caching.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework">
-      <HintPath>..\..\Library\FC.Framework.dll</HintPath>
+      <HintPath>..\Library\FC.Framework.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework.Autofac">
-      <HintPath>..\..\Library\FC.Framework.Autofac.dll</HintPath>
+      <HintPath>..\Library\FC.Framework.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework.CouchbaseCache">
-      <HintPath>..\..\Library\FC.Framework.CouchbaseCache.dll</HintPath>
+      <HintPath>..\Library\FC.Framework.CouchbaseCache.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework.Log4net">
-      <HintPath>..\..\Library\FC.Framework.Log4net.dll</HintPath>
+      <HintPath>..\Library\FC.Framework.Log4net.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework.NHibernate">
       <HintPath>..\Library\FC.Framework.NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="FluentData">
-      <HintPath>..\..\packages\FluentData.3.0.0.0\lib\FluentData.dll</HintPath>
+      <HintPath>..\packages\FluentData.3.0.0.0\lib\FluentData.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.5\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,7 +104,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">

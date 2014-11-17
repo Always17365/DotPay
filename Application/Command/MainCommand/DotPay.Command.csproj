@@ -35,8 +35,12 @@
   <ItemGroup>
     <Reference Include="FC.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\FC.Framework.dll</HintPath>
+      <HintPath>..\..\..\Library\FC.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="FC.Framework.Fakes">
+      <HintPath>FakesAssemblies\FC.Framework.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +73,9 @@
       <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
       <Name>DotPay.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\FC.Framework.fakes" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
