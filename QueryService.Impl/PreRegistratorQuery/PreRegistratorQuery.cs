@@ -37,13 +37,13 @@ namespace DotPay.QueryService.Impl
 
         private readonly string getExistRegisterEmail_Sql =
                                 @"SELECT    COUNT(*)
-                                    FROM    " + Config.Table_Prefix + @"{0}preregistration   
+                                    FROM    " + Config.Table_Prefix + @"preregistration   
                                    WHERE   Email = @email
                                      AND   IsEmailVerify = @IsEmailVerify";
 
         private readonly string getExistRegisterEmailWithToken_Sql =
                                 @"SELECT    COUNT(*)
-                                    FROM    " + Config.Table_Prefix + @"{0}preregistration   
+                                    FROM    " + Config.Table_Prefix + @"preregistration   
                                    WHERE   Email = @email
                                      AND   IsEmailVerify = @IsEmailVerify
                                      AND   EmailValidateToken = @token";
