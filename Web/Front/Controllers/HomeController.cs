@@ -66,8 +66,19 @@ namespace DotPay.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register(string email, string token)
         {
-            Session["PreRegistrationEmail"] = email;
-            Session["PreRegistrationToken"] = token;
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(token))
+            {
+                if (IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
+                {
+                    Session["PreRegistrationEmail"] = email;
+                    Session["PreRegistrationToken"] = token;
+
+                    return View();
+                }
+            }
+
+            ViewBag.ErrorMessage = "无效的注册链接";
+
             return View();
         }
         #endregion

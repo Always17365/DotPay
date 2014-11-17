@@ -8,40 +8,50 @@
 <div id="main" class="container">
     <div class="row row-6">
         <div class="col-sm-6 col-sm-offset-3 ptl-5">
-            <div class="panel panel-default panel-page">
-                <div class="panel-heading"><h2>注册</h2></div>
-                <form id="registerForm" class="form-vertical">
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        <label class="control-label" for="register_email">邮箱地址</label>
-                        <div class="controls">
-                            <input type="text" id="register_email" autocomplete="off" placeholder="请输入邮箱地址" name="email" class="form-control">
+            @if (string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="panel panel-default panel-page"> 
+                    <div class="panel-heading"><h2>注册</h2></div>
+                    <form id="registerForm" class="form-vertical">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="control-label" for="register_email">邮箱地址</label>
+                            <div class="controls">
+                                <input type="text" id="register_email" autocomplete="off" placeholder="请输入邮箱地址" name="email" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="register_password">密码</label>
-                        <div class="controls">
-                            <input type="password" id="register_password" name="password" placeholder="请输入密码" required="required" class="form-control">
+                        <div class="form-group">
+                            <label class="control-label" for="register_password">密码</label>
+                            <div class="controls">
+                                <input type="password" id="register_password" name="password" placeholder="请输入密码" required="required" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="register_confirmPassword">确认密码</label>
-                        <div class="controls">
-                            <input type="password" id="register_confirmPassword" placeholder="请再次输入密码" name="confirmPassword" class="form-control">
+                        <div class="form-group">
+                            <label class="control-label" for="register_confirmPassword">确认密码</label>
+                            <div class="controls">
+                                <input type="password" id="register_confirmPassword" placeholder="请再次输入密码" name="confirmPassword" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <button type="submit" id="register-btn" class="btn btn-primary btn-large btn-block">注册</button>
+                        <div class="form-group">
+                            <div class="controls">
+                                <button type="submit" id="register-btn" class="btn btn-primary btn-large btn-block">注册</button>
+                            </div>
                         </div>
+                    </form>
+                    <div class="social-logins">
+                        <a href="https://api.weibo.com:443/oauth2/authorize?client_id=156073260&redirect_uri=http%3A%2F%2Fwww.fullcoin.com%2Fweibologin&response_type=code&display=default" class="social-login-btn"><i class="social-icon social-icon-weibo"></i>微博帐号登录</a>
+                        <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101081985&redirect_uri=http://www.fullcoin.com/qqlogin&state=fc&scope=get_user_info" class="social-login-btn"><i class="social-icon social-icon-qq"></i>QQ帐号登录</a>
                     </div>
-                </form>
-                <div class="social-logins">
-                    <a href="https://api.weibo.com:443/oauth2/authorize?client_id=156073260&redirect_uri=http%3A%2F%2Fwww.fullcoin.com%2Fweibologin&response_type=code&display=default" class="social-login-btn"><i class="social-icon social-icon-weibo"></i>微博帐号登录</a>
-                    <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101081985&redirect_uri=http://www.fullcoin.com/qqlogin&state=fc&scope=get_user_info" class="social-login-btn"><i class="social-icon social-icon-qq"></i>QQ帐号登录</a>
-                </div>
-            </div>
 
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h2>@ViewBag.ErrorMessage</h2>
+                    <p>无效的注册链接或注册链接已使用</p>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -68,7 +78,7 @@
                             url: '/validateEmail',
                             type: "post",
                             data: { "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
-                            delay:1000
+                            delay: 1000
                         }
                     }
                 },
@@ -145,6 +155,6 @@
                 .find('.help-block[data-bv-for="' + data.field + '"]').hide()
                 .filter('[data-bv-validator="' + data.validator + '"]').show();
         });
-         
+
     });
 </script>

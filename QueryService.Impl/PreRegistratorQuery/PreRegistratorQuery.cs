@@ -21,9 +21,9 @@ namespace DotPay.QueryService.Impl
                                         .Parameter("@IsEmailVerify", true)
                                         .QuerySingle<int>();
 
-            return results>0?true:false;
+            return results > 0 ? true : false;
         }
-        bool ExistRegisterEmailWithToken(string email, string token)
+        public bool ExistRegisterEmailWithToken(string email, string token)
         {
             var results = this.Context.Sql(getExistRegisterEmail_Sql)
                                        .Parameter("@email", email)
