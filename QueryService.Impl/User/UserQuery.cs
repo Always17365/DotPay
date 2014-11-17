@@ -268,6 +268,7 @@ namespace DotPay.QueryService.Impl
             return users;
         }
         /************************************************************************************/
+
         #region SQL
         private readonly string getUsersCurrencyCountBySearch_Sql =
                                 @"SELECT    COUNT(*)

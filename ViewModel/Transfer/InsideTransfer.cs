@@ -14,12 +14,10 @@ namespace DotPay.ViewModel
         public int FromUserID { get; set; }
         public int ToUserID { get; set; }
         public string SequenceNo { get; set; }
-        public int Date { get; set; }
+        public int CreateAt { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public string Payway { get; set; }
-        public decimal Balance { get; set; }
-        public CurrencyType Currency { get; set; }
-        public string TradeNo { get; set; }
+        public string Payway { get; set; } 
+        public CurrencyType Currency { get; set; } 
     }
 }

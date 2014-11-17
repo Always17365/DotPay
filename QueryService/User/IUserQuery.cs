@@ -30,5 +30,6 @@ namespace DotPay.QueryService
 
         int GetUsersCurrencyCountBySearch(int? userID, string email, CurrencyType currencyType);
         IEnumerable<UsersCurrencyListModel> GetUsersCurrencyBySearch(int? userID, string email, string order, CurrencyType currencyType, int page, int pageCount);
+
     }
 }
