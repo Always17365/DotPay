@@ -14,10 +14,11 @@ namespace DotPay.QueryService.Impl
     public class PreRegistratorQuery : AbstractQuery, IPreRegistratorQuery
     {
         public bool ExistRegisterEmail(string email)
-        { 
+        {
 
             var results = this.Context.Sql(getExistRegisterEmail_Sql)
                                         .Parameter("@email", email)
+                                        .Parameter("@IsEmailVerify", true)
                                         .QuerySingle<int>();
 
             return results>0?true:false;
@@ -27,6 +28,7 @@ namespace DotPay.QueryService.Impl
             var results = this.Context.Sql(getExistRegisterEmail_Sql)
                                        .Parameter("@email", email)
                                        .Parameter("@token", token)
+                                       .Parameter("@IsEmailVerify", false)
                                        .QuerySingle<int>();
 
             return results > 0 ? true : false;
@@ -36,12 +38,14 @@ namespace DotPay.QueryService.Impl
         private readonly string getExistRegisterEmail_Sql =
                                 @"SELECT    COUNT(*)
                                     FROM    " + Config.Table_Prefix + @"{0}preregistration   
-                                   WHERE   Email = @email";
+                                   WHERE   Email = @email
+                                     AND   IsEmailVerify = @IsEmailVerify";
 
         private readonly string getExistRegisterEmailWithToken_Sql =
                                 @"SELECT    COUNT(*)
                                     FROM    " + Config.Table_Prefix + @"{0}preregistration   
                                    WHERE   Email = @email
+                                     AND   IsEmailVerify = @IsEmailVerify
                                      AND   EmailValidateToken = @token";
     }
 }
