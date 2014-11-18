@@ -1,24 +1,31 @@
 ﻿@using DotPay.Language
-<div class="fail box" id="failBox" style="display:none;">
-    <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
-</div>
+
 <link href="~/public/css/reg.css" rel="stylesheet" />
 <div id="main" class="container">
-    <div class="row prereg">
+    <div class="row register">
         <div class="col-sm-10 col-sm-offset-1   ptl-5">
             <div class="steps">
                 <ol>
-                    <li class="active"><i>1</i><span class="tsl" data-phase-id="r_p_createAccount">设置登录名</span></li>
+                    <li class="active"><i>1</i><span class="tsl" data-phase-id="r_p_createAccount">验证登录名</span></li>
                     <li><i>2</i><span class="tsl" data-phase-id="r_p_fillUserInfo">填写账户信息</span></li>
                     <li><i class="glyphicon glyphicon-ok"></i><span class="tsl" data-phase-id="r_p_regSuc">注册成功</span></li>
                 </ol>
             </div>
         </div>
-        <div class="col-sm-8 col-sm-offset-2 ptl-5">
+        <div id="register-success" class="col-sm-8 col-sm-offset-2 ptl-5 hidden">
+            <div class="result-message">
+                <p id="result-msg"></p>
+                <p>Please check your email to continue register</p>
+            </div>
+        </div>
+        <div id="registerPanel" class="col-sm-8 col-sm-offset-2 ptl-5">
+            <div class="fail box" id="failBox" style="display:none;">
+                <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="24"><span id="spanFailBox"></span>
+            </div>
             <form id="preregisterForm" class="form-horizontal">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 col-sm-offset-2 control-label">电子邮箱</label>
+                    <label for="preregister_email" class="col-sm-2 col-sm-offset-2 control-label">电子邮箱</label>
                     <div class="col-sm-6">
                         <input type="text" id="preregister_email" autocomplete="off" placeholder="请输入邮箱地址" name="email" class="form-control">
                     </div>
@@ -60,7 +67,7 @@
         $("#chk_agreement").click(function () {
             if ($(this).is(':checked'))
                 $("#preregister-btn").removeClass("disabled");
-            else 
+            else
                 $("#preregister-btn").addClass("disabled");
         });
 
@@ -92,7 +99,7 @@
                 captcha: {
                     validators: {
                         notEmpty: {
-                            message: '请输入验证码'
+                            message: '请输入验证码!'
                         }
                     }
                 }
@@ -107,7 +114,9 @@
                 data: $form.serialize(), //+ "&address=" + wallet.address + "&secret=" + secret_encypt,
                 success: function (data) {
                     if (data.Code == 1) {
-                        window.location = '/my/profile';
+                        $("#registerPanel").hide();
+                        $("#result-msg").text(data.Message);
+                        $("#register-success").removeClass("hidden")
                     } else {
                         $('#spanFailBox').html(data.Message);
                         $('#failBox').show();
@@ -115,6 +124,9 @@
                             scrollTop: $("#failBox").offset().top - 95
                         }, 1000);
                     }
+                },
+                complete: function () {
+                    $("#btn_refresh_captcha").click();
                 }
             });
         }).on('error.validator.bv', function (e, data) {

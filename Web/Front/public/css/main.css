@@ -70,12 +70,4 @@
 .social-icon-weibo { background-position: 1px 1px; }
 .social-icon-qq { background-position: 1px -37px; }
 
-/* Warning boxes */
 
-.box { margin: 0 0 25px; padding: 12px 15px; }
-    .box img.left { margin: 6px 13px 0 0; }
-.fail { border-left: 2px solid #ef8c82; background: #FBEEEB; }
-.success { border-left: 2px solid #8ddf79; background: #f0fbeb; }
-.warning { border-left: 2px solid #f7df7a; background: #fcf9e5; }
-.options { border-left: 2px solid #efbd98; background: #fdf6ea; }
-    .options img { padding-right: 10px; }

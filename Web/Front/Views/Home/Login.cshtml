@@ -9,7 +9,7 @@
             <div class="panel panel-default panel-page">
                 <div class="panel-heading"><h2>登录</h2></div>
                 <div class="fail box" id="failBox" style="display:none;">
-                    <img src="~/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
+                    <img src="~/public/images/error.png" alt="Error!" class="left 2x" width="24"><span id="spanFailBox"></span>
                 </div>
                 <div class="success box" id="sucessBox" style="@(!string.IsNullOrEmpty( ViewBag.ResetSuccess)?"": "display:none;")">
                     <img src="~/public/images/success.png" alt="Success!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_success")!</strong><br><span id="spanSuccessBox">@ViewBag.ResetSuccess</span>

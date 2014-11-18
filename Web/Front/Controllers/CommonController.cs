@@ -19,15 +19,29 @@ namespace DotPay.Web.Controllers
         [AllowAnonymous]
         [Route("~/cci")]
         public ActionResult CheckCodeImage(CaptchaType type)
-        { 
-            var captchaCode = new CheckCode(); 
-            var code = captchaCode.GetRandomString(4); 
+        {
+            var captchaCode = new CheckCode();
+            var code = captchaCode.GetRandomString(4);
             var imgBytes = captchaCode.CreateImage(code);
 
             var key = "CaptchaCode" + type.ToString();
             Session[key] = code;
 
             return File(imgBytes, @"image/jpeg");
+        }
+
+        [AllowAnonymous]
+        [Route("~/checkcci")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CheckCodeImage(string captcha, CaptchaType type)
+        {
+            var pass = this.CheckImageCode(captcha, type);
+
+            if (pass)
+                return Json(new { valid = true });
+            else
+                return Json(new { Valid = false, message = "验证码错误" });
         }
         #endregion
 

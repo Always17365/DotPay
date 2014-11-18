@@ -58,8 +58,7 @@
     <Compile Include="Account\AccountQuery.cs" />
     <Compile Include="City\CityQuery.cs" />
     <Compile Include="Cms\AnnouncementQuery.cs" />
-    <Compile Include="Cms\ArticleQuery.cs" />
-    <Compile Include="PreRegistratorQuery\PreRegistratorQuery.cs" />
+    <Compile Include="Cms\ArticleQuery.cs" /> 
     <Compile Include="Logs\LogsQuery.cs" />
     <Compile Include="PreRegistratorQuery\PreRegistratorQuery.cs" />
     <Compile Include="Transfer\InsideTransferQuery.cs" />

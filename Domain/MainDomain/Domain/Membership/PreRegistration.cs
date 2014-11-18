@@ -76,7 +76,7 @@ namespace DotPay.MainDomain
         #region private method
         private string GenerteEmailValidateToken(string email)
         {
-            return CryptoHelper.MD5(email + DateTime.Now.ToLongDateString());
+            return CryptoHelper.MD5(email + DateTime.Now.ToUnixTimestamp());
         }
         #endregion
 

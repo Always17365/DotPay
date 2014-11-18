@@ -45,8 +45,11 @@ namespace DotPay.Command.Executor
         public void Execute(UserRegister cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");
+            var preRegistration = IoC.Resolve<IPreRegistrationRepository>().FindByEmail(cmd.Email);
 
-            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), cmd.TradePassword, cmd.TimeZone);
+            preRegistration.Verify(cmd.RegisterToken);
+
+            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), PasswordHelper.EncryptMD5(cmd.TradePassword), cmd.TimeZone);
 
             IoC.Resolve<IUserRepository>().Add(user);
         }
@@ -313,7 +316,7 @@ namespace DotPay.Command.Executor
             var user = IoC.Resolve<IUserRepository>().FindById<User>(cmd.UserID);
 
             user.SmsAuthentication.CounterAdd();
-        } 
+        }
         public void Execute(UserResetTradePasswordByTwoFactor cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");

@@ -263,6 +263,7 @@
     <None Include="Properties\PublishProfiles\FCPublish.pubxml" />
     <Content Include="public\css\layout.css" />
     <Content Include="public\css\profile.css" />
+    <Content Include="public\images\emailsent.jpg" />
     <Content Include="public\images\icons\cny.png" />
     <Content Include="public\images\icons\euro.png" />
     <Content Include="public\images\icons\exchange.png" />

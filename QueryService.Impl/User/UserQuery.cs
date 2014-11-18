@@ -328,15 +328,14 @@ namespace DotPay.QueryService.Impl
 
         private readonly string getUserByID_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
-                                            t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,
-                                            t1.VipLevel,t2.TradePassword
+                                            t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,t2.TradePassword
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   
                                    WHERE   t1.ID=@id ";
 
         private readonly string getUserByEmail_Sql =
                                  @"SELECT   t1.ID AS UserID,NickName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
-                                            t1.CreateAt ,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
+                                            t1.CreateAt ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
                                             t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
@@ -344,7 +343,7 @@ namespace DotPay.QueryService.Impl
 
         private readonly string getUserByMobile_Sql =
                                @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
-                                          t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel
+                                          t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
                                    WHERE   t1.Mobile=@mobile";

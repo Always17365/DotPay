@@ -28,7 +28,7 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
     {
-        public UserRegister(string email, string password, string tradePassword, int timezone, int commendBy = 0)
+        public UserRegister(string email, string password, string tradePassword, int timezone, string token, int commendBy = 0)
         {
             Check.Argument.IsNotNegative(commendBy, "commendBy");
             //Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
@@ -38,6 +38,7 @@ namespace DotPay.Command
             this.Email = email;
             this.Password = password;
             this.TradePassword = tradePassword;
+            this.RegisterToken = token;
             //this.RippleAddress = rippleAddress;
             //this.RippleSecret = rippleSecret;
             this.TimeZone = timezone;
@@ -45,6 +46,7 @@ namespace DotPay.Command
         }
 
         public string Email { get; private set; }
+        public string RegisterToken { get; private set; }
         public string Password { get; private set; }
         public string TradePassword { get; private set; }
         //public string RippleAddress { get; private set; }

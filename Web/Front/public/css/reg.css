@@ -1,11 +1,20 @@
-﻿.prereg { height: 700px; }
-    .prereg .steps { height: 46px; border-bottom: 2px solid #e6e6e6; position: relative; }
-        .prereg .steps ol { width: 720px; margin: 0 auto; list-style: none; }
-            .prereg .steps ol li.active { color: #3e3e3e; border-bottom: 2px solid #ff4700; }
-            .prereg .steps ol .active { border-bottom-color: #c40000 !important; }
-            .prereg .steps ol li { display: inline; float: left; width: 220px; padding-left: 70px; height: 46px; line-height: 46px; font-size: 16px; font-weight: bold; color: #999; }
-                .prereg .steps ol li i { display: inline-block; zoom: 1; margin-right: 5px; width: 24px; height: 24px; text-align: center; font-style: normal; line-height: 24px; font-size: 14px; font-weight: bold; color: #FFF; background: url(../images/icons/ico-circle.png) no-repeat 0 0; }
-            .prereg .steps ol .active i { background-image: url(../images/icons/ico-circle-active.png) !important; }
-    .prereg .teamservice { padding-top: 10px; font-size: 12px; font-weight: normal; }
-        .prereg .teamservice .agree { vertical-align: middle; margin: 0; }
-        .prereg .teamservice a, .prereg .teamservice a :hover { color: #eb5717; }
+﻿.register { height: 700px; }
+    .register .steps { height: 46px; border-bottom: 2px solid #e6e6e6; position: relative; }
+        .register .steps ol { width: 720px; margin: 0 auto; list-style: none; }
+            .register .steps ol li.active { color: #3e3e3e; border-bottom: 2px solid #ff4700; }
+            .register .steps ol .active { border-bottom-color: #c40000 !important; }
+            .register .steps ol li { display: inline; float: left; width: 220px; padding-left: 70px; height: 46px; line-height: 46px; font-size: 16px; font-weight: bold; color: #999; }
+                .register .steps ol li i { display: inline-block; zoom: 1; margin-right: 5px; width: 24px; height: 24px; text-align: center; font-style: normal; line-height: 24px; font-size: 14px; font-weight: bold; color: #FFF; background: url(../images/icons/ico-circle.png) no-repeat 0 0; }
+            .register .steps ol .active i { background-image: url(../images/icons/ico-circle-active.png) !important; }
+    .register .teamservice { padding-top: 10px; font-size: 12px; font-weight: normal; }
+        .register .teamservice .agree { vertical-align: middle; margin: 0; }
+        .register .teamservice a, .register .teamservice a :hover { color: #eb5717; }
+
+    .register .account { padding: 40px 0 10px 70px; }
+        .register .account .title, .register .account .register-email { font-size: 16px; font-weight: bolder; color: #999; }
+
+    .register .section { border-top: 1px dotted #e6e6e6; }
+        .register .section .header { padding: 15px 0; }
+            .register .section .header .title { font-size: 18px; font-weight: bolder; color: #eb5717; text-align: right; padding-right:4px; }
+            .register .section .header .description { font-size: 12px; color: #999; padding-top: 6px;}
+#register-success .result-message { margin: 25px 50px; padding-left: 65px; height: 48px; line-height: 24px; font-size: 12px; color: #505050; background: url(../images/emailsent.jpg) no-repeat 0 0; }

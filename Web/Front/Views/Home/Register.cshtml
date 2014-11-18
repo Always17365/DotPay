@@ -1,49 +1,70 @@
 ﻿@using DotPay.Language
 <div class="fail box" id="failBox" style="display:none;">
-    <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
+    <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="24"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox"></span>
 </div>
-<style>
-    #registerForm .form-control-feedback { top: 25px; right: 0px; }
-</style>
+
+<link href="~/public/css/reg.css" rel="stylesheet" />
 <div id="main" class="container">
-    <div class="row row-6">
-        <div class="col-sm-6 col-sm-offset-3 ptl-5">
+    <div class="row register">
+        <div class="col-sm-10 col-sm-offset-1   ptl-5">
+            <div class="steps">
+                <ol>
+                    <li><i>1</i><span class="tsl" data-phase-id="r_p_createAccount">验证登录名</span></li>
+                    <li class="active"><i>2</i><span class="tsl" data-phase-id="r_p_fillUserInfo">填写账户信息</span></li>
+                    <li><i class="glyphicon glyphicon-ok"></i><span class="tsl" data-phase-id="r_p_regSuc">注册成功</span></li>
+                </ol>
+            </div>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2">
             @if (string.IsNullOrEmpty(ViewBag.ErrorMessage))
-            {
-                <div class="panel panel-default panel-page"> 
-                    <div class="panel-heading"><h2>注册</h2></div>
-                    <form id="registerForm" class="form-vertical">
-                        @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            <label class="control-label" for="register_email">邮箱地址</label>
-                            <div class="controls">
-                                <input type="text" id="register_email" autocomplete="off" placeholder="请输入邮箱地址" name="email" class="form-control">
-                            </div>
+            {  <form id="registerForm" class="form-horizontal">
+                @Html.AntiForgeryToken()
+                <div class="account row">
+                    <label class="col-sm-2 col-sm-offset-2 title">账户</label>
+                    <div class="col-sm-6">
+                        <label class="register-email">@ViewBag.Email</label>
+                    </div>
+                </div>
+                <section class="section">
+                    <div class="header row"><span class="title col-sm-2 col-sm-offset-2">登陆密码</span> <p class="description">登陆时需要验证，保护账户信息</p></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label" for="register_password">登陆密码</label>
+                        <div class="col-sm-6">
+                            <input type="password" id="register_password" name="password" placeholder="请输入登陆密码" required="required" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label" for="register_password">密码</label>
-                            <div class="controls">
-                                <input type="password" id="register_password" name="password" placeholder="请输入密码" required="required" class="form-control">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label" for="register_confirmPassword">确认密码</label>
+                        <div class="col-sm-6 controls">
+                            <input type="password" id="register_confirmPassword" placeholder="请再次输入登陆密码" name="confirmPassword" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label" for="register_confirmPassword">确认密码</label>
-                            <div class="controls">
-                                <input type="password" id="register_confirmPassword" placeholder="请再次输入密码" name="confirmPassword" class="form-control">
-                            </div>
+                    </div>
+                </section>
+                <section class="section">
+                    <div class="header row"><span class="title col-sm-2 col-sm-offset-2">支付密码</span> <p class="description">付款时需验证，保护资金信息</p></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label" for="register_pay_password">支付密码</label>
+                        <div class="col-sm-6">
+                            <input type="password" id="register_pay_password" name="paypassword" placeholder="请输入支付密码" required="required" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <div class="controls">
-                                <button type="submit" id="register-btn" class="btn btn-primary btn-large btn-block">注册</button>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-offset-2 control-label" for="register_confirmPayPassword">确认支付密码</label>
+                        <div class="col-sm-6 controls">
+                            <input type="password" id="register_confirmPayPassword" placeholder="请再次输入支付密码" name="confirmPayPassword" class="form-control">
                         </div>
-                    </form>
-                    <div class="social-logins">
+                    </div>
+                </section>
+                <div class="form-group">
+                    <div class="col-sm-3  col-sm-offset-4">
+                        <button type="submit" id="register-btn" class="btn btn-primary btn-large btn-block">确定</button>
+                    </div>
+                </div>
+            </form>
+                @*<div class="social-logins">
                         <a href="https://api.weibo.com:443/oauth2/authorize?client_id=156073260&redirect_uri=http%3A%2F%2Fwww.fullcoin.com%2Fweibologin&response_type=code&display=default" class="social-login-btn"><i class="social-icon social-icon-weibo"></i>微博帐号登录</a>
                         <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101081985&redirect_uri=http://www.fullcoin.com/qqlogin&state=fc&scope=get_user_info" class="social-login-btn"><i class="social-icon social-icon-qq"></i>QQ帐号登录</a>
-                    </div>
-
-                </div>
+                    </div>*@
             }
             else
             {
@@ -66,31 +87,11 @@
             },
             trigger: 'cut paste blur',
             fields: {
-                email: {
-                    validators: {
-                        notEmpty: {
-                            message: '邮箱地址不能为空!'
-                        },
-                        emailAddress: {
-                            message: '请输入一个正确的邮箱地址'
-                        },
-                        remote: {
-                            url: '/validateEmail',
-                            type: "post",
-                            data: { "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
-                            delay: 1000
-                        }
-                    }
-                },
                 password: {
                     validators: {
                         notEmpty: {
                             message: '请输入密码'
-                        },
-                        different: {
-                            field: 'email',
-                            message: '请不要使用与邮箱地址完全相同的密码'
-                        },
+                        }, 
                         callback: {
                             callback: function (value, validator) {
                                 // Check the password strength
@@ -128,6 +129,52 @@
                         }
                     }
                 }
+                , paypassword: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入密码'
+                        },
+                        different: {
+                            field: 'password',
+                            message: '请不要使用与登陆密码完全相同的支付密码'
+                        }, 
+                        callback: {
+                            callback: function (value, validator) {
+                                // Check the password strength
+                                if (value.length < 6) {
+                                    return {
+                                        valid: false,
+                                        message: '密码不能少于6个字符'
+                                    }
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                },
+                confirmPayPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: '请再次输入密码'
+                        },
+                        identical: {
+                            field: 'paypassword',
+                            message: '两次输入密码不一致'
+                        },
+                        callback: {
+                            callback: function (value, validator) {
+                                // Check the password strength
+                                if (value.length < 6) {
+                                    return {
+                                        valid: false,
+                                        message: '密码不能少于6个字符'
+                                    }
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
         }).on('success.form.bv', function (e) {
             e.preventDefault();
@@ -135,7 +182,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/registerUser',
+                url: '/register',
                 data: $form.serialize(), //+ "&address=" + wallet.address + "&secret=" + secret_encypt,
                 success: function (data) {
                     if (data.Code == 1) {

@@ -70,6 +70,7 @@ namespace DotPay.Web.Controllers
             {
                 if (IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
                 {
+                    ViewBag.Email = email;
                     Session["PreRegistrationEmail"] = email;
                     Session["PreRegistrationToken"] = token;
 
@@ -190,18 +191,18 @@ namespace DotPay.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult PreRegister(string email, string checkcode)
+        public ActionResult PreRegister(string email, string captcha)
         {
             var tmpObj = new object();
             var result = FCJsonResult.UnknowFail;
 
-            if (!CheckImageCode(checkcode, CaptchaType.PreRegistration))
+            if (!CheckImageCode(captcha, CaptchaType.PreRegistration))
             {
                 result = FCJsonResult.CreateFailResult(this.Lang("Verification code error."));
             }
             if (email.NullSafe().Trim().IsEmail())
             {
-                if (IoC.Resolve<IUserQuery>().ExistUserByEmail(email))
+                if (IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmail(email))
                     result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
                 else
                 {
@@ -209,6 +210,7 @@ namespace DotPay.Web.Controllers
                     {
                         var cmd = new UserPreRegister(email);
                         this.CommandBus.Send(cmd);
+                        result = FCJsonResult.CreateSuccessResult(this.Lang("We have sent an email to {0}.".FormatWith(email)));
                     }
                     catch (CommandExecutionException ex)
                     {
@@ -226,7 +228,7 @@ namespace DotPay.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterPost(string password, string tradepassword)
+        public ActionResult RegisterPost(string password, string paypassword)
         {
             if (Session["PreRegistrationEmail"] == null || Session["PreRegistrationToken"] == null)
             {
@@ -241,15 +243,15 @@ namespace DotPay.Web.Controllers
                 var result = FCJsonResult.UnknowFail;
 
 
-                if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password))
+                if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(paypassword))
                 {
-                    if (IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
+                    if (!IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
                         result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
                     else
                     {
                         try
                         {
-                            var cmd = new UserRegister(email, password, tradepassword, 8, 0);
+                            var cmd = new UserRegister(email, password, paypassword, 8, token);
                             this.CommandBus.Send(cmd);
                             var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
                             Session[Constants.TmpUserKey] = loginUser;
