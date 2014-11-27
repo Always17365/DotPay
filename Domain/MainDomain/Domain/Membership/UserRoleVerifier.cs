@@ -50,11 +50,11 @@ namespace DotPay.MainDomain
     #region 操盘账户提现限制相关
 
                                     IEventHandler<CNYWithdrawCreated>,                      //申请CNY提现
-                                    IEventHandler<VirtualCoinWithdrawCreated>,              //申请虚拟币提现
+                                    //IEventHandler<VirtualCoinWithdrawCreated>,              //申请虚拟币提现
     #endregion
 
     #region 虚拟币提现相关
-                                    IEventHandler<VirtualCoinWithdrawVerified>,             //提现超限额审核 
+             //                       IEventHandler<VirtualCoinWithdrawVerified>,             //提现超限额审核 
     #endregion 
 
     #region Vip 设置相关
@@ -103,7 +103,7 @@ namespace DotPay.MainDomain
 
         #region 操盘账户相关
         public void Handle(CNYWithdrawCreated @event) { VerifyManagerIsTrader(@event.WithdrawUserID); }
-        public void Handle(VirtualCoinWithdrawCreated @event) { VerifyManagerIsTrader(@event.WithdrawUserID); }
+        //public void Handle(VirtualCoinWithdrawCreated @event) { VerifyManagerIsTrader(@event.WithdrawUserID); }
         #endregion
 
         #region 人民币提现相关
@@ -116,7 +116,7 @@ namespace DotPay.MainDomain
 
         #region 虚拟币提现相关
 
-        public void Handle(VirtualCoinWithdrawVerified @event) { this.VerifyManagerIsWithdrawMonitor(@event.ByUserID); }
+        //public void Handle(VirtualCoinWithdrawVerified @event) { this.VerifyManagerIsWithdrawMonitor(@event.ByUserID); }
         #endregion
 
         #region Vip 设置相关

@@ -13,8 +13,10 @@ using DotPay.Tools.DistributedMessageSender;
 
 namespace DotPay.MainDomain
 {
-    public class WithdrawOnceLimitVerifyMonitor : IEventHandler<CNYWithdrawSetFee>,
-                                         IEventHandler<VirtualCoinWithdrawSetFee>
+    public class WithdrawOnceLimitVerifyMonitor : IEventHandler<CNYWithdrawSetFee>
+        
+                                         //,
+                                         //IEventHandler<VirtualCoinWithdrawSetFee>
     {
         public void Handle(CNYWithdrawSetFee @event)
         {
@@ -28,17 +30,17 @@ namespace DotPay.MainDomain
             }
         }
 
-        public void Handle(VirtualCoinWithdrawSetFee @event)
-        {
-            var currency = IoC.Resolve<ICurrencyRepository>().FindById<Currency>((int)@event.Currency);
-            var needVerify = currency.WithdrawVerifyLine == 0 ? false : currency.WithdrawVerifyLine <= @event.VirtualCoinWithdraw.Amount;
+        //public void Handle(VirtualCoinWithdrawSetFee @event)
+        //{
+        //    var currency = IoC.Resolve<ICurrencyRepository>().FindById<Currency>((int)@event.Currency);
+        //    var needVerify = currency.WithdrawVerifyLine == 0 ? false : currency.WithdrawVerifyLine <= @event.VirtualCoinWithdraw.Amount;
 
-            if (!needVerify)
-            {
-                @event.VirtualCoinWithdraw.SkipVerify();
-            }
+        //    if (!needVerify)
+        //    {
+        //        @event.VirtualCoinWithdraw.SkipVerify();
+        //    }
 
-        }
+        //}
 
     }
 }

@@ -8,15 +8,15 @@
 <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/my/profile/">
                 <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/assets"> 我的资金</a></li>
-                <li><a href="/txrecords">交易记录</a></li>
-                <li><a href="/settings">账户设置</a></li>
+                <li><a href="/my/profile/"> 我的资金</a></li>
+                <li><a href="/my/txrecords">交易记录</a></li>
+                <li><a href="/my/settings">账户设置</a></li>
                 <li class="active"><a href="/apps">应用中心</a></li>
             </ul>
         </div>
@@ -24,49 +24,65 @@
 </nav>
 <div class="container dotpay-apps">
     <div class="col-sm-8 col-sm-offset-2">
-        <div class="panel panel-info">
-            <div class="panel-heading dotpay-transfer-title">
-                <h4>转账确认 - @ViewBag.Currency</h4>
+        @if (@ViewBag.Transfer != null)
+        {
+            <div class="panel panel-info">
+                <div class="panel-heading dotpay-transfer-title">
+                    <h4>转账到点付-确认</h4>
+                </div>
+                <div class="panel-body">
+                    <h3>请确认您的转账信息</h3>
+                    <hr />
+                    <div class="fail box" id="failBox" style="display:none;">
+                        <img src="@ViewBag.CDN/public/images/error.png" alt="Error!" class="left 2x" width="24"><span id="spanFailBox"></span>
+                    </div>
+                    <form id="transferFrom" class="form-horizontal" role="form" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">收款人：</label>
+                            <div class="col-sm-8">
+                                <label class="control-label">
+                                    @ViewBag.Receiver.Email
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">付款金额：</label>
+                            <div class="col-sm-8">
+                                <label class="control-label">
+                                    <input type="hidden" id="orderID" name="orderID" value="@ViewBag.Transfer.SequenceNo" />
+                                    @ViewBag.Transfer.Amount
+                                </label>
+                                <a href="#">收费标准</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">付款说明：</label>
+                            <div class="col-sm-8">
+                                <label class="control-label">
+                                    转账
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paypassword" class="col-sm-2 control-label">支付密码：</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="paypassword" name="paypassword">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <button type="submit" class="btn btn-primary">确认并付款</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="panel-body">
-                <h3>请确认您的转账信息</h3>
-                <hr />
-                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfer/inside/cny/submit">
-                    @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">收款人：</label>
-                        <div class="col-sm-8">
-                            <label class="control-label">
-                                *磊 ( sdfaldf@adfasdf.com )
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">付款金额：</label>
-                        <div class="col-sm-8">
-                            <label class="control-label">
-                               123.12 元 
-                            </label>
-                            <a href="#">收费标准</a>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">付款说明：</label>
-                        <div class="col-sm-8">
-                            <label class="control-label">
-                                转账
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <button type="submit" class="btn btn-primary">确认并付款</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        }
+        else
+        {
+            <div class="fail box" id="failBox"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox">系统出错</span></div>
+        }
     </div>
     <script>
         $(document).ready(function () {
@@ -133,30 +149,34 @@
                                 }
                             }
                         }
+                    },
+                    paypassword: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入支付密码'
+                            }
+                        }
                     }
+
                 }
-            })
-             /*   .on('success.form.bv', function (e) {
+            }).on('success.form.bv', function (e) {
                 e.preventDefault();
                 var $form = $(e.target);
 
                 $.ajax({
                     type: 'POST',
-                    url: '/transfer/inside/{currency}/submit',
+                    url: '/transfer/cny/confirm',
                     data: $form.serialize(),
                     success: function (data) {
                         if (data.Code == 1) {
-                            window.location = '/my/profile';
+                            window.location = '/transfer/cny/success?orderID=' + $("#orderID").val();
                         } else {
                             $('#spanFailBox').html(data.Message);
-                            $('#failBox').show();
-                            $('html, body').animate({
-                                scrollTop: $("#failBox").offset().top - 95
-                            }, 1000);
+                            $('#failBox').show(); 
                         }
                     }
                 });
-            })*/
+            })
             .on('error.validator.bv', function (e, data) {
                 data.element
                     .data('bv.messages')
@@ -169,26 +189,6 @@
             if (val)
                 $(this).val(val);
         });
-        //$("#inputEmail").on("blur", function () {
-        //    var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
-        //    if (reg.test($(this).val())) {
-        //        $.post("/transfer/queryacct",
-        //               { "account": $(this).val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
-        //               function (data) {
-        //                   if (data.Valid == true) {
-        //                       $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
-        //                       $("#realEmail").val(data.Account);
-        //                   }
-        //                   else {
-        //                       $("#inputEmail").tooltip({
-        //                           trigger: 'click',
-        //                           placement: 'bottom',
-        //                           template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-        //                           title: data.Message
-        //                       }).tooltip('show')
-        //                   }
-        //               })
-        //    }
-        //});
+
     </script>
 </div>

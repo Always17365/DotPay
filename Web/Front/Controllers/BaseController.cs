@@ -9,11 +9,14 @@ using DotPay.Web.Controllers;
 using DotPay.ViewModel;
 using DotPay.QueryService;
 using System.Threading;
+using RippleRPC.Net;
 
 namespace DotPay.Web.Controllers
 {
     public class BaseController : Controller
     {
+        protected static RippleClient rippleClient = new RippleClient(new Uri("wss://s-east.ripple.com:443"), 10, true);
+
         #region override
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -123,7 +126,7 @@ namespace DotPay.Web.Controllers
         public enum CaptchaType
         {
             PreRegistration = 1,
-            ForgetPassword=2
+            ForgetPassword = 2
         }
     }
 }

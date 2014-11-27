@@ -17,10 +17,10 @@ namespace DotPay.Persistence.Repository
         public WithdrawReceiverAccountRepository(IDatabaseFactory databaseFactory)
             : base(databaseFactory) { }
 
-        public WithdrawReceiverBankAccount FindByAccountAndBank(string bankAccount, Bank bank)
+        public WithdrawReceiverAccount FindByAccountAndBank(string bankAccount, PayWay payway)
         {
-            return this._session.QueryOver<WithdrawReceiverBankAccount>()
-                                .Where(wrbc => wrbc.BankAccount == bankAccount && wrbc.Bank == bank)
+            return this._session.QueryOver<WithdrawReceiverAccount>()
+                                .Where(wrbc => wrbc.BankAccount == bankAccount && wrbc.PayWay == payway)
                                 .SingleOrDefault(); 
         }
     }

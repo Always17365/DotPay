@@ -54,7 +54,7 @@ namespace DotPay.Web.Controllers
         [Route("~/withdraw/cny")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CNYWithdraw(bool withdrawToCode, int? accountID, decimal amount, Bank bank, string bankAccount,
+        public ActionResult CNYWithdraw(bool withdrawToCode, int? accountID, decimal amount, PayWay payway, string bankAccount,
                              string tradePassword, string sms_otp, string ga_otp)
         {
             //if (!CheckUserIsPassRealNameAuthAndEmailIsVerify())
@@ -79,7 +79,7 @@ namespace DotPay.Web.Controllers
                 {
                     if (!withdrawToCode)
                     {
-                        var cmd = new SubmitCNYWithdraw(accountID, this.CurrentUser.UserID, amount, bank, bankAccount.Trim(), tradePassword);
+                        var cmd = new SubmitCNYWithdraw(accountID, this.CurrentUser.UserID, amount, payway, bankAccount.Trim(), tradePassword);
                         this.CommandBus.Send(cmd);
                         this.UpdateUserWithdrawDayLimitRemain(amount, CurrencyType.CNY);
                     }

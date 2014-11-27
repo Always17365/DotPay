@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
 namespace DotPay.MainDomain.Events
 {
     public class VirtualCoinWithdrawCreated : DomainEvent
@@ -145,3 +146,4 @@ namespace DotPay.MainDomain.Events
         public string Memo { get; private set; }
     }
 }
+*/

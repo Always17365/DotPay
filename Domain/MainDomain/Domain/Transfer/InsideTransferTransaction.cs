@@ -14,6 +14,7 @@ namespace DotPay.MainDomain
 {
     public abstract class InsideTransferTransaction : DomainBase, IAggregateRoot,
                               IEventHandler<InsideTransferTransactionCreated>,
+        //IEventHandler<InsideTransferTransactionConfirmed>,
                               IEventHandler<InsideTransferTransactionComplete>
     {
         #region ctor
@@ -40,7 +41,15 @@ namespace DotPay.MainDomain
         public virtual string Memo { get; protected set; }
         #endregion
 
-        #region IMPL ICNYDeposit
+        #region Public Methods
+        //public virtual void Confirm()
+        //{
+        //    if (this.State != TransactionState.Init)
+        //        throw new TransferTransactionHasConfirmedException();
+        //    else
+        //        this.RaiseEvent(new InsideTransferTransactionConfirmed(this.ID, this.Currency));
+        //}
+
         public virtual void Complete()
         {
             if (this.State != TransactionState.Pending)
@@ -56,12 +65,12 @@ namespace DotPay.MainDomain
         {
             this.FromUserID = @event.FromUserID;
             this.ToUserID = @event.ToUserID;
-            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().Shrink().Replace("-", string.Empty).Replace("_", string.Empty);
+            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty);
             this.Currency = @event.Currency;
             this.Amount = @event.Amount;
             this.PayWay = @event.PayWay;
             this.Description = @event.Description;
-            this.State = TransactionState.Init;
+            this.State = TransactionState.Pending;
             this.Memo = string.Empty;
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
         }
@@ -72,5 +81,10 @@ namespace DotPay.MainDomain
             this.DoneAt = @event.UTCTimestamp.ToUnixTimestamp();
         }
         #endregion
+
+        //void IEventHandler<InsideTransferTransactionConfirmed>.Handle(InsideTransferTransactionConfirmed @event)
+        //{
+        //    this.State = TransactionState.Pending;
+        //}
     }
 }

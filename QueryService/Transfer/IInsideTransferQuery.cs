@@ -10,7 +10,7 @@ namespace DotPay.QueryService
 {
     public interface IInsideTransferQuery
     {
-        InsideTransferModel GetInsideTransferBySequenceNo(string seqNo, CurrencyType currency);
+        InsideTransferModel GetInsideTransferBySequenceNo(string seqNo, TransactionState state, CurrencyType currency);
 
     }
 }

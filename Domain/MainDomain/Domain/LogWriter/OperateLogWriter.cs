@@ -52,8 +52,8 @@ namespace DotPay.MainDomain
          IEventHandler<CNYWithdrawTransferFailed>,                 //RMB提现转账失败
          IEventHandler<CNYWithdrawModifiedReceiverBankAccount>,    //RMB提现收款人信息修改
 
-         IEventHandler<VirtualCoinWithdrawVerified>,               //虚拟币提现审核
-         IEventHandler<VirtualCoinWithdrawCompleted>,              //虚拟币提现完成
+         //IEventHandler<VirtualCoinWithdrawVerified>,               //虚拟币提现审核
+         //IEventHandler<VirtualCoinWithdrawCompleted>,              //虚拟币提现完成
     #endregion 
 
     #region 充值码相关
@@ -258,7 +258,7 @@ namespace DotPay.MainDomain
             IoC.Resolve<IRepository>().Add(log);
         }
 
-        public void Handle(VirtualCoinWithdrawVerified @event)
+        /*public void Handle(VirtualCoinWithdrawVerified @event)
         {
             var memo = "审核了虚拟币提现";
             var log = VirtualCoinWithdrawProcessLogFactory.CreateLog(@event.Currency, @event.WithdrawID, @event.ByUserID, memo);
@@ -271,7 +271,7 @@ namespace DotPay.MainDomain
             var nullUserID = 0;
             var log = VirtualCoinWithdrawProcessLogFactory.CreateLog(@event.Currency, @event.WithdrawID, nullUserID, memo);
             IoC.Resolve<IRepository>().Add(log);
-        }
+        }*/
         #endregion
          
         #region VIP设置相关

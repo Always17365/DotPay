@@ -10,6 +10,6 @@ namespace DotPay.MainDomain.Repository
 {
     public interface IWithdrawReceiverAccountRepository : IRepository
     {
-        WithdrawReceiverBankAccount FindByAccountAndBank(string bankAccount, Bank bank);
+        WithdrawReceiverAccount FindByAccountAndBank(string bankAccount, PayWay payway);
     }
 }

@@ -108,6 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryRegister.cs" />
     <Compile Include="Repository\DepositRepository.cs" />
+    <Compile Include="Repository\InsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\PreRegistrationRepository.cs" />
     <Compile Include="Repository\WithdrawReceiverAccountRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

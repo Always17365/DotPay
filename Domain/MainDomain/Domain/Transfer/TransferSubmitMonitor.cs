@@ -24,7 +24,7 @@ namespace DotPay.MainDomain
             var msgID = @event.Currency.ToString() + "_inside_tx_" + tx.ID;
             var msg = new InsideTransactionCreateMessage(@event.TransactionEntity.ID, @event.FromUserID, @event.ToUserID, @event.Currency, @event.Amount, @event.PayWay, @event.Description);
 
-            var exchangeName = Utilities.GenerateExchangeAndQueueNameOfInsideTransfer().Item1;
+            var exchangeName = Utilities.GenerateExchangeAndQueueNameOfInboundTransfer().Item1;
 
             var msgBytes = Encoding.UTF8.GetBytes(IoC.Resolve<IJsonSerializer>().Serialize(msg));
             var existKey = msgID;

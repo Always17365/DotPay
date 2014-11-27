@@ -20,10 +20,11 @@ namespace DotPay.MainDomain
                                   IEventHandler<InsideTransferTransactionCreated>,
                                   IEventHandler<InsideTransferTransactionComplete>,
         //IEventHandler<CNYWithdrawCompleted>,                //cny提现完成
-                                  IEventHandler<CNYWithdrawCanceled>,                 //cny提现撤销
+                                  IEventHandler<CNYWithdrawCanceled>
+                                  /*,                 //cny提现撤销
                                   IEventHandler<VirtualCoinWithdrawCreated>,          //虚拟币提现创建
                                   IEventHandler<VirtualCoinWithdrawSetFee>,           //虚拟币计入提现费
-                                  IEventHandler<VirtualCoinWithdrawCanceled>          //cny提现撤销 
+                                  IEventHandler<VirtualCoinWithdrawCanceled>          //cny提现撤销 */
     {
         private IRepository repos = IoC.Resolve<IRepository>();
 
@@ -79,12 +80,12 @@ namespace DotPay.MainDomain
             //account.LockedIncrease(@event.CNYWithdraw.Fee);
         }
 
-        public void Handle(VirtualCoinWithdrawSetFee @event)
-        {
-            var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
+        //public void Handle(VirtualCoinWithdrawSetFee @event)
+        //{
+        //    var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
 
-            account.BalanceDecrease(@event.VirtualCoinWithdraw.Fee);
-        }
+        //    account.BalanceDecrease(@event.VirtualCoinWithdraw.Fee);
+        //}
 
         //public void Handle(CNYWithdrawCompleted @event)
         //{
@@ -109,35 +110,35 @@ namespace DotPay.MainDomain
             this.Apply(new AccountChangedByWithdrawCancel(cnyWithdraw.UserID, cnyWithdraw.AccountID, withdrawSum, @event.WithdrawUniqueID, CurrencyType.CNY));
         }
 
-        public void Handle(VirtualCoinWithdrawCanceled @event)
-        {
-            var withdraw = IoC.Resolve<IWithdrawRepository>().FindByUniqueIdAndCurrency(@event.WithdrawUniqueID, @event.Currency);
-            var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
+        //public void Handle(VirtualCoinWithdrawCanceled @event)
+        //{
+        //    var withdraw = IoC.Resolve<IWithdrawRepository>().FindByUniqueIdAndCurrency(@event.WithdrawUniqueID, @event.Currency);
+        //    var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
 
-            var withdrawSum = withdraw.Amount + withdraw.Fee;
-            //account.LockedDecrease(withdrawSum);
-            account.BalanceIncrease(withdrawSum);
+        //    var withdrawSum = withdraw.Amount + withdraw.Fee;
+        //    //account.LockedDecrease(withdrawSum);
+        //    account.BalanceIncrease(withdrawSum);
 
-            this.Apply(new AccountChangedByWithdrawCancel(withdraw.UserID, withdraw.AccountID, withdrawSum, @event.WithdrawUniqueID, @event.Currency));
-        }
+        //    this.Apply(new AccountChangedByWithdrawCancel(withdraw.UserID, withdraw.AccountID, withdrawSum, @event.WithdrawUniqueID, @event.Currency));
+        //}
 
-        public void Handle(VirtualCoinWithdrawCreated @event)
-        {
-            var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
+        //public void Handle(VirtualCoinWithdrawCreated @event)
+        //{
+        //    var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
 
-            account.BalanceDecrease(@event.Amount);
-            //account.LockedIncrease(@event.Amount); 
+        //    account.BalanceDecrease(@event.Amount);
+        //    //account.LockedIncrease(@event.Amount); 
 
-            this.Apply(new AccountChangedByWithdrawCreated(account.UserID, @event.AccountID, @event.Amount,
-                                                           @event.WithdrawEntity.UniqueID, @event.Currency));
-        }
+        //    this.Apply(new AccountChangedByWithdrawCreated(account.UserID, @event.AccountID, @event.Amount,
+        //                                                   @event.WithdrawEntity.UniqueID, @event.Currency));
+        //}
 
 
         public void Handle(InsideTransferTransactionComplete @event)
         {
             var transferTransaction = IoC.Resolve<IInsideTransferTransactionRepository>().FindTransferTxByID(@event.InternalTransferID, @event.Currency);
             var toAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transferTransaction.ToUserID, @event.Currency);
-            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transferTransaction.ToUserID, @event.Currency);
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transferTransaction.FromUserID, @event.Currency);
 
             if (toAccount == null)
             {

@@ -30,7 +30,8 @@ namespace DotPay.Web
 
         protected void Application_PreSendRequestHeaders()
         {
-            HttpContext.Current.Response.Headers.Remove("Server");
+            if (this.Response != null)
+                this.Response.Headers.Remove("Server");
         }
 
         protected void Application_BeginRequest()

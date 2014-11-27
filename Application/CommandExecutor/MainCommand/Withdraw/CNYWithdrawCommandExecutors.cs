@@ -37,11 +37,11 @@ namespace DotPay.Command.Executor
 
                 if (!cmd.ReceiverBankAccountID.HasValue)
                 {
-                    var receiverBankAccount = IoC.Resolve<IWithdrawReceiverAccountRepository>().FindByAccountAndBank(cmd.BankAccount, cmd.Bank);
+                    var receiverBankAccount = IoC.Resolve<IWithdrawReceiverAccountRepository>().FindByAccountAndBank(cmd.BankAccount, cmd.PayWay);
 
                     if (receiverBankAccount == null)
                     {
-                        receiverBankAccount = new WithdrawReceiverBankAccount(cmd.WithdrawUserID, cmd.Bank, cmd.BankAccount, receiver.Membership.RealName);
+                        receiverBankAccount = new WithdrawReceiverAccount(cmd.WithdrawUserID, cmd.PayWay, cmd.BankAccount, receiver.Membership.RealName);
 
                         repos.Add(receiverBankAccount);
                     }
@@ -85,11 +85,11 @@ namespace DotPay.Command.Executor
             var cnyWithdraw = repos.FindById<CNYWithdraw>(cmd.WithdrawID);
             var receiver = repos.FindById<User>(cnyWithdraw.UserID);
 
-            var receiverNewBankAccount = new WithdrawReceiverBankAccount(cnyWithdraw.UserID, cmd.Bank, cmd.BankAccount, receiver.Membership.RealName);
+            var receiverNewBankAccount = new WithdrawReceiverAccount(cnyWithdraw.UserID, cmd.PayWay, cmd.BankAccount, receiver.Membership.RealName);
 
             repos.Add(receiverNewBankAccount);
 
-            cnyWithdraw.ModifyReceiverBankAccount(receiverNewBankAccount.ID, cmd.ByUserID);
+            cnyWithdraw.ModifyReceiverAccount(receiverNewBankAccount.ID, cmd.ByUserID);
         }
 
         public void Execute(CNYWithdrawMarkAsSuccess cmd)

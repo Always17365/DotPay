@@ -60,6 +60,25 @@ namespace DotPay.QueryService.Impl
             return user;
         }
 
+        public LoginUser GetUserByLoginName(string loginName)
+        {
+            Check.Argument.IsNotEmpty(loginName, "loginName");
+
+            var cacheKey = CacheKey.USER_INFO_BY_MAIL + loginName;
+            var user = Cache.Get<LoginUser>(cacheKey);
+
+            if (user == null)
+            {
+                user = this.Context.Sql(getUserByLogin_Sql)
+                                   .Parameter("@loginName", loginName)
+                                   .QuerySingle<LoginUser>();
+
+                if (user != null)
+                    Cache.Add(cacheKey, user, new TimeSpan(1, 0, 0));
+            }
+            return user;
+        }
+
         public LoginUser GetUserByEmail(string email)
         {
             Check.Argument.IsNotEmpty(email, "email");
@@ -317,7 +336,7 @@ namespace DotPay.QueryService.Impl
                                      AND   (t2.IsLocked = @2)";
 
         private readonly string users_Sql =
-                                @"SELECT   t1.ID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,t1.RippleAddress,
+                                @"SELECT   t1.ID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,t1.RippleAddress,
                                            t1.ScoreBalance,t1.VipLevel,t2.LastPasswordVerifyAt
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID 
@@ -327,22 +346,30 @@ namespace DotPay.QueryService.Impl
                                    LIMIT    @3,@4";
 
         private readonly string getUserByID_Sql =
-                                 @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
+                                 @"SELECT   t1.ID AS UserID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
                                             t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,t2.TradePassword
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID   
                                    WHERE   t1.ID=@id ";
 
         private readonly string getUserByEmail_Sql =
-                                 @"SELECT   t1.ID AS UserID,NickName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
+                                 @"SELECT   t1.ID AS UserID,LoginName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                             t1.CreateAt ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
                                             t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
                                    WHERE   t1.Email=@email";
 
+        private readonly string getUserByLogin_Sql =
+                                 @"SELECT   t1.ID AS UserID,LoginName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
+                                            t1.CreateAt ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
+                                            t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo
+                                    FROM   " + Config.Table_Prefix + @"User t1 
+                                            INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
+                                   WHERE   t1.LoginName=@loginName";
+
         private readonly string getUserByMobile_Sql =
-                               @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
+                               @"SELECT   t1.ID AS UserID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt ,
                                           t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  
@@ -375,7 +402,7 @@ namespace DotPay.QueryService.Impl
 
 
         public readonly string getUserByOpenID_Sql =
-                              @"SELECT   t1.ID AS UserID,NickName,t1.Email,VipLevel,Mobile,t2.IsLocked,
+                              @"SELECT   t1.ID AS UserID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,
                                          t1.CreateAt ,t2.IsLocked,t2.IsEmailVerify AS IsVerifyEmail ,t1.TwoFactorFlg,
                                          t1.ScoreBalance,t1.VipLevel,t2.TradePassword, 
                                    FROM    " + Config.Table_Prefix + @"OpenAuthShip t0

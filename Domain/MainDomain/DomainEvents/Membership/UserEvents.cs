@@ -13,9 +13,9 @@ namespace DotPay.MainDomain.Events
     #region UserReigisted event
     public class UserRegisted : DomainEvent
     {
-        public UserRegisted(int commendBy, string email, string password, string tradePassword, int timezone, User registUser)
+        public UserRegisted(int commendBy, string loginName, string email, string password, string tradePassword, int timezone, User registUser)
         {
-            this.CommendBy = commendBy;
+            this.LoginName = loginName;
             this.TimeZone = timezone;
             //this.RippleAddress = rippleAddress;
             //this.RippleSecret = rippleSecret;
@@ -24,6 +24,7 @@ namespace DotPay.MainDomain.Events
             this.TradePassword = tradePassword;
             this.RegistUser = registUser;
         }
+        public string LoginName { get; private set; }
         public int CommendBy { get; private set; }
         public int TimeZone { get; private set; }
         public string TradePassword { get; private set; }
@@ -36,16 +37,16 @@ namespace DotPay.MainDomain.Events
 
     public class UserRegistedByOpenAuth : DomainEvent
     {
-        public UserRegistedByOpenAuth(int commendBy, string nickName, /*string rippleAddress, string rippleSecret,*/ string password)
+        public UserRegistedByOpenAuth(int commendBy, string loginName, /*string rippleAddress, string rippleSecret,*/ string password)
         {
             this.CommendBy = commendBy;
-            this.NickName = nickName;
+            this.LoginName = loginName;
             //this.RippleAddress = rippleAddress;
             //this.RippleSecret = rippleSecret;
             this.Password = password;
         }
         public int CommendBy { get; private set; }
-        public string NickName { get; private set; }
+        public string LoginName { get; private set; }
         //public string RippleAddress { get; private set; }
         //public string RippleSecret { get; private set; }
         public string Password { get; private set; }

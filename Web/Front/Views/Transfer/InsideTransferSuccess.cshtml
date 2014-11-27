@@ -1,0 +1,148 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@using FC.Framework;
+@using DotPay.ViewModel
+@using DotPay.Common
+@using DotPay.Language
+<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/my/profile/">
+                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/my/profile/"> 我的资金</a></li>
+                <li><a href="/my/txrecords">交易记录</a></li>
+                <li><a href="/my/settings">账户设置</a></li>
+                <li class="active"><a href="/apps">应用中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container dotpay-apps">
+    <div class="col-sm-8 col-sm-offset-2">
+        @if (@ViewBag.Transfer != null)
+        {
+            <div class="col-sm-8 col-sm-offset-1 ptl-5 transfe-success">
+                <div class="result-message">
+                    <p id="result-msg">转账成功，对方将立即收到￥ @ViewBag.Transfer.Amount </p>
+                    <p class="remark">点击查看 <a href="/my/txrecords"><strong>我的交易记录</strong></a>，查看您的交易明细</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="fail box" id="failBox"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox">系统出错</span></div>
+        }
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#transferFrom').bootstrapValidator({
+                message: '请输入合法的值',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                trigger: 'cut paste blur',
+                fields: {
+                    frontEmail: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入邮箱地址!'
+                            },
+                            emailAddress: {
+                                message: '请输入一个正确的邮箱地址'
+                            },
+                            callback: {
+                                callback: function (value, validator) {
+                                    $.post("/transfer/queryacct",
+                                         { "account": value, "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
+                                         function (data) {
+                                             if (data.Valid == true) {
+                                                 $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
+                                                 $("#realEmail").val(data.Account);
+                                                 validator.updateStatus('frontEmail', 'VALID', 'callback');
+                                             }
+                                             else {
+                                                 $("#inputEmail").tooltip({
+                                                     trigger: 'click',
+                                                     placement: 'bottom',
+                                                     template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+                                                     title: data.Message
+                                                 }).tooltip('show');
+                                                 validator.updateStatus('frontEmail', validator.STATUS_INVALID, 'callback');
+                                             }
+                                         });
+                                    return { valid: false, message: " " };
+                                }
+                            }
+                        }
+                    },
+                    amount: {
+                        validators: {
+                            notEmpty: {
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            regexp: {
+                                regexp: /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/,
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            callback: {
+                                callback: function (value, validator) {
+                                    if (parseFloat(value) < 0.01) {
+                                        return {
+                                            valid: false,
+                                            message: '金额不能小于0.01'
+                                        }
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    },
+                    paypassword: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入支付密码'
+                            }
+                        }
+                    }
+
+                }
+            }).on('success.form.bv', function (e) {
+                e.preventDefault();
+                var $form = $(e.target);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/transfer/{currency}/confirm',
+                    data: $form.serialize(),
+                    success: function (data) {
+                        if (data.Code == 1) {
+                            window.location = '/transfer/{currency}/success?orderID=' + $("orderID").val();
+                        } else {
+                            $('#spanFailBox').html(data.Message);
+                            $('#failBox').show();
+                        }
+                    }
+                });
+            })
+            .on('error.validator.bv', function (e, data) {
+                data.element
+                    .data('bv.messages')
+                    .find('.help-block[data-bv-for="' + data.field + '"]').hide()
+                    .filter('[data-bv-validator="' + data.validator + '"]').show();
+            });
+        });
+        $("#inputEmail").on("click", function () {
+            var val = $("#realEmail").val();
+            if (val)
+                $(this).val(val);
+        });
+
+    </script>
+</div>

@@ -5,7 +5,7 @@ using DotPay.Common;
 
 namespace DotPay.Persistence
 {
-    public class WithdrawReceiverBankAccountMap : BaseClassMapping<WithdrawReceiverBankAccount>
+    public class WithdrawReceiverBankAccountMap : BaseClassMapping<WithdrawReceiverAccount>
     {
         public WithdrawReceiverBankAccountMap()
         {
@@ -13,7 +13,7 @@ namespace DotPay.Persistence
 
             Property(x => x.UserID, map => { map.NotNullable(true); map.Index("IX_WITHDRAW_RECEIVER_BANK_ACCOUNT_USERID"); });
             Property(x => x.Valid);
-            Property(x => x.Bank, map => { map.NotNullable(true); });
+            Property(x => x.PayWay, map => { map.NotNullable(true); });
             //Property(x => x.BankOutletsID, map => { map.NotNullable(true); });
             Property(x => x.BankAccount, map => { map.NotNullable(true); map.Length(20); });
             Property(x => x.ReceiverName, map => { map.NotNullable(true); map.Length(30); });

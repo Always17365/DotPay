@@ -23,10 +23,10 @@ namespace DotPay.MainDomain
         void CompleteForCNY(int transferAccountID, string transferNo, int byUserID);
         void CancelForCNY(int byUserID, string memo);
 
-        void VerifyForVirtualCoin(CurrencyType currency, int byUserID, string memo);
-        void SkipVerifyForVirtualCoin(CurrencyType currency);
-        void CompleteForVirtualCoin(string txID, decimal txfee, CurrencyType currencyType);
-        void CancelForVirtualCoin(CurrencyType currency, int byUserID,string memo);
-        void MarkVirtualCoinTransferFail(CurrencyType currency, int byUserID);
+        //void VerifyForVirtualCoin(CurrencyType currency, int byUserID, string memo);
+        //void SkipVerifyForVirtualCoin(CurrencyType currency);
+        //void CompleteForVirtualCoin(string txID, decimal txfee, CurrencyType currencyType);
+        //void CancelForVirtualCoin(CurrencyType currency, int byUserID,string memo);
+        //void MarkVirtualCoinTransferFail(CurrencyType currency, int byUserID);
     }
 }

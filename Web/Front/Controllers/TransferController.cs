@@ -11,6 +11,12 @@ using DotPay.QueryService;
 using QConnectSDK.Context;
 using QConnectSDK;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Net;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using Newtonsoft.Json;
 
 namespace DotPay.Web.Controllers
 {
@@ -18,8 +24,11 @@ namespace DotPay.Web.Controllers
     {
 
         #region Views
+
+        #region 内部转账页面
+
         [Route("~/transfer/{currency}/payment")]
-        public ActionResult InsideTransferCNY(CurrencyType currency)
+        public ActionResult InsideTransfer(CurrencyType currency)
         {
             ViewBag.Currency = currency.ToString();
             return View("Inside");
@@ -28,48 +37,64 @@ namespace DotPay.Web.Controllers
         [Route("~/transfer/{currency}/confirm")]
         public ActionResult InsideTransferConfirm(CurrencyType currency, string orderID)
         {
-            ViewBag.Currency = currency.ToString();
+            var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, TransactionState.Pending, currency);
+            ViewBag.Transfer = transfer;
 
-            //try
-            //{
-            //    var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
-            //    var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
-            //    ViewBag.Transfer = transfer;
-            //    ViewBag.Receiver = user;
-            //}
-            //finally
-            //{
-
-            //}
-
+            if (transfer != null)
+            {
+                var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
+                ViewBag.Receiver = user;
+            }
             return View("InsideConfirm");
         }
 
-        [Route("~/transfer/{currency}/complete")]
-        public ActionResult InsideTransferConfirm(CurrencyType currency, string orderID, string tradePassword)
+        [Route("~/transfer/{currency}/success")]
+        public ActionResult InsideTransferSuccess(CurrencyType currency, string orderID)
         {
-            ViewBag.Currency = currency.ToString();
+            var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, TransactionState.Success, currency);
+            var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
+            ViewBag.Transfer = transfer;
+            ViewBag.Receiver = user;
 
-            //try
-            //{
-            //    var transfer = IoC.Resolve<IInsideTransferQuery>().GetInsideTransferBySequenceNo(orderID, currency);
-            //    var user = IoC.Resolve<IUserQuery>().GetUserByID(transfer.ToUserID);
-            //    ViewBag.Transfer = transfer;
-            //    ViewBag.Receiver = user;
-            //}
-            //finally
-            //{
-
-            //}
-
-            return View("InsideConfirm");
+            return View("InsideTransferSuccess");
         }
+        #endregion
+
+        #region 外部转账页面
+
+        [Route("~/transferout/ripple/payment")]
+        public ActionResult OutsideTransfer()
+        {
+            return View("Outside");
+        }
+
+        [Route("~/transferout/ripple/confirm")]
+        public ActionResult OutsideTransferConfirm(string orderID)
+        {
+            var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Pending);
+
+            ViewBag.Transfer = transfer;
+
+            return View("OutsideConfirm");
+        }
+
+        [Route("~/transferout/success")]
+        public ActionResult OutsideTransferSuccess(CurrencyType currency, string orderID)
+        {
+            var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Success);
+
+            ViewBag.Transfer = transfer;
+
+            return View("OutsideTransferSuccess");
+        }
+        #endregion
 
 
         #endregion
 
         #region Posts
 
+        #region 内部转账
         #region 查询账号
         [Route("~/transfer/queryacct")]
         [HttpPost]
@@ -78,25 +103,31 @@ namespace DotPay.Web.Controllers
         {
             account = account.NullSafe().Trim();
 
-            if (account.IsEmail())
+            if (!string.IsNullOrEmpty(account))
             {
-                var user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
+                LoginUser user;
+
+                if (account.IsEmail())
+                    user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
+                else
+                    user = IoC.Resolve<IUserQuery>().GetUserByLoginName(account);
+
                 if (user != null)
                 {
-                    return Json(new { Account = user.Email, RealName = user.RealName, Valid = true });
+                    return Json(new { Account = account, RealName = user.RealName, valid = true });
                 }
                 else
                 {
-                    return Json(new { Message = "该账户未注册，不能转账", Valid = false });
+                    return Json(new { message = "该账户未注册，不能转账", valid = false });
                 }
             }
             return Json(new { Valid = false });
         }
         #endregion
 
-        #region 内存转账提交
+        #region 内存转账创建
 
-        [Route("~/transfer/inside/{currency}/submit")]
+        [Route("~/transfer/{currency}/payment")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult InsideTransfer(string account, decimal amount, CurrencyType currency, string description)
@@ -107,9 +138,14 @@ namespace DotPay.Web.Controllers
 
             if (account.IsEmail())
             {
-                var user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
+                LoginUser user;
 
-                var transferCMD = new InsideTransfer(this.CurrentUser.UserID, user.UserID, currency, amount, description);
+                if (account.IsEmail())
+                    user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
+                else
+                    user = IoC.Resolve<IUserQuery>().GetUserByLoginName(account);
+
+                var transferCMD = new CreateInsideTransfer(this.CurrentUser.UserID, user.UserID, currency, amount, description);
 
                 this.CommandBus.Send(transferCMD);
 
@@ -125,12 +161,184 @@ namespace DotPay.Web.Controllers
         [Route("~/transfer/{currency}/confirm")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InsideTransferConfirm(CurrencyType currency, int transferId)
+        public ActionResult InsideTransferConfirmPost(CurrencyType currency, string orderId, string paypassword)
         {
+            var result = FCJsonResult.UnknowFail;
+            try
+            {
+                var cmd = new SubmitInsideTransfer(orderId, paypassword, currency);
+                this.CommandBus.Send(cmd);
 
-            return Redirect("/Error");
+                result = FCJsonResult.Success;
+            }
+            catch (CommandExecutionException ex)
+            {
+                if (ex.ErrorCode == (int)ErrorCode.AccountBalanceNotEnough)
+                    result = FCJsonResult.CreateFailResult("余额不足，无法完成支付");
+                else if (ex.ErrorCode == (int)ErrorCode.TradePasswordError)
+                    result = FCJsonResult.CreateFailResult("支付密码错误");
+                else
+                {
+                    Log.Error("InsideTransferConfirmPost Action Error", ex);
+                }
+            }
+            return Json(result);
         }
         #endregion
+        #endregion
+
+        #region 外部转账
+
+        #region 验证收款机构是否支持ripple协议
+        [Route("~/transferout/verifyaccount")]
+        public async Task<ActionResult> VerifyAccount(string account)
+        {
+            string emailReg = @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+            var reg = new Regex(emailReg);
+
+            var result = false;
+            var message = "无效的收款账户";
+            var accountInfo = default(FederationResponse);
+
+            if (reg.IsMatch(account.NullSafe().Trim()))
+            {
+                var email = new MailAddress(account);
+                //email.Host
+                var federationUrlResult = await TryGetFederationUrl(email.Host);
+
+                if (federationUrlResult.Item1 == true)
+                {
+                    accountInfo = await TryGetOutsideAccountInfo(email.User, email.Host, federationUrlResult.Item2);
+
+                    if (accountInfo.Result == "success")
+                    {
+                        Session["outside_gateway_account_info"] = accountInfo;
+                        result = true;
+                    }
+                }
+
+            }
+
+            if (result == true)
+                return Json(new { valid = true, currencies = accountInfo.UserAccount.AcceptCurrencys });
+            else
+                return Json(new { valid = false, message = message });
+        }
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region 私有方法
+
+        #region 根据FederationUrl和账号查找对方网关用户的相关信息
+
+        private async Task<FederationResponse> TryGetOutsideAccountInfo(string account, string domain, string federationUrl)
+        {
+            var httpclient = new HttpClient();
+            var cacheKey = CacheKey.DOMAIN_RIPPLE_GATEWAY_USER + account + "@" + domain;
+            federationUrl = federationUrl + "?type=federation&destination={0}&domain={1}".FormatWith(account, domain);
+
+            var accountInfo = default(FederationResponse);
+
+            if (!Cache.TryGet<FederationResponse>(cacheKey, out accountInfo))
+            {
+                var rep = await httpclient.GetAsync(federationUrl);
+                var result = await rep.Content.ReadAsStringAsync();
+
+                accountInfo = IoC.Resolve<IJsonSerializer>().Deserialize<FederationResponse>(result);
+
+                if (accountInfo.Result == "success")
+                {
+                    Cache.Add(cacheKey, accountInfo, new TimeSpan(1, 0, 0, 0));
+                }
+                else
+                {
+                    Cache.Add(cacheKey, accountInfo, new TimeSpan(0, 1, 0));
+                }
+            }
+
+            return accountInfo;
+        }
+        #endregion
+
+        #region 获取对方网关的FederationUrl
+        private async Task<Tuple<bool, string>> TryGetFederationUrl(string domain)
+        {
+            var ripple = "/ripple.txt";
+            var protocol = "https://";
+            var federationUrl = string.Empty;
+            var domainCacheKey = CacheKey.DOMAIN_RIPPLE_FEDERATION + domain;
+            federationUrl = Cache.Get<string>(domainCacheKey);
+            var result = false;
+
+            if (string.IsNullOrEmpty(federationUrl))
+            {
+                var httpclient = new HttpClient();
+                var rep = await httpclient.GetAsync(string.Concat(protocol + domain + ripple));
+
+                if (rep.StatusCode != HttpStatusCode.OK)
+                {
+                    rep = await httpclient.GetAsync(string.Concat(protocol + "www." + domain + ripple));
+                }
+
+                if (rep.StatusCode == HttpStatusCode.OK)
+                {
+                    var rippletxt = await rep.Content.ReadAsStringAsync();
+                    result = true;
+                    federationUrl = GetFederationUrlFromRippleTxt(rippletxt);
+
+                    if (!string.IsNullOrWhiteSpace(federationUrl))
+                    {
+                        Cache.Add(domainCacheKey, federationUrl, new TimeSpan(1, 0, 0));
+                    }
+                }
+            }
+            else
+            {
+                result = true;
+            }
+
+            return new Tuple<bool, string>(result, federationUrl);
+        }
+        #endregion
+
+        #region 根据ripple.txt内容，找出其中的FederationUrl
+        private string GetFederationUrlFromRippleTxt(string rippletxt)
+        {
+            string federation_url = string.Empty;
+
+            if (rippletxt.Contains("federation_url"))
+            {
+                var configs = rippletxt.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var addressReg = new Regex(@"https://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?");
+
+                for (int itemIndex = 0; itemIndex < configs.Count(); itemIndex++)
+                {
+                    if (configs[itemIndex] == "[federation_url]")
+                    {
+                        while (itemIndex < configs.Count())
+                        {
+                            ++itemIndex;
+                            if (configs[itemIndex].IndexOf("#") > -1)
+                                continue;
+                            else
+                            {
+                                if (addressReg.IsMatch(configs[itemIndex].Trim()))
+                                {
+                                    federation_url = configs[itemIndex].Trim();
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return federation_url;
+        }
+        #endregion 
         #endregion
     }
 }

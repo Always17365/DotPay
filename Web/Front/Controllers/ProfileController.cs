@@ -50,7 +50,7 @@ namespace DotPay.Web.Controllers
                 {
                     var cmd = new UserSetNickName(this.CurrentUser.UserID, nickName);
                     this.CommandBus.Send(cmd);
-                    this.CurrentUser.NickName = nickName;
+                    this.CurrentUser.LoginName = nickName;
 
                     result = FCJsonResult.CreateSuccessResult(this.Lang("Nickname updated successfully."));
                 }
@@ -140,7 +140,7 @@ namespace DotPay.Web.Controllers
         public ActionResult EnableGoogleAuthentication()
         {
             var secretKey = Utilities.GenerateOTPKey();
-            var content = string.Format("otpauth://totp/{0}?secret={1}", "DotPay:" + this.CurrentUser.NickName, secretKey);
+            var content = string.Format("otpauth://totp/{0}?secret={1}", "DotPay:" + this.CurrentUser.LoginName, secretKey);
             QrEncoder enc = new QrEncoder(ErrorCorrectionLevel.H);
             var code = enc.Encode(content);
             var imageData = string.Empty;

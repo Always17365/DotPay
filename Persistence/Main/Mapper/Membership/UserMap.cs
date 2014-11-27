@@ -11,7 +11,7 @@ namespace DotPay.Persistence
         {
             Id(u => u.ID, map => { map.Generator(Generators.Identity); });
 
-            Property(x => x.NickName, map => { map.Length(70); map.NotNullable(true); });
+            Property(x => x.LoginName, map => { map.Length(70); map.NotNullable(true); });
             Property(x => x.Email, map => { map.NotNullable(true); map.Index("IX_USER_EMAIL"); });
             Property(x => x.VipLevel, map => map.NotNullable(true));
             Property(x => x.IsOpenAuth, map => map.NotNullable(true));

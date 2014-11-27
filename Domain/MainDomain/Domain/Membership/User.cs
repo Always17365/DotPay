@@ -19,7 +19,7 @@ namespace DotPay.MainDomain
                  IEventHandler<UserPasswordChanged>,           //密码修改 
                  IEventHandler<UserFirstSetTradePassword>,     //第一次设置资金密码 
                  IEventHandler<UserTradePasswordChanged>,      //资金密码修改 
-                 IEventHandler<UserNickNameChanged>,           //修改昵称
+        //IEventHandler<UserNickNameChanged>,           //修改昵称
                  IEventHandler<UserSetGoogleAuthentication>,   //设置谷歌身份验证
                  IEventHandler<UserCloseGoogleAuthentication>, //关闭谷歌身份验证
                  IEventHandler<OpenLoginGAVerify>,             //开启/关闭登录谷歌身份验证
@@ -42,9 +42,9 @@ namespace DotPay.MainDomain
         #region ctor
         protected User() { }
 
-        public User(int commendBy, string email, string password, string tradePassword, int timezone)
+        public User(int commendBy, string loginName, string email, string password, string tradePassword, int timezone)
         {
-            this.RaiseEvent(new UserRegisted(commendBy, email, password, tradePassword, timezone, this));
+            this.RaiseEvent(new UserRegisted(commendBy, loginName, email, password, tradePassword, timezone, this));
             if (commendBy > 0) this.Apply(new UserCommendSuccess(commendBy));
         }
 
@@ -59,7 +59,7 @@ namespace DotPay.MainDomain
         public virtual int ID { get; protected set; }
         public virtual int CommendBy { get; protected set; }
         public virtual int CommendCounter { get; protected set; }
-        public virtual string NickName { get; protected set; }
+        public virtual string LoginName { get; protected set; }
         public virtual string Email { get; set; }
         public virtual UserVipLevel VipLevel { get; protected set; }
         public virtual int Role { get; protected set; }
@@ -109,12 +109,12 @@ namespace DotPay.MainDomain
         }
         #endregion
 
-        #region set nick name
-        public virtual void SetNickName(string nickName)
-        {
-            this.RaiseEvent(new UserNickNameChanged(this.ID, nickName));
-        }
-        #endregion
+        //#region set nick name
+        //public virtual void SetNickName(string nickName)
+        //{
+        //    this.RaiseEvent(new UserNickNameChanged(this.ID, nickName));
+        //}
+        //#endregion
 
         #region change password
         public virtual void ChangePassword(string oldPassword, string newPassword, string ga_otp, string sms_otp)
@@ -389,7 +389,7 @@ namespace DotPay.MainDomain
         void IEventHandler<UserRegisted>.Handle(UserRegisted @event)
         {
             this.CommendBy = @event.CommendBy;
-            this.NickName = @event.Email;
+            this.LoginName = @event.LoginName;
             this.Email = @event.Email;
             this.VipLevel = UserVipLevel.Vip0;
             this.IsOpenAuth = false;
@@ -406,7 +406,7 @@ namespace DotPay.MainDomain
         void IEventHandler<UserRegistedByOpenAuth>.Handle(UserRegistedByOpenAuth @event)
         {
             this.CommendBy = @event.CommendBy;
-            this.NickName = @event.NickName;
+            this.LoginName = @event.LoginName;
             this.TwoFactorFlg = 0;
             this.TimeZone = 8;
             this.IsOpenAuth = true;
@@ -454,11 +454,11 @@ namespace DotPay.MainDomain
         #endregion
 
         #region User Set NickName event handler
-        void IEventHandler<UserNickNameChanged>.Handle(UserNickNameChanged @event)
-        {
-            this.NickName = @event.NickName;
-            this.UpdateAt = @event.UTCTimestamp.ToUnixTimestamp();
-        }
+        //void IEventHandler<UserNickNameChanged>.Handle(UserNickNameChanged @event)
+        //{
+        //    this.LoginName = @event.NickName;
+        //    this.UpdateAt = @event.UTCTimestamp.ToUnixTimestamp();
+        //}
         #endregion
 
         #region User Reset Password By Email event handler
@@ -466,7 +466,7 @@ namespace DotPay.MainDomain
         {
             this.Membership.ResetPassword();
 
-            this.RaiseEvent(new UserPasswordResetedByEmail(@event.UserID, this.NickName, @event.Email, this.Membership.PasswordResetToken));
+            this.RaiseEvent(new UserPasswordResetedByEmail(@event.UserID, this.LoginName, @event.Email, this.Membership.PasswordResetToken));
         }
         #endregion
 

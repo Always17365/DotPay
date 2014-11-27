@@ -93,5 +93,9 @@ namespace DotPay.Common
         public const string VIRTUAL_CURRENCY_COMPREHENSIVE_INFORMATION = "___COMPREHENSIVE_INFORMATION_";
 
         public const string ALL_OF_THE_TRADING_MARKET = "___ALL_OF_THE_TRADING_MARKET_";
+
+        public const string DOMAIN_RIPPLE_FEDERATION = "___DOMAIN_RIPPLE_FEDERATION";
+
+        public const string DOMAIN_RIPPLE_GATEWAY_USER = "___DOMAIN_RIPPLE_GATEWAY_USER";
     }
 }

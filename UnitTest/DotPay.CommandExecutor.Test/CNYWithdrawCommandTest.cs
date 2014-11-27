@@ -12,7 +12,7 @@ using DotPay.Persistence;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using System.IO; 
+using System.IO;
 using FC.Framework.Utilities;
 using System.Threading;
 using DotPay.MainDomain.Repository;
@@ -36,7 +36,7 @@ namespace DotPay.CommandExecutor.Test
         [Fact]
         public void TestSubmitCNYWithdraw_Common_Process_Flow()
         {
-                      var userID = 0;
+            var userID = 0;
             var withdrawAmount = 0M;
             var bank = Bank.CCB;
             var bankAccount = "6222023400022443546";
@@ -63,7 +63,7 @@ namespace DotPay.CommandExecutor.Test
                 }
             }
 
-            var submitWithdrawCMD = new SubmitCNYWithdraw(null, userID, withdrawAmount, bank, bankAccount, "123456");
+            var submitWithdrawCMD = new SubmitCNYWithdraw(null, userID, withdrawAmount, PayWay.Alipay, bankAccount, "123456");
 
             Assert.DoesNotThrow(() => { this.commandBus.Send(submitWithdrawCMD); });
 
@@ -141,7 +141,7 @@ namespace DotPay.CommandExecutor.Test
                 }
             }
 
-            var submitWithdrawCMD = new SubmitCNYWithdraw(null, userID, withdrawAmount, bank, bankAccount, "123456");
+            var submitWithdrawCMD = new SubmitCNYWithdraw(null, userID, withdrawAmount, PayWay.Alipay, bankAccount, "123456");
 
             Assert.DoesNotThrow(() => { this.commandBus.Send(submitWithdrawCMD); });
 
@@ -177,18 +177,18 @@ namespace DotPay.CommandExecutor.Test
 
                     Assert.Equal(cnyWithdraw.State, WithdrawState.Fail);
 
-                    var oldReceiverAccountID = cnyWithdraw.ReceiverBankAccountID;
+                    var oldReceiverAccountID = cnyWithdraw.ReceiverAccountID;
                     bank = Bank.ABC;
                     bankAccount = "6222023400022423478";
                     bankAddress = "上海市XX路XX号";
                     openBankName = "上海市XX农业银行";
 
-                    var cnyWithdrawModifyReceiverBankAccoutCMD = new CNYWithdrawModifyReceiverBankAccount(cnyWithdraw.ID, bank, bankAccount, userID);
+                    var cnyWithdrawModifyReceiverBankAccoutCMD = new CNYWithdrawModifyReceiverBankAccount(cnyWithdraw.ID, PayWay.Alipay, bankAccount, userID);
 
                     Assert.DoesNotThrow(() => { this.commandBus.Send(cnyWithdrawModifyReceiverBankAccoutCMD); });
                     cnyWithdraw = IoC.Resolve<IRepository>().FindById<CNYWithdraw>(i);
 
-                    Assert.NotEqual(cnyWithdraw.ReceiverBankAccountID, oldReceiverAccountID);
+                    Assert.NotEqual(cnyWithdraw.ReceiverAccountID, oldReceiverAccountID);
 
                     var transferAccount = 1;
                     var transferNO = "2014050131452186354664188416";
@@ -209,7 +209,7 @@ namespace DotPay.CommandExecutor.Test
 
         }
 
-  
+
     }
 }
 

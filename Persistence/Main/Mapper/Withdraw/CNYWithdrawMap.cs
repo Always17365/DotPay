@@ -16,7 +16,7 @@ namespace DotPay.Persistence
             Property(x => x.AccountID, map => { map.NotNullable(true); });
             Property(x => x.TransferAccountID, map => { map.NotNullable(true); });
             Property(x => x.TransferNo, map => { map.NotNullable(true); map.Length(40); map.Index("IX_CNY_WITHDRAW_TRANSFER_NO"); });
-            Property(x => x.ReceiverBankAccountID, map => { map.NotNullable(true); });
+            Property(x => x.ReceiverAccountID, map => { map.NotNullable(true); });
             Property(x => x.State, map => { map.NotNullable(true); });
             Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(16); map.Scale(2); });
             Property(x => x.Fee, map => { map.NotNullable(true); map.Precision(8); map.Scale(2); });

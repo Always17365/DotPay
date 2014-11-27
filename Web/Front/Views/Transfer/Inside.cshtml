@@ -8,15 +8,15 @@
 <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/my/profile/">
                 <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/assets"> 我的资金</a></li>
-                <li><a href="/txrecords">交易记录</a></li>
-                <li><a href="/settings">账户设置</a></li>
+                <li><a href="/my/profile/"> 我的资金</a></li>
+                <li><a href="/my/txrecords">交易记录</a></li>
+                <li><a href="/my/settings">账户设置</a></li>
                 <li class="active"><a href="/apps">应用中心</a></li>
             </ul>
         </div>
@@ -29,48 +29,41 @@
                 <strong>转账</strong>
             </div>
             <div class="list-group">
-                <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> CNY转账</a>
-                <a href="/transfer/usd/payment" class="list-group-item app-link usd-transfer"> USD转账</a>
-            </div>
-            <div class="panel-heading dotpay-transfer-title">
-                汇兑
-            </div>
-            <div class="list-group">
-                <a class="list-group-item app-link exchange">货币兑换</a>
+                <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> 转账到点付</a>
+                <a href="/transferout/ripple/payment" class="list-group-item app-link exchange">转账到Ripple</a>
             </div>
         </div>
     </div>
     <div class="col-sm-8">
         <div class="panel panel-info">
             <div class="panel-heading dotpay-transfer-title">
-                <h4>转账到点付- @ViewBag.Currency</h4>
+                <h4>转账到点付</h4>
             </div>
             <div class="panel-body">
-                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfer/inside/cny/submit">
+                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfer/cny/payment">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        <label for="inputEmail" class="col-sm-2 control-label">收款人：</label>
+                        <label for="inputAccount" class="col-sm-2 control-label">收款人：</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputEmail" name="frontEmail" placeholder="邮箱地址">
-                            <input type="hidden" id="realEmail" name="account" placeholder="邮箱地址">
+                            <input type="text" class="form-control" autocomplete="off" id="inputAccount" name="frontAccount" placeholder="收款人账号/邮箱地址">
+                            <input type="hidden" id="realAccount" name="account">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">付款金额：</label>
+                        <label for="amount" class="col-sm-2 control-label">付款金额：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="amount" name="amount">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">付款说明：</label>
+                        <label for="description" class="col-sm-2 control-label">付款说明：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="description" name="description" placeholder="转账">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <button type="submit" class="btn btn-primary">提 交</button>
+                            <button type="submit" class="btn btn-primary">下一步</button>
                         </div>
                     </div>
                 </form>
@@ -86,37 +79,22 @@
                     invalid: 'glyphicon glyphicon-remove',
                     validating: 'glyphicon glyphicon-refresh'
                 },
-                trigger: 'cut paste blur',
+                trigger: 'blur',
                 fields: {
-                    frontEmail: {
+                    frontAccount: {
                         validators: {
                             notEmpty: {
-                                message: '请输入邮箱地址!'
+                                message: '请输入账号/邮箱地址!'
                             },
-                            emailAddress: {
-                                message: '请输入一个正确的邮箱地址'
-                            },
-                            callback: {
-                                callback: function (value, validator) {
-                                    $.post("/transfer/queryacct",
-                                         { "account": value, "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
-                                         function (data) {
-                                             if (data.Valid == true) {
-                                                 $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
-                                                 $("#realEmail").val(data.Account);
-                                                 validator.updateStatus('frontEmail', 'VALID', 'callback');
-                                             }
-                                             else {
-                                                 $("#inputEmail").tooltip({
-                                                     trigger: 'click',
-                                                     placement: 'bottom',
-                                                     template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                                                     title: data.Message
-                                                 }).tooltip('show');
-                                                 validator.updateStatus('frontEmail', validator.STATUS_INVALID, 'callback');
-                                             }
-                                         });
-                                    return { valid: false, message: " " };
+                            remote: {
+                                url: "/transfer/queryacct",
+                                data: function () { return { "account": $("#inputAccount").val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() } },
+                                type: "post",
+                                onSuccess: function (e, data) {
+                                    //$("#inputAccount").val(data.result.RealName + "( " + data.result.Account + " )");
+                                    $("#inputAccount").val(data.result.Account);
+                                    $("#inputAccount").attr("readonly", "readonly");
+                                    $("#realAccount").val(data.result.Account);
                                 }
                             }
                         }
@@ -145,27 +123,6 @@
                     }
                 }
             })
-             /*   .on('success.form.bv', function (e) {
-                e.preventDefault();
-                var $form = $(e.target);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/transfer/inside/{currency}/submit',
-                    data: $form.serialize(),
-                    success: function (data) {
-                        if (data.Code == 1) {
-                            window.location = '/my/profile';
-                        } else {
-                            $('#spanFailBox').html(data.Message);
-                            $('#failBox').show();
-                            $('html, body').animate({
-                                scrollTop: $("#failBox").offset().top - 95
-                            }, 1000);
-                        }
-                    }
-                });
-            })*/
             .on('error.validator.bv', function (e, data) {
                 data.element
                     .data('bv.messages')
@@ -173,31 +130,11 @@
                     .filter('[data-bv-validator="' + data.validator + '"]').show();
             });
         });
-        $("#inputEmail").on("click", function () {
-            var val = $("#realEmail").val();
+        $("#inputAccount").on("click", function () {
+            $(this).removeAttr("readonly");
+            var val = $("#realAccount").val();
             if (val)
                 $(this).val(val);
         });
-        //$("#inputEmail").on("blur", function () {
-        //    var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
-        //    if (reg.test($(this).val())) {
-        //        $.post("/transfer/queryacct",
-        //               { "account": $(this).val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() },
-        //               function (data) {
-        //                   if (data.Valid == true) {
-        //                       $("#inputEmail").val(data.RealName + "( " + data.Account + " )");
-        //                       $("#realEmail").val(data.Account);
-        //                   }
-        //                   else {
-        //                       $("#inputEmail").tooltip({
-        //                           trigger: 'click',
-        //                           placement: 'bottom',
-        //                           template: '<div class="tooltip tooltip-warning" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-        //                           title: data.Message
-        //                       }).tooltip('show')
-        //                   }
-        //               })
-        //    }
-        //});
     </script>
 </div>

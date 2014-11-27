@@ -28,13 +28,15 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserRegister : FC.Framework.Command
     {
-        public UserRegister(string email, string password, string tradePassword, int timezone, string token, int commendBy = 0)
+        public UserRegister(string loginName,string email, string password, string tradePassword, int timezone, string token, int commendBy = 0)
         {
             Check.Argument.IsNotNegative(commendBy, "commendBy");
             //Check.Argument.IsNotEmpty(rippleAddress, "rippleAddress");
             Check.Argument.IsNotInvalidEmail(email, "email");
+            Check.Argument.IsNotEmpty(loginName, "loginName");
             Check.Argument.IsNotEmpty(password, "password");
 
+            this.LoginName = loginName;
             this.Email = email;
             this.Password = password;
             this.TradePassword = tradePassword;
@@ -45,6 +47,7 @@ namespace DotPay.Command
             this.CommendBy = commendBy;
         }
 
+        public string LoginName { get; private set; }
         public string Email { get; private set; }
         public string RegisterToken { get; private set; }
         public string Password { get; private set; }
@@ -60,18 +63,18 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserLogin : FC.Framework.Command
     {
-        public UserLogin(string email, string password, string ip)
+        public UserLogin(string loginName, string password, string ip)
         {
-            Check.Argument.IsNotEmpty(email, "email");
+            Check.Argument.IsNotEmpty(loginName, "loginName");
             Check.Argument.IsNotEmpty(password, "password");
             Check.Argument.IsNotEmpty(ip, "ip");
 
-            this.Email = email;
+            this.LoginName = loginName;
             this.Password = password;
             this.IP = ip;
         }
 
-        public string Email { get; private set; }
+        public string LoginName { get; private set; }
         public string Password { get; private set; }
         public string IP { get; private set; }
     }

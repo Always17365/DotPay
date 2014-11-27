@@ -70,7 +70,8 @@ namespace DotPay.Common
 
 
 
-        TransferTransactionNotPending=301,
+        TransferTransactionNotPending = 301,
+        TransferTransactionHasConfirmed = 302,
 
         NotAllowAssignSuperManager = 901,
         NoPermission = 902,

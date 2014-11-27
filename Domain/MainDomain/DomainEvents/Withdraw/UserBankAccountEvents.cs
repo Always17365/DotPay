@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace DotPay.MainDomain.Events
 {
-    public class UserBankAccountCreated : DomainEvent
+    public class UserReceiverAccountCreated : DomainEvent
     {
-        public UserBankAccountCreated(int userID, Bank bank, string bankAccount, string receiverName)
+        public UserReceiverAccountCreated(int userID, PayWay payway, string bankAccount, string receiverName)
         {
             this.BankAccountOwnerID = userID;
             //this.BankID = bankID;
-            this.Bank = bank;
+            this.PayWay = payway;
             this.BankAccount = bankAccount;
             this.ReceiverName = receiverName;
         }
 
         public int BankAccountOwnerID { get; private set; }
-        public Bank Bank { get; private set; }
+        public PayWay PayWay { get; private set; }
         //public int BankID { get; private set; }
         public string BankAccount { get; private set; }
         public string ReceiverName { get; private set; }
     }
 
-    public class UserBankAccountMarkAsValid : DomainEvent
+    public class UserReceiverAccountMarkAsValid : DomainEvent
     {
-        public UserBankAccountMarkAsValid(int userBankAccountID, int byUserID)
+        public UserReceiverAccountMarkAsValid(int userBankAccountID, int byUserID)
         {
             this.UserBankAccountID = userBankAccountID;
             this.MarkBy = byUserID;
@@ -39,9 +39,9 @@ namespace DotPay.MainDomain.Events
         public int MarkBy { get; private set; }
     }
 
-    public class UserBankAccountMarkAsInvalid : DomainEvent
+    public class UserReceiverAccountMarkAsInvalid : DomainEvent
     {
-        public UserBankAccountMarkAsInvalid(int userBankAccountID, int byUserID)
+        public UserReceiverAccountMarkAsInvalid(int userBankAccountID, int byUserID)
         {
             this.UserBankAccountID = userBankAccountID;
             this.MarkBy = byUserID;

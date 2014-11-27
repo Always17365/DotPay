@@ -11,6 +11,7 @@ using FC.Framework.Repository;
 using DotPay.MainDomain.Repository;
 using DotPay.Tools.DistributedMessageSender;
 
+/*
 namespace DotPay.MainDomain
 {
     /// <summary>
@@ -49,7 +50,7 @@ namespace DotPay.MainDomain
             }
         }
 
-        public void Handle(VirtualCoinWithdrawSkipVerify @event)
+         public void Handle(VirtualCoinWithdrawSkipVerify @event)
         {
             var withdraw = @event.WithdrawEntity;
 
@@ -77,7 +78,6 @@ namespace DotPay.MainDomain
             }
 
         }
-
         private class VirtualCoinWithdrawProcessMessage
         {
             public VirtualCoinWithdrawProcessMessage(CurrencyType currency, string withdrawUniqueID, string msgID, decimal amount, string address)
@@ -98,3 +98,4 @@ namespace DotPay.MainDomain
          
     }
 }
+*/

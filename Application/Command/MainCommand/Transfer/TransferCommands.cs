@@ -8,9 +8,9 @@ using System.Text;
 
 namespace DotPay.Command
 {
-    public class InsideTransfer : FC.Framework.Command
+    public class CreateInsideTransfer : FC.Framework.Command
     {
-        public InsideTransfer(int fromUserID, int toUserID, CurrencyType currency, decimal amount, string description)
+        public CreateInsideTransfer(int fromUserID, int toUserID, CurrencyType currency, decimal amount, string description)
         {
             Check.Argument.IsNotNegativeOrZero(fromUserID, "fromUserID");
             Check.Argument.IsNotNegativeOrZero(toUserID, "toUserID");
@@ -34,18 +34,37 @@ namespace DotPay.Command
         public string Result { get; set; }
     }
 
-    public class InsideTransferComplete : FC.Framework.Command
+    //public class ConfirmInsideTransfer : FC.Framework.Command
+    //{
+    //    public ConfirmInsideTransfer(string insideTransferSeq, CurrencyType currency)
+    //    {
+    //        Check.Argument.IsNotEmpty(insideTransferSeq, "insideTransferSeq");
+    //        Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
+
+    //        this.InsideTransferSeq = insideTransferSeq;
+    //        this.Currency = currency;
+    //    }
+
+    //    public string InsideTransferSeq { get; private set; }
+    //    public CurrencyType Currency { get; private set; }
+    //}
+
+
+    public class SubmitInsideTransfer : FC.Framework.Command
     {
-        public InsideTransferComplete(int insideTransferID, CurrencyType currency)
+        public SubmitInsideTransfer(string insideTransferSeq, string tradePassword, CurrencyType currency)
         {
-            Check.Argument.IsNotNegativeOrZero(insideTransferID, "insideTransferID");
+            Check.Argument.IsNotEmpty(insideTransferSeq, "insideTransferSeq");
+            Check.Argument.IsNotEmpty(tradePassword, "tradePassword");
             Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
 
-            this.InsideTransferID = insideTransferID;
+            this.InsideTransferSeq = insideTransferSeq;
+            this.TradePassword = tradePassword;
             this.Currency = currency;
         }
 
-        public int InsideTransferID { get; private set; }
+        public string InsideTransferSeq { get; private set; }
+        public string TradePassword { get; private set; }
         public CurrencyType Currency { get; private set; }
     }
 

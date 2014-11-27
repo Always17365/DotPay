@@ -28,20 +28,12 @@ namespace DotPay.MainDomain
     public interface ICNYWithdraw : IWithdraw
     {
         int TransferAccountID { get; }
-        int ReceiverBankAccountID { get; }
+        int ReceiverAccountID { get; }
         void SetFee(decimal fee);
-        void ModifyReceiverBankAccount(int receiverBankAccountID, int byUserID);
+        void ModifyReceiverAccount(int receiverBankAccountID, int byUserID);
         void SubmitToProcess(int byUserID);
         void TranferFail(string memo, int byUserID);
         void Cancel(string memo, int byUserID);
         void Complete(int transferAccountID, string transferNo, int byUserID);
-    }
-
-    public interface IVirtualCoinWithdraw : IWithdraw
-    {
-        string TxID { get; }
-        void SetFee(decimal fee);
-        void Complete(string txID, decimal txfee);
-        void Cancel(int byUserID, string memo);
-    }
+    } 
 }

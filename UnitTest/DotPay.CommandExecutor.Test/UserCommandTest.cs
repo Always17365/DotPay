@@ -37,7 +37,7 @@ namespace DotPay.CommandExecutor.Test
             //var rippleAddress = "test" + password.GetHashCode() + "@mytest.com";
             //var rippleSecret = "test" + password.GetHashCode() + "@mytest.com";
 
-            var cmd = new UserRegister(email, password, password, 8);
+            var cmd = new UserRegister(Guid.NewGuid().Shrink(),email, password, password, 8,"asdjlfjadljflasdjflsjdf");
             Assert.DoesNotThrow(delegate
             {
                 this.commandBus.Send(cmd);
@@ -103,7 +103,7 @@ namespace DotPay.CommandExecutor.Test
 
             Assert.NotNull(savedUser);
             Assert.Equal(savedUser.ID, userID);
-            Assert.Equal(savedUser.NickName, nickName);
+            Assert.Equal(savedUser.LoginName, nickName);
         }
 
         [Fact]

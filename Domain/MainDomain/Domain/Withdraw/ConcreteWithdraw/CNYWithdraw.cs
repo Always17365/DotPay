@@ -36,7 +36,7 @@ namespace DotPay.MainDomain
         public virtual int AccountID { get; protected set; }
         public virtual int TransferAccountID { get; protected set; }
         public virtual string TransferNo { get; protected set; }
-        public virtual int ReceiverBankAccountID { get; protected set; }
+        public virtual int ReceiverAccountID { get; protected set; }
         public virtual WithdrawState State { get; protected set; }
         protected virtual IWithdrawStateMachine StateMachine { get { return WithdrawStateMachineFactory.CreateStateMachine(this); } }
         public virtual decimal Amount { get; protected set; }
@@ -64,7 +64,7 @@ namespace DotPay.MainDomain
             this.StateMachine.SkipVerifyForCNY();
         }
 
-        public virtual void ModifyReceiverBankAccount(int bankAccountID, int byUserID)
+        public virtual void ModifyReceiverAccount(int bankAccountID, int byUserID)
         {
             this.StateMachine.ModifyReceiverBankAccountID(bankAccountID, byUserID);
         }
@@ -97,7 +97,7 @@ namespace DotPay.MainDomain
             this.UserID = @event.WithdrawUserID;
             this.UniqueID = Guid.NewGuid().Shrink();
             this.AccountID = @event.AccountID;
-            this.ReceiverBankAccountID = @event.UserBankAccountID;
+            this.ReceiverAccountID = @event.UserBankAccountID;
             this.Amount = @event.Amount;
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
             this.TransferNo = string.Empty;
@@ -145,7 +145,7 @@ namespace DotPay.MainDomain
 
         void IEventHandler<CNYWithdrawModifiedReceiverBankAccount>.Handle(CNYWithdrawModifiedReceiverBankAccount @event)
         {
-            this.ReceiverBankAccountID = @event.ReceiverBankAccountID;
+            this.ReceiverAccountID = @event.ReceiverBankAccountID;
             this.State = WithdrawState.Processing;
         }
 

@@ -228,22 +228,19 @@ namespace DotPay.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterPost(string password, string paypassword)
+        public ActionResult RegisterPost(string loginName, string password, string paypassword)
         {
-            if (Session["PreRegistrationEmail"] == null || Session["PreRegistrationToken"] == null)
-            {
-                return Json(FCJsonResult.UnknowFail);
-            }
-            else
+            var result = FCJsonResult.UnknowFail;
+
+            if (Session["PreRegistrationEmail"] != null && Session["PreRegistrationToken"] != null)
             {
                 var email = Session["PreRegistrationEmail"].ToString();
                 var token = Session["PreRegistrationToken"].ToString();
+                loginName = loginName.NullSafe().Trim();
 
                 var tmpObj = new object();
-                var result = FCJsonResult.UnknowFail;
 
-
-                if (email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(paypassword))
+                if (!string.IsNullOrEmpty(loginName) && email.NullSafe().IsEmail() && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(paypassword))
                 {
                     if (!IoC.Resolve<IPreRegistratorQuery>().ExistRegisterEmailWithToken(email, token))
                         result = FCJsonResult.CreateFailResult(this.Lang("An account with that email address already exists. Please try again or use the forgotten password feature."));
@@ -251,7 +248,7 @@ namespace DotPay.Web.Controllers
                     {
                         try
                         {
-                            var cmd = new UserRegister(email, password, paypassword, 8, token);
+                            var cmd = new UserRegister(loginName, email, password, paypassword, 8, token);
                             this.CommandBus.Send(cmd);
                             var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
                             Session[Constants.TmpUserKey] = loginUser;
@@ -265,9 +262,9 @@ namespace DotPay.Web.Controllers
                         }
                     }
                 }
-
-                return Json(result);
             }
+
+            return Json(result);
         }
         #endregion
 
@@ -276,9 +273,10 @@ namespace DotPay.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password, string returnUrl)
+        public ActionResult Login(string account, string password, string returnUrl)
         {
-            var key = email + this.GetUserIPAddress();
+            account = account.NullSafe().Trim();
+            var key = account + this.GetUserIPAddress();
             var retryCount = Cache.Get<int>(key);
             var result = FCJsonResult.CreateFailResult(Language.LangHelpers.Lang("Unknow Exception,Please refresh the page and try again"));
             //记录重试次数，并返回剩余可重试次数的函数 
@@ -298,7 +296,7 @@ namespace DotPay.Web.Controllers
             }
             else
             {
-                if (!email.NullSafe().IsEmail() || string.IsNullOrEmpty(password))
+                if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(password))
                 {
                     result = RetryCountIncrease(key, retryCount);
                 }
@@ -306,11 +304,16 @@ namespace DotPay.Web.Controllers
                 {
                     try
                     {
-                        var cmd = new UserLogin(email, password, this.GetUserIPAddress());
+                        var cmd = new UserLogin(account, password, this.GetUserIPAddress());
                         this.CommandBus.Send(cmd);
-
+                        var repos = IoC.Resolve<IUserQuery>();
                         //执行成功后，读取用户的信息，保存至Session
-                        var loginUser = IoC.Resolve<IUserQuery>().GetUserByEmail(email);
+                        LoginUser loginUser;
+
+                        if (account.IsEmail())
+                            loginUser = repos.GetUserByEmail(account);
+                        else
+                            loginUser = repos.GetUserByLoginName(account);
 
                         if (loginUser.IsManager || loginUser.IsLocked)
                         {
@@ -526,7 +529,7 @@ namespace DotPay.Web.Controllers
             {
                 var cmd = new UserSetNickName(this.CurrentUser.UserID, nickName);
                 this.CommandBus.Send(cmd);
-                this.CurrentUser.NickName = nickName;
+                this.CurrentUser.LoginName = nickName;
 
                 return Redirect("~/myfullcoin");
             }

@@ -42,10 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RippleActiveTxCommandsExecutor.cs" />
+    <Compile Include="RippleInboundTxCommandsExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\DotPay.Common.csproj">
+      <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
+      <Name>DotPay.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Domain\RippleDomain\DotPay.RippleDomain.csproj">
       <Project>{330457d3-9bec-49f0-b42c-f83eb3b3f1a2}</Project>
       <Name>DotPay.RippleDomain</Name>

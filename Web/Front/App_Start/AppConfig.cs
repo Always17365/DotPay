@@ -41,7 +41,7 @@ namespace DotPay.Web
             var mqConnectionString = ConfigurationManagerWrapper.GetMessageQueueServerConnectionString("messageQueueServerConnectString");
 
             var assemblies = GetAllAssembly();
-            var nhibernateMapperAssemblies = assemblies.Where(ass => ass.FullName.IndexOf("DotPay.Persistence", StringComparison.OrdinalIgnoreCase) > -1);
+            var nhibernateMapperAssemblies = assemblies.Where(ass => ass.FullName.IndexOf("Persistence", StringComparison.OrdinalIgnoreCase) > -1);
 
             FCFramework.Initialize().UseAutofac()
                                     .UseCouchbaseCache()
@@ -58,7 +58,7 @@ namespace DotPay.Web
             SmsHelper.SetBackupSmsInterface(SmsInterfaceType.C123, "500919170001", "fc_sms_account!1");
             if (Config.Debug)
             {
-                //SessionManager.CreateTables(); 
+                SessionManager.CreateTables(); 
             }
         }
 

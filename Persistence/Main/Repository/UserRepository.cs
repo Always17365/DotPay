@@ -22,5 +22,11 @@ namespace DotPay.Persistence.Repository
             var users = this._session.QueryOver<User>().Where(user => user.Email == email);
             return users.SingleOrDefault();
         }
+        public User FindByLoginName(string loginName)
+        {
+            Check.Argument.IsNotEmpty(loginName, "loginName");
+            var users = this._session.QueryOver<User>().Where(user => user.LoginName == loginName);
+            return users.SingleOrDefault();
+        }
     }
 }

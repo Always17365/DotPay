@@ -14,6 +14,11 @@ namespace DotPay.MainDomain
 {
     public class TransferTransactionNotPendingException : DomainException
     {
+
         public TransferTransactionNotPendingException() : base((int)ErrorCode.TransferTransactionNotPending) { }
+    }
+    public class TransferTransactionHasConfirmedException : DomainException
+    {
+        public TransferTransactionHasConfirmedException() : base((int)ErrorCode.TransferTransactionHasConfirmed) { }
     }
 }

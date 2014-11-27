@@ -42,29 +42,29 @@ namespace DotPay.MainDomain
             var cnyWithdraw = this._withdraw as CNYWithdraw;
 
             var receiverOldBankAccount = IoC.Resolve<IRepository>()
-                                            .FindById<WithdrawReceiverBankAccount>(cnyWithdraw.ReceiverBankAccountID);
+                                            .FindById<WithdrawReceiverAccount>(cnyWithdraw.ReceiverAccountID);
 
             receiverOldBankAccount.MarkAsValid(byUserID);
 
             this._withdraw.RaiseEvent(new CNYWithdrawCompleted(this._withdraw.ID, this._withdraw.UserID, transferAccountID, transferNo, byUserID));
         }
 
-        public void VerifyForVirtualCoin(CurrencyType currency, int byUserID, string memo) { throw new WithdrawIsVerifiedException(); }
-        public void SkipVerifyForVirtualCoin(CurrencyType currency) { throw new WithdrawIsVerifiedException(); }
+        //public void VerifyForVirtualCoin(CurrencyType currency, int byUserID, string memo) { throw new WithdrawIsVerifiedException(); }
+        //public void SkipVerifyForVirtualCoin(CurrencyType currency) { throw new WithdrawIsVerifiedException(); }
 
-        public void CompleteForVirtualCoin(string txID, decimal txfee, CurrencyType currencyType)
-        {
-            this._withdraw.RaiseEvent(new VirtualCoinWithdrawCompleted(this._withdraw.ID, this._withdraw.UserID, txID, txfee, currencyType));
-        }
+        //public void CompleteForVirtualCoin(string txID, decimal txfee, CurrencyType currencyType)
+        //{
+        //    this._withdraw.RaiseEvent(new VirtualCoinWithdrawCompleted(this._withdraw.ID, this._withdraw.UserID, txID, txfee, currencyType));
+        //}
 
-        public void CancelForVirtualCoin(CurrencyType currency, int byUserID, string memo)
-        {
-            this._withdraw.RaiseEvent(new VirtualCoinWithdrawCanceled(this._withdraw.UniqueID, currency, this._withdraw.AccountID, this._withdraw.Amount, this._withdraw.Fee, memo, byUserID));
-        }
+        //public void CancelForVirtualCoin(CurrencyType currency, int byUserID, string memo)
+        //{
+        //    this._withdraw.RaiseEvent(new VirtualCoinWithdrawCanceled(this._withdraw.UniqueID, currency, this._withdraw.AccountID, this._withdraw.Amount, this._withdraw.Fee, memo, byUserID));
+        //}
 
-        public void MarkVirtualCoinTransferFail(CurrencyType currency, int byUserID)
-        {
-            this._withdraw.RaiseEvent(new VirtualCoinWithdrawTranferFailed(this._withdraw.ID, this._withdraw.Amount, this._withdraw.Fee, string.Empty, byUserID));
-        }
+        //public void MarkVirtualCoinTransferFail(CurrencyType currency, int byUserID)
+        //{
+        //    this._withdraw.RaiseEvent(new VirtualCoinWithdrawTranferFailed(this._withdraw.ID, this._withdraw.Amount, this._withdraw.Fee, string.Empty, byUserID));
+        //}
     }
 }

@@ -62,7 +62,7 @@ namespace DotPay.ViewModel
     public class LoginUser
     {
         public int UserID { get; set; }
-        public string NickName { get; set; }
+        public string LoginName { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
         //public int ScoreBalance { get; set; }

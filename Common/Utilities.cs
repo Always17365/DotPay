@@ -25,15 +25,15 @@ namespace DotPay.Common
         }
 
         /// <summary>
-        /// generate exchange and queue name for inside transafer
+        /// generate exchange and queue name for inbound transafer
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
         /// </summary>
         /// <param name="CurrencyType">currency</param>
         /// <returns></returns>
-        public static Tuple<string, string> GenerateExchangeAndQueueNameOfInsideTransfer()
+        public static Tuple<string, string> GenerateExchangeAndQueueNameOfInboundTransfer()
         {
-            var exchangeName = "_INSIDE_TRANSFER_EXCHANGE";
-            var queueName = "_INSIDE_TRANSFER_QUEUE";
+            var exchangeName = "_INBOUND_TRANSFER_EXCHANGE";
+            var queueName = "_INBOUND_TRANSFER_QUEUE";
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
@@ -124,6 +124,36 @@ namespace DotPay.Common
             return new Tuple<string, string>(exchangeName, queueName);
         }
         #endregion
+
+
+        public static PayWay GetPayway(string bridge)
+        {
+            var payway = default(PayWay);
+
+            if (bridge.Equals("alipay", StringComparison.OrdinalIgnoreCase))
+            {
+                payway = PayWay.Alipay;
+            }
+            else if (bridge.Equals("tenpay", StringComparison.OrdinalIgnoreCase))
+            {
+                payway = PayWay.Tenpay;
+            }
+
+            return payway;
+        }
+
+        public static int GetPaywayFlg(PayWay payway)
+        {
+            switch (payway)
+            {
+                case PayWay.Alipay:
+                    return 10;
+                case PayWay.Tenpay:
+                    return 11;
+                default:
+                    return 0;
+            }
+        }
 
         #region otp key
         /// <summary>

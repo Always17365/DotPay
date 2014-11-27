@@ -10,5 +10,7 @@ namespace DotPay.MainDomain.Repository
     public interface IUserRepository : IRepository
     {
         User FindByEmail(string email);
+
+        User FindByLoginName(string loginName);
     }
 }

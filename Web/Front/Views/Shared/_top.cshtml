@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                    <li> <a href="/my/profile" target="_blank">@("你好, ") @ViewBag.CurrentUser.Email</a></li>
+                    <li> <a href="/my/profile" target="_blank">@("你好, ") @ViewBag.CurrentUser.LoginName</a></li>
                     <li><a href="/logout">@Html.Lang("Logout")</a></li>
                 }
             </ul>

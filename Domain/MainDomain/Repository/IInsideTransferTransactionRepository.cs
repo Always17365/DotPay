@@ -11,5 +11,6 @@ namespace DotPay.MainDomain.Repository
     public interface IInsideTransferTransactionRepository : IRepository
     {
         InsideTransferTransaction FindTransferTxByID(int transferTxID, CurrencyType currency);
+        InsideTransferTransaction FindTransferTxByID(string transferTxSeq, CurrencyType currency);
     }
 }

@@ -14,8 +14,9 @@ using DotPay.MainDomain.Exceptions;
 
 namespace DotPay.MainDomain
 {
-    public class WithdrawVerifyMonitor : IEventHandler<CNYWithdrawCreated>,
-                                         IEventHandler<VirtualCoinWithdrawCreated>
+    public class WithdrawVerifyMonitor : IEventHandler<CNYWithdrawCreated>
+                                         // ,
+                                         //IEventHandler<VirtualCoinWithdrawCreated>
     {
         public void Handle(CNYWithdrawCreated @event)
         {
@@ -26,12 +27,12 @@ namespace DotPay.MainDomain
 
         }
 
-        public void Handle(VirtualCoinWithdrawCreated @event)
-        {
-            var currency = IoC.Resolve<ICurrencyRepository>().FindById<Currency>((int)@event.Currency);
-            if (currency.WithdrawOnceLimit < @event.WithdrawEntity.Amount || currency.WithdrawOnceMin > @event.WithdrawEntity.Amount)
-                throw new WithdrawAmountOutOfRangeException();
-        }
+        //public void Handle(VirtualCoinWithdrawCreated @event)
+        //{
+        //    var currency = IoC.Resolve<ICurrencyRepository>().FindById<Currency>((int)@event.Currency);
+        //    if (currency.WithdrawOnceLimit < @event.WithdrawEntity.Amount || currency.WithdrawOnceMin > @event.WithdrawEntity.Amount)
+        //        throw new WithdrawAmountOutOfRangeException();
+        //}
 
     }
 }

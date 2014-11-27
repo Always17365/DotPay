@@ -17,6 +17,7 @@ namespace DotPay.QueryService
         Tuple<string, int> GetUserSmsSecretByID(int userID);
         //UserRealNameModel GetUserRealNameAuthInfoByID(int userID);
         LoginUser GetUserByID(int userID);
+        LoginUser GetUserByLoginName(string LoginName);
         LoginUser GetUserByEmail(string email);
         LoginUser GetUserByMobile(string mobile);
         LoginUser GetUserByOpenID(string openID, OpenAuthType authType);

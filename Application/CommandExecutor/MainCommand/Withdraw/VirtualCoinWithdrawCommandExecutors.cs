@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+/*
 namespace DotPay.Command.Executor
 {
     public class VirtualCoinWithdrawCommandExecutors : ICommandExecutor<SubmitVirtualCoinWithdraw>,
@@ -75,3 +76,4 @@ namespace DotPay.Command.Executor
         }
     }
 }
+*/

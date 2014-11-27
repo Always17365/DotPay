@@ -7,7 +7,7 @@ using FC.Framework;
 using FC.Framework.Domain;
 using DotPay.Common;
 using DotPay.MainDomain.Events;
-
+/*
 namespace DotPay.MainDomain
 {
     public abstract class VirtualCoinWithdraw : DomainBase, IVirtualCoinWithdraw, IAggregateRoot,
@@ -111,3 +111,4 @@ namespace DotPay.MainDomain
         #endregion
     }
 }
+*/

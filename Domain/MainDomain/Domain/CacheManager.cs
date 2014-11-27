@@ -59,7 +59,7 @@ namespace DotPay.MainDomain
                   IEventHandler<CNYDepositUndoComplete>,              //撤销cny充值
                   IEventHandler<CNYWithdrawCompleted>,                //CNY提现完成 
                   IEventHandler<VirtualCoinDepositCompleted>,         //虚拟币充值完成
-                  IEventHandler<VirtualCoinWithdrawCompleted>,        //虚拟币提现完成 
+                  //IEventHandler<VirtualCoinWithdrawCompleted>,        //虚拟币提现完成 
     #endregion
 
     #region 币种账号相关
@@ -69,7 +69,7 @@ namespace DotPay.MainDomain
                  IEventHandler<AccountChangedByWithdrawCreated>,        //提现成功
                  IEventHandler<AccountChangedByWithdrawToDepositCode>,  //提现到充值码 
                  IEventHandler<CNYWithdrawCreated>,                     //人民币提现创建
-                 IEventHandler<VirtualCoinWithdrawCreated>,             //虚拟币提现创建
+                 //IEventHandler<VirtualCoinWithdrawCreated>,             //虚拟币提现创建
     #endregion
 
     #region 公告相关
@@ -245,10 +245,10 @@ namespace DotPay.MainDomain
             ClearUserAccountsCache(@event.WithdrawUserID);
         }
 
-        public void Handle(VirtualCoinWithdrawCreated @event)
-        {
-            ClearUserAccountsCache(@event.WithdrawUserID);
-        }
+        //public void Handle(VirtualCoinWithdrawCreated @event)
+        //{
+        //    ClearUserAccountsCache(@event.WithdrawUserID);
+        //}
         #endregion
 
         #region 文章相关
@@ -274,7 +274,7 @@ namespace DotPay.MainDomain
 
         public void Handle(CNYWithdrawCompleted @event) { ClearUserScoreBalanceCache(@event.WithdrawUserID); }
         public void Handle(VirtualCoinDepositCompleted @event) { ClearUserScoreBalanceCache(@event.DepositUserID); }
-        public void Handle(VirtualCoinWithdrawCompleted @event) { ClearUserScoreBalanceCache(@event.WithdrawUserID); }
+        //public void Handle(VirtualCoinWithdrawCompleted @event) { ClearUserScoreBalanceCache(@event.WithdrawUserID); }
 
         private void ClearUserScoreBalanceCache(int userID)
         {

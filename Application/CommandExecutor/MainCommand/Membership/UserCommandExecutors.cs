@@ -17,7 +17,7 @@ namespace DotPay.Command.Executor
                                         ICommandExecutor<UserLogin>,                               //用户登录   
                                         ICommandExecutor<UserQQLogin>,                             //用户使用QQ登录
                                         ICommandExecutor<UserWeiboLogin>,                          //用户使用微博登录
-                                        ICommandExecutor<UserSetNickName>,                         //修改昵称   
+        //ICommandExecutor<UserSetNickName>,                         //修改昵称   
                                         ICommandExecutor<UserRealNameAuth>,                        //实名认证
                                         ICommandExecutor<UserModifyPassword>,                      //修改密码
                                         ICommandExecutor<UserResetPasswordByTwoFactor>,            //修改密码 --通过2FA  
@@ -49,7 +49,7 @@ namespace DotPay.Command.Executor
 
             preRegistration.Verify(cmd.RegisterToken);
 
-            var user = new User(cmd.CommendBy, cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), PasswordHelper.EncryptMD5(cmd.TradePassword), cmd.TimeZone);
+            var user = new User(cmd.CommendBy, cmd.LoginName.ToLower(), cmd.Email.ToLower(), PasswordHelper.EncryptMD5(cmd.Password), PasswordHelper.EncryptMD5(cmd.TradePassword), cmd.TimeZone);
 
             IoC.Resolve<IUserRepository>().Add(user);
         }
@@ -59,7 +59,12 @@ namespace DotPay.Command.Executor
             Check.Argument.IsNotNull(cmd, "cmd");
 
             var userRepos = IoC.Resolve<IUserRepository>();
-            var user = userRepos.FindByEmail(cmd.Email.ToLower());
+            var user = default(User);
+
+            if (cmd.LoginName.IsEmail())
+                user = userRepos.FindByEmail(cmd.LoginName.ToLower());
+            else
+                user = userRepos.FindByLoginName(cmd.LoginName.ToLower());
 
             if (user == null)
                 throw new UserVerifyLoginPasswordException();
@@ -72,7 +77,7 @@ namespace DotPay.Command.Executor
             Check.Argument.IsNotNull(cmd, "cmd");
 
             var openAuthType = OpenAuthType.QQ;
-            var nickName = cmd.NickName;
+            var loginName = cmd.OpenID.ToLower();
 
             var commonRepos = IoC.Resolve<IRepository>();
             var openAuthRepos = IoC.Resolve<IOpenAuthShipRepository>();
@@ -81,7 +86,7 @@ namespace DotPay.Command.Executor
             if (openAuthShip == null)
             {
                 var randomPassword = PasswordHelper.EncryptMD5(Guid.NewGuid().ToString());
-                var user = new User(cmd.CommendBy, nickName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
+                var user = new User(cmd.CommendBy, loginName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
 
                 commonRepos.Add(user);
 
@@ -100,7 +105,7 @@ namespace DotPay.Command.Executor
             Check.Argument.IsNotNull(cmd, "cmd");
 
             var openAuthType = OpenAuthType.WEIBO;
-            var nickName = cmd.NickName;
+            var loginName = cmd.OpenID.ToLower();
 
             var commonRepos = IoC.Resolve<IRepository>();
             var openAuthRepos = IoC.Resolve<IOpenAuthShipRepository>();
@@ -109,7 +114,7 @@ namespace DotPay.Command.Executor
             if (openAuthShip == null)
             {
                 var randomPassword = PasswordHelper.EncryptMD5(Guid.NewGuid().ToString());
-                var user = new User(cmd.CommendBy, nickName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
+                var user = new User(cmd.CommendBy, loginName, randomPassword, /*cmd.RippleAddress, cmd.RippleSecret,*/ openAuthType);
 
                 commonRepos.Add(user);
 
@@ -222,15 +227,15 @@ namespace DotPay.Command.Executor
             user.SetMobile(cmd.Mobile, cmd.NewOTPSecret, cmd.OneTimePassword);
         }
 
-        public void Execute(UserSetNickName cmd)
-        {
-            Check.Argument.IsNotNull(cmd, "cmd");
+        //public void Execute(UserSetNickName cmd)
+        //{
+        //    Check.Argument.IsNotNull(cmd, "cmd");
 
-            var userRepos = IoC.Resolve<IUserRepository>();
-            var user = userRepos.FindById<User>(cmd.UserID);
+        //    var userRepos = IoC.Resolve<IUserRepository>();
+        //    var user = userRepos.FindById<User>(cmd.UserID);
 
-            user.SetNickName(cmd.NickName);
-        }
+        //    user.SetNickName(cmd.NickName);
+        //}
         public void Execute(UserOpenLoginTwoFactor cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");

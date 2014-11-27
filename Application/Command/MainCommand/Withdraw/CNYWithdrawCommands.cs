@@ -12,7 +12,7 @@ namespace DotPay.Command
     public class SubmitCNYWithdraw : FC.Framework.Command
     {
         public SubmitCNYWithdraw(int? receiverBankAccountID, int withdrawUserID, decimal amount,
-                                 Bank bank, string receiverBankAccount, string tradePassword)
+                                 PayWay payway, string receiverBankAccount, string tradePassword)
         {
             Check.Argument.IsNotNegativeOrZero(withdrawUserID, "withdrawUserID");
             Check.Argument.IsNotNegativeOrZero(amount, "amount");
@@ -32,7 +32,7 @@ namespace DotPay.Command
             else
             { 
                 Check.Argument.IsNotEmpty(receiverBankAccount, "receiverBankAccount");
-                this.Bank = bank;
+                this.PayWay = payway;
                 this.BankAccount = receiverBankAccount;
             }
         }
@@ -40,7 +40,7 @@ namespace DotPay.Command
         public int WithdrawUserID { get; private set; }
         public decimal Amount { get; private set; }
         public int? ReceiverBankAccountID { get; private set; }
-        public Bank Bank { get; private set; }
+        public PayWay PayWay { get; private set; }
         public bool Valid { get; private set; }
         public string BankAccount { get; private set; }
         public string TradePassword { get; private set; }
@@ -129,20 +129,20 @@ namespace DotPay.Command
     #region CNY Withdraw Modify Recever Bank Account
     public class CNYWithdrawModifyReceiverBankAccount : FC.Framework.Command
     {
-        public CNYWithdrawModifyReceiverBankAccount(int withdrawID, Bank bank, string bankAccount, int modifyBy)
+        public CNYWithdrawModifyReceiverBankAccount(int withdrawID, PayWay payway, string bankAccount, int modifyBy)
         {
             Check.Argument.IsNotNegativeOrZero(withdrawID, "withdrawID");
             Check.Argument.IsNotEmpty(bankAccount, "bankAccount");
             Check.Argument.IsNotNegativeOrZero(modifyBy, "modifyBy");
 
             this.WithdrawID = withdrawID;
-            this.Bank = bank;
+            this.PayWay = payway;
             this.BankAccount = bankAccount;
             this.ByUserID = modifyBy;
         }
 
         public int WithdrawID { get; private set; }
-        public Bank Bank { get; private set; }
+        public PayWay PayWay { get; private set; }
         public int BankID { get; private set; }
         public string BankAccount { get; private set; }
         public string BankAddress { get; private set; }

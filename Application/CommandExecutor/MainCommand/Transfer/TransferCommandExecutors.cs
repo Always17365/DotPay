@@ -13,11 +13,12 @@ using System.Text;
 
 namespace DotPay.Command.Executor
 {
-    public class TransferCommandExecutors : ICommandExecutor<InsideTransfer>,
-                   ICommandExecutor<InsideTransferComplete>,
-                                         ICommandExecutor<OutsideTransfer>
+    public class TransferCommandExecutors : ICommandExecutor<CreateInsideTransfer>,
+        //ICommandExecutor<ConfirmInsideTransfer>,
+                                            ICommandExecutor<SubmitInsideTransfer>,
+                                            ICommandExecutor<OutsideTransfer>
     {
-        public void Execute(InsideTransfer cmd)
+        public void Execute(CreateInsideTransfer cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
@@ -32,11 +33,21 @@ namespace DotPay.Command.Executor
             throw new NotImplementedException();
         }
 
-        public void Execute(InsideTransferComplete cmd)
+        public void Execute(SubmitInsideTransfer cmd)
         {
-            var insideTransfer = IoC.Resolve<IInsideTransferTransactionRepository>().FindTransferTxByID(cmd.InsideTransferID, cmd.Currency);
+            var insideTransfer = IoC.Resolve<IInsideTransferTransactionRepository>().FindTransferTxByID(cmd.InsideTransferSeq, cmd.Currency);
+            var fromUser = IoC.Resolve<IRepository>().FindById<User>(insideTransfer.FromUserID);
 
-            insideTransfer.Complete();
+            if (!fromUser.VerifyTradePassword(PasswordHelper.EncryptMD5(cmd.TradePassword)))
+                throw new TradePasswordErrorException();
+            else
+                insideTransfer.Complete();
         }
+        //public void Execute(ConfirmInsideTransfer cmd)
+        //{ 
+        //    var insideTransfer = IoC.Resolve<IInsideTransferTransactionRepository>().FindTransferTxByID(cmd.InsideTransferSeq, cmd.Currency);
+
+        //    insideTransfer.Confirm();
+        //}
     }
 }

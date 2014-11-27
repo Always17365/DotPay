@@ -67,8 +67,9 @@
     <Compile Include="DomainEvents\Membership\VipSettingEvents.cs" />
     <Compile Include="DomainEvents\OpenAuthShip\OpenAuthShipEvents.cs" />
     <Compile Include="DomainEvents\SmsInterface\SmsInterfaceEvents.cs" />
-    <Compile Include="DomainEvents\TransferTransaction\OutputTransferTransactionEvents.cs" />
-    <Compile Include="DomainEvents\TransferTransaction\InternalTransferTransactionEvents.cs" />
+    <Compile Include="DomainEvents\TransferTransaction\InboundTransferTransactionEvents.cs" />
+    <Compile Include="DomainEvents\TransferTransaction\OutboundTransferTransactionEvents.cs" />
+    <Compile Include="DomainEvents\TransferTransaction\InsideTransferTransactionEvents.cs" />
     <Compile Include="DomainEvents\VirtualCoinPayment\PaymentAddressEvents.cs" />
     <Compile Include="DomainEvents\VirtualCoinPayment\PaymentTransactionEvents.cs" />
     <Compile Include="DomainEvents\Withdraw\BankOutletsEvents.cs" />
@@ -137,12 +138,15 @@
     <Compile Include="Domain\CacheManager.cs" />
     <Compile Include="Domain\LogWriter\LoginLogWriter.cs" />
     <Compile Include="Domain\SmsInterface\SmsInterface.cs" />
+    <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToTenpayTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToAlipayTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\USDInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
+    <Compile Include="Domain\Transfer\InboundTransferTxToThirdPartyPayment.cs" />
     <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />
     <Compile Include="Domain\Transfer\TransferTransactionExceptions.cs" />
-    <Compile Include="Domain\Transfer\OutputTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\OutboundTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\InsideTransferTransaction.cs" />
     <Compile Include="Domain\VirtualCoinPayment\Exceptions\PaymentTransactionExceptions.cs" />
     <Compile Include="Domain\VirtualCoinPayment\PaymentAddress.cs" />
@@ -170,7 +174,7 @@
     <Compile Include="Domain\Withdraw\VirtualCoinWithdraw.cs" />
     <Compile Include="Domain\Withdraw\WithdrawOnceLimitVerifyMonitor.cs" />
     <Compile Include="Domain\Withdraw\WithdrawVerifyMonitor.cs" />
-    <Compile Include="Domain\Withdraw\WithdrawReceiverBankAccount.cs" />
+    <Compile Include="Domain\Withdraw\WithdrawReceiverAccount.cs" />
     <Compile Include="Domain\Withdraw\WithdrawFeeCalculator.cs" />
     <Compile Include="Domain\Withdraw\WithdrawProcessSubmitter.cs" />
     <Compile Include="Domain\SMSSender.cs" />
