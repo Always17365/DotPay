@@ -10,8 +10,9 @@ namespace DotPay.QueryService
 {
     public interface ITransferTransactionQuery
     {
-        int GetTransferTransactionCountBySearch(TransactionState state, PayWay payWay);
+        int GetTransferTransactionCountBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay);
         IEnumerable<TransferTransaction> GetTransferTransactionBySearch(TransactionState state, PayWay payWay, int page, int pageCount);
+        IEnumerable<TransferTransaction> SelectTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay, int page, int pageCount);
 
     }
 }

@@ -7,10 +7,11 @@
         <h4 class="panel-title" ng-bind="title"></h4>
     </div>
     <div class="panel-body">
-        <div class="pull-left">
-            <button type="button" class="btn btn-success" ng-click="success()">完成</button>
+        <div class="pull-left">            
+            <button type="button" class="btn btn-success" ng-click="Success()">完成</button>
             <button type="button" class="btn btn-success" ng-click="Fail()">失败</button>
         </div>
+        
         <div class="pull-right padding-right100">   
         </div>
     </div>
@@ -19,7 +20,9 @@
             <tr>
                 <th>#</th>
                 <th>ID</th>
-                <th>流水号</th>
+                <th>来源</th>
+                <th>流水号</th> 
+                <th>支付来源</th>
                 <th>用户</th>
                 <th>金额</th> 
                 <th>创建时间</th> 
@@ -29,7 +32,9 @@
             <tr ng-repeat="transferTransaction in transferTransactions">
                 <td><input type="checkbox" ng-model="transferTransaction.Checked" ng-change="checkedChange(transferTransaction)"></td>
                 <td ng-bind="transferTransaction.ID"></td>
-                <td ng-bind="transferTransaction.SequenceNo"></td>
+                <td ng-bind="transferTransaction.TxId"></td> 
+                <td ng-bind="transferTransaction.TransferNo"></td>
+                <td ng-bind="transferTransaction.CNSourcePayway"></td>
                 <td ng-bind="transferTransaction.Account"></td>
                 <td ng-bind="transferTransaction.Amount"></td>        
                 <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td> 
@@ -50,16 +55,37 @@
                 <table class="table-condensed" style="width: 95%">
                     <tr>
                         <td><label>转账交易号</label></td>
-                        <td><input type="text" ng-trim="true" class="form-control" required ng-model="selecttransferTransaction.ID"></td>
+                        <td><input type="text" ng-trim="true" class="form-control" required ng-model="successTransferTransaction.TransferNo"></td>
                     </tr>
                     <tr>
-                        <td><label>{{title}}</label></td>
-                        <td><input type="text" ng-trim="true" class="form-control" required ng-model="value"></td>
+                        <td><label>转账金额</label></td>
+                        <td><input type="text" ng-trim="true" class="form-control" required ng-model="successTransferTransaction.Amount"></td>
                     </tr>
                 </table>
                 <div class="modal-footer">
                     <button class="btn btn-warning" ng-click="cancel()">取消</button>
-                    <button class="btn btn-primary" ng-click="set(value)">保存</button>
+                    <button class="btn btn-primary" ng-click="set(successTransferTransaction)">保存</button>
+                </div>
+            </form>
+        </div>
+    </script>
+</div>
+<div>
+    <script type="text/ng-template" id="failTransferTransaction.html">
+        <div class="modal-header">
+            <h3></h3>
+        </div>
+        <div class="modal-body">
+            <form name="transferTransactionForm" role="form">
+                <table class="table-condensed" style="width: 95%">                     
+                    <tr>
+                        <td><label>输入失败原因</label></td>
+                        <td><input type="text" ng-trim="true" class="form-control" required ng-model="text"></td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                    <button class="btn btn-primary" ng-click="set(text)">保存</button>
                 </div>
             </form>
         </div>

@@ -43,8 +43,10 @@ module.config(['$routeProvider', function ($routeProvider) {
     .when('/useraccountinfo/:currencyType', { templateUrl: '/User/UserInfo', controller: 'GetUserAccountInfoCtrl' })
 
 
-    .when('/transfertransaction/:state/:payway', { templateUrl: '/TransferTransaction/index', controller: 'GetTransferTransactionCtrl' })
-    
+    .when('/transfertransaction/pending/:payway', { templateUrl: '/TransferTransaction/pending', controller: 'GetPendingTransferTransaction' })
+    .when('/transfertransaction/success/:payway', { templateUrl: '/TransferTransaction/success', controller: 'GetSuccessTransferTransaction' })
+    .when('/transfertransaction/fail/:payway', { templateUrl: '/TransferTransaction/fail', controller: 'GetFailTransferTransaction' })
+
 
     //.when('/smsinterface', { templateUrl: '/SmsInterface/Index', controller: 'SmsInterfaceCtrl' })
     //.when('/currency', { templateUrl: '/Currency/Index', controller: 'CurrencyCtrl' })

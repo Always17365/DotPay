@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+@using DotPay.Web.Admin;
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title" ng-bind="title"></h4>
+    </div>
+    <div class="panel-body">
+        <div class="pull-left">
+        </div>
+
+        <div class="pull-right padding-right100">
+            <label>支付宝账号:</label><input type="text" class="form-control inline-control " ng-model="Account">
+            <label>金额:</label><input type="text" class="form-control inline-control " ng-model="Amount">
+            <label>Txid:</label><input type="text" class="form-control inline-control " ng-model="TxId">
+            <label>开始时间:</label><input type="text" class="form-control inline-control " ng-model="start_Search" onclick="WdatePicker()" onchange="">
+            <label>结束时间:</label><input type="text" class="form-control inline-control " ng-model="end_Search" onclick="WdatePicker()" onchange="">
+            <button type="button" class="btn btn-success" ng-click="search()"><span class="glyphicon glyphicon-search"></span>搜索</button>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>来源</th>
+                <th>流水号</th>
+                <th>转账交易号</th>
+                <th>支付来源</th>
+                <th>用户</th>
+                <th>金额</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="transferTransaction in transferTransactions">
+                <td><input type="checkbox" ng-model="transferTransaction.Checked" ng-change="checkedChange(transferTransaction)"></td>
+                <td ng-bind="transferTransaction.ID"></td>
+                <td ng-bind="transferTransaction.TxId"></td>
+                <td ng-bind="transferTransaction.SequenceNo"></td>
+                <td ng-bind="transferTransaction.TransferNo"></td>
+                <td ng-bind="transferTransaction.CNSourcePayway"></td>
+                <td ng-bind="transferTransaction.Account"></td>
+                <td ng-bind="transferTransaction.Amount"></td>
+                <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination total-items="totalCount" page="currentPage" first-text="首页" on-select-page="pageChange(page)" next-text="下一页" previous-text="上一页" last-text="尾页" max-size="10" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+    <pre>共{{totalCount}}条数据  第{{currentPage}}页 /共{{numPages}}页</pre>
+</div>

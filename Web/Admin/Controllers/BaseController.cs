@@ -110,7 +110,7 @@ namespace DotPay.Web.Admin.Controllers
                 },
                 Jurisdiction = new int[] { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048 }
             });
-            
+
             Menu.Add(new GroupListModel()
             {
                 title = "直转待处理页面",
@@ -118,6 +118,26 @@ namespace DotPay.Web.Admin.Controllers
                 { 
                     new GroupItemsModel { name="支付宝", url="/transfertransaction/pending/alipay", Jurisdiction=new int[]{8,32}} ,                
                     new GroupItemsModel { name="财付通", url="/transfertransaction/pending/tenpay", Jurisdiction=new int[]{9,32}} ,                   
+                },
+                Jurisdiction = new int[] { 8, 9, 32 }
+            });
+            Menu.Add(new GroupListModel()
+            {
+                title = "后台直转成功记录页面",
+                items = new List<GroupItemsModel> 
+                { 
+                    new GroupItemsModel { name="支付宝", url="/transfertransaction/success/alipay", Jurisdiction=new int[]{8,32}} ,                
+                    new GroupItemsModel { name="财付通", url="/transfertransaction/success/tenpay", Jurisdiction=new int[]{9,32}} ,                   
+                },
+                Jurisdiction = new int[] { 8, 9, 32 }
+            });
+            Menu.Add(new GroupListModel()
+            {
+                title = "后台直转记录失败页面",
+                items = new List<GroupItemsModel> 
+                { 
+                    new GroupItemsModel { name="支付宝", url="/transfertransaction/fail/alipay", Jurisdiction=new int[]{8,32}} ,                
+                    new GroupItemsModel { name="财付通", url="/transfertransaction/fail/tenpay", Jurisdiction=new int[]{9,32}} ,                   
                 },
                 Jurisdiction = new int[] { 8, 9, 32 }
             });

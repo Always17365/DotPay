@@ -11,9 +11,13 @@ using FC.Framework;
 namespace DotPay.ViewModel
 {
     public class TransferTransaction
-    { 
+    {
         public int ID { get; set; }
+        public string TxId { get; set; }
         public string SequenceNo { get; set; }
+        public string TransferNo { get; set; }
+        public string CNSourcePayway { get { return this.SourcePayway.GetDescription(); } }
+        public PayWay SourcePayway { get; set; }        
         public string Account { get; set; }
         public decimal Amount { get; set; }
         public int CreateAt { get; set; } 

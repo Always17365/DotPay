@@ -87,7 +87,7 @@ namespace DotPay.MainDomain
 
         void IEventHandler<InboundTransferToThirdPartyPaymentTxFailed>.Handle(InboundTransferToThirdPartyPaymentTxFailed @event)
         {
-            this.State = TransactionState.Success;
+            this.State = TransactionState.Fail;
             this.DoneAt = 0;
             this.Memo = @event.Reason;
         }

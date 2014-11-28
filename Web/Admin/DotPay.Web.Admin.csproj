@@ -934,7 +934,9 @@
     <Content Include="Views\VipSetting\Index.cshtml" />
     <Content Include="Views\Logs\fbcdepositprocesslog.cshtml" />
     <Content Include="Views\Logs\fbcwithdrawprocesslog.cshtml" />
-    <Content Include="Views\TransferTransaction\Index.cshtml" />
+    <Content Include="Views\TransferTransaction\Pending.cshtml" />
+    <Content Include="Views\TransferTransaction\Success.cshtml" />
+    <Content Include="Views\TransferTransaction\Fail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
