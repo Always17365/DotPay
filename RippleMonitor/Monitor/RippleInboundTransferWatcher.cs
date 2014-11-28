@@ -20,7 +20,7 @@ using System.Security.AccessControl;
 
 namespace DotPay.RippleMonitor
 {
-    internal class InboundTransferWatcher
+    internal class RippleInboundTransferWatcher
     {
         private const string logTxtName = "ProcessLedgerRecord.txt", logProcessIndexTxtName = "ProcessLedgerIndex";
         public static bool Started { get; private set; }
@@ -35,7 +35,7 @@ namespace DotPay.RippleMonitor
 
         internal static void Start(MQConnectionPool mqpool)
         {
-            if (InboundTransferWatcher.Started)
+            if (RippleInboundTransferWatcher.Started)
             {
                 Log.Info("Ripple转入交易监听器已启动");
                 return;
@@ -51,10 +51,10 @@ namespace DotPay.RippleMonitor
             {
                 while (true)
                 {
-                    if (!InboundTransferWatcher.Started)
+                    if (!RippleInboundTransferWatcher.Started)
                     {
                         Log.Info("Ripple转入交易监听器启动成功,监听交易中...");
-                        InboundTransferWatcher.Started = true;
+                        RippleInboundTransferWatcher.Started = true;
                     }
                     if (Program.Fusing)
                     {
@@ -68,7 +68,7 @@ namespace DotPay.RippleMonitor
                         lock (_lock)
                         {
                             waitCallback = true;
-                            GetTxs(InboundTransferWatcher.currentProcessLedgerIndex + 1, ProcessTxs);
+                            GetTxs(RippleInboundTransferWatcher.currentProcessLedgerIndex + 1, ProcessTxs);
                         }
                     }
                     else

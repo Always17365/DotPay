@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Monitor\InboundTransferWatcher.cs" />
+    <Compile Include="Monitor\RippleInboundTransferWatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -139,6 +139,10 @@
     <ProjectReference Include="..\Persistence\Ripple\DotPay.RipplePersistence.csproj">
       <Project>{666500ee-30c4-4ee4-876a-dc1e6aab4378}</Project>
       <Name>DotPay.RipplePersistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\DistributedMessageSender\DotPay.Tools.DistributedMessageSender.csproj">
+      <Project>{526ae764-0a7d-4e4f-858e-f252ff524baa}</Project>
+      <Name>DotPay.Tools.DistributedMessageSender</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel\DotPay.ViewModel.csproj">
       <Project>{9518179c-8907-47d8-89fe-c589502af71a}</Project>

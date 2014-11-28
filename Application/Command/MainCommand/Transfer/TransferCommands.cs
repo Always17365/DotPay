@@ -60,7 +60,7 @@ namespace DotPay.Command
     #region 转账完成
     public class CreateThirdPartyPaymentTransfer : FC.Framework.Command
     {
-        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway)
+        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway)
         {
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotEmpty(account, "account");
@@ -71,19 +71,21 @@ namespace DotPay.Command
             this.Account = account;
             this.Amount = amount;
             this.PayWay = payway;
+            this.SourcePayway = sourcePayway;
         }
 
         public string TxId { get; private set; }
         public string Account { get; private set; }
         public decimal Amount { get; private set; }
         public PayWay PayWay { get; private set; }
+        public PayWay SourcePayway { get; private set; }
     }
     #endregion
 
     #region 转账完成
     public class ThirdPartyPaymentTransferComplete : FC.Framework.Command
     {
-        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, PayWay payway)
+        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, PayWay payway, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
             Check.Argument.IsNotEmpty(transferNo, "transferNo");
@@ -92,18 +94,20 @@ namespace DotPay.Command
             this.TransferId = transferId;
             this.TransferNo = transferNo;
             this.PayWay = payway;
+            this.ByUserID = byUserID;
         }
 
         public int TransferId { get; private set; }
         public PayWay PayWay { get; private set; }
         public string TransferNo { get; private set; }
+        public int ByUserID { get; private set; }
     }
     #endregion
 
     #region 转账失败
     public class ThirdPartyPaymentTransferFail : FC.Framework.Command
     {
-        public ThirdPartyPaymentTransferFail(int transferId, string reason, PayWay payway)
+        public ThirdPartyPaymentTransferFail(int transferId, string reason, PayWay payway,int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
             Check.Argument.IsNotEmpty(reason, "reason");
@@ -112,11 +116,13 @@ namespace DotPay.Command
             this.TransferId = transferId;
             this.Reason = reason;
             this.PayWay = payway;
+            this.ByUserID = byUserID;
         }
 
         public int TransferId { get; private set; }
         public PayWay PayWay { get; private set; }
-        public string Reason { get; private set; }
+        public string Reason { get; private set; }   
+        public int ByUserID { get; private set; }
     }
     #endregion
     #endregion

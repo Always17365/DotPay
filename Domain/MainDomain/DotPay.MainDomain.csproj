@@ -144,7 +144,7 @@
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\Factory\ToThirdPartyPaymentTransactionFactory.cs" />
     <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
-    <Compile Include="Domain\Transfer\InboundTransferTxToThirdPartyPayment.cs" />
+    <Compile Include="Domain\Transfer\InboundTransferToThirdPartyPaymentTx.cs" />
     <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />
     <Compile Include="Domain\Transfer\TransferTransactionExceptions.cs" />
     <Compile Include="Domain\Transfer\OutboundTransferTransaction.cs" />
@@ -182,6 +182,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Account\Currency.cs" />
     <Compile Include="Domain\DomainBase.cs" />
+    <Compile Include="Repository\IInboundTransferToThirdPartyPaymentTxRepository.cs" />
     <Compile Include="Repository\IInsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\IFundSourceRepository.cs" />
     <Compile Include="Repository\IDepositRepository.cs" />

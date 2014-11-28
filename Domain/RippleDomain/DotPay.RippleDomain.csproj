@@ -52,11 +52,16 @@
     <Compile Include="Domain\RippleTransfer.cs" />
     <Compile Include="Domain\RippleInboundTx.cs" />
     <Compile Include="Domain\RippleWithdraw.cs" />
+    <Compile Include="Repository\IInboundToThirdPartyPaymentTxRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\DotPay.Common.csproj">
       <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
       <Name>DotPay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\DistributedMessageSender\DotPay.Tools.DistributedMessageSender.csproj">
+      <Project>{526ae764-0a7d-4e4f-858e-f252ff524baa}</Project>
+      <Name>DotPay.Tools.DistributedMessageSender</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

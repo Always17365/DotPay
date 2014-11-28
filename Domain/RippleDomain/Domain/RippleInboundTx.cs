@@ -31,7 +31,7 @@ namespace DotPay.RippleDomain
         #region Event handler
         void IEventHandler<RippleInboundTxCreated>.Handle(RippleInboundTxCreated @event)
         {
-            this.TxID = @event.TxID;
+            this.TxID = @event.RippleTxID;
             this.DestinationTag = @event.DestinationTag;
             this.Amount = @event.Amount; 
         }

@@ -39,7 +39,7 @@ namespace DotPay.RippleDomain
             if (this.State != TransactionState.Pending)
                 throw new RippleTransactionNotPendingException();
             else
-                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid, amount));
+                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid,this.PayWay, amount));
         }
 
         #region Event handler

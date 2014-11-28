@@ -14,17 +14,17 @@ namespace DotPay.MainDomain
 {
     public class ToThirdPartyPaymentTransactionFactory
     {
-        public static InboundTransferToThirdPartyPaymentTx CreateInsideTransferTransaction(string txid, string account, decimal amount, PayWay payway)
+        public static InboundTransferToThirdPartyPaymentTx CreateInboundTransferTransaction(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway)
         {
             InboundTransferToThirdPartyPaymentTx tx;
 
             switch (payway)
             {
                 case PayWay.Alipay:
-                    tx = new ToAlipayTransferTransaction(txid, account, amount);
+                    tx = new ToAlipayTransferTransaction(txid, account, amount, sourcePayway);
                     break;
                 case PayWay.Tenpay:
-                    tx = new ToTenpayTransferTransaction(txid, account, amount);
+                    tx = new ToTenpayTransferTransaction(txid, account, amount, sourcePayway);
                     break;
                 default:
                     throw new NotImplementedException();

@@ -17,6 +17,8 @@ namespace DotPay.Common
         Alipay,
         [EnumDescription("Tenpay")]
         Tenpay,
+        [EnumDescription("Ripple")]
+        Ripple,
         /// <summary>
         /// 中国工商银行
         /// </summary>
