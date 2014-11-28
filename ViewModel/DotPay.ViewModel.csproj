@@ -60,6 +60,7 @@
     <Compile Include="RippleFederation\Federation.cs" />
     <Compile Include="Transfer\OutsideTransfer.cs" />
     <Compile Include="Transfer\InsideTransfer.cs" />
+    <Compile Include="TransferTransaction\TransferTransaction.cs" />
     <Compile Include="VipSetting\VipSetting.cs" />
     <Compile Include="VirtualCoin\VitrtualCoin.cs" />
     <Compile Include="Withdraw\WithdrawReceiverAccount.cs" />

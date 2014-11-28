@@ -57,6 +57,7 @@
     <Compile Include="Cms\IArticleQuery.cs" />
     <Compile Include="PreRegistratorQuery\IPreRegistratorQuery.cs" />
     <Compile Include="Records\TransactionQuery.cs" />
+    <Compile Include="TransferTransaction\ITransferTransactionQuery.cs" />
     <Compile Include="Transfer\IOutsideTransferQuery.cs" />
     <Compile Include="Transfer\IInsideTransferQuery.cs" />
     <Compile Include="VipSetting\IVipSettingQuery.cs" />
