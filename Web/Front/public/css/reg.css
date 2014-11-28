@@ -1,6 +1,6 @@
 ﻿.register { height: 700px; }
     .register .steps { height: 46px; border-bottom: 2px solid #e6e6e6; position: relative; }
-        .register .steps ol { width: 720px; margin: 0 auto; list-style: none; }
+        .register .steps ol { margin: 0 auto; list-style: none; }
             .register .steps ol li.active { color: #3e3e3e; border-bottom: 2px solid #ff4700; }
             .register .steps ol .active { border-bottom-color: #c40000 !important; }
             .register .steps ol li { display: inline; float: left; width: 220px; padding-left: 70px; height: 46px; line-height: 46px; font-size: 16px; font-weight: bold; color: #999; }
