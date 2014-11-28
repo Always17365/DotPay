@@ -20,15 +20,16 @@ namespace DotPay.MainDomain
         #region ctor
         protected InboundTransferToThirdPartyPaymentTx() { }
 
-        public InboundTransferToThirdPartyPaymentTx(string account, decimal amount, PayWay payway)
+        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway)
         {
-            this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(account, payway, amount));
+            this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(txid, account, payway, amount));
         }
         #endregion
 
         #region properties
         public virtual int ID { get; protected set; }
         public virtual string SequenceNo { get; protected set; }
+        public virtual string TxId { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
         public virtual string Account { get; protected set; }
         public virtual decimal Amount { get; protected set; }
@@ -42,20 +43,20 @@ namespace DotPay.MainDomain
 
         #region public method
 
-        public virtual void Complete(string transferNo,int byUserID)
+        public virtual void Complete(string transferNo, int byUserID)
         {
             if (this.State != TransactionState.Pending)
                 throw new TransferTransactionNotPendingException();
             else
-                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxComplete(this.ID, this.PayWay, transferNo,byUserID));
+                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxComplete(this.ID, this.PayWay, transferNo, byUserID));
         }
 
-        public virtual void Fail(string reason,int byUserID)
+        public virtual void Fail(string reason, int byUserID)
         {
             if (this.State != TransactionState.Pending)
                 throw new TransferTransactionNotPendingException();
             else
-                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxFailed(this.ID, this.PayWay,reason,byUserID));
+                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxFailed(this.ID, this.PayWay, reason, byUserID));
         }
         #endregion
 
@@ -63,6 +64,7 @@ namespace DotPay.MainDomain
 
         void IEventHandler<InboundTransferToThirdPartyPaymentTxCreated>.Handle(InboundTransferToThirdPartyPaymentTxCreated @event)
         {
+            this.TxId = @event.TxId;
             this.Account = @event.Account;
             this.Amount = @event.Amount;
             this.PayWay = @event.PayWay;

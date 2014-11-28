@@ -8,6 +8,7 @@ using System.Text;
 
 namespace DotPay.Command
 {
+    #region 内部转账
     public class CreateInsideTransfer : FC.Framework.Command
     {
         public CreateInsideTransfer(int fromUserID, int toUserID, CurrencyType currency, decimal amount, string description)
@@ -34,22 +35,6 @@ namespace DotPay.Command
         public string Result { get; set; }
     }
 
-    //public class ConfirmInsideTransfer : FC.Framework.Command
-    //{
-    //    public ConfirmInsideTransfer(string insideTransferSeq, CurrencyType currency)
-    //    {
-    //        Check.Argument.IsNotEmpty(insideTransferSeq, "insideTransferSeq");
-    //        Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-    //        this.InsideTransferSeq = insideTransferSeq;
-    //        this.Currency = currency;
-    //    }
-
-    //    public string InsideTransferSeq { get; private set; }
-    //    public CurrencyType Currency { get; private set; }
-    //}
-
-
     public class SubmitInsideTransfer : FC.Framework.Command
     {
         public SubmitInsideTransfer(string insideTransferSeq, string tradePassword, CurrencyType currency)
@@ -68,10 +53,78 @@ namespace DotPay.Command
         public CurrencyType Currency { get; private set; }
     }
 
+    #endregion
 
-    public class OutsideTransfer : FC.Framework.Command
+    #region 第三方支付直转
+
+    #region 转账完成
+    public class CreateThirdPartyPaymentTransfer : FC.Framework.Command
     {
-        public OutsideTransfer(int userID, CurrencyType currency)
+        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway)
+        {
+            Check.Argument.IsNotEmpty(txid, "txid");
+            Check.Argument.IsNotEmpty(account, "account");
+            Check.Argument.IsNotNegativeOrZero(amount, "amount");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+
+            this.TxId = txid;
+            this.Account = account;
+            this.Amount = amount;
+            this.PayWay = payway;
+        }
+
+        public string TxId { get; private set; }
+        public string Account { get; private set; }
+        public decimal Amount { get; private set; }
+        public PayWay PayWay { get; private set; }
+    }
+    #endregion
+
+    #region 转账完成
+    public class ThirdPartyPaymentTransferComplete : FC.Framework.Command
+    {
+        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, PayWay payway)
+        {
+            Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
+            Check.Argument.IsNotEmpty(transferNo, "transferNo");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+
+            this.TransferId = transferId;
+            this.TransferNo = transferNo;
+            this.PayWay = payway;
+        }
+
+        public int TransferId { get; private set; }
+        public PayWay PayWay { get; private set; }
+        public string TransferNo { get; private set; }
+    }
+    #endregion
+
+    #region 转账失败
+    public class ThirdPartyPaymentTransferFail : FC.Framework.Command
+    {
+        public ThirdPartyPaymentTransferFail(int transferId, string reason, PayWay payway)
+        {
+            Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
+            Check.Argument.IsNotEmpty(reason, "reason");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+
+            this.TransferId = transferId;
+            this.Reason = reason;
+            this.PayWay = payway;
+        }
+
+        public int TransferId { get; private set; }
+        public PayWay PayWay { get; private set; }
+        public string Reason { get; private set; }
+    }
+    #endregion
+    #endregion
+
+    #region 外部-转出转账
+    public class OutboundTransfer : FC.Framework.Command
+    {
+        public OutboundTransfer(int userID, CurrencyType currency)
         {
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
             Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
@@ -83,19 +136,6 @@ namespace DotPay.Command
         public int UserID { get; private set; }
         public CurrencyType Currency { get; private set; }
     }
+    #endregion
 
-    public class ExchangeTransfer : FC.Framework.Command
-    {
-        public ExchangeTransfer(int userID, CurrencyType currency)
-        {
-            Check.Argument.IsNotNegativeOrZero(userID, "userID");
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-            this.UserID = userID;
-            this.Currency = currency;
-        }
-
-        public int UserID { get; private set; }
-        public CurrencyType Currency { get; private set; }
-    }
 }

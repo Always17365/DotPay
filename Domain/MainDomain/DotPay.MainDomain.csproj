@@ -142,6 +142,7 @@
     <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToAlipayTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\USDInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
+    <Compile Include="Domain\Transfer\Factory\ToThirdPartyPaymentTransactionFactory.cs" />
     <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
     <Compile Include="Domain\Transfer\InboundTransferTxToThirdPartyPayment.cs" />
     <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />

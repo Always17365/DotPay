@@ -11,12 +11,13 @@ namespace DotPay.MainDomain.Events
 {
     public class InboundTransferToThirdPartyPaymentTxCreated : DomainEvent
     {
-        public InboundTransferToThirdPartyPaymentTxCreated(string account, PayWay payway, decimal amount)
+        public InboundTransferToThirdPartyPaymentTxCreated(string txid, string account, PayWay payway, decimal amount)
         {
             this.Account = account;
             this.Amount = amount;
             this.PayWay = payway;
         }
+        public string TxId { get; private set; }
         public string Account { get; private set; }
         public PayWay PayWay { get; private set; }
         public decimal Amount { get; private set; }

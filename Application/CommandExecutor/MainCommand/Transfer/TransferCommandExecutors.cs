@@ -16,7 +16,7 @@ namespace DotPay.Command.Executor
     public class TransferCommandExecutors : ICommandExecutor<CreateInsideTransfer>,
         //ICommandExecutor<ConfirmInsideTransfer>,
                                             ICommandExecutor<SubmitInsideTransfer>,
-                                            ICommandExecutor<OutsideTransfer>
+                                            ICommandExecutor<OutboundTransfer>
     {
         public void Execute(CreateInsideTransfer cmd)
         {
@@ -28,7 +28,7 @@ namespace DotPay.Command.Executor
 
         }
 
-        public void Execute(OutsideTransfer cmd)
+        public void Execute(OutboundTransfer cmd)
         {
             throw new NotImplementedException();
         }
