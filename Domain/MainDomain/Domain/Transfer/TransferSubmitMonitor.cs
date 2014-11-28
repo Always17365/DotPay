@@ -11,6 +11,7 @@ using FC.Framework.Repository;
 using DotPay.MainDomain.Exceptions;
 using DotPay.Tools.DistributedMessageSender;
 
+/*
 namespace DotPay.MainDomain
 {
     [Component]
@@ -79,3 +80,4 @@ namespace DotPay.MainDomain
         }
     }
 }
+*/

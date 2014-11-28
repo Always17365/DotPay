@@ -24,14 +24,16 @@ namespace DotPay.RippleDomain.Events
     public class RippleInboundTxToThirdPartyPaymentCompelted : DomainEvent
     {
         #region ctor
-        public RippleInboundTxToThirdPartyPaymentCompelted(string txid,decimal amount)
+        public RippleInboundTxToThirdPartyPaymentCompelted(string txid, PayWay payway, decimal amount)
         {
             this.RippleTxID = txid;
+            this.PayWay = payway;
             this.Amount = amount;
         }
         #endregion
 
         public string RippleTxID { get; protected set; }
+        public PayWay PayWay { get; protected set; }
         public decimal Amount { get; protected set; }
     }
     //public class RippleInboundTxToThirdPartyPaymentFailed : DomainEvent

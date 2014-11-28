@@ -11,14 +11,14 @@ namespace DotPay.RippleDomain.Events
     public class RippleInboundTxCreated : DomainEvent
     {
         #region ctor
-        public RippleInboundTxCreated(string txid, int destinationTag, decimal amount)
+        public RippleInboundTxCreated(string rippleTxId, int destinationTag, decimal amount)
         {
-            this.TxID = txid;
+            this.RippleTxID = rippleTxId;
             this.DestinationTag = destinationTag;
             this.Amount = amount;
         }
         #endregion
-        public string TxID { get; protected set; }
+        public string RippleTxID { get; protected set; }
         public int DestinationTag { get; protected set; }
         public decimal Amount { get; protected set; }
     }

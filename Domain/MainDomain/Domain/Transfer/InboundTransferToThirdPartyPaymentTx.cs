@@ -20,9 +20,9 @@ namespace DotPay.MainDomain
         #region ctor
         protected InboundTransferToThirdPartyPaymentTx() { }
 
-        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway)
+        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway,PayWay sourcePayway)
         {
-            this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(txid, account, payway, amount));
+            this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(txid, account, payway, amount, sourcePayway));
         }
         #endregion
 
@@ -30,6 +30,7 @@ namespace DotPay.MainDomain
         public virtual int ID { get; protected set; }
         public virtual string SequenceNo { get; protected set; }
         public virtual string TxId { get; protected set; }
+        public virtual PayWay SourcePayWay { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
         public virtual string Account { get; protected set; }
         public virtual decimal Amount { get; protected set; }
@@ -68,6 +69,7 @@ namespace DotPay.MainDomain
             this.Account = @event.Account;
             this.Amount = @event.Amount;
             this.PayWay = @event.PayWay;
+            this.SourcePayWay = @event.SourcePayway;
             this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty).ToLower();
             this.State = TransactionState.Pending;
             this.TransferNo = string.Empty;

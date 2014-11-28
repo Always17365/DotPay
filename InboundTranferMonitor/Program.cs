@@ -10,11 +10,10 @@ using System.Threading;
 using System.IO;
 using FC.Framework.NHibernate;
 using DotPay.Common;
-using RippleRPC.Net;
 using System.Reflection;
 using FC.Framework.Repository;
 
-namespace DotPay.RippleMonitor
+namespace DotPay.InboundTransferMonitor
 {
     class Program
     {
@@ -27,7 +26,7 @@ namespace DotPay.RippleMonitor
                 InitializeEnvironment();
 
                 var mqpool = new MQConnectionPool(Config.MQConnectString);
-                InboundTransferWatcher.Start(mqpool);
+                InboundTxProcessor.Start(mqpool);
                 //NXTReceiveTransactionListener.Start(mqpool);
                 //NXTAccountGenerator.Start(mqpool);
                 //NXTTransactionConfirmationValidator.Start(mqpool);
@@ -71,10 +70,7 @@ namespace DotPay.RippleMonitor
                                     .UseDefaultCommandBus(assemblies)
                                     .UseNHibernate(new ConnectionString(connString, connProvider), nhibernateMapperAssemblies)
                                     //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
-                                    .Start();
-
-            var rippleClient = new RippleClient(new Uri(Config.WssServer), 30, true); 
-            IoC.Register<IRippleClient>(rippleClient);
+                                    .Start(); 
 
             if (Config.Debug)
             {
