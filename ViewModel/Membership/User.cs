@@ -86,6 +86,7 @@ namespace DotPay.ViewModel
         public string RealName { get; set; }
         public string IdNo { get; set; }
         public IdNoType IdNoType { get; set; }
+        public int CreateAt { get; set; }
     }
 
 

@@ -20,13 +20,10 @@ namespace DotPay.MainDomain
         #region ctor
         protected OutboundTransferTransaction() { }
 
-        public OutboundTransferTransaction(int fromUserID, string domain, string destination,
-                                         CurrencyType sourceCurrency, decimal sourceAmount,
-                                         CurrencyType targetCurrency, decimal targetAmount,
-                                         PayWay payway)
+        public OutboundTransferTransaction(int fromUserID,string destination, decimal sourceAmount,
+                                           CurrencyType targetCurrency, decimal targetAmount, PayWay payway)
         {
-            this.RaiseEvent(new OutboundTransferTransactionCreated(fromUserID, domain, destination, sourceCurrency,
-                                                     sourceAmount, targetCurrency, targetAmount, payway));
+            this.RaiseEvent(new OutboundTransferTransactionCreated(fromUserID,destination,sourceAmount, targetCurrency, targetAmount, payway));
         }
         #endregion
 
@@ -35,8 +32,6 @@ namespace DotPay.MainDomain
         public virtual string SequenceNo { get; protected set; }
         public virtual int FromUserID { get; protected set; }
         public virtual string Destination { get; protected set; }
-        public virtual string Domain { get; protected set; }
-        public virtual CurrencyType SourceCurrency { get; protected set; }
         public virtual decimal SourceAmount { get; protected set; }
         public virtual CurrencyType TargetCurrency { get; protected set; }
         public virtual decimal TargetAmount { get; protected set; }
@@ -72,9 +67,7 @@ namespace DotPay.MainDomain
         {
             this.FromUserID = @event.FromUserID;
             this.Destination = @event.Destination;
-            this.Domain = @event.Domain;
-            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty) ;
-            this.SourceCurrency = @event.SourceCurrency;
+            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty);
             this.SourceAmount = @event.SourceAmount;
             this.TargetCurrency = @event.TargetCurrency;
             this.TargetAmount = @event.TargetAmount;

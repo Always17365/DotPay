@@ -14,7 +14,7 @@ namespace DotPay.QueryService
                                   int start_date = -1, int end_date = -1, bool includeDeposit = true,
                                   bool includeWithdraw = true, bool includeOther = true);
 
-        IEnumerable<TransactionRecord> GetUserTransactions(int amountIncomeStart = -1, int amountIncomeEnd = -1,
+        IEnumerable<TransactionRecord> GetUserTransactions(int rowsize, int page, int amountIncomeStart = -1, int amountIncomeEnd = -1,
                                   int amountOutputStart = -1, int amountOutputEnd = -1,
                                   int start_date = -1, int end_date = -1, bool includeDeposit = true,
                                   bool includeWithdraw = true, bool includeOther = true);

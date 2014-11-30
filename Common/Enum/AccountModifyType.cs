@@ -12,6 +12,7 @@ namespace DotPay.Common
     {
         Deposit = 1,
         Withdraw = 2,
-        Trade = 3
+        InsideTransfer = 3,
+        OutboundTransfer=4
     }
 }

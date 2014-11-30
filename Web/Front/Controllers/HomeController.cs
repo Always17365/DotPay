@@ -34,6 +34,15 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
+        #region 修改登录密码
+        [Route("~/modifyloginpwd")]
+        [AllowAnonymous]
+        public ActionResult ModifyLoginPwd()
+        {
+            return View("ModifyLoginPassword");
+        }
+        #endregion
+
         #region ripple txt
         [Route("~/ripple.txt")]
         [AllowAnonymous]

@@ -11,13 +11,11 @@ namespace DotPay.MainDomain.Events
 {
     public class OutboundTransferTransactionCreated : DomainEvent
     {
-        public OutboundTransferTransactionCreated(int fromUserID, string domain, string destination, CurrencyType sourceCurrency, decimal sourceAmount,
+        public OutboundTransferTransactionCreated(int fromUserID, string destination, decimal sourceAmount,
                                                 CurrencyType targetCurrency, decimal targetAmount, PayWay payway)
         {
             this.FromUserID = fromUserID;
-            this.Domain = domain;
             this.Destination = destination;
-            this.SourceCurrency = sourceCurrency;
             this.SourceAmount = sourceAmount;
             this.TargetCurrency = targetCurrency;
             this.TargetAmount = targetAmount;
@@ -26,7 +24,6 @@ namespace DotPay.MainDomain.Events
         public int FromUserID { get; private set; }
         public string Destination { get; private set; }
         public string Domain { get; private set; }
-        public CurrencyType SourceCurrency { get; private set; }
         public decimal SourceAmount { get; private set; }
         public CurrencyType TargetCurrency { get; private set; }
         public decimal TargetAmount { get; private set; }

@@ -270,9 +270,14 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\FCPublish.pubxml" />
+    <Content Include="public\css\font-awesome-ie7.css" />
+    <Content Include="public\css\font-awesome-ie7.min.css" />
+    <Content Include="public\css\font-awesome.css" />
+    <Content Include="public\css\font-awesome.min.css" />
     <Content Include="public\css\layout.css" />
     <Content Include="public\css\profile.css" />
     <Content Include="public\images\emailsent.jpg" />
+    <Content Include="public\images\head.gif" />
     <Content Include="public\images\icons\cny.png" />
     <Content Include="public\images\icons\euro.png" />
     <Content Include="public\images\icons\exchange.png" />
@@ -280,6 +285,7 @@
     <Content Include="public\images\icons\ico-circle.png" />
     <Content Include="public\images\icons\usd.png" />
     <Content Include="public\images\logo.png" />
+    <Content Include="public\images\profilenav.png" />
     <Content Include="public\libs\bootstrap\bootstrap.min.js" />
     <Content Include="public\libs\bootstrap\bootstrap.css" />
     <Content Include="public\libs\bootstrap\bootstrap.min.css" />
@@ -404,7 +410,6 @@
     <Content Include="Views\Shared\_features.cshtml" />
     <Content Include="Views\Shared\_sidebar.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Home\LoginTwoFactor.cshtml" />
     <Content Include="Views\TradingCenter\AskOrder.cshtml" />
     <Content Include="Views\TradingCenter\BidOrder.cshtml" />
@@ -443,6 +448,14 @@
     <Content Include="Views\Home\PreRegister.cshtml" />
     <Content Include="Views\Transfer\InsideTransferSuccess.cshtml" />
     <Content Include="Views\Transfer\Outside.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Profile\Profile.cshtml" />
+    <Content Include="public\fonts\fontawesome-webfont.eot" />
+    <Content Include="public\fonts\fontawesome-webfont.svg" />
+    <Content Include="public\fonts\fontawesome-webfont.ttf" />
+    <Content Include="public\fonts\fontawesome-webfont.woff" />
+    <Content Include="public\fonts\FontAwesome.otf" />
+    <Content Include="Views\Home\ModifyLoginPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

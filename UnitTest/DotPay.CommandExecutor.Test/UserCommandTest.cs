@@ -208,7 +208,7 @@ namespace DotPay.CommandExecutor.Test
             var newpassword = Guid.NewGuid().Shrink();
             var ga_otp = savedUser.GoogleAuthentication == null ? string.Empty : Utilities.GenerateGoogleAuthOTP(savedUser.GoogleAuthentication.OTPSecret);
             var sms_otp = savedUser.SmsAuthentication == null ? string.Empty : Utilities.GenerateSmsOTP(savedUser.SmsAuthentication.OTPSecret, savedUser.SmsAuthentication.SmsCounter);
-            var modifyPassword = new UserModifyPassword(userID, user.ID.ToString(), newpassword, ga_otp, sms_otp);
+            var modifyPassword = new UserModifyPassword(userID, user.ID.ToString(), newpassword);
 
             Assert.DoesNotThrow(delegate
             {

@@ -117,18 +117,20 @@ namespace DotPay.MainDomain
         //#endregion
 
         #region change password
-        public virtual void ChangePassword(string oldPassword, string newPassword, string ga_otp, string sms_otp)
+        public virtual void ChangePassword(string oldPassword, string newPassword)
         {
             var passwordValidate = this.Membership.VerifyLoginPassword(oldPassword);
             if (!passwordValidate)
             {
                 throw new OldPasswordErrorException();
             }
-            else if (((this.TwoFactorFlg & 8) != 8) || this.VerifyGAPassword(ga_otp))
-            {
-                if (((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
-                    this.RaiseEvent(new UserPasswordChanged(this.ID, newPassword, this.Email));
-            }
+            //else if (((this.TwoFactorFlg & 8) != 8) || this.VerifyGAPassword(ga_otp))
+            //{
+            //    if (((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
+            //      this.RaiseEvent(new UserPasswordChanged(this.ID, newPassword, this.Email));
+            //}
+            else
+                this.RaiseEvent(new UserPasswordChanged(this.ID, newPassword, this.Email));
         }
         #endregion
 

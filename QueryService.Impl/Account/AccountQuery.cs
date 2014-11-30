@@ -32,16 +32,16 @@ namespace DotPay.QueryService.Impl
 
             var accounts = Cache.Get<List<AccountModel>>(user_accounts_cache_key);
 
-            if (accounts == null)
+            if (Config.Debug || accounts == null)
             {
-                var currencies = IoC.Resolve<ICurrencyQuery>().GetAllCurrencies();
+                var cys = IoC.Resolve<ICurrencyQuery>().GetAllCurrencies();
                 accounts = new List<AccountModel>();
 
                 Enum.GetValues(typeof(CurrencyType))
                     .Cast<CurrencyType>()
                     .AsParallel().ForAll(currency =>
                     {
-                        var currencyModel = currencies.SingleOrDefault(c => c.ID == (int)currency);
+                        var currencyModel = cys.SingleOrDefault(c => c.ID == (int)currency);
 
                         if (currencyModel != null)
                         {

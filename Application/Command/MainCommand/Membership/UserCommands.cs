@@ -313,7 +313,7 @@ namespace DotPay.Command
     public class UserModifyPassword : FC.Framework.Command
     {
         public UserModifyPassword(int userID, string oldPassword,
-            string newPassword, string oneTimePassword_GA, string oneTimePassword_SMS)
+            string newPassword)
         {
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
             Check.Argument.IsNotEmpty(oldPassword, "oldPassword");
@@ -322,15 +322,11 @@ namespace DotPay.Command
             this.UserID = userID;
             this.OldPassword = oldPassword;
             this.NewPassword = newPassword;
-            this.OneTimePassword_GA = oneTimePassword_GA;
-            this.OneTimePassword_SMS = oneTimePassword_SMS;
         }
 
         public int UserID { get; private set; }
         public string OldPassword { get; private set; }
         public string NewPassword { get; private set; }
-        public string OneTimePassword_GA { get; private set; }
-        public string OneTimePassword_SMS { get; private set; }
     }
 
     [ExecuteSync]
