@@ -19,18 +19,25 @@ using System.Drawing.Imaging;
 namespace DotPay.Web.Controllers
 {
     public class ProfileController : BaseController
-    {
-        #region Profile
-
+    { 
         #region Views
-        #region Profile
-        [Route("~/my/profile")]
+
+        #region index
+        [Route("~/my/index")]
         public ActionResult Index()
         {
+            ViewBag.CNYAccount = IoC.Resolve<IAccountQuery>().GetAccountByUserID(this.CurrentUser.UserID, CurrencyType.CNY);
             return View();
         }
         #endregion
-        #endregion
+
+        #region Profile
+        [Route("~/my/profile")]
+        public ActionResult Profile()
+        { 
+            return View();
+        }
+        #endregion 
 
         #region Get Action
 
@@ -67,7 +74,7 @@ namespace DotPay.Web.Controllers
 
         [Route("~/modifyPassword")]
         [HttpPost]
-        public ActionResult ModifyLoginPassword(string oldpassword, string newpassword, string confirmpassword, string ga_Otp, string sms_otp)
+        public ActionResult ModifyLoginPassword(string oldpassword, string newpassword, string confirmpassword)
         {
             var result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your login password. Please try again."));
 
@@ -75,7 +82,7 @@ namespace DotPay.Web.Controllers
             {
                 try
                 {
-                    var cmd = new UserModifyPassword(this.CurrentUser.UserID, oldpassword, newpassword, ga_Otp, sms_otp);
+                    var cmd = new UserModifyPassword(this.CurrentUser.UserID, oldpassword, newpassword);
                     this.CommandBus.Send(cmd);
 
                     result = FCJsonResult.CreateSuccessResult(this.Lang("Login password updated successfully."));
@@ -333,8 +340,8 @@ namespace DotPay.Web.Controllers
             return Json(result);
         }
 
-        #endregion 
-       
+        #endregion
+
         #endregion
         #endregion
 

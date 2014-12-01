@@ -135,10 +135,7 @@ namespace DotPay.Command.Executor
             var userRepos = IoC.Resolve<IUserRepository>();
             var user = userRepos.FindById<User>(cmd.UserID);
 
-            user.ChangePassword(PasswordHelper.EncryptMD5(cmd.OldPassword),
-                                PasswordHelper.EncryptMD5(cmd.NewPassword),
-                                cmd.OneTimePassword_GA,
-                                cmd.OneTimePassword_SMS);
+            user.ChangePassword(PasswordHelper.EncryptMD5(cmd.OldPassword), PasswordHelper.EncryptMD5(cmd.NewPassword));
         }
 
         public void Execute(UserResetPasswordByTwoFactor cmd)

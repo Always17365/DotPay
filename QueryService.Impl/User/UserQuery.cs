@@ -12,17 +12,6 @@ namespace DotPay.QueryService.Impl
 {
     public class UserQuery : AbstractQuery, IUserQuery
     {
-        public IEnumerable<DotPay.ViewModel.SeeUserDepositAmounModel> SeeUserDepositAmoun(int userID)
-        {
-            Check.Argument.IsNotNegativeOrZero(userID, "userID");
-            var paramters = new object[] { userID };
-
-            var users = this.Context.Sql(seeUserDepositAmounListModel_Sql)
-                                   .Parameters(paramters)
-                                   .QueryMany<SeeUserDepositAmounModel>();
-
-            return users;
-        }
         public int CountUserBySearch(int? userID, string email, bool IsLocked)
         {
             var paramters = new object[] { (userID.HasValue ? userID.Value : 0), email.NullSafe(), Convert.ToInt32(IsLocked) };
@@ -275,17 +264,7 @@ namespace DotPay.QueryService.Impl
                                .Parameters(paramters)
                                .QuerySingle<int>();
         }
-
-        public IEnumerable<DotPay.ViewModel.UsersCurrencyListModel> GetUsersCurrencyBySearch(int? userID, string email, string order, CurrencyType currencyType, int page, int pageCount)
-        {
-            var paramters = new object[] { userID.HasValue ? userID.Value : 0, email.NullSafe(), (page - 1) * pageCount, pageCount };
-
-            var users = this.Context.Sql(getUsersCurrencyBySearch_Sql.FormatWith(currencyType.ToString(), order))
-                                   .Parameters(paramters)
-                                   .QueryMany<UsersCurrencyListModel>();
-
-            return users;
-        }
+    
         /************************************************************************************/
 
         #region SQL
@@ -295,22 +274,6 @@ namespace DotPay.QueryService.Impl
                                LEFT JOIN    " + Config.Table_Prefix + @"user t2   ON    t1.UserID=t2.ID
                                    WHERE   (@0=0  OR t2.ID=@0)
                                      AND   (@1='' OR t2.Email LIKE concat(@1,'%'))";
-
-        private readonly string getUsersCurrencyBySearch_Sql =
-                                @"SELECT    t1.ID,t2.Email,t1.Balance,t1.Locked,t1.Balance+t1.Locked as Total,t1.UpdateAt 
-                                    FROM    " + Config.Table_Prefix + @"{0}account  t1 
-                               LEFT JOIN    " + Config.Table_Prefix + @"user t2   ON   t1.UserID=t2.ID
-                                   WHERE   (@0=0  OR t2.ID=@0)
-                                     AND   (@1='' OR t2.Email LIKE concat(@1,'%'))
-                                ORDER BY    {1} DESC
-                                   LIMIT    @2,@3";
-
-        private readonly string seeUserDepositAmounListModel_Sql =
-                                @"SELECT   Currency,Amount 
-                                    FROM   " + Config.Table_Prefix + @"user t1 
-                               LEFT JOIN   " + Config.Table_Prefix + @"depositauthorization t2 
-                                      ON   t1.id=t2.CustomerServiceUserID
-                                   WHERE   t1.ID=@0";
 
         private readonly string getUserCommendCounter_Sql =
                                 @"SELECT   CommendCounter 
@@ -354,7 +317,7 @@ namespace DotPay.QueryService.Impl
 
         private readonly string getUserByEmail_Sql =
                                  @"SELECT   t1.ID AS UserID,LoginName,t1.Role,t1.Email,VipLevel,Mobile,t2.IsLocked,
-                                            t1.CreateAt ,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
+                                            t1.CreateAt,t1.TwoFactorFlg,t1.ScoreBalance,t1.VipLevel,
                                             t2.TradePassword,t2.RealName,t2.IdNoType,t2.IdNo
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID  

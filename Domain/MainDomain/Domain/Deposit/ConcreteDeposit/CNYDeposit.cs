@@ -66,7 +66,7 @@ namespace DotPay.MainDomain
         void IEventHandler<CNYDepositCreated>.Handle(CNYDepositCreated @event)
         {
             this.UserID = @event.UserID;
-            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().Shrink().Replace("-", string.Empty).Replace("_", string.Empty);
+            this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty).ToLower();
             this.AccountID = @event.AccountID;
             this.Amount = @event.DepositAmount;
             this.State = DepositState.Pending;

@@ -197,16 +197,16 @@ namespace DotPay.MainDomain.Events
     //    public CurrencyType Currency { get; private set; }
     //}
 
-    public class AccountChangedByTrade : AccountChanged
+    public class AccountChangedByInsideTransfer : AccountChanged
     {
-        public AccountChangedByTrade(int accountID, decimal @in, decimal @out, int tradeID, CurrencyType currency)
+        public AccountChangedByInsideTransfer(int accountID, decimal @in, decimal @out, int tradeID, CurrencyType currency)
         {
             this.AccountID = accountID;
             this.TradeID = tradeID;
             this.In = @in;
             this.Out = @out;
             this.Currency = currency;
-            this.ModifyType = Convert.ToInt32(AccountModifyType.Trade.ToString("D") + currency.ToString("D"));
+            this.ModifyType = Convert.ToInt32(AccountModifyType.InsideTransfer.ToString("D") + currency.ToString("D"));
         }
         public int AccountID { get; private set; }
         public int TradeID { get; private set; }

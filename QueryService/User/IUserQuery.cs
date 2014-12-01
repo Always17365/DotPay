@@ -26,11 +26,8 @@ namespace DotPay.QueryService
         int CountUserByMobile(string mobile);
         int GetUserCommendCounter(int userID);
         UserVipInfoModel GetUserVipInfo(int userID);
-        IEnumerable<SeeUserDepositAmounModel> SeeUserDepositAmoun(int userID);
-
 
         int GetUsersCurrencyCountBySearch(int? userID, string email, CurrencyType currencyType);
-        IEnumerable<UsersCurrencyListModel> GetUsersCurrencyBySearch(int? userID, string email, string order, CurrencyType currencyType, int page, int pageCount);
 
     }
 }
