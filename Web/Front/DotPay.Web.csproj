@@ -455,7 +455,10 @@
     <Content Include="public\fonts\fontawesome-webfont.ttf" />
     <Content Include="public\fonts\fontawesome-webfont.woff" />
     <Content Include="public\fonts\FontAwesome.otf" />
-    <Content Include="Views\Home\ModifyLoginPassword.cshtml" />
+    <Content Include="Views\Profile\ModifyLoginPassword.cshtml" />
+    <Content Include="Views\Profile\Mobile.cshtml" />
+    <Content Include="Views\Profile\RealnameAuth.cshtml" />
+    <Content Include="Views\Profile\ModifyPaymentPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

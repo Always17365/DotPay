@@ -33,7 +33,10 @@
                         <label class="assets-header">人民币余额:</label>
                         <div>
                             <p class="assets-amount">
-                                <strong class="amount">@( Math.Floor(ViewBag.CNYAccount.Balance))<span class="fen">@((ViewBag.CNYAccount.Balance - Math.Floor(ViewBag.CNYAccount.Balance)).ToString(".00"))</span></strong>
+                                @if (ViewBag.CNYAccount != null)
+                                {
+                                    <strong class="amount">@( Math.Floor(ViewBag.CNYAccount.Balance))<span class="fen">@((ViewBag.CNYAccount.Balance - Math.Floor(ViewBag.CNYAccount.Balance)).ToString(".00"))</span></strong>
+                                }
                             </p>
                             <p class="assets-des">
                                 <a class="btn btn-default btn-xs" href="/deposit/cny">充值</a>

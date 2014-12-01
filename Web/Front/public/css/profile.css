@@ -36,6 +36,7 @@
 .dotpay-i-base-panel .base-content { color: #666; font-size: 12px; }
 .dotpay-i-base-panel a { color: #666; }
 .dotpay-modfiy-pwd { background-color: #fefefe; }
+    .dotpay-modfiy-pwd .desc-panel { padding-top: 20px; }
     .dotpay-modfiy-pwd .info-icon { vertical-align: top; color: #08C; }
     .dotpay-modfiy-pwd .desc { font-size: 12px; color: #999; display: inline-block; margin-left: 5px; }
 .dotpay-apps { }
@@ -43,9 +44,11 @@
     .dotpay-apps .app-link.cny-transfer { background: url(/public/images/icons/cny.png) 10px 8px no-repeat; padding-left: 40px; }
     .dotpay-apps .app-link.usd-transfer { background: url(/public/images/icons/usd.png) 10px 8px no-repeat; padding-left: 40px; }
     .dotpay-apps .app-link.exchange { background: url(/public/images/icons/exchange.png) 10px 8px no-repeat; padding-left: 40px; }
+
 a.app-link:visited { color: #0088CC; }
 a.app-link:link, a.app-link:visited { color: #0088CC; }
-a.app-link:hover { color: #08c; }
+a.app-link, a.app-link:hover { color: #08c; }
+    a.app-link.disabled { color: #999; text-decoration: none; cursor: not-allowed; }
 .transfe-success .result-message { margin: 25px 50px; padding-left: 65px; height: 48px; line-height: 24px; font-size: 14px; color: #333; font-weight: bolder; background: url(../images/success.png) no-repeat 0 0; }
 .transfe-success .remark { font-size: 12px; color: #505050; }
 

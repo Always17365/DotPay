@@ -19,7 +19,7 @@ namespace DotPay.MainDomain
             this.UserID = userID;
             this.OTPSecret = otpSecret;
             this.LastVerifyAt = 0;
-            this.SmsCounter = 2;
+            this.SmsCounter = 1;
             this.CreateAt = DateTime.Now.ToUnixTimestamp();
         }
         #endregion
