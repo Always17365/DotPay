@@ -83,14 +83,14 @@ namespace DotPay.Web.Admin.Controllers
         }
         /************************************************************************************************************************************************/
 
-        [HttpPost]
-        public ActionResult ModifyCurrencyDepositFeeRate(int currencyID, decimal depositFixedFee, decimal depositFeeRate)
-        {
-            var cmd = new ModifyCurrencyDepositFeeRate(currencyID,depositFixedFee,depositFeeRate,this.CurrentUser.UserID);
-            this.CommandBus.Send(cmd);
+        //[HttpPost]
+        //public ActionResult ModifyCurrencyDepositFeeRate(int currencyID, decimal depositFixedFee, decimal depositFeeRate)
+        //{
+        //    var cmd = new ModifyCurrencyDepositFeeRate(currencyID,depositFixedFee,depositFeeRate,this.CurrentUser.UserID);
+        //    this.CommandBus.Send(cmd);
 
-            return Json(JsonResult.Success);
-        }
+        //    return Json(JsonResult.Success);
+        //}
 
         [HttpPost]
         public ActionResult ModifyCurrencyWithdrawFeeRate(int currencyID, decimal withdrawFixedFee, decimal withdrawFeeRate)
@@ -136,14 +136,14 @@ namespace DotPay.Web.Admin.Controllers
 
             return Json(JsonResult.Success);
         }
-        [HttpPost]
-        public ActionResult ModifyCurrencyNeedConfirm(int currencyID, int num)
-        {
-            var cmd = new ModifyCurrencyNeedConfirm(currencyID, num, this.CurrentUser.UserID);
-            this.CommandBus.Send(cmd);
+        //[HttpPost]
+        //public ActionResult ModifyCurrencyNeedConfirm(int currencyID, int num)
+        //{
+        //    var cmd = new ModifyCurrencyNeedConfirm(currencyID, num, this.CurrentUser.UserID);
+        //    this.CommandBus.Send(cmd);
 
-            return Json(JsonResult.Success);
-        }
+        //    return Json(JsonResult.Success);
+        //}
         
         
     }

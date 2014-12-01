@@ -49,9 +49,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Couchbase, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+    <Reference Include="Couchbase, Version=1.3.10.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Couchbase.dll</HintPath>
+      <HintPath>..\..\packages\CouchbaseNetClient.1.3.10\lib\net40\Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="Elmah">
       <HintPath>..\..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
@@ -59,9 +59,9 @@
     <Reference Include="Elmah.Mvc">
       <HintPath>..\..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Enyim.Caching, Version=1.3.9.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+    <Reference Include="Enyim.Caching, Version=1.3.10.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CouchbaseNetClient.1.3.9\lib\net40\Enyim.Caching.dll</HintPath>
+      <HintPath>..\..\packages\CouchbaseNetClient.1.3.10\lib\net40\Enyim.Caching.dll</HintPath>
     </Reference>
     <Reference Include="FC.Framework">
       <HintPath>..\..\Library\FC.Framework.dll</HintPath>
@@ -92,9 +92,9 @@
     <Reference Include="Microsoft.Web.Helpers">
       <HintPath>..\..\packages\Microsoft.AspNet.WebHelpers.3.1.2\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=6.9.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+      <HintPath>..\..\packages\MySql.Data.6.9.5\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -216,6 +216,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\BankOutletsController.cs" />
+    <Compile Include="Controllers\TransferTransactionController.cs" />
     <Compile Include="Controllers\VipSettingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
@@ -568,6 +569,7 @@
     <Content Include="Scripts\controller\logscontroller.js" />
     <Content Include="Scripts\controller\checkpendingcontroller.js" />
     <Content Include="Scripts\controller\depthmarketController.js" />
+    <Content Include="Scripts\controller\transfertransactioncontroller.js" />
     <Content Include="Scripts\controller\virtualcoinstatiscontroller.js" />
     <Content Include="Scripts\controller\withdrawcontroller.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.js" />
@@ -932,6 +934,9 @@
     <Content Include="Views\VipSetting\Index.cshtml" />
     <Content Include="Views\Logs\fbcdepositprocesslog.cshtml" />
     <Content Include="Views\Logs\fbcwithdrawprocesslog.cshtml" />
+    <Content Include="Views\TransferTransaction\Pending.cshtml" />
+    <Content Include="Views\TransferTransaction\Success.cshtml" />
+    <Content Include="Views\TransferTransaction\Fail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -952,11 +957,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Application.Impl\DotPay.Command.Executor.csproj">
+    <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Application\DotPay.Command.csproj">
+    <ProjectReference Include="..\..\Application\Command\MainCommand\DotPay.Command.csproj">
       <Project>{c5f3d8a7-7639-46ca-9b4b-c602c966347d}</Project>
       <Name>DotPay.Command</Name>
     </ProjectReference>
@@ -968,7 +973,7 @@
       <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>
       <Name>DotPay.Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\DotPay.Persistence.csproj">
+    <ProjectReference Include="..\..\Persistence\Main\DotPay.Persistence.csproj">
       <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
       <Name>DotPay.Persistence</Name>
     </ProjectReference>

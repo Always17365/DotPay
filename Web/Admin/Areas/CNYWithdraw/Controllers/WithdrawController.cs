@@ -152,22 +152,22 @@ namespace DotPay.Web.Admin.Areas.CNYWithdraw.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult ChangerUserBank(int withdrawID, Bank bank, string bankAccount)
-        {
-            try
-            {
-                 var cmd = new CNYWithdrawModifyReceiverBankAccount(withdrawID, bank, bankAccount, this.CurrentUser.UserID);
-                 this.CommandBus.Send(cmd);
+        //[HttpPost]
+        //public ActionResult ChangerUserBank(int withdrawID, Bank bank, string bankAccount)
+        //{
+        //    try
+        //    {
+        //         var cmd = new CNYWithdrawModifyReceiverBankAccount(withdrawID, Payway, bankAccount, this.CurrentUser.UserID);
+        //         this.CommandBus.Send(cmd);
 
 
-                return Json(JsonResult.Success);
-            }
-            catch (CommandExecutionException ex)
-            {
-                return Json(new JsonResult(ex.ErrorCode));
-            }
-        }
+        //        return Json(JsonResult.Success);
+        //    }
+        //    catch (CommandExecutionException ex)
+        //    {
+        //        return Json(new JsonResult(ex.ErrorCode));
+        //    }
+        //}
 
     }
 }

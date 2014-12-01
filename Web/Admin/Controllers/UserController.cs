@@ -205,9 +205,10 @@ namespace DotPay.Web.Admin.Controllers
             }
             catch (CommandExecutionException ex)
             {
-                if (ex.ErrorCode == (int)ErrorCode.DepositAuthorizationAmountNotEnough)
-                    return Json(new JsonResult(-3));
-                else return Json(new JsonResult(ex.ErrorCode));
+                //if (ex.ErrorCode == (int)ErrorCode.DepositAuthorizationAmountNotEnough)
+                //    return Json(new JsonResult(-3));
+                //else return Json(new JsonResult(ex.ErrorCode));
+                return Json(new JsonResult(ex.ErrorCode));
             }
         }
 
