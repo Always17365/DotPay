@@ -97,5 +97,7 @@ namespace DotPay.Common
         public const string DOMAIN_RIPPLE_FEDERATION = "___DOMAIN_RIPPLE_FEDERATION";
 
         public const string DOMAIN_RIPPLE_GATEWAY_USER = "___DOMAIN_RIPPLE_GATEWAY_USER";
+
+        public const string PROFILE_INDEX_TX_RECORD = "___PROFILE_INDEX_TX_RECORD";
     }
 }
