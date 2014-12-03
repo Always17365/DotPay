@@ -11,14 +11,15 @@ using DotPay.Common;
 namespace DotPay.QueryService.Impl
 {
     public class TransactionQuery : AbstractQuery, ITransactionQuery
-    { 
+    {
         private object _locker = new object();
 
-        public IEnumerable<TransactionRecord> GetUserTransactions(int userID, int pagesize, int page, int amountIncomeStart = -1, int amountIncomeEnd = -1,
+        public TransactionRecordInfo GetUserTransactions(int userID, int pagesize, int page, int amountIncomeStart = -1, int amountIncomeEnd = -1,
                                   int amountOutputStart = -1, int amountOutputEnd = -1,
                                   int start_date = -1, int end_date = -1, bool includeDeposit = true,
                                   bool includeWithdraw = true, bool includeOther = true)
         {
+            TransactionRecordInfo data = new TransactionRecordInfo();
             var result = default(IEnumerable<TransactionRecord>);
             var cacheKey = CacheKey.PROFILE_INDEX_TX_RECORD + userID;
             if (Config.Debug || !Cache.TryGet<IEnumerable<TransactionRecord>>(cacheKey, out result))
@@ -32,14 +33,17 @@ namespace DotPay.QueryService.Impl
                     Cache.Add(cacheKey, result, new TimeSpan(1, 0, 0));
                 }
             }
-           return result = result.Where(q => 
-               q.Income > amountIncomeStart && q.Income < amountIncomeEnd && 
-               q.Output > amountOutputStart && q.Output < amountOutputEnd && 
-               q.CreateAt > start_date && q.CreateAt < end_date
-               ).Skip(pagesize * (page-1)).Take(pagesize).OrderBy(q => q.CreateAt);
+            result = result.Where(q =>
+              q.Income > amountIncomeStart && q.Income < amountIncomeEnd &&
+              q.Output > amountOutputStart && q.Output < amountOutputEnd &&
+              q.CreateAt > start_date && q.CreateAt < end_date
+              );
+            data.Count = result.Count();   
+            data.Data=result.Skip(pagesize * (page-1)).Take(pagesize).OrderBy(q => q.CreateAt);
+            return data;
         }
 
-        #region SQL 
+        #region SQL
 
         private readonly string getUserTransactions_sql =
                                 @"SELECT    SequenceNo,DoneAt,if(CAST(PayWay AS char(1))='{0}','Withdraw','Deposit') as Memo,Amount as Revenue,0 as Expenses,Payway   
@@ -50,9 +54,9 @@ namespace DotPay.QueryService.Impl
                                   SELECT    SequenceNo,DoneAt,'Withdraw' as Memo,if(FromUserID=@UserID,'0',Amount) as Revenue,if(ToUserID=@UserID,'0',Amount) as Expenses,Payway  
                                     FROM    " + Config.Table_Prefix + @"cnyInsideTransferTransaction
                                    WHERE    ToUserID = @userID OR FromUserID = @userID
-                                     AND    CreateAt = @createAt"; 
+                                     AND    CreateAt = @createAt";
 
-        
+
         #endregion
 
     }

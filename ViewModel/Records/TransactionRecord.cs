@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace DotPay.ViewModel
 {
+    public class TransactionRecordInfo
+    {
+        public int Count { get; set; }
+        public IEnumerable<TransactionRecord> Data { get; set; }
+    }
     [Serializable]
     public class TransactionRecord
     {
