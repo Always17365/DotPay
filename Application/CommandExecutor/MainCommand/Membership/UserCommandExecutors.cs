@@ -326,7 +326,7 @@ namespace DotPay.Command.Executor
 
             var user = IoC.Resolve<IUserRepository>().FindById<User>(cmd.UserID);
 
-            user.SetNewTradePasswordWithTwoFactor(PasswordHelper.EncryptMD5(cmd.NewPassword), cmd.OneTimePassword_GA, cmd.OneTimePassword_SMS);
+            user.SetNewTradePasswordWithTwoFactor(PasswordHelper.EncryptMD5(cmd.NewPassword), cmd.OneTimePassword_SMS);
         }
 
         public void Execute(UserResetTradePasswordByEmailToken cmd)

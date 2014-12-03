@@ -396,20 +396,18 @@ namespace DotPay.Command
     [ExecuteSync]
     public class UserResetTradePasswordByTwoFactor : FC.Framework.Command
     {
-        public UserResetTradePasswordByTwoFactor(int userID, string newPassword, string oneTimePassword_GA, string oneTimePassword_SMS)
+        public UserResetTradePasswordByTwoFactor(int userID, string newPassword,  string oneTimePassword_SMS)
         {
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
             Check.Argument.IsNotEmpty(newPassword, "newPassword");
 
             this.UserID = userID;
             this.NewPassword = newPassword;
-            this.OneTimePassword_GA = oneTimePassword_GA;
             this.OneTimePassword_SMS = oneTimePassword_SMS;
         }
 
         public int UserID { get; private set; }
         public string NewPassword { get; private set; }
-        public string OneTimePassword_GA { get; private set; }
         public string OneTimePassword_SMS { get; private set; }
     }
 

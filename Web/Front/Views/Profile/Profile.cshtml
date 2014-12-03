@@ -114,7 +114,7 @@
                             <div class="base-content pull-right">
                                 <a class="app-link" href="/deposit/cny">修改支付密码</a>
                                 <span>|</span>
-                                <a class="app-link" href="/deposit/cny">找回支付密码</a>
+                                <a class="app-link" href="javascript:void(0)" onclick="forgetpaypwd();">找回支付密码</a>
                             </div>
                         </td>
                     </tr>
@@ -149,7 +149,6 @@
                                 </div>
                             </td>
                         }
-
                     </tr>
                     <tr>
                         <td>
@@ -170,8 +169,22 @@
                 </table>
             </div>
         </div>
-
     </div>
-
+    <script>
+        function forgetpaypwd() {
+            $.ajax({
+                type: 'POST',
+                url: '/forgetpayPassword',              
+                success: function (data) {
+                    if (data.Code == 1)
+                        commonFormSuccessCallback(data);
+                    else if (data.Code == 2)
+                        window.location.href = "/resetPayPwdByMobile/" + data.Hash;
+                    else
+                        commonFormFailCallback(data);
+                }
+            });
+        }
+    </script>
 
 </div>
