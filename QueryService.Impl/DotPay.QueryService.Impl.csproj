@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\AccountQuery.cs" />
+    <Compile Include="Records\TransactionQuery.cs" />
     <Compile Include="City\CityQuery.cs" />
     <Compile Include="Cms\AnnouncementQuery.cs" />
     <Compile Include="Cms\ArticleQuery.cs" />

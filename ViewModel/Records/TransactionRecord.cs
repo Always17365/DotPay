@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace DotPay.ViewModel
 {
+    public class TransactionRecordInfo
+    {
+        public int Count { get; set; }
+        public IEnumerable<TransactionRecord> Data { get; set; }
+    }
     [Serializable]
     public class TransactionRecord
     {
         public string SequenceNo { get; set; }
-        public int Date { get; set; }
+        public int DoneAt { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
         public decimal Income { get; set; }
@@ -21,5 +26,6 @@ namespace DotPay.ViewModel
         public CurrencyType Currency { get; set; }
         public string TradeNo { get; set; }
         public string Destination { get; set; }
+        public int CreateAt { get; set; }
     }
 }

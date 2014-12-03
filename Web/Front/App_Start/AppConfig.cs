@@ -58,7 +58,7 @@ namespace DotPay.Web
             SmsHelper.SetBackupSmsInterface(SmsInterfaceType.C123, "500919170001", "fc_sms_account!1");
             if (Config.Debug)
             {
-                //SessionManager.CreateTables(); 
+                SessionManager.CreateTables(); 
             }
         }
 
