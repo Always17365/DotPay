@@ -19,7 +19,7 @@ using System.Drawing.Imaging;
 namespace DotPay.Web.Controllers
 {
     public class ProfileController : BaseController
-    { 
+    {
         #region Views
 
         #region index
@@ -34,10 +34,46 @@ namespace DotPay.Web.Controllers
         #region Profile
         [Route("~/my/profile")]
         public ActionResult Profile()
-        { 
+        {
             return View();
         }
-        #endregion 
+        #endregion
+
+        #region 修改登录密码
+        [Route("~/my/modifyloginpwd")]
+        [AllowAnonymous]
+        public ActionResult ModifyLoginPwd()
+        {
+            return View("ModifyLoginPassword");
+        }
+        #endregion
+
+        #region 修改支付密码
+        [Route("~/my/modifypaypwd")]
+        [AllowAnonymous]
+        public ActionResult ModifyPayPwd()
+        {
+            return View("ModifyPaymentPassword");
+        }
+        #endregion
+
+        #region 修改/设置手机号
+        [Route("~/my/mobile")]
+        [AllowAnonymous]
+        public ActionResult Mobile()
+        {
+            return View();
+        }
+        #endregion
+
+        #region 实名认证
+        [Route("~/my/realnameauth")]
+        [AllowAnonymous]
+        public ActionResult RealNameAuth()
+        {
+            return View();
+        }
+        #endregion
 
         #region Get Action
 
@@ -106,17 +142,17 @@ namespace DotPay.Web.Controllers
 
         #region Modify Trade Password
 
-        [Route("~/modifyTradePassword")]
+        [Route("~/my/modifypaypwd")]
         [HttpPost]
-        public ActionResult ModifyTradePassword(string oldTradePassword, string newTradePassword, string confirmTradePassword, string ga_Otp, string sms_otp)
+        public ActionResult ModifyTradePassword(string oldPayPassword, string newPayPassword, string confirmPayPassword)
         {
             var result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Please try again."));
 
-            if (oldTradePassword.Length >= 6 && newTradePassword.Length >= 6 && confirmTradePassword == newTradePassword)
+            if (oldPayPassword.Length >= 6 && newPayPassword.Length >= 6 && confirmPayPassword == newPayPassword)
             {
                 try
                 {
-                    var cmd = new UserModifyTradePassword(this.CurrentUser.UserID, oldTradePassword, newTradePassword, ga_Otp, sms_otp);
+                    var cmd = new UserModifyTradePassword(this.CurrentUser.UserID, oldPayPassword, newPayPassword);
                     this.CommandBus.Send(cmd);
                     //如果资金密码之前没设置，现在填入一个随机串，可以判断已设置资金密码，且不会有泄露密码的风险
                     this.CurrentUser.TradePassword = Guid.NewGuid().Shrink();
@@ -125,11 +161,12 @@ namespace DotPay.Web.Controllers
                 }
                 catch (CommandExecutionException ex)
                 {
-                    if (ex.ErrorCode == (int)ErrorCode.GAPasswordError)
-                        result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Your Google Authenticator code error."));
-                    else if (ex.ErrorCode == (int)ErrorCode.SMSPasswordError)
-                        result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Your Sms Authenticator code error."));
-                    else if (ex.ErrorCode == (int)ErrorCode.OldTradePasswordError)
+                    //if (ex.ErrorCode == (int)ErrorCode.GAPasswordError)
+                    //    result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Your Google Authenticator code error."));
+                    //else if (ex.ErrorCode == (int)ErrorCode.SMSPasswordError)
+                    //    result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Your Sms Authenticator code error."));
+                    //else 
+                    if (ex.ErrorCode == (int)ErrorCode.OldTradePasswordError)
                         result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your trade password. Your old trade password error."));
                     else
                         Log.Error("Action ModifyTradePassword Error", ex);
@@ -311,21 +348,21 @@ namespace DotPay.Web.Controllers
         #region Identity Verifation
         [Route("~/identityVerifation")]
         [HttpPost]
-        public ActionResult RealNameAuthentication(string fullname, IdNoType idNoType, string idno)
+        public ActionResult RealNameAuthentication(string realname, string identityno, IdNoType idNoType = IdNoType.IdentificationCard)
         {
             var result = FCJsonResult.CreateFailResult(this.Lang("Unable to update your identity informations. Please try again."));
 
-            if (!string.IsNullOrEmpty(fullname.NullSafe()) && !string.IsNullOrEmpty(idno.NullSafe()))
+            if (!string.IsNullOrEmpty(realname.NullSafe()) && !string.IsNullOrEmpty(identityno.NullSafe()))
             {
-                if (idNoType == IdNoType.IdentificationCard && (idno.NullSafe().Length >= 6 && idno.NullSafe().Length <= 18))
+                if (idNoType == IdNoType.IdentificationCard && (identityno.NullSafe().Length >= 6 && identityno.NullSafe().Length <= 18))
                 {
                     try
                     {
-                        var cmd = new UserRealNameAuth(this.CurrentUser.UserID, fullname, idNoType, idno);
+                        var cmd = new UserRealNameAuth(this.CurrentUser.UserID, realname, idNoType, identityno);
                         this.CommandBus.Send(cmd);
                         this.CurrentUser.IdNoType = idNoType;
-                        this.CurrentUser.IdNo = idno;
-                        this.CurrentUser.RealName = fullname;
+                        this.CurrentUser.IdNo = identityno;
+                        this.CurrentUser.RealName = realname;
                         result = FCJsonResult.CreateSuccessResult(this.Lang("Identity information updated successfuly."));
                     }
                     catch (CommandExecutionException ex)

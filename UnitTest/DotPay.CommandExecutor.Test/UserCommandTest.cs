@@ -37,7 +37,7 @@ namespace DotPay.CommandExecutor.Test
             //var rippleAddress = "test" + password.GetHashCode() + "@mytest.com";
             //var rippleSecret = "test" + password.GetHashCode() + "@mytest.com";
 
-            var cmd = new UserRegister(Guid.NewGuid().Shrink(),email, password, password, 8,"asdjlfjadljflasdjflsjdf");
+            var cmd = new UserRegister(Guid.NewGuid().Shrink(), email, password, password, 8, "asdjlfjadljflasdjflsjdf");
             Assert.DoesNotThrow(delegate
             {
                 this.commandBus.Send(cmd);
@@ -230,17 +230,15 @@ namespace DotPay.CommandExecutor.Test
             var userID = new Random().Next(4, 10);
             var email = "email" + userID + "@11.com";
 
-
             var user = IoC.Resolve<IUserRepository>().FindById<User>(userID);
             var lastVerifyAt = user.Membership.LastTradePasswordVerifyAt;
             var lastVerifyFailAt = user.Membership.LastTradePasswordFailureAt;
             var modifyAt = user.Membership.TradePasswordChangeAt;
 
-
             var newpassword = Guid.NewGuid().Shrink();
             var ga_otp = user.GoogleAuthentication == null ? string.Empty : Utilities.GenerateGoogleAuthOTP(user.GoogleAuthentication.OTPSecret);
             var sms_otp = user.SmsAuthentication == null ? string.Empty : Utilities.GenerateSmsOTP(user.SmsAuthentication.OTPSecret, user.SmsAuthentication.SmsCounter);
-            var modifyTradePassword = new UserModifyTradePassword(userID, user.ID.ToString(), newpassword, ga_otp, sms_otp);
+            var modifyTradePassword = new UserModifyTradePassword(userID, user.ID.ToString(), newpassword /*, ga_otp, sms_otp*/);
 
             Assert.DoesNotThrow(delegate
             {

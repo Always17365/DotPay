@@ -135,12 +135,12 @@ namespace DotPay.MainDomain
         #endregion
 
         #region change trade password
-        public virtual void ChangeTradePassword(string oldTradePassword, string newTradePassword, string ga_otp, string sms_otp)
+        public virtual void ChangeTradePassword(string oldTradePassword, string newTradePassword /*, string ga_otp, string sms_otp*/)
         {
-            if (((this.TwoFactorFlg & 9) != 9) || this.VerifyGAPassword(ga_otp))
-                if (((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
-                    if (string.IsNullOrEmpty(this.Membership.TradePassword) || this.VerifyTradePassword(oldTradePassword))
-                        this.RaiseEvent(new UserTradePasswordChanged(this.ID, newTradePassword));
+            //if (((this.TwoFactorFlg & 9) != 9) || this.VerifyGAPassword(ga_otp))
+            //    if (((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
+            if (string.IsNullOrEmpty(this.Membership.TradePassword) || this.VerifyTradePassword(oldTradePassword))
+                this.RaiseEvent(new UserTradePasswordChanged(this.ID, newTradePassword));
         }
         #endregion
 

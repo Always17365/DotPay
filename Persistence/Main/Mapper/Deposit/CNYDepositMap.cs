@@ -13,7 +13,8 @@ namespace DotPay.Persistence
              
             Property(x => x.UserID, map => { map.NotNullable(true); map.Index("IX_CNY_DEPOSIT_USERID"); });
             Property(x => x.AccountID, map => { map.NotNullable(true); });
-            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(24); map.Scale(2); }); 
+            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(24); map.Scale(2); });
+            Property(x => x.SequenceNo, map => { map.NotNullable(true); map.Length(40); });
             Property(x => x.PayWay, map => { map.NotNullable(true); map.Precision(24); map.Scale(2); });
             Property(x => x.State, map => { map.NotNullable(true); }); 
             Property(x => x.CreateAt, map => { map.NotNullable(true); }); 

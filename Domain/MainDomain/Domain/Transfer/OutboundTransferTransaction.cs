@@ -37,6 +37,7 @@ namespace DotPay.MainDomain
         public virtual decimal TargetAmount { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
         public virtual TransactionState State { get; protected set; }
+        public virtual string TransferNo { get; protected set; }
         public virtual int CreateAt { get; protected set; }
         public virtual int DoneAt { get; protected set; }
         public virtual string Memo { get; protected set; }

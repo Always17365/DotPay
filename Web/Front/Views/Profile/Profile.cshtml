@@ -4,6 +4,8 @@
 @using DotPay.Language
 @using DotPay.Web
 @using FC.Framework
+@using System.Linq
+@using System.Linq.Expressions
 <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -27,13 +29,19 @@
             <div class="col-sm-2 profile-nav-container">
                 <ul class="nav  nav-stacked profile-nav">
                     <li class="nav-item active">
-                        <a href="my/profile" class="third-nav-link">基本信息 <i class="icon-chevron-right"></i></a>
+                        <a href="#" class="third-nav-link">基本信息 <i class="icon-chevron-right"></i></a>
                     </li>
-                    <li class="nav-item ">
-                        <a href="my/profile" class="third-nav-link">手机设置</a>
+                    <li class="nav-item">
+                        <a href="/my/mobile" class="third-nav-link">手机设置<i class="icon-chevron-right"></i></a>
                     </li>
-                    <li class="nav-item ">
-                        <a href="my/realnameauth" class="third-nav-link">实名认证</a>
+                    <li class="nav-item">
+                        <a href="/my/realnameauth" class="third-nav-link">实名认证<i class="icon-chevron-right"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/my/modifyloginpwd" class="third-nav-link">修改登录密码<i class="icon-chevron-right"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/my/modifypaypwd" class="third-nav-link">修改支付密码<i class="icon-chevron-right"></i></a>
                     </li>
                 </ul>
             </div>
@@ -44,14 +52,14 @@
                 <table class="table mtl-3">
                     <tr>
                         <td colspan="3">
-                            <div class="col-sm-1"><img class="head-icon" src="~/public/images/head.gif" /></div>
+                            <div class="col-sm-2 col-lg-1"><img class="head-icon" src="~/public/images/head.gif" /></div>
                             <div class="base-info col-sm-8">
                                 <p>账户：@ViewBag.CurrentUser.LoginName</p>
                                 <p>
                                     手机号：
                                     @if (!string.IsNullOrEmpty(ViewBag.CurrentUser.Mobile))
                                     {
-                                        @ViewBag.CurrentUser.Mobile<a class="app-link" href="/my/mobile">修改</a>
+                                        @ViewBag.CurrentUser.Mobile <a class="app-link" href="/my/mobile">修改</a>
                                     }
                                     else
                                     {
@@ -87,7 +95,7 @@
                         </td>
                         <td>
                             <div class="base-content  pull-right">
-                                <a class="app-link" href="/modifyloginpwd">修改登陆密码</a>
+                                <a class="app-link" href="/my/modifyloginpwd">修改登陆密码</a>
                             </div>
                         </td>
                     </tr>
@@ -120,7 +128,7 @@
                             <div class="base-content">
                                 @if (!string.IsNullOrEmpty(ViewBag.CurrentUser.IdNo))
                                 {
-                                    @("身份证号码 " + ViewBag.CurrentUser.IdNo[0].ToString() + "****************3" + ViewBag.CurrentUser.IdNo.Last().ToString())
+                                    @("身份证号码 " + ViewBag.CurrentUser.IdNo[0].ToString() + "****************" + ViewBag.CurrentUser.IdNo[17])
                                 }
                                 else
                                 {

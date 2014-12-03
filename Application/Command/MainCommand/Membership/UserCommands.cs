@@ -374,7 +374,7 @@ namespace DotPay.Command
     public class UserModifyTradePassword : FC.Framework.Command
     {
         public UserModifyTradePassword(int userID, string oldTradePassword,
-            string newTradePassword, string oneTimePassword_GA, string oneTimePassword_SMS)
+            string newTradePassword /*, string oneTimePassword_GA, string oneTimePassword_SMS*/)
         {
             Check.Argument.IsNotNegativeOrZero(userID, "userID");
             //Check.Argument.IsNotEmpty(oldTradePassword, "oldTradePassword");
@@ -383,15 +383,15 @@ namespace DotPay.Command
             this.UserID = userID;
             this.OldTradePassword = oldTradePassword;
             this.NewTradePassword = newTradePassword;
-            this.OneTimePassword_GA = oneTimePassword_GA;
-            this.OneTimePassword_SMS = oneTimePassword_SMS;
+            //this.OneTimePassword_GA = oneTimePassword_GA;
+            //this.OneTimePassword_SMS = oneTimePassword_SMS;
         }
 
         public int UserID { get; private set; }
         public string OldTradePassword { get; private set; }
         public string NewTradePassword { get; private set; }
-        public string OneTimePassword_GA { get; private set; }
-        public string OneTimePassword_SMS { get; private set; }
+        //public string OneTimePassword_GA { get; private set; }
+        //public string OneTimePassword_SMS { get; private set; }
     }
     [ExecuteSync]
     public class UserResetTradePasswordByTwoFactor : FC.Framework.Command

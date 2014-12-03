@@ -168,9 +168,10 @@ namespace DotPay.Command.Executor
             var oldTradePassword = string.IsNullOrEmpty(cmd.OldTradePassword) ? string.Empty : PasswordHelper.EncryptMD5(cmd.OldTradePassword);
 
             user.ChangeTradePassword(oldTradePassword,
-                                 PasswordHelper.EncryptMD5(cmd.NewTradePassword),
+                                 PasswordHelper.EncryptMD5(cmd.NewTradePassword)
+                                 /*,
                                  cmd.OneTimePassword_GA,
-                                 cmd.OneTimePassword_SMS);
+                                 cmd.OneTimePassword_SMS*/);
         }
 
 
