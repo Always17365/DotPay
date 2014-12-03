@@ -26,9 +26,9 @@ namespace DotPay.QueryService.Impl
             {
                 lock (_locker)
                 {
-                    result = this.Context.Sql(getUserTransactions_sql)
+                    result = this.Context.Sql(getUserTransactions_sql.FormatWith((int)PayWay.Ripple))
                                            .Parameter("@userID", userID)
-                                           .Parameters("@createAt", DateTime.Now.AddDays(-30).ToUnixTimestamp())
+                                           .Parameter("@createAt", DateTime.Now.AddDays(-30).ToUnixTimestamp())
                                            .QueryMany<TransactionRecord>();
                     Cache.Add(cacheKey, result, new TimeSpan(1, 0, 0));
                 }
@@ -46,12 +46,12 @@ namespace DotPay.QueryService.Impl
         #region SQL
 
         private readonly string getUserTransactions_sql =
-                                @"SELECT    SequenceNo,DoneAt,if(CAST(PayWay AS char(1))='{0}','Withdraw','Deposit') as Memo,Amount as Revenue,0 as Expenses,Payway   
+                                @"SELECT    SequenceNo,DoneAt,if(CAST(PayWay AS char(1))='{0}','Withdraw','Deposit') as Category,Amount as Income,0 as Output,Payway,CreateAt   
                                     FROM    " + Config.Table_Prefix + @"cnydeposit
                                    WHERE    UserID = @userID
                                      AND    CreateAt = @createAt
                                 UNION ALL
-                                  SELECT    SequenceNo,DoneAt,'Withdraw' as Memo,if(FromUserID=@UserID,'0',Amount) as Revenue,if(ToUserID=@UserID,'0',Amount) as Expenses,Payway  
+                                  SELECT    SequenceNo,DoneAt,'Withdraw' as Category,if(FromUserID=@UserID,'0',Amount) as Income,if(ToUserID=@UserID,'0',Amount) as Output,Payway,CreateAt  
                                     FROM    " + Config.Table_Prefix + @"cnyInsideTransferTransaction
                                    WHERE    ToUserID = @userID OR FromUserID = @userID
                                      AND    CreateAt = @createAt";
