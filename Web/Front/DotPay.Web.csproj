@@ -285,6 +285,7 @@
     <Content Include="public\images\icons\ico-circle.png" />
     <Content Include="public\images\icons\usd.png" />
     <Content Include="public\images\logo.png" />
+    <Content Include="public\images\logoc.png" />
     <Content Include="public\images\profilenav.png" />
     <Content Include="public\libs\bootstrap\bootstrap.min.js" />
     <Content Include="public\libs\bootstrap\bootstrap.css" />
@@ -459,6 +460,7 @@
     <Content Include="Views\Profile\Mobile.cshtml" />
     <Content Include="Views\Profile\RealnameAuth.cshtml" />
     <Content Include="Views\Profile\ModifyPaymentPassword.cshtml" />
+    <Content Include="Views\Profile\TxRecords.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

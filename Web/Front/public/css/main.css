@@ -10,7 +10,7 @@
 .dotpay-booticon-sm { width: 30px; height: 30px; font-size: 20px; line-height: 28px; }
 .dotpay-booticon-lg { width: 220px; height: 140px; font-size: 108px; line-height: 140px; }
 .dotpay-booticon-inverse { color: #011c44; background-color: #fff; }
-.dotpay-booticon-outline { background-color: transparent; background: url(../images/logo.png) no-repeat; }
+.dotpay-booticon-outline { background-color: transparent; background: url(../images/logoc.png) no-repeat; }
 
 .dotpay-featurette { padding-top: 40px; padding-bottom: 40px; font-size: 16px; line-height: 1.5; color: #555; text-align: center; background-color: #fff; border-bottom: 1px solid #e5e5e5; }
     .dotpay-featurette + .dotpay-footer { margin-top: 0; border-top: 0; }
@@ -21,6 +21,9 @@
     .dotpay-featurette-img:hover { color: #428bca; text-decoration: none; }
     .dotpay-featurette-img img { display: block; margin-bottom: 15px; }
 
+.dotpay-aboutus, .forgetpwd { height:700px;}
+    .dotpay-aboutus .title-1 { border-bottom: 1px solid #eee;padding-bottom: 9px;margin: 40px 0 20px; }
+   
 @media (min-width:480px) {
     .dotpay-featurette .img-responsive { margin-top: 30px; }
 }

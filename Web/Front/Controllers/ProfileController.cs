@@ -27,6 +27,8 @@ namespace DotPay.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.CNYAccount = IoC.Resolve<IAccountQuery>().GetAccountByUserID(this.CurrentUser.UserID, CurrencyType.CNY);
+            var txData = IoC.Resolve<ITransactionQuery>().GetUserTransactions(this.CurrentUser.UserID, 20, 1);
+            ViewBag.TxRecords = txData != null ? txData.Data : null;
             return View();
         }
         #endregion
@@ -34,6 +36,14 @@ namespace DotPay.Web.Controllers
         #region Profile
         [Route("~/my/profile")]
         public ActionResult Profile()
+        {
+            return View();
+        }
+        #endregion
+
+        #region tx records
+        [Route("~/my/txrecords")]
+        public ActionResult TxRecords()
         {
             return View();
         }
@@ -377,6 +387,27 @@ namespace DotPay.Web.Controllers
             return Json(result);
         }
 
+        #endregion
+
+        #region QueryTransactionData
+        [Route("~/querytx")]
+        [HttpPost]
+        public ActionResult RealNameAuthentication(int page)
+        {
+            var result = FCJsonResult.UnknowFail;
+
+            try
+            {
+                var data = IoC.Resolve<ITransactionQuery>().GetUserTransactions(this.CurrentUser.UserID, 20, page);
+
+                return Json(new { Code = 1, Data = data });
+            }
+
+            catch
+            {
+                return Json(result);
+            }
+        }
         #endregion
 
         #endregion
