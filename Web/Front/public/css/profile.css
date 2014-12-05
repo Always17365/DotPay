@@ -44,6 +44,8 @@
     .dotpay-apps .app-link.cny-transfer { background: url(/public/images/icons/cny.png) 10px 8px no-repeat; padding-left: 40px; }
     .dotpay-apps .app-link.usd-transfer { background: url(/public/images/icons/usd.png) 10px 8px no-repeat; padding-left: 40px; }
     .dotpay-apps .app-link.exchange { background: url(/public/images/icons/exchange.png) 10px 8px no-repeat; padding-left: 40px; }
+    .dotpay-apps .app-link.alipay { background: url(/public/images/icons/alipay.png) 5px 8px no-repeat; padding-left: 40px; }
+    .dotpay-apps .app-link.tenpay { background: url(/public/images/icons/tenpay.png) 10px 8px no-repeat; padding-left: 40px; }
 
 a.app-link:visited { color: #0088CC; }
 a.app-link:link, a.app-link:visited { color: #0088CC; }

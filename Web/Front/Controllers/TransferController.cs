@@ -65,16 +65,33 @@ namespace DotPay.Web.Controllers
         [Route("~/transferout/ripple/payment")]
         public ActionResult OutsideTransfer()
         {
-            return View("Outside");
+            return View("OutboundRipple");
+        }
+
+        [Route("~/transfertpp/{payway}/payment")]
+        public ActionResult TppTransfer(PayWay payway)
+        {
+            ViewBag.PayWay = payway;
+
+            return View("OutboundTpp");
+        }
+
+        [Route("~/transfertpp/{payway}/confirm")]
+        public ActionResult OutsideTransferConfirm(PayWay payway, string orderID)
+        {
+            var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Init);
+
+            ViewBag.Transfer = transfer;
+
+            return View("OutboundTppConfirm");
         }
 
         [Route("~/transferout/ripple/confirm")]
         public ActionResult OutsideTransferConfirm(string orderID)
         {
             var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Pending);
-
-            ViewBag.Transfer = transfer;
-
+             
+            ViewBag.Transfer = transfer; 
             return View("OutsideConfirm");
         }
 
@@ -188,6 +205,63 @@ namespace DotPay.Web.Controllers
         #endregion
 
         #region 外部转账
+        #region 第三方转账提交
+        [HttpPost]
+        [Route("~/transfertpp/{payway}/payment")]
+        public ActionResult SubmitOutboundPayment(PayWay payway, string account, decimal amount, string description)
+        {
+            var emailReg = new Regex(@"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            var mobileReg = new Regex("^1[3|5|7|8|][0-9]{9}$");
+            var qqReg = new Regex(@"^\d{5,10}$");
+
+            var result = false;
+            var message = "无效的收款账户";
+            var accountInfo = default(FederationResponse);
+            account = account.NullSafe().Trim();
+
+
+            if ((payway == PayWay.Alipay && (emailReg.IsMatch(account) || mobileReg.IsMatch(account))) ||
+                (payway == PayWay.Tenpay && (emailReg.IsMatch(account) || mobileReg.IsMatch(account) || qqReg.IsMatch(account))))
+            {
+                var cmd = new CreateOutboundTransfer(payway, account, CurrencyType.CNY, amount, amount, description.NullSafe().Trim(), this.CurrentUser.UserID);
+
+                this.CommandBus.Send(cmd);
+
+                return Redirect("~/transfertpp/{0}/confirm?orderid={1}".FormatWith(payway, cmd.Result));
+            }
+
+            return View();
+        }
+        #endregion
+
+        #region 第三方转账确认
+        [Route("~/transfertpp/confirm")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InsideTransferConfirmPost(string orderId, string paypassword)
+        {
+            var result = FCJsonResult.UnknowFail;
+            try
+            {
+                var cmd = new ConfirmOutboundTransfer(orderId, paypassword, this.CurrentUser.UserID);
+                this.CommandBus.Send(cmd);
+
+                result = FCJsonResult.Success;
+            }
+            catch (CommandExecutionException ex)
+            {
+                if (ex.ErrorCode == (int)ErrorCode.AccountBalanceNotEnough)
+                    result = FCJsonResult.CreateFailResult("余额不足，无法完成支付");
+                else if (ex.ErrorCode == (int)ErrorCode.TradePasswordError)
+                    result = FCJsonResult.CreateFailResult("支付密码错误");
+                else
+                {
+                    Log.Error("InsideTransferConfirmPost Action Error", ex);
+                }
+            }
+            return Json(result);
+        }
+        #endregion
 
         #region 验证收款机构是否支持ripple协议
         [Route("~/transferout/verifyaccount")]
@@ -338,7 +412,7 @@ namespace DotPay.Web.Controllers
             }
             return federation_url;
         }
-        #endregion 
+        #endregion
         #endregion
     }
 }

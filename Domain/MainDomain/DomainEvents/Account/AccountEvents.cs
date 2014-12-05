@@ -126,7 +126,7 @@ namespace DotPay.MainDomain.Events
             this.WithdarwUniqueId = withdarwUniqueId;
             this.WithdrawAmount = withdrawAmount;
             this.Currency = currency;
-            this.ModifyType = Convert.ToInt32(AccountModifyType.Withdraw.ToString("D") + currency.ToString("D"));
+            this.ModifyType = Convert.ToInt32(AccountModifyType.WithdrawCreated.ToString("D") + currency.ToString("D"));
         }
         public int UserID { get; private set; }
         public int AccountID { get; private set; }
@@ -144,7 +144,7 @@ namespace DotPay.MainDomain.Events
             this.WithdrawUniqueID = withdrawUniqueID;
             this.WithdrawAmount = withdrawAmount;
             this.Currency = currency;
-            this.ModifyType = Convert.ToInt32(AccountModifyType.Withdraw.ToString("D") + currency.ToString("D"));
+            this.ModifyType = Convert.ToInt32(AccountModifyType.WithdrawCreated.ToString("D") + currency.ToString("D"));
         }
         public int UserID { get; private set; }
         public int AccountID { get; private set; }
@@ -162,7 +162,7 @@ namespace DotPay.MainDomain.Events
             this.DepositCodeUniqueID = depositCodeUniqueID;
             this.WithdrawAmount = withdrawAmount;
             this.Currency = currency;
-            this.ModifyType = Convert.ToInt32(AccountModifyType.Withdraw.ToString("D") + currency.ToString("D"));
+            this.ModifyType = Convert.ToInt32(AccountModifyType.WithdrawCreated.ToString("D") + currency.ToString("D"));
         }
         public int UserID { get; private set; }
         public int AccountID { get; private set; }
@@ -197,24 +197,59 @@ namespace DotPay.MainDomain.Events
     //    public CurrencyType Currency { get; private set; }
     //}
 
-    public class AccountChangedByInsideTransfer : AccountChanged
+    public class AccountChangedByInsideTransferCompleted : AccountChanged
     {
-        public AccountChangedByInsideTransfer(int accountID, decimal @in, decimal @out, int tradeID, CurrencyType currency)
+        public AccountChangedByInsideTransferCompleted(int accountID, decimal @in, decimal @out, int trasferID, CurrencyType currency)
         {
             this.AccountID = accountID;
-            this.TradeID = tradeID;
+            this.TransferID = trasferID;
             this.In = @in;
             this.Out = @out;
             this.Currency = currency;
-            this.ModifyType = Convert.ToInt32(AccountModifyType.InsideTransfer.ToString("D") + currency.ToString("D"));
+            this.ModifyType = Convert.ToInt32(AccountModifyType.InsideTransferCompleted.ToString("D") + currency.ToString("D"));
         }
         public int AccountID { get; private set; }
-        public int TradeID { get; private set; }
+        public int TransferID { get; private set; }
         public decimal In { get; private set; }
         public decimal Out { get; private set; }
         public CurrencyType Currency { get; private set; }
     }
 
+    public class AccountChangedByOutboundTransferConfirm : AccountChanged
+    {
+        public AccountChangedByOutboundTransferConfirm(int accountID, decimal @in, decimal @out, string transferSeqNo, CurrencyType currency)
+        {
+            this.AccountID = accountID;
+            this.TransferSeqNo = transferSeqNo;
+            this.In = @in;
+            this.Out = @out;
+            this.Currency = currency;
+            this.ModifyType = Convert.ToInt32(AccountModifyType.OutboundTransferCreated.ToString("D") + currency.ToString("D"));
+        }
+        public int AccountID { get; private set; }
+        public String TransferSeqNo { get; private set; }
+        public decimal In { get; private set; }
+        public decimal Out { get; private set; }
+        public CurrencyType Currency { get; private set; }
+    }
+
+    public class AccountChangedByOutboundTransferFailed : AccountChanged
+    {
+        public AccountChangedByOutboundTransferFailed(int accountID, decimal @in, decimal @out, string transferSeqNo, CurrencyType currency)
+        {
+            this.AccountID = accountID;
+            this.TransferSeqNo = transferSeqNo;
+            this.In = @in;
+            this.Out = @out;
+            this.Currency = currency;
+            this.ModifyType = Convert.ToInt32(AccountModifyType.OutboundTransferFailed.ToString("D") + currency.ToString("D"));
+        }
+        public int AccountID { get; private set; }
+        public String TransferSeqNo { get; private set; }
+        public decimal In { get; private set; }
+        public decimal Out { get; private set; }
+        public CurrencyType Currency { get; private set; }
+    }
 
     public class AccountVersionCreated : DomainEvent
     {

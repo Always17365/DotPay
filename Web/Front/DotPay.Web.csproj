@@ -278,11 +278,13 @@
     <Content Include="public\css\profile.css" />
     <Content Include="public\images\emailsent.jpg" />
     <Content Include="public\images\head.gif" />
+    <Content Include="public\images\icons\alipay.png" />
     <Content Include="public\images\icons\cny.png" />
     <Content Include="public\images\icons\euro.png" />
     <Content Include="public\images\icons\exchange.png" />
     <Content Include="public\images\icons\ico-circle-active.png" />
     <Content Include="public\images\icons\ico-circle.png" />
+    <Content Include="public\images\icons\tenpay.png" />
     <Content Include="public\images\icons\usd.png" />
     <Content Include="public\images\logo.png" />
     <Content Include="public\images\logoc.png" />
@@ -448,7 +450,7 @@
     <Content Include="Views\Transfer\InsideConfirm.cshtml" />
     <Content Include="Views\Home\PreRegister.cshtml" />
     <Content Include="Views\Transfer\InsideTransferSuccess.cshtml" />
-    <Content Include="Views\Transfer\Outside.cshtml" />
+    <Content Include="Views\Transfer\OutboundRipple.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\Profile.cshtml" />
     <Content Include="public\fonts\fontawesome-webfont.eot" />
@@ -461,6 +463,8 @@
     <Content Include="Views\Profile\RealnameAuth.cshtml" />
     <Content Include="Views\Profile\ModifyPaymentPassword.cshtml" />
     <Content Include="Views\Profile\TxRecords.cshtml" />
+    <Content Include="Views\Transfer\OutboundTpp.cshtml" />
+    <Content Include="Views\Transfer\OutboundTppConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -11,8 +11,9 @@ namespace DotPay.Common
     public enum AccountModifyType
     {
         Deposit = 1,
-        Withdraw = 2,
-        InsideTransfer = 3,
-        OutboundTransfer=4
+        WithdrawCreated = 2,
+        InsideTransferCompleted = 3,
+        OutboundTransferCreated = 4,
+        OutboundTransferFailed = 5
     }
 }

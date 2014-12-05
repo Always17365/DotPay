@@ -57,7 +57,7 @@ namespace DotPay.Command
 
     #region 第三方支付直转
 
-    #region 转账完成
+    #region 转账创建
     public class CreateThirdPartyPaymentTransfer : FC.Framework.Command
     {
         public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway)
@@ -65,7 +65,7 @@ namespace DotPay.Command
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotEmpty(account, "account");
             Check.Argument.IsNotNegativeOrZero(amount, "amount");
-            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway"); 
 
             this.TxId = txid;
             this.Account = account;
@@ -107,7 +107,7 @@ namespace DotPay.Command
     #region 转账失败
     public class ThirdPartyPaymentTransferFail : FC.Framework.Command
     {
-        public ThirdPartyPaymentTransferFail(int transferId, string reason, PayWay payway,int byUserID)
+        public ThirdPartyPaymentTransferFail(int transferId, string reason, PayWay payway, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
             Check.Argument.IsNotEmpty(reason, "reason");
@@ -121,26 +121,61 @@ namespace DotPay.Command
 
         public int TransferId { get; private set; }
         public PayWay PayWay { get; private set; }
-        public string Reason { get; private set; }   
+        public string Reason { get; private set; }
         public int ByUserID { get; private set; }
     }
     #endregion
     #endregion
 
     #region 外部-转出转账
-    public class OutboundTransfer : FC.Framework.Command
+    public class CreateOutboundTransfer : FC.Framework.Command
     {
-        public OutboundTransfer(int userID, CurrencyType currency)
+        public CreateOutboundTransfer(PayWay payway, string destination, CurrencyType targetCurrency, decimal sourceAmount, decimal targetAmount,string description, int byUserID)
         {
-            Check.Argument.IsNotNegativeOrZero(userID, "userID");
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
+            Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID");
+            Check.Argument.IsNotNegativeOrZero((int)targetCurrency, "targetCurrency");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+            Check.Argument.IsNotEmpty(destination, "destination");
+            Check.Argument.IsNotNegativeOrZero(sourceAmount, "sourceAmount");
+            Check.Argument.IsNotNegativeOrZero(targetAmount, "targetAmount");
 
-            this.UserID = userID;
-            this.Currency = currency;
+            this.ByUserID = byUserID; 
+            this.TargetCurrency = targetCurrency;
+            this.PayWay = payway;
+            this.SourceAmount = sourceAmount;
+            this.TargetAmount = targetAmount;
+            this.Destination = destination;
+            this.Description = description;
         }
 
-        public int UserID { get; private set; }
-        public CurrencyType Currency { get; private set; }
+        public int ByUserID { get; private set; }
+        public decimal SourceAmount { get; private set; }
+        public PayWay PayWay { get; private set; }
+        public CurrencyType TargetCurrency { get; private set; }
+        public decimal TargetAmount { get; private set; }
+        public string Destination { get; private set; }
+        public string Description { get; private set; }
+        public string Result { get; set; } 
+    }
+    #endregion
+
+    #region 外部-转出转账
+    public class ConfirmOutboundTransfer : FC.Framework.Command
+    {
+        public ConfirmOutboundTransfer(string orderId, string paypassword, int byUserID)
+        {
+            Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID"); 
+            Check.Argument.IsNotEmpty(orderId, "orderId");
+            Check.Argument.IsNotEmpty(paypassword, "paypassword"); 
+
+            this.ByUserID = byUserID;
+            this.SequenceNo = orderId;
+            this.PayPassword = paypassword; 
+        }
+
+        public int ByUserID { get; private set; }
+        public string SequenceNo { get; private set; }
+        public string PayPassword { get; private set; } 
     }
     #endregion
 

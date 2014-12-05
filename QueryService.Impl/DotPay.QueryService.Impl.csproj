@@ -63,6 +63,7 @@
     <Compile Include="Logs\LogsQuery.cs" />
     <Compile Include="PreRegistratorQuery\PreRegistratorQuery.cs" />
     <Compile Include="TransferTransaction\TransferTransactionQuery.cs" />
+    <Compile Include="Transfer\OutboundTransferQuery.cs" />
     <Compile Include="Transfer\InsideTransferQuery.cs" />
     <Compile Include="VipSetting\VipSettingQuery.cs" />
     <Compile Include="User\UserQuery.cs" />

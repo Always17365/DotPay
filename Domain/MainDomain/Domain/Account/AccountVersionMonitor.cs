@@ -17,7 +17,7 @@ namespace DotPay.MainDomain
                                          IEventHandler<AccountChangedByWithdrawToDepositCode>,  //提现到充值码
                                          IEventHandler<AccountChangedByWithdrawCancel>,         //取消提现
         //IEventHandler<AccountChangedByOrderCanceled>,          //订单取消
-                                         IEventHandler<AccountChangedByInsideTransfer>                   //交易
+                                         IEventHandler<AccountChangedByInsideTransferCompleted>                   //交易
     {
         IRepository repos = IoC.Resolve<IRepository>();
 
@@ -60,13 +60,13 @@ namespace DotPay.MainDomain
             repos.Add(accountVersion);
         }
 
-        public void Handle(AccountChangedByInsideTransfer @event)
+        public void Handle(AccountChangedByInsideTransferCompleted @event)
         {
             var account = IoC.Resolve<IAccountRepository>().FindByIDAndCurrency(@event.AccountID, @event.Currency);
 
             var accountVersion = AccountVersionFactory.CreateAccountVersion(account.UserID, @event.AccountID,
                                                     account.Balance + account.Locked, account.Balance,
-                                                    account.Locked, @event.In, @event.Out, @event.TradeID,
+                                                    account.Locked, @event.In, @event.Out, @event.TransferID,
                                                     @event.ModifyType, @event.Currency);
             repos.Add(accountVersion);
         }

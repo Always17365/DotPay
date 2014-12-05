@@ -11,7 +11,7 @@ namespace DotPay.Persistence
         {
             Id(u => u.ID, map => map.Generator(Generators.Identity));
 
-            Property(x => x.SequenceNo, map => { map.NotNullable(true); map.Unique(true); map.Length(35); });
+            Property(x => x.SequenceNo, map => { map.NotNullable(true); map.Unique(true); map.Length(40); });
             Property(x => x.FromUserID, map => { map.NotNullable(true); });
             Property(x => x.ToUserID, map => { map.NotNullable(true); });
             Property(x => x.Currency, map => { map.NotNullable(true); });
