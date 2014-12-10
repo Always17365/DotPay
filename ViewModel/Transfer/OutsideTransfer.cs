@@ -13,6 +13,7 @@ namespace DotPay.ViewModel
         public int ID { get; set; }
         public int FromUserID { get; set; }
         public string Destination { get; set; }
+        public string Description { get; set; }
         public string SequenceNo { get; set; } 
         public string CNPayway { get; set; }
         public virtual decimal SourceAmount { get; protected set; }

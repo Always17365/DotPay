@@ -15,8 +15,6 @@ namespace DotPay.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected static RippleClient rippleClient = new RippleClient(new Uri("wss://s-east.ripple.com:443"), 10, true);
-
         #region override
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {

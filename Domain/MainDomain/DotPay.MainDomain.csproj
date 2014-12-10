@@ -182,7 +182,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Account\Currency.cs" />
     <Compile Include="Domain\DomainBase.cs" />
-    <Compile Include="Repository\IInboundTransferToThirdPartyPaymentTxRepository - 复制.cs" />
+    <Compile Include="Repository\IInboundTransferToThirdPartyPaymentTxRepository.cs" />
     <Compile Include="Repository\IOutboundTransferTxRepository.cs" />
     <Compile Include="Repository\IInsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\IFundSourceRepository.cs" />

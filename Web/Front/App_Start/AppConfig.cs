@@ -22,6 +22,7 @@ using DotPay.Common;
 using DotPay.Persistence;
 using System.Threading;
 using DotPay.Tools.SmsInterface;
+using RippleRPC.Net;
 
 namespace DotPay.Web
 {
@@ -54,6 +55,7 @@ namespace DotPay.Web
                                     .Start();
 
             FC.Framework.Utilities.EmailHelper.Config(Config.EmailSMTP, Config.SupportEmail, Config.EmailAccount, Config.EmailPassword);
+            IoC.Register<IRippleClientAsync>(new RippleClientAsync(new Uri( Config.WssRippleServer)));
             SmsHelper.SetSmsInterface(SmsInterfaceType.IHUYI, "cf_bfwl", "HvebKj");
             SmsHelper.SetBackupSmsInterface(SmsInterfaceType.C123, "500919170001", "fc_sms_account!1");
             if (Config.Debug)

@@ -80,46 +80,46 @@ namespace DotPay.RippleMonitor
         }
 
         #region 私有方法
-        private static void GetTxs(int ledgerIndex, Action<List<TransactionRecord>> processTxAction)
+        private static async void GetTxs(int ledgerIndex, Action<List<TransactionRecord>> processTxAction)
         {
             try
             {
-                var rippleClient = IoC.Resolve<IRippleClient>();
+                var rippleClient = IoC.Resolve<IRippleClientAsync>();
 
                 Log.Info("开始分析ledger-{0}".FormatWith(ledgerIndex));
 
-                rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex, (error, result) =>
+                var result=await  rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex:ledgerIndex);
+
+                try
                 {
-                    try
+                    var error = result.Item1;
+                    if (error != null)
                     {
-                        if (error != null)
+                        if (error.Error == "lgrNotFound" && error.ErrorCode == 17)
                         {
-                            if (error.Error == "lgrNotFound" && error.ErrorCode == 17)
-                            {
-                                Log.Info("已分析到最新的ledger，等待10秒后，继续分析...");
-                                Thread.Sleep(10 * 1000);
-                            }
-                            else
-                                Log.Error("查找Ripple钱包历史交易记录时出现错误：{0}", error.Message);
+                            Log.Info("已分析到最新的ledger，等待10秒后，继续分析...");
+                            Thread.Sleep(10 * 1000);
                         }
                         else
-                        {
-                            if (result.Count > 0)
-                            {
-                                processTxAction(result);
-                            }
-                            RecordProcessLedgerIndex(ledgerIndex);
-                            Log.Info("ledger-{0}解析完毕".FormatWith(ledgerIndex));
-                        }
+                            Log.Error("查找Ripple钱包历史交易记录时出现错误：{0}", error.Message);
                     }
-                    finally
+                    else
                     {
-                        lock (_lock)
+                        if (result.Item2.Count > 0)
                         {
-                            waitCallback = false;
+                            processTxAction(result.Item2);
                         }
+                        RecordProcessLedgerIndex(ledgerIndex);
+                        Log.Info("ledger-{0}解析完毕".FormatWith(ledgerIndex));
                     }
-                });
+                }
+                finally
+                {
+                    lock (_lock)
+                    {
+                        waitCallback = false;
+                    }
+                }
             }
             catch (Exception ex2)
             {

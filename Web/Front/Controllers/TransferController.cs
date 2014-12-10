@@ -17,13 +17,21 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using Newtonsoft.Json;
+using RippleRPC.Net;
 
 namespace DotPay.Web.Controllers
 {
     public class TransferController : BaseController
     {
-
+        private const string OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY = "OUTSIDE_GATEWAY_ACCOUNT_INFO";
+        private const string OUTSIDE_GATEWAY_ACCOUNT_PATHS = "OUTSIDE_GATEWAY_ACCOUNT_PATHS";
         #region Views
+
+        [Route("~/apps")]
+        public ActionResult AppIndex()
+        {
+            return View("Index");
+        }
 
         #region 内部转账页面
 
@@ -60,14 +68,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 外部转账页面
-
-        [Route("~/transferout/ripple/payment")]
-        public ActionResult OutsideTransfer()
-        {
-            return View("OutboundRipple");
-        }
-
+        #region 转账到第三方支付页面
         [Route("~/transfertpp/{payway}/payment")]
         public ActionResult TppTransfer(PayWay payway)
         {
@@ -81,31 +82,51 @@ namespace DotPay.Web.Controllers
         {
             var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Init);
 
+            ViewBag.PayWay = payway;
             ViewBag.Transfer = transfer;
 
             return View("OutboundTppConfirm");
+        }
+
+        [Route("~/transfertpp/{payway}/success")]
+        public ActionResult OutboundTppTransferSuccess(PayWay payway, string orderID)
+        {
+            var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Init);
+
+            ViewBag.Transfer = transfer;
+
+            return View("OutboundTppTransferSuccess");
+        }
+
+        #endregion
+
+        #region 外部（Ripple）转账页面
+
+        [Route("~/transferout/ripple/payment")]
+        public ActionResult OutsideTransfer()
+        {
+            return View("OutboundRipple");
         }
 
         [Route("~/transferout/ripple/confirm")]
         public ActionResult OutsideTransferConfirm(string orderID)
         {
             var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Pending);
-             
-            ViewBag.Transfer = transfer; 
+
+            ViewBag.Transfer = transfer;
             return View("OutsideConfirm");
         }
 
         [Route("~/transferout/success")]
-        public ActionResult OutsideTransferSuccess(CurrencyType currency, string orderID)
+        public ActionResult OutboundTransferSuccess(string orderID)
         {
             var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Success);
 
             ViewBag.Transfer = transfer;
 
-            return View("OutsideTransferSuccess");
+            return View("OutboundTransferSuccess");
         }
         #endregion
-
 
         #endregion
 
@@ -142,7 +163,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 内存转账创建
+        #region 内部转账创建
 
         [Route("~/transfer/{currency}/payment")]
         [HttpPost]
@@ -173,7 +194,7 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-        #region 内存转账确认
+        #region 内部转账确认
 
         [Route("~/transfer/{currency}/confirm")]
         [HttpPost]
@@ -238,7 +259,7 @@ namespace DotPay.Web.Controllers
         [Route("~/transfertpp/confirm")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InsideTransferConfirmPost(string orderId, string paypassword)
+        public ActionResult OutboundTransferConfirmPost(string orderId, string paypassword)
         {
             var result = FCJsonResult.UnknowFail;
             try
@@ -273,8 +294,9 @@ namespace DotPay.Web.Controllers
             var result = false;
             var message = "无效的收款账户";
             var accountInfo = default(FederationResponse);
+            account = account.NullSafe().Trim();
 
-            if (reg.IsMatch(account.NullSafe().Trim()))
+            if (reg.IsMatch(account))
             {
                 var email = new MailAddress(account);
                 //email.Host
@@ -286,7 +308,7 @@ namespace DotPay.Web.Controllers
 
                     if (accountInfo.Result == "success")
                     {
-                        Session["outside_gateway_account_info"] = accountInfo;
+                        Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] = accountInfo;
                         result = true;
                     }
                 }
@@ -297,6 +319,80 @@ namespace DotPay.Web.Controllers
                 return Json(new { valid = true, currencies = accountInfo.UserAccount.AcceptCurrencys });
             else
                 return Json(new { valid = false, message = message });
+        }
+        #endregion
+
+        #region Ripple Path Find
+        [Route("~/transferout/calc")]
+        [HttpPost]
+        public async Task<ActionResult> CalcPayAmount(string account, decimal amount, string currency)
+        {
+            string emailReg = @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+            var reg = new Regex(emailReg);
+
+            var result = false;
+            var message = "无效的收款账户";
+            var accountInfo = default(FederationResponse);
+            account = account.NullSafe().Trim();
+
+            if (reg.IsMatch(account))
+            {
+
+                if (Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] != null)
+                {
+                    var rippleAccountInfo = (FederationResponse)Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account];
+                    if (rippleAccountInfo != null)
+                    {
+                        var rippleClient = IoC.Resolve<IRippleClientAsync>();
+                        var pathsum = await rippleClient.RipplePathFind(Config.RippleHotWallet, rippleAccountInfo.UserAccount.DestinationAddress,
+                                            new RippleRPC.Net.Model.RippleCurrencyValue()
+                                            {
+                                                _Value = amount.ToString(),
+                                                Currency = currency,
+                                                Issuer = rippleAccountInfo.UserAccount.DestinationAddress
+                                            });
+
+                        if (pathsum.Item1 == null && (pathsum.Item2.Alternatives != null))
+                        {
+                            var needSendAmount = pathsum.Item2.Alternatives.SingleOrDefault(an => an.SourceAmount.Currency == "CNY");
+                            if (needSendAmount != null)
+                            {
+                                Session[OUTSIDE_GATEWAY_ACCOUNT_PATHS + account] = needSendAmount.ComputedPaths;
+                                return Json(new { valid = true, amount = needSendAmount.SourceAmount.Value });
+                            }
+                            return Json(new { valid = false, message = "市场深度不足以支持本次汇兑" });
+                        }
+                        else
+                        {
+                            Log.Error("计算Ripple汇率是出现错误:" + pathsum.Item1.Message);
+                            return Json(new { valid = false, message = "网络错误，请稍后重试" });
+                        }
+                    }
+                }
+            }
+
+            return Json(new { valid = false });
+        }
+        #endregion
+
+
+        #region Ripple转账提交
+        [Route("~/transferout/submit")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitTransferToRipple(string account, decimal targetamount, string currency, decimal sourceAmount, string paypassword)
+        { 
+            account = account.NullSafe().Trim(); 
+
+            if (Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] != null && Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] != null)
+            {
+                var rippleAccountInfo = (FederationResponse)Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account];
+                var pathInfo = (FederationResponse)Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account];
+
+
+            }
+
+            return Json(new { valid = false });
         }
         #endregion
 

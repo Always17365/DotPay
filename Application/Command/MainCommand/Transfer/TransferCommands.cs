@@ -65,7 +65,7 @@ namespace DotPay.Command
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotEmpty(account, "account");
             Check.Argument.IsNotNegativeOrZero(amount, "amount");
-            Check.Argument.IsNotNegativeOrZero((int)payway, "payway"); 
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
 
             this.TxId = txid;
             this.Account = account;
@@ -130,7 +130,7 @@ namespace DotPay.Command
     #region 外部-转出转账
     public class CreateOutboundTransfer : FC.Framework.Command
     {
-        public CreateOutboundTransfer(PayWay payway, string destination, CurrencyType targetCurrency, decimal sourceAmount, decimal targetAmount,string description, int byUserID)
+        public CreateOutboundTransfer(PayWay payway, string destination, CurrencyType targetCurrency, decimal sourceAmount, decimal targetAmount, string description, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID");
             Check.Argument.IsNotNegativeOrZero((int)targetCurrency, "targetCurrency");
@@ -139,7 +139,7 @@ namespace DotPay.Command
             Check.Argument.IsNotNegativeOrZero(sourceAmount, "sourceAmount");
             Check.Argument.IsNotNegativeOrZero(targetAmount, "targetAmount");
 
-            this.ByUserID = byUserID; 
+            this.ByUserID = byUserID;
             this.TargetCurrency = targetCurrency;
             this.PayWay = payway;
             this.SourceAmount = sourceAmount;
@@ -155,7 +155,7 @@ namespace DotPay.Command
         public decimal TargetAmount { get; private set; }
         public string Destination { get; private set; }
         public string Description { get; private set; }
-        public string Result { get; set; } 
+        public string Result { get; set; }
     }
     #endregion
 
@@ -164,18 +164,18 @@ namespace DotPay.Command
     {
         public ConfirmOutboundTransfer(string orderId, string paypassword, int byUserID)
         {
-            Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID"); 
+            Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID");
             Check.Argument.IsNotEmpty(orderId, "orderId");
-            Check.Argument.IsNotEmpty(paypassword, "paypassword"); 
+            Check.Argument.IsNotEmpty(paypassword, "paypassword");
 
             this.ByUserID = byUserID;
             this.SequenceNo = orderId;
-            this.PayPassword = paypassword; 
+            this.PayPassword = paypassword;
         }
 
         public int ByUserID { get; private set; }
         public string SequenceNo { get; private set; }
-        public string PayPassword { get; private set; } 
+        public string PayPassword { get; private set; }
     }
     #endregion
 

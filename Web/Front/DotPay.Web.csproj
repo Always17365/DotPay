@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DotPay.Web</RootNamespace>
     <AssemblyName>DotPay.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -148,9 +148,6 @@
     <Reference Include="RestSharp">
       <HintPath>..\..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="RippleRPC.Net">
-      <HintPath>..\..\Library\RippleRPC.Net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -220,7 +217,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="WebSocket4Net">
+    <Reference Include="WebSocket4Net, Version=0.10.0.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WebSocket4Net.0.10\lib\net45\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -465,6 +463,9 @@
     <Content Include="Views\Profile\TxRecords.cshtml" />
     <Content Include="Views\Transfer\OutboundTpp.cshtml" />
     <Content Include="Views\Transfer\OutboundTppConfirm.cshtml" />
+    <Content Include="Views\Transfer\OutboundTppTransferSuccess.cshtml" />
+    <Content Include="Views\Transfer\Index.cshtml" />
+    <Content Include="Views\Transfer\OutboundRippleConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -479,6 +480,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\RippleRPC.Net\RippleRPC.Net\RippleRPC.Net.csproj">
+      <Project>{84ff702a-ee56-4a84-8699-1a28f28d5a4b}</Project>
+      <Name>RippleRPC.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>

@@ -91,7 +91,7 @@ namespace DotPay.Command.Executor
         {
             var ttpTx = IoC.Resolve<IOutboundTransferTxRepository>().FindTransferTxBySeq(cmd.SequenceNo);
             var user = IoC.Resolve<IRepository>().FindById<User>(cmd.ByUserID);
-            if (user.VerifyTradePassword(cmd.PayPassword))
+            if (user.VerifyTradePassword(PasswordHelper.EncryptMD5(cmd.PayPassword)))
                 ttpTx.Confirm(cmd.ByUserID);
         }
     }

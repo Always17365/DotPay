@@ -100,7 +100,7 @@ namespace DotPay.Web.Controllers
                             Type = "federation_record",
                             Destination = destination,
                             DestinationAddress = GATEWAY_ADDRESS,
-                            DestinationTag = user.UserID,
+                            DestinationTag = int.Parse(Utilities.GetPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
                             Domain = domain,
                             AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                         };

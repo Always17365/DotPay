@@ -73,8 +73,8 @@ namespace DotPay.RippleMonitor
                                     //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
                                     .Start();
 
-            var rippleClient = new RippleClient(new Uri(Config.WssServer), 30, true); 
-            IoC.Register<IRippleClient>(rippleClient);
+            var rippleClient = new RippleClientAsync(new Uri(Config.WssServer), 30, true);
+            IoC.Register<IRippleClientAsync>(rippleClient);
 
             if (Config.Debug)
             {
