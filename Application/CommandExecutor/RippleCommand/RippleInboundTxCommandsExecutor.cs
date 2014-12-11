@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using FC.Framework;
 using DotPay.RippleCommand;
 using FC.Framework.Repository;
+using DotPay.RippleDomain.Repository;
 using DotPay.RippleDomain;
 
 namespace RippleCommand
 {
     public class RippleInboundTxCommandsExecutor : ICommandExecutor<CreateInboundTx>,
-                                                   ICommandExecutor<CreateThirdPartyPaymentInboundTx>
+                                                   ICommandExecutor<CreateThirdPartyPaymentInboundTx>,
+                                                   ICommandExecutor<CompleteThirdPartyPaymentInboundTx>
     {
         public void Execute(CreateInboundTx cmd)
         {
@@ -27,6 +29,15 @@ namespace RippleCommand
             IoC.Resolve<IRepository>().Add(rippleInboundTx);
 
             cmd.Result = rippleInboundTx.ID;
+        }
+
+        public void Execute(CompleteThirdPartyPaymentInboundTx cmd)
+        {
+            //destinationtag是to tpp的ID
+            //此处不能用txid作为查找条件，因为此时的数据库中还没有txid
+            var rippleInboundTx = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>().FindByIDAndPayway(cmd.DestinationTag, cmd.PayWay);
+
+            rippleInboundTx.Complete(cmd.TxId, cmd.Amount);
         }
     }
 }

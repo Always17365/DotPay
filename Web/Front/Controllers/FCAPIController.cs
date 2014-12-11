@@ -63,7 +63,7 @@ namespace DotPay.Web.Controllers
                                 Type = "federation_record",
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
-                                DestinationTag = int.Parse(Utilities.GetPaywayFlg(payway).ToString() + cmd.Result.ToString()),
+                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(payway).ToString() + cmd.Result.ToString()),
                                 Domain = domain,
                                 AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                             };
@@ -100,7 +100,7 @@ namespace DotPay.Web.Controllers
                             Type = "federation_record",
                             Destination = destination,
                             DestinationAddress = GATEWAY_ADDRESS,
-                            DestinationTag = int.Parse(Utilities.GetPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
+                            DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
                             Domain = domain,
                             AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                         };

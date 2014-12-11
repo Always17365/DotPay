@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Monitor\RippleOutboundTransferWatcher.cs" />
     <Compile Include="Monitor\RippleInboundTransferWatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,17 +117,9 @@
       <Project>{84ff702a-ee56-4a84-8699-1a28f28d5a4b}</Project>
       <Name>RippleRPC.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
-      <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
-      <Name>DotPay.Command.Executor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Application\CommandExecutor\RippleCommand\DotPay.RippleCommand.Executor.csproj">
       <Project>{348a0490-c89e-4bb6-8426-3146cbedbe51}</Project>
       <Name>DotPay.RippleCommand.Executor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Application\Command\MainCommand\DotPay.Command.csproj">
-      <Project>{c5f3d8a7-7639-46ca-9b4b-c602c966347d}</Project>
-      <Name>DotPay.Command</Name>
     </ProjectReference>
     <ProjectReference Include="..\Application\Command\RippleCommand\DotPay.RippleCommand.csproj">
       <Project>{a2856bd1-d1df-4cf4-bc49-4d3bc3b7e782}</Project>

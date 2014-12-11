@@ -10,16 +10,16 @@ namespace DotPay.Common
     public class Utilities
     {
         #region message queue
-         
+
         /// <summary>
         /// 获取用户注册成功的消息exchange and queue 名字
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
         /// </summary> 
         /// <returns></returns>
         public static Tuple<string, string> GetExchangeAndQueueNameOfUserRegistered()
-        { 
-            var exchangeName =   "_USER_REGISTER_EXCHANGE";
-            var queueName =   "_USER_REGISTER_QUEUE";
+        {
+            var exchangeName = "_USER_REGISTER_EXCHANGE";
+            var queueName = "_USER_REGISTER_QUEUE";
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
@@ -27,8 +27,7 @@ namespace DotPay.Common
         /// <summary>
         /// generate exchange and queue name for inbound transafer
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
-        /// </summary>
-        /// <param name="CurrencyType">currency</param>
+        /// </summary> 
         /// <returns></returns>
         public static Tuple<string, string> GenerateExchangeAndQueueNameOfInboundTransfer()
         {
@@ -37,6 +36,21 @@ namespace DotPay.Common
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
+
+
+        /// <summary>
+        /// generate exchange and queue name for outbound transafer
+        /// <para>tuple's item1 is exchange name and item2 is queue name</para>
+        /// </summary> 
+        /// <returns></returns>
+        public static Tuple<string, string> GenerateExchangeAndQueueNameOfOutboundTransferForSign()
+        {
+            var exchangeName = "_OUTBOUND_TRANSFER_EXCHANGE_SIGN";
+            var queueName = "_OUTBOUND_TRANSFER_QUEUE_SIGN";  
+
+            return new Tuple<string, string>(exchangeName, queueName);
+        }
+
 
         /// <summary>
         /// generate virtual coin reveive payment exchange and queue name
@@ -97,7 +111,7 @@ namespace DotPay.Common
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
-         
+
         /// <summary>
         /// generate virtual coin tranfer fail or address invalid exchange and queue name
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
@@ -142,7 +156,22 @@ namespace DotPay.Common
             return payway;
         }
 
-        public static int GetPaywayFlg(PayWay payway)
+        public static PayWay GetPaywayFromFlg(int flg)
+        {
+            switch (flg)
+            {
+                case 10:
+                    return PayWay.Alipay;
+                case 11:
+                    return PayWay.Tenpay;
+                case 12:
+                    return PayWay.Ripple;
+                default:
+                    return default(PayWay);
+            }
+        }
+
+        public static int ConvertPaywayFlg(PayWay payway)
         {
             switch (payway)
             {

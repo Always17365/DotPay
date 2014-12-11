@@ -31,4 +31,19 @@ namespace DotPay.RippleCommand
         public string Destination { get; protected set; }
         public int Result { get; set; }
     }
+
+    public class CompleteThirdPartyPaymentInboundTx : FC.Framework.Command
+    {
+        public CompleteThirdPartyPaymentInboundTx(PayWay payway, string txid, int destinationtag, decimal amount)
+        {
+            this.PayWay = payway;
+            this.TxId = txid;
+            this.DestinationTag = destinationtag;
+            this.Amount = amount;
+        }
+        public PayWay PayWay { get; protected set; }
+        public string TxId { get; protected set; }
+        public int DestinationTag { get; set; }
+        public decimal Amount { get; set; }
+    }
 }

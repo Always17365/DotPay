@@ -16,9 +16,9 @@ namespace RippleCommand
     {
         public void Execute(CreateOutboundTx cmd)
         {
-            var rippleInboundTx = new RippleOutboundTransferTx(cmd.Destination, cmd.DestinationTag, cmd.TargetCurrency, cmd.TargetAmount, cmd.SourceSendMaxAmount, cmd.RipplePaths);
+            var rippleOutboundTx = new RippleOutboundTransferTx(cmd.Destination, cmd.DestinationTag, cmd.TargetCurrency, cmd.TargetAmount, cmd.SourceSendMaxAmount, cmd.RipplePaths);
 
-            IoC.Resolve<IRepository>().Add(rippleInboundTx);
+            IoC.Resolve<IRepository>().Add(rippleOutboundTx);
         }
 
         //public void Execute(CreateThirdPartyPaymentInboundTx cmd)

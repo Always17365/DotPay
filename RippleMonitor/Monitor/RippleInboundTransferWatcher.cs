@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DotPay.Command;
 using FluentData;
 using RabbitMQ.Client.Content;
 using System.Security.AccessControl;
@@ -88,7 +87,7 @@ namespace DotPay.RippleMonitor
 
                 Log.Info("开始分析ledger-{0}".FormatWith(ledgerIndex));
 
-                var result=await  rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex:ledgerIndex);
+                var result = await rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex: ledgerIndex);
 
                 try
                 {
@@ -170,18 +169,35 @@ namespace DotPay.RippleMonitor
                     {
                         Log.Info("发现新的转入交易...." + Environment.NewLine + IoC.Resolve<IJsonSerializer>().Serialize(tx));
 
-                        var cmd = new CreateInboundTx(tx.TransactionDetail.Hash, tx.TransactionDetail.DestinationTag, amount.Value);
-
+                        //解析destinationtag，检查标志位
+                        var destinationtag = tx.TransactionDetail.DestinationTag;
+                        var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
+                        var payway = Utilities.GetPaywayFromFlg(flg);
+                        destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag
                         try
                         {
-                            IoC.Resolve<ICommandBus>().Send(cmd);
+                            if (payway == PayWay.Ripple)
+                            {
+                                var cmd = new CreateInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value);
+                                IoC.Resolve<ICommandBus>().Send(cmd);
+                            }
+
+                            else if (payway == PayWay.Alipay || payway == PayWay.Tenpay)
+                            {
+                                var cmd = new CompleteThirdPartyPaymentInboundTx(payway, tx.TransactionDetail.Hash, tx.TransactionDetail.DestinationTag, amount.Value);
+                                IoC.Resolve<ICommandBus>().Send(cmd);
+                            }
+                            else
+                            {
+                                Log.Warn("发现未知的转入交易标志位" + flg.ToString() + " tx:" + IoC.Resolve<IJsonSerializer>().Serialize(tx));
+                            }
                         }
                         catch (NHibernate.Exceptions.GenericADOException ex)
                         {
                             var mysqlex = ex.InnerException as MySql.Data.MySqlClient.MySqlException;
                             if (mysqlex != null && mysqlex.Number == 1062)
                             {
-                                Log.Info("已接收该交易，重复的到帐消息" + IoC.Resolve<IJsonSerializer>().Serialize(cmd) + "，做丢弃处理");
+                                Log.Info("已接收该交易，重复的到帐消息" + IoC.Resolve<IJsonSerializer>().Serialize(tx) + "，做丢弃处理");
                             }
                         }
                         catch (CommandExecutionException ex)
@@ -192,6 +208,7 @@ namespace DotPay.RippleMonitor
                 }
             });
         }
+
         #endregion
     }
 }

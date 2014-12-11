@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotPay.Common;
 
 namespace DotPay.RippleDomain
 {
@@ -25,8 +26,10 @@ namespace DotPay.RippleDomain
         public virtual int ID { get; protected set; }
         public string TxId { get; protected set; }
         public string Destination { get; protected set; }
-        public int DestinationTag { get; protected set; }
+        public int DestinationTag { get; protected set; } 
+        public TransactionState State { get; protected set; }
         public string TargetCurrency { get; protected set; }
+        public string TxBlob { get; protected set; }
         public decimal TargetAmount { get; protected set; }
         public decimal SourceAmount { get; protected set; }
         public decimal Fee { get; protected set; }
@@ -34,11 +37,11 @@ namespace DotPay.RippleDomain
 
         public void Handle(RippleOutboundTransferTxCreated @event)
         {
-            this.Destination = @event.Destination;
-            this.Destination = @event.Destination;
+            this.Destination = @event.Destination; 
             this.DestinationTag = @event.DestinationTag;
             this.TargetCurrency = @event.TargetCurrency;
             this.TargetAmount = @event.TargetAmount;
+            this.State = TransactionState.Init;
             this.SourceSendMaxAmount = @event.SourceSendMaxAmount;
         }
     }
