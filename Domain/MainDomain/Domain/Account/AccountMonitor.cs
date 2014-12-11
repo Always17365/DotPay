@@ -19,12 +19,15 @@ namespace DotPay.MainDomain
                                   IEventHandler<CNYWithdrawSetFee>,                   //cny提现计入提现费
                                   IEventHandler<InsideTransferTransactionCreated>,
                                   IEventHandler<InsideTransferTransactionComplete>,
+                                  IEventHandler<OutboundTransferTransactionCreated>,
+                                  IEventHandler<OutboundTransferTransactionConfirmed>,
+                                  IEventHandler<OutboundTransferTransactionFailed>,
         //IEventHandler<CNYWithdrawCompleted>,                //cny提现完成
                                   IEventHandler<CNYWithdrawCanceled>
-                                  /*,                 //cny提现撤销
-                                  IEventHandler<VirtualCoinWithdrawCreated>,          //虚拟币提现创建
-                                  IEventHandler<VirtualCoinWithdrawSetFee>,           //虚拟币计入提现费
-                                  IEventHandler<VirtualCoinWithdrawCanceled>          //cny提现撤销 */
+    /*,                 //cny提现撤销
+    IEventHandler<VirtualCoinWithdrawCreated>,          //虚拟币提现创建
+    IEventHandler<VirtualCoinWithdrawSetFee>,           //虚拟币计入提现费
+    IEventHandler<VirtualCoinWithdrawCanceled>          //cny提现撤销 */
     {
         private IRepository repos = IoC.Resolve<IRepository>();
 
@@ -146,8 +149,13 @@ namespace DotPay.MainDomain
                 IoC.Resolve<IRepository>().Add(toAccount);
             }
 
-            fromAccount.BalanceDecrease(transferTransaction.Amount); 
-            toAccount.BalanceIncrease(transferTransaction.Amount); 
+            fromAccount.BalanceDecrease(transferTransaction.Amount);
+            toAccount.BalanceIncrease(transferTransaction.Amount);
+
+
+            //触发用户账户变更版本记录事件
+            this.Apply(new AccountChangedByInsideTransferCompleted(fromAccount.ID, 0, transferTransaction.Amount, @event.InternalTransferID, @event.Currency));
+            this.Apply(new AccountChangedByInsideTransferCompleted(toAccount.ID, transferTransaction.Amount, 0, @event.InternalTransferID, @event.Currency));
         }
 
         public void Handle(InsideTransferTransactionCreated @event)
@@ -159,6 +167,43 @@ namespace DotPay.MainDomain
                 fromAccount = AccountFactory.CreateAccount(@event.FromUserID, @event.Currency);
                 IoC.Resolve<IRepository>().Add(fromAccount);
             }
+
+        }
+
+        public void Handle(OutboundTransferTransactionCreated @event)
+        {
+            var currency = CurrencyType.CNY; //目前只有CNY一种货币用户可以持有，所以暂时指定为CNY
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(@event.FromUserID, currency);
+
+            if (fromAccount == null)
+            {
+                fromAccount = AccountFactory.CreateAccount(@event.FromUserID, currency);
+                IoC.Resolve<IRepository>().Add(fromAccount);
+            }
+        }
+
+        public void Handle(OutboundTransferTransactionConfirmed @event)
+        {
+            var currency = CurrencyType.CNY; //目前只有CNY一种货币用户可以持有，所以暂时指定为CNY
+            var transfer = IoC.Resolve<IRepository>().FindById<OutboundTransferTransaction>(@event.OutboundTransferID);
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transfer.FromUserID, currency); 
+
+            fromAccount.BalanceDecrease(transfer.SourceAmount);
+
+            //触发用户账户变更版本记录事件
+            this.Apply(new AccountChangedByOutboundTransferConfirm(fromAccount.ID, 0, transfer.SourceAmount, transfer.SequenceNo, currency));
+        }
+
+        public void Handle(OutboundTransferTransactionFailed @event)
+        {
+            var currency = CurrencyType.CNY; //目前只有CNY一种货币用户可以持有，所以暂时指定为CNY
+            var transfer = IoC.Resolve<IRepository>().FindById<OutboundTransferTransaction>(@event.OutboundTransferID);
+            var fromAccount = IoC.Resolve<IAccountRepository>().FindByUserIDAndCurrency(transfer.FromUserID, currency);
+
+
+            fromAccount.BalanceIncrease(transfer.SourceAmount);
+            //触发用户账户变更版本记录事件
+            this.Apply(new AccountChangedByOutboundTransferConfirm(fromAccount.ID, transfer.SourceAmount, 0, transfer.SequenceNo, currency));
         }
     }
 }

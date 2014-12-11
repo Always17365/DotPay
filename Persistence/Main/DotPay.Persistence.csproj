@@ -114,6 +114,7 @@
     <Compile Include="RepositoryRegister.cs" />
     <Compile Include="Repository\DepositRepository.cs" />
     <Compile Include="Repository\InboundTransferToThirdPartyPaymentTxRepository.cs" />
+    <Compile Include="Repository\OutboundTransferTransactionRepository.cs" />
     <Compile Include="Repository\InsideTransferTransactionRepository.cs" />
     <Compile Include="Repository\PreRegistrationRepository.cs" />
     <Compile Include="Repository\WithdrawReceiverAccountRepository.cs" />

@@ -22,10 +22,7 @@
     </div>
 </nav>
 <div class="row dotpay-i-assets-panel">
-    <div class="container">
-        <div class="acct_status">
-            <label>账户状态:</label>未认证<i> <a href="#">获得账户认证</a></i>
-        </div>
+    <div class="container"> 
         <table class="table acct_assets">
             <tr>
                 <td>
@@ -46,13 +43,15 @@
                         </div>
                     </div>
                 </td>
-                <td class="assets-chart">占位文字，将来放置一个图表</td>
+                <td class="assets-chart">
+                    <label>账户状态:</label>未认证<i> <a href="#">获得账户认证</a></i>
+                </td>
             </tr>
         </table>
     </div>
 
-    <div class="container panel panel-default  tx-records">
-        <div class="panel-heading tx-heading">
+    <div class="container panel panel-info  tx-records">
+        <div class="panel-heading">
             <h3 class="panel-title">交易记录</h3>
         </div>
         <div class="panel-body">
@@ -64,29 +63,22 @@
                         <th style="width:180px;">名称|备注</th>
                         <th style="width:180px;">收入</th>
                         <th style="width:180px;">支出</th>
-                        <th style="width:180px;">账户余额</th>
                         <th style="width:180px;">支付方式</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+
+                    @foreach (DotPay.ViewModel.TransactionRecord tx in (IEnumerable<DotPay.ViewModel.TransactionRecord>)ViewBag.TxRecords)
+                    {
+                        <tr>
+                            <td>@tx.SequenceNo</td>
+                            <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd") : tx.CreateAt.ToLocalDateTime().ToString("yyyy"))</td>
+                            <td>@(tx.Category + (string.IsNullOrEmpty(tx.Description) ? "" : "-" + tx.Description))</td>
+                            <td>@tx.Income.ToString("0.##")</td>
+                            <td>@tx.Output.ToString("0.##")</td>
+                            <td>>@tx.Payway</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

@@ -201,11 +201,11 @@ namespace DotPay.MainDomain
         #endregion
 
         #region set new trade password after reset
-        public virtual void SetNewTradePasswordWithTwoFactor(string newPassword, string ga_otp, string sms_otp)
+        public virtual void SetNewTradePasswordWithTwoFactor(string newPassword, string sms_otp)
         {
-            if (((this.TwoFactorFlg & 9) != 9) || this.VerifyGAPassword(ga_otp))
-                if (this.SmsAuthentication == null || ((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
-                    this.RaiseEvent(new UserTradePasswordChanged(this.ID, newPassword));
+            //if (((this.TwoFactorFlg & 9) != 9) || this.VerifyGAPassword(ga_otp))
+            if (this.SmsAuthentication == null || ((this.TwoFactorFlg & 16) != 16) || this.VerifySMSPassword(sms_otp))
+                this.RaiseEvent(new UserTradePasswordChanged(this.ID, newPassword));
         }
         public virtual void SetNewTradePasswordWithEmailToken(string newPassword, string email_token)
         {

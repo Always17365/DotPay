@@ -1,0 +1,250 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@using FC.Framework;
+@using DotPay.ViewModel
+@using DotPay.Common
+@using DotPay.Language
+<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/my/index/">
+                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/my/index/"> 我的资金</a></li>
+                <li><a href="/my/txrecords">交易记录</a></li>
+                <li><a href="/my/settings">账户设置</a></li>
+                <li class="active"><a href="/apps">应用中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container dotpay-apps">
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading app-group">
+                <strong>转账</strong>
+            </div>
+            <div class="list-group">
+                <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> 转账到点付</a>
+                <a href="/transferout/ripple/payment" class="list-group-item app-link exchange">转账到Ripple</a>
+                <a href="/transfertpp/alipay/payment" class="list-group-item app-link alipay">转账到支付宝</a>
+                <a href="/transfertpp/tenpay/payment" class="list-group-item app-link tenpay">转账到财付通</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-info transfe-out">
+            <div class="panel-heading dotpay-transfer-title">
+                <h4>转账到Ripple</h4>
+            </div>
+            <div class="panel-body">
+                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transferout/submit">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="account" class="col-sm-3 control-label">收款账户：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" autocomplete="off" id="account" name="account" placeholder="收款人账户">
+                            <input type="hidden" id="accountVlidate" value="false">
+                        </div>
+                    </div>
+                    <div id="targetamountpanel" class="form-group hide">
+                        <label for="targetamount" class="col-sm-3 control-label">发送金额：</label>
+                        <div class="col-sm-5" id="transfer-amount">
+                            <input type="text" class="form-control" id="targetamount" name="targetamount">
+                            <input type="hidden" id="amountVlidate" value="false">
+                        </div>
+                        <div class="col-sm-3" id="transfer-currency">
+                            <select class="form-control" id="currencies" name="currency"></select>
+                        </div>
+                    </div>
+                    <div id="calc-tip" class="form-group hide">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            正在计算汇率，请稍后...
+                        </div>
+                    </div>
+
+                    <div id="sourceamountpanel" class="form-group hide">
+                        <label for="sourceamount" class="col-sm-3 control-label">支付金额：</label>
+                        <div class="col-sm-5" id="transfer-amount">
+                            <input type="text" readonly="readonly" class="form-control" id="sourceamount" name="sourceamount">
+                        </div>
+                    </div>
+                    <div id="source-amount-tip" class="form-group hide">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <span id="timecounter"></span>秒后重新计算汇率
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="paypassword" class="col-sm-3 control-label">支付密码：</label>
+                        <div class="col-sm-8" id="transfer-amount">
+                            <input type="password" class="form-control" id="paypassword" name="paypassword">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">付款说明：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="转账">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-4">
+                            <button type="submit" id="btn_submit" class="btn btn-primary">下一步</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var interval;
+            var valid = false;
+            $("#account").focus(function () {
+                $("#accountVlidate").val(false);
+                stopTimeCounter();
+            });
+            $("#targetamount").focus(function () {
+                $("#amountVlidate").val(false);
+                stopTimeCounter();
+            });
+            $('#transferFrom').bootstrapValidator({
+                message: '请输入合法的值',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                trigger: 'blur',
+                fields: {
+                    account: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入收款人!'
+                            },
+                            emailAddress: {
+                                message: '请输入正确的email地址'
+                            },
+                            remote: {
+                                url: "/transferout/verifyaccount",
+                                data: function () { return { "domain": $("#recevice-org").val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() } },
+                                type: "post",
+                                onSuccess: function (e, data) {
+                                    var cys = data.result.currencies;
+                                    var optionHtml = "";
+                                    for (var i = 0; i < cys.length; i++) {
+                                        optionHtml += "<option selected='true' value='" + cys[i].Symbol + "'>" + cys[i].Symbol + "</option>";
+                                    }
+                                    $("#currencies").append(optionHtml).addClass("currency-list");
+                                    $("#targetamountpanel").removeClass("hide");
+                                    $("#accountVlidate").val(true);
+                                }
+                            }
+                        }
+                    },
+                    paypassword: {
+                        validators: {
+                            notEmpty: { message: '请输入支付密码' }
+                        }
+                    },
+                    targetamount: {
+                        validators: {
+                            notEmpty: {
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            regexp: {
+                                regexp: /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/,
+                                message: '付款金额必须为整数或小数，小数点后不超过2位。'
+                            },
+                            callback: {
+                                callback: function (value, validator) {
+                                    if (parseFloat(value) < 0.01) {
+                                        return {
+                                            valid: false,
+                                            message: '金额不能小于0.01'
+                                        }
+                                    }
+
+                                    $("#amountVlidate").val(true);
+                                    $("#calc-tip").removeClass("hide");
+                                    $("#calc-tip div").text("正在计算汇率，请稍后...");
+                                    if (interval)
+                                        window.clearInterval(interval);
+                                    calcCyCallback(validator);
+                                    interval = window.setInterval(function () { calcCyCallback(validator); }, 5000);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            .on('error.validator.bv', function (e, data) {
+                data.element
+                    .data('bv.messages')
+                    .find('.help-block[data-bv-for="' + data.field + '"]').hide()
+                    .filter('[data-bv-validator="' + data.validator + '"]').show();
+            });
+        });
+        $("#inputEmail").on("click", function () {
+            $(this).removeAttr("readonly");
+            var val = $("#realEmail").val();
+            if (val)
+                $(this).val(val);
+        });
+
+        $("#btn_submit").click(function (e) {
+            if ($("#sourceamount").val() == '') {
+                e.preventDefault();
+            }
+        });
+
+        function calcCyCallback() {
+            if ($("#accountVlidate").val() == 'true' && $("#amountVlidate").val() == 'true') {
+                calcCy($("#account").val(), $("#currencies").val(), $("#targetamount").val(), function (data) {
+                    if (data.valid == true) {
+                        $("#sourceamount").val(data.amount);
+                        $("#sourceamountpanel").removeClass("hide");
+                        $("#calc-tip").addClass("hide");
+                        startTimeCounter();
+                    }
+                    else {
+                        $("#calc-tip div").text(data.message);
+                    }
+                });
+            }
+        }
+
+        function calcCy(account, currency, amount, callback) {
+
+            $.post("/transferout/calc",
+                { "account": account, "currency": currency, "amount": amount },
+                function (data) {
+                    callback(data);
+                });
+        }
+
+        var timeInnerInterval;
+        var timeCounter;
+        function startTimeCounter() {
+            stopTimeCounter();
+            timeCounter = 5;
+            timeInnerInterval = window.setInterval(function () {
+                $("#source-amount-tip").removeClass("hide");
+                if (timeCounter > 0)
+                    $("#timecounter").text(timeCounter--);
+                else
+                    stopTimeCounter();
+            }, 1000)
+        }
+
+        function stopTimeCounter() {
+            $("#source-amount-tip").addClass("hide");
+            if (timeInnerInterval)
+                window.clearInterval(timeInnerInterval);
+        }
+    </script>
+</div>

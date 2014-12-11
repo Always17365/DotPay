@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FC.Framework;
+using DotPay.RippleCommand;
+using FC.Framework.Repository;
+using DotPay.RippleDomain;
+
+namespace RippleCommand
+{
+    public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateOutboundTx>
+               //,
+               //                                     ICommandExecutor<CreateThirdPartyPaymentInboundTx>
+    {
+        public void Execute(CreateOutboundTx cmd)
+        {
+            var rippleInboundTx = new RippleOutboundTransferTx(cmd.Destination, cmd.DestinationTag, cmd.TargetCurrency, cmd.TargetAmount, cmd.SourceSendMaxAmount, cmd.RipplePaths);
+
+            IoC.Resolve<IRepository>().Add(rippleInboundTx);
+        }
+
+        //public void Execute(CreateThirdPartyPaymentInboundTx cmd)
+        //{
+        //    var rippleInboundTx = new RippleInboundToThirdPartyPaymentTx(cmd.PayWay, cmd.Destination);
+
+        //    IoC.Resolve<IRepository>().Add(rippleInboundTx);
+
+        //    cmd.Result = rippleInboundTx.ID;
+        //}
+    }
+}

@@ -150,6 +150,8 @@ namespace DotPay.Common
                     return 10;
                 case PayWay.Tenpay:
                     return 11;
+                case PayWay.Ripple:
+                    return 12;
                 default:
                     return 0;
             }

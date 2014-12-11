@@ -17,7 +17,7 @@
                 <li><a href="/my/index/"> 我的资金</a></li>
                 <li><a href="/my/txrecords">交易记录</a></li>
                 <li><a href="/my/profile">账户设置</a></li>
-                <li class="active"><a href="/transfer/cny/payment">应用中心</a></li>
+                <li class="active"><a href="/apps">应用中心</a></li>
             </ul>
         </div>
     </div>
@@ -31,6 +31,8 @@
             <div class="list-group">
                 <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> 转账到点付</a>
                 <a href="/transferout/ripple/payment" class="list-group-item app-link exchange">转账到Ripple</a>
+                <a href="/transfertpp/alipay/payment" class="list-group-item app-link alipay">转账到支付宝</a>
+                <a href="/transfertpp/tenpay/payment" class="list-group-item app-link tenpay">转账到财付通</a>
             </div>
         </div>
     </div>
@@ -43,20 +45,20 @@
                 <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfer/cny/payment">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        <label for="inputAccount" class="col-sm-2 control-label">收款人：</label>
+                        <label for="inputAccount" class="col-sm-3 col-md-3 col-lg-2 control-label">收款人：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" autocomplete="off" id="inputAccount" name="frontAccount" placeholder="收款人账号/邮箱地址">
                             <input type="hidden" id="realAccount" name="account">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="amount" class="col-sm-2 control-label">付款金额：</label>
+                        <label for="amount" class="col-sm-3 col-md-3 col-lg-2  control-label">付款金额：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="amount" name="amount">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">付款说明：</label>
+                        <label for="description" class="col-sm-3 col-md-3 col-lg-2 control-label">付款说明：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="description" name="description" placeholder="转账">
                         </div>

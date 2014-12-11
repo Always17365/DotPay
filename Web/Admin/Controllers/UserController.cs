@@ -81,13 +81,13 @@ namespace DotPay.Web.Admin.Controllers
             return Json(count);
         }
 
-        [HttpPost]
-        public ActionResult GetUsersCurrencyBySearch(int? userID, string email, string order, CurrencyType currencyType, int page)
-        {
-            var result = IoC.Resolve<IUserQuery>().GetUsersCurrencyBySearch(userID, email, order, currencyType, page, Constants.DEFAULT_PAGE_COUNT);
+        //[HttpPost]
+        //public ActionResult GetUsersCurrencyBySearch(int? userID, string email, string order, CurrencyType currencyType, int page)
+        //{
+        //    var result = IoC.Resolve<IUserQuery>().GetUsersCurrencyBySearch(userID, email, order, currencyType, page, Constants.DEFAULT_PAGE_COUNT);
 
-            return Json(result);
-        }
+        //    return Json(result);
+        //}
         /*******************************************************************************************************************************************/
         [HttpPost]
         public ActionResult GetUseLogCountBySearch(int userlogID, DateTime? starttime, DateTime? endtime)

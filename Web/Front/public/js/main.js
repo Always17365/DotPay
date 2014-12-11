@@ -1,5 +1,4 @@
-
-var smsUseFor = { SwitchLoginTwofactor: 1, BindMobile: 2, Withdraw: 3, ModifyLoginPassword: 4, ModifyTradePwd: 5, ResetTradePwd: 6, Login2FA: 7, ResetLoginPwd: 8 }
+ï»¿var smsUseFor = { SwitchLoginTwofactor: 1, BindMobile: 2, Withdraw: 3, ModifyLoginPassword: 4, ModifyTradePwd: 5, ResetTradePwd: 6, Login2FA: 7, ResetLoginPwd: 8 }
 function sendsms(src, useFor) {
     var btn_text = $(src).text();
     var btn = $(src);
@@ -12,7 +11,7 @@ function sendsms(src, useFor) {
                 var interval = 120;
                 var intervalSms = window.setInterval(function () {
                     if (interval-- > 0) {
-                        btn.attr("disabled", true).text(btn_text + "(sent yet " + interval + ")").addClass("disabled");
+                        btn.attr("disabled", true).text(btn_text + "(å·²å‘é€" + interval + ")").addClass("disabled");
                     }
                     else {
                         btn.attr("disabled", false).text(btn_text).removeClass("disabled");
@@ -120,20 +119,20 @@ function accAdd(arg1, arg2) {
 
 Number.prototype.add = function (arg) {
     ///	<summary>
-    ///	    ¼Ó·¨
+    ///	    åŠ æ³•
     ///	</summary>
     return accAdd(arg, this);
 
 }
 Date.prototype.Format = function (fmt) { //author: meizz 
     var o = {
-        "M+": this.getMonth() + 1, //ÔÂ·İ 
-        "d+": this.getDate(), //ÈÕ 
-        "h+": this.getHours(), //Ğ¡Ê± 
-        "m+": this.getMinutes(), //·Ö 
-        "s+": this.getSeconds(), //Ãë 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //¼¾¶È 
-        "S": this.getMilliseconds() //ºÁÃë 
+        "M+": this.getMonth() + 1, //æœˆä»½ 
+        "d+": this.getDate(), //æ—¥ 
+        "h+": this.getHours(), //å°æ—¶ 
+        "m+": this.getMinutes(), //åˆ† 
+        "s+": this.getSeconds(), //ç§’ 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //å­£åº¦ 
+        "S": this.getMilliseconds() //æ¯«ç§’ 
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)

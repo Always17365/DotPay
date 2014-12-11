@@ -27,38 +27,52 @@
         <div class="panel panel-default">
             <div class="panel-heading app-group">
                 <strong>转账</strong>
+
             </div>
             <div class="list-group">
                 <a href="/transfer/cny/payment" class="list-group-item app-link cny-transfer"> 转账到点付</a>
                 <a href="/transferout/ripple/payment" class="list-group-item app-link exchange">转账到Ripple</a>
+                <a href="/transfertpp/alipay/payment" class="list-group-item app-link alipay">转账到支付宝</a>
+                <a href="/transfertpp/tenpay/payment" class="list-group-item app-link tenpay">转账到财付通</a>
             </div>
         </div>
     </div>
     <div class="col-sm-8">
         <div class="panel panel-info transfe-out">
             <div class="panel-heading dotpay-transfer-title">
-                <h4>转账到点付</h4>
+                @if (ViewBag.PayWay == PayWay.Alipay)
+                {
+                    <h4>转账到支付宝</h4>
+                }
+                else if (ViewBag.PayWay == PayWay.Tenpay)
+                {
+                    <h4>转账到财付通</h4>
+                }
             </div>
             <div class="panel-body">
-                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="transfer/cny/payment">
+                <form id="transferFrom" class="form-horizontal" role="form" method="post" action="/transfertpp/@ViewBag.PayWay/payment">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        <label for="account" class="col-sm-2 control-label">收款账户：</label>
+                        <label for="account" class="col-sm-3 col-md-3 col-lg-2  control-label">收款账户：</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" autocomplete="off" id="account" name="account" placeholder="收款人账户">
+                            @if (ViewBag.PayWay == PayWay.Alipay)
+                            {
+                                 <input type="text" class="form-control" autocomplete="off" id="account" name="account" placeholder="收款人账户 ( 邮箱/手机号 )">
+                            }
+                            else if (ViewBag.PayWay == PayWay.Tenpay)
+                            {
+                                <input type="text" class="form-control" autocomplete="off" id="account" name="account" placeholder="收款人账户 ( QQ/邮箱/手机号 )">
+                            } 
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="amount" class="col-sm-2 control-label">发送金额：</label>
+                        <label for="amount" class="col-sm-3 col-md-3 col-lg-2   control-label">发送金额：</label>
                         <div class="col-sm-8" id="transfer-amount">
                             <input type="text" class="form-control" id="amount" name="amount">
                         </div>
-                        <div class="col-sm-3 hide" id="transfer-currency">
-                            <select class="form-control" id="currencies" name="currency"></select>
-                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">付款说明：</label>
+                        <label for="description" class="col-sm-3 col-md-3 col-lg-2 control-label">付款说明：</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="description" name="description" placeholder="转账">
                         </div>
@@ -88,23 +102,27 @@
                             notEmpty: {
                                 message: '请输入收款人!'
                             },
-                            emailAddress: {
-                                message: '请输入正确的email地址'
-                            },
-                            remote: {
-                                url: "/transferout/verifyaccount",
-                                data: function () { return { "domain": $("#recevice-org").val(), "__RequestVerificationToken": $("input[name='__RequestVerificationToken']").val() } },
-                                type: "post",
-                                onSuccess: function (e, data) {
-                                    var cys = data.result.currencies;
-                                    var optionHtml = "";
-                                    for (var i = 0; i < cys.length; i++) {
-                                        optionHtml += "<option selected='true' value='" + cys[i].Symbol + "'>" + cys[i].Symbol + "</option>";
+                            callback: {
+                                callback: function (value, validator) {
+                                    var payway = '@ViewBag.PayWay.ToString("D")';
+                                    var ali = '@PayWay.Alipay.ToString("D")'
+                                    var tenpay = '@PayWay.Tenpay.ToString("D")'
+                                    var regqq = /^\d{5,10}$/
+                                    var regmobile = /^1[3|5|7|8|][0-9]{9}$/;
+                                    var regmail = /^(\w)+(\.\w+)*@@(\w)+((\.\w{2,3}){1,3})$/;
+                                    if (payway == ali && !regmobile.test(value) && !regmail.test(value)) {
+                                        return {
+                                            valid: false,
+                                            message: '支付宝账户应为手机号或邮箱地址'
+                                        }
                                     }
-                                    $("#transfer-amount").attr("class", "col-sm-5");
-
-                                    $("#currencies").append(optionHtml).addClass("currency-list");
-                                    $("#transfer-currency").removeClass("hide");
+                                    else if (payway == tenpay && !regqq.test(value) && !regmobile.test(value) && !regmail.test(value)) {
+                                        return {
+                                            valid: false,
+                                            message: '财付通账户应为手机号或邮箱地址或QQ号'
+                                        }
+                                    }
+                                    return true;
                                 }
                             }
                         }

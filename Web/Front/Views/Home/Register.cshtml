@@ -111,9 +111,7 @@
                 },
                 password: {
                     validators: {
-                        notEmpty: {
-                            message: '请输入密码'
-                        },
+                        notEmpty: { message: '请输入密码' },
                         callback: {
                             callback: function (value, validator) {
                                 // Check the password strength
@@ -130,13 +128,8 @@
                 },
                 confirmPassword: {
                     validators: {
-                        notEmpty: {
-                            message: '请再次输入密码'
-                        },
-                        identical: {
-                            field: 'password',
-                            message: '两次输入密码不一致'
-                        },
+                        notEmpty: { message: '请再次输入密码' },
+                        identical: { field: 'password', message: '两次输入密码不一致' },
                         callback: {
                             callback: function (value, validator) {
                                 // Check the password strength

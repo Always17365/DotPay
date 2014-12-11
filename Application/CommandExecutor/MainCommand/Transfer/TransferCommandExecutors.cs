@@ -15,10 +15,11 @@ namespace DotPay.Command.Executor
 {
     public class TransferCommandExecutors : ICommandExecutor<CreateInsideTransfer>,
                                             ICommandExecutor<SubmitInsideTransfer>,
-                                            ICommandExecutor<OutboundTransfer>,
+                                            ICommandExecutor<CreateOutboundTransfer>,
                                             ICommandExecutor<CreateThirdPartyPaymentTransfer>,
                                             ICommandExecutor<ThirdPartyPaymentTransferComplete>,
-                                            ICommandExecutor<ThirdPartyPaymentTransferFail>
+                                            ICommandExecutor<ThirdPartyPaymentTransferFail>,
+                                            ICommandExecutor<ConfirmOutboundTransfer>
     {
         public void Execute(CreateInsideTransfer cmd)
         {
@@ -30,11 +31,14 @@ namespace DotPay.Command.Executor
 
         }
 
-        public void Execute(OutboundTransfer cmd)
+        public void Execute(CreateOutboundTransfer cmd)
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
-            throw new NotImplementedException();
+            var outboundTransfer = new OutboundTransferTransaction(cmd.ByUserID, cmd.Destination, cmd.SourceAmount, cmd.TargetCurrency, cmd.TargetAmount, cmd.PayWay, cmd.Description);
+            IoC.Resolve<IRepository>().Add(outboundTransfer);
+
+            cmd.Result = outboundTransfer.SequenceNo;
         }
 
         public void Execute(SubmitInsideTransfer cmd)
@@ -81,6 +85,14 @@ namespace DotPay.Command.Executor
             var ttpTx = IoC.Resolve<IInboundTransferToThirdPartyPaymentTxRepository>().FindTransferTxByIDAndPayway(cmd.TransferId, cmd.PayWay);
 
             ttpTx.Fail(cmd.Reason, cmd.ByUserID);
+        }
+
+        public void Execute(ConfirmOutboundTransfer cmd)
+        {
+            var ttpTx = IoC.Resolve<IOutboundTransferTxRepository>().FindTransferTxBySeq(cmd.SequenceNo);
+            var user = IoC.Resolve<IRepository>().FindById<User>(cmd.ByUserID);
+            if (user.VerifyTradePassword(PasswordHelper.EncryptMD5(cmd.PayPassword)))
+                ttpTx.Confirm(cmd.ByUserID);
         }
     }
 }

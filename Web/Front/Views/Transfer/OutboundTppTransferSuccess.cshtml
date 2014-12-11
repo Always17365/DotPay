@@ -23,12 +23,13 @@
     </div>
 </nav>
 <div class="container dotpay-apps">
-    <div class="col-sm-8 col-sm-offset-2">
+    <div class="col-sm-10 col-sm-offset-1">
         @if (@ViewBag.Transfer != null)
         {
             <div class="col-sm-11 col-sm-offset-1 ptl-5 transfe-success">
                 <div class="result-message">
-                    <p id="result-msg">提交成功，对方将立即收到￥ @ViewBag.Transfer.Amount </p>
+                    <p id="result-msg">转账提交成功，对方将很快收到￥ @ViewBag.Transfer.SourceAmount </p>
+                    <p class="remark">工作时间(9:00-16:00)1小时内到账,非工作时间顺延至次日</p>
                     <p class="remark">点击查看 <a href="/my/txrecords"><strong>我的交易记录</strong></a>，查看您的交易明细</p>
                 </div>
             </div>
@@ -37,5 +38,5 @@
         {
             <div class="fail box" id="failBox"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox">系统出错</span></div>
         }
-    </div> 
+    </div>
 </div>

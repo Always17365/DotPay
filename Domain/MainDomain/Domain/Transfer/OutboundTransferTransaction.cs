@@ -20,10 +20,10 @@ namespace DotPay.MainDomain
         #region ctor
         protected OutboundTransferTransaction() { }
 
-        public OutboundTransferTransaction(int fromUserID,string destination, decimal sourceAmount,
-                                           CurrencyType targetCurrency, decimal targetAmount, PayWay payway)
+        public OutboundTransferTransaction(int fromUserID, string destination, decimal sourceAmount,
+                                           CurrencyType targetCurrency, decimal targetAmount, PayWay payway,string description)
         {
-            this.RaiseEvent(new OutboundTransferTransactionCreated(fromUserID,destination,sourceAmount, targetCurrency, targetAmount, payway));
+            this.RaiseEvent(new OutboundTransferTransactionCreated(fromUserID, destination, sourceAmount, targetCurrency, targetAmount, payway,description, this));
         }
         #endregion
 
@@ -40,6 +40,7 @@ namespace DotPay.MainDomain
         public virtual string TransferNo { get; protected set; }
         public virtual int CreateAt { get; protected set; }
         public virtual int DoneAt { get; protected set; }
+        public virtual string Description { get; protected set; }
         public virtual string Memo { get; protected set; }
         #endregion
 
@@ -51,6 +52,16 @@ namespace DotPay.MainDomain
                 throw new TransferTransactionNotPendingException();
             else
                 this.RaiseEvent(new OutboundTransferTransactionComplete(this.ID));
+        }
+
+        public virtual void Confirm(int byUserID)
+        {
+            if (this.FromUserID != byUserID)
+                throw new TradePasswordErrorException();
+            if (this.State != TransactionState.Init)
+                throw new TransferTransactionHasConfirmedException();
+            else
+                this.RaiseEvent(new OutboundTransferTransactionConfirmed(this.ID));
         }
 
         public virtual void Fail(string reason)
@@ -70,11 +81,13 @@ namespace DotPay.MainDomain
             this.Destination = @event.Destination;
             this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty);
             this.SourceAmount = @event.SourceAmount;
+            this.TransferNo = string.Empty;
             this.TargetCurrency = @event.TargetCurrency;
             this.TargetAmount = @event.TargetAmount;
             this.PayWay = @event.PayWay;
-            this.State = TransactionState.Pending;
+            this.State = TransactionState.Init;
             this.Memo = string.Empty;
+            this.Description = @event.Description;
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
         }
 

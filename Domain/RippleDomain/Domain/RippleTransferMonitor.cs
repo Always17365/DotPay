@@ -35,7 +35,6 @@ namespace DotPay.RippleDomain
             try
             {
                 var obj = new Object();
-                //在缓存中查找是否已发过该消息的证据，如果不存在，就发送消息出去 
                 MessageSender.Send(exchangeName, msgBytes, true);
             }
             catch (Exception ex)

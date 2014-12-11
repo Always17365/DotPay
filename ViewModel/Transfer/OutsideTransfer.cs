@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 namespace DotPay.ViewModel
 {
     [Serializable]
-    public class OutsideTransferModel
+    public class OutboundTransferModel
     {
         public int ID { get; set; }
         public int FromUserID { get; set; }
         public string Destination { get; set; }
-        public string Domain { get; set; }
+        public string Description { get; set; }
         public string SequenceNo { get; set; } 
-        public string Payway { get; set; }
-        public virtual CurrencyType SourceCurrency { get; protected set; }
+        public string CNPayway { get; set; }
         public virtual decimal SourceAmount { get; protected set; }
         public virtual CurrencyType TargetCurrency { get; protected set; }
         public virtual decimal TargetAmount { get; protected set; }

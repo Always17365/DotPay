@@ -10,8 +10,8 @@ namespace DotPay.QueryService
 {
     public interface IOutsideTransferQuery
     {
-        OutsideTransferModel GetOutsideTransferById(int outsideTransferId);
-        OutsideTransferModel GetOutsideTransferBySequenceNo(string seqNo, TransactionState state);
+        OutboundTransferModel GetOutsideTransferById(int outsideTransferId);
+        OutboundTransferModel GetOutsideTransferBySequenceNo(string seqNo, TransactionState state);
 
     }
 }

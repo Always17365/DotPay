@@ -46,7 +46,7 @@ namespace DotPay.Web.Controllers
 
         #region Reset trade password by two-factor
         [HttpGet]
-        [Route("~/resetTradePasswordBy2FA/{hash}")]
+        [Route("~/resetPayPwdByMobile/{hash}")]
         [AllowAnonymous]
         public ActionResult ResetTradePasswordBy2FA(string hash)
         {
@@ -144,15 +144,14 @@ namespace DotPay.Web.Controllers
         #endregion
 
         #region Forget trade password
-        [Route("~/forgetTradePassword")]
+        [Route("~/forgetPayPassword")]
         [AllowAnonymous]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] 
         public ActionResult ForgetTradePassword()
         {
             var result = FCJsonResult.UnknowFail;
 
-            if (this.CurrentUser.IsBindGA || !string.IsNullOrEmpty(this.CurrentUser.Mobile))
+            if (/*this.CurrentUser.IsBindGA ||*/ !string.IsNullOrEmpty(this.CurrentUser.Mobile))
             {
                 var hash = Guid.NewGuid().Shrink();
                 Session["resetTradePwdHash"] = hash;
@@ -294,15 +293,15 @@ namespace DotPay.Web.Controllers
         #region Reset trade password by two-factor
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("~/resetTradePwdBy2TF")]
-        public ActionResult ResetTradePasswordByTwoFactor(string password, string confirmpassword, string ga_Otp, string sms_Otp)
+        [Route("~/resetPayPwdByMobile")]
+        public ActionResult ResetTradePasswordByTwoFactor(string paypassword, string confirmpassword, string sms_Otp)
         {
             var result = FCJsonResult.UnknowFail;
-            if (password == confirmpassword)
+            if (paypassword == confirmpassword)
             {
                 try
                 {
-                    var cmd = new UserResetTradePasswordByTwoFactor(this.CurrentUser.UserID, password, ga_Otp, sms_Otp);
+                    var cmd = new UserResetTradePasswordByTwoFactor(this.CurrentUser.UserID, paypassword, sms_Otp);
                     this.CommandBus.Send(cmd);
 
                     Session.Remove("resetTradePwdHash");

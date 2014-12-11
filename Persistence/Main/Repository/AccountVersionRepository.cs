@@ -46,7 +46,7 @@ namespace DotPay.Persistence.Repository
         {
             AccountVersion accountVersion = null;
 
-            var modifyType = Convert.ToInt32(AccountModifyType.Withdraw.ToString("D") + currency.ToString("D"));
+            var modifyType = Convert.ToInt32(AccountModifyType.WithdrawCreated.ToString("D") + currency.ToString("D"));
             switch (currency)
             {
                 case CurrencyType.CNY:
