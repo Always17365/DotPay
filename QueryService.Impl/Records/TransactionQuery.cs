@@ -54,6 +54,11 @@ namespace DotPay.QueryService.Impl
                                   SELECT    SequenceNo,DoneAt,'Withdraw' as Category,if(FromUserID=@UserID,'0',Amount) as Income,if(ToUserID=@UserID,'0',Amount) as Output,Payway,CreateAt  
                                     FROM    " + Config.Table_Prefix + @"cnyInsideTransferTransaction
                                    WHERE    ToUserID = @userID OR FromUserID = @userID
+                                     AND    CreateAt = @createAt
+                                UNION ALL
+                                  SELECT    SequenceNo,DoneAt,'Withdraw' as Category,0 as Income,SourceAmount as Output,Payway,CreateAt  
+                                    FROM    " + Config.Table_Prefix + @"OutboundTransferTransaction
+                                   WHERE    FromUserID = @userID
                                      AND    CreateAt = @createAt";
 
 
