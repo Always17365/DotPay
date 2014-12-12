@@ -67,12 +67,12 @@ namespace DotPay.Web.Admin.Controllers
 
             return Json(result);
         }
-        public ActionResult SeeUserDepositAmoun(int? userID)
-        {
-            var result = IoC.Resolve<IUserQuery>().SeeUserDepositAmoun(userID.HasValue ? userID.Value : this.CurrentUser.UserID);
+        //public ActionResult SeeUserDepositAmoun(int? userID)
+        //{
+        //    var result = IoC.Resolve<IUserQuery>().SeeUserDepositAmoun(userID.HasValue ? userID.Value : this.CurrentUser.UserID);
 
-            return Json(result);
-        }     /*******************************************************************************************************************************************/
+        //    return Json(result);
+        //}     /*******************************************************************************************************************************************/
         [HttpPost]
         public ActionResult GetUsersCurrencyCountBySearch(int? userID, string email, CurrencyType currencyType)
         {

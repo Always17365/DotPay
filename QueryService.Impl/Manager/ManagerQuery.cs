@@ -86,7 +86,7 @@ namespace DotPay.QueryService.Impl
                                      AND    Type!=@1";
 
         private readonly string managers_Sql =
-                                @"SELECT   t1.ID,t1.UserID,t1.Type,t2.NickName,t2.Email,t2.VipLevel,t2.Mobile,t1.CreateAt
+                                @"SELECT   t1.ID,t1.UserID,t1.Type,t2.Email,t2.VipLevel,t2.Mobile,t1.CreateAt
                                     FROM   " + Config.Table_Prefix + @"Manager t1 
                                             INNER JOIN " + Config.Table_Prefix + @"User t2 ON t1.UserID=t2.ID 
                                    WHERE    (@0='' OR t2.Email LIKE concat(@0,'%'))
@@ -101,7 +101,7 @@ namespace DotPay.QueryService.Impl
                                      AND    Type=@1";
 
         private readonly string customerServices_Sql =
-                                @"SELECT   t1.ID,t1.UserID,t1.Type,t2.NickName,t2.Email,t2.VipLevel,t2.Mobile,t1.CreateAt
+                                @"SELECT   t1.ID,t1.UserID,t1.Type,t2.Email,t2.VipLevel,t2.Mobile,t1.CreateAt
                                     FROM   " + Config.Table_Prefix + @"Manager t1 
                                             INNER JOIN " + Config.Table_Prefix + @"User t2 ON t1.UserID=t2.ID 
                                    WHERE    (@0='' OR t2.Email LIKE concat(@0,'%'))

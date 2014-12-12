@@ -299,7 +299,7 @@ namespace DotPay.QueryService.Impl
                                      AND   (t2.IsLocked = @2)";
 
         private readonly string users_Sql =
-                                @"SELECT   t1.ID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,t1.RippleAddress,
+                                @"SELECT   t1.ID,LoginName,t1.Email,VipLevel,Mobile,t2.IsLocked,t1.CreateAt,
                                            t1.ScoreBalance,t1.VipLevel,t2.LastPasswordVerifyAt
                                     FROM   " + Config.Table_Prefix + @"User t1 
                                             INNER JOIN " + Config.Table_Prefix + @"Membership t2 ON t1.ID=t2.UserID 
