@@ -51,7 +51,18 @@ namespace DotPay.Common
             return new Tuple<string, string>(exchangeName, queueName);
         }
 
+        /// <summary>
+        /// generate exchange and queue name for outbound transafer
+        /// <para>tuple's item1 is exchange name and item2 is queue name</para>
+        /// </summary> 
+        /// <returns></returns>
+        public static Tuple<string, string> GenerateExchangeAndQueueNameOfOutboundTransferForSubmit()
+        {
+            var exchangeName = "_OUTBOUND_TRANSFER_EXCHANGE_SUBMIT";
+            var queueName = "_OUTBOUND_TRANSFER_QUEUE_SUBMIT";
 
+            return new Tuple<string, string>(exchangeName, queueName);
+        }
         /// <summary>
         /// generate virtual coin reveive payment exchange and queue name
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>

@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotPay.Common;
+using DotPay.RippleDomain.Exceptions;
 
 namespace DotPay.RippleDomain
 {
     public class RippleOutboundTransferTx : DomainBase, IAggregateRoot,
-                                          IEventHandler<RippleOutboundTransferTxCreated>
+                                          IEventHandler<RippleOutboundTransferTxCreated>,
+                                          IEventHandler<RippleOutboundTransferSigned>
     {
         #region ctor
         protected RippleOutboundTransferTx() { }
@@ -26,7 +28,7 @@ namespace DotPay.RippleDomain
         public virtual int ID { get; protected set; }
         public string TxId { get; protected set; }
         public string Destination { get; protected set; }
-        public int DestinationTag { get; protected set; } 
+        public int DestinationTag { get; protected set; }
         public TransactionState State { get; protected set; }
         public string TargetCurrency { get; protected set; }
         public string TxBlob { get; protected set; }
@@ -35,14 +37,28 @@ namespace DotPay.RippleDomain
         public decimal Fee { get; protected set; }
         public decimal SourceSendMaxAmount { get; protected set; }
 
+        public virtual void MarkSigned(string txid, string txblob)
+        {
+            if (this.State != TransactionState.Init)
+                throw new RippleTransactionNotPendingException();
+            else
+                this.RaiseEvent(new RippleOutboundTransferSigned(this.ID, txid, txblob));
+        } 
+
         public void Handle(RippleOutboundTransferTxCreated @event)
         {
-            this.Destination = @event.Destination; 
+            this.Destination = @event.Destination;
             this.DestinationTag = @event.DestinationTag;
             this.TargetCurrency = @event.TargetCurrency;
             this.TargetAmount = @event.TargetAmount;
             this.State = TransactionState.Init;
             this.SourceSendMaxAmount = @event.SourceSendMaxAmount;
+        }
+
+        public void Handle(RippleOutboundTransferSigned @event)
+        {
+            this.TxId = @event.Txhash;
+            this.TxBlob = @event.Txblob;
         }
     }
 }

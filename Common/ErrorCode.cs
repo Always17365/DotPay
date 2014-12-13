@@ -66,8 +66,8 @@ namespace DotPay.Common
         WithdrawIsCanceled = 168,
         WithdrawAmountOutOfRange = 169,
 
-        RippleTransactionNotPending = 201,
-
+        RippleTransactionNotInit = 201,
+        RippleTransactionNotPending = 202, 
 
 
         TransferTransactionNotPending = 301,

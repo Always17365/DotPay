@@ -17,7 +17,7 @@ namespace DotPay.ViewModel
     {
         public string SequenceNo { get; set; }
         public int DoneAt { get; set; }
-        public string Categoryw { get; set; }
+        public string Category { get; set; }
         public string Description { get; set; }
         public decimal Income { get; set; }
         public decimal Output { get; set; }

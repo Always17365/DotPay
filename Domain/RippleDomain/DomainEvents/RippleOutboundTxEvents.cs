@@ -27,14 +27,19 @@ namespace DotPay.RippleDomain.Events
         public List<object> RipplePaths { get; protected set; }
     }
 
-    //public class RippleInboundTxCompelted : DomainEvent
-    //{
-    //    #region ctor
-    //    public RippleInboundTxCompelted(int rippleActiveTxID)
-    //    {
-    //        this.RippleActiveTxID = rippleActiveTxID;
-    //    }
-    //    #endregion
+    public class RippleOutboundTransferSigned : DomainEvent
+    {
+        public RippleOutboundTransferSigned(int outboundTxId, string txhash, string txblob)
+        {
+            this.OutboundTxId = outboundTxId;
+            this.Txhash = txhash;
+            this.Txblob = txblob;
+        }
+        public int OutboundTxId { get; protected set; }
+        public string Txhash { get; protected set; }
+        public string Txblob { get; protected set; }
+    }
+
 
     //    public int RippleActiveTxID { get; protected set; }
     //}

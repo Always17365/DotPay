@@ -19,7 +19,8 @@ namespace DotPay.RippleDomain
     [AwaitCommitted]
     public class RippleTransferMonitor : IEventHandler<RippleInboundTxCreated>,
                                          IEventHandler<RippleInboundTxToThirdPartyPaymentCompelted>,
-                                         IEventHandler<RippleOutboundTransferTxCreated>
+                                         IEventHandler<RippleOutboundTransferTxCreated>,
+                                         IEventHandler<RippleOutboundTransferSigned>
     {
         public void Handle(RippleInboundTxCreated @event)
         {
@@ -78,7 +79,7 @@ namespace DotPay.RippleDomain
             var msgBytes = Encoding.UTF8.GetBytes(IoC.Resolve<IJsonSerializer>().Serialize(msg));
 
             try
-            { 
+            {
                 MessageSender.Send(exchangeName, msgBytes, true);
             }
             catch (Exception ex)
@@ -86,8 +87,24 @@ namespace DotPay.RippleDomain
                 Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(@event), ex);
             }
         }
+        public void Handle(RippleOutboundTransferSigned @event)
+        {
+            //当接收到ripple对外转账请求创建成功消息后，发送消息给RippleMonitor，等待RippleMonitor签名并提交该交易到Ripple网络中
+            var msg = new RippleOutboundSignedMessage(@event.Txhash, @event.Txblob);
 
+            var exchangeName = Utilities.GenerateExchangeAndQueueNameOfOutboundTransferForSubmit().Item1;
 
+            var msgBytes = Encoding.UTF8.GetBytes(IoC.Resolve<IJsonSerializer>().Serialize(msg));
+
+            try
+            {
+                MessageSender.Send(exchangeName, msgBytes, true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(@event), ex);
+            }
+        }
 
         #region 实体类
 
@@ -144,6 +161,19 @@ namespace DotPay.RippleDomain
             public string Currency { get; private set; }
             public List<object> Paths { get; private set; }
         }
+
+        [Serializable]
+        private class RippleOutboundSignedMessage
+        {
+            public RippleOutboundSignedMessage(string txid, string txblob)
+            {
+                this.TxId = txid;
+                this.TxBlob = txblob;
+            }
+            public string TxId { get; private set; }
+            public string TxBlob { get; private set; }
+        }
         #endregion
+
     }
 }

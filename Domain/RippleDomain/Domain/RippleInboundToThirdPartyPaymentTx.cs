@@ -33,7 +33,7 @@ namespace DotPay.RippleDomain
 
         public virtual int CreateAt { get; protected set; }
         public virtual int DoneAt { get; protected set; }
-
+         
         public virtual void Complete(string txid, decimal amount)
         {
             if (this.State != TransactionState.Pending)

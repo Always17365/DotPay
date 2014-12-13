@@ -10,9 +10,8 @@ using DotPay.RippleDomain;
 
 namespace RippleCommand
 {
-    public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateOutboundTx>
-               //,
-               //                                     ICommandExecutor<CreateThirdPartyPaymentInboundTx>
+    public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateOutboundTx>,
+                                                    ICommandExecutor<SignOutboundTx>
     {
         public void Execute(CreateOutboundTx cmd)
         {
@@ -29,5 +28,12 @@ namespace RippleCommand
 
         //    cmd.Result = rippleInboundTx.ID;
         //}
+
+        public void Execute(SignOutboundTx cmd)
+        {
+            var rippleOutboundTx = IoC.Resolve<IRepository>().FindById<RippleOutboundTransferTx>(cmd.OutboundTxId);
+
+            rippleOutboundTx.MarkSigned(cmd.TxHash, cmd.TxBlob);
+        }
     }
 }
