@@ -34,9 +34,12 @@ namespace DotPay.QueryService.Impl
                 }
             }
             result = result.Where(q =>
-              q.Income > (amountIncomeStart > 0 ? amountIncomeStart : 0) && q.Income < (amountIncomeEnd > 0 ? amountIncomeEnd : 0) &&
-              q.Output > (amountOutputStart > 0 ? amountOutputStart : 0) && q.Output < (amountOutputEnd > 0 ? amountOutputEnd : 0) &&
-              q.CreateAt > (start_date > 0 ? start_date : 0) && q.CreateAt < (end_date > 0 ? end_date : 0)
+              (amountIncomeStart > 0 ? q.Income>amountIncomeStart : true) &&
+              (amountIncomeEnd > 0 ? q.Income < amountIncomeEnd : true) &&
+              (amountOutputStart > 0 ? q.Output > amountOutputStart : true) &&
+              (amountOutputEnd > 0 ? q.Output < amountOutputEnd : true) &&
+              (start_date > 0 ? q.CreateAt > start_date : true) &&
+              (end_date > 0 ? q.CreateAt < end_date : true)
             );
             data.Count = result.Count();   
             data.Data=result.Skip(pagesize * (page-1)).Take(pagesize).OrderBy(q => q.CreateAt);
