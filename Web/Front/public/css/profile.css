@@ -7,10 +7,10 @@
     .dotpay-navbar-profile .nav > li.active > a { color: #e66e1e; background: none; }
         .dotpay-navbar-profile .nav > li.active > a:hover { color: #e66e1e; background: none; }
 
-.dotpay-i-assets-panel .container { border: none; margin-top: 10px; padding: 0 0 10px 0; margin-bottom: 10px; }
+.dotpay-i-assets-panel .container {margin-top: 10px; padding: 0 0 10px 0; margin-bottom: 10px; }
 .dotpay-i-assets-panel .acct_assets { background-color: #fefefe; }
 .dotpay-i-assets-panel table { margin-bottom: 0; }
-    .dotpay-i-assets-panel table td { border: 1px solid #e1e1e1; }
+    .dotpay-i-assets-panel table.acct_assets  td { border: 1px solid #e1e1e1; }
 .dotpay-i-assets-panel .acct_status { float: right; padding-right: 50px; font-size: 12px; }
 .dotpay-i-assets-panel .assets-content { margin: 30px 20px 20px 30px; }
     .dotpay-i-assets-panel .assets-content .assets-header { }

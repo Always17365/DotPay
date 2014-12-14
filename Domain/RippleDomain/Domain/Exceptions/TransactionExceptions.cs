@@ -16,4 +16,8 @@ namespace DotPay.RippleDomain.Exceptions
     {
         public RippleTransactionNotPendingException() : base((int)ErrorCode.RippleTransactionNotPending) { }
     }
+    public class RippleTransactionNotSubmitException : DomainException
+    {
+        public RippleTransactionNotSubmitException() : base((int)ErrorCode.RippleTransactionNotSubmit) { }
+    }
 }

@@ -39,22 +39,23 @@ namespace DotPay.RippleCommand
         public string TxBlob { get; protected set; }
     }
 
-    public class CompleteOutboundTx : FC.Framework.Command
+    public class SubmitOutboundTxSuccess : FC.Framework.Command
     {
-        public CompleteOutboundTx(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal sendmax, List<object> paths)
+        public SubmitOutboundTxSuccess(string txid)
         {
-            this.Destination = destination;
-            this.DestinationTag = destinationTag;
-            this.TargetCurrency = targetCurrency;
-            this.TargetAmount = targetAmount;
-            this.SourceSendMaxAmount = sendmax;
-            this.RipplePaths = paths;
+            this.TxId = txid; 
         }
-        public string Destination { get; protected set; }
-        public int DestinationTag { get; protected set; }
-        public string TargetCurrency { get; protected set; }
-        public decimal TargetAmount { get; protected set; }
-        public decimal SourceSendMaxAmount { get; protected set; }
-        public List<object> RipplePaths { get; protected set; }
+        public string TxId { get; protected set; }
+    }
+
+    public class SubmitOutboundTxFail: FC.Framework.Command
+    {
+        public SubmitOutboundTxFail(string txid,string reason)
+        {
+            this.TxId = txid;
+            this.Reason = reason;
+        }
+        public string TxId { get; protected set; }
+        public string Reason { get; protected set; }
     }
 }

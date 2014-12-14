@@ -54,6 +54,7 @@
     <Compile Include="Domain\RippleInboundTx.cs" />
     <Compile Include="Domain\RippleWithdraw.cs" />
     <Compile Include="Repository\IInboundToThirdPartyPaymentTxRepository.cs" />
+    <Compile Include="Repository\IRippleOutboundTransferTxRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\DotPay.Common.csproj">

@@ -72,11 +72,11 @@
                     {
                         <tr>
                             <td>@tx.SequenceNo</td>
-                            <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd") : tx.CreateAt.ToLocalDateTime().ToString("yyyy"))</td>
+                            <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd") : tx.CreateAt.ToLocalDateTime().ToString("yyyy-MM-dd"))</td>
                             <td>@(tx.Category + (string.IsNullOrEmpty(tx.Description) ? "" : "-" + tx.Description))</td>
                             <td>@tx.Income.ToString("0.##")</td>
                             <td>@tx.Output.ToString("0.##")</td>
-                            <td>>@tx.Payway</td>
+                            <td>@tx.Payway</td>
                         </tr>
                     }
                 </tbody>

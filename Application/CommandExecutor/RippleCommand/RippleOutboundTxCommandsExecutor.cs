@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using FC.Framework;
 using DotPay.RippleCommand;
 using FC.Framework.Repository;
+using DotPay.RippleDomain.Repository;
 using DotPay.RippleDomain;
 
 namespace RippleCommand
 {
     public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateOutboundTx>,
-                                                    ICommandExecutor<SignOutboundTx>
+                                                    ICommandExecutor<SignOutboundTx>,
+                                                    ICommandExecutor<SubmitOutboundTxSuccess>,
+                                                    ICommandExecutor<SubmitOutboundTxFail>
     {
         public void Execute(CreateOutboundTx cmd)
         {
@@ -34,6 +37,20 @@ namespace RippleCommand
             var rippleOutboundTx = IoC.Resolve<IRepository>().FindById<RippleOutboundTransferTx>(cmd.OutboundTxId);
 
             rippleOutboundTx.MarkSigned(cmd.TxHash, cmd.TxBlob);
+        }
+
+        public void Execute(SubmitOutboundTxSuccess cmd)
+        {
+            var rippleOutboundTx = IoC.Resolve<IRippleOutboundTransferTxRepository>().FindByTxId(cmd.TxId);
+
+            rippleOutboundTx.MarkSubmitedSuccess(cmd.TxId);
+        }
+
+        public void Execute(SubmitOutboundTxFail cmd)
+        {
+            var rippleOutboundTx = IoC.Resolve<IRippleOutboundTransferTxRepository>().FindByTxId(cmd.TxId);
+
+            rippleOutboundTx.MarkSubmitedSuccess(cmd.TxId);
         }
     }
 }

@@ -41,6 +41,29 @@ namespace DotPay.RippleDomain.Events
     }
 
 
+    public class RippleOutboundTransferSubmitSuccess : DomainEvent
+    {
+        public RippleOutboundTransferSubmitSuccess(int outboundTxId, string txid)
+        {
+            this.OutboundTxId = outboundTxId;
+            this.TxId = txid;
+        }
+        public int OutboundTxId { get; protected set; }
+        public string TxId { get; protected set; } 
+    } 
+    public class RippleOutboundTransferSubmitFail : DomainEvent
+    {
+        public RippleOutboundTransferSubmitFail(int outboundTxId, string txid, string reason)
+        {
+            this.OutboundTxId = outboundTxId;
+            this.TxId = txid;
+            this.Reason = reason; 
+        }
+        public int OutboundTxId { get; protected set; }
+        public string TxId { get; protected set; }
+        public string Reason { get; protected set; }
+    }
+
     //    public int RippleActiveTxID { get; protected set; }
     //}
     //public class RippleInboundTxFailed : DomainEvent

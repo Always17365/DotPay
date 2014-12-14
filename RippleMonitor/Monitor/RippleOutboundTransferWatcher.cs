@@ -167,7 +167,7 @@ namespace DotPay.RippleMonitor
             {
                 IModel channel;
 
-                var consumer = GetOutboundTransferTransactionForSignConsumer(out channel);
+                var consumer = GetOutboundTransferTransactionForSiubtConsumer(out channel);
 
                 Log.Info("Ripple转出交易SignMonitor启动成功");
 
@@ -183,47 +183,50 @@ namespace DotPay.RippleMonitor
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
 
-                        var outboundTxMsg = IoC.Resolve<IJsonSerializer>().Deserialize<RippleOutboundTxMessage>(message);
+                        var outboundTxSignedMsg = IoC.Resolve<IJsonSerializer>().Deserialize<RippleOutboundSignedMessage>(message);
 
-                        Log.Info("收到新的Ripple Outbound Tx sign指令:{0}", message);
-
-                        var tx = new Transaction()
-                        {
-                            Account = Config.RippleAccount,
-                            Destination = outboundTxMsg.Destination,
-                            DestinationTag = outboundTxMsg.DestinationTag,
-                            Amount = new RippleCurrencyValue()
-                            {
-                                _Value = outboundTxMsg.Amount.ToString(),
-                                Issuer = outboundTxMsg.Destination,
-                                Currency = outboundTxMsg.Currency
-                            },
-                            TransactionType = TransactionType.Payment,
-                            Paths = outboundTxMsg.Paths
-                        };
+                        Log.Info("收到新的Ripple Outbound Tx sign完毕指令，开始提交交易到P2P:{0}", message);
 
 
-                        IoC.Resolve<IRippleClientAsync>().Sign(tx, Config.RippleSecret)
+                        IoC.Resolve<IRippleClientAsync>().Submit(outboundTxSignedMsg.TxBlob)
                            .ContinueWith((data) =>
                            {
                                //如果sign成功了
                                if (data.Result.Item1 == null)
                                {
-                                   //直接执行sign成功cmd
-                                   var cmd = new SignOutboundTx(outboundTxMsg.OutboundTxId, data.Result.Item2.Transaction.Hash, data.Result.Item2.Transaction.TxBlob);
-                                   try
+                                   if (data.Result.Item2.EngineResult == "tesSUCCESS" || data.Result.Item2.EngineResult == "tefALREADY")
                                    {
-                                       IoC.Resolve<ICommandBus>().Send(cmd);
+                                       //直接执行成功cmd
+                                       var cmd = new SubmitOutboundTxSuccess(data.Result.Item2.Transaction.Hash);
+                                       try
+                                       {
+                                           IoC.Resolve<ICommandBus>().Send(cmd);
+                                       }
+                                       catch (Exception ex)
+                                       {
+                                           Log.Error("outboundtx submit success cmd{0}执行时出现错误".FormatWith(IoC.Resolve<IJsonSerializer>().Serialize(cmd)), ex);
+                                       }
                                    }
-                                   catch (Exception ex)
+                                   else
                                    {
-                                       Log.Error("outboundtx sign cmd{0}执行时出现错误".FormatWith(IoC.Resolve<IJsonSerializer>().Serialize(cmd)), ex);
+                                       //直接执行失败cmd
+                                       var cmd = new SubmitOutboundTxFail(data.Result.Item2.Transaction.Hash, data.Result.Item2.EngineResult);
+                                       try
+                                       {
+                                           IoC.Resolve<ICommandBus>().Send(cmd);
+                                       }
+                                       catch (Exception ex)
+                                       {
+                                           Log.Error("outboundtx  submit fail cmd{0}执行时出现错误".FormatWith(IoC.Resolve<IJsonSerializer>().Serialize(cmd)), ex);
+                                       }
                                    }
                                }
                                //如果没有sign成功，重新发送消息到消息队列，等待再次sign
                                else
                                {
-                                   RetrySendSignMessage(message);
+
+                                   Log.Error("outboundtx submit到ripple网络上时出现错误".FormatWith(IoC.Resolve<IJsonSerializer>().Serialize(data.Result.Item1)));
+                                   RetrySendSignedSuccessMessage(message);
                                }
                            })
                            .Start();
@@ -338,6 +341,22 @@ namespace DotPay.RippleMonitor
             }
         }
 
+        private static bool RetrySendSignedSuccessMessage(string message)
+        {
+            var exchangeAndQueueName = Utilities.GenerateExchangeAndQueueNameOfOutboundTransferForSubmit();
+
+            try
+            {
+                MessageSender.Send(exchangeAndQueueName.Item1, Encoding.UTF8.GetBytes(message), durable: true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("重新发送OutboundSigned Success消息--用于之前submit失败，重新submit时出现错误", ex);
+                return false;
+            }
+        }
+
         [Serializable]
         private class RippleOutboundTxMessage
         {
@@ -358,6 +377,18 @@ namespace DotPay.RippleMonitor
             public decimal SendMax { get; private set; }
             public string Currency { get; private set; }
             public List<object> Paths { get; private set; }
+        }
+
+        [Serializable]
+        private class RippleOutboundSignedMessage
+        {
+            public RippleOutboundSignedMessage(string txid, string txblob)
+            {
+                this.TxId = txid;
+                this.TxBlob = txblob;
+            }
+            public string TxId { get; private set; }
+            public string TxBlob { get; private set; }
         }
     }
 }
