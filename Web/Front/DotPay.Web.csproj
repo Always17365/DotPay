@@ -520,6 +520,10 @@
       <Project>{f63cf20f-3a78-4d5e-9044-99fce8a7c2ab}</Project>
       <Name>DotPay.QueryService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tools\RippleRPC.Net\RippleRPC.Net.csproj">
+      <Project>{84ff702a-ee56-4a84-8699-1a28f28d5a4b}</Project>
+      <Name>RippleRPC.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\SmsInterface\DotPay.Tools.SmsInterface.csproj">
       <Project>{9716ee13-aa13-4bc2-b468-575114dce68c}</Project>
       <Name>DotPay.Tools.SmsInterface</Name>
