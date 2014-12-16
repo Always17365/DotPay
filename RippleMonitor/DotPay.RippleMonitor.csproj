@@ -113,10 +113,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RippleRPC.Net\RippleRPC.Net\RippleRPC.Net.csproj">
-      <Project>{84ff702a-ee56-4a84-8699-1a28f28d5a4b}</Project>
-      <Name>RippleRPC.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Application\CommandExecutor\RippleCommand\DotPay.RippleCommand.Executor.csproj">
       <Project>{348a0490-c89e-4bb6-8426-3146cbedbe51}</Project>
       <Name>DotPay.RippleCommand.Executor</Name>
@@ -136,6 +132,10 @@
     <ProjectReference Include="..\Tools\DistributedMessageSender\DotPay.Tools.DistributedMessageSender.csproj">
       <Project>{526ae764-0a7d-4e4f-858e-f252ff524baa}</Project>
       <Name>DotPay.Tools.DistributedMessageSender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\RippleRPC.Net\RippleRPC.Net.csproj">
+      <Project>{84ff702a-ee56-4a84-8699-1a28f28d5a4b}</Project>
+      <Name>RippleRPC.Net</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel\DotPay.ViewModel.csproj">
       <Project>{9518179c-8907-47d8-89fe-c589502af71a}</Project>

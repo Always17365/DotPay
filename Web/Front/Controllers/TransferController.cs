@@ -175,23 +175,26 @@ namespace DotPay.Web.Controllers
             description = description.NullSafe().Trim();
             amount = amount.ToFixed(2);
 
+
+            LoginUser user;
+
             if (account.IsEmail())
-            {
-                LoginUser user;
+                user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
+            else
+                user = IoC.Resolve<IUserQuery>().GetUserByLoginName(account);
 
-                if (account.IsEmail())
-                    user = IoC.Resolve<IUserQuery>().GetUserByEmail(account);
-                else
-                    user = IoC.Resolve<IUserQuery>().GetUserByLoginName(account);
+            if (user == null)
 
-                var transferCMD = new CreateInsideTransfer(this.CurrentUser.UserID, user.UserID, currency, amount, description);
+                return Redirect("/Error");
 
-                this.CommandBus.Send(transferCMD);
+            var transferCMD = new CreateInsideTransfer(this.CurrentUser.UserID, user.UserID, currency, amount, description);
 
-                return Redirect("~/transfer/{0}/confirm?orderid={1}".FormatWith(currency, transferCMD.Result));
-            }
+            this.CommandBus.Send(transferCMD);
 
-            return Redirect("/Error");
+            return Redirect("~/transfer/{0}/confirm?orderid={1}".FormatWith(currency, transferCMD.Result));
+
+
+
         }
         #endregion
 
@@ -400,7 +403,7 @@ namespace DotPay.Web.Controllers
                 }
                 catch
                 {
-                    
+
                 }
             }
 
