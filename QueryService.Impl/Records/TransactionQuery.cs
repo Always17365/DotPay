@@ -52,17 +52,17 @@ namespace DotPay.QueryService.Impl
                                 @"SELECT    SequenceNo,DoneAt,if(CAST(PayWay AS char(1))='{0}','Withdraw','Deposit') as Category,Amount as Income,0 as Output,Payway,CreateAt   
                                     FROM    " + Config.Table_Prefix + @"cnydeposit
                                    WHERE    UserID = @userID
-                                     AND    CreateAt = @createAt
+                                     AND    CreateAt > @createAt
                                 UNION ALL
                                   SELECT    SequenceNo,DoneAt,'Withdraw' as Category,if(FromUserID=@UserID,'0',Amount) as Income,if(ToUserID=@UserID,'0',Amount) as Output,Payway,CreateAt  
                                     FROM    " + Config.Table_Prefix + @"cnyInsideTransferTransaction
-                                   WHERE    ToUserID = @userID OR FromUserID = @userID
-                                     AND    CreateAt = @createAt
+                                   WHERE    (ToUserID = @userID OR FromUserID = @userID)
+                                     AND    CreateAt > @createAt
                                 UNION ALL
                                   SELECT    SequenceNo,DoneAt,'Withdraw' as Category,0 as Income,SourceAmount as Output,Payway,CreateAt  
                                     FROM    " + Config.Table_Prefix + @"OutboundTransferTransaction
                                    WHERE    FromUserID = @userID
-                                     AND    CreateAt = @createAt";
+                                     AND    CreateAt > @createAt";
 
 
         #endregion
