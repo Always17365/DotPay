@@ -127,6 +127,16 @@ namespace DotPay.Web.Controllers
 
             return View("OutboundTransferSuccess");
         }
+
+        [Route("~/transferripplesuccess")]
+        public ActionResult OutboundRippleSubmitSuccess(string orderID)
+        {
+            var transfer = IoC.Resolve<IOutsideTransferQuery>().GetOutsideTransferBySequenceNo(orderID, TransactionState.Success);
+
+            ViewBag.Transfer = transfer;
+
+            return View("OutboundRippleSubmitSuccess");
+        }
         #endregion
 
         #endregion
@@ -399,11 +409,11 @@ namespace DotPay.Web.Controllers
 
                     var cmd_ripple = new CreateRippleOutboundTx(rippleAccountInfo.UserAccount.Destination, rippleAccountInfo.UserAccount.DestinationTag, currency, targetamount, sourceAmount, pathInfos);
                     this.CommandBus.Send(cmd_ripple);
-                    return View("OutboundRippleSubmitSuccess");
+                    return View("transferripplesuccess");
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    Log.Error("submit to ripple error", ex);
                 }
             }
 
