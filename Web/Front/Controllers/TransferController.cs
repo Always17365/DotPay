@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using Newtonsoft.Json;
 using RippleRPC.Net;
+using DotPay.RippleCommand;
 
 namespace DotPay.Web.Controllers
 {
@@ -244,7 +245,7 @@ namespace DotPay.Web.Controllers
             if ((payway == PayWay.Alipay && (emailReg.IsMatch(account) || mobileReg.IsMatch(account))) ||
                 (payway == PayWay.Tenpay && (emailReg.IsMatch(account) || mobileReg.IsMatch(account) || qqReg.IsMatch(account))))
             {
-                var cmd = new CreateOutboundTransfer(payway, account, CurrencyType.CNY, amount, amount, description.NullSafe().Trim(), this.CurrentUser.UserID);
+                var cmd = new CreateOutboundTransfer(payway, account, CurrencyType.CNY.ToString(), amount, amount, description.NullSafe().Trim(), this.CurrentUser.UserID);
 
                 this.CommandBus.Send(cmd);
 
@@ -375,24 +376,35 @@ namespace DotPay.Web.Controllers
         }
         #endregion
 
-
         #region Ripple转账提交
         [Route("~/transferout/submit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitTransferToRipple(string account, decimal targetamount, string currency, decimal sourceAmount, string paypassword)
-        { 
-            account = account.NullSafe().Trim(); 
+        {
+            account = account.NullSafe().Trim();
 
             if (Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] != null && Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account] != null)
             {
                 var rippleAccountInfo = (FederationResponse)Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account];
-                var pathInfo = (FederationResponse)Session[OUTSIDE_GATEWAY_ACCOUNT_INFO_KEY + account];
+                var pathInfos = Session[OUTSIDE_GATEWAY_ACCOUNT_PATHS + account] as List<List<object>>;
 
+                try
+                {
+                    var cmd = new CreateOutboundTransfer(PayWay.Ripple, rippleAccountInfo.UserAccount.Destination, currency, sourceAmount, targetamount, string.Empty, this.CurrentUser.UserID);
+                    this.CommandBus.Send(cmd);
 
+                    var cmd_ripple = new CreateRippleOutboundTx(rippleAccountInfo.UserAccount.Destination, rippleAccountInfo.UserAccount.DestinationTag, currency, targetamount, sourceAmount, pathInfos);
+                    this.CommandBus.Send(cmd_ripple);
+                    return View("OutboundRippleSubmitSuccess");
+                }
+                catch
+                {
+                    
+                }
             }
 
-            return Json(new { valid = false });
+            return View("Error");
         }
         #endregion
 

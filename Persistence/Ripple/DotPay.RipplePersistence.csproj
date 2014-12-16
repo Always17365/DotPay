@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Mapper\BaseClassMapping.cs" />
     <Compile Include="Mapper\RippleInboundToThirdPartyPaymentTxMap.cs" />
+    <Compile Include="Mapper\RippleOutboundTxMap.cs" />
     <Compile Include="Mapper\RippleInboundTxMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\InboundToThirdPartyPaymentTxRepository.cs" />

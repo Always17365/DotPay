@@ -13,7 +13,7 @@ using DotPay.Common;
 using System.Reflection;
 using FC.Framework.Repository;
 
-namespace DotPay.InboundTransferMonitor
+namespace DotPay.TransferMonitor
 {
     class Program
     {
@@ -27,7 +27,7 @@ namespace DotPay.InboundTransferMonitor
 
                 var mqpool = new MQConnectionPool(Config.MQConnectString);
                 InboundTxProcessor.Start(mqpool);
-                //NXTReceiveTransactionListener.Start(mqpool);
+                OutboundTxProcessor.Start(mqpool);
                 //NXTAccountGenerator.Start(mqpool);
                 //NXTTransactionConfirmationValidator.Start(mqpool);
                 //NXTSendTransactionListener.Start(mqpool);
@@ -69,8 +69,8 @@ namespace DotPay.InboundTransferMonitor
                                     .UseLog4net()
                                     .UseDefaultCommandBus(assemblies)
                                     .UseNHibernate(new ConnectionString(connString, connProvider), nhibernateMapperAssemblies)
-                                    //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
-                                    .Start(); 
+                //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
+                                    .Start();
 
             if (Config.Debug)
             {

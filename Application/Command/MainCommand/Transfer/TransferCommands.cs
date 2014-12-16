@@ -130,10 +130,10 @@ namespace DotPay.Command
     #region 外部-转出转账
     public class CreateOutboundTransfer : FC.Framework.Command
     {
-        public CreateOutboundTransfer(PayWay payway, string destination, CurrencyType targetCurrency, decimal sourceAmount, decimal targetAmount, string description, int byUserID)
+        public CreateOutboundTransfer(PayWay payway, string destination, string targetCurrency, decimal sourceAmount, decimal targetAmount, string description, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID");
-            Check.Argument.IsNotNegativeOrZero((int)targetCurrency, "targetCurrency");
+            Check.Argument.IsNotEmpty(targetCurrency, "targetCurrency");
             Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
             Check.Argument.IsNotEmpty(destination, "destination");
             Check.Argument.IsNotNegativeOrZero(sourceAmount, "sourceAmount");
@@ -151,7 +151,7 @@ namespace DotPay.Command
         public int ByUserID { get; private set; }
         public decimal SourceAmount { get; private set; }
         public PayWay PayWay { get; private set; }
-        public CurrencyType TargetCurrency { get; private set; }
+        public string TargetCurrency { get; private set; }
         public decimal TargetAmount { get; private set; }
         public string Destination { get; private set; }
         public string Description { get; private set; }

@@ -10,7 +10,7 @@ namespace DotPay.RippleDomain.Events
 {
     public class RippleOutboundTransferTxCreated : DomainEvent
     {
-        public RippleOutboundTransferTxCreated(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal sendmax, List<object> paths)
+        public RippleOutboundTransferTxCreated(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal sendmax, List<List<object>> paths)
         {
             this.Destination = destination;
             this.DestinationTag = destinationTag;
@@ -24,7 +24,7 @@ namespace DotPay.RippleDomain.Events
         public string TargetCurrency { get; protected set; }
         public decimal TargetAmount { get; protected set; }
         public decimal SourceSendMaxAmount { get; protected set; }
-        public List<object> RipplePaths { get; protected set; }
+        public List<List<object>> RipplePaths { get; protected set; }
     }
 
     public class RippleOutboundTransferSigned : DomainEvent

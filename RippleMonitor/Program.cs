@@ -28,6 +28,7 @@ namespace DotPay.RippleMonitor
 
                 var mqpool = new MQConnectionPool(Config.MQConnectString);
                 RippleInboundTransferWatcher.Start(mqpool);
+                RippleOutboundTransferWatcher.Start(mqpool);
                 //NXTReceiveTransactionListener.Start(mqpool);
                 //NXTAccountGenerator.Start(mqpool);
                 //NXTTransactionConfirmationValidator.Start(mqpool);

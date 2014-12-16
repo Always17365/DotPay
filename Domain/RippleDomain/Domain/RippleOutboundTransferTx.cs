@@ -20,7 +20,7 @@ namespace DotPay.RippleDomain
         #region ctor
         protected RippleOutboundTransferTx() { }
 
-        public RippleOutboundTransferTx(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal tourceSendMaxAmount, List<object> ripplePaths)
+        public RippleOutboundTransferTx(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal tourceSendMaxAmount, List<List<object>> ripplePaths)
         {
             this.RaiseEvent(new RippleOutboundTransferTxCreated(destination, destinationTag, targetCurrency, targetAmount, tourceSendMaxAmount, ripplePaths));
         }
@@ -28,17 +28,17 @@ namespace DotPay.RippleDomain
         #endregion
 
         public virtual int ID { get; protected set; }
-        public string TxId { get; protected set; }
-        public string Destination { get; protected set; }
-        public int DestinationTag { get; protected set; }
-        public RippleTransactionState State { get; protected set; }
-        public string TargetCurrency { get; protected set; }
-        public string TxBlob { get; protected set; }
-        public decimal TargetAmount { get; protected set; }
-        public decimal SourceAmount { get; protected set; }
-        public decimal Fee { get; protected set; }
-        public decimal SourceSendMaxAmount { get; protected set; }
-        public string Reason { get; protected set; }
+        public virtual string TxId { get; protected set; }
+        public virtual string Destination { get; protected set; }
+        public virtual int DestinationTag { get; protected set; }
+        public virtual RippleTransactionState State { get; protected set; }
+        public virtual string TargetCurrency { get; protected set; }
+        public virtual string TxBlob { get; protected set; }
+        public virtual decimal TargetAmount { get; protected set; }
+        public virtual decimal SourceAmount { get; protected set; }
+        public virtual decimal Fee { get; protected set; }
+        public virtual decimal SourceSendMaxAmount { get; protected set; }
+        public virtual string Reason { get; protected set; }
 
         public virtual void MarkSigned(string txid, string txblob)
         {
@@ -49,31 +49,34 @@ namespace DotPay.RippleDomain
         }
         public virtual void MarkSubmitedSuccess(string txid)
         {
-            if (this.State !=RippleTransactionState.Submit)
+            if (this.State != RippleTransactionState.Submit)
                 throw new RippleTransactionNotSubmitException();
             else
-                this.RaiseEvent(new RippleOutboundTransferSubmitSuccess(this.ID, txid ));
-        } 
+                this.RaiseEvent(new RippleOutboundTransferSubmitSuccess(this.ID, txid));
+        }
         public virtual void MarkSubmitedFail(string txid, string reason)
         {
             if (this.State != RippleTransactionState.Submit)
                 throw new RippleTransactionNotSubmitException();
             else
                 this.RaiseEvent(new RippleOutboundTransferSubmitFail(this.ID, txid, reason));
-        } 
+        }
 
 
-        public void Handle(RippleOutboundTransferTxCreated @event)
+        void IEventHandler<RippleOutboundTransferTxCreated>.Handle(RippleOutboundTransferTxCreated @event)
         {
             this.Destination = @event.Destination;
             this.DestinationTag = @event.DestinationTag;
             this.TargetCurrency = @event.TargetCurrency;
             this.TargetAmount = @event.TargetAmount;
-            this.State =RippleTransactionState.Init;
+            this.State = RippleTransactionState.Init;
+            this.TxId = string.Empty;
+            this.TxBlob = string.Empty;
+            this.Reason = string.Empty;
             this.SourceSendMaxAmount = @event.SourceSendMaxAmount;
         }
 
-        public void Handle(RippleOutboundTransferSigned @event)
+        void IEventHandler<RippleOutboundTransferSigned>.Handle(RippleOutboundTransferSigned @event)
         {
             this.State = RippleTransactionState.Submit;
             this.TxId = @event.Txhash;
@@ -82,7 +85,7 @@ namespace DotPay.RippleDomain
 
         void IEventHandler<RippleOutboundTransferSubmitSuccess>.Handle(RippleOutboundTransferSubmitSuccess @event)
         {
-            this.State = RippleTransactionState.Success; 
+            this.State = RippleTransactionState.Success;
         }
 
         void IEventHandler<RippleOutboundTransferSubmitFail>.Handle(RippleOutboundTransferSubmitFail @event)

@@ -11,12 +11,12 @@ using DotPay.RippleDomain;
 
 namespace RippleCommand
 {
-    public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateOutboundTx>,
-                                                    ICommandExecutor<SignOutboundTx>,
-                                                    ICommandExecutor<SubmitOutboundTxSuccess>,
-                                                    ICommandExecutor<SubmitOutboundTxFail>
+    public class RippleOutboundTxCommandsExecutor : ICommandExecutor<CreateRippleOutboundTx>,
+                                                    ICommandExecutor<SignRippleOutboundTx>,
+                                                    ICommandExecutor<SubmitRippleOutboundTxSuccess>,
+                                                    ICommandExecutor<SubmitRippleOutboundTxFail>
     {
-        public void Execute(CreateOutboundTx cmd)
+        public void Execute(CreateRippleOutboundTx cmd)
         {
             var rippleOutboundTx = new RippleOutboundTransferTx(cmd.Destination, cmd.DestinationTag, cmd.TargetCurrency, cmd.TargetAmount, cmd.SourceSendMaxAmount, cmd.RipplePaths);
 
@@ -32,21 +32,21 @@ namespace RippleCommand
         //    cmd.Result = rippleInboundTx.ID;
         //}
 
-        public void Execute(SignOutboundTx cmd)
+        public void Execute(SignRippleOutboundTx cmd)
         {
             var rippleOutboundTx = IoC.Resolve<IRepository>().FindById<RippleOutboundTransferTx>(cmd.OutboundTxId);
 
             rippleOutboundTx.MarkSigned(cmd.TxHash, cmd.TxBlob);
         }
 
-        public void Execute(SubmitOutboundTxSuccess cmd)
+        public void Execute(SubmitRippleOutboundTxSuccess cmd)
         {
             var rippleOutboundTx = IoC.Resolve<IRippleOutboundTransferTxRepository>().FindByTxId(cmd.TxId);
 
             rippleOutboundTx.MarkSubmitedSuccess(cmd.TxId);
         }
 
-        public void Execute(SubmitOutboundTxFail cmd)
+        public void Execute(SubmitRippleOutboundTxFail cmd)
         {
             var rippleOutboundTx = IoC.Resolve<IRippleOutboundTransferTxRepository>().FindByTxId(cmd.TxId);
 

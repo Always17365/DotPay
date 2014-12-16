@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DotPay.RippleCommand
 {
-    public class CreateOutboundTx : FC.Framework.Command
+    public class CreateRippleOutboundTx : FC.Framework.Command
     {
-        public CreateOutboundTx(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal sendmax, List<object> paths)
+        public CreateRippleOutboundTx(string destination, int destinationTag, string targetCurrency, decimal targetAmount, decimal sendmax, List<List<object>> paths)
         {
             this.Destination = destination;
             this.DestinationTag = destinationTag;
@@ -23,12 +23,12 @@ namespace DotPay.RippleCommand
         public string TargetCurrency { get; protected set; }
         public decimal TargetAmount { get; protected set; }
         public decimal SourceSendMaxAmount { get; protected set; }
-        public List<object> RipplePaths { get; protected set; }
+        public List<List<object>> RipplePaths { get; protected set; }
     }
 
-    public class SignOutboundTx : FC.Framework.Command
+    public class SignRippleOutboundTx : FC.Framework.Command
     {
-        public SignOutboundTx(int outboundTxid, string txhash, string txblob)
+        public SignRippleOutboundTx(int outboundTxid, string txhash, string txblob)
         {
             this.OutboundTxId = outboundTxid;
             this.TxHash = txhash;
@@ -39,18 +39,18 @@ namespace DotPay.RippleCommand
         public string TxBlob { get; protected set; }
     }
 
-    public class SubmitOutboundTxSuccess : FC.Framework.Command
+    public class SubmitRippleOutboundTxSuccess : FC.Framework.Command
     {
-        public SubmitOutboundTxSuccess(string txid)
+        public SubmitRippleOutboundTxSuccess(string txid)
         {
             this.TxId = txid; 
         }
         public string TxId { get; protected set; }
     }
 
-    public class SubmitOutboundTxFail: FC.Framework.Command
+    public class SubmitRippleOutboundTxFail: FC.Framework.Command
     {
-        public SubmitOutboundTxFail(string txid,string reason)
+        public SubmitRippleOutboundTxFail(string txid,string reason)
         {
             this.TxId = txid;
             this.Reason = reason;

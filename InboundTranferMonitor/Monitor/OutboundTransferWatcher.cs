@@ -19,9 +19,9 @@ using FC.Framework.Utilities;
 namespace DotPay.TransferMonitor
 {
     /// <summary>
-    /// 收款交易创建和确认处理器
+    /// 此监控器目的在于等待ripple转账提交成功的消息,收到消息后，对dotpay系统内的转账进行确认
     /// </summary>
-    internal class InboundTxProcessor
+    internal class OutboundTxProcessor
     {
         private static MQConnectionPool _mqpool;
         internal static void Start(MQConnectionPool mqpool)
@@ -31,12 +31,12 @@ namespace DotPay.TransferMonitor
             Log.Info("正在转入交易监控器...");
             _mqpool = mqpool;
 
-            StartInboundTransactionConsumer();
+            StartOutboundTxConfirmConsumer();
 
             Log.Info("启动转入交易监控器成功！");
         }
 
-        private static void StartInboundTransactionConsumer()
+        private static void StartOutboundTxConfirmConsumer()
         {
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -129,7 +129,7 @@ namespace DotPay.TransferMonitor
 
             channel = _mqpool.GetMQChannel(mqname);
 
-            var exchangeAndQueueName = Utilities.GenerateExchangeAndQueueNameOfInboundTransfer();
+            var exchangeAndQueueName = Utilities.GenerateExchangeAndQueueNameOfOutboundTransferForSubmit();
 
             channel.ExchangeDeclare(exchangeAndQueueName.Item1, ExchangeType.Direct, true, false, null);
             channel.QueueDeclare(exchangeAndQueueName.Item2, true, false, false, null);

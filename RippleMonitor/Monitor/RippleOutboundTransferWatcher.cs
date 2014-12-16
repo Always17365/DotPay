@@ -39,6 +39,7 @@ namespace DotPay.RippleMonitor
             _mqpool = mqpool;
             _dbContext = new DbContext().ConnectionString(Config.DBConnectString, new MySqlProvider());
             StartSignWatcher();
+            StartSubmiterWatcher();
         }
 
         #region SignWatcher
@@ -97,7 +98,7 @@ namespace DotPay.RippleMonitor
                                if (data.Result.Item1 == null)
                                {
                                    //直接执行sign成功cmd
-                                   var cmd = new SignOutboundTx(outboundTxMsg.OutboundTxId, data.Result.Item2.Transaction.Hash, data.Result.Item2.Transaction.TxBlob);
+                                   var cmd = new SignRippleOutboundTx(outboundTxMsg.OutboundTxId, data.Result.Item2.Transaction.Hash, data.Result.Item2.Transaction.TxBlob);
                                    try
                                    {
                                        IoC.Resolve<ICommandBus>().Send(cmd);
@@ -197,7 +198,7 @@ namespace DotPay.RippleMonitor
                                    if (data.Result.Item2.EngineResult == "tesSUCCESS" || data.Result.Item2.EngineResult == "tefALREADY")
                                    {
                                        //直接执行成功cmd
-                                       var cmd = new SubmitOutboundTxSuccess(data.Result.Item2.Transaction.Hash);
+                                       var cmd = new SubmitRippleOutboundTxSuccess(data.Result.Item2.Transaction.Hash);
                                        try
                                        {
                                            IoC.Resolve<ICommandBus>().Send(cmd);
@@ -210,7 +211,7 @@ namespace DotPay.RippleMonitor
                                    else
                                    {
                                        //直接执行失败cmd
-                                       var cmd = new SubmitOutboundTxFail(data.Result.Item2.Transaction.Hash, data.Result.Item2.EngineResult);
+                                       var cmd = new SubmitRippleOutboundTxFail(data.Result.Item2.Transaction.Hash, data.Result.Item2.EngineResult);
                                        try
                                        {
                                            IoC.Resolve<ICommandBus>().Send(cmd);

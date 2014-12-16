@@ -7,8 +7,8 @@
     <ProjectGuid>{C83AF737-B2E9-4AAB-B3B2-8AC43CB56973}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotPay.InboundTransferMonitor</RootNamespace>
-    <AssemblyName>InboundTransferMonitor</AssemblyName>
+    <RootNamespace>DotPay.TransferMonitor</RootNamespace>
+    <AssemblyName>DotPay.TransferMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Monitor\OutboundTransferWatcher.cs" />
     <Compile Include="Monitor\InboundTransferWatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

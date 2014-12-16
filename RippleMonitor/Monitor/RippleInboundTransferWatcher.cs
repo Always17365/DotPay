@@ -67,7 +67,7 @@ namespace DotPay.RippleMonitor
                         lock (_lock)
                         {
                             waitCallback = true;
-                            GetTxs(RippleInboundTransferWatcher.currentProcessLedgerIndex + 1, ProcessTxs);
+                            GetTxs(RippleInboundTransferWatcher.currentProcessLedgerIndex + 10, ProcessTxs);
                         }
                     }
                     else
@@ -87,7 +87,7 @@ namespace DotPay.RippleMonitor
 
                 Log.Info("开始分析ledger-{0}".FormatWith(ledgerIndex));
 
-                var result = await rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex: ledgerIndex);
+                var result = await rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex, ledgerIndex + 10);
 
                 try
                 {
@@ -108,8 +108,8 @@ namespace DotPay.RippleMonitor
                         {
                             processTxAction(result.Item2);
                         }
-                        RecordProcessLedgerIndex(ledgerIndex);
-                        Log.Info("ledger-{0}解析完毕".FormatWith(ledgerIndex));
+                        RecordProcessLedgerIndex(ledgerIndex+10);
+                        Log.Info("ledger{0}-{1}解析完毕".FormatWith(ledgerIndex, ledgerIndex + 10));
                     }
                 }
                 finally

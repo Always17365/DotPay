@@ -21,7 +21,7 @@ namespace DotPay.MainDomain
         protected OutboundTransferTransaction() { }
 
         public OutboundTransferTransaction(int fromUserID, string destination, decimal sourceAmount,
-                                           CurrencyType targetCurrency, decimal targetAmount, PayWay payway,string description)
+                                           string targetCurrency, decimal targetAmount, PayWay payway,string description)
         {
             this.RaiseEvent(new OutboundTransferTransactionCreated(fromUserID, destination, sourceAmount, targetCurrency, targetAmount, payway,description, this));
         }
@@ -33,7 +33,7 @@ namespace DotPay.MainDomain
         public virtual int FromUserID { get; protected set; }
         public virtual string Destination { get; protected set; }
         public virtual decimal SourceAmount { get; protected set; }
-        public virtual CurrencyType TargetCurrency { get; protected set; }
+        public virtual string TargetCurrency { get; protected set; }
         public virtual decimal TargetAmount { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
         public virtual TransactionState State { get; protected set; }

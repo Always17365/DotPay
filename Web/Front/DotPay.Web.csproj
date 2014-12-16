@@ -465,7 +465,7 @@
     <Content Include="Views\Transfer\OutboundTppConfirm.cshtml" />
     <Content Include="Views\Transfer\OutboundTppTransferSuccess.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
-    <Content Include="Views\Transfer\OutboundRippleConfirm.cshtml" />
+    <Content Include="Views\Transfer\OutboundRippleSubmitSuccess.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

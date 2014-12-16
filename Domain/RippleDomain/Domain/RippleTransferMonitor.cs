@@ -20,7 +20,9 @@ namespace DotPay.RippleDomain
     public class RippleTransferMonitor : IEventHandler<RippleInboundTxCreated>,
                                          IEventHandler<RippleInboundTxToThirdPartyPaymentCompelted>,
                                          IEventHandler<RippleOutboundTransferTxCreated>,
-                                         IEventHandler<RippleOutboundTransferSigned>
+                                         IEventHandler<RippleOutboundTransferSigned>,
+                                         IEventHandler<RippleOutboundTransferSubmitSuccess>,
+                                         IEventHandler<RippleOutboundTransferSubmitFail>
     {
         public void Handle(RippleInboundTxCreated @event)
         {
@@ -36,7 +38,6 @@ namespace DotPay.RippleDomain
 
             try
             {
-                var obj = new Object();
                 MessageSender.Send(exchangeName, msgBytes, true);
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace DotPay.RippleDomain
             }
             catch (Exception ex)
             {
-                Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(@event), ex);
+                Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(msg), ex);
             }
         }
         public void Handle(RippleOutboundTransferSigned @event)
@@ -102,7 +103,46 @@ namespace DotPay.RippleDomain
             }
             catch (Exception ex)
             {
-                Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(@event), ex);
+                Log.Error("发送RippleOutbound交易消息出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(msg), ex);
+            }
+        }
+
+
+        public void Handle(RippleOutboundTransferSubmitSuccess @event)
+        {
+            //当接收到ripple对外转账处理成功消息后，发送消息给TransferMonitor，等待RippleMonitor签名并提交该交易到Ripple网络中
+            var msg = new RippleOutboundSubmitedMessage(true, @event.TxId);
+
+            var exchangeName = Utilities.GenerateExchangeAndQueueNameOfOutboundTransferProcessComplete().Item1;
+
+            var msgBytes = Encoding.UTF8.GetBytes(IoC.Resolve<IJsonSerializer>().Serialize(msg));
+
+            try
+            {
+                MessageSender.Send(exchangeName, msgBytes, true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("发送RippleOutbound 处理成功消息时出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(msg), ex);
+            }
+        }
+
+        public void Handle(RippleOutboundTransferSubmitFail @event)
+        {
+            //当接收到ripple对外转账请求创建成功消息后，发送消息给RippleMonitor，等待RippleMonitor签名并提交该交易到Ripple网络中
+            var msg = new RippleOutboundSubmitedMessage(false, @event.TxId, @event.Reason);
+
+            var exchangeName = Utilities.GenerateExchangeAndQueueNameOfOutboundTransferProcessComplete().Item1;
+
+            var msgBytes = Encoding.UTF8.GetBytes(IoC.Resolve<IJsonSerializer>().Serialize(msg));
+
+            try
+            {
+                MessageSender.Send(exchangeName, msgBytes, true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("发送RippleOutbound 处理成功消息时出现异常,msg=" + IoC.Resolve<IJsonSerializer>().Serialize(msg), ex);
             }
         }
 
@@ -145,7 +185,7 @@ namespace DotPay.RippleDomain
         [Serializable]
         private class RippleOutboundTxMessage
         {
-            public RippleOutboundTxMessage(string destination, int destinationtag, decimal amount, string currency, decimal sendMax, List<object> paths)
+            public RippleOutboundTxMessage(string destination, int destinationtag, decimal amount, string currency, decimal sendMax, List<List<object>> paths)
             {
                 this.Destination = destination;
                 this.DestinationTag = destinationtag;
@@ -159,7 +199,7 @@ namespace DotPay.RippleDomain
             public decimal Amount { get; private set; }
             public decimal SendMax { get; private set; }
             public string Currency { get; private set; }
-            public List<object> Paths { get; private set; }
+            public List<List<object>> Paths { get; private set; }
         }
 
         [Serializable]
@@ -173,7 +213,20 @@ namespace DotPay.RippleDomain
             public string TxId { get; private set; }
             public string TxBlob { get; private set; }
         }
-        #endregion
 
+        [Serializable]
+        private class RippleOutboundSubmitedMessage
+        {
+            public RippleOutboundSubmitedMessage(bool result, string txid, string reason = "")
+            {
+                this.Result = result;
+                this.TxId = txid;
+                this.Reason = reason;
+            }
+            public bool Result { get; private set; }
+            public string TxId { get; private set; }
+            public string Reason { get; private set; }
+        }
+        #endregion
     }
 }
