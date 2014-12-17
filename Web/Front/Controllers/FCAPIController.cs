@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using DotPay.ViewModel;
 using DotPay.Command;
 using DotPay.RippleCommand;
+using DotPay.Web.Filters;
 
 namespace DotPay.Web.Controllers
 {
@@ -19,8 +20,10 @@ namespace DotPay.Web.Controllers
         public const string GATEWAY_ADDRESS = "rM8199qFwspxiWNZRChZdZbGN5WrCepVP1";
         public const string GATEWAY_DOMAIN = "dotpay.co";
         public const string GATEWAY_ACCEPT_CURRENCY = "CNY";
+        public const string GATEWAY_SPLIT = ":";
 
         [HttpGet]
+        [CROS]
         [Route("api/v1/bridge")]
         public System.Web.Http.Results.JsonResult<FederationResponse> RippleBridge(string type, string destination, string domain)
         {
@@ -61,7 +64,7 @@ namespace DotPay.Web.Controllers
                             var userInfo = new OutsideGatewayUserInfo
                             {
                                 Type = "federation_record",
-                                Destination = destination,
+                                Destination = tppBridge.Account + GATEWAY_SPLIT + tppBridge.Bridge,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(payway).ToString() + cmd.Result.ToString()),
                                 Domain = domain,
@@ -175,7 +178,7 @@ namespace DotPay.Web.Controllers
                 var success = false;
                 result = null;
 
-                if (destinationWithDomain.Contains(":"))
+                if (destinationWithDomain.Contains(GATEWAY_SPLIT))
                 {
                     var strs = destinationWithDomain.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 

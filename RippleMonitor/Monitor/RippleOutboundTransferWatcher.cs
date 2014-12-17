@@ -136,15 +136,10 @@ namespace DotPay.RippleMonitor
                             Log.Warn("处理" + cmdTypeDesc + "时，消息队列的链接断开了,准备自动重连", ex);
 
                             consumer = GetOutboundTransferTransactionForSignConsumer(out channel);
-                            channel.BasicNack(ea.DeliveryTag, false, true);
                         }
                     }
                     catch (Exception ex)
                     {
-                        if (ea != null)
-                        {
-                            channel.BasicNack(ea.DeliveryTag, false, true);
-                        }
 
                         Log.Error(cmdTypeDesc + "处理过程中出现错误:" + ex.Message, ex);
                     }
@@ -240,22 +235,16 @@ namespace DotPay.RippleMonitor
                     {
                         var mysqlex = ex.InnerException as MySql.Data.MySqlClient.MySqlException;
                         if (mysqlex != null && mysqlex.Number == 1062)
-                        {
-                            channel.BasicAck(ea.DeliveryTag, false);
+                        { 
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
                             Log.Info("已接收该交易，重复的到帐消息" + message + "，做丢弃处理");
-                        }
-                        else if (ea != null)
-                        {
-                            channel.BasicNack(ea.DeliveryTag, false, true);
-                        }
+                        } 
                     }
                     catch (CommandExecutionException ex)
                     {
                         if (ex.ErrorCode == (int)ErrorCode.PaymentTransactionIsCompleted)
-                        {
-                            channel.BasicAck(ea.DeliveryTag, false);
+                        { 
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
                             Log.Info("充值已处理完毕，重复的指令{1}，丢弃!", message);
@@ -267,17 +256,11 @@ namespace DotPay.RippleMonitor
                         {
                             Log.Warn("处理" + cmdTypeDesc + "时，消息队列的链接断开了,准备自动重连", ex);
 
-                            consumer = GetOutboundTransferTransactionForSignConsumer(out channel);
-                            channel.BasicNack(ea.DeliveryTag, false, true);
+                            consumer = GetOutboundTransferTransactionForSignConsumer(out channel); 
                         }
                     }
                     catch (Exception ex)
-                    {
-                        if (ea != null)
-                        {
-                            channel.BasicNack(ea.DeliveryTag, false, true);
-                        }
-
+                    { 
                         Log.Error(cmdTypeDesc + "处理过程中出现错误:" + ex.Message, ex);
                     }
                 }

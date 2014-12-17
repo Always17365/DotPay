@@ -1,4 +1,4 @@
-﻿[accounts]
+[accounts]
 rM8199qFwspxiWNZRChZdZbGN5WrCepVP1
 
 [domain]
@@ -10,6 +10,5 @@ rHTLdR8F4v9gJmLoW6Fk6zmBvCM2bqzqLP
 
 [currencies]
 CNY 
-USD
 [federation_url]
-https://www.dotpay.co/bridge
+https://www.dotpay.co/api/v1/bridge

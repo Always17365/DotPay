@@ -15,7 +15,8 @@ namespace DotPay.RipplePersistence.Mapper
         {
             Id(u => u.ID, map => map.Generator(Generators.Identity));
 
-            Property(x => x.TxId, map => { map.NotNullable(true); });
+            Property(x => x.ID, map => { map.NotNullable(true); map.UniqueKey("TXID_ID"); });
+            Property(x => x.TxId, map => { map.NotNullable(true); map.Unique(true); map.UniqueKey("TXID_ID"); });
             Property(x => x.Destination, map => { map.NotNullable(true); map.Length(34); });
             Property(x => x.DestinationTag, map => { map.NotNullable(true); });
             Property(x => x.State, map => { map.NotNullable(true); });
