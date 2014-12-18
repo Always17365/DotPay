@@ -245,6 +245,7 @@
     <Compile Include="Extensions\AngularAntiForgeryTokenExtension.cs" />
     <Compile Include="Extensions\AntiForgeryValidate.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Filters\CROSAttribute.cs" />
     <Compile Include="Filters\DotPayHandlerErrorAttribute.cs" />
     <Compile Include="Filters\Authentication.cs" />
     <Compile Include="Global.asax.cs">

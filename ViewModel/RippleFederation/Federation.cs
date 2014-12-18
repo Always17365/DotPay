@@ -11,7 +11,8 @@ namespace DotPay.ViewModel
     [Serializable]
     public class FederationResponse : FederationError
     {
-        [JsonProperty("federation_json")]
+        [JsonProperty("federation_json", NullValueHandling = NullValueHandling.Ignore)]
+
         public OutsideGatewayUserInfo UserAccount { get; set; }
     }
 
