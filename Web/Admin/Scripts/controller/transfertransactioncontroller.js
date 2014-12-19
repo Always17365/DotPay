@@ -145,7 +145,7 @@ function successTransferTransactionCtrl($scope, $modalInstance, $http, $alert, t
 
     $scope.set = function (successTransferTransaction) {
         if (transferTransaction.Amount == successTransferTransaction.Amount) {
-            $http.post('../TransferTransaction/ThirdPartyPaymentTransferComplete', { transferId: transferTransaction.ID, transferNo: successTransferTransaction.TransferNo, payway: transferTransaction.payway }).success(function (data, status, headers) {
+            $http.post('../TransferTransaction/ThirdPartyPaymentTransferComplete', { Amount:successTransferTransaction.Amount,transferId: transferTransaction.ID, transferNo: successTransferTransaction.TransferNo, payway: transferTransaction.payway }).success(function (data, status, headers) {
                 if (data.Code == 1) $modalInstance.close(true);
 
                 else $modalInstance.close(false);
