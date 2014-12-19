@@ -34,6 +34,26 @@ namespace DotPay.Web.Admin.Controllers
             return Json(1);
         }
 
+        [Route("~/modifyPasswords")]
+        [HttpPost]
+        public ActionResult ModifyLoginPassword(string oldPassword, string newPassword, string confirmPassword)
+        {
+
+            if (oldPassword.Length >= 6 && newPassword.Length >= 6 && confirmPassword == newPassword)
+            {
+                try
+                {
+                    var cmd = new UserModifyPassword(this.CurrentUser.UserID, oldPassword, newPassword);
+                    this.CommandBus.Send(cmd);
+                    return Json(1);
+                }
+                catch (CommandExecutionException ex)
+                {
+                    return Json(ex.ErrorCode);
+                }
+            }
+            return Json(0);
+        }
         [ChildActionOnly]
         public ActionResult AdminHeader()
         {
