@@ -32,14 +32,14 @@ namespace DotPay.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SelectRippleTxid(string txid)
+        public ActionResult GetTransferTransactionByRippleTxid(string txid)
         {
-            var result = IoC.Resolve<ITransferTransactionQuery>().SelectRippleTxid(txid, PayWay.Alipay);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionByRippleTxid(txid, PayWay.Alipay);
             if (result != null)
             {
                 return Json(result);
             }
-            result = IoC.Resolve<ITransferTransactionQuery>().SelectRippleTxid(txid, PayWay.Tenpay);
+            result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionByRippleTxid(txid, PayWay.Tenpay);
             if (result != null)
             {
                 return Json(result);
@@ -65,7 +65,6 @@ namespace DotPay.Web.Admin.Controllers
                     }
                 }
             } 
-
 
            return Json(result);
         }

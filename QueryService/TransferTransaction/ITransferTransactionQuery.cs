@@ -16,7 +16,7 @@ namespace DotPay.QueryService
 
 
         /***************************************/
-        TransferTransaction SelectRippleTxid(string txid, PayWay payWay);
+        TransferTransaction GetTransferTransactionByRippleTxid(string txid, PayWay payWay);
 
     }
 }

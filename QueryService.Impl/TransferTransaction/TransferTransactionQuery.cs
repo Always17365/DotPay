@@ -58,7 +58,7 @@ namespace DotPay.QueryService.Impl
             return users;
         }
 
-        public TransferTransaction SelectRippleTxid(string txid, PayWay payWay)
+        public TransferTransaction GetTransferTransactionByRippleTxid(string txid, PayWay payWay)
         {
             var paramters = new object[] { txid };
             var result = this.Context.Sql(selectRippleTxid_sql.FormatWith(payWay.ToString()))

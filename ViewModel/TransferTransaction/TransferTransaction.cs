@@ -18,8 +18,8 @@ namespace DotPay.ViewModel
         public string TransferNo { get; set; }
         public string CNSourcePayway { get { return this.SourcePayway.GetDescription(); } }
         public PayWay SourcePayway { get; set; }
-        public string CNState { get { return this.state.GetDescription(); } }
-        public TransactionState state { get; set; }            
+        public string CNState { get { return this.State.GetDescription(); } }
+        public TransactionState State { get; set; }            
         public string Account { get; set; }
         public decimal Amount { get; set; }
         public int CreateAt { get; set; } 
