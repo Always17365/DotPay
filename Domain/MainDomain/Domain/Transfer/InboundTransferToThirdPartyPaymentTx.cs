@@ -15,12 +15,13 @@ namespace DotPay.MainDomain
     public class InboundTransferToThirdPartyPaymentTx : DomainBase, IAggregateRoot,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxCreated>,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxComplete>,
+                              IEventHandler<InboundTransferToThirdPartyPaymentTxMarkProcessing>,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxFailed>
     {
         #region ctor
         protected InboundTransferToThirdPartyPaymentTx() { }
 
-        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway,PayWay sourcePayway)
+        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway)
         {
             this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(txid, account, payway, amount, sourcePayway));
         }
@@ -44,9 +45,17 @@ namespace DotPay.MainDomain
 
         #region public method
 
+        public virtual void MarkProcessing(int byUserID)
+        {
+            if (this.State != TransactionState.Init)
+                throw new TransferTransactionNotInitException();
+            else
+                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxMarkProcessing(this.ID, this.PayWay, byUserID));
+        }
+
         public virtual void Complete(string transferNo, int byUserID)
         {
-            if (this.State != TransactionState.Pending)
+            if (this.State != TransactionState.Pending || this.State != TransactionState.Fail)
                 throw new TransferTransactionNotPendingException();
             else
                 this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxComplete(this.ID, this.PayWay, transferNo, byUserID));
@@ -71,7 +80,7 @@ namespace DotPay.MainDomain
             this.PayWay = @event.PayWay;
             this.SourcePayWay = @event.SourcePayway;
             this.SequenceNo = DateTime.Now.ToString("yyyyMMdd") + Guid.NewGuid().ToString().Replace("-", string.Empty).ToLower();
-            this.State = TransactionState.Pending;
+            this.State = TransactionState.Init;
             this.TransferNo = string.Empty;
             this.Memo = string.Empty;
             this.OperaterID = 0;
@@ -79,9 +88,16 @@ namespace DotPay.MainDomain
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
         }
 
+        void IEventHandler<InboundTransferToThirdPartyPaymentTxMarkProcessing>.Handle(InboundTransferToThirdPartyPaymentTxMarkProcessing @event)
+        {
+            this.State = TransactionState.Pending;
+            this.OperaterID = @event.ByUserID;
+        }
+
         void IEventHandler<InboundTransferToThirdPartyPaymentTxComplete>.Handle(InboundTransferToThirdPartyPaymentTxComplete @event)
         {
             this.State = TransactionState.Success;
+            this.TransferNo = @event.TransferNo;
             this.DoneAt = @event.UTCTimestamp.ToUnixTimestamp();
         }
 

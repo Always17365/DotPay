@@ -21,6 +21,7 @@ namespace DotPay.Common
             WeiboAppkey = ConfigurationManagerWrapper.AppSettings["WeiboAppkey"];
             WeiboAppSecret = ConfigurationManagerWrapper.AppSettings["WeiboAppSecret"];
             EmailSMTP = ConfigurationManagerWrapper.AppSettings["EmailSMTP"];
+            GatewayAccount = ConfigurationManagerWrapper.AppSettings["GatewayAccount"];
             WssRippleServer = ConfigurationManagerWrapper.AppSettings["WssRippleServer"];
             RippleHotWallet = ConfigurationManagerWrapper.AppSettings["RippleHotWallet"];
             SupportEmail = ConfigurationManagerWrapper.AppSettings["SupportEmail"];
@@ -39,6 +40,7 @@ namespace DotPay.Common
 
         public static string WeiboAppkey { get; private set; }
 
+        public static string GatewayAccount { get; private set; }
         public static string WeiboAppSecret { get; private set; }
         public static string WssRippleServer { get; private set; }
         public static string RippleHotWallet { get; private set; }

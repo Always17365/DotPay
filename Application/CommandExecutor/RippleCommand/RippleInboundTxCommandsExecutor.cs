@@ -33,11 +33,18 @@ namespace RippleCommand
 
         public void Execute(CompleteThirdPartyPaymentInboundTx cmd)
         {
-            //destinationtag是to tpp的ID
-            //此处不能用txid作为查找条件，因为此时的数据库中还没有txid
-            var rippleInboundTx = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>().FindByIDAndPayway(cmd.DestinationTag, cmd.PayWay);
+            var repos = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>();
 
-            rippleInboundTx.Complete(cmd.TxId, cmd.Amount);
+            var rippleInboundTx = repos.FindByTxIdAndPayway(cmd.TxId, cmd.PayWay);
+
+            if (rippleInboundTx == null)
+            {
+                //destinationtag是to tpp的ID
+                //此处不能用txid作为查找条件，因为此时的数据库中还没有txid
+                rippleInboundTx = repos.FindByIDAndPayway(cmd.DestinationTag, cmd.PayWay);
+
+                rippleInboundTx.Complete(cmd.TxId, cmd.Amount);
+            }
         }
     }
 }

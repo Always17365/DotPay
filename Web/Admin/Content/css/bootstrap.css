@@ -250,10 +250,12 @@ th {
   }
   .table {
     border-collapse: collapse !important;
+    table-layout:fixed;
   }
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #ddd !important;
+    word-wrap:break-word;
   }
 }
 * {

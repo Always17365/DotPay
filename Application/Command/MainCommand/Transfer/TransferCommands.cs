@@ -82,23 +82,46 @@ namespace DotPay.Command
     }
     #endregion
 
+    #region 转账标记处理中
+    public class MarkThirdPartyPaymentTransferProcessing : FC.Framework.Command
+    {
+        public MarkThirdPartyPaymentTransferProcessing(int tppTransferId, PayWay payway, int byUserID)
+        {
+            Check.Argument.IsNotNegativeOrZero(tppTransferId, "tppTransferId");
+            Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+            Check.Argument.IsNotNegativeOrZero(byUserID, "byUserID");
+
+            this.TppTransferID = tppTransferId;
+            this.PayWay = payway;
+            this.ByUserID = byUserID;
+        }
+
+        public int TppTransferID { get; private set; } 
+        public PayWay PayWay { get; private set; }
+        public int ByUserID { get; private set; } 
+    }
+    #endregion
+
     #region 转账完成
     public class ThirdPartyPaymentTransferComplete : FC.Framework.Command
     {
-        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, PayWay payway, int byUserID)
+        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, decimal amount, PayWay payway, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
             Check.Argument.IsNotEmpty(transferNo, "transferNo");
             Check.Argument.IsNotNegativeOrZero((int)payway, "payway");
+            Check.Argument.IsNotNegativeOrZero(amount, "amount");
 
             this.TransferId = transferId;
             this.TransferNo = transferNo;
+            this.Amount = amount;
             this.PayWay = payway;
             this.ByUserID = byUserID;
         }
 
         public int TransferId { get; private set; }
         public PayWay PayWay { get; private set; }
+        public decimal Amount { get; private set; }
         public string TransferNo { get; private set; }
         public int ByUserID { get; private set; }
     }

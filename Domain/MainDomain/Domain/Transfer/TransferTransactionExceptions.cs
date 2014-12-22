@@ -11,10 +11,12 @@ using FC.Framework.Repository;
 using DotPay.MainDomain.Exceptions;
 
 namespace DotPay.MainDomain
-{
-    public class TransferTransactionNotPendingException : DomainException
+{   public class TransferTransactionNotInitException : DomainException
     {
-
+    public TransferTransactionNotInitException() : base((int)ErrorCode.TransferTransactionNotInit) { }
+    }
+    public class TransferTransactionNotPendingException : DomainException
+    { 
         public TransferTransactionNotPendingException() : base((int)ErrorCode.TransferTransactionNotPending) { }
     }
     public class TransferTransactionHasConfirmedException : DomainException

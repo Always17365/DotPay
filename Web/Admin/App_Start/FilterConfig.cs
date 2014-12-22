@@ -8,7 +8,9 @@ namespace DotPay.Web.Admin
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new Authentication());
+            if (!DotPay.Common.Config.Debug)
+                filters.Add(new Authentication());
+
             filters.Add(new HandleErrorAttribute());
         }
     }

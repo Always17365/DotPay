@@ -31,7 +31,7 @@ namespace DotPay.Web.Admin.Controllers
         [HttpPost]
         public ActionResult GetPendingTransferTransaction(PayWay payWay, int page)
         {
-            var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("",0,"",null,null,TransactionState.Pending, payWay);
+            var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Pending, payWay);
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, payWay, page, Constants.DEFAULT_PAGE_COUNT);
             return Json(new { count = count, result = result });
         }
@@ -50,11 +50,11 @@ namespace DotPay.Web.Admin.Controllers
             return Json(new { count = count, result = result });
         }
         [HttpPost]
-        public ActionResult ThirdPartyPaymentTransferComplete(int transferId, string transferNo, PayWay payway)
+        public ActionResult ThirdPartyPaymentTransferComplete(int transferId, decimal amount, string transferNo, PayWay payway)
         {
             try
             {
-                var cmd = new ThirdPartyPaymentTransferComplete(transferId, transferNo, payway, this.CurrentUser.UserID);
+                var cmd = new ThirdPartyPaymentTransferComplete(transferId, transferNo, amount, payway, this.CurrentUser.UserID);
                 this.CommandBus.Send(cmd);
                 return Json(JsonResult.Success);
             }

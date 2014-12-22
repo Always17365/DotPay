@@ -10,7 +10,7 @@ using System.Web;
 /// <summary>
 /// Config 的摘要说明
 /// </summary>
-public static class UEditorConfig
+public static class Config
 {
     private static bool noCache = true;
     private static JObject BuildItems()

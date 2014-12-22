@@ -33,6 +33,8 @@ obj/
 [Ll]ogError*/
 NHLog*/
 ElmahLog/
+ueditor/net/*
+ueditor/third-party/*
 ueditor/net/update/
 [Rr]elease*/
 _ReSharper*/

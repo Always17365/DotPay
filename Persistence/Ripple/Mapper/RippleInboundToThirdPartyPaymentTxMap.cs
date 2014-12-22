@@ -14,12 +14,11 @@ namespace DotPay.RipplePersistence.Mapper
         public RippleInboundToThirdPartyPaymentTxMap()
         {
             Id(u => u.ID, map => map.Generator(Generators.Identity));
-            Property(x => x.ID, map => { map.Unique(true); map.UniqueKey("TXID_ID"); });
-            Property(x => x.TxID, map => { map.NotNullable(true); map.Unique(true); map.UniqueKey("TXID_ID"); });
+            Property(x => x.TxID, map => { map.NotNullable(true); map.Unique(true); });
             Property(x => x.State, map => { map.NotNullable(true); });
             Property(x => x.Destination, map => { map.NotNullable(true); map.Length(34); });
             Property(x => x.PayWay, map => { map.NotNullable(true); map.Length(34); });
-            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(12); map.Precision(2); });
+            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(12); map.Scale(2); });
             Property(x => x.CreateAt, map => { map.NotNullable(true); });
             Property(x => x.DoneAt, map => { map.NotNullable(true); });
             Version(x => x.Version, map => { });

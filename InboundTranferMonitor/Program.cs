@@ -12,6 +12,7 @@ using FC.Framework.NHibernate;
 using DotPay.Common;
 using System.Reflection;
 using FC.Framework.Repository;
+using DotPay.Persistence;
 
 namespace DotPay.TransferMonitor
 {
@@ -60,7 +61,7 @@ namespace DotPay.TransferMonitor
         {
             Console.WriteLine("正在初始化运行环境...");
             var assemblies = GetAllAssembly();
-            var nhibernateMapperAssemblies = assemblies.Where(ass => ass.FullName.IndexOf("DotPay.RipplePersistence", StringComparison.OrdinalIgnoreCase) > -1);
+            var nhibernateMapperAssemblies = assemblies.Where(ass => ass.FullName.IndexOf("DotPay.Persistence", StringComparison.OrdinalIgnoreCase) > -1);
             var connString = ConfigurationManagerWrapper.GetDBConnectionString("FCDB2");
             var connProvider = ConfigurationManagerWrapper.GetProviderName("FCDB2");
 
@@ -68,6 +69,8 @@ namespace DotPay.TransferMonitor
                                     .UseCouchbaseCache()
                                     .UseLog4net()
                                     .UseDefaultCommandBus(assemblies)
+                                    .UseDefaultEventBus()
+                                    .RegisterAllRepository()
                                     .UseNHibernate(new ConnectionString(connString, connProvider), nhibernateMapperAssemblies)
                 //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
                                     .Start();

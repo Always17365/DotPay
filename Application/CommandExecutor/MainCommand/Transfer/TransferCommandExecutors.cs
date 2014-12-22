@@ -75,6 +75,9 @@ namespace DotPay.Command.Executor
 
             var ttpTx = IoC.Resolve<IInboundTransferToThirdPartyPaymentTxRepository>().FindTransferTxByIDAndPayway(cmd.TransferId, cmd.PayWay);
 
+            if (cmd.Amount != ttpTx.Amount)
+                throw new Exception("输入的金额不匹配");
+
             ttpTx.Complete(cmd.TransferNo, cmd.ByUserID);
         }
 

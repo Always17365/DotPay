@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@using FC.Framework;
+@using DotPay.ViewModel
+@using DotPay.Common
+@using DotPay.Language
+<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/my/index/">
+                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
+                转账进度查询
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="container dotpay-apps">
+    <div class="col-sm-8 col-sm-offset-2">
+        @if (@ViewBag.Transfer != null)
+        {
+            <div class="col-sm-11 col-sm-offset-1 ptl-5 transfe-success">
+                <div class="result-message">
+                    <p id="result-msg">提交成功，对方将立即收到￥ @ViewBag.Transfer.Amount </p>
+                    <p class="remark">点击查看 <a href="/my/txrecords"><strong>我的交易记录</strong></a>，查看您的交易明细</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="fail box" id="failBox"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox">系统出错</span></div>
+        }
+    </div>
+</div>

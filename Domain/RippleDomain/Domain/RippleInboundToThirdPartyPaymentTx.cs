@@ -27,7 +27,7 @@ namespace DotPay.RippleDomain
         public virtual int ID { get; protected set; }
         public virtual string TxID { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
-        public virtual TransactionState State { get; protected set; }
+        public virtual RippleTransactionState State { get; protected set; }
         public virtual string Destination { get; protected set; }
         public virtual decimal Amount { get; protected set; }
 
@@ -36,7 +36,7 @@ namespace DotPay.RippleDomain
          
         public virtual void Complete(string txid, decimal amount)
         {
-            if (this.State != TransactionState.Pending)
+            if (this.State != RippleTransactionState.Pending)
                 throw new RippleTransactionNotPendingException();
             else
                 this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid,this.PayWay, amount));
@@ -45,9 +45,9 @@ namespace DotPay.RippleDomain
         #region Event handler
         void IEventHandler<RippleInboundTxToThirdPartyPaymentCreated>.Handle(RippleInboundTxToThirdPartyPaymentCreated @event)
         {
-            this.TxID = string.Empty;
+            this.TxID = Guid.NewGuid().ToString();
             this.PayWay = @event.PayWay;
-            this.State = TransactionState.Pending;
+            this.State = RippleTransactionState.Pending;
             this.Destination = @event.Destination;
             this.Amount = 0;
         }
@@ -56,6 +56,7 @@ namespace DotPay.RippleDomain
         void IEventHandler<RippleInboundTxToThirdPartyPaymentCompelted>.Handle(RippleInboundTxToThirdPartyPaymentCompelted @event)
         {
             this.TxID = @event.RippleTxID;
+            this.State = RippleTransactionState.Success;
             this.Amount = @event.Amount;
         }
     }

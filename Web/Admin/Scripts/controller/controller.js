@@ -13,11 +13,21 @@ function IndexCtrl($scope, $modal) {
     }
 }
 
-function ModifyPasswordModalCtrl($scope, $modalInstance) {
-    $scope.save = function () {
-        console.log("save");
+function ModifyPasswordModalCtrl($http, $scope, $modalInstance, $alert) {
+    $scope.save = function (oldPassword, newPassword, confirmPassword, gaPassword) {
+        if (!(oldPassword.length >= 6 && newPassword.length >= 6 && confirmPassword == newPassword)) {
+            $alert.Warn("密码长度有误最少6位!或者新密码与重复密码不匹配")
+            $modalInstance.dismiss('cancel');
+        }
+        var url = '../modifyPasswords';
+        $http.post(url, { oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword}).success(function (data, status, headers) {
+            if (data == 1)
+                $modalInstance.close(true);
+            else
+                $alert.Warn("修改失败!")
+            $modalInstance.close(false);
+        });
     };
-
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

@@ -288,6 +288,7 @@
     <Content Include="public\images\logo.png" />
     <Content Include="public\images\logoc.png" />
     <Content Include="public\images\profilenav.png" />
+    <Content Include="public\images\qr_code.png" />
     <Content Include="public\libs\bootstrap\bootstrap.min.js" />
     <Content Include="public\libs\bootstrap\bootstrap.css" />
     <Content Include="public\libs\bootstrap\bootstrap.min.css" />
@@ -467,6 +468,7 @@
     <Content Include="Views\Transfer\OutboundTppTransferSuccess.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
     <Content Include="Views\Transfer\OutboundRippleSubmitSuccess.cshtml" />
+    <Content Include="Views\Transfer\InboundRippleQuery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -500,6 +502,10 @@
     <ProjectReference Include="..\..\Common\DotPay.Common.csproj">
       <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
       <Name>DotPay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\RippleDomain\DotPay.RippleDomain.csproj">
+      <Project>{330457d3-9bec-49f0-b42c-f83eb3b3f1a2}</Project>
+      <Name>DotPay.RippleDomain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Language\DotPay.Language.csproj">
       <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>

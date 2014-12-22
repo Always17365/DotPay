@@ -50,6 +50,9 @@ namespace DotPay.ViewModel
         [JsonProperty("destination_tag")]
         public int DestinationTag { get; set; }
 
+        [JsonProperty("dt")]
+        public int DT { get { return DestinationTag; } }
+
         [JsonProperty("currencies")]
         public IEnumerable<RippleCurrency> AcceptCurrencys { get; set; }
 

@@ -61,7 +61,7 @@ namespace DotPay.TransferMonitor
                         if (!string.IsNullOrEmpty(inboundTPPMsg.Account))
                         {
                             //cmdTypeDesc = "第三方支付直转交易";
-                            Log.Info("收到新的第三方支付({0})直转交易消息:{1}", inboundTPPMsg.PayWay, message);
+                            Log.Info("收到新的第三方支付({0})直转交易消息:{1}", inboundTPPMsg.PayWay.ToString(), message);
 
                             var cmd = new CreateThirdPartyPaymentTransfer(inboundTPPMsg.TxId, inboundTPPMsg.Account, inboundTPPMsg.Amount, inboundTPPMsg.PayWay, inboundTPPMsg.SourcePayWay);
                             IoC.Resolve<ICommandBus>().Send(cmd);

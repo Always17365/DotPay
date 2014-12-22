@@ -10,9 +10,8 @@ namespace DotPay.Persistence
         public ToTenpayTransferTransactionMap()
         {
             Id(u => u.ID, map => map.Generator(Generators.Identity));
-
             Property(x => x.SequenceNo, map => { map.NotNullable(true); map.Unique(true); map.Length(40); });
-            Property(x => x.TxId, map => { map.NotNullable(true); map.Length(65); });
+            Property(x => x.TxId, map => { map.NotNullable(true); map.Length(65); map.Unique(true); });
             Property(x => x.PayWay, map => { map.NotNullable(true); });
             Property(x => x.SourcePayWay, map => { map.NotNullable(true); });
             Property(x => x.Account, map => { map.NotNullable(true); });

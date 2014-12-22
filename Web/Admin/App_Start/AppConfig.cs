@@ -45,7 +45,7 @@ namespace DotPay.Web.Admin
                                     .UseDefaultEventBus(assemblies)
                                     .Start();
 
-            if (Config.Debug)
+            if (DotPay.Common.Config.Debug)
             {
                 //SessionManager.CreateTables();
                 //    for (int i = 0; i < 35; i++)

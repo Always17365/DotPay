@@ -17,7 +17,7 @@ namespace DotPay.Web.Controllers
 {
     public class FCAPIController : ApiController
     {
-        public const string GATEWAY_ADDRESS = "rM8199qFwspxiWNZRChZdZbGN5WrCepVP1";
+        public readonly static string GATEWAY_ADDRESS = Config.GatewayAccount;
         public const string GATEWAY_DOMAIN = "dotpay.co";
         public const string GATEWAY_ACCEPT_CURRENCY = "CNY";
         public const string GATEWAY_SPLIT = ":";

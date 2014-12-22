@@ -19,19 +19,19 @@ public class UEditorHandler : IHttpHandler
             case "uploadimage":
                 action = new UploadHandler(context, new UploadConfig()
                 {
-                    AllowExtensions = UEditorConfig.GetStringList("imageAllowFiles"),
-                    PathFormat = UEditorConfig.GetString("imagePathFormat"),
-                    SizeLimit = UEditorConfig.GetInt("imageMaxSize"),
-                    UploadFieldName = UEditorConfig.GetString("imageFieldName")
+                    AllowExtensions = Config.GetStringList("imageAllowFiles"),
+                    PathFormat = Config.GetString("imagePathFormat"),
+                    SizeLimit = Config.GetInt("imageMaxSize"),
+                    UploadFieldName = Config.GetString("imageFieldName")
                 });
                 break;
             case "uploadscrawl":
                 action = new UploadHandler(context, new UploadConfig()
                 {
                     AllowExtensions = new string[] { ".png" },
-                    PathFormat = UEditorConfig.GetString("scrawlPathFormat"),
-                    SizeLimit = UEditorConfig.GetInt("scrawlMaxSize"),
-                    UploadFieldName = UEditorConfig.GetString("scrawlFieldName"),
+                    PathFormat = Config.GetString("scrawlPathFormat"),
+                    SizeLimit = Config.GetInt("scrawlMaxSize"),
+                    UploadFieldName = Config.GetString("scrawlFieldName"),
                     Base64 = true,
                     Base64Filename = "scrawl.png"
                 });
@@ -39,26 +39,26 @@ public class UEditorHandler : IHttpHandler
             case "uploadvideo":
                 action = new UploadHandler(context, new UploadConfig()
                 {
-                    AllowExtensions = UEditorConfig.GetStringList("videoAllowFiles"),
-                    PathFormat = UEditorConfig.GetString("videoPathFormat"),
-                    SizeLimit = UEditorConfig.GetInt("videoMaxSize"),
-                    UploadFieldName = UEditorConfig.GetString("videoFieldName")
+                    AllowExtensions = Config.GetStringList("videoAllowFiles"),
+                    PathFormat = Config.GetString("videoPathFormat"),
+                    SizeLimit = Config.GetInt("videoMaxSize"),
+                    UploadFieldName = Config.GetString("videoFieldName")
                 });
                 break;
             case "uploadfile":
                 action = new UploadHandler(context, new UploadConfig()
                 {
-                    AllowExtensions = UEditorConfig.GetStringList("fileAllowFiles"),
-                    PathFormat = UEditorConfig.GetString("filePathFormat"),
-                    SizeLimit = UEditorConfig.GetInt("fileMaxSize"),
-                    UploadFieldName = UEditorConfig.GetString("fileFieldName")
+                    AllowExtensions = Config.GetStringList("fileAllowFiles"),
+                    PathFormat = Config.GetString("filePathFormat"),
+                    SizeLimit = Config.GetInt("fileMaxSize"),
+                    UploadFieldName = Config.GetString("fileFieldName")
                 });
                 break;
             case "listimage":
-                action = new ListFileManager(context, UEditorConfig.GetString("imageManagerListPath"), UEditorConfig.GetStringList("imageManagerAllowFiles"));
+                action = new ListFileManager(context, Config.GetString("imageManagerListPath"), Config.GetStringList("imageManagerAllowFiles"));
                 break;
             case "listfile":
-                action = new ListFileManager(context, UEditorConfig.GetString("fileManagerListPath"), UEditorConfig.GetStringList("fileManagerAllowFiles"));
+                action = new ListFileManager(context, Config.GetString("fileManagerListPath"), Config.GetStringList("fileManagerAllowFiles"));
                 break;
             case "catchimage":
                 action = new CrawlerHandler(context);

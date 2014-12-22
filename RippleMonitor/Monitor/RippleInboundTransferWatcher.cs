@@ -64,14 +64,31 @@ namespace DotPay.RippleMonitor
 
                     if (!waitCallback)
                     {
-                        lock (_lock)
+                        var rippleClient = IoC.Resolve<IRippleClientAsync>();
+                        var aviableLedgerIndexResult = rippleClient.GetClosedLedgerIndex().Result;
+                        if (aviableLedgerIndexResult.Item1 == null)
                         {
-                            waitCallback = true;
-                            GetTxs(RippleInboundTransferWatcher.currentProcessLedgerIndex, ProcessTxs);
+                            var ledger_min = RippleInboundTransferWatcher.currentProcessLedgerIndex;
+                            var ledgerIndex_max = ledger_min + 19; //因为ripple走的是一个 ≥和≤的区间，所以+9就是一次分析20个ledger
+                            ledgerIndex_max = Math.Min(ledgerIndex_max, aviableLedgerIndexResult.Item2 - 10);//取小值
+
+                            if (ledgerIndex_max < ledger_min)
+                            {
+                                Log.Warn("目前已到达最新的ledger-" + RippleInboundTransferWatcher.currentProcessLedgerIndex + ",等待ledger close后再进行解析");
+                            }
+                            else
+                            {
+                                lock (_lock)
+                                {
+                                    waitCallback = true;
+
+                                    GetTxs(ledger_min, ledgerIndex_max, ProcessTxs);
+                                }
+                            }
                         }
                     }
                     else
-                        Thread.Sleep(1 * 1000);
+                        Thread.Sleep(3 * 1000);
                 }
             }));
 
@@ -79,15 +96,15 @@ namespace DotPay.RippleMonitor
         }
 
         #region 私有方法
-        private static async void GetTxs(int ledgerIndex, Action<List<TransactionRecord>> processTxAction)
+        private static async void GetTxs(int ledgerIndex_min, int lederIndex_max, Action<List<TransactionRecord>> processTxAction)
         {
             try
             {
                 var rippleClient = IoC.Resolve<IRippleClientAsync>();
 
-                Log.Info("开始分析ledger-{0}".FormatWith(ledgerIndex));
+                Log.Info("开始分析ledger{0}-{1}".FormatWith(ledgerIndex_min, lederIndex_max));
 
-                var result = await rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex, ledgerIndex + 10000);
+                var result = await rippleClient.GetTransactions(Config.RippleAccount, ledgerIndex_min, lederIndex_max);
 
                 try
                 {
@@ -108,8 +125,8 @@ namespace DotPay.RippleMonitor
                         {
                             processTxAction(result.Item2);
                         }
-                        RecordProcessLedgerIndex(ledgerIndex+10000);
-                        Log.Info("ledger{0}-{1}解析完毕".FormatWith(ledgerIndex, ledgerIndex + 1000));
+                        RecordProcessLedgerIndex(lederIndex_max + 1);
+                        Log.Info("ledger{0}={1}解析完毕".FormatWith(ledgerIndex_min, lederIndex_max));
                     }
                 }
                 finally
@@ -171,38 +188,47 @@ namespace DotPay.RippleMonitor
 
                         //解析destinationtag，检查标志位
                         var destinationtag = tx.TransactionDetail.DestinationTag;
-                        var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
-                        var payway = Utilities.GetPaywayFromFlg(flg);
-                        destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag
-                        try
-                        {
-                            if (payway == PayWay.Ripple)
-                            {
-                                var cmd = new CreateInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value);
-                                IoC.Resolve<ICommandBus>().Send(cmd);
-                            }
 
-                            else if (payway == PayWay.Alipay || payway == PayWay.Tenpay)
+                        if (destinationtag > 0)
+                        {
+
+                            var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
+                            var payway = Utilities.GetPaywayFromFlg(flg);
+                            destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag
+                            try
                             {
-                                var cmd = new CompleteThirdPartyPaymentInboundTx(payway, tx.TransactionDetail.Hash, tx.TransactionDetail.DestinationTag, amount.Value);
-                                IoC.Resolve<ICommandBus>().Send(cmd);
+                                if (payway == PayWay.Ripple)
+                                {
+                                    var cmd = new CreateInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value);
+                                    IoC.Resolve<ICommandBus>().Send(cmd);
+                                }
+
+                                else if (payway == PayWay.Alipay || payway == PayWay.Tenpay)
+                                {
+                                    var cmd = new CompleteThirdPartyPaymentInboundTx(payway, tx.TransactionDetail.Hash, destinationtag, amount.Value);
+                                    IoC.Resolve<ICommandBus>().Send(cmd);
+                                }
+                                else
+                                {
+                                    Log.Warn("发现未知的转入交易标志位" + flg.ToString() + " tx:" + IoC.Resolve<IJsonSerializer>().Serialize(tx));
+                                }
                             }
-                            else
+                            catch (NHibernate.Exceptions.GenericADOException ex)
                             {
-                                Log.Warn("发现未知的转入交易标志位" + flg.ToString() + " tx:" + IoC.Resolve<IJsonSerializer>().Serialize(tx));
+                                var mysqlex = ex.InnerException as MySql.Data.MySqlClient.MySqlException;
+                                if (mysqlex != null && mysqlex.Number == 1062)
+                                {
+                                    Log.Info("已接收该交易，重复的到帐消息" + IoC.Resolve<IJsonSerializer>().Serialize(tx) + "，做丢弃处理");
+                                }
+                            }
+                            catch (CommandExecutionException ex)
+                            {
+                                Log.Error("创建新的转入交易指令时出现错误", ex);
                             }
                         }
-                        catch (NHibernate.Exceptions.GenericADOException ex)
+                        else
                         {
-                            var mysqlex = ex.InnerException as MySql.Data.MySqlClient.MySqlException;
-                            if (mysqlex != null && mysqlex.Number == 1062)
-                            {
-                                Log.Info("已接收该交易，重复的到帐消息" + IoC.Resolve<IJsonSerializer>().Serialize(tx) + "，做丢弃处理");
-                            }
-                        }
-                        catch (CommandExecutionException ex)
-                        {
-                            Log.Error("创建新的转入交易指令时出现错误", ex);
+                            Log.Warn("收到新的转入交易,但无任何的destinationtag" + IoC.Resolve<IJsonSerializer>().Serialize(tx));
                         }
                     }
                 }

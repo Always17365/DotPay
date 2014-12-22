@@ -38,7 +38,7 @@ public class ListFileManager : Handler
         try
         {
             Start = String.IsNullOrEmpty(Request["start"]) ? 0 : Convert.ToInt32(Request["start"]);
-            Size = String.IsNullOrEmpty(Request["size"]) ? UEditorConfig.GetInt("imageManagerListSize") : Convert.ToInt32(Request["size"]);
+            Size = String.IsNullOrEmpty(Request["size"]) ? Config.GetInt("imageManagerListSize") : Convert.ToInt32(Request["size"]);
         }
         catch (FormatException)
         {

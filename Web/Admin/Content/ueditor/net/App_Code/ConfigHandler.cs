@@ -12,6 +12,6 @@ public class ConfigHandler : Handler
 
     public override void Process()
     {
-        WriteJson(UEditorConfig.Items);
+        WriteJson(Config.Items);
     }
 }

@@ -125,6 +125,18 @@
       <Project>{a020172a-243c-4db0-a006-7373c2725994}</Project>
       <Name>DotPay.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain\MainDomain\DotPay.MainDomain.csproj">
+      <Project>{200c8615-6f01-4d57-9f19-5e4cd12e2860}</Project>
+      <Name>DotPay.MainDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\RippleDomain\DotPay.RippleDomain.csproj">
+      <Project>{330457d3-9bec-49f0-b42c-f83eb3b3f1a2}</Project>
+      <Name>DotPay.RippleDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Persistence\Main\DotPay.Persistence.csproj">
+      <Project>{dee26a7c-b646-4783-8a06-df8cf1a44b51}</Project>
+      <Name>DotPay.Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Persistence\Ripple\DotPay.RipplePersistence.csproj">
       <Project>{666500ee-30c4-4ee4-876a-dc1e6aab4378}</Project>
       <Name>DotPay.RipplePersistence</Name>

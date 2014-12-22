@@ -154,7 +154,7 @@ namespace RippleRPC.Net
                     {
                         if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State != WebSocketState.Connecting)
                         {
-                            WebSocketRL.Open();
+                            WebSocketConnect();
                         }
                     }
                 });
@@ -171,7 +171,7 @@ namespace RippleRPC.Net
                 {
                     if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State != WebSocketState.Connecting)
                     {
-                        WebSocketRL.Open();
+                        WebSocketConnect();
                     }
                 }
             });
@@ -227,7 +227,7 @@ namespace RippleRPC.Net
                 else
                 {
                     if (WebSocketRL.State == WebSocketState.Closed)
-                        try { WebSocketRL.Open(); }
+                        try { WebSocketConnect(); }
                         catch { }
                 }
 
@@ -417,7 +417,7 @@ namespace RippleRPC.Net
 
         //    return summary;
 
-        //}
+        //} 
 
         public Task<Tuple<RippleError, string>> GetClosedLedgerHash()
         {
@@ -425,6 +425,14 @@ namespace RippleRPC.Net
 
             return RpcRequest<string>(request, "ledger_hash");
         }
+
+        public Task<Tuple<RippleError, int>> GetClosedLedgerIndex()
+        {
+            RippleRequest request = new RippleRequest(this.RPCCallId, "ledger_closed", new ExpandoObject());
+
+            return RpcRequest<int>(request, "ledger_index");
+        }
+
 
         public Task<Tuple<RippleError, int>> GetCurrentLedgerIndex()
         {
@@ -591,8 +599,45 @@ namespace RippleRPC.Net
                 WebSocketRL.Error += WebScoketRL_Error;
                 WebSocketRL.Closed += WebScoketRL_Closed;
                 WebSocketRL.MessageReceived += WebScoketRL_MessageReceived;
-                WebSocketRL.Open();
+                WebSocketConnect();
             }
+        }
+
+        private object _WebSocketReConnectLocker = new object();
+        private Task _WebSocketTimeoutWatcherTask;
+
+        private void WebSocketConnect()
+        {
+            Log.Info("开始重连WebSocket");
+            Task.Factory.StartNew(() =>
+            {
+                lock (_WebSocketReConnectLocker)
+                {
+                    if (this.AutoReconnect == true)
+                    {
+                        if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State != WebSocketState.Connecting)
+                        {
+                            try
+                            {
+                                WebSocketRL.Open();
+                                _WebSocketTimeoutWatcherTask = Task.Factory.StartNew(() =>
+                                {
+                                    Task.Delay(30 * 1000).Wait();
+                                    if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State == WebSocketState.Connecting)
+                                    {
+                                        Log.Warn("WebSocket Connect Timeout,force to close ,and fire the auto connect");
+                                        WebSocketRL.Close();
+                                    }
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Warn("可能已经连接了:" + ex.Message, ex);
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         public void Dispose()

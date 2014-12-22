@@ -13,6 +13,8 @@ using DotPay.Common;
 using RippleRPC.Net;
 using System.Reflection;
 using FC.Framework.Repository;
+using DotPay.RipplePersistence;
+using DotPay.Persistence;
 
 namespace DotPay.RippleMonitor
 {
@@ -70,6 +72,9 @@ namespace DotPay.RippleMonitor
                                     .UseCouchbaseCache()
                                     .UseLog4net()
                                     .UseDefaultCommandBus(assemblies)
+                                    .RegisterAllRippleRepository()
+                                    .RegisterAllRepository()
+                                    .UseDefaultEventBus(assemblies)
                                     .UseNHibernate(new ConnectionString(connString, connProvider), nhibernateMapperAssemblies)
                                     //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
                                     .Start();

@@ -11,8 +11,9 @@ namespace DotPay.MainDomain.Events
 {
     public class InboundTransferToThirdPartyPaymentTxCreated : DomainEvent
     {
-        public InboundTransferToThirdPartyPaymentTxCreated(string txid, string account, PayWay payway, decimal amount,PayWay sourcePayway)
+        public InboundTransferToThirdPartyPaymentTxCreated(string txid, string account, PayWay payway, decimal amount, PayWay sourcePayway)
         {
+            this.TxId = txid;
             this.Account = account;
             this.Amount = amount;
             this.PayWay = payway;
@@ -23,6 +24,19 @@ namespace DotPay.MainDomain.Events
         public PayWay PayWay { get; private set; }
         public decimal Amount { get; private set; }
         public PayWay SourcePayway { get; private set; }
+    }
+
+    public class InboundTransferToThirdPartyPaymentTxMarkProcessing : DomainEvent
+    {
+        public InboundTransferToThirdPartyPaymentTxMarkProcessing(int transferID, PayWay payway, int byUserID)
+        {
+            this.TransferID = transferID;
+            this.PayWay = payway;
+            this.ByUserID = byUserID;
+        }
+        public int TransferID { get; private set; }
+        public PayWay PayWay { get; private set; }
+        public int ByUserID { get; private set; }
     }
 
     public class InboundTransferToThirdPartyPaymentTxComplete : DomainEvent
