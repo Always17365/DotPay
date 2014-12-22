@@ -8,6 +8,7 @@
     </div>
     <div class="panel-body">
         <div class="pull-left">            
+            <button type="button" class="btn btn-danger" ng-click="Processing()">处理</button>
             <button type="button" class="btn btn-success" ng-click="Success()">完成</button>
             <button type="button" class="btn btn-success" ng-click="Fail()">失败</button>
         </div>
@@ -23,6 +24,7 @@
                 <th>TxId</th>
                 <th>流水号</th> 
                 <th>支付来源</th>
+                <th>状态</th>
                 <th>用户</th>
                 <th>金额</th> 
                 <th>创建时间</th> 
@@ -35,6 +37,7 @@
                 <td ng-bind="transferTransaction.TxId"></td> 
                 <td ng-bind="transferTransaction.TransferNo"></td>
                 <td ng-bind="transferTransaction.CNSourcePayway"></td>
+                <td ng-bind="transferTransaction.CNState"></td>
                 <td ng-bind="transferTransaction.Account"></td>
                 <td ng-bind="transferTransaction.Amount"></td>        
                 <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td> 

@@ -29,6 +29,19 @@
         }
         else $scope.selectTransferTransaction = undefined;
     }
+    $scope.Processing = function () { 
+        if ($scope.selectTransferTransaction) {
+            $http.post('../TransferTransaction/MarkThirdPartyPaymentTransferProcessing', { tppTransferId: $scope.selectTransferTransaction.ID, payway: $scope.selectTransferTransaction.payway }).success(function (data, status, headers) {
+                if (data.Code == 1) {
+                    $scope.pageChange($scope.currentPage);
+                    $alert.Warn("处理成功");
+                } else {
+                    $alert.Warn("处理失败");
+                }
+            });
+        }
+        else $alert.Warn("未选择任何用户")
+    }
     $scope.Success = function () {
         var transferTransaction = $scope.selectTransferTransaction
         if (transferTransaction) {

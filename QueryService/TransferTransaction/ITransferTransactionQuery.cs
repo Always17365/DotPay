@@ -14,5 +14,9 @@ namespace DotPay.QueryService
         IEnumerable<TransferTransaction> GetTransferTransactionBySearch(TransactionState state, PayWay payWay, int page, int pageCount);
         IEnumerable<TransferTransaction> SelectTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay, int page, int pageCount);
 
+
+        /***************************************/
+        TransferTransaction SelectRippleTxid(string txid, PayWay payWay);
+
     }
 }

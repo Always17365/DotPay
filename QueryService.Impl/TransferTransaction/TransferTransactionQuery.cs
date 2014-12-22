@@ -58,6 +58,19 @@ namespace DotPay.QueryService.Impl
             return users;
         }
 
+        public TransferTransaction SelectRippleTxid(string txid, PayWay payWay)
+        {
+            var paramters = new object[] { txid };
+            var result = this.Context.Sql(selectRippleTxid_sql.FormatWith(payWay.ToString()))
+                                   .Parameters(paramters)
+                                   .QuerySingle<TransferTransaction>();
+
+            return result;
+        } 
+        private readonly string selectRippleTxid_sql =
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt
+                                    FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
+                                   WHERE    TxId=@0";
         #region SQL
         private readonly string getTransferTransactionCountBySearch_Sql =
                                 @"SELECT    COUNT(*)
@@ -70,13 +83,13 @@ namespace DotPay.QueryService.Impl
                                      AND   State=@5";
 
         private readonly string getTransferTransactionBySearch =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,CreateAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state=@0 
                                 ORDER BY    CreateAt
                                    LIMIT    @1,@2";
         private readonly string selectTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,Amount,CreateAt
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 
