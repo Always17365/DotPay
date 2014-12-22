@@ -70,13 +70,13 @@ namespace DotPay.QueryService.Impl
                                      AND   State=@5";
 
         private readonly string getTransferTransactionBySearch =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,CreateAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state=@0 
                                 ORDER BY    CreateAt
                                    LIMIT    @1,@2";
         private readonly string selectTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,Amount,CreateAt
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 

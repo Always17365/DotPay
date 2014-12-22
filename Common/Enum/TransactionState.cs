@@ -8,10 +8,15 @@ namespace DotPay.Common
 {
     public enum TransactionState
     {
+        [EnumDescription("待处理")]
         Init = 0,
+        [EnumDescription("处理中")]
         Pending = 1,
+        [EnumDescription("失败")]
         Fail = 2,
+        [EnumDescription("成功")]
         Success = 3,
+        [EnumDescription("取消")]
         Cancel = 4
     }
 

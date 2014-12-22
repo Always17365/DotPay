@@ -24,8 +24,7 @@ function ModifyPasswordModalCtrl($http, $scope, $modalInstance, $alert) {
             if (data == 1)
                 $modalInstance.close(true);
             else
-                $alert.Warn("修改失败!")
-            $modalInstance.close(false);
+                $alert.Warn("修改失败!") 
         });
     };
 
