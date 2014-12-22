@@ -16,6 +16,9 @@ namespace DotPay.Web.Admin.Controllers
 
     public class TransferTransactionController : BaseController
     {
+
+        private object _locker = new object();
+
         public ActionResult Pending()
         {
             return View();
@@ -44,14 +47,27 @@ namespace DotPay.Web.Admin.Controllers
             return(null);
         }
         [HttpPost]
-        public ActionResult GetPendingTransferTransaction( )
-        { 
-            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 10);
-            var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 10);
-            var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 10);
-            var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 10);
-            var result = result1.Union<TransferTransaction>(result2).Union<TransferTransaction>(result3).Union<TransferTransaction>(result4);
-            return Json(result.Take(10).OrderByDescending(q => q.CreateAt));
+        public ActionResult GetLastTenTransferTransaction( )
+        {
+            IEnumerable<TransferTransaction> result = default(IEnumerable<TransferTransaction>); 
+            if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+            {
+                lock (_locker)
+                {
+                    if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+                    {
+                        var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 10);
+                        var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 10);
+                        var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 10);
+                        var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 10);
+                        result = result1.Union<TransferTransaction>(result2).Union<TransferTransaction>(result3).Union<TransferTransaction>(result4).Take(10).OrderByDescending(q => q.CreateAt);
+                        Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
+                    }
+                }
+            } 
+
+
+           return Json(result);
         }
 
         [HttpPost]
