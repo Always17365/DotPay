@@ -99,6 +99,20 @@ namespace DotPay.Web.Controllers
             return View("OutboundTppTransferSuccess");
         }
 
+        [Route("~/query")]
+        [Route("~/query/{txid}")]
+        public ActionResult InBoundTppQueryByTxid(string txid)
+        {
+            ViewBag.TxId = txid;
+
+            if (!string.IsNullOrEmpty(txid))
+            {
+
+            }
+
+            return View("InboundRippleQuery");
+        }
+
         #endregion
 
         #region 外部（Ripple）转账页面

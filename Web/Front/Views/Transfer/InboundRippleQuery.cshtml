@@ -1,34 +1,90 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+    Layout = null;
 }
 @using FC.Framework;
 @using DotPay.ViewModel
 @using DotPay.Common
 @using DotPay.Language
-<nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/my/index/">
-                <img alt="Brand" style="height:40px;width:80px;" src="~/public/images/logo.png">
-                转账进度查询
-            </a>
+
+@using DotPay.Language
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>@Html.Lang("website_Title")</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="dotpay" name="keywords">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/public/libs/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/public/css/font-awesome.min.css" rel="stylesheet" />
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="~/public/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link href="~/public/libs/bootstrap-validator/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <link href="~/public/css/layout.css" rel="stylesheet" />
+    <link href="~/public/css/profile.css" rel="stylesheet" />
+    <script src="~/public/libs/jquery/jquery.min.js"></script>
+    <script src="~/public/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="~/public/libs/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+    <script src="~/public/js/main.js"></script>
+    <script src="~/public/libs/ripple/ripple-min.js"></script>
+</head>
+<body style="padding-bottom: 70px;">
+    <header class="navbar navbar-static-top navbar-default  dotpay-navbar-profile-top" id="top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".dotpay-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav class="collapse navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li><a><i class="welcome">点付,您的快捷支付专家</i></a></li>
+                </ul> 
+            </nav>
+        </div>
+    </header> 
+    <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/my/index/">
+                    <img alt="Brand" style="height:40px;width:80px;display:inline" src="~/public/images/logo.png">
+                    <span>转账进度查询</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container dotpay-apps">
+        <div class="col-sm-10 col-sm-offset-1">
+            <form id="transferFrom" class="form-horizontal" role="form" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">收款人：</label>
+                    <div class="col-sm-8">
+                        <label class="control-label">
+                            @ViewBag.Receiver.Email
+                        </label>
+                    </div>
+                </div>  
+            </form>
+        </div>
+        <div class="col-sm-10 col-sm-offset-1">
+            您好，这笔交易是存在的，我们会尽快处理。
+            当前时间，北京时间XX,我们在10:00-22:00会很快处理，在之外的时间会顺延至次日工作时间，敬请谅解
         </div>
     </div>
-</nav>
-<div class="container dotpay-apps">
-    <div class="col-sm-8 col-sm-offset-2">
-        @if (@ViewBag.Transfer != null)
-        {
-            <div class="col-sm-11 col-sm-offset-1 ptl-5 transfe-success">
-                <div class="result-message">
-                    <p id="result-msg">提交成功，对方将立即收到￥ @ViewBag.Transfer.Amount </p>
-                    <p class="remark">点击查看 <a href="/my/txrecords"><strong>我的交易记录</strong></a>，查看您的交易明细</p>
-                </div>
+    <footer id="footer" class="dotpay-footer navbar-fixed-bottom">
+        <div>
+            <div id="copyright">
+                Copyright©2008-2014 All Rights Reserved 点付科技版权所有 |
+                ICP备案：沪ICP备123456789号-2
             </div>
-        }
-        else
-        {
-            <div class="fail box" id="failBox"><img src="/public/images/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("msg_box_error")!</strong><br><span id="spanFailBox">系统出错</span></div>
-        }
-    </div>
-</div>
+        </div>
+    </footer>
+</body>
+</html>
+

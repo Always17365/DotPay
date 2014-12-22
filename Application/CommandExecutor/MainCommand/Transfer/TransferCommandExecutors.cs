@@ -19,6 +19,7 @@ namespace DotPay.Command.Executor
                                             ICommandExecutor<CreateThirdPartyPaymentTransfer>,
                                             ICommandExecutor<ThirdPartyPaymentTransferComplete>,
                                             ICommandExecutor<ThirdPartyPaymentTransferFail>,
+                                            ICommandExecutor<MarkThirdPartyPaymentTransferProcessing>,
                                             ICommandExecutor<ConfirmOutboundTransfer>
     {
         public void Execute(CreateInsideTransfer cmd)
@@ -96,6 +97,13 @@ namespace DotPay.Command.Executor
             var user = IoC.Resolve<IRepository>().FindById<User>(cmd.ByUserID);
             if (user.VerifyTradePassword(PasswordHelper.EncryptMD5(cmd.PayPassword)))
                 ttpTx.Confirm(cmd.ByUserID);
+        }
+
+        public void Execute(MarkThirdPartyPaymentTransferProcessing cmd)
+        {
+            var ttpTx = IoC.Resolve<IInboundTransferToThirdPartyPaymentTxRepository>().FindTransferTxByIDAndPayway(cmd.TppTransferID, cmd.PayWay);
+           
+            ttpTx.MarkProcessing(cmd.ByUserID);
         }
     }
 }
