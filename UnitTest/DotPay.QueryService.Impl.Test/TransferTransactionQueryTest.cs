@@ -4,26 +4,27 @@ using FC.Framework;
 using FC.Framework.Autofac;
 using FC.Framework.Repository;
 using System.Linq;
+using DotPay.Common;
 using DotPay.ViewModel;
 
 namespace DotPay.QueryService.Impl.Test
 {
-    public class TransactionQueryTest
+    public class TransferTransactionQueryTest
     {
-        TransactionQuery query;
+        TransferTransactionQuery query;
 
-        public TransactionQueryTest()
+        public TransferTransactionQueryTest()
         {
             TestEnvironment.Init();
-            query = new TransactionQuery();
+            query = new TransferTransactionQuery();
         }
+         
 
         [Fact]
         public void TestGetUsersCountBySearch()
         {
-            var count = query.GetUserTransactions(1, 10, 1);
-
-        }         
+            var count = query.GetTransferTransactionByRippleTxid("123", PayWay.Alipay);
+        }
 
     }
 }
