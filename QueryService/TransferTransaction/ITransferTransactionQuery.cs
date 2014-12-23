@@ -17,6 +17,6 @@ namespace DotPay.QueryService
 
         /***************************************/
         TransferTransaction GetTransferTransactionByRippleTxid(string txid, PayWay payWay);
-        IEnumerable<TransferTransaction> GetLastTenTransferTransaction();
+        IEnumerable<TransferTransaction> GetLastTwentyTransferTransaction();
     }
 }
