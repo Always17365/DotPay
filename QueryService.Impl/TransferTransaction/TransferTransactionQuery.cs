@@ -65,7 +65,7 @@ namespace DotPay.QueryService.Impl
             {
                 lock (_locker)
                 {
-                    if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+                    if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
                     {
                         var result1 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Alipay.ToString()))
                                    .QueryMany<TransferTransaction>();

@@ -139,7 +139,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">最近的转账记录</h4>
                 </div>
-                <div class="panel-body ">
+                <div class="panel-body" style="padding:0px;color:#555;font-size:12px;">
                     <table class="table table-striped table-responsive">
                         <tr>
                             <th>处理时间</th>
@@ -150,12 +150,14 @@
                         </tr>
                         @foreach (var tx in (IEnumerable<TransferTransaction>)ViewBag.RecentlyTransaction)
                         {
+                            var sub_transfer_length = Math.Max(tx.TransferNo.Length - 4, 0);
+                            var sub_txid_length = Math.Max(tx.TxId.Length - 6, 0);
                             <tr>
                                 <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd") : "处理中")</td>
                                 <td>@tx.Account</td>
                                 <td>@tx.Amount 元</td>
-                                <td>@tx.TransferNo</td>
-                                <td>@tx.TxId</td>
+                                <td>@("****************" + tx.TransferNo.Substring(sub_transfer_length))</td>
+                                <td>@("****************" + tx.TxId.Substring(sub_txid_length))</td>
                             </tr>
                         }
                     </table>

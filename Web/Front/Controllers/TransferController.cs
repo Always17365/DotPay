@@ -115,9 +115,9 @@ namespace DotPay.Web.Controllers
                     result = query.GetTransferTransactionByRippleTxid(txid, PayWay.Tenpay);
                 }
 
-                ViewBag.Transaction = result;
-                ViewBag.RecentlyTransaction = query.GetLastTwentyTransferTransaction();
+                ViewBag.Transaction = result; 
             }
+            ViewBag.RecentlyTransaction = query.GetLastTwentyTransferTransaction();
 
             return View("InboundRippleQuery");
         }
