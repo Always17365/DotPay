@@ -101,13 +101,20 @@ namespace DotPay.Web.Controllers
 
         [Route("~/query")]
         [Route("~/query/{txid}")]
+        [AllowAnonymous]
         public ActionResult InBoundTppQueryByTxid(string txid)
         {
-            ViewBag.TxId = txid;
+            ViewBag.TxId = txid; 
 
             if (!string.IsNullOrEmpty(txid))
             {
+                var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionByRippleTxid(txid, PayWay.Alipay);
+                if (result == null)
+                {
+                    result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionByRippleTxid(txid, PayWay.Tenpay);
+                }
 
+                ViewBag.Transaction = result; 
             }
 
             return View("InboundRippleQuery");

@@ -14,13 +14,12 @@ namespace DotPay.RipplePersistence.Repository
     {
         public RippleOutboundTransferTxRepository(IDatabaseFactory databaseFactory)
             : base(databaseFactory) { }
-         
+
         public RippleOutboundTransferTx FindByTxId(string txId)
         {
             var result = this._session
                             .QueryOver<RippleOutboundTransferTx>()
                             .Where(d => d.TxId == txId).SingleOrDefault();
-
             return result;
         }
     }

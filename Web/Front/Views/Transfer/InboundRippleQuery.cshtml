@@ -17,17 +17,12 @@
     <meta content="dotpay" name="keywords">
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="~/public/libs/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/public/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/public/css/profile.css" rel="stylesheet" />
     <!--[if IE 7]>
     <link rel="stylesheet" href="~/public/css/font-awesome-ie7.min.css">
     <![endif]-->
-    <link href="~/public/libs/bootstrap-validator/css/bootstrapValidator.min.css" rel="stylesheet" />
     <link href="~/public/css/layout.css" rel="stylesheet" />
-    <link href="~/public/css/profile.css" rel="stylesheet" />
     <script src="~/public/libs/jquery/jquery.min.js"></script>
-    <script src="~/public/libs/bootstrap/bootstrap.min.js"></script>
-    <script src="~/public/libs/bootstrap-validator/js/bootstrapValidator.min.js"></script>
-    <script src="~/public/js/main.js"></script>
     <script src="~/public/libs/ripple/ripple-min.js"></script>
 </head>
 <body style="padding-bottom: 70px;">
@@ -44,10 +39,10 @@
             <nav class="collapse navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li><a><i class="welcome">点付,您的快捷支付专家</i></a></li>
-                </ul> 
+                </ul>
             </nav>
         </div>
-    </header> 
+    </header>
     <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -59,24 +54,77 @@
         </div>
     </nav>
     <div class="container dotpay-apps">
-        <div class="col-sm-10 col-sm-offset-1">
-            <form id="transferFrom" class="form-horizontal" role="form" method="post">
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">收款人：</label>
-                    <div class="col-sm-8">
-                        <label class="control-label">
-                            @ViewBag.Receiver.Email
-                        </label>
+        @if (string.IsNullOrEmpty(ViewBag.TxId))
+        {
+            <div class="col-sm-10 col-sm-offset-1">
+                <h2 style="margin:20px 0;">请输入Ripple Txid</h2>
+                <label id="lab_txid" style="display:none" class="label label-warning">请输入txid</label>
+                <form id="transferFrom" class="form-horizontal" role="form">
+                    <div class="input-group">
+                        <input id="txt_txid" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="btn_query" type="button">查询</button>
+                        </span>
                     </div>
-                </div>  
-            </form>
-        </div>
-        <div class="col-sm-10 col-sm-offset-1">
-            您好，这笔交易是存在的，我们会尽快处理。
-            当前时间，北京时间XX,我们在10:00-22:00会很快处理，在之外的时间会顺延至次日工作时间，敬请谅解
-        </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            if (ViewBag.Transaction != null)
+            {
+                var tx = (TransferTransaction)ViewBag.Transaction;
+                var tx_state = tx.State;
+
+                if (tx_state == TransactionState.Init || tx_state == TransactionState.Pending)
+                {
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-info" role="alert">
+                            您好，这笔交易是存在的，我们会尽快处理。
+                        </div>
+                        <div class="alert alert-warning">
+                            当前时间，北京时间XX,我们在10:00-22:00会很快处理，在之外的时间会顺延至次日工作时间，敬请谅解
+                        </div>
+                    </div>
+                }
+                else if (tx_state == TransactionState.Success)
+                {
+                    <div class="col-sm-10 col-sm-offset-1">
+                        您好，这笔交易已成功转入支付宝, XX***X@qq.com ,金额 @tx.Amount 元<br>
+                        支付宝交易号xxxxx
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="alert alert-warning" role="alert">
+                        未查询该笔交易
+                        <label class="label label-info">
+                            txid= @ViewBag.TxId
+                        </label>
+                    </div> 
+                    <div class="alert alert-info" role="alert">
+                        如果您刚刚创建了这个交易，请您5分钟之后再查询
+                    </div>
+                </div>
+            }
+        }
     </div>
+    <script>
+        $(function () {
+            $("#btn_query").click(function () {
+                var txid = $("#txt_txid").val();
+
+                if (txid) {
+                    window.location.href = "/query/" + txid;
+                }
+                else
+                    $("#lab_txid").show();
+
+            })
+        })
+    </script>
     <footer id="footer" class="dotpay-footer navbar-fixed-bottom">
         <div>
             <div id="copyright">
@@ -87,4 +135,3 @@
     </footer>
 </body>
 </html>
-
