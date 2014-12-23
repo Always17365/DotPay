@@ -104,13 +104,13 @@ namespace DotPay.QueryService.Impl
                                      AND   State=@5";
 
         private readonly string getTransferTransactionBySearch =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state=@0 
                                 ORDER BY    CreateAt
                                    LIMIT    @1,@2";
         private readonly string getTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 
