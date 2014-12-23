@@ -68,7 +68,7 @@ namespace DotPay.QueryService.Impl
 
             return result;
         }
-        public IEnumerable<TransferTransaction> GetLastTenTransferTransaction()
+        public IEnumerable<TransferTransaction> GetLastTwentyTransferTransaction()
         {
             IEnumerable<TransferTransaction> result = default(IEnumerable<TransferTransaction>);
             if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
@@ -77,10 +77,10 @@ namespace DotPay.QueryService.Impl
                 {
                     if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
                     {
-                        var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 10);
-                        var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 10);
-                        var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 10);
-                        var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 10);
+                        var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 20);
+                        var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 20);
+                        var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 20);
+                        var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 20);
                         result = result1.Union<TransferTransaction>(result2).Union<TransferTransaction>(result3).Union<TransferTransaction>(result4).Take(20).OrderByDescending(q => q.CreateAt);
                         Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
                     }
@@ -89,7 +89,7 @@ namespace DotPay.QueryService.Impl
             return result;
         }
         private readonly string getTransferTransactionByRippleTxid_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
                                    WHERE    TxId=@0";
         #region SQL
@@ -104,13 +104,13 @@ namespace DotPay.QueryService.Impl
                                      AND   State=@5";
 
         private readonly string getTransferTransactionBySearch =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state=@0 
                                 ORDER BY    CreateAt
                                    LIMIT    @1,@2";
         private readonly string getTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 

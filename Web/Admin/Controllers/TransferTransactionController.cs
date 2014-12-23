@@ -47,7 +47,7 @@ namespace DotPay.Web.Admin.Controllers
         [HttpPost]
         public ActionResult GetLastTenTransferTransaction( )
         {
-           var result = IoC.Resolve<ITransferTransactionQuery>().GetLastTenTransferTransaction();
+           var result = IoC.Resolve<ITransferTransactionQuery>().GetLastTwentyTransferTransaction();
            return Json(result);
         }
 
