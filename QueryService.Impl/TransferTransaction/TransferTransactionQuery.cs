@@ -61,15 +61,15 @@ namespace DotPay.QueryService.Impl
         public TransferTransaction GetTransferTransactionByRippleTxid(string txid, PayWay payWay)
         {
             var paramters = new object[] { txid };
-            var result = this.Context.Sql(selectRippleTxid_sql.FormatWith(payWay.ToString()))
+            var result = this.Context.Sql(getTransferTransactionByRippleTxid_sql.FormatWith(payWay.ToString(), payWay.ToString()))
                                    .Parameters(paramters)
                                    .QuerySingle<TransferTransaction>();
 
             return result;
-        } 
-        private readonly string selectRippleTxid_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt
-                                    FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
+        }
+        private readonly string getTransferTransactionByRippleTxid_sql =
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,{0} as payWay,CreateAt
+                                    FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
                                    WHERE    TxId=@0";
         #region SQL
         private readonly string getTransferTransactionCountBySearch_Sql =
