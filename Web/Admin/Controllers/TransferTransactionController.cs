@@ -42,24 +42,24 @@ namespace DotPay.Web.Admin.Controllers
             {
                 return Json(result);
             }
-            return(null);
+            return (null);
         }
         [HttpPost]
-        public ActionResult GetLastTenTransferTransaction( )
+        public ActionResult GetLastTenTransferTransaction()
         {
-           var result = IoC.Resolve<ITransferTransactionQuery>().GetLastTwentyTransferTransaction();
-           return Json(result);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetLastTwentyTransferTransaction();
+            return Json(result);
         }
-
         [HttpPost]
         public ActionResult GetPendingTransferTransaction(PayWay payWay, int page)
         {
             var count1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Pending, payWay);
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
-            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, payWay, page, Constants.DEFAULT_PAGE_COUNT);
-            var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, page, Constants.DEFAULT_PAGE_COUNT);
             return Json(new { count = count1 + count2, result = result1.Union<TransferTransaction>(result2) });
         }
+
         [HttpPost]
         public ActionResult GetSuccessTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {

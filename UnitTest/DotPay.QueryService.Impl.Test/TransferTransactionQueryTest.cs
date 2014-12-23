@@ -24,6 +24,7 @@ namespace DotPay.QueryService.Impl.Test
         public void TestGetUsersCountBySearch()
         {
             var count = query.GetTransferTransactionByRippleTxid("fsdfsadfdsgsewrweqrewrf", PayWay.Alipay);
+            var test1 = query.GetLastTwentyTransferTransaction();
         }
 
     }

@@ -30,16 +30,6 @@ namespace DotPay.QueryService.Impl
                                .QuerySingle<int>();
         }
 
-        public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(TransactionState state, PayWay payWay, int page, int pageCount)
-        {
-            var paramters = new object[] { (int)state, (page - 1) * pageCount, pageCount };
-
-            var users = this.Context.Sql(getTransferTransactionBySearch.FormatWith(payWay.ToString()))
-                                   .Parameters(paramters)
-                                   .QueryMany<TransferTransaction>();
-
-            return users;
-        }
         public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay, int page, int pageCount)
         {
             var paramters = new object[] { 
@@ -71,28 +61,38 @@ namespace DotPay.QueryService.Impl
         public IEnumerable<TransferTransaction> GetLastTwentyTransferTransaction()
         {
             IEnumerable<TransferTransaction> result = default(IEnumerable<TransferTransaction>);
-            if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+            if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
             {
                 lock (_locker)
                 {
                     if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
                     {
-                        var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 20);
-                        var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 20);
-                        var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 20);
-                        var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 20);
-                        result = result1.Union<TransferTransaction>(result2).Union<TransferTransaction>(result3).Union<TransferTransaction>(result4).Take(20).OrderByDescending(q => q.CreateAt);
+                        var result1 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Alipay.ToString()))
+                                   .QueryMany<TransferTransaction>();
+                        var result2 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Tenpay.ToString()))
+                                   .QueryMany<TransferTransaction>();
+                        result = result1.Union<TransferTransaction>(result2);
                         Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
                     }
                 }
             }
             return result;
         }
+        #region SQL
+
+        private readonly string getLastTwentyTransferTransaction_sql =
+                                @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt,Memo
+                                    FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
+                                   WHERE    state!='"+TransactionState.Fail+@"' 
+                                     AND    state!='"+TransactionState.Cancel+@"'                                    
+                                ORDER BY    CreateAt DESC
+                                   LIMIT    20";
+
         private readonly string getTransferTransactionByRippleTxid_sql =
                                 @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
                                    WHERE    TxId=@0";
-        #region SQL
+
         private readonly string getTransferTransactionCountBySearch_Sql =
                                 @"SELECT    COUNT(*)
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
@@ -103,12 +103,7 @@ namespace DotPay.QueryService.Impl
                                      AND   (@4=0 OR CreateAt<=@4) 
                                      AND   State=@5";
 
-        private readonly string getTransferTransactionBySearch =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt,Memo
-                                    FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
-                                   WHERE    state=@0 
-                                ORDER BY    CreateAt
-                                   LIMIT    @1,@2";
+
         private readonly string getTransferTransactionBySearch_sql =
                                @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              

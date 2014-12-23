@@ -19,12 +19,12 @@ namespace DotPay.ViewModel
         public string CNSourcePayway { get { return this.SourcePayway.GetDescription(); } }
         public PayWay SourcePayway { get; set; }
         public string CNState { get { return this.State.GetDescription(); } }
-        public TransactionState State { get; set; }            
+        public TransactionState State { get; set; }
         public string Account { get; set; }
         public decimal Amount { get; set; }
         public string PayWay { get; set; }
         public int CreateAt { get; set; }
         public int DoneAt { get; set; }
-        public string Memo { get; set; } 
+        public string Memo { get; set; }
     }
 }
