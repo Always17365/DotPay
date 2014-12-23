@@ -24,6 +24,7 @@ namespace DotPay.ViewModel
         public decimal Amount { get; set; }
         public string PayWay { get; set; }
         public int CreateAt { get; set; }
-        public int DoneAt { get; set; } 
+        public int DoneAt { get; set; }
+        public string Memo { get; set; } 
     }
 }

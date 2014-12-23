@@ -89,7 +89,7 @@ namespace DotPay.QueryService.Impl
             return result;
         }
         private readonly string getTransferTransactionByRippleTxid_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
                                    WHERE    TxId=@0";
         #region SQL
