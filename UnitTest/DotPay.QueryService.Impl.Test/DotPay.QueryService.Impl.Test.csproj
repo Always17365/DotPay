@@ -89,7 +89,7 @@
   <ItemGroup>
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="PreRegistratorQueryTest.cs" />
-    <Compile Include="TransactionQueryTest - 复制.cs" />
+    <Compile Include="TransferTransactionQueryTest.cs" />
     <Compile Include="TransactionQueryTest.cs" />
     <Compile Include="UserQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

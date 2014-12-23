@@ -17,8 +17,6 @@ namespace DotPay.Web.Admin.Controllers
     public class TransferTransactionController : BaseController
     {
 
-        private object _locker = new object();
-
         public ActionResult Pending()
         {
             return View();
@@ -49,23 +47,7 @@ namespace DotPay.Web.Admin.Controllers
         [HttpPost]
         public ActionResult GetLastTenTransferTransaction( )
         {
-            IEnumerable<TransferTransaction> result = default(IEnumerable<TransferTransaction>); 
-            if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
-            {
-                lock (_locker)
-                {
-                    if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
-                    {
-                        var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Alipay, 1, 10);
-                        var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Alipay, 1, 10);
-                        var result3 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Pending, PayWay.Tenpay, 1, 10);
-                        var result4 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(TransactionState.Init, PayWay.Tenpay, 1, 10);
-                        result = result1.Union<TransferTransaction>(result2).Union<TransferTransaction>(result3).Union<TransferTransaction>(result4).Take(10).OrderByDescending(q => q.CreateAt);
-                        Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
-                    }
-                }
-            } 
-
+           var result = IoC.Resolve<ITransferTransactionQuery>().GetLastTenTransferTransaction();
            return Json(result);
         }
 
@@ -82,14 +64,14 @@ namespace DotPay.Web.Admin.Controllers
         public ActionResult GetSuccessTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay);
-            var result = IoC.Resolve<ITransferTransactionQuery>().SelectTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, page, Constants.DEFAULT_PAGE_COUNT);
             return Json(new { count = count, result = result });
         }
         [HttpPost]
         public ActionResult GetFailTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay);
-            var result = IoC.Resolve<ITransferTransactionQuery>().SelectTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, page, Constants.DEFAULT_PAGE_COUNT);
             return Json(new { count = count, result = result });
         }
 
