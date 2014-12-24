@@ -83,8 +83,8 @@ namespace DotPay.QueryService.Impl
         private readonly string getLastTwentyTransferTransaction_sql =
                                 @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
-                                   WHERE    state!='"+TransactionState.Fail+@"' 
-                                     AND    state!='"+TransactionState.Cancel+@"'                                    
+                                   WHERE    state<>'"+TransactionState.Fail+@"' 
+                                     AND    state<>'"+TransactionState.Cancel+@"'                                    
                                 ORDER BY    CreateAt DESC
                                    LIMIT    20";
 
