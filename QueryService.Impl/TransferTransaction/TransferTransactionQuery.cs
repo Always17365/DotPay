@@ -65,7 +65,7 @@ namespace DotPay.QueryService.Impl
             {
                 lock (_locker)
                 {
-                    if (!Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+                    if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
                     {
                         var result1 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Alipay.ToString()))
                                    .QueryMany<TransferTransaction>();
@@ -81,7 +81,7 @@ namespace DotPay.QueryService.Impl
         #region SQL
 
         private readonly string getLastTwentyTransferTransaction_sql =
-                                @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,Amount,state,CreateAt,DoneAt,Memo
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state!='"+TransactionState.Fail+@"' 
                                      AND    state!='"+TransactionState.Cancel+@"'                                    
