@@ -184,8 +184,8 @@ namespace RippleRPC.Net
             //If you are using a self-signed certificate on the rippled server, retain the line below, otherwise you'll generate an exception as the certificate cannot be truested.
             //If you are using a purchased or trusted certificate, you can comment out this line.
             //ServicePointManager.ServerCertificateValidationCallback +=
-            //    (s, cert, chain, sslPolicyErrors) => true;
-            //ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack; 
+            //   (s, cert, chain, sslPolicyErrors) => true;
+            ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallBack;
         }
 
         public RippleClientAsync(Uri uri, int timeout = 10, bool autoReconnect = false)
@@ -240,7 +240,9 @@ namespace RippleRPC.Net
 
                     if (this.RPCRequestList.TryGetValue(_req.id, out reqEntity))
                     {
-                        result = new Tuple<RippleError, T>(reqEntity.Error, (T)reqEntity.Data);
+                        var data = reqEntity.Data is T ? (T)reqEntity.Data : default(T);
+
+                        result = new Tuple<RippleError, T>(reqEntity.Error, data);
 
                         this.RPCRequestList.TryRemove(_req.id, out reqEntity);
                     }
@@ -608,13 +610,14 @@ namespace RippleRPC.Net
 
         private void WebSocketConnect()
         {
-            Log.Info("开始重连WebSocket");
+            Log.Info("开始连接WebSocket");
             Task.Factory.StartNew(() =>
             {
                 lock (_WebSocketReConnectLocker)
                 {
                     if (this.AutoReconnect == true)
                     {
+                        Task.Delay(3 * 1000);
                         if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State != WebSocketState.Connecting)
                         {
                             try
