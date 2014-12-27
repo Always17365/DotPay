@@ -16,17 +16,7 @@ namespace DotPay.RipplePersistence.Repository
             : base(databaseFactory) { }
 
 
-
-        public RippleDomain.RippleInboundToThirdPartyPaymentTx FindByIDAndPayway(int transferId, PayWay payway)
-        {
-            var result = this._session
-                             .QueryOver<RippleInboundToThirdPartyPaymentTx>()
-                             .Where(d => d.ID == transferId).SingleOrDefault();
-
-            return result;
-        }
-
-        public RippleDomain.RippleInboundToThirdPartyPaymentTx FindByTxIdAndPayway(string txId, PayWay payway)
+        public RippleDomain.RippleInboundToThirdPartyPaymentTx FindByTxId(string txId)
         {
             var result = this._session
                              .QueryOver<RippleInboundToThirdPartyPaymentTx>()

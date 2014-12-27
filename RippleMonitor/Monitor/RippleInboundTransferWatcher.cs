@@ -69,7 +69,7 @@ namespace DotPay.RippleMonitor
                         if (aviableLedgerIndexResult.Item1 == null)
                         {
                             var ledger_min = RippleInboundTransferWatcher.currentProcessLedgerIndex;
-                            var ledgerIndex_max = ledger_min + 19; //因为ripple走的是一个 ≥和≤的区间，所以+9就是一次分析20个ledger
+                            var ledgerIndex_max = ledger_min + 19; //因为ripple走的是一个 ≥和≤的区间，所以+99就是一次分析20个ledger
                             ledgerIndex_max = Math.Min(ledgerIndex_max, aviableLedgerIndexResult.Item2 - 10);//取小值
 
                             if (ledgerIndex_max < ledger_min)
@@ -126,7 +126,7 @@ namespace DotPay.RippleMonitor
                             processTxAction(result.Item2);
                         }
                         RecordProcessLedgerIndex(lederIndex_max + 1);
-                        Log.Info("ledger{0}={1}解析完毕".FormatWith(ledgerIndex_min, lederIndex_max));
+                        Log.Info("ledger{0}-{1}解析完毕".FormatWith(ledgerIndex_min, lederIndex_max));
                     }
                 }
                 finally
@@ -174,6 +174,7 @@ namespace DotPay.RippleMonitor
 
             return ledgerIndex;
         }
+
         private static void ProcessTxs(IEnumerable<TransactionRecord> txs)
         {
             txs.ForEach(tx =>
@@ -191,7 +192,6 @@ namespace DotPay.RippleMonitor
 
                         if (destinationtag > 0)
                         {
-
                             var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
                             var payway = Utilities.GetPaywayFromFlg(flg);
                             destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag
@@ -205,8 +205,31 @@ namespace DotPay.RippleMonitor
 
                                 else if (payway == PayWay.Alipay || payway == PayWay.Tenpay)
                                 {
-                                    var cmd = new CompleteThirdPartyPaymentInboundTx(payway, tx.TransactionDetail.Hash, destinationtag, amount.Value);
-                                    IoC.Resolve<ICommandBus>().Send(cmd);
+                                    try
+                                    {
+                                        var cmd = new CompleteThirdPartyPaymentInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value);
+                                        IoC.Resolve<ICommandBus>().Send(cmd);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
+                                    }
+                                }
+                                else if (payway == PayWay.AlipayRippleForm || payway == PayWay.TenpayRippleForm)
+                                {
+                                    try
+                                    {
+                                        var cmd = new CompleteThirdPartyPaymentInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value, tx.TransactionDetail.InvoiceID);
+                                        IoC.Resolve<ICommandBus>().Send(cmd);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
+                                    }
+                                }
+                                else if (payway == PayWay.BankRippleForm)
+                                {
+                                    throw new NotImplementedException();
                                 }
                                 else
                                 {

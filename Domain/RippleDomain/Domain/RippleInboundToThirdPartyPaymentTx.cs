@@ -17,29 +17,33 @@ namespace DotPay.RippleDomain
     {
         #region ctor
         protected RippleInboundToThirdPartyPaymentTx() { }
-
-        public RippleInboundToThirdPartyPaymentTx(PayWay payway, string destination)
+        public RippleInboundToThirdPartyPaymentTx(PayWay payway, string destination, string realName = "", decimal amount = 0M, string memo = "")
         {
-            this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCreated(payway, destination));
+            this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCreated(payway, destination, realName, amount, memo));
         }
 
         #endregion
         public virtual int ID { get; protected set; }
+        public virtual string InvoiceID { get; protected set; }
         public virtual string TxID { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
         public virtual RippleTransactionState State { get; protected set; }
         public virtual string Destination { get; protected set; }
+        public virtual string RealName { get; protected set; }
+        public virtual string Memo { get; protected set; }
         public virtual decimal Amount { get; protected set; }
 
         public virtual int CreateAt { get; protected set; }
         public virtual int DoneAt { get; protected set; }
-         
+
         public virtual void Complete(string txid, decimal amount)
         {
             if (this.State != RippleTransactionState.Pending)
                 throw new RippleTransactionNotPendingException();
+            if (this.Amount != 0 && this.Amount != amount)
+                throw new RippleTransactionAmountNotMatchException();
             else
-                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid,this.PayWay, amount));
+                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid, this.PayWay, amount));
         }
 
         #region Event handler
@@ -49,7 +53,11 @@ namespace DotPay.RippleDomain
             this.PayWay = @event.PayWay;
             this.State = RippleTransactionState.Pending;
             this.Destination = @event.Destination;
-            this.Amount = 0;
+            this.RealName = @event.RealName;
+            this.Amount = @event.Amount;
+            this.InvoiceID = Utilities.SHA256Sign(@event.Destination + @event.Amount + @event.UTCTimestamp.ToUnixTimestamp());
+            this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
+            this.Memo = @event.Memo;
         }
         #endregion
 

@@ -31,7 +31,7 @@ namespace DotPay.Web.Admin.Controllers
             //    -3,用户名或密码错误
             //    -4,未知错误,请刷新页面后重试
             //    Success-->代码为1
-
+             
             if (!email.NullSafe().IsEmail()) return Json(new JsonResult(-1));
             if (string.IsNullOrEmpty(password)) return Json(new JsonResult(-2));
 

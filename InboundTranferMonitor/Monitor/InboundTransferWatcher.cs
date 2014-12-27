@@ -56,14 +56,14 @@ namespace DotPay.TransferMonitor
                         var body = ea.Body;
                         var message = Encoding.UTF8.GetString(body);
 
-                        var inboundTPPMsg = IoC.Resolve<IJsonSerializer>().Deserialize<InboundToThirdPartyPaymentTxMessage>(message);
+                        var inboundTPPMsg = IoC.Resolve<IJsonSerializer>().Deserialize<RippleInboundToThirdPartyPaymentTxMessage>(message);
 
                         if (!string.IsNullOrEmpty(inboundTPPMsg.Account))
                         {
                             //cmdTypeDesc = "第三方支付直转交易";
                             Log.Info("收到新的第三方支付({0})直转交易消息:{1}", inboundTPPMsg.PayWay.ToString(), message);
 
-                            var cmd = new CreateThirdPartyPaymentTransfer(inboundTPPMsg.TxId, inboundTPPMsg.Account, inboundTPPMsg.Amount, inboundTPPMsg.PayWay, inboundTPPMsg.SourcePayWay);
+                            var cmd = new CreateThirdPartyPaymentTransfer(inboundTPPMsg.TxId, inboundTPPMsg.Account, inboundTPPMsg.Amount, inboundTPPMsg.PayWay, inboundTPPMsg.SourcePayWay,inboundTPPMsg.RealName, inboundTPPMsg.Memo);
                             IoC.Resolve<ICommandBus>().Send(cmd);
 
                             channel.BasicAck(ea.DeliveryTag, false);
@@ -158,21 +158,26 @@ namespace DotPay.TransferMonitor
             public PayWay PayWay { get; private set; }
         }
 
-        private class InboundToThirdPartyPaymentTxMessage
+        [Serializable]
+        private class RippleInboundToThirdPartyPaymentTxMessage
         {
-            public InboundToThirdPartyPaymentTxMessage(string account, decimal amount, PayWay payway, PayWay sourcePayway, string txid)
+            public RippleInboundToThirdPartyPaymentTxMessage(string account, decimal amount, PayWay payway, string txid,string realName, string memo)
             {
                 this.Account = account;
                 this.TxId = txid;
+                this.RealName = realName;
                 this.Amount = amount;
                 this.PayWay = payway;
-                this.SourcePayWay = sourcePayway;
+                this.SourcePayWay = PayWay.Ripple;
+                this.Memo = memo;
             }
             public string Account { get; private set; }
             public string TxId { get; private set; }
             public decimal Amount { get; private set; }
             public PayWay PayWay { get; private set; }
             public PayWay SourcePayWay { get; private set; }
+            public string RealName { get; private set; }
+            public string Memo { get; private set; }
         }
         #endregion
     }

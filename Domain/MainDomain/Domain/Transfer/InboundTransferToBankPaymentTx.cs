@@ -12,16 +12,16 @@ using DotPay.MainDomain.Exceptions;
 
 namespace DotPay.MainDomain
 {
-    public class InboundTransferToThirdPartyPaymentTx : DomainBase, IAggregateRoot,
+    public class InboundTransferToBankPaymentTx : DomainBase, IAggregateRoot,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxCreated>,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxComplete>,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxMarkProcessing>,
                               IEventHandler<InboundTransferToThirdPartyPaymentTxFailed>
     {
         #region ctor
-        protected InboundTransferToThirdPartyPaymentTx() { }
+        protected InboundTransferToBankPaymentTx() { }
 
-        public InboundTransferToThirdPartyPaymentTx(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway, string realName, string memo)
+        public InboundTransferToBankPaymentTx(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway, string realName, string memo)
         {
             this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxCreated(txid, account, payway, amount, sourcePayway, realName, memo));
         }
@@ -49,9 +49,9 @@ namespace DotPay.MainDomain
 
         public virtual void MarkProcessing(int byUserID)
         {
-            if (this.OperatorID != byUserID && this.State != TransactionState.Init)
+            if (this.State != TransactionState.Init)
                 throw new TransferTransactionNotInitException();
-            else if (this.State == TransactionState.Init)
+            else
                 this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxMarkProcessing(this.ID, this.PayWay, byUserID));
         }
 

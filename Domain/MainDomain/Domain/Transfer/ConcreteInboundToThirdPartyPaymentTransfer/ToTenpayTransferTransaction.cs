@@ -18,8 +18,8 @@ namespace DotPay.MainDomain
         #region ctor
         protected ToTenpayTransferTransaction() { }
 
-        public ToTenpayTransferTransaction(string txid, string account, decimal amount, PayWay sourcePayway)
-            : base(txid, account, amount, PayWay.Tenpay, sourcePayway)
+        public ToTenpayTransferTransaction(string txid, string account, decimal amount, PayWay sourcePayway,string realName,string memo)
+            : base(txid, account, amount, PayWay.Tenpay, sourcePayway, realName, memo)
         {
 
         }

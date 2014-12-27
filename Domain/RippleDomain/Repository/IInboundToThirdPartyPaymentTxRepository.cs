@@ -10,7 +10,6 @@ namespace DotPay.RippleDomain.Repository
 {
     public interface IInboundToThirdPartyPaymentTxRepository : IRepository
     {
-        RippleInboundToThirdPartyPaymentTx FindByIDAndPayway(int transferId, PayWay payway);
-        RippleInboundToThirdPartyPaymentTx FindByTxIdAndPayway(string txId, PayWay payway);
+        RippleInboundToThirdPartyPaymentTx FindByTxId(string txId);
     }
 }

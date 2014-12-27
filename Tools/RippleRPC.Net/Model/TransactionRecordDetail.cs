@@ -12,6 +12,7 @@ namespace RippleRPC.Net.Model
         public int LastLedgerSequence { get; set; }
         public int Sequence { get; set; }
         public string SigningPubKey { get; set; }
+        public string InvoiceID { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Destination { get; set; }

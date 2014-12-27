@@ -12,6 +12,8 @@ using DotPay.ViewModel;
 using DotPay.Command;
 using DotPay.RippleCommand;
 using DotPay.Web.Filters;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DotPay.Web.Controllers
 {
@@ -21,10 +23,15 @@ namespace DotPay.Web.Controllers
         public const string GATEWAY_DOMAIN = "dotpay.co";
         public const string GATEWAY_ACCEPT_CURRENCY = "CNY";
         public const string GATEWAY_SPLIT = ":";
+        public const string QUOTE_URL = "https://www.dotpay.co/api/v1/quote";
+        public const string QUERY_URL = "https://www.dotpay.co/query";
+        public const decimal minAcceptAmount = 1M;
+        public const decimal maxAcceptAmount = 1000M;
 
+        #region Federation
         [HttpGet]
         [CROS]
-        [Route("api/v1/bridge")]
+        [Route("~/api/v1/bridge")]
         public System.Web.Http.Results.JsonResult<FederationResponse> RippleBridge(string type, string destination, string domain)
         {
             var result = default(FederationResponse);
@@ -50,6 +57,7 @@ namespace DotPay.Web.Controllers
 
                 if (ThirdPartyPaymentBridgeDestination.TryParse(destination + "@" + domain, out tppBridge))
                 {
+                    #region 如果是第三方支付直转
                     destination = tppBridge.Bridge;
                     domain = tppBridge.Domain;
                     var payway = Utilities.GetPayway(tppBridge.Bridge);
@@ -61,12 +69,12 @@ namespace DotPay.Web.Controllers
                             //创建一个交易
                             var cmd = new CreateThirdPartyPaymentInboundTx(payway, tppBridge.Account);
                             IoC.Resolve<ICommandBus>().Send(cmd);
-                            var userInfo = new OutsideGatewayUserInfo
+                            var userInfo = new OutsideGatewayFederationInfo
                             {
                                 Type = "federation_record",
                                 Destination = tppBridge.Account + GATEWAY_SPLIT + tppBridge.Bridge,
                                 DestinationAddress = GATEWAY_ADDRESS,
-                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(payway).ToString() + cmd.Result.ToString()),
+                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(payway).ToString() + cmd.ResultDestinationTag.ToString()),
                                 Domain = domain,
                                 AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                             };
@@ -83,38 +91,258 @@ namespace DotPay.Web.Controllers
                     {
                         result = FederationErrorResult.NoSuchUser(req);
                     }
+                    #endregion
                 }
                 else
                 {
+                    #region 如果是普通用户或者是第三方支付表单方式
                     var repos = IoC.Resolve<IUserQuery>();
                     var user = default(LoginUser);
-
-                    if (destination.IsEmail())
-                        user = repos.GetUserByEmail(destination);
-                    else
-                        user = repos.GetUserByLoginName(destination);
-
-                    if (user == null)
-                        result = FederationErrorResult.NoSuchUser(req);
-                    else
+                    //如果用户要做扩展表单直转 to alipay
+                    if (destination.Equals(PayWay.Alipay.ToString("F"), StringComparison.OrdinalIgnoreCase))
                     {
-                        var userInfo = new OutsideGatewayUserInfo
+                        var federationInfo = new OutsideGatewayFederationInfo
                         {
                             Type = "federation_record",
                             Destination = destination,
-                            DestinationAddress = GATEWAY_ADDRESS,
-                            DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
+                            ExtraFields = new List<ExtraFiled>
+                            {
+                                new ExtraFiled{Type="text", Hint="支付宝账户" ,Label="Destination alipay account",Required=true, Name="alipay_account"},
+                                new ExtraFiled{Type="text", Hint="支付宝账户实名（可选)" ,Label="Real name of the destination alipay account (optional)", Name="alipay_username"}, 
+                                new ExtraFiled{Type="text", Hint="留言(可选)，可填联系方式，收货地址等信息，您可在支付完成后在 "+QUERY_URL+"查询交易状态",Label="Comments(optional), for contacts, shipping address etc., you can check the transaction status at "+QUERY_URL+" after confirming the payment",Name="memo"}
+                            },
                             Domain = domain,
+                            QuoteUrl = QUOTE_URL,
                             AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                         };
-                        result = FederationErrorResult.Success(req, userInfo);
-
+                        result = FederationErrorResult.Success(req, federationInfo);
                     }
+                    //如果用户要做扩展表单直转 to tenpay
+                    else if (destination.Equals(PayWay.Tenpay.ToString("F"), StringComparison.OrdinalIgnoreCase))
+                    {
+                        var federationInfo = new OutsideGatewayFederationInfo
+                        {
+                            Type = "federation_record",
+                            Destination = destination,
+                            ExtraFields = new List<ExtraFiled>
+                            {
+                                new ExtraFiled{Type="text", Hint="财付通账户" ,Label="Destination alipay account",Required=true, Name="alipay_account"},
+                                new ExtraFiled{Type="text", Hint="财付通账户实名（可选)" ,Label="Real name of the destination alipay account (optional)",  Name="tenpay_username"}, 
+                                new ExtraFiled{Type="text", Hint="留言(可选)，可填联系方式，收货地址等信息，您可在支付完成后在 "+QUERY_URL+"查询交易状态",Label="Comments(optional), for contacts, shipping address etc., you can check the transaction status at "+QUERY_URL+" after confirming the payment",Name="memo"}
+                          },
+                            Domain = domain,
+                            QuoteUrl = QUOTE_URL,
+                            AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
+                        };
+                        result = FederationErrorResult.Success(req, federationInfo);
+                    }
+                    //如果用户要做扩展表单直转 to bank
+                    else if (destination.Equals("bank", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bank = new List<ExtraSelectFiledOption>();
+                        var federationInfo = new OutsideGatewayFederationInfo
+                        {
+                            Type = "federation_record",
+                            Destination = destination,
+                            ExtraFields = new List<ExtraFiled>
+                            {
+                                new ExtraFiled{
+                                    Type="select", 
+                                    Hint="支付宝直转alipay@dotpay.co,财付通直转tenpay@dotpay.co" ,
+                                    Label="Dotpay银行直转,请选择转账的银行",
+                                    Required=true, 
+                                    Name="bank",
+                                    Options=GetBankList()
+                                },
+                                new ExtraFiled{Type="text", Hint="请输入银行卡号",Label="银行卡号",Required=true,Name="bank_account"},
+                                new ExtraFiled{Type="text", Hint="请输入银行开户人姓名",Label="银行开户人姓名",Required=true,Name="bank_username"},
+                                new ExtraFiled{Type="text", Hint="留言(可选)，可填联系方式，收货地址等信息，您可在支付完成后在 "+QUERY_URL+"查询交易状态",Label="Comments(optional), for contacts, shipping address etc., you can check the transaction status at "+QUERY_URL+" after confirming the payment",Name="memo"}
+                        },
+                            Domain = domain,
+                            QuoteUrl = QUOTE_URL,
+                            AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
+                        };
+                        result = FederationErrorResult.Success(req, federationInfo);
+                    }
+                    else
+                    {
+                        if (destination.IsEmail())
+                            user = repos.GetUserByEmail(destination);
+                        else
+                            user = repos.GetUserByLoginName(destination);
+
+                        if (user == null)
+                            result = FederationErrorResult.NoSuchUser(req);
+                        else
+                        {
+                            var userInfo = new OutsideGatewayFederationInfo
+                            {
+                                Type = "federation_record",
+                                Destination = destination,
+                                DestinationAddress = GATEWAY_ADDRESS,
+                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
+                                Domain = domain,
+                                AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
+                            };
+                            result = FederationErrorResult.Success(req, userInfo);
+
+                        }
+                    }
+                    #endregion
                 }
             }
             return Json(result);
         }
+        #endregion
 
+        #region Quote
+        [HttpGet]
+        [CROS]
+        [Route("~/api/v1/quote")]
+        public System.Web.Http.Results.JsonResult<QuoteResponse> RippleQuote(string type)
+        {
+            var result = default(QuoteResponse);
+            var query_params = this.Request.GetQueryNameValuePairs();
+
+            var amount = query_params.SingleOrDefault(item => item.Key.Equals("amount", StringComparison.OrdinalIgnoreCase)).Value;
+            var destination = query_params.SingleOrDefault(item => item.Key.Equals("destination", StringComparison.OrdinalIgnoreCase)).Value;
+            var address = query_params.SingleOrDefault(item => item.Key.Equals("address", StringComparison.OrdinalIgnoreCase)).Value;
+            var alipay_account = query_params.SingleOrDefault(item => item.Key.Equals("alipay_account", StringComparison.OrdinalIgnoreCase)).Value;
+            var alipay_username = query_params.SingleOrDefault(item => item.Key.Equals("alipay_username", StringComparison.OrdinalIgnoreCase)).Value;
+            var tenpay_account = query_params.SingleOrDefault(item => item.Key.Equals("tenpay_account", StringComparison.OrdinalIgnoreCase)).Value;
+            var tenpay_username = query_params.SingleOrDefault(item => item.Key.Equals("tenpay_username", StringComparison.OrdinalIgnoreCase)).Value;
+            var bank_account = query_params.SingleOrDefault(item => item.Key.Equals("bank_account", StringComparison.OrdinalIgnoreCase)).Value;
+            var bank_username = query_params.SingleOrDefault(item => item.Key.Equals("bank_username", StringComparison.OrdinalIgnoreCase)).Value;
+            var bank = query_params.SingleOrDefault(item => item.Key.Equals("bank", StringComparison.OrdinalIgnoreCase)).Value;
+            var memo = query_params.SingleOrDefault(item => item.Key.Equals("memo", StringComparison.OrdinalIgnoreCase)).Value;
+            var req = new QuoteRequest { Type = type, __dot_use_this_amount = amount, Address = address, Destination = destination, AlipayAccount = alipay_account, TenpayAccount = tenpay_account, ContactInfo = memo };
+
+            type = type.NullSafe().Trim();
+            destination = destination.NullSafe().Trim();
+
+            #region 错误处理
+            if (!type.ToLower().Equals("quote"))
+                result = QuoteResult.NoSupportedType(req, type);
+            else if (string.IsNullOrEmpty(destination))
+                result = QuoteResult.ErrorDetail(req, "destination is empty");
+
+            #endregion
+            else
+            {
+                var repos = IoC.Resolve<IUserQuery>();
+                var user = default(LoginUser);
+
+                //如果用户要做扩展表单直转 to alipay,且支付宝账号不为空
+                if (destination.Equals(PayWay.Alipay.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                {
+                    if (string.IsNullOrEmpty(alipay_account))
+                        result = QuoteResult.ErrorDetail(req, "tenpay account empty;财付通账户不能为空");
+                    else
+                    {
+                        //创建一个交易
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username.NullSafe().Trim(), req.Amount.Value, memo.NullSafe().Trim());
+
+                        try
+                        {
+                            IoC.Resolve<ICommandBus>().Send(cmd);
+                            var quoteInfo = new QuoteInfo
+                            {
+                                Type = "quote",
+                                Destination = destination,
+                                DestinationAddress = GATEWAY_ADDRESS,
+                                Domain = GATEWAY_DOMAIN,
+                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.AlipayRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                Amount = req.Amount.Value,
+                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                InvoiceId = cmd.ResultInvoiceID,
+                                Source = req.Address
+                            };
+                            result = QuoteResult.Success(req, quoteInfo);
+                        }
+                        catch (Exception ex) { Log.Error("在执行Ripple Alipay Quote时报错", ex); }
+                    }
+                }
+                //如果用户要做扩展表单直转 to tenpay
+                else if (destination.Equals(PayWay.Tenpay.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                {
+                    if (string.IsNullOrEmpty(tenpay_account))
+                        result = QuoteResult.ErrorDetail(req, "tenpay account empty;财付通账户不能为空");
+                    else
+                    {
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, memo.NullSafe().Trim());
+
+                        try
+                        {
+                            IoC.Resolve<ICommandBus>().Send(cmd);
+
+                            var quoteInfo = new QuoteInfo
+                            {
+                                Type = "quote",
+                                Destination = destination,
+                                DestinationAddress = GATEWAY_ADDRESS,
+                                Domain = GATEWAY_DOMAIN,
+                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.TenpayRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                Amount = req.Amount.Value,
+                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                InvoiceId = cmd.ResultInvoiceID,
+                                Source = req.Address
+                            };
+                            result = QuoteResult.Success(req, quoteInfo);
+                        }
+                        catch (Exception ex) { Log.Error("在执行Ripple Tenpay Quote时报错", ex); }
+                    }
+                }
+                //如果用户要做扩展表单直转 to bank
+                else if (destination.Equals(PayWay.BankRippleForm.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                {
+                    if (string.IsNullOrEmpty(bank_username))
+                        result = QuoteResult.ErrorDetail(req, "User name of bank account empty;银行开户人不能为空");
+                    else if (string.IsNullOrEmpty(bank_account))
+                        result = QuoteResult.ErrorDetail(req, "Bank account empty;银行账户不能为空");
+
+                    else
+                    {
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username, req.Amount.Value, memo);
+
+                        try
+                        {
+                            IoC.Resolve<ICommandBus>().Send(cmd);
+                            var quoteInfo = new QuoteInfo
+                            {
+                                Type = "quote",
+                                Destination = destination,
+                                DestinationAddress = GATEWAY_ADDRESS,
+                                Domain = GATEWAY_DOMAIN,
+                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.BankRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                InvoiceId = cmd.ResultInvoiceID,
+                                Source = req.Address
+                            };
+                            result = QuoteResult.Success(req, quoteInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("在执行Ripple Tenpay Quote时报错", ex);
+                        }
+                    }
+                }
+                else
+                {
+                    if (req.Amount.Value < minAcceptAmount)
+                        result = QuoteResult.ErrorDetail(req, "Only accept amount not less than  " + minAcceptAmount);
+                    else if (req.Amount.Value > maxAcceptAmount)
+                        result = QuoteResult.ErrorDetail(req, "Only accept amount not greate than  " + maxAcceptAmount);
+                    else
+                        result = QuoteResult.ErrorDetail(req, "data invlid");
+
+                }
+
+            }
+            return Json(result);
+        }
+
+
+        #endregion
 
         #region 检查域名是否合格
         private bool CheckDomain(string domain)
@@ -161,12 +389,47 @@ namespace DotPay.Web.Controllers
                 return new FederationResponse { Result = "error", Error = "noSupported", ErrorMessage = "not support request type:" + type, OriginRequest = req };
             }
 
-            public static FederationResponse Success(FederationRequest req, OutsideGatewayUserInfo userInfo)
+            public static FederationResponse Success(FederationRequest req, OutsideGatewayFederationInfo userInfo)
             {
                 return new FederationResponse { Result = "success", UserAccount = userInfo, OriginRequest = req };
             }
         }
 
+        public class QuoteResult
+        {
+            public static QuoteResponse NoSupportedType(QuoteRequest req, string type)
+            {
+                return new QuoteResponse { Result = "error", Error = "noSupported", ErrorMessage = "not support request type:" + type, OriginRequest = req };
+            }
+
+            public static QuoteResponse ErrorDetail(QuoteRequest req, string message)
+            {
+                return new QuoteResponse { Result = "error", Error = "noSupported", ErrorMessage = message, OriginRequest = req };
+            }
+
+            public static QuoteResponse Success(QuoteRequest req, QuoteInfo quoteInfo)
+            {
+                return new QuoteResponse { Result = "success", QuoteInfo = quoteInfo, OriginRequest = req };
+            }
+        }
+        private IEnumerable<ExtraSelectFiledOption> GetBankList()
+        {
+            var banks = new List<ExtraSelectFiledOption>();
+
+            var enumValus = Enum.GetValues(typeof(PayWay));
+            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside, PayWay.AlipayRippleForm, PayWay.TenpayRippleForm, PayWay.BankRippleForm };
+
+            foreach (var val in enumValus)
+            {
+                var payway = (PayWay)val;
+                if (!filterVals.Contains(payway))
+                {
+                    banks.Add(new ExtraSelectFiledOption(payway.ToString("F").PadRight(8, ' ') + payway.GetDescription(), payway.ToString("F")));
+                }
+            }
+
+            return banks;
+        }
         public class ThirdPartyPaymentBridgeDestination
         {
             public string Account { get; set; }
@@ -180,7 +443,7 @@ namespace DotPay.Web.Controllers
 
                 if (destinationWithDomain.Contains(GATEWAY_SPLIT))
                 {
-                    var strs = destinationWithDomain.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    var strs = destinationWithDomain.Split(GATEWAY_SPLIT.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
                     if (strs.Length == 2)
                     {

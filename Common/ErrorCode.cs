@@ -68,12 +68,14 @@ namespace DotPay.Common
 
         RippleTransactionNotInit = 201,
         RippleTransactionNotPending = 202,
-        RippleTransactionNotSubmit = 203, 
+        RippleTransactionNotSubmit = 203,
+        RippleTransactionAmountNotMatch = 204, 
 
 
         TransferTransactionNotInit = 301,
         TransferTransactionNotPending = 302,
         TransferTransactionHasConfirmed = 303,
+        TransferTransactionIsProcessingByOther = 304,
 
         NotAllowAssignSuperManager = 901,
         NoPermission = 902,

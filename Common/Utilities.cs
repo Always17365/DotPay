@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FC.Framework;
+using System.Security.Cryptography;
 
 namespace DotPay.Common
 {
@@ -46,7 +47,7 @@ namespace DotPay.Common
         public static Tuple<string, string> GenerateExchangeAndQueueNameOfOutboundTransferForSign()
         {
             var exchangeName = "_OUTBOUND_TRANSFER_EXCHANGE_SIGN";
-            var queueName = "_OUTBOUND_TRANSFER_QUEUE_SIGN";  
+            var queueName = "_OUTBOUND_TRANSFER_QUEUE_SIGN";
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
@@ -190,6 +191,12 @@ namespace DotPay.Common
                     return PayWay.Tenpay;
                 case 12:
                     return PayWay.Ripple;
+                case 97:
+                    return PayWay.BankRippleForm;
+                case 98:
+                    return PayWay.AlipayRippleForm;
+                case 99:
+                    return PayWay.TenpayRippleForm;
                 default:
                     return default(PayWay);
             }
@@ -205,9 +212,32 @@ namespace DotPay.Common
                     return 11;
                 case PayWay.Ripple:
                     return 12;
+                case PayWay.BankRippleForm:
+                    return 97;
+                case PayWay.AlipayRippleForm:
+                    return 98;
+                case PayWay.TenpayRippleForm:
+                    return 99;
                 default:
                     return 0;
             }
+        }
+
+        public static string SHA256Sign(string message)
+        {
+            var result = string.Empty;
+
+            var sha256 = new SHA256Managed();
+
+            byte[] s = sha256.ComputeHash(Encoding.UTF8.GetBytes(message));
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                result += s[i].ToString("X2");
+            }
+
+            sha256.Clear();
+            return result;
         }
 
         #region otp key

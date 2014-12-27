@@ -49,9 +49,9 @@ namespace DotPay.RippleDomain
         public void Handle(RippleInboundTxToThirdPartyPaymentCompelted @event)
         {
             //当接收到ripple转账时，发送消息给dotpay处理，创建第三方支付转账数据，之后等待人工处理 
-            var tx = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>().FindByTxIdAndPayway(@event.RippleTxID, @event.PayWay);
+            var tx = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>().FindByTxId(@event.RippleTxID);
 
-            var msg = new RippleInboundToThirdPartyPaymentTxMessage(tx.Destination, @event.Amount, @event.PayWay, @event.RippleTxID);
+            var msg = new RippleInboundToThirdPartyPaymentTxMessage(tx.Destination, @event.Amount, @event.PayWay, @event.RippleTxID, tx.RealName, tx.Memo);
 
             var exchangeName = Utilities.GenerateExchangeAndQueueNameOfInboundTransfer().Item1;
 
@@ -167,19 +167,23 @@ namespace DotPay.RippleDomain
         [Serializable]
         private class RippleInboundToThirdPartyPaymentTxMessage
         {
-            public RippleInboundToThirdPartyPaymentTxMessage(string account, decimal amount, PayWay payway, string txid)
+            public RippleInboundToThirdPartyPaymentTxMessage(string account, decimal amount, PayWay payway, string txid, string realName, string memo)
             {
                 this.Account = account;
                 this.TxId = txid;
                 this.Amount = amount;
                 this.PayWay = payway;
                 this.SourcePayWay = PayWay.Ripple;
+                this.Memo = memo;
+                this.RealName = realName;
             }
             public string Account { get; private set; }
             public string TxId { get; private set; }
             public decimal Amount { get; private set; }
             public PayWay PayWay { get; private set; }
             public PayWay SourcePayWay { get; private set; }
+            public string Memo { get; private set; }
+            public string RealName { get; private set; }
         }
 
         [Serializable]

@@ -65,7 +65,7 @@ namespace DotPay.Command.Executor
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
-            var tpptx = ToThirdPartyPaymentTransactionFactory.CreateInboundTransferTransaction(cmd.TxId, cmd.Account, cmd.Amount, cmd.PayWay, cmd.SourcePayway);
+            var tpptx = ToThirdPartyPaymentTransactionFactory.CreateInboundTransferTransaction(cmd.TxId, cmd.Account, cmd.Amount, cmd.PayWay, cmd.SourcePayway, cmd.RealName, cmd.Memo);
 
             IoC.Resolve<IRepository>().Add(tpptx);
         }
@@ -102,7 +102,7 @@ namespace DotPay.Command.Executor
         public void Execute(MarkThirdPartyPaymentTransferProcessing cmd)
         {
             var ttpTx = IoC.Resolve<IInboundTransferToThirdPartyPaymentTxRepository>().FindTransferTxByIDAndPayway(cmd.TppTransferID, cmd.PayWay);
-           
+
             ttpTx.MarkProcessing(cmd.ByUserID);
         }
     }

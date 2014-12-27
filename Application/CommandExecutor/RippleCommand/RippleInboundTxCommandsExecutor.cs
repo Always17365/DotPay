@@ -24,25 +24,30 @@ namespace RippleCommand
 
         public void Execute(CreateThirdPartyPaymentInboundTx cmd)
         {
-            var rippleInboundTx = new RippleInboundToThirdPartyPaymentTx(cmd.PayWay, cmd.Destination);
+            var rippleInboundTx = new RippleInboundToThirdPartyPaymentTx(cmd.PayWay, cmd.Destination, cmd.RealName, cmd.Amount, cmd.Memo);
 
             IoC.Resolve<IRepository>().Add(rippleInboundTx);
-
-            cmd.Result = rippleInboundTx.ID;
+            cmd.ResultDestinationTag = rippleInboundTx.ID;
+            cmd.ResultInvoiceID = rippleInboundTx.InvoiceID;
         }
 
         public void Execute(CompleteThirdPartyPaymentInboundTx cmd)
         {
             var repos = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>();
 
-            var rippleInboundTx = repos.FindByTxIdAndPayway(cmd.TxId, cmd.PayWay);
+            //查一次，是防止txid的重复，导致一笔tx,生成两笔转账
+            var rippleInboundTx = repos.FindByTxId(cmd.TxId);
 
             if (rippleInboundTx == null)
             {
                 //destinationtag是to tpp的ID
                 //此处不能用txid作为查找条件，因为此时的数据库中还没有txid
-                rippleInboundTx = repos.FindByIDAndPayway(cmd.DestinationTag, cmd.PayWay);
+                rippleInboundTx = repos.FindById<RippleInboundToThirdPartyPaymentTx>(cmd.DestinationTag);
 
+                if (!string.IsNullOrEmpty(cmd.InvoiceId) && !cmd.InvoiceId.Equals(rippleInboundTx.InvoiceID, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("invoice_id不匹配" + IoC.Resolve<IJsonSerializer>().Serialize(cmd));
+                }
                 rippleInboundTx.Complete(cmd.TxId, cmd.Amount);
             }
         }

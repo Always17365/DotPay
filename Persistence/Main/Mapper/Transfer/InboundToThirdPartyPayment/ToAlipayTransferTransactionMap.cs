@@ -16,12 +16,15 @@ namespace DotPay.Persistence
             Property(x => x.PayWay, map => { map.NotNullable(true); });
             Property(x => x.SourcePayWay, map => { map.NotNullable(true); });
             Property(x => x.Account, map => { map.NotNullable(true); });
-            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(10); map.Scale(2); });
+            Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(12); map.Scale(4); });
             Property(x => x.TransferNo, map => { map.NotNullable(true); map.Length(30); });
             Property(x => x.State, map => { map.NotNullable(true); });
             Property(x => x.CreateAt, map => { map.NotNullable(true); });
-            Property(x => x.DoneAt, map => { map.NotNullable(true); });
+            Property(x => x.DoneAt, map => { map.NotNullable(true); }); 
+            Property(x => x.OperatorID, map => { map.NotNullable(true); });
+            Property(x => x.RealName, map => { map.NotNullable(true); map.Length(20); });
             Property(x => x.Memo, map => { map.NotNullable(true); });
+            Property(x => x.Reason, map => { map.NotNullable(true); });
             Version(x => x.Version, map => { });
         }
     }

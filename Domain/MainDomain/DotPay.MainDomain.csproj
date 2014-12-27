@@ -144,6 +144,7 @@
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\Factory\ToThirdPartyPaymentTransactionFactory.cs" />
     <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
+    <Compile Include="Domain\Transfer\InboundTransferToBankPaymentTx.cs" />
     <Compile Include="Domain\Transfer\InboundTransferToThirdPartyPaymentTx.cs" />
     <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />
     <Compile Include="Domain\Transfer\TransferTransactionExceptions.cs" />

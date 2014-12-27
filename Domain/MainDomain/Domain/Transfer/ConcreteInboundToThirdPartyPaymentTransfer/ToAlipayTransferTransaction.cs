@@ -18,8 +18,8 @@ namespace DotPay.MainDomain
         #region ctor
         protected ToAlipayTransferTransaction() { }
 
-        public ToAlipayTransferTransaction(string txid,string account, decimal amount,PayWay sourcePayway)
-            : base(txid, account, amount, PayWay.Alipay, sourcePayway)
+        public ToAlipayTransferTransaction(string txid, string account, decimal amount, PayWay sourcePayway, string realName, string memo)
+            : base(txid, account, amount, PayWay.Alipay, sourcePayway, realName, memo)
         {
 
         }

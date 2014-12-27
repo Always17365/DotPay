@@ -60,7 +60,7 @@ namespace DotPay.Command
     #region 转账创建
     public class CreateThirdPartyPaymentTransfer : FC.Framework.Command
     {
-        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway)
+        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway,string realName,string memo)
         {
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotEmpty(account, "account");
@@ -72,6 +72,8 @@ namespace DotPay.Command
             this.Amount = amount;
             this.PayWay = payway;
             this.SourcePayway = sourcePayway;
+            this.Memo = memo;
+            this.RealName = realName;
         }
 
         public string TxId { get; private set; }
@@ -79,6 +81,8 @@ namespace DotPay.Command
         public decimal Amount { get; private set; }
         public PayWay PayWay { get; private set; }
         public PayWay SourcePayway { get; private set; }
+        public string RealName { get; private set; }
+        public string Memo { get; private set; }
     }
     #endregion
 

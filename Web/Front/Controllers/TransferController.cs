@@ -430,7 +430,7 @@ namespace DotPay.Web.Controllers
                     var cmd = new CreateOutboundTransfer(PayWay.Ripple, rippleAccountInfo.UserAccount.Destination, currency, sourceAmount, targetamount, string.Empty, this.CurrentUser.UserID);
                     this.CommandBus.Send(cmd);
 
-                    var cmd_ripple = new CreateRippleOutboundTx(rippleAccountInfo.UserAccount.Destination, rippleAccountInfo.UserAccount.DestinationTag, currency, targetamount, sourceAmount, pathInfos);
+                    var cmd_ripple = new CreateRippleOutboundTx(rippleAccountInfo.UserAccount.Destination, rippleAccountInfo.UserAccount.DestinationTag.Value, currency, targetamount, sourceAmount, pathInfos);
                     this.CommandBus.Send(cmd_ripple);
                     return View("transferripplesuccess");
                 }

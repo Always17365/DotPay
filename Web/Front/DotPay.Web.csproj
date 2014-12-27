@@ -275,7 +275,9 @@
     <Content Include="public\css\font-awesome.min.css" />
     <Content Include="public\css\layout.css" />
     <Content Include="public\css\profile.css" />
+    <Content Include="public\images\email.png" />
     <Content Include="public\images\emailsent.jpg" />
+    <Content Include="public\images\group.png" />
     <Content Include="public\images\head.gif" />
     <Content Include="public\images\icons\alipay.png" />
     <Content Include="public\images\icons\cny.png" />
@@ -288,6 +290,7 @@
     <Content Include="public\images\logo.png" />
     <Content Include="public\images\logoc.png" />
     <Content Include="public\images\profilenav.png" />
+    <Content Include="public\images\qq.png" />
     <Content Include="public\images\qr_code.png" />
     <Content Include="public\libs\bootstrap\bootstrap.min.js" />
     <Content Include="public\libs\bootstrap\bootstrap.css" />

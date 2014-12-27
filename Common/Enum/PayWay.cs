@@ -10,7 +10,7 @@ namespace DotPay.Common
     /// pay way
     /// </summary>
     public enum PayWay
-    {
+    { 
         [EnumDescription("Inside")]
         Inside = 1,
         [EnumDescription("Alipay")]
@@ -95,6 +95,15 @@ namespace DotPay.Common
         [EnumDescription("中国邮政")]
         PSBC,
         [EnumDescription("PayWay Virtual Coin Tranfer")]
-        VirutalTransfer
+
+        VirutalTransfer,
+
+        [EnumDescription("Bank")]
+        BankRippleForm = 97,
+        [EnumDescription("Alipay")]
+        AlipayRippleForm=98,
+        [EnumDescription("Tenpay")]
+        TenpayRippleForm=99
+      
     }
 }

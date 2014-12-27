@@ -8,17 +8,36 @@ using FC.Framework;
 
 namespace DotPay.RippleDomain.Events
 {
+    //因为不在支持类型adfsf:alipay@dotpay.co这种方式，所以这个事情去掉，暂时保留注释代码
+    //public class RippleInboundTxToThirdPartyPaymentCreated : DomainEvent
+    //{
+    //    #region ctor
+    //    public RippleInboundTxToThirdPartyPaymentCreated(PayWay payway,string destination)
+    //    {
+    //        this.PayWay = payway;
+    //        this.Destination = destination;
+    //    }
+    //    #endregion
+    //    public PayWay PayWay { get; protected set; }
+    //    public string Destination { get; protected set; }
+    //} 
     public class RippleInboundTxToThirdPartyPaymentCreated : DomainEvent
     {
         #region ctor
-        public RippleInboundTxToThirdPartyPaymentCreated(PayWay payway, string destination)
+        public RippleInboundTxToThirdPartyPaymentCreated(PayWay payway, string destination, string realName, decimal amount, string memo)
         {
             this.PayWay = payway;
             this.Destination = destination;
+            this.Amount = amount;
+            this.Memo = memo;
+            this.RealName = realName;
         }
         #endregion
         public PayWay PayWay { get; protected set; }
+        public string RealName { get; protected set; }
         public string Destination { get; protected set; }
+        public decimal Amount { get; protected set; }
+        public string Memo { get; protected set; }
     }
 
     public class RippleInboundTxToThirdPartyPaymentCompelted : DomainEvent
