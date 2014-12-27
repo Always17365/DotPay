@@ -30,7 +30,7 @@ namespace DotPay.QueryService.Impl
                                .QuerySingle<int>();
         }
 
-        public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay, int page, int pageCount)
+        public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay,string orderBy, int page, int pageCount)
         {
             var paramters = new object[] { 
                 account.NullSafe(), 
@@ -43,7 +43,7 @@ namespace DotPay.QueryService.Impl
                 pageCount
 
             };
-            var users = this.Context.Sql(getTransferTransactionBySearch_sql.FormatWith(payWay.ToString()))
+            var users = this.Context.Sql(getTransferTransactionBySearch_sql.FormatWith(payWay.ToString(),orderBy))
                                    .Parameters(paramters)
                                    .QueryMany<TransferTransaction>();
 
@@ -115,7 +115,7 @@ namespace DotPay.QueryService.Impl
                                      AND   (@3=0 OR CreateAt>=@3) 
                                      AND   (@4=0 OR CreateAt<=@4) 
                                      AND   State=@5
-                                ORDER BY   CreateAt DESC
+                                ORDER BY   CreateAt {1}
                                    LIMIT   @6,@7";
         #endregion
     }

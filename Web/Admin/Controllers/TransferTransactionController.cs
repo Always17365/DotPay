@@ -55,8 +55,8 @@ namespace DotPay.Web.Admin.Controllers
         {
             var count1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Pending, payWay);
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
-            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, page, Constants.DEFAULT_PAGE_COUNT);
-            var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay,"ASC", page, Constants.DEFAULT_PAGE_COUNT);
+            var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result = from TransferTransaction in result1.Union<TransferTransaction>(result2)
                          select new TransferTransaction
                          {
@@ -83,7 +83,7 @@ namespace DotPay.Web.Admin.Controllers
         public ActionResult GetSuccessTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay);
-            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
             result = from TransferTransaction in result
                      select new TransferTransaction
                      {
@@ -108,7 +108,7 @@ namespace DotPay.Web.Admin.Controllers
         public ActionResult GetFailTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay);
-            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
             result = from TransferTransaction in result
                      select new TransferTransaction
                      {
