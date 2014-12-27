@@ -91,7 +91,8 @@ namespace DotPay.QueryService.Impl
         private readonly string getTransferTransactionByRippleTxid_sql =
                                 @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
-                                   WHERE    TxId=@0";
+                                   WHERE    TxId=@0                               
+                                ORDER BY    CreateAt DESC";
 
         private readonly string getTransferTransactionCountBySearch_Sql =
                                 @"SELECT    COUNT(*)
@@ -101,7 +102,8 @@ namespace DotPay.QueryService.Impl
                                      AND   (@2='' OR TxId=@2)
                                      AND   (@3=0 OR CreateAt>=@3) 
                                      AND   (@4=0 OR CreateAt<=@4) 
-                                     AND   State=@5";
+                                     AND   State=@5                               
+                                ORDER BY    CreateAt DESC";
 
 
         private readonly string getTransferTransactionBySearch_sql =
