@@ -177,7 +177,6 @@ function failTransferTransactionCtrl($scope, $modalInstance, $http, $alert, tran
         if (text !="") {
             $http.post('../TransferTransaction/ThirdPartyPaymentTransferFail', { transferId: transferTransaction.ID, reason: text, payway: transferTransaction.payway }).success(function (data, status, headers) {
                 if (data.Code == 1) $modalInstance.close(true);
-
                 else $modalInstance.close(false);
             });
         } else {

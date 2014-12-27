@@ -57,7 +57,26 @@ namespace DotPay.Web.Admin.Controllers
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
             var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, page, Constants.DEFAULT_PAGE_COUNT);
             var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, page, Constants.DEFAULT_PAGE_COUNT);
-            return Json(new { count = count1 + count2, result = result1.Union<TransferTransaction>(result2) });
+            var result = from TransferTransaction in result1.Union<TransferTransaction>(result2)
+                         select new TransferTransaction
+                         {
+                             Account = TransferTransaction.Account,
+                             Amount = TransferTransaction.Amount,
+                             CreateAt = TransferTransaction.CreateAt,
+                             DoneAt = TransferTransaction.DoneAt,
+                             ID = TransferTransaction.ID,
+                             Memo = TransferTransaction.Memo,
+                             PayWay = TransferTransaction.PayWay,
+                             RealName = TransferTransaction.RealName,
+                             Reason = TransferTransaction.Reason,
+                             SequenceNo = FormatString(TransferTransaction.SequenceNo, 20, ' '),
+                             SourcePayway = TransferTransaction.SourcePayway,
+                             State = TransferTransaction.State,
+                             TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
+                             TxId = FormatString(TransferTransaction.TxId,32,' ')
+                         };
+
+            return Json(new { count = count1 + count2, result = result });
         }
 
         [HttpPost]
@@ -65,6 +84,24 @@ namespace DotPay.Web.Admin.Controllers
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay);
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            result = from TransferTransaction in result
+                     select new TransferTransaction
+                     {
+                         Account = TransferTransaction.Account,
+                         Amount = TransferTransaction.Amount,
+                         CreateAt = TransferTransaction.CreateAt,
+                         DoneAt = TransferTransaction.DoneAt,
+                         ID = TransferTransaction.ID,
+                         Memo = TransferTransaction.Memo,
+                         PayWay = TransferTransaction.PayWay,
+                         RealName = TransferTransaction.RealName,
+                         Reason = TransferTransaction.Reason,
+                         SequenceNo = FormatString(TransferTransaction.SequenceNo, 20, ' '),
+                         SourcePayway = TransferTransaction.SourcePayway,
+                         State = TransferTransaction.State,
+                         TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
+                         TxId = FormatString(TransferTransaction.TxId, 32, ' ')
+                     };
             return Json(new { count = count, result = result });
         }
         [HttpPost]
@@ -72,6 +109,24 @@ namespace DotPay.Web.Admin.Controllers
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay);
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, page, Constants.DEFAULT_PAGE_COUNT);
+            result = from TransferTransaction in result
+                     select new TransferTransaction
+                     {
+                         Account = TransferTransaction.Account,
+                         Amount = TransferTransaction.Amount,
+                         CreateAt = TransferTransaction.CreateAt,
+                         DoneAt = TransferTransaction.DoneAt,
+                         ID = TransferTransaction.ID,
+                         Memo = TransferTransaction.Memo,
+                         PayWay = TransferTransaction.PayWay,
+                         RealName = TransferTransaction.RealName,
+                         Reason = TransferTransaction.Reason,
+                         SequenceNo = FormatString(TransferTransaction.SequenceNo, 20, ' '),
+                         SourcePayway = TransferTransaction.SourcePayway,
+                         State = TransferTransaction.State,
+                         TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
+                         TxId = FormatString(TransferTransaction.TxId, 32, ' ')
+                     };
             return Json(new { count = count, result = result });
         }
 
@@ -126,6 +181,16 @@ namespace DotPay.Web.Admin.Controllers
                 else return Json(new JsonResult(ex.ErrorCode));
             }
 
+        }
+        public string FormatString(string str, int len, char chr)        
+        {           
+            string result = "";            
+            if(str.Length<=len) return str;            
+            for (int i = 0; i < (str.Length / len); i++)                
+            result += str.Substring(i * len, len) + chr;            
+            if (str.Length % len != 0) result += str.Substring((str.Length / len) * len);            
+            result = result.Trim(chr);            
+            return result;        
         }
     }
 }

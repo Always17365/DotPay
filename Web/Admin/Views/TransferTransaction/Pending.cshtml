@@ -25,8 +25,9 @@
                 <th>流水号</th> 
                 <th>支付来源</th>
                 <th>状态</th>
-                <th>用户</th>
+                <th>支付宝账户</th>
                 <th>金额</th> 
+                <th>备注</th>
                 <th>创建时间</th> 
             </tr>
         </thead>
@@ -37,9 +38,10 @@
                 <td ng-bind="transferTransaction.TxId"></td> 
                 <td ng-bind="transferTransaction.TransferNo"></td>
                 <td ng-bind="transferTransaction.CNSourcePayway"></td>
-                <td ng-bind="transferTransaction.CNState"></td>
-                <td ng-bind="transferTransaction.Account"></td>
+                <td ng-bind="transferTransaction.CNState"></td> 
+                <td ng-bind="transferTransaction.Account +  (transferTransaction.RealName.length>0?'-' + transferTransaction.RealName:'')"></td>
                 <td ng-bind="transferTransaction.Amount"></td>        
+                <td ng-bind="transferTransaction.Memo + transferTransaction.Reason"></td>
                 <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td> 
             </tr>
         </tbody>

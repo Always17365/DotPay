@@ -81,7 +81,7 @@ namespace DotPay.QueryService.Impl
         #region SQL
 
         private readonly string getLastTwentyTransferTransaction_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state<>'"+TransactionState.Fail+@"' 
                                      AND    state<>'"+TransactionState.Cancel+@"'                                    
@@ -89,7 +89,7 @@ namespace DotPay.QueryService.Impl
                                    LIMIT    20";
 
         private readonly string getTransferTransactionByRippleTxid_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Memo
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
                                    WHERE    TxId=@0";
 
@@ -105,7 +105,7 @@ namespace DotPay.QueryService.Impl
 
 
         private readonly string getTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Memo
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 
