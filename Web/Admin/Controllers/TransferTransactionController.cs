@@ -76,7 +76,7 @@ namespace DotPay.Web.Admin.Controllers
                              TxId = FormatString(TransferTransaction.TxId,32,' ')
                          };
 
-            return Json(new { count = count1 + count2, result = result });
+            return Json(new { count = count1 + count2, result = result.OrderByDescending(q=>q.CreateAt) });
         }
 
         [HttpPost]
@@ -102,7 +102,7 @@ namespace DotPay.Web.Admin.Controllers
                          TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
                          TxId = FormatString(TransferTransaction.TxId, 32, ' ')
                      };
-            return Json(new { count = count, result = result });
+            return Json(new { count = count, result = result.OrderByDescending(q => q.CreateAt) });
         }
         [HttpPost]
         public ActionResult GetFailTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
@@ -127,7 +127,7 @@ namespace DotPay.Web.Admin.Controllers
                          TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
                          TxId = FormatString(TransferTransaction.TxId, 32, ' ')
                      };
-            return Json(new { count = count, result = result });
+            return Json(new { count = count, result = result.OrderByDescending(q => q.CreateAt) });
         }
 
         [HttpPost]
