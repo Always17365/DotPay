@@ -107,7 +107,7 @@ namespace DotPay.QueryService.Impl
 
 
         private readonly string getTransferTransactionBySearch_sql =
-                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Reason,RealName,Memo
+                               @"SELECT    ID,TxId,TransferNo,SequenceNo,SourcePayway,Account,state,Amount,CreateAt,DoneAt,Reason,RealName,Memo,OperatorID
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction                              
                                    WHERE   (@0='' OR Account=@0)
                                      AND   (@1=0 OR Amount=@1) 

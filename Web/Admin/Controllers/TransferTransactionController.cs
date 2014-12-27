@@ -76,7 +76,7 @@ namespace DotPay.Web.Admin.Controllers
                              TxId = FormatString(TransferTransaction.TxId,32,' ')
                          };
 
-            return Json(new { count = count1 + count2, result = result.OrderByDescending(q=>q.CreateAt) });
+            return Json(new { count = count1 + count2, result = result.OrderByDescending(q=>q.CreateAt),UserId=this.CurrentUser.UserID });
         }
 
         [HttpPost]
