@@ -138,13 +138,13 @@
     <Compile Include="Domain\CacheManager.cs" />
     <Compile Include="Domain\LogWriter\LoginLogWriter.cs" />
     <Compile Include="Domain\SmsInterface\SmsInterface.cs" />
+    <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToBankTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToTenpayTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInboundToThirdPartyPaymentTransfer\ToAlipayTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\USDInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\ConcreteInsideTransfer\CNYInsideTransferTransaction.cs" />
     <Compile Include="Domain\Transfer\Factory\ToThirdPartyPaymentTransactionFactory.cs" />
     <Compile Include="Domain\Transfer\Factory\InsideTransferTransactionFactory.cs" />
-    <Compile Include="Domain\Transfer\InboundTransferToBankPaymentTx.cs" />
     <Compile Include="Domain\Transfer\InboundTransferToThirdPartyPaymentTx.cs" />
     <Compile Include="Domain\Transfer\TransferSubmitMonitor.cs" />
     <Compile Include="Domain\Transfer\TransferTransactionExceptions.cs" />

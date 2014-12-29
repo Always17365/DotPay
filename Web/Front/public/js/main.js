@@ -64,7 +64,7 @@ function commonFormFailCallback(data) {
 function switchLang(lang) {
     $.cookie('lanaguage', lang, { path: "/" });
     console.log("lang");
-    window.location.href = '/';
+    window.location.reload();
 }
 
 Number.prototype.div = function (arg) {

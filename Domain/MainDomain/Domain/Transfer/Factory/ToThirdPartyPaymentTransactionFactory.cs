@@ -21,13 +21,14 @@ namespace DotPay.MainDomain
             switch (payway)
             {
                 case PayWay.Alipay:
-                    tx = new ToAlipayTransferTransaction(txid, account, amount, sourcePayway, realName,memo);
+                    tx = new ToAlipayTransferTransaction(txid, account, amount, sourcePayway, realName, memo);
                     break;
                 case PayWay.Tenpay:
-                    tx = new ToTenpayTransferTransaction(txid, account, amount, sourcePayway, realName,memo);
+                    tx = new ToTenpayTransferTransaction(txid, account, amount, sourcePayway, realName, memo);
                     break;
                 default:
-                    throw new NotImplementedException();
+                    tx = new ToBankTransferTransaction(txid, account, amount, sourcePayway, payway, realName, memo);
+                    break;
             }
 
             return tx;

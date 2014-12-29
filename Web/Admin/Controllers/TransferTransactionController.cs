@@ -55,7 +55,7 @@ namespace DotPay.Web.Admin.Controllers
         {
             var count1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Pending, payWay);
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
-            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay,"ASC", page, Constants.DEFAULT_PAGE_COUNT);
+            var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result = from TransferTransaction in result1.Union<TransferTransaction>(result2)
                          select new TransferTransaction
@@ -73,10 +73,10 @@ namespace DotPay.Web.Admin.Controllers
                              SourcePayway = TransferTransaction.SourcePayway,
                              State = TransferTransaction.State,
                              TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
-                             TxId = FormatString(TransferTransaction.TxId,32,' ')
+                             TxId = FormatString(TransferTransaction.TxId, 32, ' ')
                          };
 
-            return Json(new { count = count1 + count2, result = result.OrderByDescending(q=>q.CreateAt) });
+            return Json(new { count = count1 + count2, result = result.OrderByDescending(q => q.CreateAt) });
         }
 
         [HttpPost]
@@ -131,11 +131,11 @@ namespace DotPay.Web.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult ThirdPartyPaymentTransferComplete(int transferId, decimal amount, string transferNo, PayWay payway)
+        public ActionResult ThirdPartyPaymentTransferComplete(int transferId, decimal amount, string transferNo, PayWay payway, PayWay transferPay)
         {
             try
             {
-                var cmd = new ThirdPartyPaymentTransferComplete(transferId, transferNo, amount, payway, this.CurrentUser.UserID);
+                var cmd = new ThirdPartyPaymentTransferComplete(transferId, transferNo, amount, payway, transferPay, this.CurrentUser.UserID);
                 this.CommandBus.Send(cmd);
                 return Json(JsonResult.Success);
             }
@@ -182,15 +182,15 @@ namespace DotPay.Web.Admin.Controllers
             }
 
         }
-        public string FormatString(string str, int len, char chr)        
-        {           
-            string result = "";            
-            if(str.Length<=len) return str;            
-            for (int i = 0; i < (str.Length / len); i++)                
-            result += str.Substring(i * len, len) + chr;            
-            if (str.Length % len != 0) result += str.Substring((str.Length / len) * len);            
-            result = result.Trim(chr);            
-            return result;        
+        public string FormatString(string str, int len, char chr)
+        {
+            string result = "";
+            if (str.Length <= len) return str;
+            for (int i = 0; i < (str.Length / len); i++)
+                result += str.Substring(i * len, len) + chr;
+            if (str.Length % len != 0) result += str.Substring((str.Length / len) * len);
+            result = result.Trim(chr);
+            return result;
         }
     }
 }

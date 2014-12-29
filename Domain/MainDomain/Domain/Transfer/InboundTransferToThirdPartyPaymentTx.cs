@@ -33,6 +33,10 @@ namespace DotPay.MainDomain
         public virtual string TxId { get; protected set; }
         public virtual PayWay SourcePayWay { get; protected set; }
         public virtual PayWay PayWay { get; protected set; }
+        /// <summary>
+        /// 我们真实转账用的支付方式
+        /// </summary>
+        public virtual PayWay TransferPayWay { get; protected set; }
         public virtual string Account { get; protected set; }
         public virtual decimal Amount { get; protected set; }
         public virtual TransactionState State { get; protected set; }
@@ -55,14 +59,14 @@ namespace DotPay.MainDomain
                 this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxMarkProcessing(this.ID, this.PayWay, byUserID));
         }
 
-        public virtual void Complete(string transferNo, int byUserID)
+        public virtual void Complete(PayWay transferPayway, string transferNo, int byUserID)
         {
             if (this.State != TransactionState.Pending && this.State != TransactionState.Fail)
                 throw new TransferTransactionNotPendingException();
             else if (this.OperatorID != byUserID)
                 throw new TransferTransactionIsProccessByOtherException();
             else
-                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxComplete(this.ID, this.PayWay, transferNo, byUserID));
+                this.RaiseEvent(new InboundTransferToThirdPartyPaymentTxComplete(this.ID, transferPayway, transferNo, byUserID));
         }
 
         public virtual void Fail(string reason, int byUserID)
@@ -104,6 +108,7 @@ namespace DotPay.MainDomain
 
         void IEventHandler<InboundTransferToThirdPartyPaymentTxComplete>.Handle(InboundTransferToThirdPartyPaymentTxComplete @event)
         {
+            this.TransferPayWay = @event.TransferPayWay;
             this.State = TransactionState.Success;
             this.TransferNo = @event.TransferNo;
             this.DoneAt = @event.UTCTimestamp.ToUnixTimestamp();

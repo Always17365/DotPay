@@ -63,3074 +63,387 @@ namespace DotPay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string _0__deposited__successfuly_ {
+        internal static string ABC {
             get {
-                return ResourceManager.GetString("{0} deposited  successfuly.", resourceCulture);
+                return ResourceManager.GetString("ABC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string _24HR_High {
+        internal static string Alipay {
             get {
-                return ResourceManager.GetString("24HR High", resourceCulture);
+                return ResourceManager.GetString("Alipay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Alipay TransferNo 的本地化字符串。
+        /// </summary>
+        internal static string alipay_transfer_no {
+            get {
+                return ResourceManager.GetString("alipay_transfer_no", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string _24HR_Low {
+        internal static string BCM {
             get {
-                return ResourceManager.GetString("24HR Low", resourceCulture);
+                return ResourceManager.GetString("BCM", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string _24HR_Volume {
+        internal static string BOC {
             get {
-                return ResourceManager.GetString("24HR Volume", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 DISABLED 的本地化字符串。
-        /// </summary>
-        internal static string _2FA_Disabled {
-            get {
-                return ResourceManager.GetString("2FA_Disabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 ENABLED 的本地化字符串。
-        /// </summary>
-        internal static string _2FA_Enabled {
-            get {
-                return ResourceManager.GetString("2FA_Enabled", resourceCulture);
+                return ResourceManager.GetString("BOC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Account_Balances {
+        internal static string CCB {
             get {
-                return ResourceManager.GetString("Account Balances", resourceCulture);
+                return ResourceManager.GetString("CCB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yuan 的本地化字符串。
+        /// </summary>
+        internal static string Chinese_Yuan {
+            get {
+                return ResourceManager.GetString("Chinese_Yuan", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Account_Profile {
+        internal static string CIB {
             get {
-                return ResourceManager.GetString("Account Profile", resourceCulture);
+                return ResourceManager.GetString("CIB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Account_successfully_verified__Please_login_below_ {
+        internal static string CMBC {
             get {
-                return ResourceManager.GetString("Account successfully verified. Please login below.", resourceCulture);
+                return ResourceManager.GetString("CMBC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Actions {
+        internal static string Contact_us_via_QQ {
             get {
-                return ResourceManager.GetString("Actions", resourceCulture);
+                return ResourceManager.GetString("Contact us via QQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copyright © 2014 Shanghai FullCoin Network Technology co., LTD 的本地化字符串。
+        /// </summary>
+        internal static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Active_Markets {
+        internal static string Direct_transfer_progress_enquiry {
             get {
-                return ResourceManager.GetString("Active Markets", resourceCulture);
+                return ResourceManager.GetString("Direct transfer progress enquiry", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Amount {
+        internal static string Dotpay_your_fast_payment_expert {
             get {
-                return ResourceManager.GetString("Amount", resourceCulture);
+                return ResourceManager.GetString("Dotpay,your fast payment expert", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Amount_to_Withdraw {
+        internal static string ECITIC {
             get {
-                return ResourceManager.GetString("Amount to Withdraw", resourceCulture);
+                return ResourceManager.GetString("ECITIC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string An_account_with_that_email_address_already_exists__Please_try_again_or_use_the_forgotten_password_feature_ {
+        internal static string Failed_Reason__0_ {
             get {
-                return ResourceManager.GetString("An account with that email address already exists. Please try again or use the fo" +
-                        "rgotten password feature.", resourceCulture);
+                return ResourceManager.GetString("Failed,Reason:{0}", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Android {
+        internal static string GDB {
             get {
-                return ResourceManager.GetString("Android", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Sell 的本地化字符串。
-        /// </summary>
-        internal static string AskOrder {
-            get {
-                return ResourceManager.GetString("AskOrder", resourceCulture);
+                return ResourceManager.GetString("GDB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Available_Balance {
+        internal static string HXB {
             get {
-                return ResourceManager.GetString("Available Balance", resourceCulture);
+                return ResourceManager.GetString("HXB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Balances {
+        internal static string ICBC {
             get {
-                return ResourceManager.GetString("Balances", resourceCulture);
+                return ResourceManager.GetString("ICBC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Below_is_a_list_of_all_active_markets_on_FullCoin__ordered_by_24_hour_volume_ {
+        internal static string If_you_just_created_the_transaction__please_you_5_minutes_before_query {
             get {
-                return ResourceManager.GetString("Below is a list of all active markets on FullCoin, ordered by 24 hour volume.", resourceCulture);
+                return ResourceManager.GetString("If you just created the transaction, please you 5 minutes before query", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Below_is_a_list_of_deposits_that_you_have_made__Click_the_expander_icon_on_the_left_of_each_row_to_reveal_more_details_about_the_deposit_ {
+        internal static string Join_QQ_group {
             get {
-                return ResourceManager.GetString("Below is a list of deposits that you have made. Click the expander icon on the le" +
-                        "ft of each row to reveal more details about the deposit.", resourceCulture);
+                return ResourceManager.GetString("Join QQ group", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Below_is_a_list_of_open_orders_that_you_have_made__Any_completed_orders_will_show_up_under_your__0__ {
+        internal static string PAB {
             get {
-                return ResourceManager.GetString("Below is a list of open orders that you have made. Any completed orders will show" +
-                        " up under your {0}.", resourceCulture);
+                return ResourceManager.GetString("PAB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Below_is_a_list_of_withdraws_that_you_have_made__Click_the_expander_icon_on_the_left_of_each_row_to_reveal_more_details_about_the_withdraw_ {
+        internal static string Please_contact__0___for_next_step_processing {
             get {
-                return ResourceManager.GetString("Below is a list of withdraws that you have made. Click the expander icon on the l" +
-                        "eft of each row to reveal more details about the withdraw.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Buy 的本地化字符串。
-        /// </summary>
-        internal static string BidOrder {
-            get {
-                return ResourceManager.GetString("BidOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 BTC 的本地化字符串。
-        /// </summary>
-        internal static string BitCoin {
-            get {
-                return ResourceManager.GetString("BitCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Verify 的本地化字符串。
-        /// </summary>
-        internal static string btn_Verify {
-            get {
-                return ResourceManager.GetString("btn_Verify", resourceCulture);
+                return ResourceManager.GetString("Please contact {0}  for next step processing", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Buy_order_create_success___br__Amount____0___br__Price___1_ {
+        internal static string Please_input__your_Ripple_TxId {
             get {
-                return ResourceManager.GetString("Buy order create success. <br> Amount : {0} <br> Price: {1}", resourceCulture);
+                return ResourceManager.GetString("Please input  your Ripple TxId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Buy_Orders {
+        internal static string PSBC {
             get {
-                return ResourceManager.GetString("Buy Orders", resourceCulture);
+                return ResourceManager.GetString("PSBC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Cancel_Order {
+        internal static string Recently_Transfer_Records {
             get {
-                return ResourceManager.GetString("Cancel_Order", resourceCulture);
+                return ResourceManager.GetString("Recently Transfer Records", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 CNY 的本地化字符串。
+        ///   查找类似 not exist 的本地化字符串。
         /// </summary>
-        internal static string China_Yuan {
+        internal static string ripple_query_not_exist {
             get {
-                return ResourceManager.GetString("China Yuan", resourceCulture);
+                return ResourceManager.GetString("ripple_query_not_exist", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Done 的本地化字符串。
         /// </summary>
-        internal static string Click_here_for_identity_verification_ {
+        internal static string ripple_query_status_Done {
             get {
-                return ResourceManager.GetString("Click here for identity verification.", resourceCulture);
+                return ResourceManager.GetString("ripple_query_status_Done", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Failed 的本地化字符串。
         /// </summary>
-        internal static string Click_here_to_disable_Google_Authenticator {
+        internal static string ripple_query_status_Failed {
             get {
-                return ResourceManager.GetString("Click here to disable Google Authenticator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Click_here_to_enable_Google_Authenticator {
-            get {
-                return ResourceManager.GetString("Click here to enable Google Authenticator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Click_here_to_get_SMS_Authentication_Code {
-            get {
-                return ResourceManager.GetString("Click here to get SMS Authentication Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Click_here_to_resend_active_email_ {
-            get {
-                return ResourceManager.GetString("Click here to resend active email.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Coin_Code {
-            get {
-                return ResourceManager.GetString("Coin Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Coin_Deposits {
-            get {
-                return ResourceManager.GetString("Coin Deposits", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Coin_Name {
-            get {
-                return ResourceManager.GetString("Coin Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Coin_Withdraws {
-            get {
-                return ResourceManager.GetString("Coin Withdraws", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Shanghai FullCoin Network Technology co., LTD 的本地化字符串。
-        /// </summary>
-        internal static string CompanyName {
-            get {
-                return ResourceManager.GetString("CompanyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Confirm_Login_Password {
-            get {
-                return ResourceManager.GetString("Confirm Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Confirm_Trade_Password {
-            get {
-                return ResourceManager.GetString("Confirm Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Tel：400-055-0698  ICP：14018960-1 的本地化字符串。
-        /// </summary>
-        internal static string ContractInfo {
-            get {
-                return ResourceManager.GetString("ContractInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Cpatcha {
-            get {
-                return ResourceManager.GetString("Cpatcha", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Cpatcha__error_ {
-            get {
-                return ResourceManager.GetString("Cpatcha  error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Day {
-            get {
-                return ResourceManager.GetString("Day", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit {
-            get {
-                return ResourceManager.GetString("Deposit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit__0_ {
-            get {
-                return ResourceManager.GetString("Deposit {0}", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit_Amount__ {
-            get {
-                return ResourceManager.GetString("Deposit Amount :", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit_Code_ {
-            get {
-                return ResourceManager.GetString("Deposit Code:", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit_code_has_been_used_ {
-            get {
-                return ResourceManager.GetString("Deposit code has been used.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposit_code_locked_by_other_user_ {
-            get {
-                return ResourceManager.GetString("Deposit code locked by other user.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Deposits_are_confirmed_and_will_be_available_to_use_after__strong__0___strong__confirmations__Once_our_system_has_picked_up_the_transaction_it_will_show_in_the_deposits_listing_as_pending__this_may_take_a_few_minutes_from_when_the_transaction_has_been_broadcast_to_the_network_ {
-            get {
-                return ResourceManager.GetString(@"Deposits are confirmed and will be available to use after <strong>{0}</strong> confirmations. Once our system has picked up the transaction it will show in the deposits listing as pending, this may take a few minutes from when the transaction has been broadcast to the network.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Completed 的本地化字符串。
-        /// </summary>
-        internal static string DepositStatusCompleted {
-            get {
-                return ResourceManager.GetString("DepositStatusCompleted", resourceCulture);
+                return ResourceManager.GetString("ripple_query_status_Failed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 Pending 的本地化字符串。
         /// </summary>
-        internal static string DepositStatusPending {
+        internal static string ripple_query_status_Processing {
             get {
-                return ResourceManager.GetString("DepositStatusPending", resourceCulture);
+                return ResourceManager.GetString("ripple_query_status_Processing", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Verified 的本地化字符串。
+        ///   查找类似 Amount 的本地化字符串。
         /// </summary>
-        internal static string DepositStatusVerified {
+        internal static string ripple_query_table_amount {
             get {
-                return ResourceManager.GetString("DepositStatusVerified", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_amount", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Disable_Google_Authenticator_successfully_ {
-            get {
-                return ResourceManager.GetString("Disable Google Authenticator successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Disable_Login_2FA {
-            get {
-                return ResourceManager.GetString("Disable Login-2FA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Disable_Login2FA_successfully_ {
-            get {
-                return ResourceManager.GetString("Disable Login2FA successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Disable_Sms_Authenticator_successfully_ {
-            get {
-                return ResourceManager.GetString("Disable Sms Authenticator successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 DOGE 的本地化字符串。
-        /// </summary>
-        internal static string DogeCoin {
-            get {
-                return ResourceManager.GetString("DogeCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Don_t_have_your_Google_Authenticator_token_any_more__You_ll_need_to_contact_support_with_your__strong_2FA_secret__strong__in_order_to_regain_access_to_your_account_ {
-            get {
-                return ResourceManager.GetString("Don\'t have your Google Authenticator token any more? You\'ll need to contact suppo" +
-                        "rt with your <strong>2FA secret</strong> in order to regain access to your accou" +
-                        "nt.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Download_the__strong_Google_Authenticator__strong__app_on_to_your_mobile_phone_ {
-            get {
-                return ResourceManager.GetString("Download the <strong>Google Authenticator</strong> app on to your mobile phone.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Email_Address {
-            get {
-                return ResourceManager.GetString("Email Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Not verified 的本地化字符串。
-        /// </summary>
-        internal static string email_status_not_verified {
-            get {
-                return ResourceManager.GetString("email_status_not_verified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Verified 的本地化字符串。
-        /// </summary>
-        internal static string email_status_verified {
-            get {
-                return ResourceManager.GetString("email_status_verified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enable_Google_Authenticator_successfully_Your_Login2FA_enabled_by_default_ {
-            get {
-                return ResourceManager.GetString("Enable Google Authenticator successfully.Your Login2FA enabled by default.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enable_Login_2FA {
-            get {
-                return ResourceManager.GetString("Enable Login-2FA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enable_Login2FA_successfully_ {
-            get {
-                return ResourceManager.GetString("Enable Login2FA successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enable_Sms_Authenticator_successfully_Your_Login2FA_enabled_by_default_ {
-            get {
-                return ResourceManager.GetString("Enable Sms Authenticator successfully.Your Login2FA enabled by default.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enter_code_from_Google_Authenticator_App {
-            get {
-                return ResourceManager.GetString("Enter code from Google Authenticator App", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enter_code_from_your_sms {
-            get {
-                return ResourceManager.GetString("Enter code from your sms", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Enter_your_mobile {
-            get {
-                return ResourceManager.GetString("Enter your mobile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Excellent_Support {
-            get {
-                return ResourceManager.GetString("Excellent Support", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Anywhere 的本地化字符串。
-        /// </summary>
-        internal static string features_anywhere {
-            get {
-                return ResourceManager.GetString("features_anywhere", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Fast 的本地化字符串。
-        /// </summary>
-        internal static string features_fast {
-            get {
-                return ResourceManager.GetString("features_fast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Free 的本地化字符串。
-        /// </summary>
-        internal static string features_free {
-            get {
-                return ResourceManager.GetString("features_free", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Open 的本地化字符串。
-        /// </summary>
-        internal static string features_open {
-            get {
-                return ResourceManager.GetString("features_open", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 FBC 的本地化字符串。
-        /// </summary>
-        internal static string FootballCoin {
-            get {
-                return ResourceManager.GetString("FootballCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string forgot_trade_password__click_here_to_reset_your_trade_password {
-            get {
-                return ResourceManager.GetString("forgot trade password? click here to reset your trade password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Forgotten_password {
-            get {
-                return ResourceManager.GetString("Forgotten password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Full_Name {
-            get {
-                return ResourceManager.GetString("Full Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string FullCoin_Exchange {
-            get {
-                return ResourceManager.GetString("FullCoin Exchange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string FullCoin_free_of_all_currency_exchange_transaction_fees_currently {
-            get {
-                return ResourceManager.GetString("FullCoin free of all currency exchange transaction fees currently", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string GA2FA_Secret {
-            get {
-                return ResourceManager.GetString("GA2FA Secret", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Generate_Deposit_Address {
-            get {
-                return ResourceManager.GetString("Generate Deposit Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Generate_deposit_address_will_not_change_ {
-            get {
-                return ResourceManager.GetString("Generate deposit address will not change.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Generating_deposit_address____ {
-            get {
-                return ResourceManager.GetString("Generating deposit address ...", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Google_Authentication_OTP {
-            get {
-                return ResourceManager.GetString("Google Authentication OTP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Google_Authentication_Status {
-            get {
-                return ResourceManager.GetString("Google Authentication Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Google_Authentication_Token {
-            get {
-                return ResourceManager.GetString("Google Authentication Token", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Google_OTP {
-            get {
-                return ResourceManager.GetString("Google OTP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 About 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_about {
-            get {
-                return ResourceManager.GetString("header_nav_about", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Hello 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_Hello {
-            get {
-                return ResourceManager.GetString("header_nav_Hello", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Index 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_index {
-            get {
-                return ResourceManager.GetString("header_nav_index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 News 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_news {
-            get {
-                return ResourceManager.GetString("header_nav_news", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Notices 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_notices {
-            get {
-                return ResourceManager.GetString("header_nav_notices", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Support 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_support {
-            get {
-                return ResourceManager.GetString("header_nav_support", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Terms 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_terms {
-            get {
-                return ResourceManager.GetString("header_nav_terms", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Trading 的本地化字符串。
-        /// </summary>
-        internal static string header_nav_trading {
-            get {
-                return ResourceManager.GetString("header_nav_trading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Held_for_Orders {
-            get {
-                return ResourceManager.GetString("Held for Orders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Hide_zero_balances {
-            get {
-                return ResourceManager.GetString("Hide zero balances", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Hot_And_Cold_Double_Secure_Storage {
-            get {
-                return ResourceManager.GetString("Hot And Cold Double Secure Storage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Hours {
-            get {
-                return ResourceManager.GetString("Hours", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string I_have_read_and_agree_to_the__0___ {
-            get {
-                return ResourceManager.GetString("I have read and agree to the {0} .", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Id_No {
-            get {
-                return ResourceManager.GetString("Id No", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Id_Type {
-            get {
-                return ResourceManager.GetString("Id Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string IdentificationCard {
-            get {
-                return ResourceManager.GetString("IdentificationCard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Identity_Information {
-            get {
-                return ResourceManager.GetString("Identity Information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Identity_information_updated_successfuly_ {
-            get {
-                return ResourceManager.GetString("Identity information updated successfuly.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Identity_informations_have_updated_yet__Please_refresh_the_page_to_see_your_identity_infomations_ {
-            get {
-                return ResourceManager.GetString("Identity informations have updated yet! Please refresh the page to see your ident" +
-                        "ity infomations.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string If_a_long_time_has_not_arrived__please_contact_business_QQ__0__ {
-            get {
-                return ResourceManager.GetString("If a long time has not arrived, please contact business QQ {0}.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string If_you_have_forgotten_your_password__please_fill_out_your_email_address_below_and_follow_the_instructions_emailed_to_you_ {
-            get {
-                return ResourceManager.GetString("If you have forgotten your password, please fill out your email address below and" +
-                        " follow the instructions emailed to you.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Image_Captcha__ {
-            get {
-                return ResourceManager.GetString("Image Captcha :", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string IMPORTANT___keep_this_safe_in_case_you_lose_your_phone {
-            get {
-                return ResourceManager.GetString("IMPORTANT - keep this safe in case you lose your phone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Volume 的本地化字符串。
-        /// </summary>
-        internal static string index_statistics_Volume {
-            get {
-                return ResourceManager.GetString("index_statistics_Volume", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 IFC 的本地化字符串。
-        /// </summary>
-        internal static string InfiniteCoin {
-            get {
-                return ResourceManager.GetString("InfiniteCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Invalid_deposit_code_ {
-            get {
-                return ResourceManager.GetString("Invalid deposit code.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Invalid_email_verify_link_Please_check_the_link_then_try_again_or_contact_Support_ {
-            get {
-                return ResourceManager.GetString("Invalid email verify link.Please check the link then try again or contact Support" +
-                        ".", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Invalid_password_reset_link_ {
-            get {
-                return ResourceManager.GetString("Invalid password reset link.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Invalid_username___password__Please_try_again_You_still_have__0__chances {
-            get {
-                return ResourceManager.GetString("Invalid username / password. Please try again.You still have {0} chances", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Invalidate_link_ {
-            get {
-                return ResourceManager.GetString("Invalidate link.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Last_Price {
-            get {
-                return ResourceManager.GetString("Last Price", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 LTC 的本地化字符串。
-        /// </summary>
-        internal static string LiteCoin {
-            get {
-                return ResourceManager.GetString("LiteCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Lock_Deposit_Code {
-            get {
-                return ResourceManager.GetString("Lock Deposit Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Locked__Unlocked_after__0__ {
-            get {
-                return ResourceManager.GetString("Locked! Unlocked after {0}.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Locked_deposit_code_successfuly_ {
-            get {
-                return ResourceManager.GetString("Locked deposit code successfuly.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login {
-            get {
-                return ResourceManager.GetString("Login", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login_History {
-            get {
-                return ResourceManager.GetString("Login History", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login_Password {
-            get {
-                return ResourceManager.GetString("Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login_password_updated_successfully_ {
-            get {
-                return ResourceManager.GetString("Login password updated successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login_to_your_Account {
-            get {
-                return ResourceManager.GetString("Login to your Account", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Login_too_frequently_Please_try_again_2_hours_later_ {
-            get {
-                return ResourceManager.GetString("Login too frequently,Please try again 2 hours later.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Logout {
-            get {
-                return ResourceManager.GetString("Logout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Mail_has_been_sent_Please_check_your_email_ {
-            get {
-                return ResourceManager.GetString("Mail has been sent.Please check your email.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Minute {
-            get {
-                return ResourceManager.GetString("Minute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Error 的本地化字符串。
-        /// </summary>
-        internal static string msg_box_error {
-            get {
-                return ResourceManager.GetString("msg_box_error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Success 的本地化字符串。
-        /// </summary>
-        internal static string msg_box_success {
-            get {
-                return ResourceManager.GetString("msg_box_success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 CNY estimation 的本地化字符串。
-        /// </summary>
-        internal static string my_balance_estimation {
-            get {
-                return ResourceManager.GetString("my balance estimation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Orders 的本地化字符串。
-        /// </summary>
-        internal static string myordres_Orders {
-            get {
-                return ResourceManager.GetString("myordres_Orders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Trade History 的本地化字符串。
-        /// </summary>
-        internal static string mytrades_Trade_History {
-            get {
-                return ResourceManager.GetString("mytrades_Trade History", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Net_Withdraw_Amount {
-            get {
-                return ResourceManager.GetString("Net Withdraw Amount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Never_set_trade_password__do_not_need_to_input_ {
-            get {
-                return ResourceManager.GetString("Never set trade password, do not need to input.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Next_Page {
-            get {
-                return ResourceManager.GetString("Next Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 NXT 的本地化字符串。
-        /// </summary>
-        internal static string NextCoin {
-            get {
-                return ResourceManager.GetString("NextCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Nick_Name {
-            get {
-                return ResourceManager.GetString("Nick Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Nickname_updated_successfully_ {
-            get {
-                return ResourceManager.GetString("Nickname updated successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string No__Fee {
-            get {
-                return ResourceManager.GetString("No  Fee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string no_identity_information {
-            get {
-                return ResourceManager.GetString("no identity information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string NXT_Account_Public_Key {
-            get {
-                return ResourceManager.GetString("NXT Account Public Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Old_Login_Password {
-            get {
-                return ResourceManager.GetString("Old Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Old_Trade_Password {
-            get {
-                return ResourceManager.GetString("Old Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Once_you_have_set_up_mobile__will_not_be_allowed_to_change__if_your_mobile_phone_number_lost__please_contact_us {
-            get {
-                return ResourceManager.GetString("Once you have set up mobile, will not be allowed to change, if your mobile phone " +
-                        "number lost, please contact us", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Open_Auth {
-            get {
-                return ResourceManager.GetString("Open Auth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Optimizing_multi_currency_transactions {
-            get {
-                return ResourceManager.GetString("Optimizing multi-currency transactions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string or {
-            get {
-                return ResourceManager.GetString("or", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string order_canceled {
-            get {
-                return ResourceManager.GetString("order canceled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Order_canceled_success_ {
-            get {
-                return ResourceManager.GetString("Order canceled success.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string order_done {
-            get {
-                return ResourceManager.GetString("order done", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Order_volume_too_small {
-            get {
-                return ResourceManager.GetString("Order volume too small", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Orders {
-            get {
-                return ResourceManager.GetString("Orders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Our_carefully_selected_innovative_and_creative_premium_digital_assets {
-            get {
-                return ResourceManager.GetString("Our carefully selected innovative and creative premium digital assets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Passport {
-            get {
-                return ResourceManager.GetString("Passport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Password {
-            get {
-                return ResourceManager.GetString("Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Alipay 的本地化字符串。
-        /// </summary>
-        internal static string PayWay_Alipay {
-            get {
-                return ResourceManager.GetString("PayWay Alipay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 FullCoin Code 的本地化字符串。
-        /// </summary>
-        internal static string PayWay_FullCoin_Code {
-            get {
-                return ResourceManager.GetString("PayWay FullCoin Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Ripple 的本地化字符串。
-        /// </summary>
-        internal static string PayWay_Ripple {
-            get {
-                return ResourceManager.GetString("PayWay Ripple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Virtual Coin Tranfer 的本地化字符串。
-        /// </summary>
-        internal static string PayWay_Virtual_Coin_Tranfer {
-            get {
-                return ResourceManager.GetString("PayWay Virtual Coin Tranfer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_accept_our_TOS_ {
-            get {
-                return ResourceManager.GetString("Please accept our TOS.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string please_choose_one {
-            get {
-                return ResourceManager.GetString("please choose one", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_confirm_the_password_reset_via_email_ {
-            get {
-                return ResourceManager.GetString("Please confirm the password reset via email.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_confirm_the_trade_password_reset_via_email_ {
-            get {
-                return ResourceManager.GetString("Please confirm the trade password reset via email.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_do_not_mine_directly_to_the_deposit_address_and___or_auto_withdraw_from_pools_ {
-            get {
-                return ResourceManager.GetString("Please do not mine directly to the deposit address and / or auto withdraw from po" +
-                        "ols.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_don_t_withdraw_to_your_deposit_address_ {
-            get {
-                return ResourceManager.GetString("Please don\'t withdraw to your deposit address.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_6_characters_minimum__including_1_or_more_digits_ {
-            get {
-                return ResourceManager.GetString("Please enter 6 characters minimum, including 1 or more digits.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_a_new_password_ {
-            get {
-                return ResourceManager.GetString("Please enter a new password.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_a_new_trade_password_ {
-            get {
-                return ResourceManager.GetString("Please enter a new trade password.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_a_valid_email_address_ {
-            get {
-                return ResourceManager.GetString("Please enter a valid email address.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_a_valid_number_ {
-            get {
-                return ResourceManager.GetString("Please enter a valid number.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_a_validate_mobile_number_ {
-            get {
-                return ResourceManager.GetString("Please enter a validate mobile number!", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_code_from_your_Google_Authenticator_App_ {
-            get {
-                return ResourceManager.GetString("Please enter code from your Google Authenticator App.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_code_from_your_Sms_ {
-            get {
-                return ResourceManager.GetString("Please enter code from your Sms.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_the_same_password_as_above {
-            get {
-                return ResourceManager.GetString("Please enter the same password as above", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_your_Google_Authentication_OTP_ {
-            get {
-                return ResourceManager.GetString("Please enter your Google Authentication OTP.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_enter_your_SMS_Authentication_OTP_ {
-            get {
-                return ResourceManager.GetString("Please enter your SMS Authentication OTP.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_input_captcha_code_ {
-            get {
-                return ResourceManager.GetString("Please input captcha code.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_input_deposit_amount_ {
-            get {
-                return ResourceManager.GetString("Please input deposit amount.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_login_to_trade_ {
-            get {
-                return ResourceManager.GetString("Please login to trade.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_provide_a_password {
-            get {
-                return ResourceManager.GetString("Please provide a password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_transfer_STR_to_this_address_ {
-            get {
-                return ResourceManager.GetString("Please transfer STR to this address.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_type_your_login_password_again_ {
-            get {
-                return ResourceManager.GetString("Please type your login password again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_type_your_password_again_ {
-            get {
-                return ResourceManager.GetString("Please type your password again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_type_your_trade_password_again_ {
-            get {
-                return ResourceManager.GetString("Please type your trade password again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_update_your_identity_informations_before_withdraw_ {
-            get {
-                return ResourceManager.GetString("Please update your identity informations before withdraw.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_verify_your_email_before_withdraw_ {
-            get {
-                return ResourceManager.GetString("Please verify your email before withdraw.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_verify_your_email_first_ {
-            get {
-                return ResourceManager.GetString("Please verify your email first.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Please_verify_your_email_or_enable_Google_Sms_Authenticator_first_ {
-            get {
-                return ResourceManager.GetString("Please verify your email or enable Google/Sms Authenticator first.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Polite_Notice_ {
-            get {
-                return ResourceManager.GetString("Polite Notice:", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Pre_Page {
-            get {
-                return ResourceManager.GetString("Pre Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Price_Per__0_ {
-            get {
-                return ResourceManager.GetString("Price Per {0}", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Process_Withdrawal {
-            get {
-                return ResourceManager.GetString("Process Withdrawal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Profile {
-            get {
-                return ResourceManager.GetString("Profile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string QQ {
-            get {
-                return ResourceManager.GetString("QQ", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string QR_Code {
-            get {
-                return ResourceManager.GetString("QR Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Recent_Market_History {
-            get {
-                return ResourceManager.GetString("Recent Market History", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Refresh_Captcha {
-            get {
-                return ResourceManager.GetString("Refresh Captcha", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Register {
-            get {
-                return ResourceManager.GetString("Register", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Register_Account {
-            get {
-                return ResourceManager.GetString("Register Account", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Captcha 的本地化字符串。
-        /// </summary>
-        internal static string register_image_Code {
-            get {
-                return ResourceManager.GetString("register_image_Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Terms of Service 的本地化字符串。
-        /// </summary>
-        internal static string register_Terms_of_Service {
-            get {
-                return ResourceManager.GetString("register_Terms of Service", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_Login_Password {
-            get {
-                return ResourceManager.GetString("Reset Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_login_password_link_is_expired_ {
-            get {
-                return ResourceManager.GetString("Reset login password link is expired.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_login_password_successfully_ {
-            get {
-                return ResourceManager.GetString("Reset login password successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_Trade_Password {
-            get {
-                return ResourceManager.GetString("Reset Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_your_login_password_successfully {
-            get {
-                return ResourceManager.GetString("Reset your login password successfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Reset_your_trade_password_successfully {
-            get {
-                return ResourceManager.GetString("Reset your trade password successfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Save_Identity_Information {
-            get {
-                return ResourceManager.GetString("Save Identity Information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Scan_the_following_QR_code_using_the_app_and_enter_the_six_digit_code_generated_for_the_account_below_ {
-            get {
-                return ResourceManager.GetString("Scan the following QR code using the app and enter the six digit code generated f" +
-                        "or the account below.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Sell_order_create_success___br__Volume____0___br__Price___1_ {
-            get {
-                return ResourceManager.GetString("Sell order create success. <br> Volume : {0} <br> Price: {1}", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Sell_Orders {
-            get {
-                return ResourceManager.GetString("Sell Orders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Send_email_too_frequently__please_try_again_15_minutes_later_ {
-            get {
-                return ResourceManager.GetString("Send email too frequently, please try again 15 minutes later.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 24 Hour Statistics 的本地化字符串。
-        /// </summary>
-        internal static string side_24_Hour_Statistics {
-            get {
-                return ResourceManager.GetString("side_24 Hour Statistics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 News 的本地化字符串。
-        /// </summary>
-        internal static string Site_News_Title {
-            get {
-                return ResourceManager.GetString("Site_News_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Notices 的本地化字符串。
-        /// </summary>
-        internal static string Site_Notice_Title {
-            get {
-                return ResourceManager.GetString("Site_Notice_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string SMS_Authentication_OTP {
-            get {
-                return ResourceManager.GetString("SMS Authentication OTP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string SMS_Authentication_Status {
-            get {
-                return ResourceManager.GetString("SMS Authentication Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string SMS_Authentication_Token {
-            get {
-                return ResourceManager.GetString("SMS Authentication Token", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string SMS_OTP {
-            get {
-                return ResourceManager.GetString("SMS OTP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Status {
-            get {
-                return ResourceManager.GetString("Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string StrellarCoin {
-            get {
-                return ResourceManager.GetString("StrellarCoin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Submit {
-            get {
-                return ResourceManager.GetString("Submit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Submit_Buy_Order {
-            get {
-                return ResourceManager.GetString("Submit Buy Order", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Submit_Sell_Order {
-            get {
-                return ResourceManager.GetString("Submit Sell Order", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Submit_successfuly_ {
-            get {
-                return ResourceManager.GetString("Submit successfuly.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 FullCoin Official Team 的本地化字符串。
-        /// </summary>
-        internal static string Team_Name {
-            get {
-                return ResourceManager.GetString("Team Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string The_fast__efficient_and_secure_cryptocurrency_exchange {
-            get {
-                return ResourceManager.GetString("The fast, efficient and secure cryptocurrency exchange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string There_are_no_deposits_to_display {
-            get {
-                return ResourceManager.GetString("There are no deposits to display", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string There_are_no_withdraws_to_display {
-            get {
-                return ResourceManager.GetString("There are no withdraws to display", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string This_mobile__0__is_exist_ {
-            get {
-                return ResourceManager.GetString("This mobile {0} is exist.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Time {
-            get {
-                return ResourceManager.GetString("Time", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string To_make_a_new_deposit__please_visit_the__0__page_and_select_the_Deposit_option_under_the_actions_menu_for__1__ {
-            get {
-                return ResourceManager.GetString("To make a new deposit, please visit the {0} page and select the Deposit option un" +
-                        "der the actions menu for {1}.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string To_make_a_new_withdraw__please_visit_the__0__page_and_select_the_Withdraw_option_under_the_actions_menu_for__1__ {
-            get {
-                return ResourceManager.GetString("To make a new withdraw, please visit the {0} page and select the Withdraw option " +
-                        "under the actions menu for {1}.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Total_funds_estimation {
-            get {
-                return ResourceManager.GetString("Total funds estimation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 AMOUNT 的本地化字符串。
-        /// </summary>
-        internal static string trade_amount {
-            get {
-                return ResourceManager.GetString("trade_amount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Buy 的本地化字符串。
-        /// </summary>
-        internal static string trade_buy {
-            get {
-                return ResourceManager.GetString("trade_buy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Fee 的本地化字符串。
-        /// </summary>
-        internal static string trade_fee {
-            get {
-                return ResourceManager.GetString("trade_fee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Trade_History {
-            get {
-                return ResourceManager.GetString("Trade History", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Trade_Password {
-            get {
-                return ResourceManager.GetString("Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Trade_password_updated_successfully_ {
-            get {
-                return ResourceManager.GetString("Trade password updated successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 PRICE 的本地化字符串。
-        /// </summary>
-        internal static string trade_price {
-            get {
-                return ResourceManager.GetString("trade_price", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Sell 的本地化字符串。
-        /// </summary>
-        internal static string trade_sell {
-            get {
-                return ResourceManager.GetString("trade_sell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 TIME 的本地化字符串。
-        /// </summary>
-        internal static string trade_time {
-            get {
-                return ResourceManager.GetString("trade_time", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Total 的本地化字符串。
-        /// </summary>
-        internal static string trade_total {
-            get {
-                return ResourceManager.GetString("trade_total", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 TYPE 的本地化字符串。
-        /// </summary>
-        internal static string trade_type {
-            get {
-                return ResourceManager.GetString("trade_type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Volume 的本地化字符串。
-        /// </summary>
-        internal static string trade_volume {
-            get {
-                return ResourceManager.GetString("trade_volume", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Two_Factor {
-            get {
-                return ResourceManager.GetString("Two-Factor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_locate_an_account_with_that_email_address {
-            get {
-                return ResourceManager.GetString("Unable to locate an account with that email address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_send_email_to_you_Please_refresh_the_page_and_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to send email to you,Please refresh the page and try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__Request_amount_out_of_range_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. Request amount out of range.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__You_lack_of_withdrawal_limit_today_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. You lack of withdrawal limit today.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__Your_balance_is_not_enough_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. Your balance is not enough.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__Your_Google_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. Your Google Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_submit_your_request__Your_trade_password_error_ {
-            get {
-                return ResourceManager.GetString("Unable to submit your request. Your trade password error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_switch_your_Login_2FA__Your_Google_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to switch your Login-2FA. Your Google Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_switch_your_Login_2FA__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to switch your Login-2FA. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_identity_informations__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to update your identity informations. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_login_password__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to update your login password. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_login_password__Your_Google_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your login password. Your Google Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_login_password__Your_old_password_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your login password. Your old password error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_login_password__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your login password. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_mobile__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your mobile. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_nick_name__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to update your nick name. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_trade_password__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to update your trade password. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_trade_password__Your_Google_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your trade password. Your Google Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_trade_password__Your_old_trade_password_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your trade password. Your old trade password error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_update_your_trade_password__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to update your trade password. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_verify_2_Factor_Authentication__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to verify 2 Factor Authentication. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_verify_2_Factor_Authentication__Your_Google_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to verify 2 Factor Authentication. Your Google Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_verify_2_Factor_Authentication__Your_Sms_Authenticator_code_error_ {
-            get {
-                return ResourceManager.GetString("Unable to verify 2 Factor Authentication. Your Sms Authenticator code error.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unable_to_verify_Google_Authentication_code__Please_try_again_ {
-            get {
-                return ResourceManager.GetString("Unable to verify Google Authentication code. Please try again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unknow_Exception_Please_refresh_the_page_and_try_again {
-            get {
-                return ResourceManager.GetString("Unknow Exception,Please refresh the page and try again", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unlock_Deposit_Code {
-            get {
-                return ResourceManager.GetString("Unlock Deposit Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Unlocked_deposit_code_successfuly_ {
-            get {
-                return ResourceManager.GetString("Unlocked deposit code successfuly.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Update_Login_Password {
-            get {
-                return ResourceManager.GetString("Update Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Update_NickName {
-            get {
-                return ResourceManager.GetString("Update NickName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Update_Trade_Password {
-            get {
-                return ResourceManager.GetString("Update Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Use_the_actions_button_to_deposit__withdraw_or_view_orders_trades_for_that_specific_coin_ {
-            get {
-                return ResourceManager.GetString("Use the actions button to deposit, withdraw or view orders/trades for that specif" +
-                        "ic coin.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string User_Login {
-            get {
-                return ResourceManager.GetString("User Login", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 &lt;p&gt;hi {0}:&lt;br /&gt;Somebody has completed the Forgotten Password form at FullCoin.com for this email address&lt;br&gt;&lt;br&gt;Before you can reset your password, you need to confirm the request by clicking the link below:&lt;br&gt;&lt;a href=&apos;https://www.fullcoin.com/resetPwd-{1}-{2}&apos;&gt;https://www.fullcoin.com/resetPwd-{1}-{2}&lt;/a&gt;&lt;br&gt;&lt;br&gt;If you did not make this request please disregard this email and contact support immediately.&lt;br/&gt;&lt;br/&gt;{3}&lt;br/&gt;FullCoin Official Team 的本地化字符串。
-        /// </summary>
-        internal static string User_Reset_Password_Email_Body {
-            get {
-                return ResourceManager.GetString("User_Reset_Password_Email_Body", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 FullCoin - Forgot Password 的本地化字符串。
+        ///   查找类似 Done At 的本地化字符串。
         /// </summary>
-        internal static string User_Reset_Password_Email_Title {
+        internal static string ripple_query_table_done_at {
             get {
-                return ResourceManager.GetString("User_Reset_Password_Email_Title", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_done_at", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Processing Status 的本地化字符串。
         /// </summary>
-        internal static string Valid_deposit_code_Face_value__0__ {
+        internal static string ripple_query_table_processing_status {
             get {
-                return ResourceManager.GetString("Valid deposit code.Face value {0}.", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_processing_status", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Receiver Account 的本地化字符串。
         /// </summary>
-        internal static string Verification_code_error_ {
+        internal static string ripple_query_table_receiver_account {
             get {
-                return ResourceManager.GetString("Verification code error.", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_receiver_account", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 TransferNo 的本地化字符串。
         /// </summary>
-        internal static string Verify__enter_code_from_Google_Authenticator_App_ {
+        internal static string ripple_query_table_transferno {
             get {
-                return ResourceManager.GetString("Verify (enter code from Google Authenticator App)", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_transferno", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Ripple TxId 的本地化字符串。
         /// </summary>
-        internal static string Verify__enter_sms_code_your_mobile_received_ {
+        internal static string ripple_query_table_txid {
             get {
-                return ResourceManager.GetString("Verify (enter sms code your mobile received)", resourceCulture);
+                return ResourceManager.GetString("ripple_query_table_txid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Submit 的本地化字符串。
         /// </summary>
-        internal static string View__0__Deposits {
+        internal static string ripple_txid_query_btn_txt {
             get {
-                return ResourceManager.GetString("View {0} Deposits", resourceCulture);
+                return ResourceManager.GetString("ripple_txid_query_btn_txt", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string View__0__Orders {
+        internal static string SPDB {
             get {
-                return ResourceManager.GetString("View {0} Orders", resourceCulture);
+                return ResourceManager.GetString("SPDB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string View__0__Trades {
+        internal static string Support_Email {
             get {
-                return ResourceManager.GetString("View {0} Trades", resourceCulture);
+                return ResourceManager.GetString("Support Email", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string View__0__Withdrawals {
+        internal static string Tenpay {
             get {
-                return ResourceManager.GetString("View {0} Withdrawals", resourceCulture);
+                return ResourceManager.GetString("Tenpay", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Transfer {0} Yuan to {1} {2} 的本地化字符串。
         /// </summary>
-        internal static string VIP_Level {
+        internal static string transfer__0__Yuan_to__1___2_ {
             get {
-                return ResourceManager.GetString("VIP Level", resourceCulture);
+                return ResourceManager.GetString("transfer {0} Yuan to {1} {2}", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string VIP_Score {
+        internal static string Transfer_Information {
             get {
-                return ResourceManager.GetString("VIP Score", resourceCulture);
+                return ResourceManager.GetString("Transfer Information", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string We_offer_7___24_hours_service {
+        internal static string Transfer_query {
             get {
-                return ResourceManager.GetString("We offer 7 * 24 hours service", resourceCulture);
+                return ResourceManager.GetString("Transfer query", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 DotPay 的本地化字符串。
+        ///   查找类似 Dotpay 的本地化字符串。
         /// </summary>
         internal static string website_Title {
             get {
                 return ResourceManager.GetString("website_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Weibo {
-            get {
-                return ResourceManager.GetString("Weibo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 &lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);font-size: 14px; line-height: 23.32400131225586px;&quot;&gt;Dear user: &lt;/span&gt;&lt;/p&gt;
-        ///
-        ///&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px; line-height: 23.32400131225586px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Welcome to join FullCoin，please click this link to verify your email. you can find back your password when your forget it!&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;https://www.fullcoin.com/active/{0}/{1}&quot; style=&quot;color: rgb(6, 73, 119); font-size: 14px; line-height: 23.324001312255 [字符串的其余部分被截断]&quot;; 的本地化字符串。
-        /// </summary>
-        internal static string Welcome_Register_Email_Body {
-            get {
-                return ResourceManager.GetString("Welcome_Register_Email_Body", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Welcome to join FullCoin 的本地化字符串。
-        /// </summary>
-        internal static string Welcome_Register_Email_Title {
-            get {
-                return ResourceManager.GetString("Welcome_Register_Email_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 No fee 的本地化字符串。
-        /// </summary>
-        internal static string Widraew_No_fee {
-            get {
-                return ResourceManager.GetString("Widraew No fee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw {
-            get {
-                return ResourceManager.GetString("Withdraw", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw__0_ {
-            get {
-                return ResourceManager.GetString("Withdraw {0}", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw_Address {
-            get {
-                return ResourceManager.GetString("Withdraw Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw_Fee {
-            get {
-                return ResourceManager.GetString("Withdraw Fee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw_to_FullCoin_Deposit_Code {
-            get {
-                return ResourceManager.GetString("Withdraw to FullCoin Deposit Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdraw_to_FullCoin_Deposit_Code_successfully_ {
-            get {
-                return ResourceManager.GetString("Withdraw to FullCoin Deposit Code successfully.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdrawal_Address {
-            get {
-                return ResourceManager.GetString("Withdrawal Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Withdrawal_limit_of_one_time__ {
-            get {
-                return ResourceManager.GetString("Withdrawal limit of one time :", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_can_change_your_login_password_using_the_form_below__Only_enter_a_new_password_if_you_wish_to_change_it_ {
-            get {
-                return ResourceManager.GetString("You can change your login password using the form below. Only enter a new passwor" +
-                        "d if you wish to change it.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_can_disable_Login_2FA_on_your_account_using_the_form_below_But_We_strongly_advise_you_open_Login_2FA_ {
-            get {
-                return ResourceManager.GetString("You can disable Login-2FA on your account using the form below.But We strongly ad" +
-                        "vise you open Login-2FA.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_can_enable_2FA_on_your_account_below__We_strongly_advise_that_you_take_advantage_of_the_additional_security_2FA_offers_ {
-            get {
-                return ResourceManager.GetString("You can enable 2FA on your account below. We strongly advise that you take advant" +
-                        "age of the additional security 2FA offers.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_can_enable_Login_2FA_on_your_account_using_the_form_below__We_strongly_advise_that_you_open_Login_2FA_ {
-            get {
-                return ResourceManager.GetString("You can enable Login-2FA on your account using the form below. We strongly advise" +
-                        " that you open Login-2FA.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_can_set_or_change_your_trade_password_using_the_form_below_ {
-            get {
-                return ResourceManager.GetString("You can set or change your trade password using the form below.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_do_not_currently_have_a_deposit_address__Use_the_button_below_to_generate_a__0__address_to_deposit_to_ {
-            get {
-                return ResourceManager.GetString("You do not currently have a deposit address. Use the button below to generate a {" +
-                        "0} address to deposit to.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_need_the_public_key_for_the_first_deposit_ {
-            get {
-                return ResourceManager.GetString("You need the public key for the first deposit.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_send_too_much_sms_Please_try_again_next_day_ {
-            get {
-                return ResourceManager.GetString("You send too much sms,Please try again next day.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string You_should_complete_identity_verifation_before_withdraw_ {
-            get {
-                return ResourceManager.GetString("You should complete identity verifation before withdraw.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your__0__balance_is {
-            get {
-                return ResourceManager.GetString("Your {0} balance is", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Active_Orders {
-            get {
-                return ResourceManager.GetString("Your Active Orders", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_balance_is_not_enough_for_this_order {
-            get {
-                return ResourceManager.GetString("Your balance is not enough for this order", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_current_available__0__balance_ {
-            get {
-                return ResourceManager.GetString("Your current available {0} balance:", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Deposit_Address {
-            get {
-                return ResourceManager.GetString("Your Deposit Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Details {
-            get {
-                return ResourceManager.GetString("Your Details", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_digital_assets_at_here__just_as_there_in_a_strong_safes {
-            get {
-                return ResourceManager.GetString("Your digital assets at here, just as there in a strong safes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Login_Password {
-            get {
-                return ResourceManager.GetString("Your Login Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Mobile_set_yet_don_t_need_set_again_ {
-            get {
-                return ResourceManager.GetString("Your Mobile set yet,don\'t need set again.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_password_has_been_reset_successfully__You_may_login_using_your_new_password_below {
-            get {
-                return ResourceManager.GetString("Your password has been reset successfully. You may login using your new password " +
-                        "below", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_password_must_be_at_least_6_characters_long {
-            get {
-                return ResourceManager.GetString("Your password must be at least 6 characters long", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_password_must_be_at_least_6_characters_long_ {
-            get {
-                return ResourceManager.GetString("Your password must be at least 6 characters long.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_remaining_withdrawal_limit_is__strong__0___strong__today_ {
-            get {
-                return ResourceManager.GetString("Your remaining withdrawal limit is <strong>{0}</strong> today.", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Your_Trade_Password {
-            get {
-                return ResourceManager.GetString("Your Trade Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Zoom {
-            get {
-                return ResourceManager.GetString("Zoom", resourceCulture);
             }
         }
     }

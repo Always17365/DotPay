@@ -193,17 +193,17 @@ namespace DotPay.RippleMonitor
                         if (destinationtag > 0)
                         {
                             var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
-                            var payway = Utilities.GetPaywayFromFlg(flg);
+                            var tagFlg = Utilities.ConvertDestinationTagFlg(flg);
                             destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag
                             try
                             {
-                                if (payway == PayWay.Ripple)
+                                if (tagFlg == DestinationTagFlg.Dotpay)
                                 {
                                     var cmd = new CreateInboundTx(tx.TransactionDetail.Hash, destinationtag, amount.Value);
                                     IoC.Resolve<ICommandBus>().Send(cmd);
                                 }
 
-                                else if (payway == PayWay.Alipay || payway == PayWay.Tenpay)
+                                else if (tagFlg == DestinationTagFlg.Alipay || tagFlg == DestinationTagFlg.Tenpay)
                                 {
                                     try
                                     {
@@ -215,7 +215,7 @@ namespace DotPay.RippleMonitor
                                         Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
                                     }
                                 }
-                                else if (payway == PayWay.AlipayRippleForm || payway == PayWay.TenpayRippleForm)
+                                else if (tagFlg == DestinationTagFlg.AlipayRippleForm || tagFlg == DestinationTagFlg.TenpayRippleForm||tagFlg == DestinationTagFlg.BankRippleForm)
                                 {
                                     try
                                     {
@@ -226,11 +226,7 @@ namespace DotPay.RippleMonitor
                                     {
                                         Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
                                     }
-                                }
-                                else if (payway == PayWay.BankRippleForm)
-                                {
-                                    throw new NotImplementedException();
-                                }
+                                } 
                                 else
                                 {
                                     Log.Warn("发现未知的转入交易标志位" + flg.ToString() + " tx:" + IoC.Resolve<IJsonSerializer>().Serialize(tx));

@@ -45,15 +45,15 @@ namespace DotPay.MainDomain.Events
 
     public class InboundTransferToThirdPartyPaymentTxComplete : DomainEvent
     {
-        public InboundTransferToThirdPartyPaymentTxComplete(int transferID, PayWay payway, string transferNo, int byUserID)
+        public InboundTransferToThirdPartyPaymentTxComplete(int transferID, PayWay transferPayway, string transferNo, int byUserID)
         {
             this.TransferID = transferID;
-            this.PayWay = payway;
+            this.TransferPayWay = transferPayway;
             this.TransferNo = transferNo;
             this.ByUserID = byUserID;
         }
         public int TransferID { get; private set; }
-        public PayWay PayWay { get; private set; }
+        public PayWay TransferPayWay { get; private set; }
         public string TransferNo { get; private set; }
         public int ByUserID { get; private set; }
     }

@@ -29,7 +29,7 @@ namespace DotPay.Persistence.Repository
                     result = this._session.QueryOver<ToTenpayTransferTransaction>().Where(tx => tx.ID == transferTxID).SingleOrDefault();
                     break;
                 default:
-                    result = null;
+                    result = this._session.QueryOver<ToBankTransferTransaction>().Where(tx => tx.ID == transferTxID).SingleOrDefault();
                     break;
             }
 
@@ -49,7 +49,7 @@ namespace DotPay.Persistence.Repository
                     result = this._session.QueryOver<ToTenpayTransferTransaction>().Where(tx => tx.TxId == txid).SingleOrDefault();
                     break;
                 default:
-                    result = null;
+                    result = this._session.QueryOver<ToBankTransferTransaction>().Where(tx => tx.TxId == txid).SingleOrDefault();
                     break;
             }
 

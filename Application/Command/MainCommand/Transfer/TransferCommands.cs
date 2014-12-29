@@ -60,7 +60,7 @@ namespace DotPay.Command
     #region 转账创建
     public class CreateThirdPartyPaymentTransfer : FC.Framework.Command
     {
-        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway,string realName,string memo)
+        public CreateThirdPartyPaymentTransfer(string txid, string account, decimal amount, PayWay payway, PayWay sourcePayway, string realName, string memo)
         {
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotEmpty(account, "account");
@@ -100,16 +100,16 @@ namespace DotPay.Command
             this.ByUserID = byUserID;
         }
 
-        public int TppTransferID { get; private set; } 
+        public int TppTransferID { get; private set; }
         public PayWay PayWay { get; private set; }
-        public int ByUserID { get; private set; } 
+        public int ByUserID { get; private set; }
     }
     #endregion
 
     #region 转账完成
     public class ThirdPartyPaymentTransferComplete : FC.Framework.Command
     {
-        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, decimal amount, PayWay payway, int byUserID)
+        public ThirdPartyPaymentTransferComplete(int transferId, string transferNo, decimal amount, PayWay payway, PayWay transferPayway, int byUserID)
         {
             Check.Argument.IsNotNegativeOrZero(transferId, "transferId");
             Check.Argument.IsNotEmpty(transferNo, "transferNo");
@@ -120,12 +120,14 @@ namespace DotPay.Command
             this.TransferNo = transferNo;
             this.Amount = amount;
             this.PayWay = payway;
+            this.TransferPayway = transferPayway;
             this.ByUserID = byUserID;
         }
 
         public int TransferId { get; private set; }
         public PayWay PayWay { get; private set; }
         public decimal Amount { get; private set; }
+        public PayWay TransferPayway { get; private set; }
         public string TransferNo { get; private set; }
         public int ByUserID { get; private set; }
     }

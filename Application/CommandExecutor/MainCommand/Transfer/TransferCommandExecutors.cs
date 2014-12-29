@@ -79,7 +79,7 @@ namespace DotPay.Command.Executor
             if (cmd.Amount != ttpTx.Amount)
                 throw new Exception("输入的金额不匹配");
 
-            ttpTx.Complete(cmd.TransferNo, cmd.ByUserID);
+            ttpTx.Complete(cmd.PayWay, cmd.TransferNo, cmd.ByUserID);
         }
 
         public void Execute(ThirdPartyPaymentTransferFail cmd)

@@ -101,6 +101,7 @@
     <Compile Include="Mapper\Membership\VIPSettingMap.cs" />
     <Compile Include="Mapper\ScoreRecord\ScoreRecordMap.cs" />
     <Compile Include="Mapper\SmsInterface\SmsInterfaceMap.cs" />
+    <Compile Include="Mapper\Transfer\InboundToThirdPartyPayment\ToBankTransferTransactionMap.cs" />
     <Compile Include="Mapper\Transfer\OutboundTransferTransactionMap.cs" />
     <Compile Include="Mapper\Transfer\InboundToThirdPartyPayment\ToTenpayTransferTransactionMap.cs" />
     <Compile Include="Mapper\Transfer\InboundToThirdPartyPayment\ToAlipayTransferTransactionMap.cs" />

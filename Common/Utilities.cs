@@ -165,7 +165,7 @@ namespace DotPay.Common
         #endregion
 
 
-        public static PayWay GetPayway(string bridge)
+        public static PayWay GetPayWayByBridgeName(string bridge)
         {
             var payway = default(PayWay);
 
@@ -181,48 +181,75 @@ namespace DotPay.Common
             return payway;
         }
 
-        public static PayWay GetPaywayFromFlg(int flg)
+        public static DestinationTagFlg GetDestinationTagFlgByBridgeName(string bridge)
+        {
+            var tagFlg = default(DestinationTagFlg);
+
+            if (bridge.Equals("alipay", StringComparison.OrdinalIgnoreCase))
+            {
+                tagFlg = DestinationTagFlg.Alipay;
+            }
+            else if (bridge.Equals("tenpay", StringComparison.OrdinalIgnoreCase))
+            {
+                tagFlg = DestinationTagFlg.Tenpay;
+            }
+
+            return tagFlg;
+        }
+
+
+
+        public static PayWay ConvertDestinationTagFlg(DestinationTagFlg tagFlg)
+        {
+            var payway = default(PayWay);
+
+            switch (tagFlg)
+            {
+                case DestinationTagFlg.Alipay:
+                    payway = PayWay.Alipay;
+                    break;
+                case DestinationTagFlg.Tenpay:
+                    payway = PayWay.Tenpay;
+                    break;
+                case DestinationTagFlg.Dotpay:
+                    payway = PayWay.Ripple;
+                    break;
+                case DestinationTagFlg.TenpayRippleForm:
+                    payway = PayWay.Tenpay;
+                    break;
+                case DestinationTagFlg.AlipayRippleForm:
+                    payway = PayWay.Alipay;
+                    break;
+                default:
+                    payway = default(PayWay);
+                    break;
+            }
+
+            return payway;
+        }
+
+
+        public static DestinationTagFlg ConvertDestinationTagFlg(int flg)
         {
             switch (flg)
             {
                 case 10:
-                    return PayWay.Alipay;
+                    return DestinationTagFlg.Alipay;
                 case 11:
-                    return PayWay.Tenpay;
+                    return DestinationTagFlg.Tenpay;
                 case 12:
-                    return PayWay.Ripple;
+                    return DestinationTagFlg.Dotpay;
                 case 97:
-                    return PayWay.BankRippleForm;
+                    return DestinationTagFlg.BankRippleForm;
                 case 98:
-                    return PayWay.AlipayRippleForm;
+                    return DestinationTagFlg.AlipayRippleForm;
                 case 99:
-                    return PayWay.TenpayRippleForm;
+                    return DestinationTagFlg.TenpayRippleForm;
                 default:
-                    return default(PayWay);
+                    return default(DestinationTagFlg);
             }
         }
-
-        public static int ConvertPaywayFlg(PayWay payway)
-        {
-            switch (payway)
-            {
-                case PayWay.Alipay:
-                    return 10;
-                case PayWay.Tenpay:
-                    return 11;
-                case PayWay.Ripple:
-                    return 12;
-                case PayWay.BankRippleForm:
-                    return 97;
-                case PayWay.AlipayRippleForm:
-                    return 98;
-                case PayWay.TenpayRippleForm:
-                    return 99;
-                default:
-                    return 0;
-            }
-        }
-
+       
         public static string SHA256Sign(string message)
         {
             var result = string.Empty;

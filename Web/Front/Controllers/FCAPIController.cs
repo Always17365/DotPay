@@ -60,7 +60,8 @@ namespace DotPay.Web.Controllers
                     #region 如果是第三方支付直转
                     destination = tppBridge.Bridge;
                     domain = tppBridge.Domain;
-                    var payway = Utilities.GetPayway(tppBridge.Bridge);
+                    var tagFlg = Utilities.GetDestinationTagFlgByBridgeName(tppBridge.Bridge);
+                    var payway = Utilities.GetPayWayByBridgeName(tppBridge.Bridge);
 
                     if (payway != default(PayWay))
                     {
@@ -74,7 +75,7 @@ namespace DotPay.Web.Controllers
                                 Type = "federation_record",
                                 Destination = tppBridge.Account + GATEWAY_SPLIT + tppBridge.Bridge,
                                 DestinationAddress = GATEWAY_ADDRESS,
-                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(payway).ToString() + cmd.ResultDestinationTag.ToString()),
+                                DestinationTag = int.Parse(tagFlg.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Domain = domain,
                                 AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                             };
@@ -99,7 +100,7 @@ namespace DotPay.Web.Controllers
                     var repos = IoC.Resolve<IUserQuery>();
                     var user = default(LoginUser);
                     //如果用户要做扩展表单直转 to alipay
-                    if (destination.Equals(PayWay.Alipay.ToString("F"), StringComparison.OrdinalIgnoreCase))
+                    if (destination.Equals("alipay", StringComparison.OrdinalIgnoreCase))
                     {
                         var federationInfo = new OutsideGatewayFederationInfo
                         {
@@ -118,7 +119,7 @@ namespace DotPay.Web.Controllers
                         result = FederationErrorResult.Success(req, federationInfo);
                     }
                     //如果用户要做扩展表单直转 to tenpay
-                    else if (destination.Equals(PayWay.Tenpay.ToString("F"), StringComparison.OrdinalIgnoreCase))
+                    else if (destination.Equals("tenpay", StringComparison.OrdinalIgnoreCase))
                     {
                         var federationInfo = new OutsideGatewayFederationInfo
                         {
@@ -152,7 +153,7 @@ namespace DotPay.Web.Controllers
                                     Label="Dotpay银行直转,请选择转账的银行",
                                     Required=true, 
                                     Name="bank",
-                                    Options=GetBankList()
+                                    Options=GetBankFiledsList()
                                 },
                                 new ExtraFiled{Type="text", Hint="请输入银行卡号",Label="银行卡号",Required=true,Name="bank_account"},
                                 new ExtraFiled{Type="text", Hint="请输入银行开户人姓名",Label="银行开户人姓名",Required=true,Name="bank_username"},
@@ -180,7 +181,7 @@ namespace DotPay.Web.Controllers
                                 Type = "federation_record",
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
-                                DestinationTag = int.Parse(Utilities.ConvertPaywayFlg(PayWay.Ripple).ToString() + user.UserID.ToString()),
+                                DestinationTag = int.Parse(DestinationTagFlg.Dotpay.ToString("D") + user.UserID.ToString()),
                                 Domain = domain,
                                 AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
                             };
@@ -233,10 +234,10 @@ namespace DotPay.Web.Controllers
                 var user = default(LoginUser);
 
                 //如果用户要做扩展表单直转 to alipay,且支付宝账号不为空
-                if (destination.Equals(PayWay.Alipay.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                if (destination.Equals("alipay", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
                 {
                     if (string.IsNullOrEmpty(alipay_account))
-                        result = QuoteResult.ErrorDetail(req, "tenpay account empty;财付通账户不能为空");
+                        result = QuoteResult.ErrorDetail(req, "alipay account empty;");
                     else
                     {
                         //创建一个交易
@@ -251,7 +252,7 @@ namespace DotPay.Web.Controllers
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 Domain = GATEWAY_DOMAIN,
-                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.AlipayRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                DestinationTag = Convert.ToInt32(DestinationTagFlg.AlipayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Amount = req.Amount.Value,
                                 Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
@@ -263,10 +264,10 @@ namespace DotPay.Web.Controllers
                     }
                 }
                 //如果用户要做扩展表单直转 to tenpay
-                else if (destination.Equals(PayWay.Tenpay.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                else if (destination.Equals("tenpay", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
                 {
                     if (string.IsNullOrEmpty(tenpay_account))
-                        result = QuoteResult.ErrorDetail(req, "tenpay account empty;财付通账户不能为空");
+                        result = QuoteResult.ErrorDetail(req, "tenpay account empty;");
                     else
                     {
                         var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, memo.NullSafe().Trim());
@@ -281,7 +282,7 @@ namespace DotPay.Web.Controllers
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 Domain = GATEWAY_DOMAIN,
-                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.TenpayRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                DestinationTag = Convert.ToInt32(DestinationTagFlg.TenpayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Amount = req.Amount.Value,
                                 Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
@@ -293,16 +294,21 @@ namespace DotPay.Web.Controllers
                     }
                 }
                 //如果用户要做扩展表单直转 to bank
-                else if (destination.Equals(PayWay.BankRippleForm.ToString("F"), StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                else if (destination.Equals("bank", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
                 {
-                    if (string.IsNullOrEmpty(bank_username))
-                        result = QuoteResult.ErrorDetail(req, "User name of bank account empty;银行开户人不能为空");
-                    else if (string.IsNullOrEmpty(bank_account))
-                        result = QuoteResult.ErrorDetail(req, "Bank account empty;银行账户不能为空");
+                    PayWay tobank = default(PayWay);
 
+                    if (string.IsNullOrEmpty(bank_username))
+                        result = QuoteResult.ErrorDetail(req, "User name of bank account empty;");
+                    else if (string.IsNullOrEmpty(bank_account))
+                        result = QuoteResult.ErrorDetail(req, "Bank account empty;");
+                    else if (Enum.TryParse<PayWay>(bank, out tobank) && !GetBankList().Contains(tobank))
+                    {
+                        result = QuoteResult.ErrorDetail(req, "not support this bank.");
+                    }
                     else
                     {
-                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username, req.Amount.Value, memo);
+                        var cmd = new CreateThirdPartyPaymentInboundTx(tobank, bank_account, bank_username, req.Amount.Value, memo);
 
                         try
                         {
@@ -313,7 +319,7 @@ namespace DotPay.Web.Controllers
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 Domain = GATEWAY_DOMAIN,
-                                DestinationTag = Convert.ToInt32(Utilities.ConvertPaywayFlg(PayWay.BankRippleForm) + cmd.ResultDestinationTag.ToString()),
+                                DestinationTag = Convert.ToInt32(DestinationTagFlg.BankRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
                                 Source = req.Address
@@ -412,12 +418,12 @@ namespace DotPay.Web.Controllers
                 return new QuoteResponse { Result = "success", QuoteInfo = quoteInfo, OriginRequest = req };
             }
         }
-        private IEnumerable<ExtraSelectFiledOption> GetBankList()
+        private IEnumerable<ExtraSelectFiledOption> GetBankFiledsList()
         {
             var banks = new List<ExtraSelectFiledOption>();
 
             var enumValus = Enum.GetValues(typeof(PayWay));
-            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside, PayWay.AlipayRippleForm, PayWay.TenpayRippleForm, PayWay.BankRippleForm };
+            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside };
 
             foreach (var val in enumValus)
             {
@@ -425,6 +431,25 @@ namespace DotPay.Web.Controllers
                 if (!filterVals.Contains(payway))
                 {
                     banks.Add(new ExtraSelectFiledOption(payway.ToString("F").PadRight(8, ' ') + payway.GetDescription(), payway.ToString("F")));
+                }
+            }
+
+            return banks;
+        }
+
+        private IEnumerable<PayWay> GetBankList()
+        {
+            var banks = new List<PayWay>();
+
+            var enumValus = Enum.GetValues(typeof(PayWay));
+            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside, PayWay.Bank };
+
+            foreach (var val in enumValus)
+            {
+                var payway = (PayWay)val;
+                if (!filterVals.Contains(payway))
+                {
+                    banks.Add(payway);
                 }
             }
 

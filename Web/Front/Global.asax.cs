@@ -50,7 +50,6 @@ namespace DotPay.Web
                     lang = Request.UserLanguages[0];
                 }
             }
-            lang = "zh-CN";
             if (!lang.Equals(Thread.CurrentThread.CurrentCulture.Name, StringComparison.OrdinalIgnoreCase))
                 SetApplicationLanaguage(lang);
         }

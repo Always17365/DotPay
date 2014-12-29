@@ -5,9 +5,9 @@ using DotPay.Common;
 
 namespace DotPay.Persistence
 {
-    public class ToTenpayTransferTransactionMap : BaseClassMapping<ToTenpayTransferTransaction>
+    public class ToBankTransferTransactionMap : BaseClassMapping<ToBankTransferTransaction>
     {
-        public ToTenpayTransferTransactionMap()
+        public ToBankTransferTransactionMap()
         {
             Id(u => u.ID, map => map.Generator(Generators.Identity));
             Property(x => x.SequenceNo, map => { map.NotNullable(true); map.Unique(true); map.Length(40); });

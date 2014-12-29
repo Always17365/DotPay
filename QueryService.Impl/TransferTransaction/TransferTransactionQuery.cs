@@ -30,7 +30,7 @@ namespace DotPay.QueryService.Impl
                                .QuerySingle<int>();
         }
 
-        public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay,string orderBy, int page, int pageCount)
+        public IEnumerable<DotPay.ViewModel.TransferTransaction> GetTransferTransactionBySearch(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, TransactionState state, PayWay payWay, string orderBy, int page, int pageCount)
         {
             var paramters = new object[] { 
                 account.NullSafe(), 
@@ -43,7 +43,7 @@ namespace DotPay.QueryService.Impl
                 pageCount
 
             };
-            var users = this.Context.Sql(getTransferTransactionBySearch_sql.FormatWith(payWay.ToString(),orderBy))
+            var users = this.Context.Sql(getTransferTransactionBySearch_sql.FormatWith(payWay.ToString(), orderBy))
                                    .Parameters(paramters)
                                    .QueryMany<TransferTransaction>();
 
@@ -52,7 +52,7 @@ namespace DotPay.QueryService.Impl
         public TransferTransaction GetTransferTransactionByRippleTxid(string txid, PayWay payWay)
         {
             var paramters = new object[] { txid };
-            var result = this.Context.Sql(getTransferTransactionByRippleTxid_sql.FormatWith(payWay.ToString(), payWay.ToString()))
+            var result = this.Context.Sql(getTransferTransactionByRippleTxid_sql.FormatWith(payWay.ToString()))
                                    .Parameters(paramters)
                                    .QuerySingle<TransferTransaction>();
 
@@ -71,7 +71,10 @@ namespace DotPay.QueryService.Impl
                                    .QueryMany<TransferTransaction>();
                         var result2 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Tenpay.ToString()))
                                    .QueryMany<TransferTransaction>();
-                        result = result1.Union<TransferTransaction>(result2);
+                        var result3 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Bank.ToString()))
+                                   .QueryMany<TransferTransaction>();
+
+                        result = result1.Union(result2).Union(result3).OrderByDescending(t => t.CreateAt);
                         Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
                     }
                 }
@@ -81,16 +84,16 @@ namespace DotPay.QueryService.Impl
         #region SQL
 
         private readonly string getLastTwentyTransferTransaction_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
-                                   WHERE    state<>'"+TransactionState.Fail+@"' 
-                                     AND    state<>'"+TransactionState.Cancel+@"'                                    
+                                   WHERE    state<>'" + TransactionState.Fail.ToString("D") + @"' 
+                                     AND    state<>'" + TransactionState.Cancel.ToString("D") + @"'                                    
                                 ORDER BY    CreateAt DESC
                                    LIMIT    20";
 
         private readonly string getTransferTransactionByRippleTxid_sql =
-                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,'{0}' as PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
-                                    FROM    " + Config.Table_Prefix + @"to{1}transfertransaction  
+                                @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
+                                    FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    TxId=@0                               
                                 ORDER BY    CreateAt DESC";
 

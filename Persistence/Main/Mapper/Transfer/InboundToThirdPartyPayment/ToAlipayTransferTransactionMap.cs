@@ -17,6 +17,7 @@ namespace DotPay.Persistence
             Property(x => x.SourcePayWay, map => { map.NotNullable(true); });
             Property(x => x.Account, map => { map.NotNullable(true); });
             Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(12); map.Scale(4); });
+            Property(x => x.TransferPayWay, map => { map.NotNullable(true); });
             Property(x => x.TransferNo, map => { map.NotNullable(true); map.Length(30); });
             Property(x => x.State, map => { map.NotNullable(true); });
             Property(x => x.CreateAt, map => { map.NotNullable(true); });
