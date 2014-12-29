@@ -28,5 +28,6 @@ namespace DotPay.ViewModel
         public string Memo { get; set; }
         public string Reason { get; set; }
         public string RealName { get; set; }
+        public int OperatorID { get; set; }
     }
 }

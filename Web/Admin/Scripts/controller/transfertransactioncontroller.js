@@ -36,7 +36,7 @@
                     $scope.pageChange($scope.currentPage);
                     $alert.Warn("处理成功");
                 } else {
-                    $alert.Warn("处理失败");
+                    $alert.Warn("已被其他人锁定");
                 }
             });
         }
@@ -45,21 +45,23 @@
     $scope.Success = function () {
         var transferTransaction = $scope.selectTransferTransaction
         if (transferTransaction) {
-            var modalInstance = $modal.open({
-                templateUrl: 'successTransferTransaction.html',
-                controller: successTransferTransactionCtrl,
-                backdrop: true,
-                resolve: {
-                    transferTransaction: function () {
-                        return transferTransaction;
+            if (transferTransaction = "处理中") {
+                var modalInstance = $modal.open({
+                    templateUrl: 'successTransferTransaction.html',
+                    controller: successTransferTransactionCtrl,
+                    backdrop: true,
+                    resolve: {
+                        transferTransaction: function () {
+                            return transferTransaction;
+                        }
                     }
-                }
-            });
-            modalInstance.result.then(function (result) {
-                if (result == true) {
-                    $scope.pageChange($scope.currentPage);
-                }
-            });
+                });
+                modalInstance.result.then(function (result) {
+                    if (result == true) {
+                        $scope.pageChange($scope.currentPage);
+                    }
+                });
+            } else$alert.Warn("当前状态不允许完成")
         }
         else $alert.Warn("未选择任何用户")
     }
