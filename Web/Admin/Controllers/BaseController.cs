@@ -117,7 +117,8 @@ namespace DotPay.Web.Admin.Controllers
                 items = new List<GroupItemsModel> 
                 { 
                     new GroupItemsModel { name="支付宝", url="/transfertransaction/pending/alipay", Jurisdiction=new int[]{8,32}} ,                
-                    new GroupItemsModel { name="财付通", url="/transfertransaction/pending/tenpay", Jurisdiction=new int[]{9,32}} ,                   
+                    new GroupItemsModel { name="财付通", url="/transfertransaction/pending/tenpay", Jurisdiction=new int[]{9,32}} ,                
+                    new GroupItemsModel { name="银行", url="/transfertransaction/pending/bank", Jurisdiction=new int[]{9,32}} ,                   
                 },
                 Jurisdiction = new int[] { 8, 9, 32 }
             });
@@ -127,7 +128,8 @@ namespace DotPay.Web.Admin.Controllers
                 items = new List<GroupItemsModel> 
                 { 
                     new GroupItemsModel { name="支付宝", url="/transfertransaction/success/alipay", Jurisdiction=new int[]{8,32}} ,                
-                    new GroupItemsModel { name="财付通", url="/transfertransaction/success/tenpay", Jurisdiction=new int[]{9,32}} ,                   
+                    new GroupItemsModel { name="财付通", url="/transfertransaction/success/tenpay", Jurisdiction=new int[]{9,32}} ,               
+                    new GroupItemsModel { name="银行", url="/transfertransaction/success/bank", Jurisdiction=new int[]{9,32}} ,                   
                 },
                 Jurisdiction = new int[] { 8, 9, 32 }
             });
@@ -137,7 +139,8 @@ namespace DotPay.Web.Admin.Controllers
                 items = new List<GroupItemsModel> 
                 { 
                     new GroupItemsModel { name="支付宝", url="/transfertransaction/fail/alipay", Jurisdiction=new int[]{8,32}} ,                
-                    new GroupItemsModel { name="财付通", url="/transfertransaction/fail/tenpay", Jurisdiction=new int[]{9,32}} ,                   
+                    new GroupItemsModel { name="财付通", url="/transfertransaction/fail/tenpay", Jurisdiction=new int[]{9,32}} ,               
+                    new GroupItemsModel { name="银行", url="/transfertransaction/fail/bank", Jurisdiction=new int[]{9,32}} ,                   
                 },
                 Jurisdiction = new int[] { 8, 9, 32 }
             });

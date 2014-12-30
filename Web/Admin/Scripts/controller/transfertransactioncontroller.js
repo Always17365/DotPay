@@ -29,22 +29,24 @@
         }
         else $scope.selectTransferTransaction = undefined;
     }
-    $scope.Processing = function () { 
-        if ($scope.selectTransferTransaction) {
-            $http.post('../TransferTransaction/MarkThirdPartyPaymentTransferProcessing', { tppTransferId: $scope.selectTransferTransaction.ID, payway: $scope.selectTransferTransaction.payway }).success(function (data, status, headers) {
-                if (data.Code == 1) {
-                    $scope.pageChange($scope.currentPage);
-                    $alert.Warn("处理成功");
-                } else {
-                    $alert.Warn("已被其他人锁定");
-                }
-            });
+    $scope.Processing = function () {
+        var transferTransaction = $scope.selectTransferTransaction
+        if (transferTransaction) { 
+                $http.post('../TransferTransaction/MarkThirdPartyPaymentTransferProcessing', { tppTransferId: $scope.selectTransferTransaction.ID, payway: $scope.selectTransferTransaction.payway }).success(function (data, status, headers) {
+                    if (data.Code == 1) {
+                        $scope.pageChange($scope.currentPage);
+                        $alert.Warn("处理成功");
+                    } else {
+                        $alert.Warn("已被其他人锁定");
+                    }
+                }); 
         }
         else $alert.Warn("未选择任何用户")
     }
     $scope.Success = function () {
         var transferTransaction = $scope.selectTransferTransaction
         if (transferTransaction) {
+            transferTransaction.payway= $scope.payway
             if (transferTransaction = "处理中") {
                 var modalInstance = $modal.open({
                     templateUrl: 'successTransferTransaction.html',
@@ -61,7 +63,7 @@
                         $scope.pageChange($scope.currentPage);
                     }
                 });
-            } else$alert.Warn("当前状态不允许完成")
+            } else $alert.Warn("当前状态不允许完成")
         }
         else $alert.Warn("未选择任何用户")
     }
@@ -160,7 +162,7 @@ function successTransferTransactionCtrl($scope, $modalInstance, $http, $alert, t
 
     $scope.set = function (successTransferTransaction) {
         if (transferTransaction.Amount == successTransferTransaction.Amount) {
-            $http.post('../TransferTransaction/ThirdPartyPaymentTransferComplete', { Amount:successTransferTransaction.Amount,transferId: transferTransaction.ID, transferNo: successTransferTransaction.TransferNo, payway: transferTransaction.payway }).success(function (data, status, headers) {
+            $http.post('../TransferTransaction/ThirdPartyPaymentTransferComplete', { transferPay: transferTransaction.payway, amount: successTransferTransaction.Amount, transferId: transferTransaction.ID, transferNo: successTransferTransaction.TransferNo, payway: transferTransaction.payway }).success(function (data, status, headers) {
                 if (data.Code == 1) $modalInstance.close(true);
 
                 else $modalInstance.close(false);
