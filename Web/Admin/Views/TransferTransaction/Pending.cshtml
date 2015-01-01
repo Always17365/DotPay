@@ -1,4 +1,4 @@
-﻿@{     
+﻿@{
     Layout = null;
 }
 @using DotPay.Web.Admin;
@@ -7,13 +7,13 @@
         <h4 class="panel-title" ng-bind="title"></h4>
     </div>
     <div class="panel-body">
-        <div class="pull-left">            
+        <div class="pull-left">
             <button type="button" class="btn btn-danger" ng-click="Processing()">锁定</button>
             <button type="button" class="btn btn-success" ng-click="Success()">完成</button>
             <button type="button" class="btn btn-success" ng-click="Fail()">失败</button>
         </div>
-        
-        <div class="pull-right padding-right100">   
+
+        <div class="pull-right padding-right100">
         </div>
     </div>
     <table class="table table-striped table-bordered">
@@ -22,36 +22,37 @@
                 <th>#</th>
                 <th>ID</th>
                 <th>TxId</th>
-                <th>流水号</th> 
+                <th>流水号</th>
                 <th>支付来源</th>
                 <th>状态</th>
-                <th>支付宝账户</th>
+                <th>支付方式</th>
+                <th>{{title}}账户</th>
                 <th>姓名</th>
-                <th>金额</th> 
+                <th>金额</th>
                 <th>备注</th>
-                <th>创建时间</th> 
+                <th>创建时间</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="transferTransaction in transferTransactions">
                 <td><input type="checkbox" ng-model="transferTransaction.Checked" ng-change="checkedChange(transferTransaction)"></td>
                 <td ng-bind="transferTransaction.ID"></td>
-                <td ng-bind="transferTransaction.TxId"></td> 
+                <td ng-bind="transferTransaction.TxId"></td>
                 <td ng-bind="transferTransaction.TransferNo"></td>
                 <td ng-bind="transferTransaction.CNSourcePayway"></td>
-                <td ng-bind="transferTransaction.CNState"></td> 
+                <td ng-bind="transferTransaction.CNState"></td>
+                <td ng-bind="transferTransaction.CNPayWay"></td>
                 <td ng-bind="transferTransaction.Account"></td>
                 <td ng-bind="transferTransaction.RealName"></td>
-                <td ng-bind="transferTransaction.Amount"></td>        
+                <td ng-bind="transferTransaction.Amount"></td>
                 <td ng-bind="transferTransaction.Memo + transferTransaction.Reason"></td>
-                <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td> 
+                <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
             </tr>
         </tbody>
     </table>
     <pagination total-items="totalCount" page="currentPage" first-text="首页" on-select-page="pageChange(page)" next-text="下一页" previous-text="上一页" last-text="尾页" max-size="10" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
     <pre>共{{totalCount}}条数据  第{{currentPage}}页 /共{{numPages}}页</pre>
 </div>
-
 <div>
     <script type="text/ng-template" id="successTransferTransaction.html">
         <div class="modal-header">
@@ -84,7 +85,7 @@
         </div>
         <div class="modal-body">
             <form name="transferTransactionForm" role="form">
-                <table class="table-condensed" style="width: 95%">                     
+                <table class="table-condensed" style="width: 95%">
                     <tr>
                         <td><label>输入失败原因</label></td>
                         <td><input type="text" ng-trim="true" class="form-control" required ng-model="text"></td>
@@ -98,4 +99,3 @@
         </div>
     </script>
 </div>
-

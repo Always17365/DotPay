@@ -1,4 +1,4 @@
-﻿@{     
+﻿@{
     Layout = null;
 }
 @using DotPay.Web.Admin;
@@ -7,10 +7,10 @@
         <h4 class="panel-title" ng-bind="title"></h4>
     </div>
     <div class="panel-body">
-        <div class="pull-left">             
+        <div class="pull-left">
         </div>
-        
-        <div class="pull-right padding-right100">   
+
+        <div class="pull-right padding-right100">
             <label>支付宝账号:</label><input type="text" class="form-control inline-control " ng-model="Account">
             <label>金额:</label><input type="text" class="form-control inline-control " ng-model="Amount">
             <label>Txid:</label><input type="text" class="form-control inline-control " ng-model="TxId">
@@ -29,7 +29,8 @@
                 <th>转账交易号</th>
                 <th>支付来源</th>
                 <th>状态</th>
-                <th>支付宝账户</th>
+                <th>支付方式</th>
+                <th>{{title}}账户</th>
                 <th>姓名</th>
                 <th>金额</th>
                 <th>创建时间</th>
@@ -44,9 +45,10 @@
                 <td ng-bind="transferTransaction.TransferNo"></td>
                 <td ng-bind="transferTransaction.CNSourcePayway"></td>
                 <td ng-bind="transferTransaction.CNState"></td>
+                <td ng-bind="transferTransaction.CNPayWay"></td>
                 <td ng-bind="transferTransaction.Account"></td>
                 <td ng-bind="transferTransaction.RealName"></td>
-                <td ng-bind="transferTransaction.Amount"></td>        
+                <td ng-bind="transferTransaction.Amount"></td>
                 <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
             </tr>
         </tbody>
@@ -54,4 +56,3 @@
     <pagination total-items="totalCount" page="currentPage" first-text="首页" on-select-page="pageChange(page)" next-text="下一页" previous-text="上一页" last-text="尾页" max-size="10" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
     <pre>共{{totalCount}}条数据  第{{currentPage}}页 /共{{numPages}}页</pre>
 </div>
-
