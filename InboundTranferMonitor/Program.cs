@@ -69,12 +69,12 @@ namespace DotPay.TransferMonitor
                                     .UseCouchbaseCache()
                                     .UseLog4net()
                                     .UseDefaultCommandBus(assemblies)
-                                    .UseDefaultEventBus()
+                                    .UseDefaultEventBus(assemblies)
                                     .RegisterAllRepository()
                                     .UseNHibernate(new ConnectionString(connString, connProvider), nhibernateMapperAssemblies)
                 //.RegisterQueryServices(new FC.Framework.Repository.ConnectionString(Config.DBConnectString, "MySql.Data.MySqlClient"))
                                     .Start();
-
+            FC.Framework.Utilities.EmailHelper.Config(Config.EmailSMTP, Config.EmailAccount, Config.EmailAccount, Config.EmailPassword);
             if (Config.Debug)
             {
                 //SessionManager.CreateTables();

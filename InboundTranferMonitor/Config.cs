@@ -25,7 +25,10 @@ namespace DotPay.TransferMonitor
             RippleAccount = ConfigurationManagerWrapper.AppSettings["RippleAccount"].NullSafe().Trim();
             RippleSecret = ConfigurationManagerWrapper.AppSettings["RippleSecret"].NullSafe().Trim();
             TransferTable = ConfigurationManagerWrapper.AppSettings["TransferTable"].NullSafe().Trim();
-            WssServer = ConfigurationManagerWrapper.AppSettings["WssServer"].NullSafe().Trim(); 
+            EmailSMTP = ConfigurationManagerWrapper.AppSettings["EmailSMTP"].NullSafe().Trim(); 
+            EmailAccount = ConfigurationManagerWrapper.AppSettings["EmailAccount"].NullSafe().Trim(); 
+            EmailPassword = ConfigurationManagerWrapper.AppSettings["EmailPassword"].NullSafe().Trim(); 
+            WssServer = ConfigurationManagerWrapper.AppSettings["WssServer"].NullSafe().Trim();  
         }
 
         public static bool Debug { get; private set; }
@@ -42,6 +45,9 @@ namespace DotPay.TransferMonitor
         public static string TransferTable { get; private set; }
         public static string RippleSecret { get; private set; }
         public static string WssServer { get; private set; } 
-        public static string RippleAccount { get; private set; }  
+        public static string RippleAccount { get; private set; }
+        public static string EmailSMTP { get; private set; }
+        public static string EmailAccount { get; private set; }
+        public static string EmailPassword { get; private set; }
     }
 }

@@ -45,7 +45,7 @@
                     <li><a href="###" onclick="switchLang('zh-CN')">中文</a> </li>
                     <li><a href="###" onclick="switchLang('en-US')">English</a></li>
                 </ul>
-            </nav> 
+            </nav>
         </div>
     </header>
     <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
@@ -53,7 +53,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="/my/index/">
                     <img alt="Brand" style="height:40px;width:80px;display:inline" src="~/public/images/logo.png">
-                    <span>@Html.Lang("Direct transfer progress enquiry")</span>
+                    <span>@Html.Lang("Direct transfer progress query")</span>
                 </a>
             </div>
         </div>
@@ -61,11 +61,11 @@
     <div class="container">
         <div class="com-sm-12 col-md-10  col-md-offset-1 col-sm-offset-0">
             <div class="alert alert-info">
-                直通车是点付科技推出的由rippletrade客户端直接转账给支付宝账户的工具。<br>
-                <label class="label label-info">操作方式说明</label>:在rippletrade收款账号栏里填入alipay@dotpay.co, 根据提示操作即可。<br>
+                @Html.Lang("Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly.")<br>
+                <label class="label label-info">@Html.Lang("Instruction")</label>:@Html.LangAsHtmlString("in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment.", "<label class='label label-success'>alipay@dotpay.co</label>", "<label class='label label-success'>bank@dotpay.co</label>")<br>
                 <div class="alert-success" style="margin-top:15px;">
-                    工作时间内到账时间不超过1小时，如遇ripple系统问题，支付宝系统问题等不可抗力引起的延迟除外。<br>
-                    目前点付直通车处于测试阶段，每笔转账限额1-200元。
+                    @Html.Lang("In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues.")<br>
+                    @Html.Lang("Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY.")
                 </div>
             </div>
             @if (string.IsNullOrEmpty(ViewBag.TxId))
@@ -144,7 +144,7 @@
                                     txid= @ViewBag.TxId
                                 </label>
                             </div>
-                            @Html.Lang("If you just created the transaction, please you 5 minutes before query") 
+                            @Html.Lang("If you just created the transaction, please you 5 minutes before query")
                         </div>
                     </div>
                 }
@@ -152,7 +152,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h4 class="panel-title">@Html.Lang("Recently Transfer Records")</h4>
+                    <h4 class="panel-title">@Html.Lang("Lastest Transfer Records")</h4>
                 </div>
                 <div class="panel-body" style="padding:0px;color:#555;font-size:12px;">
                     <table class="table table-striped table-responsive">
@@ -241,7 +241,7 @@
     <footer id="footer" class="dotpay-footer navbar-fixed-bottom">
         <div>
             <div id="copyright">
-                @Html.Lang("Copyright");
+                @Html.Lang("Copyright")
             </div>
         </div>
     </footer>

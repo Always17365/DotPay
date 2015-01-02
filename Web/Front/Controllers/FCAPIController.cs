@@ -149,14 +149,14 @@ namespace DotPay.Web.Controllers
                             {
                                 new ExtraFiled{
                                     Type="select", 
-                                    Hint="支付宝直转alipay@dotpay.co,财付通直转tenpay@dotpay.co" ,
-                                    Label="Dotpay银行直转,请选择转账的银行",
+                                    Hint="开户行" ,
+                                    Label="Bank Name",
                                     Required=true, 
                                     Name="bank",
                                     Options=GetBankFiledsList()
                                 },
-                                new ExtraFiled{Type="text", Hint="请输入银行卡号",Label="银行卡号",Required=true,Name="bank_account"},
-                                new ExtraFiled{Type="text", Hint="请输入银行开户人姓名",Label="银行开户人姓名",Required=true,Name="bank_username"},
+                                new ExtraFiled{Type="text", Hint="银行卡号",Label="Bank Account Number",Required=true,Name="bank_account"},
+                                new ExtraFiled{Type="text", Hint="开户人姓名",Label="Account Name",Required=true,Name="bank_username"},
                                 new ExtraFiled{Type="text", Hint="留言(可选)，可填联系方式，收货地址等信息，您可在支付完成后在 "+QUERY_URL+"查询交易状态",Label="Comments(optional), for contacts, shipping address etc., you can check the transaction status at "+QUERY_URL+" after confirming the payment",Name="memo"}
                         },
                             Domain = domain,
@@ -216,7 +216,7 @@ namespace DotPay.Web.Controllers
             var bank_username = query_params.SingleOrDefault(item => item.Key.Equals("bank_username", StringComparison.OrdinalIgnoreCase)).Value;
             var bank = query_params.SingleOrDefault(item => item.Key.Equals("bank", StringComparison.OrdinalIgnoreCase)).Value;
             var memo = query_params.SingleOrDefault(item => item.Key.Equals("memo", StringComparison.OrdinalIgnoreCase)).Value;
-            var req = new QuoteRequest { Type = type, __dot_use_this_amount = amount, Address = address, Destination = destination, AlipayAccount = alipay_account, TenpayAccount = tenpay_account, ContactInfo = memo };
+            var req = new QuoteRequest { Type = type, __dot_use_this_amount = amount, Address = address, Destination = destination, AlipayAccount = alipay_account, TenpayAccount = tenpay_account, Memo = memo };
 
             type = type.NullSafe().Trim();
             destination = destination.NullSafe().Trim();
@@ -308,7 +308,7 @@ namespace DotPay.Web.Controllers
                     }
                     else
                     {
-                        var cmd = new CreateThirdPartyPaymentInboundTx(tobank, bank_account, bank_username, req.Amount.Value, memo);
+                        var cmd = new CreateThirdPartyPaymentInboundTx(tobank, bank_account, bank_username, req.Amount.Value, memo.NullSafe().Trim());
 
                         try
                         {
@@ -423,7 +423,7 @@ namespace DotPay.Web.Controllers
             var banks = new List<ExtraSelectFiledOption>();
 
             var enumValus = Enum.GetValues(typeof(PayWay));
-            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside };
+            var filterVals = new List<PayWay> { PayWay.Alipay, PayWay.Tenpay, PayWay.VirutalTransfer, PayWay.Ripple, PayWay.Inside, PayWay.Bank };
 
             foreach (var val in enumValus)
             {

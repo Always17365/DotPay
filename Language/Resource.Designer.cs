@@ -135,6 +135,15 @@ namespace DotPay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string CMB {
+            get {
+                return ResourceManager.GetString("CMB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string CMBC {
             get {
                 return ResourceManager.GetString("CMBC", resourceCulture);
@@ -162,9 +171,29 @@ namespace DotPay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
-        internal static string Direct_transfer_progress_enquiry {
+        internal static string Currently_the_Direct_Transfer_service_is_still_in_test_phase_it_s_free_and_for_each_transfer_the_amount_is_limited_to_1_1000CNY_ {
             get {
-                return ResourceManager.GetString("Direct transfer progress enquiry", resourceCulture);
+                return ResourceManager.GetString("Currently the Direct Transfer service is still in test phase,it\'s free and for ea" +
+                        "ch transfer the amount is limited to 1-1000CNY.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Direct_Transfer_is_a_service_provided_by_dotpay_co_to_enable_rippletrade_client_users_to_pay_to_Alipay_account_or_bank_account_in_China_directly_ {
+            get {
+                return ResourceManager.GetString("Direct Transfer is a service provided by dotpay.co to enable rippletrade client u" +
+                        "sers to pay to Alipay account or bank account in China directly.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Direct_transfer_progress_query {
+            get {
+                return ResourceManager.GetString("Direct transfer progress query", resourceCulture);
             }
         }
         
@@ -234,9 +263,49 @@ namespace DotPay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string in_rippletrade_Recipient_blank_fill_in__0__for_paying_to_Alipay_account_or__1__for_bank_account__then_follow_the_emerging_instructions_to_fill_in_the_next_blanks_and_finally_confirm_the_payment_ {
+            get {
+                return ResourceManager.GetString("in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} fo" +
+                        "r bank account, then follow the emerging instructions to fill in the next blanks" +
+                        " and finally confirm the payment.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string In_work_time_the_transfer_will_be_done_in_no_greater_than_2_hours__if_there_is_no_delays_caused_by_force_majeures_such_as_ripple_system_issues__alipay_system_issues_or_bank_system_issues_ {
+            get {
+                return ResourceManager.GetString("In work time the transfer will be done in no greater than 2 hours, if there is no" +
+                        " delays caused by force majeures such as ripple system issues, alipay system iss" +
+                        "ues or bank system issues.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Instruction {
+            get {
+                return ResourceManager.GetString("Instruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Join_QQ_group {
             get {
                 return ResourceManager.GetString("Join QQ group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Lastest_Transfer_Records {
+            get {
+                return ResourceManager.GetString("Lastest Transfer Records", resourceCulture);
             }
         }
         
@@ -273,15 +342,6 @@ namespace DotPay.Language {
         internal static string PSBC {
             get {
                 return ResourceManager.GetString("PSBC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似  的本地化字符串。
-        /// </summary>
-        internal static string Recently_Transfer_Records {
-            get {
-                return ResourceManager.GetString("Recently Transfer Records", resourceCulture);
             }
         }
         

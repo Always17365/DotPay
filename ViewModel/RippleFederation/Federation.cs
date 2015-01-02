@@ -170,8 +170,8 @@ namespace DotPay.ViewModel
         [JsonProperty("tenpay_account", NullValueHandling = NullValueHandling.Ignore)]
         public string TenpayAccount { get; set; }
 
-        [JsonProperty("contact_info")]
-        public string ContactInfo { get; set; }
+        [JsonProperty("memo")]
+        public string Memo { get; set; }
 
     }
 

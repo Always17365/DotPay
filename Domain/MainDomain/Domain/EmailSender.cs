@@ -20,7 +20,8 @@ namespace DotPay.MainDomain
                        IEventHandler<ResendActiveEmail>,                //重发邮箱激活邮件
                        IEventHandler<UserSetNewPassword>,               //用户设置了新的密码(通过密码重置)
                        IEventHandler<UserPasswordResetedByEmail>,       //用户登录密码重置
-                       IEventHandler<UserTradePasswordReseted>          //用户资金密码重置
+                       IEventHandler<UserTradePasswordReseted>,         //用户交易密码重置
+                       IEventHandler<InboundTransferToThirdPartyPaymentTxCreated>          //收到第三方支付的邮件
     {
         public void Handle(UserRegisted @event)
         {
@@ -116,6 +117,27 @@ namespace DotPay.MainDomain
                 Log.Debug("DEBUG模式,这个邮件不会真的发送出去,邮件内容:" + emailBody);
             else
                 EmailHelper.SendMail(@event.Email, emailTitle, emailBody);
+        }
+
+        public void Handle(InboundTransferToThirdPartyPaymentTxCreated @event)
+        {
+            string emailTitle = "收到{0}直转，请及时处理".FormatWith(@event.PayWay.ToString("F"));
+            string emailBody = "转账到{0}，账户:{1},金额:{2}".FormatWith(@event.PayWay.ToString("F"), @event.Account, @event.Amount);
+
+            if (Config.Debug)
+                Log.Debug("DEBUG模式,这个邮件不会真的发送出去,邮件内容:" + emailBody);
+            else
+            {
+                try
+                {
+                    EmailHelper.SendMail("support@dotpay.co", emailTitle, emailBody);
+                    EmailHelper.SendMail("datou@dotpay.co", emailTitle, emailBody);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("发送直转邮件提醒时出现了错误");
+                }
+            }
         }
     }
 }

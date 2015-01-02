@@ -126,7 +126,7 @@
   <data name="Join QQ group" xml:space="preserve">
     <value />
   </data>
-  <data name="Direct transfer progress enquiry" xml:space="preserve">
+  <data name="Direct transfer progress query" xml:space="preserve">
     <value />
   </data>
   <data name="Dotpay,your fast payment expert" xml:space="preserve">
@@ -135,7 +135,7 @@
   <data name="Please input  your Ripple TxId" xml:space="preserve">
     <value />
   </data>
-  <data name="Recently Transfer Records" xml:space="preserve">
+  <data name="Lastest Transfer Records" xml:space="preserve">
     <value />
   </data>
   <data name="ripple_query_table_amount" xml:space="preserve">
@@ -245,5 +245,23 @@
   </data>
   <data name="website_Title" xml:space="preserve">
     <value>Dotpay</value>
+  </data>
+  <data name="CMB" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY." xml:space="preserve">
+    <value />
+  </data>
+  <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
+    <value />
+  </data>
+  <data name="in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment." xml:space="preserve">
+    <value />
+  </data>
+  <data name="In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues." xml:space="preserve">
+    <value />
+  </data>
+  <data name="Instruction" xml:space="preserve">
+    <value />
   </data>
 </root>
