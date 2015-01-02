@@ -122,7 +122,7 @@ namespace DotPay.MainDomain
         public void Handle(InboundTransferToThirdPartyPaymentTxCreated @event)
         {
             string emailTitle = "收到{0}直转，请及时处理".FormatWith(@event.PayWay.ToString("F"));
-            string emailBody = "转账到{0}，账户:{1},金额:{2}".FormatWith(@event.PayWay.ToString("F"), @event.Account, @event.Amount);
+            string emailBody = "转账到{0}，账户:{1},金额:{2},txid:{3}".FormatWith(@event.PayWay.ToString("F"), @event.Account, @event.Amount,@event.TxId);
 
             if (Config.Debug)
                 Log.Debug("DEBUG模式,这个邮件不会真的发送出去,邮件内容:" + emailBody);

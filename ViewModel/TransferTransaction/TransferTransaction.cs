@@ -22,7 +22,7 @@ namespace DotPay.ViewModel
         public TransactionState State { get; set; }
         public string Account { get; set; }
         public decimal Amount { get; set; }
-        public string CNPayWay { get { return this.PayWay.ToString("F"); } }
+        public string CNPayWay { get { return this.PayWay.GetDescription(); } }
         public PayWay PayWay { get; set; }
         public int CreateAt { get; set; }
         public int DoneAt { get; set; }
