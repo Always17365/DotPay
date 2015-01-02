@@ -29,7 +29,8 @@
                 <th>转账交易号</th>
                 <th>支付来源</th>
                 <th>状态</th>
-                <th>支付宝账户</th>
+                <th>支付方式</th>
+                <th>{{title}}账户</th>
                 <th>姓名</th>
                 <th>金额</th>
                 <th>备注</th>
@@ -45,6 +46,7 @@
                 <td ng-bind="transferTransaction.TransferNo"></td>
                 <td ng-bind="transferTransaction.CNSourcePayway"></td>
                 <td ng-bind="transferTransaction.CNState"></td>
+                <td ng-bind="transferTransaction.CNPayWay"></td>
                 <td ng-bind="transferTransaction.Account"></td>
                 <td ng-bind="transferTransaction.RealName"></td>
                 <td ng-bind="transferTransaction.Amount"></td>

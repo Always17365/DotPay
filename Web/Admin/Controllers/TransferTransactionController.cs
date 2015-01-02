@@ -57,23 +57,24 @@ namespace DotPay.Web.Admin.Controllers
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
             var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
-            var result = from TransferTransaction in result1.Union<TransferTransaction>(result2)
+            var result = from TransferTransactions in result1.Union<TransferTransaction>(result2)
                          select new TransferTransaction
-                         {
-                             Account = TransferTransaction.Account,
-                             Amount = TransferTransaction.Amount,
-                             CreateAt = TransferTransaction.CreateAt,
-                             DoneAt = TransferTransaction.DoneAt,
-                             ID = TransferTransaction.ID,
-                             Memo = TransferTransaction.Memo,
-                             PayWay = TransferTransaction.PayWay,
-                             RealName = TransferTransaction.RealName,
-                             Reason = TransferTransaction.Reason,
-                             SequenceNo = FormatString(TransferTransaction.SequenceNo, 20, ' '),
-                             SourcePayway = TransferTransaction.SourcePayway,
-                             State = TransferTransaction.State,
-                             TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
-                             TxId = FormatString(TransferTransaction.TxId, 32, ' ')
+                         {   
+                             Account = TransferTransactions.Account,
+                             Amount = TransferTransactions.Amount,
+                             CreateAt = TransferTransactions.CreateAt,
+                             DoneAt = TransferTransactions.DoneAt,
+                             ID = TransferTransactions.ID,
+                             Memo = TransferTransactions.Memo,
+                             PayWay = TransferTransactions.PayWay,
+                             RealName = TransferTransactions.RealName,
+                             Reason = TransferTransactions.Reason,
+                             SequenceNo = FormatString(TransferTransactions.SequenceNo, 20, ' '),
+                             SourcePayway = TransferTransactions.SourcePayway,
+                             State = TransferTransactions.State,
+                             TransferNo = FormatString(TransferTransactions.TransferNo, 20, ' '),
+                             TxId = FormatString(TransferTransactions.TxId, 32, ' '),
+                             
                          };
 
             return Json(new { count = count1 + count2, result = result.OrderByDescending(q => q.CreateAt) });
@@ -86,7 +87,7 @@ namespace DotPay.Web.Admin.Controllers
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
             result = from TransferTransaction in result
                      select new TransferTransaction
-                     {
+                     {  
                          Account = TransferTransaction.Account,
                          Amount = TransferTransaction.Amount,
                          CreateAt = TransferTransaction.CreateAt,
@@ -100,7 +101,8 @@ namespace DotPay.Web.Admin.Controllers
                          SourcePayway = TransferTransaction.SourcePayway,
                          State = TransferTransaction.State,
                          TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
-                         TxId = FormatString(TransferTransaction.TxId, 32, ' ')
+                         TxId = FormatString(TransferTransaction.TxId, 32, ' ')  
+                                 
                      };
             return Json(new { count = count, result = result.OrderByDescending(q => q.CreateAt) });
         }
@@ -111,7 +113,7 @@ namespace DotPay.Web.Admin.Controllers
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
             result = from TransferTransaction in result
                      select new TransferTransaction
-                     {
+                     { 
                          Account = TransferTransaction.Account,
                          Amount = TransferTransaction.Amount,
                          CreateAt = TransferTransaction.CreateAt,
