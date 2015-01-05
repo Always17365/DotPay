@@ -135,7 +135,7 @@ namespace DotPay.MainDomain
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("发送直转邮件提醒时出现了错误");
+                    Log.Error("发送直转邮件提醒时出现了错误",ex);
                 }
             }
         }

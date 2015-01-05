@@ -34,6 +34,15 @@ namespace DotPay.Web.Controllers
         }
         #endregion 
 
+        #region index 
+        [Route("~/waiting")]
+        [AllowAnonymous]
+        public ActionResult Waiting()
+        {
+            return View();
+        }
+        #endregion 
+
         #region ripple txt
         [Route("~/ripple.txt")]
         [AllowAnonymous]

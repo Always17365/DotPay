@@ -74,7 +74,7 @@ namespace DotPay.QueryService.Impl
                         var result3 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Bank.ToString()))
                                    .QueryMany<TransferTransaction>();
 
-                        result = result1.Union(result2).Union(result3).OrderByDescending(t => t.CreateAt);
+                        result = result1.Union(result2).Union(result3).OrderByDescending(t => t.CreateAt).Take(20);
                         Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
                     }
                 }

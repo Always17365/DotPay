@@ -472,6 +472,7 @@
     <Content Include="Views\Transfer\Index.cshtml" />
     <Content Include="Views\Transfer\OutboundRippleSubmitSuccess.cshtml" />
     <Content Include="Views\Transfer\InboundRippleQuery.cshtml" />
+    <Content Include="Views\Home\Waiting.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
