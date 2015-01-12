@@ -26,7 +26,7 @@ namespace DotPay.Web.Controllers
         public const string QUOTE_URL = "https://www.dotpay.co/api/v1/quote";
         public const string QUERY_URL = "https://www.dotpay.co/query";
         public const decimal minAcceptAmount = 1M;
-        public const decimal maxAcceptAmount = 1000M;
+        public const decimal maxAcceptAmount = 5000M;
 
         #region Federation
         [HttpGet]

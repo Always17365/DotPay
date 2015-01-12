@@ -69,7 +69,7 @@ namespace DotPay.RippleMonitor
                         if (aviableLedgerIndexResult.Item1 == null)
                         {
                             var ledger_min = RippleInboundTransferWatcher.currentProcessLedgerIndex;
-                            var ledgerIndex_max = ledger_min + 19; //因为ripple走的是一个 ≥和≤的区间，所以+99就是一次分析20个ledger
+                            var ledgerIndex_max = ledger_min + Config.Step - 1; //因为ripple走的是一个 ≥和≤的区间，所以+99就是一次分析100个ledger
                             ledgerIndex_max = Math.Min(ledgerIndex_max, aviableLedgerIndexResult.Item2 - 10);//取小值
 
                             if (ledgerIndex_max < ledger_min)
@@ -183,7 +183,7 @@ namespace DotPay.RippleMonitor
                 {
                     var amount = tx.Meta.DeliveredAmount ?? tx.TransactionDetail.Amount;
 
-                    if (amount.Issuer == Config.RippleAccount && amount.Currency == "CNY")
+                    if ((amount.Issuer == Config.RippleGateway || amount.Issuer == Config.RippleAccount) && amount.Currency == "CNY")
                     {
                         Log.Info("发现新的转入交易...." + Environment.NewLine + IoC.Resolve<IJsonSerializer>().Serialize(tx));
 
@@ -215,7 +215,7 @@ namespace DotPay.RippleMonitor
                                         Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
                                     }
                                 }
-                                else if (tagFlg == DestinationTagFlg.AlipayRippleForm || tagFlg == DestinationTagFlg.TenpayRippleForm||tagFlg == DestinationTagFlg.BankRippleForm)
+                                else if (tagFlg == DestinationTagFlg.AlipayRippleForm || tagFlg == DestinationTagFlg.TenpayRippleForm || tagFlg == DestinationTagFlg.BankRippleForm)
                                 {
                                     try
                                     {
@@ -226,7 +226,7 @@ namespace DotPay.RippleMonitor
                                     {
                                         Log.Error("在执行tpp pay 的complete命令时出现异常", ex);
                                     }
-                                } 
+                                }
                                 else
                                 {
                                     Log.Warn("发现未知的转入交易标志位" + flg.ToString() + " tx:" + IoC.Resolve<IJsonSerializer>().Serialize(tx));

@@ -190,7 +190,7 @@
                                 }
 
                                 <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd HH:mm") : "")</td>
-                                <td>@tx.Amount @Html.Lang("Chinese_Yuan")</td>
+                                <td>@tx.Amount.ToString("0.00") @Html.Lang("Chinese_Yuan")</td>
                                 <td>@(tx.State == TransactionState.Success ? ("****************" + tx.TransferNo.Substring(sub_transfer_length)) : "")</td>
                                 <td>@("****************" + tx.TxId.Substring(sub_txid_length))</td>
                             </tr>
