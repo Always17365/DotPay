@@ -24,7 +24,7 @@ namespace RippleCommand
 
         public void Execute(CreateThirdPartyPaymentInboundTx cmd)
         {
-            var rippleInboundTx = new RippleInboundToThirdPartyPaymentTx(cmd.PayWay, cmd.Destination, cmd.RealName, cmd.Amount, cmd.Memo);
+            var rippleInboundTx = new RippleInboundToThirdPartyPaymentTx(cmd.PayWay, cmd.Destination, cmd.RealName, cmd.Amount, cmd.SendAmount, cmd.Memo);
 
             IoC.Resolve<IRepository>().Add(rippleInboundTx);
             cmd.ResultDestinationTag = rippleInboundTx.ID;
@@ -48,7 +48,7 @@ namespace RippleCommand
                 {
                     throw new Exception("invoice_id不匹配" + IoC.Resolve<IJsonSerializer>().Serialize(cmd));
                 }
-                rippleInboundTx.Complete(cmd.TxId, cmd.Amount);
+                rippleInboundTx.Complete(cmd.TxId, cmd.SendAmount);
             }
         }
     }

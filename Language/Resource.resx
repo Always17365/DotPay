@@ -190,7 +190,7 @@
     <value />
   </data>
   <data name="Chinese_Yuan" xml:space="preserve">
-    <value>Yuan</value>
+    <value>CNY</value>
   </data>
   <data name="CIB" xml:space="preserve">
     <value />
@@ -241,7 +241,7 @@
     <value />
   </data>
   <data name="transfer {0} Yuan to {1} {2}" xml:space="preserve">
-    <value>Transfer {0} Yuan to {1} {2}</value>
+    <value>Transfer {0} CNY to {1} {2}</value>
   </data>
   <data name="website_Title" xml:space="preserve">
     <value>Dotpay</value>
@@ -250,7 +250,7 @@
     <value />
   </data>
   <data name="Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY." xml:space="preserve">
-    <value />
+    <value>Currently the Direct Transfer service charge 1‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-5000CNY.</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
     <value />
@@ -259,9 +259,15 @@
     <value />
   </data>
   <data name="In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues." xml:space="preserve">
-    <value />
+    <value>In working time (working day 9:30-20:30), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours.
+&lt;br&gt;
+To Alipay account, the payment will arrive real-time after being processed.&lt;br&gt;
+To bank account, it is estimated that the payment will arrive in 2 hours after the transfer order is processed, the actual time of arrival depends on the beneficiary bank.</value>
   </data>
   <data name="Instruction" xml:space="preserve">
     <value />
+  </data>
+  <data name="OtherBank" xml:space="preserve">
+    <value>Other Bank</value>
   </data>
 </root>

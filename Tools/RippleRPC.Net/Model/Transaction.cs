@@ -60,15 +60,15 @@ namespace RippleRPC.Net.Model
         [JsonProperty("tx_blob", NullValueHandling = NullValueHandling.Ignore)]
         public string TxBlob { get; set; }
 
-        //public void Sign(string secret)
-        //{
-        //    string s = ToJson();
-        //    byte[] bytes = Seed.PassPhraseToSeedBytes(secret);
-        //    KeyPair keyPair = (KeyPair)Seed.CreateKeyPair(bytes);
-        //    byte[] transaction = Encoding.ASCII.GetBytes(s);
-        //    byte[] signedTransaction = keyPair.Sign(transaction);
-        //    Hash = B16.ToString(signedTransaction);
-        //}
+        public void Sign(string secret)
+        {
+            string s = ToJson();
+            byte[] bytes = Seed.PassPhraseToSeedBytes(secret);
+            KeyPair keyPair = (KeyPair)Seed.CreateKeyPair(bytes);
+            byte[] transaction = Encoding.ASCII.GetBytes(s);
+            byte[] signedTransaction = keyPair.Sign(transaction);
+            TxBlob = B16.ToString(signedTransaction);
+        }
 
         public string ToJson()
         {

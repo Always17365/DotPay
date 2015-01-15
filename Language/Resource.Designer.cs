@@ -115,7 +115,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似 Yuan 的本地化字符串。
+        ///   查找类似 CNY 的本地化字符串。
         /// </summary>
         internal static string Chinese_Yuan {
             get {
@@ -169,7 +169,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Currently the Direct Transfer service charge 1‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-5000CNY. 的本地化字符串。
         /// </summary>
         internal static string Currently_the_Direct_Transfer_service_is_still_in_test_phase_it_s_free_and_for_each_transfer_the_amount_is_limited_to_1_1000CNY_ {
             get {
@@ -272,7 +272,10 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 In working time (working day 9:30-20:30), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours.
+        ///&lt;br&gt;
+        ///To Alipay account, the payment will arrive real-time after being processed.&lt;br&gt;
+        ///To bank account, it is estimated that the payment will arrive in 2 hours after the transfer order is processed, the actual time of arrival depends on the beneficiary bank. 的本地化字符串。
         /// </summary>
         internal static string In_work_time_the_transfer_will_be_done_in_no_greater_than_2_hours__if_there_is_no_delays_caused_by_force_majeures_such_as_ripple_system_issues__alipay_system_issues_or_bank_system_issues_ {
             get {
@@ -306,6 +309,15 @@ namespace DotPay.Language {
         internal static string Lastest_Transfer_Records {
             get {
                 return ResourceManager.GetString("Lastest Transfer Records", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Other Bank 的本地化字符串。
+        /// </summary>
+        internal static string OtherBank {
+            get {
+                return ResourceManager.GetString("OtherBank", resourceCulture);
             }
         }
         
@@ -472,7 +484,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似 Transfer {0} Yuan to {1} {2} 的本地化字符串。
+        ///   查找类似 Transfer {0} CNY to {1} {2} 的本地化字符串。
         /// </summary>
         internal static string transfer__0__Yuan_to__1___2_ {
             get {

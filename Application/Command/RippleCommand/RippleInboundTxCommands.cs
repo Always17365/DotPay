@@ -35,7 +35,7 @@ namespace DotPay.RippleCommand
             this.PayWay = payway;
             this.Destination = tpp_account;
         }
-        public CreateThirdPartyPaymentInboundTx(PayWay payway, string tpp_account, string realName, decimal amount, string memo)
+        public CreateThirdPartyPaymentInboundTx(PayWay payway, string tpp_account, string realName, decimal amount, decimal sendAmount, string memo)
             : this(payway, tpp_account)
         {
             Check.Argument.IsNotNegativeOrZero(amount, "amount");
@@ -48,6 +48,7 @@ namespace DotPay.RippleCommand
         public string Destination { get; protected set; }
         public string RealName { get; protected set; }
         public decimal Amount { get; protected set; }
+        public decimal SendAmount { get; protected set; }
         public string Memo { get; protected set; }
 
 
@@ -56,21 +57,21 @@ namespace DotPay.RippleCommand
     }
     public class CompleteThirdPartyPaymentInboundTx : FC.Framework.Command
     {
-        public CompleteThirdPartyPaymentInboundTx(string txid, int destinationtag, decimal amount, string invoiceId = "")
+        public CompleteThirdPartyPaymentInboundTx(string txid, int destinationtag,decimal sendAmount, string invoiceId = "")
         {
             Check.Argument.IsNotEmpty(txid, "txid");
             Check.Argument.IsNotNegativeOrZero(destinationtag, "destinationtag");
-            Check.Argument.IsNotNegativeOrZero(amount, "amount");
+            Check.Argument.IsNotNegativeOrZero(sendAmount, "sendAmount");
 
             this.InvoiceId = invoiceId;
             this.TxId = txid;
             this.DestinationTag = destinationtag;
-            this.Amount = amount;
+            this.SendAmount = sendAmount;
         }
         public string InvoiceId { get; protected set; }
         public string TxId { get; protected set; }
         public int DestinationTag { get; set; }
-        public decimal Amount { get; set; }
+        public decimal SendAmount { get; set; }
     }
 
     //public class CompleteThirdPartyPaymentInboundTx : FC.Framework.Command

@@ -51,7 +51,7 @@ namespace DotPay.RippleDomain
             //当接收到ripple转账时，发送消息给dotpay处理，创建第三方支付转账数据，之后等待人工处理 
             var tx = IoC.Resolve<IInboundToThirdPartyPaymentTxRepository>().FindByTxId(@event.RippleTxID);
 
-            var msg = new RippleInboundToThirdPartyPaymentTxMessage(tx.Destination, @event.Amount, @event.PayWay, @event.RippleTxID, tx.RealName, tx.Memo);
+            var msg = new RippleInboundToThirdPartyPaymentTxMessage(tx.Destination, tx.Amount, @event.PayWay, @event.RippleTxID, tx.RealName, tx.Memo);
 
             var exchangeName = Utilities.GenerateExchangeAndQueueNameOfInboundTransfer().Item1;
 

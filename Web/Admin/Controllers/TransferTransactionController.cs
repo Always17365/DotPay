@@ -59,7 +59,7 @@ namespace DotPay.Web.Admin.Controllers
             var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result = from TransferTransactions in result1.Union<TransferTransaction>(result2)
                          select new TransferTransaction
-                         {   
+                         {
                              Account = TransferTransactions.Account,
                              Amount = TransferTransactions.Amount,
                              CreateAt = TransferTransactions.CreateAt,
@@ -74,7 +74,7 @@ namespace DotPay.Web.Admin.Controllers
                              State = TransferTransactions.State,
                              TransferNo = FormatString(TransferTransactions.TransferNo, 20, ' '),
                              TxId = FormatString(TransferTransactions.TxId, 32, ' '),
-                             
+
                          };
 
             return Json(new { count = count1 + count2, result = result.OrderByDescending(q => q.CreateAt) });
@@ -84,27 +84,17 @@ namespace DotPay.Web.Admin.Controllers
         public ActionResult GetSuccessTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
         {
             var count = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay);
-            var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
-            result = from TransferTransaction in result
-                     select new TransferTransaction
-                     {  
-                         Account = TransferTransaction.Account,
-                         Amount = TransferTransaction.Amount,
-                         CreateAt = TransferTransaction.CreateAt,
-                         DoneAt = TransferTransaction.DoneAt,
-                         ID = TransferTransaction.ID,
-                         Memo = TransferTransaction.Memo,
-                         PayWay = TransferTransaction.PayWay,
-                         RealName = TransferTransaction.RealName,
-                         Reason = TransferTransaction.Reason,
-                         SequenceNo = FormatString(TransferTransaction.SequenceNo, 20, ' '),
-                         SourcePayway = TransferTransaction.SourcePayway,
-                         State = TransferTransaction.State,
-                         TransferNo = FormatString(TransferTransaction.TransferNo, 20, ' '),
-                         TxId = FormatString(TransferTransaction.TxId, 32, ' ')  
-                                 
-                     };
-            return Json(new { count = count, result = result.OrderByDescending(q => q.CreateAt) });
+            var txs = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Success, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
+
+            txs.ForEach(t =>
+            {
+                t.SequenceNo = FormatString(t.SequenceNo, 20, ' ');
+                t.TransferNo = FormatString(t.TransferNo, 20, ' ');
+                t.TxId = FormatString(t.TxId, 32, ' ');
+                t.OperatorName = IoC.Resolve<IUserQuery>().GetUserByID(t.OperatorID).LoginName;
+            });
+
+            return Json(new { count = count, result = txs.OrderByDescending(q => q.CreateAt) });
         }
         [HttpPost]
         public ActionResult GetFailTransferTransaction(string account, int? amount, string txid, DateTime? starttime, DateTime? endtime, PayWay payWay, int page)
@@ -113,7 +103,7 @@ namespace DotPay.Web.Admin.Controllers
             var result = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch(account, amount, txid, starttime, endtime, TransactionState.Fail, payWay, "DESC", page, Constants.DEFAULT_PAGE_COUNT);
             result = from TransferTransaction in result
                      select new TransferTransaction
-                     { 
+                     {
                          Account = TransferTransaction.Account,
                          Amount = TransferTransaction.Amount,
                          CreateAt = TransferTransaction.CreateAt,

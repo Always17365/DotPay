@@ -7,15 +7,16 @@ using DotPay.Common;
 using FC.Framework;
 
 namespace DotPay.RippleDomain.Events
-{ 
+{
     public class RippleInboundTxToThirdPartyPaymentCreated : DomainEvent
     {
         #region ctor
-        public RippleInboundTxToThirdPartyPaymentCreated(PayWay payway, string destination, string realName, decimal amount, string memo)
+        public RippleInboundTxToThirdPartyPaymentCreated(PayWay payway, string destination, string realName, decimal amount, decimal sendAmount, string memo)
         {
             this.PayWay = payway;
             this.Destination = destination;
             this.Amount = amount;
+            this.SendAmount = sendAmount;
             this.Memo = memo;
             this.RealName = realName;
         }
@@ -24,23 +25,24 @@ namespace DotPay.RippleDomain.Events
         public string RealName { get; protected set; }
         public string Destination { get; protected set; }
         public decimal Amount { get; protected set; }
+        public decimal SendAmount { get; protected set; }
         public string Memo { get; protected set; }
     }
 
     public class RippleInboundTxToThirdPartyPaymentCompelted : DomainEvent
     {
         #region ctor
-        public RippleInboundTxToThirdPartyPaymentCompelted(string txid, PayWay payway, decimal amount)
+        public RippleInboundTxToThirdPartyPaymentCompelted(string txid, PayWay payway, decimal sendAmount)
         {
             this.RippleTxID = txid;
             this.PayWay = payway;
-            this.Amount = amount;
+            this.SendAmount = sendAmount;
         }
         #endregion
 
         public string RippleTxID { get; protected set; }
         public PayWay PayWay { get; protected set; }
-        public decimal Amount { get; protected set; }
+        public decimal SendAmount { get; protected set; }
     }
     //public class RippleInboundTxToThirdPartyPaymentFailed : DomainEvent
     //{

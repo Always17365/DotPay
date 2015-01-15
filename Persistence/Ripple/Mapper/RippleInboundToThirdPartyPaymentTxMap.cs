@@ -22,6 +22,7 @@ namespace DotPay.RipplePersistence.Mapper
             Property(x => x.Memo, map => { map.NotNullable(true);  });
             Property(x => x.PayWay, map => { map.NotNullable(true); map.Length(34); });
             Property(x => x.Amount, map => { map.NotNullable(true); map.Precision(12); map.Scale(4); });
+            Property(x => x.SendAmount, map => { map.NotNullable(true); map.Precision(12); map.Scale(4); });
             Property(x => x.CreateAt, map => { map.NotNullable(true); });
             Property(x => x.DoneAt, map => { map.NotNullable(true); });
             Version(x => x.Version, map => { });

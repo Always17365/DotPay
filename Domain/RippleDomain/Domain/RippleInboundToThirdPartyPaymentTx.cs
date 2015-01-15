@@ -17,9 +17,9 @@ namespace DotPay.RippleDomain
     {
         #region ctor
         protected RippleInboundToThirdPartyPaymentTx() { }
-        public RippleInboundToThirdPartyPaymentTx(PayWay payway, string destination, string realName = "", decimal amount = 0M, string memo = "")
+        public RippleInboundToThirdPartyPaymentTx(PayWay payway, string destination, string realName = "", decimal amount = 0M, decimal sendAmount = 0M, string memo = "")
         {
-            this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCreated(payway, destination, realName, amount, memo));
+            this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCreated(payway, destination, realName, amount, sendAmount, memo));
         }
 
         #endregion
@@ -32,18 +32,19 @@ namespace DotPay.RippleDomain
         public virtual string RealName { get; protected set; }
         public virtual string Memo { get; protected set; }
         public virtual decimal Amount { get; protected set; }
+        public virtual decimal SendAmount { get; protected set; }
 
         public virtual int CreateAt { get; protected set; }
         public virtual int DoneAt { get; protected set; }
 
-        public virtual void Complete(string txid, decimal amount)
+        public virtual void Complete(string txid, decimal sendAmount)
         {
             if (this.State != RippleTransactionState.Pending)
                 throw new RippleTransactionNotPendingException();
-            if (this.Amount != 0 && this.Amount != amount)
+            if ((this.SendAmount != 0 && this.SendAmount != sendAmount))
                 throw new RippleTransactionAmountNotMatchException();
             else
-                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid, this.PayWay, amount));
+                this.RaiseEvent(new RippleInboundTxToThirdPartyPaymentCompelted(txid, this.PayWay,  sendAmount));
         }
 
         #region Event handler
@@ -55,6 +56,7 @@ namespace DotPay.RippleDomain
             this.Destination = @event.Destination;
             this.RealName = @event.RealName;
             this.Amount = @event.Amount;
+            this.SendAmount = @event.SendAmount;
             this.InvoiceID = Utilities.SHA256Sign(@event.Destination + @event.Amount + @event.UTCTimestamp.ToUnixTimestamp());
             this.CreateAt = @event.UTCTimestamp.ToUnixTimestamp();
             this.Memo = @event.Memo;
@@ -64,8 +66,8 @@ namespace DotPay.RippleDomain
         void IEventHandler<RippleInboundTxToThirdPartyPaymentCompelted>.Handle(RippleInboundTxToThirdPartyPaymentCompelted @event)
         {
             this.TxID = @event.RippleTxID;
-            this.State = RippleTransactionState.Success;
-            this.Amount = @event.Amount;
+            this.State = RippleTransactionState.Success; 
+            this.SendAmount = @event.SendAmount;
         }
     }
 }

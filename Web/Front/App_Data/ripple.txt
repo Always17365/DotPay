@@ -7,6 +7,7 @@ dotpay.co
 [hotwallets]
 #CNY
 rHTLdR8F4v9gJmLoW6Fk6zmBvCM2bqzqLP 
+rEXHeNZM52TUyoXkBqNqsteHoiZvy26GHS
 
 [currencies]
 CNY 

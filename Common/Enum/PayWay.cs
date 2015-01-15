@@ -95,10 +95,13 @@ namespace DotPay.Common
         [EnumDescription("中国邮政")]
         PSBC,
 
+        [EnumDescription("其它银行")]
+        OtherBank,
+
         [EnumDescription("PayWay Virtual Coin Tranfer")]
 
         VirutalTransfer,
-       [EnumDescription("Bank")]
+        [EnumDescription("Bank")]
         Bank
     }
 

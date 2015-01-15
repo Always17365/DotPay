@@ -250,7 +250,7 @@
     <value>中国招商银行</value>
   </data>
   <data name="Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY." xml:space="preserve">
-    <value>目前点付直通车处于测试阶段，暂不收取任何手续费，每笔转账限额1-1000元。</value>
+    <value>目前点付直通车手续费为1‰(最低每笔2元)，每笔转账限额1-5000元。</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
     <value>直通车是点付科技推出的由rippletrade客户端直接转账给支付宝或银行账户的工具。</value>
@@ -259,9 +259,14 @@
     <value>在rippletrade收款账号栏里填入{0}（支付宝账户）或者{1}(银行账户), 根据提示操作即可。</value>
   </data>
   <data name="In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues." xml:space="preserve">
-    <value>工作时间内到账时间不超过2小时，如遇ripple系统问题，支付宝系统问题，银行系统问题等不可抗力引起的延迟除外。</value>
+    <value>工作时间（工作日9:30-20:30）2小时内处理，非工作时间24小时内处理。&lt;br&gt;
+转账到支付宝，处理后即时到账。&lt;br&gt;
+转账到银行，预计处理后2小时内到账，具体到账时间取决于收款银行。</value>
   </data>
   <data name="Instruction" xml:space="preserve">
     <value>操作方式说明</value>
+  </data>
+  <data name="OtherBank" xml:space="preserve">
+    <value>其它银行</value>
   </data>
 </root>

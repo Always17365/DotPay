@@ -149,8 +149,8 @@ namespace DotPay.Web.Controllers
                             {
                                 new ExtraFiled{
                                     Type="select", 
-                                    Hint="开户行" ,
-                                    Label="Bank Name",
+                                    Hint="开户行(如果列表没有所需银行名称，请选择其它银行，并在留言中填写银行名称)" ,
+                                    Label="Bank Name(if the bank is not listed, please select \"Other Bank\" and give the bank name in comments below.)",
                                     Required=true, 
                                     Name="bank",
                                     Options=GetBankFiledsList()
@@ -215,7 +215,7 @@ namespace DotPay.Web.Controllers
             var bank_account = query_params.SingleOrDefault(item => item.Key.Equals("bank_account", StringComparison.OrdinalIgnoreCase)).Value;
             var bank_username = query_params.SingleOrDefault(item => item.Key.Equals("bank_username", StringComparison.OrdinalIgnoreCase)).Value;
             var bank = query_params.SingleOrDefault(item => item.Key.Equals("bank", StringComparison.OrdinalIgnoreCase)).Value;
-            var memo = query_params.SingleOrDefault(item => item.Key.Equals("memo", StringComparison.OrdinalIgnoreCase)).Value;
+            var memo = query_params.SingleOrDefault(item => item.Key.Equals("memo", StringComparison.OrdinalIgnoreCase)).Value.NullSafe().Trim();
             var req = new QuoteRequest { Type = type, __dot_use_this_amount = amount, Address = address, Destination = destination, AlipayAccount = alipay_account, TenpayAccount = tenpay_account, Memo = memo };
 
             type = type.NullSafe().Trim();
@@ -230,8 +230,7 @@ namespace DotPay.Web.Controllers
             #endregion
             else
             {
-                var repos = IoC.Resolve<IUserQuery>();
-                var user = default(LoginUser);
+                var sendAmount = req.Amount.Value + CalcFee(req.Amount.Value);
 
                 //如果用户要做扩展表单直转 to alipay,且支付宝账号不为空
                 if (destination.Equals("alipay", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
@@ -241,7 +240,7 @@ namespace DotPay.Web.Controllers
                     else
                     {
                         //创建一个交易
-                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username.NullSafe().Trim(), req.Amount.Value, memo.NullSafe().Trim());
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username.NullSafe().Trim(), req.Amount.Value, sendAmount, memo);
 
                         try
                         {
@@ -254,7 +253,7 @@ namespace DotPay.Web.Controllers
                                 Domain = GATEWAY_DOMAIN,
                                 DestinationTag = Convert.ToInt32(DestinationTagFlg.AlipayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Amount = req.Amount.Value,
-                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                Send = new List<RippleAmount> { new RippleAmount(sendAmount, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
                                 Source = req.Address
                             };
@@ -270,7 +269,7 @@ namespace DotPay.Web.Controllers
                         result = QuoteResult.ErrorDetail(req, "tenpay account empty;");
                     else
                     {
-                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, memo.NullSafe().Trim());
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, sendAmount, memo);
 
                         try
                         {
@@ -284,7 +283,7 @@ namespace DotPay.Web.Controllers
                                 Domain = GATEWAY_DOMAIN,
                                 DestinationTag = Convert.ToInt32(DestinationTagFlg.TenpayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Amount = req.Amount.Value,
-                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                Send = new List<RippleAmount> { new RippleAmount(sendAmount, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
                                 Source = req.Address
                             };
@@ -306,9 +305,13 @@ namespace DotPay.Web.Controllers
                     {
                         result = QuoteResult.ErrorDetail(req, "not support this bank.");
                     }
+                    else if (tobank == PayWay.OtherBank && string.IsNullOrEmpty(memo))
+                    {
+                        result = QuoteResult.ErrorDetail(req, "please tell us the bank name in [Comments]");
+                    }
                     else
                     {
-                        var cmd = new CreateThirdPartyPaymentInboundTx(tobank, bank_account, bank_username, req.Amount.Value, memo.NullSafe().Trim());
+                        var cmd = new CreateThirdPartyPaymentInboundTx(tobank, bank_account, bank_username, req.Amount.Value, sendAmount, memo.NullSafe().Trim());
 
                         try
                         {
@@ -319,8 +322,9 @@ namespace DotPay.Web.Controllers
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 Domain = GATEWAY_DOMAIN,
+                                Amount = req.Amount.Value,
                                 DestinationTag = Convert.ToInt32(DestinationTagFlg.BankRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
-                                Send = new List<RippleAmount> { new RippleAmount(req.Amount.Value, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                Send = new List<RippleAmount> { new RippleAmount(sendAmount, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
                                 Source = req.Address
                             };
@@ -349,6 +353,16 @@ namespace DotPay.Web.Controllers
 
 
         #endregion
+
+        private decimal CalcFee(decimal amount)
+        {
+            var minFee = 2;
+            var feeRate = 1 / 1000M;
+
+            var result = Math.Max(amount * feeRate, minFee);
+
+            return result;
+        }
 
         #region 检查域名是否合格
         private bool CheckDomain(string domain)
