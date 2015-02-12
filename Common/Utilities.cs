@@ -1,12 +1,11 @@
-﻿using FC.Framework.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FC.Framework;
 using System.Security.Cryptography;
+using DFramework.Utilities;
 
-namespace DotPay.Common
+namespace Dotpay.Common
 {
     public class Utilities
     {
@@ -77,53 +76,8 @@ namespace DotPay.Common
 
             return new Tuple<string, string>(exchangeName, queueName);
         }
-        /// <summary>
-        /// generate virtual coin reveive payment exchange and queue name
-        /// <para>tuple's item1 is exchange name and item2 is queue name</para>
-        /// </summary>
-        /// <param name="CurrencyType">currency</param>
-        /// <returns></returns>
-        public static Tuple<string, string> GenerateVirtualCoinReceivePaymentExchangeAndQueueName(CurrencyType currency)
-        {
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-            var exchangeName = currency.ToString() + "_GENERATE_RECEIVE_PAYMENT_EXCHANGE";
-            var queueName = currency.ToString() + "_GENERATE_RECEIVE_PAYMENT_QUEUE";
-
-            return new Tuple<string, string>(exchangeName, queueName);
-        }
-
-        /// <summary>
-        /// generate virtual coin deposit exchange and queue name
-        /// <para>tuple's item1 is exchange name and item2 is queue name</para>
-        /// </summary>
-        /// <param name="CurrencyType">currency</param>
-        /// <returns></returns>
-        public static Tuple<string, string> GenerateVirtualCoinDepositExchangeAndQueueName()
-        {
-            var exchangeName = "__VIRTUAL_COIN_EXCHANGE";
-            var queueName = "__VIRTUAL_COIN_QUEUE";
-
-            return new Tuple<string, string>(exchangeName, queueName);
-        }
-
-
-        /// <summary>
-        /// generate virtual coin send payment exchange and queue name
-        /// <para>tuple's item1 is exchange name and item2 is queue name</para>
-        /// </summary>
-        /// <param name="CurrencyType">currency</param>
-        ///<returns></returns>
-        public static Tuple<string, string> GenerateVirtualCoinSendPaymentExchangeAndQueueName(CurrencyType currency)
-        {
-            Check.Argument.IsNotNegativeOrZero((int)currency, "currency");
-
-            var exchangeName = currency.ToString() + "_GENERATE_SEND_PAYMENT_EXCHANGE";
-            var queueName = currency.ToString() + "_GENERATE_SEND_PAYMENT_QUEUE";
-
-            return new Tuple<string, string>(exchangeName, queueName);
-        }
-
+ 
+         
         /// <summary>
         /// generate virtual coin complete payment exchange and queue name
         /// <para>tuple's item1 is exchange name and item2 is queue name</para>
@@ -164,7 +118,7 @@ namespace DotPay.Common
         }
         #endregion
 
-
+        /*
         public static PayWay GetPayWayByBridgeName(string bridge)
         {
             var payway = default(PayWay);
@@ -249,24 +203,22 @@ namespace DotPay.Common
                     return default(DestinationTagFlg);
             }
         }
-       
-        public static string SHA256Sign(string message)
+         
+        */
+        public static string Sha256Sign(string message)
         {
             var result = string.Empty;
 
             var sha256 = new SHA256Managed();
 
-            byte[] s = sha256.ComputeHash(Encoding.UTF8.GetBytes(message));
+            var s = sha256.ComputeHash(Encoding.UTF8.GetBytes(message));
 
-            for (int i = 0; i < s.Length; i++)
-            {
-                result += s[i].ToString("X2");
-            }
+            result = s.Aggregate(result, (current, t) => current + t.ToString("X2"));
 
             sha256.Clear();
+
             return result;
         }
-
         #region otp key
         /// <summary>
         /// generate one time password key

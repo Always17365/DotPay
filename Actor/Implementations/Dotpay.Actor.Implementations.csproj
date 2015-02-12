@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F27C6F11-94A6-41C5-855B-38AA850DCAC0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dotpay.Actors.Implementations</RootNamespace>
+    <AssemblyName>Dotpay.Actors.Implementations</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(OrleansSDK)\LocalSilo\OrleansHost.exe</StartProgram>
+    <StartWorkingDirectory>$(OrleansSDK)\LocalSilo</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DFramework">
+      <HintPath>..\..\packages\DFramework.1.0.1.0\lib\net45\DFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Orleans.EventSourcing">
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.0.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Orleans">
+      <HintPath>$(OrleansSDK)\Binaries\OrleansClient\Orleans.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actors\Ripple\RippleToFinancialInstitutionListener.cs" />
+    <Compile Include="Service\RippleQuoteService.cs" />
+    <Compile Include="Actors\Ripple\RippleToFinancialInstitution.cs" />
+    <Compile Include="Actors\SystemSetting\SystemSetting.cs" />
+    <Compile Include="Actors\Tools\AtomicIncrement.cs" />
+    <Compile Include="ActorEvents\Ripple\RippleToFinancialInstitutionEvents.cs" />
+    <Compile Include="ActorEvents\SystemSetting\SystemSettingEvents.cs" />
+    <Compile Include="ActorEvents\UserEvents.cs" />
+    <Compile Include="Actors\User.cs" />
+    <Compile Include="Properties\orleans.codegen.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">
+      <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>
+      <Name>Dotpay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Dotpay.Actor.Interfaces.csproj">
+      <Project>{ca1caa62-8577-4885-b49a-f9764ab6fb45}</Project>
+      <Name>Dotpay.Actor.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actors\Transfer\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <OrleansProjectType>Server</OrleansProjectType>
+  </PropertyGroup>
+  <Import Project="$(OrleansSDK)\Binaries\OrleansClient\Orleans.SDK.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+      if exist "$(OrleansSDK)\LocalSilo" (
+      if not exist "$(OrleansSDK)\LocalSilo\Applications" (md "$(OrleansSDK)\LocalSilo\Applications")
+      if not exist  "$(OrleansSDK)\LocalSilo\Applications\$(RootNamespace)" (md "$(OrleansSDK)\LocalSilo\Applications\$(RootNamespace)")
+      copy /y *.dll  "$(OrleansSDK)\LocalSilo\Applications\$(RootNamespace)\"
+      copy /y *.pdb  "$(OrleansSDK)\LocalSilo\Applications\$(RootNamespace)\"
+      )
+      if exist "$(OrleansSDK)\Binaries" (
+      if not exist "$(OrleansSDK)\Binaries\Applications" (md "$(OrleansSDK)\Binaries\Applications")
+      if not exist  "$(OrleansSDK)\Binaries\Applications\$(RootNamespace)" (md "$(OrleansSDK)\Binaries\Applications\$(RootNamespace)")
+      copy /y *.dll "$(OrleansSDK)\Binaries\Applications\$(RootNamespace)\"
+      copy /y *.pdb "$(OrleansSDK)\Binaries\Applications\$(RootNamespace)\"
+      )
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>-->
+</Project>

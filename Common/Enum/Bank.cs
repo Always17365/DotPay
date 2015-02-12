@@ -1,90 +1,76 @@
-﻿using FC.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace DotPay.Common
+namespace Dotpay.Common.Enum
 {
-    /// <summary>
-    /// bank of china
-    /// </summary>
     public enum Bank
     {
         /// <summary>
         /// 中国工商银行
-        /// </summary>
-        [EnumDescription("中国工商银行")]
-        ICBC = 1,
+        /// </summary> 
+        ICBC,
         /// <summary>
         /// 中国银行
-        /// </summary>
-        [EnumDescription("中国银行")]
-        BOC = 2,
+        /// </summary> 
+        BOC,
         /// <summary>
         /// 中国建设银行
-        /// </summary>
-        [EnumDescription("中国建设银行")]
-        CCB = 3,
+        /// </summary> 
+        CCB,
         /// <summary>
         /// 中国农业银行
-        /// </summary>
-        [EnumDescription("中国农业银行")]
-        ABC = 4,
+        /// </summary> 
+        ABC,
         /// <summary>
         /// 中国民生银行
-        /// </summary>
-        [EnumDescription("中国民生银行")]
-        CMBC = 5,
+        /// </summary> 
+        CMBC,
         /// <summary>
         /// 中国招商银行
-        /// </summary>
-        [EnumDescription("中国招商银行")]
-        CMB = 6,
+        /// </summary> 
+        CMB,
         /// <summary>
         /// 中国交通银行
-        /// </summary>
-        [EnumDescription("中国交通银行")]
-        BCM = 7,
+        /// </summary> 
+        BCM,
         /// <summary>
         /// 中国光大银行
-        /// </summary>
-        [EnumDescription("中国光大银行")]
-        CEB = 8,
+        /// </summary> 
+        CEB,
         /// <summary>
         /// 上海浦发银行
-        /// </summary>
-        [EnumDescription("上海浦发银行")]
-        SPDB = 9,
+        /// </summary> 
+        SPDB,
         /// <summary>
         /// 广东发展银行(广发)
-        /// </summary>
-        [EnumDescription("广东发展银行")]
-        GDB = 10,
+        /// </summary> 
+        GDB,
         /// <summary>
         /// 平安银行
-        /// </summary>
-        [EnumDescription("平安银行")]
-        PAB = 11,
+        /// </summary> 
+        PAB,
         /// <summary>
         /// 华夏银行
-        /// </summary>
-        [EnumDescription("华夏银行")]
-        HXB = 12,
+        /// </summary> 
+        HXB,
         /// <summary>
         /// 中信银行
-        /// </summary>
-        [EnumDescription("中信银行")]
-        ECITIC = 13,
+        /// </summary> 
+        ECITIC,
         /// <summary>
         /// 兴业银行
-        /// </summary>
-        [EnumDescription("兴业银行")]
-        CIB = 14,
+        /// </summary> 
+        CIB,
         /// <summary>
         /// 中国邮政
-        /// </summary>
-        [EnumDescription("中国邮政")]
-        PSBC = 15
+        /// </summary> 
+        PSBC, 
+        /// <summary>
+        /// 其它银行
+        /// </summary>  
+        OtherBank,
     }
 }
