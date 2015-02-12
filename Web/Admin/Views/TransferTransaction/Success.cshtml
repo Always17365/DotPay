@@ -40,7 +40,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="tx in transferTransactions">
-                <td><input type="checkbox" ng-model="transferTransaction.Checked" ng-change="checkedChange(transferTransaction)"></td>
+                <td><input type="checkbox" ng-model="tx.Checked" ng-change="checkedChange(tx)"></td>
                 <td ng-bind="tx.ID"></td>
                 <td ng-bind="tx.TxId"></td>
                 <td ng-bind="tx.SequenceNo"></td>
