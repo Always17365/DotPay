@@ -124,7 +124,7 @@
     <value />
   </data>
   <data name="Join QQ group" xml:space="preserve">
-    <value />
+    <value>Click To Join Group</value>
   </data>
   <data name="Direct transfer progress query" xml:space="preserve">
     <value />
@@ -172,7 +172,7 @@
     <value />
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright © 2014 Shanghai FullCoin Network Technology co., LTD</value>
+    <value>Copyright © 2014 Dotpay Technology co., LTD</value>
   </data>
   <data name="ABC" xml:space="preserve">
     <value />
@@ -259,7 +259,7 @@
     <value />
   </data>
   <data name="In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues." xml:space="preserve">
-    <value>In working time (working day 9:30-20:30), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours.
+    <value>In working time (China working day 9:30-20:30, UTC+8:00 time zone), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours. 
 &lt;br&gt;
 To Alipay account, the payment will arrive real-time after being processed.&lt;br&gt;
 To bank account, it is estimated that the payment will arrive in 2 hours after the transfer order is processed, the actual time of arrival depends on the beneficiary bank.</value>
@@ -269,5 +269,8 @@ To bank account, it is estimated that the payment will arrive in 2 hours after t
   </data>
   <data name="OtherBank" xml:space="preserve">
     <value>Other Bank</value>
+  </data>
+  <data name="Join QQ group Title" xml:space="preserve">
+    <value>For Support &amp; Info</value>
   </data>
 </root>

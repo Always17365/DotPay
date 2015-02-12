@@ -60,7 +60,7 @@ namespace DotPay.MainDomain
         public virtual int CommendBy { get; protected set; }
         public virtual int CommendCounter { get; protected set; }
         public virtual string LoginName { get; protected set; }
-        public virtual string Email { get; set; }
+        public virtual string Email { get; protected set; }
         public virtual UserVipLevel VipLevel { get; protected set; }
         public virtual int Role { get; protected set; }
         public virtual string Mobile { get; protected set; }

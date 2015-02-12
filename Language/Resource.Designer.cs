@@ -160,7 +160,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似 Copyright © 2014 Shanghai FullCoin Network Technology co., LTD 的本地化字符串。
+        ///   查找类似 Copyright © 2014 Dotpay Technology co., LTD 的本地化字符串。
         /// </summary>
         internal static string Copyright {
             get {
@@ -272,7 +272,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似 In working time (working day 9:30-20:30), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours.
+        ///   查找类似 In working time (China working day 9:30-20:30, UTC+8:00 time zone), the transfer order will be processed in 2 hours, in non-working time it will be processed in 24 hours. 
         ///&lt;br&gt;
         ///To Alipay account, the payment will arrive real-time after being processed.&lt;br&gt;
         ///To bank account, it is estimated that the payment will arrive in 2 hours after the transfer order is processed, the actual time of arrival depends on the beneficiary bank. 的本地化字符串。
@@ -295,11 +295,20 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Click To Join Group 的本地化字符串。
         /// </summary>
         internal static string Join_QQ_group {
             get {
                 return ResourceManager.GetString("Join QQ group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 For Support &amp; Info 的本地化字符串。
+        /// </summary>
+        internal static string Join_QQ_group_Title {
+            get {
+                return ResourceManager.GetString("Join QQ group Title", resourceCulture);
             }
         }
         

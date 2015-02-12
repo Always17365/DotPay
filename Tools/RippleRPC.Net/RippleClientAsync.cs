@@ -617,12 +617,28 @@ namespace RippleRPC.Net
                 {
                     if (this.AutoReconnect == true)
                     {
-                        Task.Delay(3 * 1000);
                         if (WebSocketRL.State != WebSocketState.Open && WebSocketRL.State != WebSocketState.Connecting)
                         {
                             try
                             {
+                                var retryCounter = 0;
+                                while (WebSocketRL.State == WebSocketState.Closing)
+                                {
+                                    if (retryCounter < 6)
+                                    {
+                                        Log.Warn("WebSocket is closing, wait 5 seconds..then connect again");
+
+                                        Task.Delay(5 * 1000).Wait();
+                                    }
+                                    else
+                                    {
+                                        Log.Error("WebSocket waiting closing 6 times ...break waiting");
+                                        break;
+                                    }
+                                }
+
                                 WebSocketRL.Open();
+
                                 _WebSocketTimeoutWatcherTask = Task.Factory.StartNew(() =>
                                 {
                                     Task.Delay(30 * 1000).Wait();

@@ -148,7 +148,7 @@
     <value>点击联系QQ客服</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright©2008-2014 All Rights Reserved 点付科技版权所有 | ICP备案：沪ICP备123456789号-2</value>
+    <value>Copyright©2008-2014 All Rights Reserved 点付科技版权所有 | ICP备案：沪ICP备14051077号</value>
   </data>
   <data name="Direct transfer progress query" xml:space="preserve">
     <value>直通车转账进度查询</value>
@@ -175,7 +175,7 @@
     <value>如果您刚刚转账完毕，请您在5分钟之后再来查询</value>
   </data>
   <data name="Join QQ group" xml:space="preserve">
-    <value>一键加入QQ群</value>
+    <value>点击加入QQ群</value>
   </data>
   <data name="PAB" xml:space="preserve">
     <value>平安银行</value>
@@ -268,5 +268,8 @@
   </data>
   <data name="OtherBank" xml:space="preserve">
     <value>其它银行</value>
+  </data>
+  <data name="Join QQ group Title" xml:space="preserve">
+    <value>寻求帮助，关注点付</value>
   </data>
 </root>

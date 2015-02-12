@@ -201,23 +201,31 @@
 
             <div class="panel">
                 @*<div class="panel-body col-sm-3" style="padding:0px;color:#555;font-size:12px;">
-                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1161158822&site=qq&menu=yes">
-                        <div class="btn btn-large btn-default">
-                            <img src="~/public/images/qq.png" /><span>@Html.Lang("Contact us via QQ")</span>
-                        </div>
-                    </a>
-                </div>*@
-                <div class="panel-body col-sm-3 " style="padding:0px;color:#555;font-size:12px;">
+                        <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1161158822&site=qq&menu=yes">
+                            <div class="btn btn-large btn-default">
+                                <img src="~/public/images/qq.png" /><span>@Html.Lang("Contact us via QQ")</span>
+                            </div>
+                        </a>
+                    </div>*@
+                <div class="panel-body col-sm-3" style="padding:0px;color:#555;font-size:12px;">
                     <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=8f8ed58718c5e89097afb76b6131994f4ba3ab680c454d64c21b080968f38bfe">
-                        <div class="btn btn-large btn-default">
-                            <img src="~/public/images/group.png" title="385108034" alt="385108034" /><span>@Html.Lang("Join QQ group")</span>
+                        <div class="btn btn-large btn-default" style="text-align:left">
+                            <img src="~/public/images/group.png" title="385108034" alt="385108034" />
+                            <div style="display:inline-block; vertical-align:middle">
+                                <span>@Html.Lang("Join QQ group Title")</span><br>
+                                <span>@Html.Lang("Join QQ group")</span>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <div class=" panel-body col-sm-4 " style="padding:0px;color:#555;font-size:12px;">
+                <div class="panel-body col-sm-4 " style="padding:0px;color:#555;font-size:12px;">
                     <a target="_blank" href="mailto:support@dotpay.co">
-                        <div class="btn btn-large btn-default">
-                            <img src="~/public/images/email.png" /><span>@Html.Lang("Support Email") support@@dotpay.co</span>
+                        <div class="btn btn-large btn-default" style="text-align:left">
+                            <img src="~/public/images/email.png" style="height: 60px;" />
+                            <div style="display:inline-block;vertical-align:middle;">
+                                <span>@Html.Lang("Support Email")</span><br>
+                                <span>support@@dotpay.co</span>
+                            </div>
                         </div>
                     </a>
                 </div>

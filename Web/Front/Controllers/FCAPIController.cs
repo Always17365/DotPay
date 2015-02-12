@@ -19,14 +19,14 @@ namespace DotPay.Web.Controllers
 {
     public class FCAPIController : ApiController
     {
-        public readonly static string GATEWAY_ADDRESS = Config.GatewayAccount;
-        public const string GATEWAY_DOMAIN = "dotpay.co";
-        public const string GATEWAY_ACCEPT_CURRENCY = "CNY";
-        public const string GATEWAY_SPLIT = ":";
-        public const string QUOTE_URL = "https://www.dotpay.co/api/v1/quote";
-        public const string QUERY_URL = "https://www.dotpay.co/query";
-        public const decimal minAcceptAmount = 1M;
-        public const decimal maxAcceptAmount = 5000M;
+        private readonly static string GATEWAY_ADDRESS = Config.GatewayAccount;
+        private const string GATEWAY_DOMAIN = "dotpay.co";
+        private const string GATEWAY_ACCEPT_CURRENCY = "CNY";
+        private const string GATEWAY_SPLIT = ":";
+        private const string QUOTE_URL = "https://www.dotpay.co/api/v1/quote";
+        private const string QUERY_URL = "https://www.dotpay.co/query";
+        private const decimal minAcceptAmount = 1M;
+        private const decimal maxAcceptAmount = 5000M;
 
         #region Federation
         [HttpGet]
@@ -269,7 +269,7 @@ namespace DotPay.Web.Controllers
                         result = QuoteResult.ErrorDetail(req, "tenpay account empty;");
                     else
                     {
-                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, sendAmount, memo);
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Tenpay, tenpay_account, tenpay_username.NullSafe().Trim(), req.Amount.Value, sendAmount, memo);
 
                         try
                         {

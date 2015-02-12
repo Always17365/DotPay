@@ -84,6 +84,7 @@
     <Compile Include="Exceptions\RippleError.cs" />
     <Compile Include="Model\PaymentSubmitResult.cs" />
     <Compile Include="Model\Transaction.cs" />
+    <Compile Include="Model\1Transaction.cs" />
     <Compile Include="Model\TransactionSigned.cs" />
     <Compile Include="Model\TransactionRecord.cs" />
     <Compile Include="Model\TransactionRecordDetail.cs" />
