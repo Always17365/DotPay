@@ -34,19 +34,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="transferTransaction in transferTransactions">
+            <tr ng-repeat="tx in transferTransactions">
                 <td><input type="checkbox" ng-model="transferTransaction.Checked" ng-change="checkedChange(transferTransaction)"></td>
-                <td ng-bind="transferTransaction.ID"></td>
-                <td ng-bind="transferTransaction.TxId"></td>
-                <td ng-bind="transferTransaction.TransferNo"></td>
-                <td ng-bind="transferTransaction.CNSourcePayway"></td>
-                <td ng-bind="transferTransaction.CNState"></td>
-                <td ng-bind="transferTransaction.CNPayWay"></td>
-                <td ng-bind="transferTransaction.Account"></td>
-                <td ng-bind="transferTransaction.RealName"></td>
-                <td ng-bind="transferTransaction.Amount"></td>
-                <td ng-bind="transferTransaction.Memo + transferTransaction.Reason"></td>
-                <td ng-bind="transferTransaction.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                <td ng-bind="tx.ID"></td>
+                <td ng-bind="tx.TxId"></td>
+                <td ng-bind="tx.TransferNo"></td>
+                <td ng-bind="tx.CNSourcePayway"></td>
+                <td ng-bind="tx.CNState+'-'+tx.OperatorName"></td>
+                <td ng-bind="tx.CNPayWay"></td>
+                <td ng-bind="tx.Account"></td>
+                <td ng-bind="tx.RealName"></td>
+                <td ng-bind="tx.Amount"></td>
+                <td ng-bind="tx.Memo + transferTransaction.Reason"></td>
+                <td ng-bind="tx.CreateAt*1000 | date:'yyyy-MM-dd HH:mm:ss'"></td>
             </tr>
         </tbody>
     </table>

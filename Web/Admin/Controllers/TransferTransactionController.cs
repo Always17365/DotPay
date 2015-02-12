@@ -57,24 +57,24 @@ namespace DotPay.Web.Admin.Controllers
             var count2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionCountBySearch("", 0, "", null, null, TransactionState.Init, payWay);
             var result1 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Pending, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
             var result2 = IoC.Resolve<ITransferTransactionQuery>().GetTransferTransactionBySearch("", 0, "", null, null, TransactionState.Init, payWay, "ASC", page, Constants.DEFAULT_PAGE_COUNT);
-            var result = from TransferTransactions in result1.Union<TransferTransaction>(result2)
+            var result = from tx in result1.Union<TransferTransaction>(result2)
                          select new TransferTransaction
                          {
-                             Account = TransferTransactions.Account,
-                             Amount = TransferTransactions.Amount,
-                             CreateAt = TransferTransactions.CreateAt,
-                             DoneAt = TransferTransactions.DoneAt,
-                             ID = TransferTransactions.ID,
-                             Memo = TransferTransactions.Memo,
-                             PayWay = TransferTransactions.PayWay,
-                             RealName = TransferTransactions.RealName,
-                             Reason = TransferTransactions.Reason,
-                             SequenceNo = FormatString(TransferTransactions.SequenceNo, 20, ' '),
-                             SourcePayway = TransferTransactions.SourcePayway,
-                             State = TransferTransactions.State,
-                             TransferNo = FormatString(TransferTransactions.TransferNo, 20, ' '),
-                             TxId = FormatString(TransferTransactions.TxId, 32, ' '),
-
+                             Account = tx.Account,
+                             Amount = tx.Amount,
+                             CreateAt = tx.CreateAt,
+                             DoneAt = tx.DoneAt,
+                             ID = tx.ID,
+                             Memo = tx.Memo,
+                             PayWay = tx.PayWay,
+                             RealName = tx.RealName,
+                             Reason = tx.Reason,
+                             SequenceNo = FormatString(tx.SequenceNo, 20, ' '),
+                             SourcePayway = tx.SourcePayway,
+                             State = tx.State,
+                             TransferNo = FormatString(tx.TransferNo, 20, ' '),
+                             TxId = FormatString(tx.TxId, 32, ' '),
+                             OperatorName = tx.State == TransactionState.Init ? string.Empty : tx.OperatorID == 3 ? "巨蟹" : tx.OperatorID == 4 ? "大头" : "涛"
                          };
 
             return Json(new { count = count1 + count2, result = result.OrderByDescending(q => q.CreateAt) });
