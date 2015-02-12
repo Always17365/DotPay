@@ -1002,6 +1002,12 @@ namespace Dotpay.Actor.Interfaces
                 return base.InvokeMethodAsync<object>(1865607900, new object[] {@mobile, @otpKey, @otp} );
             }
             
+            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.SmsCounterIncrease()
+            {
+
+                return base.InvokeMethodAsync<object>(-1726317881, new object[] {} );
+            }
+            
             System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.VeirfyIdentity(string @fullName, Dotpay.Common.IdNoType @idNoType, string @idNo)
             {
 
@@ -1076,6 +1082,8 @@ namespace Dotpay.Actor.Interfaces
                                 return ((IUser)grain).Unlock((Guid)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1865607900: 
                                 return ((IUser)grain).SetMobile((String)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -1726317881: 
+                                return ((IUser)grain).SmsCounterIncrease().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 193253814: 
                                 return ((IUser)grain).VeirfyIdentity((String)arguments[0], (IdNoType)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1388525298: 
@@ -1129,6 +1137,8 @@ namespace Dotpay.Actor.Interfaces
                             return "Unlock";
                     case 1865607900:
                             return "SetMobile";
+                    case -1726317881:
+                            return "SmsCounterIncrease";
                     case 193253814:
                             return "VeirfyIdentity";
                     case -1388525298:

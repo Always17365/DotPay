@@ -85,6 +85,16 @@ namespace Dotpay.Actor.Events
         public string OTP { get; set; }
     }
 
+    public class SmsCounterIncreased : GrainEvent
+    {
+        public SmsCounterIncreased(int smsCounter)
+        {
+            this.SmsCounter = smsCounter;
+        }
+
+        public int SmsCounter { get; set; }
+    }
+
     public class UserIdentityVerified : GrainEvent
     {
         public UserIdentityVerified(string fullName, string idNo, IdNoType idType)

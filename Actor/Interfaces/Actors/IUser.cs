@@ -15,6 +15,7 @@ namespace Dotpay.Actor.Interfaces
         Task Lock(Guid operatorId, string reason);
         Task Unlock(Guid operatorId, string reason);
         Task SetMobile(string mobile, string otpKey, string otp);
+        Task SmsCounterIncrease();
         Task VeirfyIdentity(string fullName, IdNoType idNoType, string idNo);
         Task<bool> CheckLoginPassword(string loginPassword);
         Task<bool> CheckPaymentPassword(string tradePassword);

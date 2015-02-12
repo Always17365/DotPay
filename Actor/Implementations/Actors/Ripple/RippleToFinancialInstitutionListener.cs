@@ -18,46 +18,42 @@ namespace Dotpay.Actors.Implementations
     {
         private const string MqExchangeName = "__RippleToFinancialInstitutionExchange";
         private const string MqQueueName = "__RippleToFinancialInstitutionQueue";
+        private bool _started;
         internal static TaskScheduler OrleansScheduler;
 
         //private static Thread _consumerThread;
         Task IRippleToFinancialInstitutionListener.Start()
         {
-            //if (_consumerThread == null)
-            //{
-            //    _consumerThread = new Thread(() =>
-            //    {
+            if (!this._started)
+            {
+                var factory = IoC.Resolve<IConnectionFactory>();
+                var connection = factory.CreateConnection();
 
-            var factory = IoC.Resolve<IConnectionFactory>();
-            var connection = factory.CreateConnection();
+                var channel = connection.CreateModel();
 
-            var channel = connection.CreateModel();
+                channel.ExchangeDeclare(MqExchangeName, ExchangeType.Direct, true, false, null);
+                channel.QueueDeclare(MqQueueName, true, false, false, null);
+                channel.QueueBind(MqQueueName, MqExchangeName, string.Empty);
+                var consumer = new RippleTxMessageConsumer(channel);
 
-            channel.ExchangeDeclare(MqExchangeName, ExchangeType.Direct, true, false, null);
-            channel.QueueDeclare(MqQueueName, true, false, false, null);
-            channel.QueueBind(MqQueueName, MqExchangeName, string.Empty);
-            var consumer = new RippleTxMessageConsumer(channel);
+                channel.BasicQos(0, 1, false);
+                channel.BasicConsume(MqQueueName, false, consumer);
 
-            channel.BasicQos(0, 1, false);
-            channel.BasicConsume(MqQueueName, false, consumer);
-
-            this.RegisterOrUpdateReminder("keepAlive", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(65));
-            //    });
-            //}
+                this.RegisterOrUpdateReminder("keepAlive", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(65));
+                this._started = true;
+            }
             return TaskDone.Done;
         }
 
         async Task IRippleToFinancialInstitutionListener.CompleteRippleToFinancialInstitution(string invoiceId, int destinaionTag, string txId, decimal amount)
         {
-            Console.WriteLine("---------------------------->test  CompletedEvent ");
-            //var rippleToFinancialInstitution = GrainFactory.GetGrain<IRippleToFinancialInstitution>(destinaionTag);
-            //await rippleToFinancialInstitution.Complete(invoiceId, txId, amount);
+            var rippleToFinancialInstitution = GrainFactory.GetGrain<IRippleToFinancialInstitution>(destinaionTag);
+            await rippleToFinancialInstitution.Complete(invoiceId, txId, amount);
         }
 
         Task IRemindable.ReceiveReminder(string reminderName, Orleans.Runtime.TickStatus status)
         {
-            this.GetLogger().Info(DateTime.Now.ToShortTimeString() + "-->I'm alive.");
-
+            //this.GetLogger().Info(DateTime.Now.ToShortTimeString() + "-->I'm alive.");
             OrleansScheduler = TaskScheduler.Current;
             return TaskDone.Done;
         }

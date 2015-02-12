@@ -59,6 +59,17 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
+        public Task SmsCounterIncrease()
+        {
+            if (this.State.IsVerified && this.State.MobileSetting != null)
+            {
+                var currentSmsCounter = this.State.MobileSetting.SmsCounter + 1;
+                return this.ApplyEvent(new SmsCounterIncreased(currentSmsCounter));
+            }
+
+            return TaskDone.Done;
+        }
+
         Task IUser.VeirfyIdentity(string fullName, IdNoType idNoType, string idNo)
         {
             if (this.State.IsVerified && this.State.IdentityInfo == null)
@@ -164,6 +175,10 @@ namespace Dotpay.Actor.Implementations
                 SmsCounter = 1
             };
             this.State.WriteStateAsync();
+        }
+        private void Handle(SmsCounterIncreased @event)
+        {
+            this.State.MobileSetting.SmsCounter = @event.SmsCounter;
         }
         private void Handle(UserIdentityVerified @event)
         {
