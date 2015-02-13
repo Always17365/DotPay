@@ -250,7 +250,7 @@
     <value />
   </data>
   <data name="Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY." xml:space="preserve">
-    <value>Currently the Direct Transfer service charge 1‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-5000CNY.</value>
+    <value>Currently the Direct Transfer service charge 1‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-20000CNY.</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
     <value />
