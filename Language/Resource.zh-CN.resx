@@ -253,7 +253,7 @@
     <value>目前点付直通车手续费为1‰(最低每笔2元)，每笔转账限额1-20000元。</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
-    <value>直通车是点付科技推出的由rippletrade客户端直接转账给支付宝或银行账户的工具。</value>
+    <value>直通车是点付科技推出的由&lt;a href="https://rippletrade.com/#/send" class="label label-info"&gt;rippletrade 客户端&lt;/a&gt;直接转账给支付宝或银行账户的工具。</value>
   </data>
   <data name="in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment." xml:space="preserve">
     <value>在rippletrade收款账号栏里填入{0}（支付宝账户）或者{1}(银行账户), 根据提示操作即可。</value>

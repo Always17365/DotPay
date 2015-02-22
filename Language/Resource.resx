@@ -253,7 +253,7 @@
     <value>Currently the Direct Transfer service charge 1‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-20000CNY.</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
-    <value />
+    <value>Direct Transfer is a service provided by dotpay.co to enable &lt;a href="https://rippletrade.com/#/send"  class="label label-info"&gt;rippletrade client &lt;/a&gt;users to pay to Alipay account or bank account in China directly.</value>
   </data>
   <data name="in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment." xml:space="preserve">
     <value />

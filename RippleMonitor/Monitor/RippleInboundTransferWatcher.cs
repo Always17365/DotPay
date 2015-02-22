@@ -70,7 +70,7 @@ namespace DotPay.RippleMonitor
                         {
                             var ledger_min = RippleInboundTransferWatcher.currentProcessLedgerIndex;
                             var ledgerIndex_max = ledger_min + Config.Step - 1; //因为ripple走的是一个 ≥和≤的区间，所以+99就是一次分析100个ledger
-                            ledgerIndex_max = Math.Min(ledgerIndex_max, aviableLedgerIndexResult.Item2 - 10);//取小值
+                            ledgerIndex_max = Math.Min(ledgerIndex_max, aviableLedgerIndexResult.Item2 - 12);//取小值
 
                             if (ledgerIndex_max < ledger_min)
                             {

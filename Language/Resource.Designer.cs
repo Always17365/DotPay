@@ -179,7 +179,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Direct Transfer is a service provided by dotpay.co to enable &lt;a href=&quot;https://rippletrade.com/#/send&quot;  class=&quot;label label-info&quot;&gt;rippletrade client &lt;/a&gt;users to pay to Alipay account or bank account in China directly. 的本地化字符串。
         /// </summary>
         internal static string Direct_Transfer_is_a_service_provided_by_dotpay_co_to_enable_rippletrade_client_users_to_pay_to_Alipay_account_or_bank_account_in_China_directly_ {
             get {
