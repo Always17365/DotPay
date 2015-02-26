@@ -36,15 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework">
-      <HintPath>..\..\packages\DFramework.1.0.1.0\lib\net45\DFramework.dll</HintPath>
+    <Reference Include="DFramework, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DFramework.1.0.2.1\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Orleans.EventSourcing">
-      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.0.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.1.1\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
@@ -62,14 +63,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\GrainWithRabbitMQExtensions.cs" />
+    <Compile Include="Actors\Tools\SequenceNoGenerator.cs" />
+    <Compile Include="Actors\Transaction\TransferToFinancialInstitutionTransaction.cs" />
+    <Compile Include="Events\AccountEvents.cs" />
+    <Compile Include="Events\Transaction\DepositTransactionEvents.cs" />
+    <Compile Include="Actors\Account.cs" />
+    <Compile Include="Actors\Transaction\DepositTransaction.cs" />
     <Compile Include="Actors\Ripple\RippleToFinancialInstitutionListener.cs" />
+    <Compile Include="Actors\TransactionPreparation.cs" />
+    <Compile Include="Events\Transaction\TransferToFinancialInstitutionTransactionEvents.cs" />
+    <Compile Include="Actors\MessageQueueProducter.cs" />
+    <Compile Include="Service\DepositTransactionManager.cs" />
     <Compile Include="Service\RippleQuoteService.cs" />
     <Compile Include="Actors\Ripple\RippleToFinancialInstitution.cs" />
     <Compile Include="Actors\SystemSetting\SystemSetting.cs" />
     <Compile Include="Actors\Tools\AtomicIncrement.cs" />
-    <Compile Include="ActorEvents\Ripple\RippleToFinancialInstitutionEvents.cs" />
-    <Compile Include="ActorEvents\SystemSetting\SystemSettingEvents.cs" />
-    <Compile Include="ActorEvents\UserEvents.cs" />
+    <Compile Include="Events\Ripple\RippleToFinancialInstitutionEvents.cs" />
+    <Compile Include="Events\SystemSetting\SystemSettingEvents.cs" />
+    <Compile Include="Events\UserEvents.cs" />
     <Compile Include="Actors\User.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,9 +99,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Actors\Transfer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <OrleansProjectType>Server</OrleansProjectType>

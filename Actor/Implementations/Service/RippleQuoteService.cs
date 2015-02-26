@@ -2,36 +2,39 @@
 ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Actor.Interfaces;
 ﻿using Dotpay.Actor.Interfaces.Ripple;
-﻿using Dotpay.Actor.Service.Interfaces;
+using Dotpay.Actor.Interfaces.Tools;
+using Dotpay.Actor.Service.Interfaces;
 ﻿using Dotpay.Common;
 ﻿using Orleans;
+using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service.Implementations
 {
     public class RippleQuoteService : Grain, IRippleQuoteService
     {
         private const string AutoIncrementKey = "RippleToFinancialInstitutionId";
-        async Task<QuoteResult> IRippleQuoteService.Quote(TransferTargetInfo transferTargetInfo, decimal amount, string memo)
+
+        async Task<Immutable<QuoteResult>> IRippleQuoteService.Quote(Immutable<TransferTargetInfo> transferTargetInfo, decimal amount, string memo)
         {
             var errorCode = await CheckAmountRange(amount);
 
-            if (errorCode != ErrorCode.None) return new QuoteResult(errorCode);
+            if (errorCode != ErrorCode.None) return new QuoteResult(errorCode).AsImmutable();
 
             var autoIncrement = GrainFactory.GetGrain<IAtomicIncrement>(AutoIncrementKey);
             var rtfiId = await autoIncrement.GetNext();
-            var signMessage = transferTargetInfo.DestinationAccount + transferTargetInfo.Payway +
-                              transferTargetInfo.RealName + amount + memo;
+            var signMessage = transferTargetInfo.Value.DestinationAccount + transferTargetInfo.Value.Payway +
+                              transferTargetInfo.Value.RealName + amount + memo;
 
             var invoiceId = GenerateInvoiceId(signMessage);
 
             var rippleToFinancialInstitution = GrainFactory.GetGrain<IRippleToFinancialInstitution>(rtfiId);
-            var fee = await CalcTransferFee(transferTargetInfo, amount);
+            var fee = await CalcTransferFee(transferTargetInfo.Value, amount);
             var sendAmount = amount + fee;
             await rippleToFinancialInstitution.Initialize(invoiceId, transferTargetInfo, amount, amount + fee, memo);
 
             var result = new QuoteResult(errorCode, new Quote(rtfiId, invoiceId, sendAmount));
 
-            return result;
+            return result.AsImmutable();
         }
 
         private static string GenerateInvoiceId(string signMessage)

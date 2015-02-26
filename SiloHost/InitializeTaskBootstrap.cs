@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dotpay.Actor.Interfaces.Ripple;
-using Dotpay.SiloHost.BoostrapTask;
+using Dotpay.SiloHost.BootstrapTask;
 using log4net.Repository;
 using Orleans;
 using Orleans.Providers;
@@ -15,12 +15,9 @@ namespace Dotpay.SiloHost
     {
         public async Task Init(string name, IProviderRuntime providerRuntime, IProviderConfiguration config)
         {
-            DFrameworkInitializeTask.Start();
-            EventStoreInitializeTask.Start();
-            //一些长期处理的监控器的启动，比如rippleLister
-            var rippleListener = GrainFactory.GetGrain<IRippleToFinancialInstitutionListener>(0);
-            await rippleListener.Start();
-           
+            DFrameworkInitializeTask.Run();
+            EventStoreInitializeTask.Run();
+            await BootstrapGrainInitializeTask.Run(); 
         }
 
         public string Name

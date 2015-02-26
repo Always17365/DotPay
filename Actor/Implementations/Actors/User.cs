@@ -4,18 +4,31 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DFramework;
 using Dotpay.Common;
 using Dotpay.Actor.Events;
 using Dotpay.Actor.Interfaces;
+using Dotpay.Actors.Implementations;
+using Dotpay.Common.Enum;
 using Orleans;
+using Orleans.Concurrency;
 using Orleans.EventSourcing;
 using Orleans.Providers;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Content;
 
 namespace Dotpay.Actor.Implementations
 {
     [StorageProvider(ProviderName = "CouchbaseStore")]
     public class User : EventSourcingGrain<User, IUserState>, IUser
     {
+        private const string UserMqExchangeName = "__User_Exchange";
+        private const string UserMqResetLoginPasswordRouteKey = "LoginPassword";
+        private const string UserMqResetPaymentPasswordRouteKey = "PaymentPassword";
+        private const string UserMqResetLoginPasswordQueue = "__User_ResetLoginPasswordQueue";
+        private const string UserMqResetPaymentPasswordQueue = "__User_ResetPaymentPasswordQueue";
+        private IMessageQueueProducter _messageQueueProducter;
+
         #region IUser
         async Task<ErrorCode> IUser.PreRegister(string email)
         {
@@ -59,7 +72,7 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        public Task SmsCounterIncrease()
+        Task IUser.SmsCounterIncrease()
         {
             if (this.State.IsVerified && this.State.MobileSetting != null)
             {
@@ -77,6 +90,47 @@ namespace Dotpay.Actor.Implementations
 
             return TaskDone.Done;
         }
+
+        async Task IUser.ForgetLoginPassword(Lang lang)
+        {
+            if (this.State.IsVerified)
+            {
+                var token = GenerteResetLoginPasswordToken(this.State.Email);
+                await this.ApplyEvent(new UserLoginPasswordForget(token));
+                var msg = new UserForgetLoginPasswordMessage(this.State.Email, this.State.LoginName, token, DateTime.Now,
+                    lang);
+                await this._messageQueueProducter.PublishMessage(msg, UserMqExchangeName, UserMqResetLoginPasswordRouteKey, true);
+            }
+        }
+
+        Task IUser.ResetLoginPassword(string newLoginPassword, string resetToken)
+        {
+            if (this.State.IsVerified)
+                return this.ApplyEvent(new UserLoginPasswordReset(resetToken, newLoginPassword));
+
+            return TaskDone.Done;
+        }
+
+        async Task IUser.ForgetPaymentPassword(Lang lang)
+        {
+            if (this.State.IsVerified)
+            {
+                var token = this.GenerteResetPaymentPasswordToken(this.State.Email);
+                await this.ApplyEvent(new UserLoginPasswordForget(token));
+                var msg = new UserForgetPaymentPasswordMessage(this.State.Email, this.State.LoginName, token, DateTime.Now, lang);
+
+                await this._messageQueueProducter.PublishMessage(msg, UserMqExchangeName, UserMqResetPaymentPasswordRouteKey, true);
+            }
+        }
+
+        Task IUser.ResetPaymentPassword(string newPaymentPassword, string resetToken)
+        {
+            if (this.State.IsVerified)
+                return this.ApplyEvent(new UserPaymentPasswordReset(resetToken, newPaymentPassword));
+
+            return TaskDone.Done;
+        }
+
         async Task<ErrorCode> IUser.Login(string loginPassword, string ip)
         {
             if (this.State.IsLocked)
@@ -117,7 +171,7 @@ namespace Dotpay.Actor.Implementations
         async Task<ErrorCode> IUser.ChangePaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode)
         {
             if (!this.CheckSmsOtp(smsVerifyCode))
-                return ErrorCode.SMSPasswordError;
+                return ErrorCode.SmsPasswordError;
 
             if (this.State.PaymentPassword != oldPaymentPassword)
                 return ErrorCode.OldPaymentPasswordError;
@@ -190,10 +244,30 @@ namespace Dotpay.Actor.Implementations
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
+        private void Handle(UserLoginPasswordForget @event)
+        {
+            this.State.LoginPasswordResetToken = @event.ResetToken;
+            this.State.LoginPasswordResetTokenGenerateAt = @event.UTCTimestamp;
+        }
+        private void Handle(UserLoginPasswordReset @event)
+        {
+            this.State.LoginPassword = @event.NewLoginPassword;
+            this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
+        }
         private void Handle(UserPaymentPasswordChanged @event)
         {
             this.State.PaymentPassword = @event.NewPaymentPassword;
             this.State.LastPaymentPasswordChangeAt = @event.UTCTimestamp;
+        }
+        private void Handle(UserPaymentPasswordForget @event)
+        {
+            this.State.PaymentPasswordResetToken = @event.ResetToken;
+            this.State.PaymentPasswordResetTokenGenerateAt = @event.UTCTimestamp;
+        }
+        private void Handle(UserPaymentPasswordReset @event)
+        {
+            this.State.LoginPassword = @event.NewPaymentPassword;
+            this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
         private void Handle(UserAssignedRoles @event)
         {
@@ -202,12 +276,34 @@ namespace Dotpay.Actor.Implementations
         }
         #endregion
 
-        #region private method
+        #region Private method
         private string GenerteEmailValidateToken(string email)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
 
             var targetBytes = Encoding.UTF8.GetBytes(email + DateTime.Now.ToString(CultureInfo.InvariantCulture));
+            var md5Bytes = md5.ComputeHash(targetBytes);
+
+            var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
+
+            return result;
+        }
+        private string GenerteResetLoginPasswordToken(string email)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            Random randomNum = new Random();
+            var targetBytes = Encoding.UTF8.GetBytes(email + randomNum.Next() + DateTime.Now.ToString(CultureInfo.InvariantCulture));
+            var md5Bytes = md5.ComputeHash(targetBytes);
+
+            var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
+
+            return result;
+        }
+        private string GenerteResetPaymentPasswordToken(string email)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+
+            var targetBytes = Encoding.UTF8.GetBytes(email + Guid.NewGuid() + DateTime.Now.ToString(CultureInfo.InvariantCulture));
             var md5Bytes = md5.ComputeHash(targetBytes);
 
             var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
@@ -227,6 +323,24 @@ namespace Dotpay.Actor.Implementations
 
             return result;
         }
+
+        #endregion
+
+        #region Override
+        public override Task OnActivateAsync()
+        {
+            if (this._messageQueueProducter == null)
+            {
+                this._messageQueueProducter = GrainFactory.GetGrain<IMessageQueueProducter>(0);
+
+                this._messageQueueProducter.RegisterAndBindQueue(UserMqExchangeName, ExchangeType.Direct,
+                    UserMqResetLoginPasswordQueue, UserMqResetLoginPasswordRouteKey, true);
+
+                this._messageQueueProducter.RegisterAndBindQueue(UserMqExchangeName, ExchangeType.Direct,
+                    UserMqResetPaymentPasswordQueue, UserMqResetPaymentPasswordRouteKey, true);
+            }
+            return base.OnActivateAsync();
+        }
         #endregion
     }
 
@@ -243,8 +357,12 @@ namespace Dotpay.Actor.Implementations
         IdentityInfo IdentityInfo { get; set; }
         MobileSetting MobileSetting { get; set; }
         string LoginPassword { get; set; }
+        string LoginPasswordResetToken { get; set; }
+        DateTime? LoginPasswordResetTokenGenerateAt { get; set; }
         DateTime? LastLoginPasswordChangeAt { get; set; }
         string PaymentPassword { get; set; }
+        string PaymentPasswordResetToken { get; set; }
+        DateTime? PaymentPasswordResetTokenGenerateAt { get; set; }
         DateTime? LastPaymentPasswordChangeAt { get; set; }
         string LastLoginIp { get; set; }
         DateTime? LastLoginAt { get; set; }
@@ -271,6 +389,41 @@ namespace Dotpay.Actor.Implementations
         public string Mobile { get; set; }
         public string SmsKey { get; set; }
         public int SmsCounter { get; set; }
+    }
+    #endregion
+
+    #region MessageClass
+
+    internal abstract class UserMessage : MqMessage
+    {
+        public string Email { get; set; }
+        public string LoginName { get; set; }
+        public string Token { get; set; }
+        public DateTime Timestamp { get; set; }
+        public Lang Lang { get; set; }
+    }
+
+    internal class UserForgetLoginPasswordMessage : UserMessage
+    {
+        public UserForgetLoginPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)
+        {
+            this.Email = email;
+            this.LoginName = loginName;
+            this.Token = token;
+            this.Timestamp = timestamp;
+            this.Lang = lang;
+        }
+    }
+    internal class UserForgetPaymentPasswordMessage : UserMessage
+    {
+        public UserForgetPaymentPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)
+        {
+            this.Email = email;
+            this.LoginName = loginName;
+            this.Token = token;
+            this.Timestamp = timestamp;
+            this.Lang = lang;
+        }
     }
     #endregion
 }

@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dotpay.Common.Enum
+{
+    public enum SequenceNoType
+    {
+        SequenceNoTypeBase=100,
+        TransferToFinancialInstitutionNo = SequenceNoTypeBase + 1, 
+        Usd
+    }
+}

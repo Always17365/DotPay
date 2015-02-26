@@ -2,6 +2,7 @@
 ﻿using System;
 using System.Collections.Generic;
 ﻿using System.ComponentModel;
+﻿using System.Globalization;
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
@@ -11,10 +12,13 @@ using System.Text;
 ﻿using Orleans;
 ﻿using RabbitMQ.Client;
 using DFramework;
+﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor.Interfaces.Actors;
+﻿using Orleans.Concurrency;
 
 namespace Dotpay.Actors.Implementations
 {
-    public class RippleToFinancialInstitutionListener : Grain, IRippleToFinancialInstitutionListener, IRemindable
+    public class RippleToFinancialInstitutionListener : Grain, IRippleToFinancialInstitutionListener
     {
         private const string MqExchangeName = "__RippleToFinancialInstitutionExchange";
         private const string MqQueueName = "__RippleToFinancialInstitutionQueue";
@@ -26,20 +30,8 @@ namespace Dotpay.Actors.Implementations
         {
             if (!this._started)
             {
-                var factory = IoC.Resolve<IConnectionFactory>();
-                var connection = factory.CreateConnection();
-
-                var channel = connection.CreateModel();
-
-                channel.ExchangeDeclare(MqExchangeName, ExchangeType.Direct, true, false, null);
-                channel.QueueDeclare(MqQueueName, true, false, false, null);
-                channel.QueueBind(MqQueueName, MqExchangeName, string.Empty);
-                var consumer = new RippleTxMessageConsumer(channel);
-
-                channel.BasicQos(0, 1, false);
-                channel.BasicConsume(MqQueueName, false, consumer);
-
-                this.RegisterOrUpdateReminder("keepAlive", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(65));
+                this.StartRippleTxMessageConsumer();
+                //this.RegisterOrUpdateReminder("keepAlive", TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
                 this._started = true;
             }
             return TaskDone.Done;
@@ -47,22 +39,35 @@ namespace Dotpay.Actors.Implementations
 
         async Task IRippleToFinancialInstitutionListener.CompleteRippleToFinancialInstitution(string invoiceId, int destinaionTag, string txId, decimal amount)
         {
+            //return TaskDone.Done;
             var rippleToFinancialInstitution = GrainFactory.GetGrain<IRippleToFinancialInstitution>(destinaionTag);
             await rippleToFinancialInstitution.Complete(invoiceId, txId, amount);
-        }
-
-        Task IRemindable.ReceiveReminder(string reminderName, Orleans.Runtime.TickStatus status)
-        {
-            //this.GetLogger().Info(DateTime.Now.ToShortTimeString() + "-->I'm alive.");
-            OrleansScheduler = TaskScheduler.Current;
-            return TaskDone.Done;
         }
 
         public override Task OnActivateAsync()
         {
             OrleansScheduler = TaskScheduler.Current;
+            base.DelayDeactivation(TimeSpan.FromDays(365 * 10));
             return base.OnActivateAsync();
         }
+
+        #region Private Methods
+        private void StartRippleTxMessageConsumer()
+        {
+            var factory = IoC.Resolve<IConnectionFactory>();
+            var connection = factory.CreateConnection();
+
+            var channel = connection.CreateModel();
+
+            channel.ExchangeDeclare(MqExchangeName, ExchangeType.Direct, true, false, null);
+            channel.QueueDeclare(MqQueueName, true, false, false, null);
+            channel.QueueBind(MqQueueName, MqExchangeName, string.Empty);
+            var consumer = new RippleTxMessageConsumer(channel);
+
+            channel.BasicQos(0, 1, false);
+            channel.BasicConsume(MqQueueName, false, consumer);
+        }
+        #endregion
     }
 
 
@@ -104,8 +109,9 @@ namespace Dotpay.Actors.Implementations
             }
         }
     }
-
-    public class RippleTxMessage
+    [Immutable]
+    [Serializable]
+    internal class RippleTxMessage : MqMessage
     {
         public string TxId { get; set; }
         public string InvoiceId { get; set; }

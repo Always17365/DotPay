@@ -10,7 +10,7 @@ namespace Dotpay.Actor.Service.Interfaces
 {
     public interface IRippleQuoteService : IGrainWithIntegerKey
     {
-        Task<QuoteResult> Quote(TransferTargetInfo transferTargetInfo, decimal amount, string memo);
+        Task<Immutable<QuoteResult>> Quote(Immutable<TransferTargetInfo> transferTargetInfo, decimal amount, string memo);
     }
 
     [Immutable]

@@ -4,6 +4,7 @@ using Dotpay.Common;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Dotpay.Common.Enum;
 
 namespace Dotpay.Actor.Interfaces
 {
@@ -16,7 +17,11 @@ namespace Dotpay.Actor.Interfaces
         Task Unlock(Guid operatorId, string reason);
         Task SetMobile(string mobile, string otpKey, string otp);
         Task SmsCounterIncrease();
-        Task VeirfyIdentity(string fullName, IdNoType idNoType, string idNo);
+        Task VeirfyIdentity(string fullName, IdNoType idNoType, string idNo); 
+        Task ForgetLoginPassword(Lang lang);
+        Task ResetLoginPassword(string newLoginPassword, string resetToken);
+        Task ForgetPaymentPassword(Lang lang);
+        Task ResetPaymentPassword(string newPaymentPassword, string resetToken); 
         Task<bool> CheckLoginPassword(string loginPassword);
         Task<bool> CheckPaymentPassword(string tradePassword);
         Task<ErrorCode> ChangeLoginPassword(string oldLoginPassword, string newLoginPassword);

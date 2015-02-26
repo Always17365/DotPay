@@ -55,14 +55,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CouchbaseNetClient.2.0.2\lib\net45\Couchbase.NetClient.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework">
-      <HintPath>..\packages\DFramework.1.0.1.0\lib\net45\DFramework.dll</HintPath>
+    <Reference Include="DFramework, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DFramework.1.0.2.1\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.CouchbaseCache">
-      <HintPath>..\packages\DFramework.Plusins.CouchbaseCache.1.0.2.0\lib\net45\DFramework.Plusins.CouchbaseCache.dll</HintPath>
+      <HintPath>..\packages\DFramework.Plusins.CouchbaseCache.1.0.3.1\lib\net45\DFramework.Plusins.CouchbaseCache.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DFramework.Plusins.Log4net">
       <HintPath>..\packages\DFramework.Plusins.Log4net.1.0.0.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>

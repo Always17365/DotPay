@@ -48,8 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CouchbaseNetClient.2.0.2\lib\net45\Couchbase.NetClient.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework">
-      <HintPath>..\packages\DFramework.1.0.1.0\lib\net45\DFramework.dll</HintPath>
+    <Reference Include="DFramework, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DFramework.1.0.2.1\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -64,9 +65,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.EventSourcing.1.0.0.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\packages\Orleans.EventSourcing.1.0.1.1\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
     <Reference Include="Orleans.EventSourcing.Couchbase, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -98,8 +99,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoostrapTask\DFrameworkInitializeTask.cs" />
-    <Compile Include="BoostrapTask\EventStoreInitializeTask.cs" />
+    <Compile Include="BootstrapTask\BootstrapGrainInitializeTask.cs" />
+    <Compile Include="BootstrapTask\DFrameworkInitializeTask.cs" />
+    <Compile Include="BootstrapTask\EventStoreInitializeTask.cs" />
     <Compile Include="InitializeTaskBootstrap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="OrleansHostWrapper.cs" />

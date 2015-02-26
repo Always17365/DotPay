@@ -35,8 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework">
-      <HintPath>..\packages\DFramework.1.0.1.0\lib\net45\DFramework.dll</HintPath>
+    <Reference Include="DFramework, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DFramework.1.0.2.1\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,10 +57,17 @@
   <ItemGroup>
     <Compile Include="CacheKey.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Enum\SequenceNoType.cs" />
+    <Compile Include="Enum\CurrencyType.cs" />
+    <Compile Include="Enum\DepositStatus.cs" />
+    <Compile Include="Enum\Lang.cs" />
     <Compile Include="Enum\ManagerType.cs" />
     <Compile Include="Enum\Bank.cs" />
     <Compile Include="Enum\Payway.cs" />
+    <Compile Include="Enum\PreparationType.cs" />
     <Compile Include="Enum\RippleTransactionState.cs" />
+    <Compile Include="Enum\TransactionType.cs" />
+    <Compile Include="Enum\TransferTransactionStatus.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="Enum\IdNoType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
