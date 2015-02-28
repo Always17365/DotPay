@@ -49,8 +49,8 @@ namespace Dotpay.Actors.Implementations
                 var connection = factory.CreateConnection();
 
                 this._channel = connection.CreateModel();
-                this._channel.ExchangeDeclare(exchange, ExchangeType.Direct, true, false, null);
-                this._channel.QueueDeclare(queue, true, false, false, null);
+                this._channel.ExchangeDeclare(exchange, ExchangeType.Direct, durable, false, null);
+                this._channel.QueueDeclare(queue, durable, false, false, null);
                 this._channel.QueueBind(queue, exchange, routeKey);
 
                 _initializeMap.AddOrUpdate(queue, true, (key, oldValue) => true);
@@ -59,13 +59,15 @@ namespace Dotpay.Actors.Implementations
             return TaskDone.Done;
         }
 
-        public Task PublishMessage(MqMessage message, string exchangeName, string routeKey = "", bool durable = false) 
+        public Task PublishMessage(MqMessage message, string exchangeName, string routeKey = "", bool durable = false)
         {
             var messageBody = IoC.Resolve<IJsonSerializer>().Serialize(message);
             var bytes = Encoding.UTF8.GetBytes(messageBody);
             var build = new BytesMessageBuilder(this._channel);
             build.WriteBytes(bytes);
-            ((IBasicProperties)build.GetContentHeader()).DeliveryMode = 2;
+
+            if (durable)
+                ((IBasicProperties)build.GetContentHeader()).DeliveryMode = 2;
 
             this._channel.BasicPublish(exchangeName, routeKey, ((IBasicProperties)build.GetContentHeader()), build.GetContentBody());
             return TaskDone.Done;

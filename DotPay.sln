@@ -29,6 +29,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotpay.Web.Tests", "Dotpay.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotpay.Language", "Language\Dotpay.Language.csproj", "{9E132226-8ECC-4EA6-8982-4B13096843C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{95F7EA3B-567F-4F59-88BF-E4AAD829C399}"
+	ProjectSection(SolutionItems) = preProject
+		Library\TopSdk.dll = Library\TopSdk.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6D9A8019-CD48-4665-AC88-562CACF06357}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotpay.TaobaoMonitor", "Tools\TaobaoMonitor\Dotpay.TaobaoMonitor.csproj", "{24E47DFC-B3ED-4CB0-8894-1266A5CA8029}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +80,10 @@ Global
 		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E132226-8ECC-4EA6-8982-4B13096843C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E47DFC-B3ED-4CB0-8894-1266A5CA8029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E47DFC-B3ED-4CB0-8894-1266A5CA8029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E47DFC-B3ED-4CB0-8894-1266A5CA8029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E47DFC-B3ED-4CB0-8894-1266A5CA8029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +93,6 @@ Global
 		{9429DDA8-8A85-4A31-9549-7E0E038346D6} = {851460C3-4350-428B-AACC-146F0E7660A7}
 		{CA1CAA62-8577-4885-B49A-F9764AB6FB45} = {ADAE814B-F5E0-4EEA-A7E6-01C7AA58620D}
 		{F27C6F11-94A6-41C5-855B-38AA850DCAC0} = {ADAE814B-F5E0-4EEA-A7E6-01C7AA58620D}
+		{24E47DFC-B3ED-4CB0-8894-1266A5CA8029} = {6D9A8019-CD48-4665-AC88-562CACF06357}
 	EndGlobalSection
 EndGlobal
