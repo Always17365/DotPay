@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DFramework;
+using DFramework.Utilities;
 using Top.Api;
 using Top.Api.Domain;
 using Top.Api.Request;
 using Top.Api.Response;
+using ConfigurationManagerWrapper = DFramework.ConfigurationManagerWrapper;
 
 namespace Dotpay.TaobaoMonitor
 {
@@ -65,6 +67,19 @@ namespace Dotpay.TaobaoMonitor
             }
 
             return response.Trade;
+        } 
+        public static bool SendGoods(long tid, string sessionKey)
+        { 
+            LogisticsDummySendRequest req = new LogisticsDummySendRequest();
+            req.Tid = tid;
+            LogisticsDummySendResponse response = client.Execute(req, sessionKey); 
+
+            if (response.IsError)
+            {
+                Log.Error("SendGoods Error:" + response.ErrMsg + "--code=" + response.ErrCode);
+            }
+
+            return !response.IsError;
         }
 
 
@@ -72,8 +87,19 @@ namespace Dotpay.TaobaoMonitor
         {
             if (!hasSession && lastNoticeAt.HasValue && lastNoticeAt.Value.AddMinutes(10) > DateTime.Now)
             {
+                var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
+                var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 Log.Info("taobao session time out ,notice webmaster");
                 lastNoticeAt = DateTime.Now;
+
+                if (mailList.Any())
+                {
+                    mailList.ForEach(m =>
+                    {
+                        EmailHelper.SendMailAsync(m, "taobao session 超时", "点击<a href='https://www.dotpay.co' >https://www.dotpay.co<a/>进行授权");
+                    });
+                }
+
             }
         }
     }

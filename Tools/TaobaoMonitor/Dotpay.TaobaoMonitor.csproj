@@ -92,6 +92,7 @@
     <Compile Include="RippleMessageListener.cs" />
     <Compile Include="RippleTransactionStatus.cs" />
     <Compile Include="TaobaoAutoDeposit.cs" />
+    <Compile Include="TaobaoAutoSendGoodsMonitor.cs" />
     <Compile Include="TaobaoOrderReadAndRecordMonitor.cs" />
     <Compile Include="TaobaoUtils.cs" />
   </ItemGroup>

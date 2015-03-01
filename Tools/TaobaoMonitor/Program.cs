@@ -10,6 +10,7 @@ using DFramework;
 using DFramework.Autofac;
 using DFramework.CouchbaseCache;
 using DFramework.Log4net;
+using DFramework.Utilities;
 
 namespace Dotpay.TaobaoMonitor
 {
@@ -23,11 +24,12 @@ namespace Dotpay.TaobaoMonitor
         {
             InitEnvironment();
             TaobaoOrderReadAndRecordMonitor.Start();
-            DepositDispatcher.Start(); 
+            DepositDispatcher.Start();
             RippleMessageListener.Start();
+            TaobaoAutoSendGoodsMonitor.Start();
             Log.Info("-->等待4分钟后，将启动丢失tx验证器...等待中...");
             Task.Delay(60 * 4 * 1000).Wait();
-            Log.Info("-->等待4分钟结束，开始启动丢失tx验证器..."); 
+            Log.Info("-->等待4分钟结束，开始启动丢失tx验证器...");
             LoseTransactionRevalidator.Start();
             Console.Read();
         }
@@ -45,6 +47,8 @@ namespace Dotpay.TaobaoMonitor
                         .UseCouchbaseCache(clientConfig, "dotpay")
                         .UseLog4net()
                         .Start();
+
+            EmailHelper.Config("smtp.exmail.qq.com", "webmaster@dotpay.co", "webmaster@dotpay.co", "lwt#dotpay1");
         }
     }
 }

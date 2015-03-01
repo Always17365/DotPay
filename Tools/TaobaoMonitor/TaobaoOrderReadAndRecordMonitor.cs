@@ -9,6 +9,8 @@ using DFramework;
 using MySql.Data.MySqlClient;
 using Top.Api.Domain;
 using Dapper;
+using DFramework.Utilities;
+using ConfigurationManagerWrapper = DFramework.ConfigurationManagerWrapper;
 using Task = System.Threading.Tasks.Task;
 
 namespace Dotpay.TaobaoMonitor
@@ -66,6 +68,7 @@ namespace Dotpay.TaobaoMonitor
 
         private static void RecordTaobaoTradeToDatabase(List<Trade> trades)
         {
+            const string selectSql = "SELECT COUNT(*) FROM taobao WHERE tid=@tid";
             const string insertSql = "INSERT INTO taobao(tid,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo) " +
                                      "VALUES(@tid,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
             try
@@ -75,18 +78,23 @@ namespace Dotpay.TaobaoMonitor
                     var transaction = conn.BeginTransaction();
                     foreach (var trade in trades)
                     {
-                        conn.Execute(insertSql,
-                            new
-                            {
-                                tid = trade.Tid,
-                                amount = Math.Round(Convert.ToDecimal(trade.TotalFee)),
-                                has_buyer_message = trade.HasBuyerMessage,
-                                taobao_status = trade.Status,
-                                ripple_address = string.Empty,
-                                ripple_status = RippleTransactionStatus.Init,
-                                txid = string.Empty,
-                                memo = string.Empty
-                            }, transaction);
+                        var count = conn.Query<int>(selectSql, new { tid = trade.Tid });
+
+                        if (count.First() == 0)
+                        {
+                            conn.Execute(insertSql,
+                                new
+                                {
+                                    tid = trade.Tid,
+                                    amount = Math.Round(Convert.ToDecimal(trade.TotalFee)),
+                                    has_buyer_message = trade.HasBuyerMessage,
+                                    taobao_status = trade.Status,
+                                    ripple_address = string.Empty,
+                                    ripple_status = RippleTransactionStatus.Init,
+                                    txid = string.Empty,
+                                    memo = string.Empty
+                                }, transaction); 
+                        }
                     }
                     transaction.Commit();
                 }
@@ -101,6 +109,6 @@ namespace Dotpay.TaobaoMonitor
             {
                 Log.Error("RecordTaobaoTradeToDatabase Exception", ex);
             }
-        }
+        } 
     }
 }

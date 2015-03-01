@@ -62,6 +62,10 @@ namespace Dotpay.TaobaoMonitor
                                             //tx已失败
                                             MarkTxAsInitForNextProccesLoop(lt.tid);
                                         }
+                                        else
+                                        {
+                                            //未决的tx,应等待最后结果
+                                        }
                                     }
                                 });
                             }
@@ -72,7 +76,7 @@ namespace Dotpay.TaobaoMonitor
                         Log.Error("  Exception", ex);
                     }
 
-                    Task.Delay(60 * 1000).Wait();
+                    Task.Delay(6 * 1000).Wait();
                 }
             });
 
@@ -96,7 +100,7 @@ namespace Dotpay.TaobaoMonitor
                 channel = connection.CreateModel();
                 replyQueueName = channel.QueueDeclare();
                 channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, false, false, false, null);
+                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
                 channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
@@ -141,7 +145,7 @@ namespace Dotpay.TaobaoMonitor
                 channel = connection.CreateModel();
                 replyQueueName = channel.QueueDeclare();
                 channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, false, false, false, null);
+                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
                 channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
@@ -215,6 +219,7 @@ namespace Dotpay.TaobaoMonitor
             return connection;
         }
         //获取已提交了4分钟，仍然没有结果的数据
+        //已提交但从未submit过的，不会重复检测并再次提交，可防止多发IOU
         private static IEnumerable<TaobaoAutoDeposit> GetLoseTransaction()
         {
             const string sql =

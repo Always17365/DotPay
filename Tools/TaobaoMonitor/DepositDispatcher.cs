@@ -7,10 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using DFramework;
+using DFramework.Utilities;
 using MySql.Data.MySqlClient;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Content;
 using Top.Api.Domain;
+using ConfigurationManagerWrapper = DFramework.ConfigurationManagerWrapper;
 using Task = System.Threading.Tasks.Task;
 
 namespace Dotpay.TaobaoMonitor
@@ -54,14 +56,18 @@ namespace Dotpay.TaobaoMonitor
                                 Log.Info("读取到{0}待提交的淘宝自动充值,开始提交到自动充值处理器..", tradesInDb.Count());
                                 tradesInDb.ForEach(t =>
                                 {
+                                    string buyer_message = string.Empty;
                                     if (t.has_buyer_message)
                                     {
                                         var tradeTaobao = TaobaoUtils.GetTradeFullInfo(t.tid, session);
 
                                         Debug.Assert(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)) == t.amount);
 
+                                        buyer_message = tradeTaobao.BuyerMessage.Trim();
+                                        var rippleAddress = buyer_message;
+
                                         if (UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
-                                            tradeTaobao.BuyerMessage.Trim()) == 1)
+                                            rippleAddress) == 1 && rippleAddress.Length > 30 && rippleAddress.StartsWith("r"))
                                         {
                                             //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
                                             //当然，如果在数据库更新成功后，消息有提交失败的可能。
@@ -70,15 +76,15 @@ namespace Dotpay.TaobaoMonitor
                                             PublishMessage(
                                                 new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage, t.amount),
                                                 RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
-
+                                            NoticeWebMaster("发现淘宝自动充值，已提交处理", "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount, tradeTaobao.BuyerMessage));
                                             Log.Info("tid={0} 提交成功..mq", t.tid);
                                         }
+                                        return;
                                     }
-                                    else
-                                    {
-                                        Log.Info("tid={0} 的未留言,标记为失败", t.tid);
-                                        MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
-                                    }
+
+                                    Log.Info("tid={0} 的未留言,标记为失败", t.tid);
+                                    MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
+                                    NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount, buyer_message));
                                 });
                             }
                         }
@@ -93,7 +99,7 @@ namespace Dotpay.TaobaoMonitor
             });
 
             thread.Start();
-            Log.Info("-->自动充值提交其启动成功...");
+            Log.Info("-->自动充值提交器启动成功...");
             started = true;
         }
 
@@ -184,6 +190,17 @@ namespace Dotpay.TaobaoMonitor
             ((IBasicProperties)build.GetContentHeader()).DeliveryMode = 2;
 
             channel.BasicPublish(exchange, routeKey, ((IBasicProperties)build.GetContentHeader()), build.GetContentBody());
+        }
+
+        private static void NoticeWebMaster(string title, string message)
+        {
+            var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
+            var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //mails.ForEach(m =>
+            //{
+            //    EmailHelper.SendMailAsync(m, title, message);
+            //});
         }
 
         [Serializable]
