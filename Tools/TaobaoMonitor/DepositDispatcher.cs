@@ -66,8 +66,8 @@ namespace Dotpay.TaobaoMonitor
                                         buyer_message = tradeTaobao.BuyerMessage.Trim();
                                         var rippleAddress = buyer_message;
 
-                                        if (UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
-                                            rippleAddress) == 1 && rippleAddress.Length > 30 && rippleAddress.StartsWith("r"))
+                                        if (rippleAddress.Length >= 32 && rippleAddress.StartsWith("r") && UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
+                                            rippleAddress) == 1)
                                         {
                                             //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
                                             //当然，如果在数据库更新成功后，消息有提交失败的可能。
@@ -78,13 +78,13 @@ namespace Dotpay.TaobaoMonitor
                                                 RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
                                             NoticeWebMaster("发现淘宝自动充值，已提交处理", "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount, tradeTaobao.BuyerMessage));
                                             Log.Info("tid={0} 提交成功..mq", t.tid);
+                                            return;
                                         }
-                                        return;
                                     }
 
-                                    Log.Info("tid={0} 的未留言,标记为失败", t.tid);
+                                    Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
                                     MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
-                                    NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                    NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
                                 });
                             }
                         }
@@ -101,7 +101,7 @@ namespace Dotpay.TaobaoMonitor
             thread.Start();
             Log.Info("-->自动充值提交器启动成功...");
             started = true;
-        }
+        }   
 
         private static IEnumerable<TaobaoAutoDeposit> ReadTaobaoTradeWhichUnprocess()
         {

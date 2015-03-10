@@ -48,23 +48,33 @@ namespace Dotpay.TaobaoMonitor
                             {
                                 loseTxs.ForEach(lt =>
                                 {
+                                    Log.Info("发现丢失结果的的ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                     if (lt.tx_lastLedgerSequence <= completeLedgerIndex)
                                     {
+                                        Log.Info("发现丢失结果的tx的最大ledger已经过了-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                         var result = validatorRpcClient.ValidateTx(lt.txid);
 
                                         if (result == 1)
                                         {
+                                            Log.Info("发现丢失结果的tx已经成功了-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                             //tx已成功
-                                            MarkTxSuccess(lt.tid);
+                                            var success = MarkTxSuccess(lt.tid) == 1;
+                                            Log.Info("标记db结果为success,结果=" + success + "-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+
                                         }
                                         else if (result == 0)
                                         {
+                                            Log.Info("发现丢失结果的tx not found-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+
                                             //tx已失败
-                                            MarkTxAsInitForNextProccesLoop(lt.tid);
+                                            var success = MarkTxAsInitForNextProccesLoop(lt.tid);
+
+                                            Log.Info("初始化掉DB记录，让dispatcher自动重新提交,结果=" + success + "-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                         }
                                         else
                                         {
                                             //未决的tx,应等待最后结果
+                                            Log.Info("发现丢失结果的tx最终结果还未确定-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address); 
                                         }
                                     }
                                 });
@@ -225,7 +235,7 @@ namespace Dotpay.TaobaoMonitor
             const string sql =
                 "SELECT tid,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo,first_submit_at,tx_lastLedgerSequence,retry_Counter" +
                 "  FROM taobao " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status AND first_submit_at<>null AND first_submit_at<@submit_at";
+                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status AND first_submit_at<@submit_at";
             try
             {
                 using (var conn = OpenConnection())

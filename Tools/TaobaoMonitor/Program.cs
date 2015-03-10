@@ -27,10 +27,12 @@ namespace Dotpay.TaobaoMonitor
             DepositDispatcher.Start();
             RippleMessageListener.Start();
             TaobaoAutoSendGoodsMonitor.Start();
+            TaobaoUtils.StartGenerateTaobaoTrade();
             Log.Info("-->等待4分钟后，将启动丢失tx验证器...等待中...");
             Task.Delay(60 * 4 * 1000).Wait();
             Log.Info("-->等待4分钟结束，开始启动丢失tx验证器...");
             LoseTransactionRevalidator.Start();
+
             Console.Read();
         }
 

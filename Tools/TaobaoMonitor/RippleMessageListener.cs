@@ -46,7 +46,7 @@ namespace Dotpay.TaobaoMonitor
         {
             const string sql =
                 "UPDATE taobao SET ripple_status=@ripple_status_submited,txid=@txid," +
-                "                  tx_lastLedgerSequence=@lastLedgerSequence," +
+                "                  tx_lastLedgerSequence=@lastLedgerSequence,retry_counter=retry_counter+1," +
                 "                  first_submit_at=(CASE first_submit_at WHEN first_submit_at<>NULL THEN first_submit_at ELSE @first_submit_at END)" +
                 " WHERE tid=@tid AND taobao_status=@taobao_status AND (ripple_status=@ripple_status_pending OR ripple_status=@ripple_status_submited)";
             try
@@ -136,6 +136,11 @@ namespace Dotpay.TaobaoMonitor
                 _channel.ExchangeDeclare(RippleResultExchangeName, ExchangeType.Direct, true, false, null);
                 _channel.QueueDeclare(RippleResultAutoDepositQueue, true, false, false, null);
                 _channel.QueueBind(RippleResultAutoDepositQueue, RippleResultExchangeName, "");
+
+                var consumer = new RippleTxMessageConsumer(_channel);
+
+                _channel.BasicQos(0, 1, false);
+                _channel.BasicConsume(RippleResultAutoDepositQueue, false, consumer);
             }
             return _channel;
         }

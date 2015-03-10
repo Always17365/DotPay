@@ -46,7 +46,7 @@ namespace Dotpay.TaobaoMonitor
 
                             if (trades != null && trades.Any())
                             {
-                                Log.Info("读到{0}条淘宝已付款交易,开始写入数据库..." + trades.Count);
+                                Log.Info("读到{0}条淘宝已付款交易,开始写入数据库...", trades.Count);
                                 RecordTaobaoTradeToDatabase(trades);
                                 Log.Info("淘宝交易写入数据库完毕." + trades.Count);
                             }
@@ -69,8 +69,8 @@ namespace Dotpay.TaobaoMonitor
         private static void RecordTaobaoTradeToDatabase(List<Trade> trades)
         {
             const string selectSql = "SELECT COUNT(*) FROM taobao WHERE tid=@tid";
-            const string insertSql = "INSERT INTO taobao(tid,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo) " +
-                                     "VALUES(@tid,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
+            const string insertSql = "INSERT INTO taobao(tid,buyer_nick,pay_time,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo) " +
+                                     "VALUES(@tid,@buyer_nick,@pay_time,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
             try
             {
                 using (var conn = OpenConnection())
@@ -86,6 +86,8 @@ namespace Dotpay.TaobaoMonitor
                                 new
                                 {
                                     tid = trade.Tid,
+                                    buyer_nick = trade.BuyerNick.NullSafe(),
+                                    pay_time = trade.PayTime,
                                     amount = Math.Round(Convert.ToDecimal(trade.TotalFee)),
                                     has_buyer_message = trade.HasBuyerMessage,
                                     taobao_status = trade.Status,
@@ -93,7 +95,7 @@ namespace Dotpay.TaobaoMonitor
                                     ripple_status = RippleTransactionStatus.Init,
                                     txid = string.Empty,
                                     memo = string.Empty
-                                }, transaction); 
+                                }, transaction);
                         }
                     }
                     transaction.Commit();
@@ -109,6 +111,6 @@ namespace Dotpay.TaobaoMonitor
             {
                 Log.Error("RecordTaobaoTradeToDatabase Exception", ex);
             }
-        } 
+        }
     }
 }

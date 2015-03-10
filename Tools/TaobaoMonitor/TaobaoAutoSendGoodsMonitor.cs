@@ -95,7 +95,7 @@ namespace Dotpay.TaobaoMonitor
         private static int MarkTaobaoAutoDepositHasSendGoods(long tid)
         {
             const string sql =
-                "UPDATE taobao SET taobao_status=@ripple_status_new " +
+                "UPDATE taobao SET taobao_status=@taobao_status_new " +
                 " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status";
             try
             {
@@ -104,6 +104,7 @@ namespace Dotpay.TaobaoMonitor
                     return conn.Execute(sql, new
                     {
                         tid = tid,
+                        taobao_status_new = "WAIT_BUYER_CONFIRM_GOODS",
                         ripple_status = RippleTransactionStatus.Successed,
                         taobao_status = "WAIT_SELLER_SEND_GOODS"
                     });
