@@ -1,4 +1,4 @@
-﻿#define TAOBAODEBUG
+﻿//#define TAOBAODEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -187,7 +187,10 @@ namespace Dotpay.TaobaoMonitor
             {
                 Log.Error("SendGoods Error:" + response.ErrMsg + "--code=" + response.ErrCode);
             }
-
+            else
+            {
+                Log.Info(tid + "淘宝订单发货完毕");
+            }
             return !response.IsError;
 #endif
         }

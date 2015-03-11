@@ -44,11 +44,14 @@ namespace Dotpay.TaobaoMonitor
                         {
                             var trades = TaobaoUtils.GetCompletePaymentTrade(session);
 
-                            if (trades != null && trades.Any())
+                            if (trades != null)
                             {
-                                Log.Info("读到{0}条淘宝已付款交易,开始写入数据库...", trades.Count);
-                                RecordTaobaoTradeToDatabase(trades);
-                                Log.Info("淘宝交易写入数据库完毕." + trades.Count);
+                                trades = trades.Where(t => t.Orders.First().Title.Contains("官方充值")).ToList();
+
+                                if (trades.Any())
+                                {
+                                    RecordTaobaoTradeToDatabase(trades);
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -82,6 +85,7 @@ namespace Dotpay.TaobaoMonitor
 
                         if (count.First() == 0)
                         {
+                            Log.Info("单号{0}已付款,开始写入数据库...", trade.Tid);
                             conn.Execute(insertSql,
                                 new
                                 {
@@ -96,6 +100,8 @@ namespace Dotpay.TaobaoMonitor
                                     txid = string.Empty,
                                     memo = string.Empty
                                 }, transaction);
+
+                            Log.Info("单号{0},写入数据库完毕.", trade.Tid);
                         }
                     }
                     transaction.Commit();

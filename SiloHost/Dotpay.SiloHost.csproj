@@ -55,8 +55,9 @@
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework.Plusins.Log4net">
-      <HintPath>..\packages\DFramework.Plusins.Log4net.1.0.0.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>
+    <Reference Include="DFramework.Plusins.Log4net, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DFramework.Plusins.Log4net.1.0.1.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>

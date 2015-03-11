@@ -19,6 +19,7 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private const string RippleValidateExchangeName = "__RippleValidate_Exchange";
         private const string RippleValidateQueue = "__RippleValidate_LedgerIndex_Tx";
+        private const string RippleValidateQueueReply = "__RippleValidate_LedgerIndex_Reply";
         private static LedgerIndexRpcClient ledgerIndexRpcClient;
         private static ValidatorRpcClient validatorRpcClient;
 
@@ -48,36 +49,49 @@ namespace Dotpay.TaobaoMonitor
                             {
                                 loseTxs.ForEach(lt =>
                                 {
-                                    Log.Info("发现丢失结果的的ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                    Log.Info("发现丢失结果的的ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" +
+                                             lt.amount + ",address=" + lt.ripple_address);
                                     if (lt.tx_lastLedgerSequence <= completeLedgerIndex)
                                     {
-                                        Log.Info("发现丢失结果的tx的最大ledger已经过了-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                        Log.Info("发现丢失结果的tx的最大ledger已经过了-->ripple tx : txid=" + lt.txid + ",tid=" +
+                                                 lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                         var result = validatorRpcClient.ValidateTx(lt.txid);
 
                                         if (result == 1)
                                         {
-                                            Log.Info("发现丢失结果的tx已经成功了-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                            Log.Info("发现丢失结果的tx已经成功了-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid +
+                                                     ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                             //tx已成功
                                             var success = MarkTxSuccess(lt.tid) == 1;
-                                            Log.Info("标记db结果为success,结果=" + success + "-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                            Log.Info("标记db结果为success,结果=" + success + "-->ripple tx : txid=" + lt.txid +
+                                                     ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" +
+                                                     lt.ripple_address);
 
                                         }
                                         else if (result == 0)
                                         {
-                                            Log.Info("发现丢失结果的tx not found-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                            Log.Info("发现丢失结果的tx not found-->ripple tx : txid=" + lt.txid + ",tid=" +
+                                                     lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
 
                                             //tx已失败
                                             var success = MarkTxAsInitForNextProccesLoop(lt.tid);
 
-                                            Log.Info("初始化掉DB记录，让dispatcher自动重新提交,结果=" + success + "-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
+                                            Log.Info("初始化掉DB记录，让dispatcher自动重新提交,结果=" + success + "-->ripple tx : txid=" +
+                                                     lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" +
+                                                     lt.ripple_address);
                                         }
                                         else
                                         {
                                             //未决的tx,应等待最后结果
-                                            Log.Info("发现丢失结果的tx最终结果还未确定-->ripple tx : txid=" + lt.txid + ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address); 
+                                            Log.Info("发现丢失结果的tx最终结果还未确定-->ripple tx : txid=" + lt.txid + ",tid=" +
+                                                     lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
                                         }
                                     }
                                 });
+                            }
+                            else
+                            {
+                                Log.Debug("completeLedgerIndex 结果=" + completeLedgerIndex);
                             }
                         }
                     }
@@ -108,10 +122,10 @@ namespace Dotpay.TaobaoMonitor
 
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare();
+                replyQueueName = channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueueReply, true, false, false, null);
                 channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
                 channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, "");
+                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, ""); 
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
@@ -122,6 +136,7 @@ namespace Dotpay.TaobaoMonitor
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = replyQueueName;
                 props.CorrelationId = corrId;
+                props.Expiration = "10000";
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new GetLastLedgerIndexMessage());
                 var messageBytes = Encoding.UTF8.GetBytes(message);
@@ -153,10 +168,10 @@ namespace Dotpay.TaobaoMonitor
             {
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare();
+                replyQueueName = channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueueReply, true, false, false, null);
                 channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
                 channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, "");
+                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, ""); 
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
@@ -172,6 +187,7 @@ namespace Dotpay.TaobaoMonitor
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = replyQueueName;
                 props.CorrelationId = corrId;
+                props.Expiration = "10000"; 
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new ValidateTxMessage(txid));
                 var messageBytes = Encoding.UTF8.GetBytes(message);
@@ -244,7 +260,7 @@ namespace Dotpay.TaobaoMonitor
                     {
                         taobao_status = "WAIT_SELLER_SEND_GOODS",
                         ripple_status = RippleTransactionStatus.Submited,
-                        submit_at = DateTime.Now.AddMinutes(-4)
+                        submit_at = DateTime.Now.AddMinutes(-3)
                     });
 
                     return tradesInDb;
