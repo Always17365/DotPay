@@ -95,7 +95,7 @@ namespace Dotpay.TaobaoMonitor
                                         else
                                         {
                                             Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
-                                            MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
+                                            MarkTaobaoAutoDepositMissBuyerMessage(t.tid, buyer_message);
                                             NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
                                         }
                                     }
@@ -189,16 +189,16 @@ namespace Dotpay.TaobaoMonitor
         }
 
 
-        private static int MarkTaobaoAutoDepositMissBuyerMessage(long tid)
+        private static int MarkTaobaoAutoDepositMissBuyerMessage(long tid, string errmsg = "")
         {
             const string sql =
-                "UPDATE taobao SET ripple_status=@ripple_status_new,memo=@memo " +
+                "UPDATE taobao SET ripple_status=@ripple_status_new,memo=@memo,ripple_address=@ripple_address " +
                 " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { memo = "留言错误", ripple_status_new = RippleTransactionStatus.Failed, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
+                    return conn.Execute(sql, new { memo = "留言错误", ripple_address = errmsg, ripple_status_new = RippleTransactionStatus.Failed, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
                 }
             }
             catch (Exception ex)
@@ -259,10 +259,11 @@ namespace Dotpay.TaobaoMonitor
             var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
             var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            //mails.ForEach(m =>
-            //{
-            //    EmailHelper.SendMailAsync(m, title, message);
-            //});
+            if (mailList != null && mailList.Any())
+                mailList.ForEach(m =>
+                {
+                    EmailHelper.SendMailAsync(m, title, message);
+                });
         }
 
         [Serializable]
