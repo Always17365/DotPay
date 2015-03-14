@@ -51,18 +51,23 @@
     <nav class="navbar navbar-default dotpay-navbar-profile" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/my/index/">
-                    <img alt="Brand" style="height:40px;width:80px;display:inline" src="~/public/images/logo.png">
-                    <span>@Html.Lang("Direct transfer progress query")</span>
-                </a>
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" style="height: 40px; width: 80px; display: inline" src="~/public/images/logo.png">
+                </a> 
             </div>
+            <nav class="collapse navbar-collapse" role="navigation"> 
+                <ul class="nav navbar-nav ">
+                    <li><a href="/deposit">充值查询</a></li>
+                    <li><a href="/query">@Html.Lang("Direct transfer progress query")</a></li>
+                </ul>
+            </nav>
         </div>
     </nav>
     <div class="container">
         <div class="com-sm-12 col-md-10  col-md-offset-1 col-sm-offset-0">
             <div class="alert alert-info">
                 @Html.LangAsHtmlString("Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly.")<br>
-                <label class="label label-info">@Html.Lang("Instruction")</label>:@Html.LangAsHtmlString("in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment.", "<label class='label label-success'>alipay@dotpay.co</label>", "<label class='label label-success'>bank@dotpay.co</label>")<br>
+                <label class="label label-info">@Html.Lang("Instruction")</label>:@Html.LangAsHtmlString("in rippletrade Recipient blank fill in {0} for paying to Alipay account or {1} for bank account, then follow the emerging instructions to fill in the next blanks and finally confirm the payment.", "<a href='https://rippletrade.com/#/send?to=alipay@dotpay.co' class='label label-success'>alipay@dotpay.co</a>", "<a href='https://rippletrade.com/#/send?to=bank@dotpay.co' class='label label-success'>bank@dotpay.co</a>")<br>
                 <div class="alert-success" style="margin-top:15px;">
                     @Html.LangAsHtmlString("In work time the transfer will be done in no greater than 2 hours, if there is no delays caused by force majeures such as ripple system issues, alipay system issues or bank system issues.")<br>
                     @Html.Lang("Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY.")
@@ -207,7 +212,7 @@
                             </div>
                         </a>
                     </div>*@
-                <div class="panel-body col-sm-3" style="padding:0px;color:#555;font-size:12px;">
+                <div class="panel-body col-sm-4" style="padding:0px;color:#555;font-size:12px;">
                     <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=8f8ed58718c5e89097afb76b6131994f4ba3ab680c454d64c21b080968f38bfe">
                         <div class="btn btn-large btn-default" style="text-align:left">
                             <img src="~/public/images/group.png" title="385108034" alt="385108034" />

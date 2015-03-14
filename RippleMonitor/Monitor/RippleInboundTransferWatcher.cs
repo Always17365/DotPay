@@ -188,10 +188,11 @@ namespace DotPay.RippleMonitor
                         Log.Info("发现新的转入交易...." + Environment.NewLine + IoC.Resolve<IJsonSerializer>().Serialize(tx));
 
                         //解析destinationtag，检查标志位
-                        var destinationtag = tx.TransactionDetail.DestinationTag;
+                        var _destinationtag = tx.TransactionDetail.DestinationTag;
 
-                        if (destinationtag > 0)
+                        if (_destinationtag > 0 && _destinationtag < int.MaxValue)
                         {
+                            var destinationtag = Convert.ToInt32(_destinationtag);
                             var flg = Convert.ToInt32(destinationtag.ToString().Substring(0, 2));
                             var tagFlg = Utilities.ConvertDestinationTagFlg(flg);
                             destinationtag = Convert.ToInt32(destinationtag.ToString().Substring(2));//截取标志位后才是真正的destinationtag

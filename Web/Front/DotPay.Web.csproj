@@ -230,6 +230,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\TaobaoController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\FCAPIController.cs" />
@@ -473,6 +474,8 @@
     <Content Include="Views\Transfer\OutboundRippleSubmitSuccess.cshtml" />
     <Content Include="Views\Transfer\InboundRippleQuery.cshtml" />
     <Content Include="Views\Home\Waiting.cshtml" />
+    <Content Include="Views\Taobao\TaobaoCallback.cshtml" />
+    <Content Include="Views\Transfer\TaobaoDepositQuery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -487,6 +490,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\taobaosdk\TopSdk.csproj">
+      <Project>{9c11cae5-5188-4e71-825b-68fc3135728a}</Project>
+      <Name>TopSdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>

@@ -16,7 +16,7 @@ namespace RippleRPC.Net.Model
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Destination { get; set; }
-        public int DestinationTag { get; set; }
+        public UInt64 DestinationTag { get; set; }
 
         [JsonConverter(typeof(RippleCurrencyValueConverter))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

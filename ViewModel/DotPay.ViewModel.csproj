@@ -58,6 +58,7 @@
     <Compile Include="FundSource\FundSource.cs" />
     <Compile Include="Records\TransactionRecord.cs" />
     <Compile Include="RippleFederation\Federation.cs" />
+    <Compile Include="Transfer\TaobaoRippleDeposit.cs" />
     <Compile Include="Transfer\OutsideTransfer.cs" />
     <Compile Include="Transfer\InsideTransfer.cs" />
     <Compile Include="TransferTransaction\TransferTransaction.cs" />

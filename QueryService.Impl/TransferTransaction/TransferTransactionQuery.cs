@@ -60,12 +60,12 @@ namespace DotPay.QueryService.Impl
         }
         public IEnumerable<TransferTransaction> GetLastTwentyTransferTransaction()
         {
-            IEnumerable<TransferTransaction> result = default(IEnumerable<TransferTransaction>);
-            if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+            IEnumerable<TransferTransaction> result;
+            if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TWITY_TRANSFER_TRANSACTION, out result))
             {
                 lock (_locker)
                 {
-                    if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, out result))
+                    if (Config.Debug || !Cache.TryGet<IEnumerable<TransferTransaction>>(CacheKey.LAST_TWITY_TRANSFER_TRANSACTION, out result))
                     {
                         var result1 = this.Context.Sql(getLastTwentyTransferTransaction_sql.FormatWith(PayWay.Alipay.ToString()))
                                    .QueryMany<TransferTransaction>();
@@ -75,19 +75,47 @@ namespace DotPay.QueryService.Impl
                                    .QueryMany<TransferTransaction>();
 
                         result = result1.Union(result2).Union(result3).OrderByDescending(t => t.CreateAt).Take(20);
-                        Cache.Add(CacheKey.LAST_TEN_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
+                        Cache.Add(CacheKey.LAST_TWITY_TRANSFER_TRANSACTION, result, new TimeSpan(0, 5, 0));
                     }
                 }
             }
             return result;
         }
+
+        public IEnumerable<TaobaoRippleDeposit> GetLastThirtyTaobaoDeposit()
+        {
+            IEnumerable<TaobaoRippleDeposit> result;
+
+            if (Config.Debug || !Cache.TryGet(CacheKey.LAST_THIRTY_TAOBAO_DEPOSIT, out result))
+            {
+                lock (_locker)
+                {
+                    if (Config.Debug || !Cache.TryGet(CacheKey.LAST_THIRTY_TAOBAO_DEPOSIT, out result))
+                    { 
+                        result = this.Context.Sql(getLastThirtyTaobaoDeposit_sql)
+                                   .QueryMany<TaobaoRippleDeposit>();
+
+                        Cache.Add(CacheKey.LAST_THIRTY_TAOBAO_DEPOSIT, result, new TimeSpan(0, 1, 0));
+                    }
+                }
+            }
+
+            return result;
+        }
+
         #region SQL
+        private readonly string getLastThirtyTaobaoDeposit_sql =
+                                @"SELECT  t1.tid,t1.buyer_nick,t1.pay_time,t1.amount,t1.has_buyer_message,t1.taobao_status,t1.ripple_address,
+                                          t1.ripple_status,t1.txid,t1.tx_lastLedgerSequence,t1.memo
+                                  FROM    taobao AS t1 
+                                ORDER BY  pay_time DESC
+                                   LIMIT  30";
 
         private readonly string getLastTwentyTransferTransaction_sql =
                                 @"SELECT    ID,TxId,SequenceNo,SourcePayway,Account,Amount,state,PayWay,TransferNo,CreateAt,DoneAt,Reason,RealName,Memo
                                     FROM    " + Config.Table_Prefix + @"to{0}transfertransaction  
                                    WHERE    state<>'" + TransactionState.Fail.ToString("D") + @"' 
-                                     AND    state<>'" + TransactionState.Cancel.ToString("D") + @"'                                    
+                                     AND    state<>'" + TransactionState.Cancel.ToString("D") + @"'  
                                 ORDER BY    CreateAt DESC
                                    LIMIT    20";
 

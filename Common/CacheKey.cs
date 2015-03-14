@@ -100,6 +100,7 @@ namespace DotPay.Common
 
         public const string PROFILE_INDEX_TX_RECORD = "___PROFILE_INDEX_TX_RECORD";
 
-        public const string LAST_TEN_TRANSFER_TRANSACTION = "___LAST_TEN_TRANSFER_TRANSACTION";
+        public const string LAST_TWITY_TRANSFER_TRANSACTION = "___LAST_TEN_TRANSFER_TRANSACTION";
+        public const string LAST_THIRTY_TAOBAO_DEPOSIT = "___LAST_THIRTY_TAOBAO_DEPOSIT";
     }
 }

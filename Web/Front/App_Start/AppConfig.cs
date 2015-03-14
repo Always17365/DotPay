@@ -74,7 +74,8 @@ namespace DotPay.Web
             Directory.GetFiles(basePath, "*.dll", SearchOption.AllDirectories)
                      .Where(file => file.IndexOf(".dll", StringComparison.OrdinalIgnoreCase) > 0 &&
                                     file.IndexOf("DotPay", StringComparison.OrdinalIgnoreCase) > 0 &&
-                                    !file.Equals("DotPay.Web.DLL", StringComparison.OrdinalIgnoreCase))
+                                    !file.Equals("DotPay.Web.DLL", StringComparison.OrdinalIgnoreCase)&&
+                                    !file.Equals("DotPay.Common.DLL", StringComparison.OrdinalIgnoreCase))
                      .ForEach(dll =>
             {
                 assemlies.Add(Assembly.LoadFrom(dll));

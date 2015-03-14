@@ -115,7 +115,7 @@ namespace DotPay.Web.Controllers
                     result = query.GetTransferTransactionByRippleTxid(txid, PayWay.Tenpay);
                 }
 
-                ViewBag.Transaction = result; 
+                ViewBag.Transaction = result;
             }
             ViewBag.RecentlyTransaction = query.GetLastTwentyTransferTransaction();
 
@@ -161,6 +161,33 @@ namespace DotPay.Web.Controllers
             return View("OutboundRippleSubmitSuccess");
         }
         #endregion
+
+
+        #region 转账到第三方支付页面
+
+
+
+
+        [Route("~/deposit")]
+        [AllowAnonymous]
+        public ActionResult TaobaoDepositQuery(string txid)
+        {
+            ViewBag.TxId = txid;
+            var query = IoC.Resolve<ITransferTransactionQuery>();
+
+            if (!string.IsNullOrEmpty(txid))
+            {
+                var result = query.GetLastThirtyTaobaoDeposit();
+                
+                ViewBag.Transaction = result;
+            }
+            ViewBag.RecentlyTransaction = query.GetLastThirtyTaobaoDeposit();
+
+            return View("TaobaoDepositQuery");
+        }
+
+        #endregion
+
 
         #endregion
 
