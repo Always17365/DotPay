@@ -51,13 +51,13 @@ namespace Dotpay.TaobaoMonitor
                                     if (TaobaoUtils.SendGoods(t.tid, session))
                                     {
                                         MarkTaobaoAutoDepositHasSendGoods(t.tid);
-                                    } 
+                                    }
                                 });
                             }
                         }
                         catch (Exception ex)
                         {
-                            Log.Error("GetCompletePaymentTrade Exception", ex);
+                            Log.Error("Taobao Auto Send Goods Exception", ex);
                         }
                     }
 

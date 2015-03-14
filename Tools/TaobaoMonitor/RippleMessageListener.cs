@@ -76,7 +76,7 @@ namespace Dotpay.TaobaoMonitor
         private static int MarkTxSuccess(long tid)
         {
             const string sql =
-              "UPDATE taobao SET ripple_status=@ripple_status_new " +
+              "UPDATE taobao SET ripple_status=@ripple_status_new,memo='' " +
               " WHERE tid=@tid  AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {

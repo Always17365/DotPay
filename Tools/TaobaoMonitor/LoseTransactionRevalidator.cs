@@ -307,7 +307,7 @@ namespace Dotpay.TaobaoMonitor
             }
             catch (Exception ex)
             {
-                Log.Error("MarkTxSuccess Exception", ex);
+                Log.Error("MarkTxAsInitForNextProccesLoop Exception", ex);
                 return 0;
             }
         }
