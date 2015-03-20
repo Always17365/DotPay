@@ -62,20 +62,16 @@ namespace DotPay.Common
 
             _channeles.TryGetValue(mqname, out mqchannel);
 
-            if (mqchannel == null || mqchannel.IsClosed)
+            if (!_channeles.TryGetValue(mqname, out mqchannel))
             {
                 lock (_locker)
                 {
-                    if (_connection == null || !_connection.IsOpen)
+                    if (_connection == null)
                     {
                         _connection = _factory.CreateConnection();
                     }
-
-                    //重新建立通道
                     mqchannel = _connection.CreateModel();
                     _channeles[mqname] = mqchannel;
-                    var msg = "成功链接" + mqname + "的队列";
-                    Log.Info(msg);
                 }
             }
 

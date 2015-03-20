@@ -165,6 +165,26 @@ namespace DotPay.Web.Controllers
                         };
                         result = FederationErrorResult.Success(req, federationInfo);
                     }
+                    //如果用户要做扩展表单来支付324活动
+                    else if (destination.Equals("huodong", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bank = new List<ExtraSelectFiledOption>();
+                        var federationInfo = new OutsideGatewayFederationInfo
+                        {
+                            Type = "federation_record",
+                            Destination = destination,
+                            ExtraFields = new List<ExtraFiled>
+                            { 
+                                new ExtraFiled{Type="text", Hint="参与人姓名",Label="Full Name",Required=true,Name="alipay_username"},
+                                new ExtraFiled{Type="text", Hint="手机号",Label="Mobile",Required=true,Name="alipay_account"},
+                                new ExtraFiled{Type="text", Hint="留言(可选)",Label="Comments(optional)",Name="memo"}
+                            },
+                            Domain = domain,
+                            QuoteUrl = QUOTE_URL,
+                            AcceptCurrencys = new List<RippleCurrency> { new RippleCurrency { Issuer = GATEWAY_ADDRESS, Symbol = GATEWAY_ACCEPT_CURRENCY } }
+                        };
+                        result = FederationErrorResult.Success(req, federationInfo);
+                    }
                     else
                     {
                         if (destination.IsEmail())
@@ -260,6 +280,39 @@ namespace DotPay.Web.Controllers
                             result = QuoteResult.Success(req, quoteInfo);
                         }
                         catch (Exception ex) { Log.Error("在执行Ripple Alipay Quote时报错", ex); }
+                    }
+                }
+
+                //如果用户要做扩展表单直转 to huodong, 
+                if (destination.Equals("huodong", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                {
+                    if (string.IsNullOrEmpty(alipay_account))
+                        result = QuoteResult.ErrorDetail(req, "huodong account empty;");
+                    else
+                    {
+                        var huodongAmount = req.Amount.Value;
+                        //创建一个交易
+                        var cmd = new CreateThirdPartyPaymentInboundTx(PayWay.Alipay, alipay_account, alipay_username.NullSafe().Trim(), huodongAmount, huodongAmount, "324活动" +
+                            (string.IsNullOrEmpty(memo) ? "" : ":" + memo));
+
+                        try
+                        {
+                            IoC.Resolve<ICommandBus>().Send(cmd);
+                            var quoteInfo = new QuoteInfo
+                            {
+                                Type = "quote",
+                                Destination = destination,
+                                DestinationAddress = GATEWAY_ADDRESS,
+                                Domain = GATEWAY_DOMAIN,
+                                DestinationTag = Convert.ToInt32(DestinationTagFlg.AlipayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()) ,
+                                Amount = huodongAmount,
+                                Send = new List<RippleAmount> { new RippleAmount(huodongAmount, GATEWAY_ADDRESS, req.Amount.Currency) },
+                                InvoiceId = cmd.ResultInvoiceID,
+                                Source = req.Address
+                            };
+                            result = QuoteResult.Success(req, quoteInfo);
+                        }
+                        catch (Exception ex) { Log.Error("在执行Ripple 活动 Quote时报错", ex); }
                     }
                 }
                 //如果用户要做扩展表单直转 to tenpay

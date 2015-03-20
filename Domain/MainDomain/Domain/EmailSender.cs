@@ -121,8 +121,12 @@ namespace DotPay.MainDomain
 
         public void Handle(InboundTransferToThirdPartyPaymentTxCreated @event)
         {
-            string emailTitle = "收到{0}直转，请及时处理".FormatWith(@event.PayWay.ToString("F"));
-            string emailBody = "转账到{0}，账户:{1},金额:{2},txid:{3}".FormatWith(@event.PayWay.ToString("F"), @event.Account, @event.Amount,@event.TxId);
+            var emailTitle = @event.Memo.Contains("324活动") ? "收到324活动付款" : "收到{0}直转，请及时处理".FormatWith(@event.PayWay.ToString("F"));
+            var emailBody = @event.Memo.Contains("324活动")
+                ? "收到324活动付款：金额:{0},姓名:{1},手机号:{2},备注:{3},txid:{4}".FormatWith(@event.Amount, @event.RealName,
+                    @event.Account, @event.Memo, @event.TxId)
+                : "转账到{0}，账户:{1},金额:{2},姓名:{3},备注:{4},txid:{5}".FormatWith(@event.PayWay.ToString("F"),
+                    @event.Account, @event.Amount, @event.RealName, @event.Memo, @event.TxId);
 
             if (Config.Debug)
                 Log.Debug("DEBUG模式,这个邮件不会真的发送出去,邮件内容:" + emailBody);
@@ -135,7 +139,7 @@ namespace DotPay.MainDomain
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("发送直转邮件提醒时出现了错误",ex);
+                    Log.Error("发送直转邮件提醒时出现了错误", ex);
                 }
             }
         }
