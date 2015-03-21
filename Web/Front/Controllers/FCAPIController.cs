@@ -236,6 +236,7 @@ namespace DotPay.Web.Controllers
             var bank_username = query_params.SingleOrDefault(item => item.Key.Equals("bank_username", StringComparison.OrdinalIgnoreCase)).Value;
             var bank = query_params.SingleOrDefault(item => item.Key.Equals("bank", StringComparison.OrdinalIgnoreCase)).Value;
             var memo = query_params.SingleOrDefault(item => item.Key.Equals("memo", StringComparison.OrdinalIgnoreCase)).Value.NullSafe().Trim();
+            memo = memo.Length > 250 ? memo.Substring(0, 250) : memo;
             var req = new QuoteRequest { Type = type, __dot_use_this_amount = amount, Address = address, Destination = destination, AlipayAccount = alipay_account, TenpayAccount = tenpay_account, Memo = memo };
 
             type = type.NullSafe().Trim();
@@ -284,7 +285,7 @@ namespace DotPay.Web.Controllers
                 }
 
                 //如果用户要做扩展表单直转 to huodong, 
-                if (destination.Equals("huodong", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
+                else if (destination.Equals("huodong", StringComparison.OrdinalIgnoreCase) && req.Amount.Value <= maxAcceptAmount && req.Amount.Value >= minAcceptAmount)
                 {
                     if (string.IsNullOrEmpty(alipay_account))
                         result = QuoteResult.ErrorDetail(req, "huodong account empty;");
@@ -304,7 +305,7 @@ namespace DotPay.Web.Controllers
                                 Destination = destination,
                                 DestinationAddress = GATEWAY_ADDRESS,
                                 Domain = GATEWAY_DOMAIN,
-                                DestinationTag = Convert.ToInt32(DestinationTagFlg.AlipayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()) ,
+                                DestinationTag = Convert.ToInt32(DestinationTagFlg.AlipayRippleForm.ToString("D") + cmd.ResultDestinationTag.ToString()),
                                 Amount = huodongAmount,
                                 Send = new List<RippleAmount> { new RippleAmount(huodongAmount, GATEWAY_ADDRESS, req.Amount.Currency) },
                                 InvoiceId = cmd.ResultInvoiceID,
