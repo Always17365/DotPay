@@ -36,7 +36,7 @@ namespace Dotpay.TaobaoMonitor
                 {
                     var session = TaobaoUtils.GetTaobaoSession();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMaster();
+                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
 
                     else
                     {
@@ -47,7 +47,9 @@ namespace Dotpay.TaobaoMonitor
                             if (trades != null)
                             {
                                 trades = trades.Where(t => t.Orders.First().Title.Contains("官方充值") &&
-                                                           (t.Status == "WAIT_SELLER_SEND_GOODS" ||
+                                                           (t.Status == "TRADE_NO_CREATE_PAY" ||
+                                                            t.Status == "WAIT_BUYER_PAY" ||
+                                                            t.Status == "WAIT_SELLER_SEND_GOODS" ||
                                                             t.Status == "WAIT_BUYER_CONFIRM_GOODS" ||
                                                             t.Status == "TRADE_FINISHED" ||
                                                             t.Status == "TRADE_CLOSED" ||
@@ -67,7 +69,7 @@ namespace Dotpay.TaobaoMonitor
                         }
                     }
 
-                    Task.Delay(60 * 1000).Wait();
+                    Task.Delay(30 * 1000).Wait();
                 }
             });
 
@@ -84,8 +86,8 @@ namespace Dotpay.TaobaoMonitor
                                      "VALUES(@tid,@buyer_nick,@pay_time,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
 
             const string updateStatusSql = "UPDATE taobao SET taobao_status=@taobao_status_new " +
-                                           " WHERE tid=@tid AND taobao_status=@taobao_status_old AND ripple_status=@ripple_status"; 
-            
+                                           " WHERE tid=@tid AND taobao_status=@taobao_status_old AND ripple_status=@ripple_status";
+
             const string updateForCloseStatusSql = "UPDATE taobao SET taobao_status=@taobao_status_new,memo=''" +
                                           " WHERE tid=@tid AND taobao_status=@taobao_status_old AND ripple_status=@ripple_status";
 
@@ -96,8 +98,42 @@ namespace Dotpay.TaobaoMonitor
                     var transaction = conn.BeginTransaction();
                     foreach (var trade in trades)
                     {
+                        #region 如果是未付款的单子，检查留言是否正确，不正确的直接关闭交易
+
+                        if (trade.Status == "TRADE_NO_CREATE_PAY" || trade.Status == "WAIT_BUYER_PAY")
+                        {
+                            var session = TaobaoUtils.GetTaobaoSession();
+                            var rippleAddress = string.Empty;
+
+                            if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
+                            else
+                            {
+                                var needClose = false;
+
+                                if (!trade.HasBuyerMessage) needClose = true;
+                                else
+                                {
+                                    var tradeFullInfo = TaobaoUtils.GetTradeFullInfo(trade.Tid, session);
+                                    rippleAddress = tradeFullInfo.BuyerMessage.Trim();
+                                    if (rippleAddress.Length < 32 || !rippleAddress.StartsWith("r"))
+                                        needClose = true;
+                                }
+
+                                if (needClose)
+                                {
+                                    if (TaobaoUtils.CloseOrder(trade.Tid, session))
+                                    {
+                                        Log.Info("发现留言错误的交易，卖家主动关闭该交易,订单号=" + trade.Tid);
+                                        TaobaoUtils.NoticeWebMaster("淘宝交易留言错误，关闭交易", "发现未付款订单{0}留言错误,留言={1}，卖家已主动关闭该交易".FormatWith(trade.Tid, rippleAddress));
+                                    }
+                                }
+                            }
+                        }
+
+                        #endregion
+
                         #region 如果是刚刚付款的订单
-                        if (trade.Status == "WAIT_SELLER_SEND_GOODS")
+                        else if (trade.Status == "WAIT_SELLER_SEND_GOODS")
                         {
                             var count = conn.Query<int>(existSql, new { tid = trade.Tid });
                             if (count.First() == 0)

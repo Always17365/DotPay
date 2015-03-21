@@ -35,9 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework">
-      <HintPath>..\packages\DFramework.1.0.4.0\lib\net45\DFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DFramework, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DFramework.1.0.5.0\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="CacheKey.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Enum\RippleTransactionValidateResult.cs" />
     <Compile Include="Enum\SequenceNoType.cs" />
     <Compile Include="Enum\CurrencyType.cs" />
     <Compile Include="Enum\DepositStatus.cs" />
@@ -65,8 +66,13 @@
     <Compile Include="Enum\Bank.cs" />
     <Compile Include="Enum\Payway.cs" />
     <Compile Include="Enum\PreparationType.cs" />
-    <Compile Include="Enum\RippleTransactionState.cs" />
+    <Compile Include="Enum\RippleTransactionStatus.cs" />
+    <Compile Include="Enum\RefundTransactionType.cs" />
     <Compile Include="Enum\TransactionType.cs" />
+    <Compile Include="Enum\RefundTransactionStatus.cs" />
+    <Compile Include="Enum\RippleTransactionFailedType.cs" />
+    <Compile Include="Enum\TransferTransactionFailReason.cs" />
+    <Compile Include="Enum\TransferTransactionCancelReason.cs" />
     <Compile Include="Enum\TransferTransactionStatus.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="Enum\IdNoType.cs" />

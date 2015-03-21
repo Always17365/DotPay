@@ -36,16 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DFramework.1.0.4.0\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.0\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Orleans.EventSourcing">
-      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.1.1\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.2.2\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
@@ -63,28 +63,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\GrainWithRabbitMQExtensions.cs" />
-    <Compile Include="Actors\Tools\SequenceNoGenerator.cs" />
-    <Compile Include="Actors\Transaction\TransferToFinancialInstitutionTransaction.cs" />
+    <Compile Include="Actor\Tools\RippleRpcClient.cs" />
+    <Compile Include="Actor\Transaction\RefundTransaction.cs" />
+    <Compile Include="Events\Transaction\RefundTransactionEvents.cs" />
+    <Compile Include="MessageProducterManager.cs" />
+    <Compile Include="RabbitMqMessageConsumer.cs" />
+    <Compile Include="Actor\Tools\SequenceNoGenerator.cs" />
+    <Compile Include="Actor\Transaction\TransferTransaction.cs" />
     <Compile Include="Events\AccountEvents.cs" />
     <Compile Include="Events\Transaction\DepositTransactionEvents.cs" />
-    <Compile Include="Actors\Account.cs" />
-    <Compile Include="Actors\Transaction\DepositTransaction.cs" />
-    <Compile Include="Actors\Ripple\RippleToFinancialInstitutionListener.cs" />
-    <Compile Include="Actors\TransactionPreparation.cs" />
-    <Compile Include="Events\Transaction\TransferToFinancialInstitutionTransactionEvents.cs" />
-    <Compile Include="Actors\MessageQueueProducter.cs" />
+    <Compile Include="Actor\Account.cs" />
+    <Compile Include="Actor\Transaction\DepositTransaction.cs" />
+    <Compile Include="Service\RippleToFinancialInstitutionListener.cs" />
+    <Compile Include="Actor\TransactionPreparation.cs" />
+    <Compile Include="Events\Transaction\TransferTransactionEvents.cs" />
+    <Compile Include="Actor\MessageQueueProducter.cs" />
+    <Compile Include="RabbitMqConnectionManager.cs" />
+    <Compile Include="Service\MessageConsumerAbstractGrain.cs" />
     <Compile Include="Service\DepositTransactionManager.cs" />
+    <Compile Include="Service\RefundTransactionManager.cs" />
     <Compile Include="Service\RippleQuoteService.cs" />
-    <Compile Include="Actors\Ripple\RippleToFinancialInstitution.cs" />
-    <Compile Include="Actors\SystemSetting\SystemSetting.cs" />
-    <Compile Include="Actors\Tools\AtomicIncrement.cs" />
+    <Compile Include="Actor\Ripple\RippleToFinancialInstitution.cs" />
+    <Compile Include="Actor\SystemSetting\SystemSetting.cs" />
+    <Compile Include="Actor\Tools\AtomicIncrement.cs" />
     <Compile Include="Events\Ripple\RippleToFinancialInstitutionEvents.cs" />
     <Compile Include="Events\SystemSetting\SystemSettingEvents.cs" />
     <Compile Include="Events\UserEvents.cs" />
-    <Compile Include="Actors\User.cs" />
+    <Compile Include="Actor\User.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\TransferTransactionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">

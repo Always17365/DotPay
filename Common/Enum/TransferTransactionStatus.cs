@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dotpay.Common.Enum
+﻿namespace Dotpay.Common.Enum
 {
     public enum TransferTransactionStatus
     {
         Submited = 1,
-        PreparationCompleted,
-        LockeByProcessor,
-        Completed,
-        Failed
+        PreparationCompleted = 2,
+        LockeByProcessor = 3,
+        Canceled = 4,
+        Completed = 5,
+        Failed = 6
     }
 }

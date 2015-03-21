@@ -11,10 +11,11 @@ namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]
-    public class DepositTransactionInitialized : GrainEvent
+    public class DepositTransactionInitializedEvent : GrainEvent
     {
-        public DepositTransactionInitialized(Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
+        public DepositTransactionInitializedEvent(string sequenceNo,Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
         {
+            this.SequenceNo = sequenceNo;
             this.AccountId = accountId;
             this.Currency = currency;
             this.Amount = amount;
@@ -22,6 +23,7 @@ namespace Dotpay.Actor.Events
             this.Payway = payway;
         }
 
+        public string SequenceNo { get; private set; }
         public Guid AccountId { get; private set; }
         public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }
@@ -31,9 +33,9 @@ namespace Dotpay.Actor.Events
     
     [Immutable]
     [Serializable]
-    public class DepositTransactionPreparationCompleted : GrainEvent
+    public class DepositTransactionPreparationCompletedEvent : GrainEvent
     {
-        public DepositTransactionPreparationCompleted(Guid transactionId, Guid accountId, decimal amount)
+        public DepositTransactionPreparationCompletedEvent(Guid transactionId, Guid accountId, decimal amount)
         {
             this.TransactionId = transactionId;
             this.AccountId = accountId;
@@ -46,9 +48,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class DepositTransactionConfirmed : GrainEvent
+    public class DepositTransactionConfirmedEvent : GrainEvent
     {
-        public DepositTransactionConfirmed(Guid operatorId, string transactionNo)
+        public DepositTransactionConfirmedEvent(Guid operatorId, string transactionNo)
         {
             this.OperatorId = operatorId;
             this.TransactionNo = transactionNo;
@@ -59,9 +61,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class DepositTransactionFailed : GrainEvent
+    public class DepositTransactionFailedEvent : GrainEvent
     {
-        public DepositTransactionFailed(Guid operatorId, Guid accountId, string reason)
+        public DepositTransactionFailedEvent(Guid operatorId, Guid accountId, string reason)
         {
             this.OperatorId = operatorId;
             this.AccountId = accountId;

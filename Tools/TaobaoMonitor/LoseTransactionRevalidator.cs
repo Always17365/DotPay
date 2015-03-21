@@ -14,12 +14,17 @@ namespace Dotpay.TaobaoMonitor
 {
     internal class LoseTransactionRevalidator
     {
-        private static bool started;
-        private static readonly string MysqlConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
-        private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private const string RippleValidateExchangeName = "__RippleValidate_Exchange";
         private const string RippleValidateQueue = "__RippleValidate_LedgerIndex_Tx";
         private const string RippleValidateQueueReply = "__RippleValidate_LedgerIndex_Reply";
+        private static bool started;
+
+        private static readonly string MysqlConnectionString =
+            ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
+
+        private static readonly string RabbitMqConnectionString =
+            ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
+
         private static LedgerIndexRpcClient ledgerIndexRpcClient;
         private static ValidatorRpcClient validatorRpcClient;
 
@@ -29,7 +34,7 @@ namespace Dotpay.TaobaoMonitor
 
             var thread = new Thread(() =>
             {
-                var factory = new ConnectionFactory() { Uri = LoseTransactionRevalidator.RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
+                var factory = new ConnectionFactory { Uri = RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
                 var connection = factory.CreateConnection();
                 ledgerIndexRpcClient = new LedgerIndexRpcClient(connection);
                 validatorRpcClient = new ValidatorRpcClient(connection);
@@ -66,7 +71,6 @@ namespace Dotpay.TaobaoMonitor
                                             Log.Info("标记db结果为success,结果=" + success + "-->ripple tx : txid=" + lt.txid +
                                                      ",tid=" + lt.tid + ",amount=" + lt.amount + ",address=" +
                                                      lt.ripple_address);
-
                                         }
                                         else if (result == 0)
                                         {
@@ -110,22 +114,22 @@ namespace Dotpay.TaobaoMonitor
         }
 
         #region rpc client
-        class LedgerIndexRpcClient
+
+        private class LedgerIndexRpcClient
         {
+            private readonly IModel channel;
+            private readonly QueueingBasicConsumer consumer;
+            private readonly string replyQueueName;
             private IConnection connection;
-            private IModel channel;
-            private string replyQueueName;
-            private QueueingBasicConsumer consumer;
 
             public LedgerIndexRpcClient(IConnection connection)
             {
-
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueueReply, true, false, false, null);
-                channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, ""); 
+                replyQueueName = channel.QueueDeclare(RippleValidateQueueReply, true, false, false, null);
+                channel.ExchangeDeclare(RippleValidateExchangeName, ExchangeType.Direct);
+                channel.QueueDeclare(RippleValidateQueue, true, false, false, null);
+                channel.QueueBind(RippleValidateQueue, RippleValidateExchangeName, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
@@ -140,7 +144,7 @@ namespace Dotpay.TaobaoMonitor
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new GetLastLedgerIndexMessage());
                 var messageBytes = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(LoseTransactionRevalidator.RippleValidateExchangeName, string.Empty, props, messageBytes);
+                channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
 
                 while (true)
                 {
@@ -157,27 +161,26 @@ namespace Dotpay.TaobaoMonitor
             }
         }
 
-        class ValidatorRpcClient
+        private class ValidatorRpcClient
         {
+            private readonly IModel channel;
+            private readonly QueueingBasicConsumer consumer;
+            private readonly string replyQueueName;
             private IConnection connection;
-            private IModel channel;
-            private string replyQueueName;
-            private QueueingBasicConsumer consumer;
 
             public ValidatorRpcClient(IConnection connection)
             {
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueueReply, true, false, false, null);
-                channel.ExchangeDeclare(LoseTransactionRevalidator.RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(LoseTransactionRevalidator.RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(LoseTransactionRevalidator.RippleValidateQueue, LoseTransactionRevalidator.RippleValidateExchangeName, ""); 
+                replyQueueName = channel.QueueDeclare(RippleValidateQueueReply, true, false, false, null);
+                channel.ExchangeDeclare(RippleValidateExchangeName, ExchangeType.Direct);
+                channel.QueueDeclare(RippleValidateQueue, true, false, false, null);
+                channel.QueueBind(RippleValidateQueue, RippleValidateExchangeName, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
 
             /// <summary>
-            /// 
             /// </summary>
             /// <param name="txid"></param>
             /// <returns>-1 超时，1 true, 0 false</returns>
@@ -187,11 +190,11 @@ namespace Dotpay.TaobaoMonitor
                 var props = channel.CreateBasicProperties();
                 props.ReplyTo = replyQueueName;
                 props.CorrelationId = corrId;
-                props.Expiration = "10000"; 
+                props.Expiration = "10000";
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new ValidateTxMessage(txid));
                 var messageBytes = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(LoseTransactionRevalidator.RippleValidateExchangeName, string.Empty, props, messageBytes);
+                channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
 
                 while (true)
                 {
@@ -211,8 +214,9 @@ namespace Dotpay.TaobaoMonitor
         #endregion
 
         #region message
+
         [Serializable]
-        class GetLastLedgerIndexMessage
+        private class GetLastLedgerIndexMessage
         {
             public string Command
             {
@@ -221,7 +225,7 @@ namespace Dotpay.TaobaoMonitor
         }
 
         [Serializable]
-        class ValidateTxMessage
+        private class ValidateTxMessage
         {
             public ValidateTxMessage(string txId)
             {
@@ -235,15 +239,18 @@ namespace Dotpay.TaobaoMonitor
 
             public string TxId { get; set; }
         }
+
         #endregion
 
         #region private method
+
         private static MySqlConnection OpenConnection()
         {
-            MySqlConnection connection = new MySqlConnection(MysqlConnectionString);
+            var connection = new MySqlConnection(MysqlConnectionString);
             connection.Open();
             return connection;
         }
+
         //获取已提交了4分钟，仍然没有结果的数据
         //已提交但从未submit过的，不会重复检测并再次提交，可防止多发IOU
         private static IEnumerable<TaobaoAutoDeposit> GetLoseTransaction()
@@ -276,13 +283,20 @@ namespace Dotpay.TaobaoMonitor
         private static int MarkTxSuccess(long tid)
         {
             const string sql =
-              "UPDATE taobao SET ripple_status=@ripple_status_new " +
-              " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
+                "UPDATE taobao SET ripple_status=@ripple_status_new " +
+                " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { tid = tid, ripple_status_new = RippleTransactionStatus.Successed, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Submited });
+                    return conn.Execute(sql,
+                        new
+                        {
+                            tid,
+                            ripple_status_new = RippleTransactionStatus.Successed,
+                            taobao_status = "WAIT_SELLER_SEND_GOODS",
+                            ripple_status_old = RippleTransactionStatus.Submited
+                        });
                 }
             }
             catch (Exception ex)
@@ -296,13 +310,20 @@ namespace Dotpay.TaobaoMonitor
         private static int MarkTxAsInitForNextProccesLoop(long tid)
         {
             const string sql =
-              "UPDATE taobao SET ripple_status=@ripple_status_new,txid='',tx_lastLedgerSequence=0,first_submit_at=null" +
-              " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
+                "UPDATE taobao SET ripple_status=@ripple_status_new,txid='',tx_lastLedgerSequence=0,first_submit_at=null" +
+                " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { tid = tid, ripple_status_new = RippleTransactionStatus.Init, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Submited });
+                    return conn.Execute(sql,
+                        new
+                        {
+                            tid,
+                            ripple_status_new = RippleTransactionStatus.Init,
+                            taobao_status = "WAIT_SELLER_SEND_GOODS",
+                            ripple_status_old = RippleTransactionStatus.Submited
+                        });
                 }
             }
             catch (Exception ex)
@@ -313,6 +334,5 @@ namespace Dotpay.TaobaoMonitor
         }
 
         #endregion
-
     }
 }

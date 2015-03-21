@@ -48,9 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CouchbaseNetClient.2.0.3\lib\net45\Couchbase.NetClient.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DFramework.1.0.4.0\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\packages\DFramework.1.0.5.0\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -66,17 +66,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.EventSourcing.1.0.1.1\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\packages\Orleans.EventSourcing.1.0.2.2\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing.Couchbase, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing.Couchbase, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.EventSourcing.Couchbase.1.0.0.1\lib\net45\Orleans.EventSourcing.Couchbase.dll</HintPath>
+      <HintPath>..\packages\Orleans.EventSourcing.Couchbase.1.1.1.0\lib\net45\Orleans.EventSourcing.Couchbase.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.Storage.Couchbase, Version=1.0.3.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.Storage.Couchbase, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.Storage.Couchbase.1.0.3.2\lib\net45\Orleans.Storage.Couchbase.dll</HintPath>
+      <HintPath>..\packages\Orleans.Storage.Couchbase.1.2.1.0\lib\net45\Orleans.Storage.Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=3.4.3.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -114,6 +114,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DevTestClientConfiguration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="DevTestServerConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

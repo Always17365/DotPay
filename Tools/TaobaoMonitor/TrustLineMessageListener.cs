@@ -24,15 +24,8 @@ namespace Dotpay.TaobaoMonitor
         {
             if (started) return;
 
-            var thread = new Thread(() =>
-            {
-                while (true)
-                {
-                    InitMessageExchangeAndQueueAndRegisterConsumer();
-                }
-            });
+            InitMessageExchangeAndQueueAndRegisterConsumer();
 
-            thread.Start();
             Log.Info("-->用户Trust消息监听器启动成功...");
             started = true;
         }
@@ -121,12 +114,13 @@ namespace Dotpay.TaobaoMonitor
 
             const string updateSql =
               "UPDATE truststatistics SET trustamount=@trustamount,ledgerindex=@ledgerindex" +
-              " WHERE rippleaddress=@rippleaddress and ledgerindex<@ledgerindex";
+              " WHERE rippleaddress=@rippleaddress";
             var result = 0;
             try
             {
                 using (var conn = OpenConnection())
                 {
+                    Log.Info("UpsertTrustLine:" + message.RippleAddress + " trust amount=" + message.TrustAmount);
                     result = conn.Execute(updateSql, new
                   {
                       rippleaddress = message.RippleAddress,

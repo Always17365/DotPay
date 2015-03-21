@@ -208,12 +208,16 @@ namespace Dotpay.TaobaoMonitor
                         {
                             success = MarkTxSuccess(txResultMessage.Tid) == 1;
                             Log.Info("tx [" + txResultMessage.TxId + "] 成功了，更新DB 成功=" + success);
+                            TaobaoUtils.NoticeWebMaster("订单{0}充值成功".FormatWith(txResultMessage.Tid), "TxId={0}".FormatWith(txResultMessage.TxId));
                         }
                         else
                         {
                             success = MarkTxFail(txResultMessage.Tid, txResultMessage.Reason) == 1;
 
                             Log.Info("tx [" + txResultMessage.TxId + "] 失败了，更新DB 成功=" + success);
+
+                            TaobaoUtils.NoticeWebMaster("订单{0}充值失败了".FormatWith(txResultMessage.Tid),
+                                "TxId={0},失败原因是:{1}".FormatWith(txResultMessage.TxId, txResultMessage.Reason));
                         }
 
                     }

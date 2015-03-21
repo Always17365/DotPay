@@ -35,7 +35,7 @@ namespace Dotpay.TaobaoMonitor
                 {
                     var session = TaobaoUtils.GetTaobaoSession();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMaster();
+                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
 
                     else
                     {

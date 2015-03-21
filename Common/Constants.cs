@@ -10,6 +10,12 @@ namespace Dotpay.Common
 
         /// <summary>current user key
         /// </summary>
-        public const string CurrentUserKey = "__CURRENTUSER_ID_EMAIL"; 
+        public const string CurrentUserKey = "__CURRENTUSER_ID_EMAIL";
+        /// <summary> time out period( Seconds )
+        /// </summary>
+        public const int MessageConsumerTimeoutPeriod = 20;
+        /// <summary> time out period( Minutes )
+        /// </summary>
+        public const int AtleastOnActivationInSiloGrainSelfCheckPeriod = 2;
     }
 }

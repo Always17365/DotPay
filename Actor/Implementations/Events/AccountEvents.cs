@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 
-namespace Dotpay.Actors.Implementations.Events
+namespace Dotpay.Actor.Implementations.Events
 {
     #region Events
 

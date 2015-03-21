@@ -10,12 +10,15 @@ namespace Dotpay.Common.Enum
     {
         /// <summary>存款
         /// </summary>
-        DepositTransaction,
+        DepositTransaction = 1,
         /// <summary>取款
         /// </summary>
-        WithdrawTransaction,
+        WithdrawTransaction = 2,
         /// <summary>转账
         /// </summary>
-        TransferTransaction
+        TransferTransaction = 3,
+        /// <summary>退款
+        /// </summary>
+        RefundTransaction = 4
     }
 }

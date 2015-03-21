@@ -1,40 +1,41 @@
 ﻿using System;
 ﻿using System.Threading.Tasks;
-﻿using Dotpay.Actor.Interfaces;
-﻿using Dotpay.Actor.Interfaces.Ripple;
-using Dotpay.Actor.Interfaces.Tools;
+﻿using Dotpay.Actor.Interfaces; 
+using Dotpay.Actor.Ripple.Interfaces;
 using Dotpay.Actor.Service.Interfaces;
-﻿using Dotpay.Common;
+using Dotpay.Actor.Tools.Interfaces;
+using Dotpay.Common;
 ﻿using Orleans;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service.Implementations
 {
+    [StatelessWorker]
     public class RippleQuoteService : Grain, IRippleQuoteService
     {
         private const string AutoIncrementKey = "RippleToFinancialInstitutionId";
 
-        async Task<Immutable<QuoteResult>> IRippleQuoteService.Quote(Immutable<TransferTargetInfo> transferTargetInfo, decimal amount, string memo)
+        async Task<QuoteResult> IRippleQuoteService.Quote(TransferToFinancialInstitutionTargetInfo transferTargetInfo, decimal amount, string memo)
         {
             var errorCode = await CheckAmountRange(amount);
 
-            if (errorCode != ErrorCode.None) return new QuoteResult(errorCode).AsImmutable();
+            if (errorCode != ErrorCode.None) return new QuoteResult(errorCode);
 
             var autoIncrement = GrainFactory.GetGrain<IAtomicIncrement>(AutoIncrementKey);
             var rtfiId = await autoIncrement.GetNext();
-            var signMessage = transferTargetInfo.Value.DestinationAccount + transferTargetInfo.Value.Payway +
-                              transferTargetInfo.Value.RealName + amount + memo;
+            var signMessage = transferTargetInfo.DestinationAccount + transferTargetInfo.Payway +
+                              transferTargetInfo.RealName + amount + memo;
 
             var invoiceId = GenerateInvoiceId(signMessage);
 
             var rippleToFinancialInstitution = GrainFactory.GetGrain<IRippleToFinancialInstitution>(rtfiId);
-            var fee = await CalcTransferFee(transferTargetInfo.Value, amount);
+            var fee = await CalcTransferFee(transferTargetInfo, amount);
             var sendAmount = amount + fee;
             await rippleToFinancialInstitution.Initialize(invoiceId, transferTargetInfo, amount, amount + fee, memo);
 
             var result = new QuoteResult(errorCode, new Quote(rtfiId, invoiceId, sendAmount));
 
-            return result.AsImmutable();
+            return result;
         }
 
         private static string GenerateInvoiceId(string signMessage)

@@ -145,7 +145,7 @@ namespace Dotpay.TaobaoMonitor
 
             if (response.IsError)
             {
-                Log.Error("GetCompletePaymentOrder Error:" + response.ErrMsg + "--code=" + response.ErrCode);
+                Log.Error("GetCompletePaymentOrder Error:" + response.ErrMsg + "--code=" + response.ErrCode); 
             }
 
             return response.Trades;
@@ -168,6 +168,7 @@ namespace Dotpay.TaobaoMonitor
             if (response.IsError)
             {
                 Log.Error("GetTradeFullInfo Error:" + response.ErrMsg + "--code=" + response.ErrCode);
+                return null;
             }
 
             return response.Trade;
@@ -203,13 +204,43 @@ namespace Dotpay.TaobaoMonitor
             return !response.IsError;
 #endif
         }
+        public static bool CloseOrder(long tid, string sessionKey)
+        {
+#if TAOBAODEBUG
+            lock (locker)
+            {
+                var exist = DebugTrades.SingleOrDefault(t => t.Tid == tid);
+                if (exist != null)
+                {
+                    DebugTrades.Remove(exist);
+                    Log.Info(tid + "淘宝订单由于留言错误，被卖家主动关闭");
+                }
 
+                return true;
+            }
+#else
+            var req = new TradeCloseRequest();
+            req.Tid = tid;
+            req.CloseReason = "买家信息填写错误，重新拍";
+            TradeCloseResponse response = client.Execute(req, sessionKey);
 
-        public static void NoticeWebMaster()
+            if (response.IsError)
+            {
+                Log.Error("SendGoods Error:" + response.ErrMsg + "--code=" + response.ErrCode);
+            }
+            else
+            {
+                Log.Info(tid + "淘宝订单由于留言错误，被卖家主动关闭");
+            }
+            return !response.IsError;
+#endif
+        }
+
+        public static void NoticeWebMasterWhenSessionTimeout()
         {
             lock (noticeLocker)
             {
-                if (!hasSession && ((lastNoticeAt.HasValue && lastNoticeAt.Value.AddMinutes(10) > DateTime.Now) || !lastNoticeAt.HasValue))
+                if (!hasSession && ((lastNoticeAt.HasValue && lastNoticeAt.Value.AddMinutes(10) < DateTime.Now) || !lastNoticeAt.HasValue))
                 {
                     var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
                     var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -225,6 +256,17 @@ namespace Dotpay.TaobaoMonitor
                     }
                 }
             }
+        } 
+        public static void NoticeWebMaster(string title, string message)
+        {
+            var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
+            var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (mailList.Any())
+                mailList.ForEach(m =>
+                {
+                    EmailHelper.SendMailAsync(m, title, message);
+                });
         }
     }
 }

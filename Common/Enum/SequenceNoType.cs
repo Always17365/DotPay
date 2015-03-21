@@ -8,8 +8,10 @@ namespace Dotpay.Common.Enum
 {
     public enum SequenceNoType
     {
-        SequenceNoTypeBase=100,
-        TransferToFinancialInstitutionNo = SequenceNoTypeBase + 1, 
-        Usd
+        //类型的枚举数字不要超过999
+        SequenceNoTypeBase = 100,
+        DepositTransaction = SequenceNoTypeBase + 1,
+        TransferTransaction = SequenceNoTypeBase + 2,
+        SequenceNoTypeMax = 999
     }
 }

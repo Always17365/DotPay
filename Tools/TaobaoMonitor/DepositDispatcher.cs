@@ -43,7 +43,7 @@ namespace Dotpay.TaobaoMonitor
                 {
                     var session = TaobaoUtils.GetTaobaoSession();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMaster();
+                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
 
                     else
                     {
@@ -71,39 +71,42 @@ namespace Dotpay.TaobaoMonitor
                                     {
                                         var tradeTaobao = TaobaoUtils.GetTradeFullInfo(t.tid, session);
 
-                                        Debug.Assert(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)) == t.amount);
-
-                                        buyer_message = tradeTaobao.BuyerMessage.Trim();
-                                        var rippleAddress = buyer_message;
-
-                                        if (rippleAddress.Length >= 32 && rippleAddress.StartsWith("r") &&
-                                            UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
-                                                rippleAddress) == 1)
+                                        if (tradeTaobao != null)
                                         {
-                                            //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
-                                            //当然，如果在数据库更新成功后，消息有提交失败的可能。
-                                            //如果消息提交了，更新下数据库字段即可再次提交
-                                            //!=消息提交后，除了Lose Tx Validator更新状态，否则不会在提交=!
-                                            PublishMessage(
-                                                new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage, t.amount),
-                                                RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
-                                            NoticeWebMaster("发现淘宝自动充值，已提交处理",
-                                                "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount,
-                                                    tradeTaobao.BuyerMessage));
-                                            Log.Info("tid={0} 提交成功..mq", t.tid);
-                                        }
-                                        else
-                                        {
-                                            Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
-                                            MarkTaobaoAutoDepositMissBuyerMessage(t.tid, buyer_message);
-                                            NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                            Debug.Assert(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)) == t.amount, "淘宝充值金额与数据记录的金额不符合!taobao ={0} ,db ={1}".FormatWith(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)), t.amount));
+
+                                            buyer_message = tradeTaobao.BuyerMessage.Trim();
+                                            var rippleAddress = buyer_message;
+
+                                            if (rippleAddress.Length >= 32 && rippleAddress.StartsWith("r") &&
+                                                UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
+                                                    rippleAddress) == 1)
+                                            {
+                                                //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
+                                                //当然，如果在数据库更新成功后，消息有提交失败的可能。
+                                                //如果消息提交了，更新下数据库字段即可再次提交
+                                                //!=消息提交后，除了Lose Tx Validator更新状态，否则不会在提交=!
+                                                PublishMessage(
+                                                    new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage, t.amount),
+                                                    RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
+                                                TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，已提交处理",
+                                                         "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount,
+                                                             tradeTaobao.BuyerMessage));
+                                                Log.Info("tid={0} 提交成功..mq", t.tid);
+                                            }
+                                            else
+                                            {
+                                                Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
+                                                MarkTaobaoAutoDepositMissBuyerMessage(t.tid, buyer_message);
+                                                TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                            }
                                         }
                                     }
                                     else
                                     {
                                         Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
                                         MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
-                                        NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                        TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
                                     }
 
 
@@ -252,18 +255,6 @@ namespace Dotpay.TaobaoMonitor
             ((IBasicProperties)build.GetContentHeader()).DeliveryMode = 2;
 
             channel.BasicPublish(exchange, routeKey, ((IBasicProperties)build.GetContentHeader()), build.GetContentBody());
-        }
-
-        private static void NoticeWebMaster(string title, string message)
-        {
-            var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
-            var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (mailList != null && mailList.Any())
-                mailList.ForEach(m =>
-                {
-                    EmailHelper.SendMailAsync(m, title, message);
-                });
         }
 
         [Serializable]

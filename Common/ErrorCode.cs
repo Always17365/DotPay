@@ -34,21 +34,22 @@ namespace Dotpay.Common
 
         #region Deposit
         DepositErrorBase = 3000,
-        DepositIsLockedByOther = DepositErrorBase + 1, 
         #endregion
 
-        #region TranasferToFI
-        TranasferToFiErrorBase = 3000,
-        TranasferToFiIsLockedByOther = TranasferToFiErrorBase + 1, 
+        #region Tranasfer
+        TranasferErrorBase = 3000,
+        TranasferTransactionIsLockedByOther = TranasferErrorBase + 1,
+
         #endregion
 
-        #region ripple
-        RippleTransactionNotInit = 201,
-        RippleTransactionNotPending,
-        RippleTransactionNotSubmit,
-        RippleTransactionAmountNotMatch,
-        RippleTransactionInvoiceIdNotMatch,
-        RippleQuoteAmountOutOfRange,
+        #region Ripple
+        RippleErrorBase = 4000,
+        RippleTransactionNotInit = RippleErrorBase + 1,
+        RippleTransactionNotPending = RippleErrorBase + 2,
+        RippleTransactionNotSubmit = RippleErrorBase + 3,
+        RippleTransactionAmountNotMatch = RippleErrorBase + 4,
+        RippleTransactionInvoiceIdNotMatch = RippleErrorBase + 5,
+        RippleQuoteAmountOutOfRange = RippleErrorBase + 6,
         #endregion
 
         #region Orleans Error
