@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OrleansConfiguration xmlns="urn:orleans">
   <Globals>
-    <SystemStore SystemStoreType ="SqlServer" DeploymentId="test" DataConnectionString="Data Source =(local)\SQLExpress;Initial Catalog = Orleans;User Id =sa;Password =sasa;"/>
+    <SystemStore SystemStoreType ="SqlServer" DeploymentId="Dotpayco" DataConnectionString="Data Source =(local)\SQLExpress;Initial Catalog = Orleans;User Id =sa;Password =sasa;"/>
     <Application>
       <Defaults>
         <Deactivation AgeLimit="2m"/>

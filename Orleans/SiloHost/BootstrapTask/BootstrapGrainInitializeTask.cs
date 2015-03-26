@@ -11,7 +11,7 @@ namespace Dotpay.SiloHost.BootstrapTask
 {
     public class BootstrapGrainInitializeTask
     {
-        internal static async Task Run()
+        internal static Task Run()
         {
             ////ripple直通车消息监听器
             //var rippleListener = GrainFactory.GetGrain<IRippleToFinancialInstitutionListener>(0);
@@ -33,6 +33,7 @@ namespace Dotpay.SiloHost.BootstrapTask
             ////----------------------------------- 
             //var refundTransactionManager = GrainFactory.GetGrain<IRefundTransactionManager>(0);
             //await refundTransactionManager.Start();
+            return TaskDone.Done;
         }
     }
 }

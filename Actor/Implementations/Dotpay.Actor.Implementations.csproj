@@ -70,7 +70,6 @@
     <Compile Include="Actor\Transaction\RefundTransaction.cs" />
     <Compile Include="Events\Transaction\RefundTransactionEvents.cs" />
     <Compile Include="MessageProducterManager.cs" />
-    <Compile Include="RabbitMqMessageConsumer.cs" />
     <Compile Include="Actor\Tools\SequenceNoGenerator.cs" />
     <Compile Include="Actor\Transaction\TransferTransaction.cs" />
     <Compile Include="Events\AccountEvents.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="Events\Transaction\TransferTransactionEvents.cs" />
     <Compile Include="Actor\MessageQueueProducter.cs" />
     <Compile Include="RabbitMqConnectionManager.cs" />
-    <Compile Include="Service\MessageConsumerAbstractGrain.cs" />
     <Compile Include="Service\DepositTransactionManager.cs" />
     <Compile Include="Service\RefundTransactionManager.cs" />
     <Compile Include="Service\RippleQuoteService.cs" />

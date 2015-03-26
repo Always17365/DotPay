@@ -20,14 +20,14 @@ using RabbitMQ.Client;
 namespace Dotpay.Actor.Service.Implementations
 {
     [StatelessWorker]
-    public class TransferTransactionManager : MessageConsumerAbstractGrain, ITransferTransactionManager, IRemindable
+    public class TransferTransactionManager : Grain, ITransferTransactionManager, IRemindable
     {
-        private const string MqTransferExchangeName = "__TransferTransactionManagerExchange";
-        private const string MqReminderQueueName = "__TransferTransactionManagerReminderQueue";
-        private const string MqReminderRouteKey = "Reminder";
-        private const string MqToRippleQueueName = "__TransferToRippleQueue";
-        private const string MqToRippleQueueRouteKey = "ToRipple";
-        private const string MqRefundExchangeName = "__RefundTransactionManagerExchange";
+        private const string MqTransferExchangeName = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
+        private const string MqReminderQueueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
+        private const string MqReminderRouteKey = Constants.TransferTransactionManagerRouteKey;
+        private const string MqToRippleQueueRouteKey = Constants.TransferTransactionManagerToRippleRouteKey;
+        private const string MqToRippleQueueName = Constants.TransferTransactionManagerToRippleQueueName + Constants.QueueSuffix;
+        private const string MqRefundExchangeName = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix;
 
         private static readonly ConcurrentDictionary<Guid, TaskScheduler> OrleansSchedulerContainer =
             new ConcurrentDictionary<Guid, TaskScheduler>();
@@ -73,15 +73,27 @@ namespace Dotpay.Actor.Service.Implementations
             return code;
         }
 
-        #region override
-
-        protected override Task<bool> CheckSelfCanBeDeactive()
+        async Task ITransferTransactionManager.Receive(MqMessage message)
         {
-            if (OrleansSchedulerContainer.Count == 1)
-                return Task.FromResult(false);
-            return Task.FromResult(true);
+            var transactionMessage = message as SubmitTransferTransactionMessage;
+
+            if (transactionMessage != null)
+            {
+                await ProcessSubmitedTransferTransaction(transactionMessage);
+                return;
+            }
+
+            var rippleTransactionPresubmitMessage = message as RippleTransactionPresubmitMessage;
+
+            if (rippleTransactionPresubmitMessage != null)
+            {
+                await ProcessRippleTransactionPresubmitMessage(rippleTransactionPresubmitMessage);
+                return;
+            }
         }
-        public override async Task ReceiveReminder(string reminderName, TickStatus status)
+
+        #region override
+        public async Task ReceiveReminder(string reminderName, TickStatus status)
         {
             //Reminder用来做3分钟后检查RippleTx结果
             var transferTxId = new Guid(reminderName);
@@ -114,60 +126,14 @@ namespace Dotpay.Actor.Service.Implementations
                     }
                 }
             }
-
-            await base.ReceiveReminder(reminderName, status);
-        }
-        public override async Task Receive(MqMessage message)
-        {
-            var transactionMessage = message as SubmitTransferTransactionMessage;
-
-            if (transactionMessage != null)
-            {
-                await ProcessSubmitedTransferTransaction(transactionMessage);
-                return;
-            }
-
-            var rippleTransactionPresubmitMessage = message as RippleTransactionPresubmitMessage;
-
-            if (rippleTransactionPresubmitMessage != null)
-            {
-                await ProcessRippleTransactionPresubmitMessage(rippleTransactionPresubmitMessage);
-                return;
-            }
-
-            await base.Receive(message);
         }
 
-        protected override Task StartMessageConsumer()
-        {
-            string extKey;
-            var grainId = this.GetPrimaryKey(out extKey);
-
-            var consumer = new TransferTransactionMessageConsumer(channel, grainId);
-            channel.BasicQos(0, 1, false);
-            channel.BasicConsume(MqReminderQueueName, false, consumer);
-
-            return TaskDone.Done;
-        }
 
         public override async Task OnActivateAsync()
         {
-            string extKey;
-            var grainId = this.GetPrimaryKey(out extKey);
-            OrleansSchedulerContainer.AddOrUpdate(grainId, TaskScheduler.Current, (k, v) => TaskScheduler.Current);
             await RegisterAndBindMqQueue();
             await base.OnActivateAsync();
-        }
-
-        public override Task OnDeactivateAsync()
-        {
-            string extKey;
-            var grainId = this.GetPrimaryKey(out extKey);
-            TaskScheduler tmp;
-            OrleansSchedulerContainer.TryRemove(grainId, out tmp);
-            return base.OnDeactivateAsync();
-        }
-
+        } 
         #endregion
 
         #region Private Methods
@@ -290,209 +256,6 @@ namespace Dotpay.Actor.Service.Implementations
             await MessageProducterManager.GetProducter()
                 .PublishMessage(toRippleMessage, MqRefundExchangeName, "", true);
         }
-
-        #endregion
-
-        #region Message Consumer
-
-        #region Consumer
-
-        private class TransferTransactionMessageConsumer : RabbitMqMessageConsumer
-        {
-            public TransferTransactionMessageConsumer(IModel model, Guid grainId)
-                : base(model, grainId)
-            {
-            }
-
-            public override async void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered,
-                string exchange, string routingKey, IBasicProperties properties, byte[] body)
-            {
-                var messageBody = Encoding.UTF8.GetString(body);
-                TransferTransactionMessage message;
-
-                try
-                {
-                    message = JsonConvert.DeserializeObject<TransferTransactionMessage>(messageBody);
-
-                    if (message.Type == typeof(SubmitTransferTransactionMessage).Name)
-                    {
-                        message = JsonConvert.DeserializeObject<SubmitTransferTransactionMessage>(messageBody);
-                    }
-                    else if (message.Type == typeof(RippleTransactionPresubmitMessage).Name)
-                    {
-                        message = JsonConvert.DeserializeObject<RippleTransactionPresubmitMessage>(messageBody);
-                    }
-                    else if (message.Type == typeof(RippleTransactionResultMessage).Name)
-                    {
-                        message = JsonConvert.DeserializeObject<RippleTransactionResultMessage>(messageBody);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Model.BasicAck(deliveryTag, false);
-                    Log.Error("TransferTransactionMessageConsumer Message Error Format,Message=" + messageBody, ex);
-                    return;
-                }
-
-
-                try
-                {
-                    TaskScheduler scheduler;
-                    OrleansSchedulerContainer.TryGetValue(grainId, out scheduler);
-
-                    Debug.Assert(scheduler != null,
-                        "TransferTransactionMessageConsumer message consumer task scheduler is null");
-
-                    var transferTransactionManager = GrainFactory.GetGrain<ITransferTransactionManager>(0);
-
-                    var tcs = new TaskCompletionSource<bool>();
-
-                    Task.Factory.StartNew(() =>
-                    {
-                        transferTransactionManager.Receive(message).ContinueWith((t =>
-                        {
-                            if (t.IsFaulted)
-                                tcs.SetException(new Exception("TransferTransactionMessageConsumer Exception",
-                                    t.Exception));
-                            else if (t.IsCompleted)
-                                tcs.SetResult(true);
-                            else if (t.IsCanceled)
-                                tcs.SetException(
-                                    new Exception("TransferTransactionMessageConsumer Canneled By Scheduler",
-                                        t.Exception));
-                        }));
-                    },
-                        CancellationToken.None, TaskCreationOptions.None, scheduler);
-
-                    await tcs.Task;
-
-                    Model.BasicAck(deliveryTag, false);
-                }
-                catch (Exception ex)
-                {
-                    Model.BasicNack(deliveryTag, false, true);
-                    Log.Error("TransferTransactionMessageConsumer Exception,Message=" + messageBody, ex);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Mq Message
-
-        [Immutable]
-        [Serializable]
-        internal class TransferTransactionMessage : MqMessage
-        {
-            public TransferTransactionMessage(string typeName)
-            {
-                this.Type = typeName;
-            }
-
-            public string Type { get; private set; }
-        }
-
-        #region SubmitTransferTransactionMessage
-
-        [Immutable]
-        [Serializable]
-        internal class SubmitTransferTransactionMessage : TransferTransactionMessage
-        {
-            public SubmitTransferTransactionMessage(Guid transferTransactionId, TransferFromDotpayInfo source,
-                TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
-                : base(typeof(SubmitTransferTransactionMessage).Name)
-            {
-                this.Source = source;
-                this.Target = target;
-                this.Currency = currency;
-                this.Amount = amount;
-                this.Memo = memo;
-                this.TransferTransactionId = transferTransactionId;
-            }
-
-            public Guid TransferTransactionId { get; private set; }
-            public TransferFromDotpayInfo Source { get; private set; }
-            public TransferTargetInfo Target { get; private set; }
-            public CurrencyType Currency { get; private set; }
-            public decimal Amount { get; private set; }
-            public string Memo { get; private set; }
-        }
-
-        #endregion
-
-        #region SubmitTransferTransactionToRippleMessage
-
-        [Immutable]
-        [Serializable]
-        internal class SubmitTransferTransactionToRippleMessage : MqMessage
-        {
-            public SubmitTransferTransactionToRippleMessage(Guid transferTransactionId,
-                TransferToRippleTargetInfo target, CurrencyType currency, decimal amount)
-            {
-                this.TransferTransactionId = transferTransactionId;
-                this.Target = target;
-                this.Currency = currency;
-                this.Amount = amount;
-            }
-
-            public Guid TransferTransactionId { get; private set; }
-            public TransferToRippleTargetInfo Target { get; private set; }
-            public CurrencyType Currency { get; private set; }
-            public decimal Amount { get; private set; }
-        }
-
-        #endregion
-
-        #region RippleTransactionPresubmitMessage
-
-        [Immutable]
-        [Serializable]
-        internal class RippleTransactionPresubmitMessage : TransferTransactionMessage
-        {
-            public RippleTransactionPresubmitMessage(Guid transferTransactionId, string rippleTxId,
-                CurrencyType currency, decimal amount, long lastLedgerIndex)
-                : base(typeof(RippleTransactionPresubmitMessage).Name)
-            {
-                this.TransferTransactionId = transferTransactionId;
-                this.RippleTxId = rippleTxId;
-                this.Currency = currency;
-                this.Amount = amount;
-                this.LastLedgerIndex = lastLedgerIndex;
-            }
-
-            public Guid TransferTransactionId { get; private set; }
-            public string RippleTxId { get; private set; }
-            public CurrencyType Currency { get; private set; }
-            public decimal Amount { get; private set; }
-            public long LastLedgerIndex { get; private set; }
-        }
-
-        #endregion
-
-        #region RippleTransactionResultMessage
-
-        [Immutable]
-        [Serializable]
-        internal class RippleTransactionResultMessage : TransferTransactionMessage
-        {
-            public RippleTransactionResultMessage(Guid transferTransactionId, string rippleTxId, bool success,
-                RippleTransactionFailedType failedReason)
-                : base(typeof(RippleTransactionResultMessage).Name)
-            {
-                this.TransferTransactionId = transferTransactionId;
-                this.RippleTxId = rippleTxId;
-                this.Success = success;
-                this.FailedReason = failedReason;
-            }
-
-            public Guid TransferTransactionId { get; private set; }
-            public string RippleTxId { get; private set; }
-            public bool Success { get; private set; }
-            public RippleTransactionFailedType FailedReason { get; private set; }
-        }
-
-        #endregion
-        #endregion
 
         #endregion
     }

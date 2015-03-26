@@ -17,5 +17,21 @@ namespace Dotpay.Common
         /// <summary> time out period( Minutes )
         /// </summary>
         public const int AtleastOnActivationInSiloGrainSelfCheckPeriod = 2;
+
+        #region MQ Name
+
+        public const string ExechangeSuffix = "Exchange";
+        public const string QueueSuffix = "Queue";
+        public const string DepositTransactionManagerMQName = "DepositTransactionManager";
+        public const string TransferTransactionManagerMQName = "TransferTransactionManager";
+
+        public const string TransferTransactionManagerQueueName = "TransferTransactionManagerInside";
+        public const string TransferTransactionManagerToRippleQueueName = "TransferTransactionManagerToRipple";
+        public const string TransferTransactionManagerRouteKey = "Inside";
+        public const string TransferTransactionManagerToRippleRouteKey = "ToRipple";
+        public const string RefundTransactionManagerMQName = "RefundTransactionManager";
+        public const string RippleToFinancialInstitutionMQName = "RippleToFinancialInstitution";
+
+        #endregion
     }
 }

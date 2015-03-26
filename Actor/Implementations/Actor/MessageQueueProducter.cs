@@ -16,8 +16,10 @@ namespace Dotpay.Actor.Implementations
     {
         private static ConcurrentDictionary<string, bool> _initializeMap = new ConcurrentDictionary<string, bool>();
         private IModel _channel;
-        Task IMessageQueueProducter.RegisterAndBindQueue(string exchange, string exchangeType, string queue, string routeKey = "", bool durable = false)
+        Task IMessageQueueProducter.RegisterAndBindQueue(string exchange, string exchangeType, string queue, string routeKey, bool durable)
         {
+            if (string.IsNullOrWhiteSpace(routeKey.NullSafe())) routeKey = ""; 
+
             if (!_initializeMap.ContainsKey(queue))
             {
                 var connection = RabbitMqConnectionManager.GetConnection();
@@ -52,11 +54,10 @@ namespace Dotpay.Actor.Implementations
             if (_channel.IsOpen) _channel.Close();
             else
             {
-                try { _channel.Dispose(); }
+                try { _channel.Close(); }
                 catch (Exception) { }
             }
-            return base.OnDeactivateAsync();
-            return base.OnDeactivateAsync();
+            return base.OnDeactivateAsync(); 
         }
     }
 }
