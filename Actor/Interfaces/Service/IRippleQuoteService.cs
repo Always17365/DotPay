@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Dotpay.Actor.Interfaces;
 using Dotpay.Actor.Interfaces.Ripple;
 using Dotpay.Common;
+using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
 
@@ -10,7 +11,7 @@ namespace Dotpay.Actor.Service.Interfaces
 {
     public interface IRippleQuoteService : IGrainWithIntegerKey
     {
-        Task<QuoteResult> Quote(TransferToFinancialInstitutionTargetInfo transferTargetInfo, decimal amount, string memo);
+        Task<QuoteResult> Quote(TransferTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, string memo);
     }
 
     [Immutable]
@@ -31,14 +32,14 @@ namespace Dotpay.Actor.Service.Interfaces
     [Serializable]
     public class Quote
     {
-        public Quote(int destinationTag, string invoiceId, decimal sendAmount)
+        public Quote(Int64 destinationTag, string invoiceId, decimal sendAmount)
         {
             this.DestinationTag = destinationTag;
             this.InvoiceId = invoiceId;
             this.SendAmount = sendAmount;
         }
 
-        public int DestinationTag { get; set; }
+        public Int64 DestinationTag { get; set; }
         public string InvoiceId { get; set; }
         public decimal SendAmount { get; set; }
     }

@@ -50,6 +50,7 @@ namespace Dotpay.Common
         RippleTransactionAmountNotMatch = RippleErrorBase + 4,
         RippleTransactionInvoiceIdNotMatch = RippleErrorBase + 5,
         RippleQuoteAmountOutOfRange = RippleErrorBase + 6,
+        RippleQuoteUnsupport = RippleErrorBase + 7,
         #endregion
 
         #region Orleans Error

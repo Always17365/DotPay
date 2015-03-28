@@ -29,7 +29,7 @@ namespace Dotpay.Actor.Implementations
                         this.State.AccountId, this.State.Amount));
         }
 
-        async Task IDepositTransaction.ConfirmDeposit(Guid operatorId, string transferNo)
+        async Task IDepositTransaction.ConfirmDeposit(Guid? operatorId, string transferNo)
         {
             if (this.State.Status == DepositStatus.PreparationCompleted)
                 await this.ApplyEvent(new DepositTransactionConfirmedEvent(operatorId, transferNo));
@@ -105,7 +105,7 @@ namespace Dotpay.Actor.Implementations
         Payway Payway { get; set; }
         string Memo { get; set; }
         DateTime CreateAt { get; set; }
-        Guid OperatorId { get; set; }
+        Guid? OperatorId { get; set; }
         string TransactionNo { get; set; }
         DateTime? CompleteAt { get; set; }
         DateTime? FailAt { get; set; }

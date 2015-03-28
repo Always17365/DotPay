@@ -21,14 +21,7 @@ namespace Dotpay.Actor.Implementations
 {
     [StorageProvider(ProviderName = "CouchbaseStore")]
     public class User : EventSourcingGrain<User, IUserState>, IUser
-    {
-        private const string UserMqExchangeName = "__User_Exchange";
-        private const string UserMqResetLoginPasswordRouteKey = "LoginPassword";
-        private const string UserMqResetPaymentPasswordRouteKey = "PaymentPassword";
-        private const string UserMqResetLoginPasswordQueue = "__User_ResetLoginPasswordQueue";
-        private const string UserMqResetPaymentPasswordQueue = "__User_ResetPaymentPasswordQueue";
-        private IMessageQueueProducter _messageQueueProducter;
-
+    {  
         #region IUser
         async Task<ErrorCode> IUser.PreRegister(string email)
         {
@@ -43,9 +36,14 @@ namespace Dotpay.Actor.Implementations
             return ErrorCode.None;
         }
 
-        Task IUser.Initialize(string userAccount, string loginPassword, string paymentPassword)
+        async Task<Guid> IUser.Initialize(string userAccount, string loginPassword, string paymentPassword)
         {
-            return this.State.IsVerified ? this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword)) : TaskDone.Done;
+            var accountId = Guid.NewGuid();
+            if (!this.State.IsVerified)
+                await this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword, accountId));
+            else accountId = this.State.AccountId.Value;
+
+            return accountId;
         }
 
         Task IUser.Lock(Guid operatorId, string reason)
@@ -91,16 +89,16 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        async Task IUser.ForgetLoginPassword(Lang lang)
+        async Task<string> IUser.ForgetLoginPassword()
         {
             if (this.State.IsVerified)
             {
                 var token = GenerteResetLoginPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token));
-                var msg = new UserForgetLoginPasswordMessage(this.State.Email, this.State.LoginName, token, DateTime.Now,
-                    lang);
-                await this._messageQueueProducter.PublishMessage(msg, UserMqExchangeName, UserMqResetLoginPasswordRouteKey, true);
+                await this.ApplyEvent(new UserLoginPasswordForget(token)); 
+                return token;
             }
+
+            return string.Empty;
         }
 
         Task IUser.ResetLoginPassword(string newLoginPassword, string resetToken)
@@ -111,16 +109,15 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        async Task IUser.ForgetPaymentPassword(Lang lang)
+        async Task<string> IUser.ForgetPaymentPassword()
         {
             if (this.State.IsVerified)
             {
                 var token = this.GenerteResetPaymentPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token));
-                var msg = new UserForgetPaymentPasswordMessage(this.State.Email, this.State.LoginName, token, DateTime.Now, lang);
-
-                await this._messageQueueProducter.PublishMessage(msg, UserMqExchangeName, UserMqResetPaymentPasswordRouteKey, true);
+                await this.ApplyEvent(new UserLoginPasswordForget(token)); 
+                return token;
             }
+            return string.Empty;
         }
 
         Task IUser.ResetPaymentPassword(string newPaymentPassword, string resetToken)
@@ -184,6 +181,17 @@ namespace Dotpay.Actor.Implementations
         {
             return this.ApplyEvent(new UserAssignedRoles(operatorId, roles));
         }
+
+        public Task<Guid?> GetAccountId()
+        {
+            return Task.FromResult(this.State.AccountId);
+        }
+
+        public Task<UserInfo> GetUserInfo()
+        {
+            return Task.FromResult(new UserInfo(this.State.LoginName, this.State.Email, this.State.Roles));
+        }
+
         #endregion
 
         #region Event Handlers
@@ -324,29 +332,13 @@ namespace Dotpay.Actor.Implementations
             return result;
         }
 
-        #endregion
-
-        #region Override
-        public override Task OnActivateAsync()
-        {
-            if (this._messageQueueProducter == null)
-            {
-                this._messageQueueProducter = GrainFactory.GetGrain<IMessageQueueProducter>(0);
-
-                this._messageQueueProducter.RegisterAndBindQueue(UserMqExchangeName, ExchangeType.Direct,
-                    UserMqResetLoginPasswordQueue, UserMqResetLoginPasswordRouteKey, true);
-
-                this._messageQueueProducter.RegisterAndBindQueue(UserMqExchangeName, ExchangeType.Direct,
-                    UserMqResetPaymentPasswordQueue, UserMqResetPaymentPasswordRouteKey, true);
-            }
-            return base.OnActivateAsync();
-        }
-        #endregion
+        #endregion 
     }
 
     #region IUserState
     public interface IUserState : IEventSourcingState
     {
+        Guid? AccountId { get; set; }
         string LoginName { get; set; }
         string Email { get; set; }
         string EmailVerifyToken { get; set; }
@@ -389,41 +381,6 @@ namespace Dotpay.Actor.Implementations
         public string Mobile { get; set; }
         public string SmsKey { get; set; }
         public int SmsCounter { get; set; }
-    }
-    #endregion
-
-    #region MessageClass
-
-    internal abstract class UserMessage : MqMessage
-    {
-        public string Email { get; set; }
-        public string LoginName { get; set; }
-        public string Token { get; set; }
-        public DateTime Timestamp { get; set; }
-        public Lang Lang { get; set; }
-    }
-
-    internal class UserForgetLoginPasswordMessage : UserMessage
-    {
-        public UserForgetLoginPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)
-        {
-            this.Email = email;
-            this.LoginName = loginName;
-            this.Token = token;
-            this.Timestamp = timestamp;
-            this.Lang = lang;
-        }
-    }
-    internal class UserForgetPaymentPasswordMessage : UserMessage
-    {
-        public UserForgetPaymentPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)
-        {
-            this.Email = email;
-            this.LoginName = loginName;
-            this.Token = token;
-            this.Timestamp = timestamp;
-            this.Lang = lang;
-        }
     }
     #endregion
 }

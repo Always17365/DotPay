@@ -23,10 +23,10 @@ namespace Dotpay.Actor.Service.Implementations
     public class TransferTransactionManager : Grain, ITransferTransactionManager, IRemindable
     {
         private const string MqTransferExchangeName = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
-        private const string MqReminderQueueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
-        private const string MqReminderRouteKey = Constants.TransferTransactionManagerRouteKey;
-        private const string MqToRippleQueueRouteKey = Constants.TransferTransactionManagerToRippleRouteKey;
-        private const string MqToRippleQueueName = Constants.TransferTransactionManagerToRippleQueueName + Constants.QueueSuffix;
+        private const string MqTransferQueueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
+        private const string MqTransferRouteKey = Constants.TransferTransactionManagerRouteKey;
+        private const string MqToRippleQueueRouteKey = Constants.TransferToRippleRouteKey;
+        private const string MqToRippleQueueName = Constants.TransferToRippleQueueName + Constants.QueueSuffix;
         private const string MqRefundExchangeName = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix;
 
         private static readonly ConcurrentDictionary<Guid, TaskScheduler> OrleansSchedulerContainer =
@@ -49,7 +49,7 @@ namespace Dotpay.Actor.Service.Implementations
                     transactionInfo.Currency, transactionInfo.Amount, transactionInfo.Memo);
                 await
                     MessageProducterManager.GetProducter()
-                        .PublishMessage(message, MqTransferExchangeName, MqReminderRouteKey, true);
+                        .PublishMessage(message, MqTransferExchangeName, MqTransferRouteKey, true);
                 return await ProcessSubmitedTransferTransaction(message);
             }
 
@@ -156,7 +156,7 @@ namespace Dotpay.Actor.Service.Implementations
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.Submited)
             {
-                var target = message.Target as InnerTransferTargetInfo;
+                var target = message.Target as TransferToDotpayTargetInfo;
 
                 if (target != null && !await account.Validate())
                 {
@@ -234,8 +234,8 @@ namespace Dotpay.Actor.Service.Implementations
 
         private async Task RegisterAndBindMqQueue()
         {
-            await MessageProducterManager.RegisterAndBindQueue(MqTransferExchangeName, ExchangeType.Direct, MqReminderQueueName,
-                  MqReminderRouteKey, true);
+            await MessageProducterManager.RegisterAndBindQueue(MqTransferExchangeName, ExchangeType.Direct, MqTransferQueueName,
+                  MqTransferRouteKey, true);
             await MessageProducterManager.RegisterAndBindQueue(MqTransferExchangeName, ExchangeType.Direct, MqToRippleQueueName,
                   MqToRippleQueueRouteKey, true);
         }

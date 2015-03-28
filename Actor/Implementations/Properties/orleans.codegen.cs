@@ -347,7 +347,7 @@ namespace Dotpay.Actor.Implementations
 
             public Dictionary<Guid,TransactionPreparation> @TransactionPreparations { get; set; }
 
-            public Guid @OwnerId { get; set; }
+            public Int32 @OwnerId { get; set; }
 
             public Dictionary<CurrencyType,Decimal> @Balances { get; set; }
 
@@ -357,7 +357,7 @@ namespace Dotpay.Actor.Implementations
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
                 if (values.TryGetValue("TransactionPreparations", out value)) @TransactionPreparations = (Dictionary<Guid,TransactionPreparation>) value;
-                if (values.TryGetValue("OwnerId", out value)) @OwnerId = (Guid) value;
+                if (values.TryGetValue("OwnerId", out value)) @OwnerId = value is Int64 ? (Int32)(Int64)value : (Int32)value;
                 if (values.TryGetValue("Balances", out value)) @Balances = (Dictionary<CurrencyType,Decimal>) value;
             }
 
@@ -386,7 +386,7 @@ namespace Dotpay.Actor.Implementations
         {
             this.Version = default(UInt64);
             this.TransactionPreparations = new Dictionary<Guid,TransactionPreparation>();
-            this.OwnerId = default(Guid);
+            this.OwnerId = default(Int32);
             this.Balances = new Dictionary<CurrencyType,Decimal>();
         }
         
@@ -439,7 +439,7 @@ namespace Dotpay.Actor.Implementations
 
             public DateTime @CreateAt { get; set; }
 
-            public Guid @OperatorId { get; set; }
+            public Nullable<Guid> @OperatorId { get; set; }
 
             public String @TransactionNo { get; set; }
 
@@ -462,7 +462,7 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
                 if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
                 if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
-                if (values.TryGetValue("OperatorId", out value)) @OperatorId = (Guid) value;
+                if (values.TryGetValue("OperatorId", out value)) @OperatorId = (Nullable<Guid>) value;
                 if (values.TryGetValue("TransactionNo", out value)) @TransactionNo = (String) value;
                 if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
@@ -511,7 +511,7 @@ namespace Dotpay.Actor.Implementations
             this.Payway = default(Payway);
             this.Memo = default(String);
             this.CreateAt = default(DateTime);
-            this.OperatorId = default(Guid);
+            this.OperatorId = default(Nullable<Guid>);
             this.TransactionNo = default(String);
             this.CompleteAt = default(Nullable<DateTime>);
             this.FailAt = default(Nullable<DateTime>);
@@ -657,6 +657,8 @@ namespace Dotpay.Actor.Implementations
 
             public RippleToFinancialInstitutionSetting @RippleToFinancialInstitutionSetting { get; set; }
 
+            public RippleToDotpaySetting @RippleToDotpaySetting { get; set; }
+
             public DateTime @RippleToFinancialInstitutionSettingUpdateAt { get; set; }
 
             public Guid @RippleToFinancialInstitutionSettingUpdateBy { get; set; }
@@ -667,13 +669,14 @@ namespace Dotpay.Actor.Implementations
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
                 if (values.TryGetValue("RippleToFinancialInstitutionSetting", out value)) @RippleToFinancialInstitutionSetting = (RippleToFinancialInstitutionSetting) value;
+                if (values.TryGetValue("RippleToDotpaySetting", out value)) @RippleToDotpaySetting = (RippleToDotpaySetting) value;
                 if (values.TryGetValue("RippleToFinancialInstitutionSettingUpdateAt", out value)) @RippleToFinancialInstitutionSettingUpdateAt = (DateTime) value;
                 if (values.TryGetValue("RippleToFinancialInstitutionSettingUpdateBy", out value)) @RippleToFinancialInstitutionSettingUpdateBy = (Guid) value;
             }
 
             public override System.String ToString()
             {
-                return System.String.Format("SystemSettingState( Version={0} RippleToFinancialInstitutionSetting={1} RippleToFinancialInstitutionSettingUpdateAt={2} RippleToFinancialInstitutionSettingUpdateBy={3} )", @Version, @RippleToFinancialInstitutionSetting, @RippleToFinancialInstitutionSettingUpdateAt, @RippleToFinancialInstitutionSettingUpdateBy);
+                return System.String.Format("SystemSettingState( Version={0} RippleToFinancialInstitutionSetting={1} RippleToDotpaySetting={2} RippleToFinancialInstitutionSettingUpdateAt={3} RippleToFinancialInstitutionSettingUpdateBy={4} )", @Version, @RippleToFinancialInstitutionSetting, @RippleToDotpaySetting, @RippleToFinancialInstitutionSettingUpdateAt, @RippleToFinancialInstitutionSettingUpdateBy);
             }
         
         public SystemSettingState() : 
@@ -687,6 +690,7 @@ namespace Dotpay.Actor.Implementations
             System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
             result["Version"] = this.Version;
             result["RippleToFinancialInstitutionSetting"] = this.RippleToFinancialInstitutionSetting;
+            result["RippleToDotpaySetting"] = this.RippleToDotpaySetting;
             result["RippleToFinancialInstitutionSettingUpdateAt"] = this.RippleToFinancialInstitutionSettingUpdateAt;
             result["RippleToFinancialInstitutionSettingUpdateBy"] = this.RippleToFinancialInstitutionSettingUpdateBy;
             return result;
@@ -696,6 +700,7 @@ namespace Dotpay.Actor.Implementations
         {
             this.Version = default(UInt64);
             this.RippleToFinancialInstitutionSetting = new RippleToFinancialInstitutionSetting();
+            this.RippleToDotpaySetting = new RippleToDotpaySetting();
             this.RippleToFinancialInstitutionSettingUpdateAt = default(DateTime);
             this.RippleToFinancialInstitutionSettingUpdateBy = default(Guid);
         }
@@ -732,6 +737,8 @@ namespace Dotpay.Actor.Implementations
         
 
             public UInt64 @Version { get; set; }
+
+            public Nullable<Guid> @AccountId { get; set; }
 
             public String @LoginName { get; set; }
 
@@ -778,6 +785,7 @@ namespace Dotpay.Actor.Implementations
                 object value;
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("AccountId", out value)) @AccountId = (Nullable<Guid>) value;
                 if (values.TryGetValue("LoginName", out value)) @LoginName = (String) value;
                 if (values.TryGetValue("Email", out value)) @Email = (String) value;
                 if (values.TryGetValue("EmailVerifyToken", out value)) @EmailVerifyToken = (String) value;
@@ -802,7 +810,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("UserState( Version={0} LoginName={1} Email={2} EmailVerifyToken={3} IsVerified={4} IsLocked={5} LockedAt={6} Roles={7} IdentityInfo={8} MobileSetting={9} LoginPassword={10} LoginPasswordResetToken={11} LoginPasswordResetTokenGenerateAt={12} LastLoginPasswordChangeAt={13} PaymentPassword={14} PaymentPasswordResetToken={15} PaymentPasswordResetTokenGenerateAt={16} LastPaymentPasswordChangeAt={17} LastLoginIp={18} LastLoginAt={19} LastLoginFailedAt={20} )", @Version, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @Roles, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt);
+                return System.String.Format("UserState( Version={0} AccountId={1} LoginName={2} Email={3} EmailVerifyToken={4} IsVerified={5} IsLocked={6} LockedAt={7} Roles={8} IdentityInfo={9} MobileSetting={10} LoginPassword={11} LoginPasswordResetToken={12} LoginPasswordResetTokenGenerateAt={13} LastLoginPasswordChangeAt={14} PaymentPassword={15} PaymentPasswordResetToken={16} PaymentPasswordResetTokenGenerateAt={17} LastPaymentPasswordChangeAt={18} LastLoginIp={19} LastLoginAt={20} LastLoginFailedAt={21} )", @Version, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @Roles, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt);
             }
         
         public UserState() : 
@@ -815,6 +823,7 @@ namespace Dotpay.Actor.Implementations
         {
             System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
             result["Version"] = this.Version;
+            result["AccountId"] = this.AccountId;
             result["LoginName"] = this.LoginName;
             result["Email"] = this.Email;
             result["EmailVerifyToken"] = this.EmailVerifyToken;
@@ -841,6 +850,7 @@ namespace Dotpay.Actor.Implementations
         private void InitStateFields()
         {
             this.Version = default(UInt64);
+            this.AccountId = default(Nullable<Guid>);
             this.LoginName = default(String);
             this.Email = default(String);
             this.EmailVerifyToken = default(String);
@@ -887,6 +897,15 @@ namespace Dotpay.Actor.Implementations
     }
 }
 namespace Dotpay.Actor.Service.Implementations
+{
+    using Orleans.CodeGeneration;
+    using Orleans;
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
+    
+}
+namespace Dotpay.Actors.Service.Implementations
 {
     using Orleans.CodeGeneration;
     using Orleans;

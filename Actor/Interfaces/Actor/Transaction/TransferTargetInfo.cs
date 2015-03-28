@@ -26,7 +26,7 @@ namespace Dotpay.Actor.Interfaces
     /// </summary>
     [Immutable]
     [Serializable]
-    public class InnerTransferTargetInfo : TransferTargetInfo
+    public class TransferToDotpayTargetInfo : TransferTargetInfo
     {
         public Guid AccountId { get; set; }
     }

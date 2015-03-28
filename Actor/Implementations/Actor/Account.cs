@@ -19,9 +19,9 @@ namespace Dotpay.Actor.Implementations
     public class Account : EventSourcingGrain<Account, IAccountState>, IAccount
     {
         #region IAccount
-        async Task<ErrorCode> IAccount.Initialize(Guid ownerId)
+        async Task<ErrorCode> IAccount.Initialize(int ownerId)
         {
-            if (this.State.OwnerId != Guid.Empty)
+            if (this.State.OwnerId != 0)
             {
                 await this.ApplyEvent(new AccountInitializeEvent(ownerId));
                 return ErrorCode.None;
@@ -32,7 +32,7 @@ namespace Dotpay.Actor.Implementations
 
         Task<bool> IAccount.Validate()
         {
-            return Task.FromResult(this.State.OwnerId != Guid.Empty);
+            return Task.FromResult(this.State.OwnerId != 0);
         }
 
         async Task<ErrorCode> IAccount.AddTransactionPreparation(Guid transactionId, TransactionType transactionType,
@@ -87,6 +87,12 @@ namespace Dotpay.Actor.Implementations
         {
             return Task.FromResult(this.State.Balances);
         }
+
+        public Task<int> GetOwnerId()
+        {
+            return Task.FromResult(this.State.OwnerId);
+        }
+
         #endregion
 
         #region Event Handlers
@@ -150,7 +156,7 @@ namespace Dotpay.Actor.Implementations
     public interface IAccountState : IEventSourcingState
     {
         Dictionary<Guid, TransactionPreparation> TransactionPreparations { get; set; }
-        Guid OwnerId { get; set; }
+        int OwnerId { get; set; }
         Dictionary<CurrencyType, decimal> Balances { get; set; }
     }
 }

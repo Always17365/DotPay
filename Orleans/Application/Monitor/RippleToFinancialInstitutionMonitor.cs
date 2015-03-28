@@ -13,6 +13,14 @@ using RabbitMQ.Client.Framing.Impl;
 
 namespace Dotpay.Application.Monitor
 {
+    /// <summary>
+    /// <remarks>
+    ///       此处收到的消息应该有2种
+    ///         1.直通车的消息
+    ///         2.点付用户的收款消息--可以作为一种充值手段
+    ///       但得到的消息数据结构是一致的，至于到底是哪一个类，需要根据InvoiceId和DestinationTag做判断
+    /// </remarks>
+    /// </summary>
     internal class RippleToFinancialInstitutionMonitor : IApplicationMonitor
     {
         private IModel _channel;
@@ -45,7 +53,7 @@ namespace Dotpay.Application.Monitor
             _channel.QueueDeclare(queueName, true, false, false, null);
             _channel.QueueBind(queueName, exchangeName, string.Empty);
 
-            var consumer = new RippleTxMessageConsumer(_channel);
+            var consumer = new RippleToFITxMessageMessageConsumer(_channel);
             _channel.BasicQos(0, 1, false);
             _channel.BasicConsume(queueName, false, consumer);
 
@@ -53,17 +61,17 @@ namespace Dotpay.Application.Monitor
 
         #region Message Consumer
 
-        internal class RippleTxMessageConsumer : DefaultBasicConsumer
+        private class RippleToFITxMessageMessageConsumer : DefaultBasicConsumer
         {
-            public RippleTxMessageConsumer(IModel model) : base(model) { }
+            public RippleToFITxMessageMessageConsumer(IModel model) : base(model) { }
             public override async void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey, IBasicProperties properties, byte[] body)
             {
                 var messageBody = Encoding.UTF8.GetString(body);
-                RippleTxMessage message;
-
+                RippleToFITxMessage message;
+                //destinationTag如何取出用户的Id
                 try
                 {
-                    message = JsonConvert.DeserializeObject<RippleTxMessage>(messageBody);
+                    message = JsonConvert.DeserializeObject<RippleToFITxMessage>(messageBody);
                 }
                 catch (Exception ex)
                 {
@@ -74,7 +82,7 @@ namespace Dotpay.Application.Monitor
 
                 try
                 {
-                    var rippleToFinancialInstitutionListener = GrainFactory.GetGrain<IRippleToFinancialInstitutionListener>(0);
+                    var rippleToFinancialInstitutionListener = GrainFactory.GetGrain<IRippleToFinancialInstitutionProcessor>(0);
 
                     await rippleToFinancialInstitutionListener.Receive(message);
 

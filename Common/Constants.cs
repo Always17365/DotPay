@@ -23,14 +23,25 @@ namespace Dotpay.Common
         public const string ExechangeSuffix = "Exchange";
         public const string QueueSuffix = "Queue";
         public const string DepositTransactionManagerMQName = "DepositTransactionManager";
-        public const string TransferTransactionManagerMQName = "TransferTransactionManager";
 
-        public const string TransferTransactionManagerQueueName = "TransferTransactionManagerInside";
-        public const string TransferTransactionManagerToRippleQueueName = "TransferTransactionManagerToRipple";
+        public const string TransferTransactionManagerMQName = "TransferTransactionManager";
+        public const string TransferToRippleQueueName = "TransferToRipple";
         public const string TransferTransactionManagerRouteKey = "Inside";
-        public const string TransferTransactionManagerToRippleRouteKey = "ToRipple";
+        public const string TransferToRippleRouteKey = "ToRipple";
+
         public const string RefundTransactionManagerMQName = "RefundTransactionManager";
+
+        public const string RippleTxResultMQName = "RippleTxResult";
+        public const string RippleValidatorMQExchangeName = "RippleValidator";
+        public const string RippleLedgerIndexResultQueueName = "RippleLedgerIndex";
+        public const string RippleValidateResultQueueName = "RippleValidator";
+
         public const string RippleToFinancialInstitutionMQName = "RippleToFinancialInstitution";
+
+        public const string RippleTrustLineMQName = "__RippleTrustLine_";
+
+
+        public const string UserMQName = "UserMQ";
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DFramework;
 using Dotpay.Actor.Implementations;
 using Dotpay.Actor.Interfaces;
 using Dotpay.Actor.Service.Interfaces;
@@ -18,6 +19,13 @@ namespace Dotpay.Actor.Service.Implementations
         private const string MqExchangeName = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
         private const string MqQueueName = Constants.DepositTransactionManagerMQName + Constants.QueueSuffix;
 
+
+        public Task ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount,
+            Payway payway, string memo)
+        {
+            throw new NotImplementedException();
+        }
+
         async Task IDepositTransactionManager.CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
         {
             var depositTx = GrainFactory.GetGrain<IDepositTransaction>(depositTxId);
@@ -29,7 +37,7 @@ namespace Dotpay.Actor.Service.Implementations
         {
             var message = new ConfirmDepositTransactionMessage(depositTxId, operatorId, transactionNo);
 
-            await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, durable: true);
+            await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, "", true);
             await ProcessConfirmDepositTransaction(message);
         }
 
@@ -57,6 +65,12 @@ namespace Dotpay.Actor.Service.Implementations
 
             if (confirmMessage != null)
                 await ProcessConfirmDepositTransaction(confirmMessage);
+
+            var rippleDeposit = message as RippleDepositTransactionMessage;
+            if (rippleDeposit != null)
+            {
+                await ProcessRippleDepositTransaction(rippleDeposit);
+            }
         }
 
         public override Task OnActivateAsync()
@@ -74,6 +88,45 @@ namespace Dotpay.Actor.Service.Implementations
 
             return sequenceNoGenerator.GetNext();
         }
+        private async Task ProcessRippleDepositTransaction(RippleDepositTransactionMessage rippleDepositMessage)
+        {
+            try
+            {
+                var depositTx = GrainFactory.GetGrain<IDepositTransaction>(rippleDepositMessage.DepositTxId);
+
+                var depositTxInfo = await depositTx.GetTransactionInfo();
+                var account = GrainFactory.GetGrain<IAccount>(depositTxInfo.AccountId);
+
+
+                if (await depositTx.GetStatus() < DepositStatus.Started)
+                {
+                    var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(rippleDepositMessage.Payway);
+                    await
+                        depositTx.Initiliaze(depositSequenceNo, rippleDepositMessage.AccountId,
+                            rippleDepositMessage.Currency, rippleDepositMessage.Amount, rippleDepositMessage.Payway,
+                            rippleDepositMessage.Memo);
+                }
+
+                if (await depositTx.GetStatus() == DepositStatus.Started)
+                {
+                    await account.AddTransactionPreparation(rippleDepositMessage.DepositTxId, TransactionType.DepositTransaction,
+                        PreparationType.CreditPreparation, depositTxInfo.Currency, depositTxInfo.Amount);
+                    await depositTx.ConfirmDepositPreparation();
+                }
+
+                if (await depositTx.GetStatus() == DepositStatus.PreparationCompleted)
+                {
+                    await account.CommitTransactionPreparation(rippleDepositMessage.DepositTxId);
+                    await depositTx.ConfirmDeposit(null, rippleDepositMessage.RippleTxId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("ProcessRippleDepositTransaction:" + ex.Message, ex);
+                throw;
+            }
+        }
+
         private async Task ProcessConfirmDepositTransaction(ConfirmDepositTransactionMessage confirmMessage)
         {
             try
@@ -99,7 +152,8 @@ namespace Dotpay.Actor.Service.Implementations
             }
             catch (Exception ex)
             {
-                this.GetLogger("ProcessConfirmDepositTransaction").Error((int)ErrorCode.DepositTransactionManagerError, ex.Message, ex);
+                Log.Error("ProcessRippleDepositTransaction:" + ex.Message, ex);
+                throw;
             }
         }
         #endregion

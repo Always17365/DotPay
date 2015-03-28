@@ -26,9 +26,9 @@ namespace Dotpay.Actor.Interfaces
     using Orleans.Serialization;
     using Dotpay.Actor.Interfaces;
     using Dotpay.Common.Enum;
+    using Dotpay.Common;
     using Orleans;
     using Orleans.Runtime;
-    using Dotpay.Common;
     using System.Collections;
     
     
@@ -125,10 +125,10 @@ namespace Dotpay.Actor.Interfaces
                 return AccountMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Interfaces.IAccount.Initialize(System.Guid @ownerId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Interfaces.IAccount.Initialize(int @ownerId)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1993006295, new object[] {@ownerId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1978861349, new object[] {@ownerId} );
             }
             
             System.Threading.Tasks.Task<bool> Dotpay.Actor.Interfaces.IAccount.Validate()
@@ -166,6 +166,12 @@ namespace Dotpay.Actor.Interfaces
 
                 return base.InvokeMethodAsync<System.Collections.Generic.Dictionary<Dotpay.Common.Enum.CurrencyType,System.Decimal>>(-943710304, new object[] {} );
             }
+            
+            System.Threading.Tasks.Task<int> Dotpay.Actor.Interfaces.IAccount.GetOwnerId()
+            {
+
+                return base.InvokeMethodAsync<System.Int32>(1326764137, new object[] {} );
+            }
         }
     }
     
@@ -193,8 +199,8 @@ namespace Dotpay.Actor.Interfaces
                     case -1388844553:  // IAccount
                         switch (methodId)
                         {
-                            case -1993006295: 
-                                return ((IAccount)grain).Initialize((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1978861349: 
+                                return ((IAccount)grain).Initialize((Int32)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1980500241: 
                                 return ((IAccount)grain).Validate().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1176924676: 
@@ -207,6 +213,8 @@ namespace Dotpay.Actor.Interfaces
                                 return ((IAccount)grain).GetBalance((Dotpay.Common.Enum.CurrencyType)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -943710304: 
                                 return ((IAccount)grain).GetBalances().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 1326764137: 
+                                return ((IAccount)grain).GetOwnerId().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case -1097320095:  // IGrainWithGuidKey
@@ -236,7 +244,7 @@ namespace Dotpay.Actor.Interfaces
                 case -1388844553:  // IAccount
                     switch (methodId)
                     {
-                        case -1993006295:
+                        case -1978861349:
                             return "Initialize";
                     case 1980500241:
                             return "Validate";
@@ -250,6 +258,8 @@ namespace Dotpay.Actor.Interfaces
                             return "GetBalance";
                     case -943710304:
                             return "GetBalances";
+                    case 1326764137:
+                            return "GetOwnerId";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -559,10 +569,10 @@ namespace Dotpay.Actor.Interfaces
                 return base.InvokeMethodAsync<object>(1732007996, new object[] {} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IDepositTransaction.ConfirmDeposit(System.Guid @operatorId, string @transsactionNo)
+            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IDepositTransaction.ConfirmDeposit(Nullable<Guid> @operatorId, string @transsactionNo)
             {
 
-                return base.InvokeMethodAsync<object>(-212204639, new object[] {@operatorId, @transsactionNo} );
+                return base.InvokeMethodAsync<object>(50814780, new object[] {@operatorId, @transsactionNo} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IDepositTransaction.Fail(System.Guid @operatorId, string @reason)
@@ -613,8 +623,8 @@ namespace Dotpay.Actor.Interfaces
                                 return ((IDepositTransaction)grain).Initiliaze((String)arguments[0], (Guid)arguments[1], (CurrencyType)arguments[2], (Decimal)arguments[3], (Payway)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1732007996: 
                                 return ((IDepositTransaction)grain).ConfirmDepositPreparation().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
-                            case -212204639: 
-                                return ((IDepositTransaction)grain).ConfirmDeposit((Guid)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 50814780: 
+                                return ((IDepositTransaction)grain).ConfirmDeposit((Nullable<Guid>)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 366670044: 
                                 return ((IDepositTransaction)grain).Fail((Guid)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1475556748: 
@@ -654,7 +664,7 @@ namespace Dotpay.Actor.Interfaces
                             return "Initiliaze";
                     case 1732007996:
                             return "ConfirmDepositPreparation";
-                    case -212204639:
+                    case 50814780:
                             return "ConfirmDeposit";
                     case 366670044:
                             return "Fail";
@@ -990,6 +1000,18 @@ namespace Dotpay.Actor.Interfaces
 
                 return base.InvokeMethodAsync<object>(-8345625, new object[] {@setting, @updateBy} );
             }
+            
+            System.Threading.Tasks.Task<Dotpay.Actor.Interfaces.RippleToDotpaySetting> Dotpay.Actor.Interfaces.ISystemSetting.GetRippleToDotpaySetting()
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Actor.Interfaces.RippleToDotpaySetting>(643282754, new object[] {} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.ISystemSetting.UpdateRippleToDotpaySetting(Dotpay.Actor.Interfaces.RippleToDotpaySetting @setting, System.Guid @updateBy)
+            {
+
+                return base.InvokeMethodAsync<object>(-110632307, new object[] {@setting, @updateBy} );
+            }
         }
     }
     
@@ -1021,6 +1043,10 @@ namespace Dotpay.Actor.Interfaces
                                 return ((ISystemSetting)grain).GetRippleToFinancialInstitutionSetting().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -8345625: 
                                 return ((ISystemSetting)grain).UpdateRippleToFinancialInstitutionSetting((RippleToFinancialInstitutionSetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 643282754: 
+                                return ((ISystemSetting)grain).GetRippleToDotpaySetting().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -110632307: 
+                                return ((ISystemSetting)grain).UpdateRippleToDotpaySetting((RippleToDotpaySetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -1054,6 +1080,10 @@ namespace Dotpay.Actor.Interfaces
                             return "GetRippleToFinancialInstitutionSetting";
                     case -8345625:
                             return "UpdateRippleToFinancialInstitutionSetting";
+                    case 643282754:
+                            return "GetRippleToDotpaySetting";
+                    case -110632307:
+                            return "UpdateRippleToDotpaySetting";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -1394,12 +1424,12 @@ namespace Dotpay.Actor.Interfaces
     {
         
 
-                        public static Dotpay.Actor.Interfaces.IUser GetGrain(System.Guid primaryKey)
+                        public static Dotpay.Actor.Interfaces.IUser GetGrain(long primaryKey)
                         {
                             return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.IUser), 1071184334, primaryKey));
                         }
 
-                        public static Dotpay.Actor.Interfaces.IUser GetGrain(System.Guid primaryKey, string grainClassNamePrefix)
+                        public static Dotpay.Actor.Interfaces.IUser GetGrain(long primaryKey, string grainClassNamePrefix)
                         {
                             return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.IUser), 1071184334, primaryKey, grainClassNamePrefix));
                         }
@@ -1473,7 +1503,7 @@ namespace Dotpay.Actor.Interfaces
             public override bool IsCompatible(int interfaceId)
             {
                 return ((interfaceId == this.InterfaceId) 
-                            || (interfaceId == -1097320095));
+                            || (interfaceId == 1928988877));
             }
             
             protected override string GetMethodName(int interfaceId, int methodId)
@@ -1487,10 +1517,10 @@ namespace Dotpay.Actor.Interfaces
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1528301820, new object[] {@email} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.Initialize(string @userAccount, string @loginPassword, string @tradePassword)
+            System.Threading.Tasks.Task<System.Guid> Dotpay.Actor.Interfaces.IUser.Initialize(string @userAccount, string @loginPassword, string @tradePassword)
             {
 
-                return base.InvokeMethodAsync<object>(-1600852723, new object[] {@userAccount, @loginPassword, @tradePassword} );
+                return base.InvokeMethodAsync<System.Guid>(-1600852723, new object[] {@userAccount, @loginPassword, @tradePassword} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Interfaces.IUser.Login(string @loginPassword, string @ip)
@@ -1529,10 +1559,10 @@ namespace Dotpay.Actor.Interfaces
                 return base.InvokeMethodAsync<object>(193253814, new object[] {@fullName, @idNoType, @idNo} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.ForgetLoginPassword(Dotpay.Common.Enum.Lang @lang)
+            System.Threading.Tasks.Task<string> Dotpay.Actor.Interfaces.IUser.ForgetLoginPassword()
             {
 
-                return base.InvokeMethodAsync<object>(477987425, new object[] {@lang} );
+                return base.InvokeMethodAsync<System.String>(1603771669, new object[] {} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.ResetLoginPassword(string @newLoginPassword, string @resetToken)
@@ -1541,10 +1571,10 @@ namespace Dotpay.Actor.Interfaces
                 return base.InvokeMethodAsync<object>(-1146804204, new object[] {@newLoginPassword, @resetToken} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.ForgetPaymentPassword(Dotpay.Common.Enum.Lang @lang)
+            System.Threading.Tasks.Task<string> Dotpay.Actor.Interfaces.IUser.ForgetPaymentPassword()
             {
 
-                return base.InvokeMethodAsync<object>(282810743, new object[] {@lang} );
+                return base.InvokeMethodAsync<System.String>(1340408217, new object[] {} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.Interfaces.IUser.ResetPaymentPassword(string @newPaymentPassword, string @resetToken)
@@ -1582,6 +1612,18 @@ namespace Dotpay.Actor.Interfaces
 
                 return base.InvokeMethodAsync<object>(953637368, new object[] {@operatorId, @roles} );
             }
+            
+            System.Threading.Tasks.Task<System.Nullable<System.Guid>> Dotpay.Actor.Interfaces.IUser.GetAccountId()
+            {
+
+                return base.InvokeMethodAsync<System.Nullable<System.Guid>>(-1535590340, new object[] {} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Actor.Interfaces.UserInfo> Dotpay.Actor.Interfaces.IUser.GetUserInfo()
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Actor.Interfaces.UserInfo>(-1072947614, new object[] {} );
+            }
         }
     }
     
@@ -1612,7 +1654,7 @@ namespace Dotpay.Actor.Interfaces
                             case 1528301820: 
                                 return ((IUser)grain).PreRegister((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1600852723: 
-                                return ((IUser)grain).Initialize((String)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((IUser)grain).Initialize((String)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1415878300: 
                                 return ((IUser)grain).Login((String)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1046983731: 
@@ -1625,12 +1667,12 @@ namespace Dotpay.Actor.Interfaces
                                 return ((IUser)grain).SmsCounterIncrease().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 193253814: 
                                 return ((IUser)grain).VeirfyIdentity((String)arguments[0], (IdNoType)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
-                            case 477987425: 
-                                return ((IUser)grain).ForgetLoginPassword((Lang)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 1603771669: 
+                                return ((IUser)grain).ForgetLoginPassword().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1146804204: 
                                 return ((IUser)grain).ResetLoginPassword((String)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
-                            case 282810743: 
-                                return ((IUser)grain).ForgetPaymentPassword((Lang)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 1340408217: 
+                                return ((IUser)grain).ForgetPaymentPassword().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1437379261: 
                                 return ((IUser)grain).ResetPaymentPassword((String)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1388525298: 
@@ -1643,9 +1685,13 @@ namespace Dotpay.Actor.Interfaces
                                 return ((IUser)grain).ChangePaymentPassword((String)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 953637368: 
                                 return ((IUser)grain).AssignRoles((Guid)arguments[0], (IEnumerable<ManagerType>)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -1535590340: 
+                                return ((IUser)grain).GetAccountId().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1072947614: 
+                                return ((IUser)grain).GetUserInfo().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
-                        }case -1097320095:  // IGrainWithGuidKey
+                        }case 1928988877:  // IGrainWithIntegerKey
                         switch (methodId)
                         {
                             default: 
@@ -1688,11 +1734,11 @@ namespace Dotpay.Actor.Interfaces
                             return "SmsCounterIncrease";
                     case 193253814:
                             return "VeirfyIdentity";
-                    case 477987425:
+                    case 1603771669:
                             return "ForgetLoginPassword";
                     case -1146804204:
                             return "ResetLoginPassword";
-                    case 282810743:
+                    case 1340408217:
                             return "ForgetPaymentPassword";
                     case 1437379261:
                             return "ResetPaymentPassword";
@@ -1706,11 +1752,15 @@ namespace Dotpay.Actor.Interfaces
                             return "ChangePaymentPassword";
                     case 953637368:
                             return "AssignRoles";
+                    case -1535590340:
+                            return "GetAccountId";
+                    case -1072947614:
+                            return "GetUserInfo";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                     }
-                case -1097320095:  // IGrainWithGuidKey
+                case 1928988877:  // IGrainWithIntegerKey
                     switch (methodId)
                     {
                         
@@ -1975,10 +2025,10 @@ namespace Dotpay.Actor.Interfaces
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_Interfaces_InnerTransferTargetInfoSerialization
+    internal class Dotpay_Actor_Interfaces_TransferToDotpayTargetInfoSerialization
     {
         
-        static Dotpay_Actor_Interfaces_InnerTransferTargetInfoSerialization()
+        static Dotpay_Actor_Interfaces_TransferToDotpayTargetInfoSerialization()
         {
             Register();
         }
@@ -1990,14 +2040,14 @@ namespace Dotpay.Actor.Interfaces
         
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
-            Dotpay.Actor.Interfaces.InnerTransferTargetInfo input = ((Dotpay.Actor.Interfaces.InnerTransferTargetInfo)(untypedInput));
+            Dotpay.Actor.Interfaces.TransferToDotpayTargetInfo input = ((Dotpay.Actor.Interfaces.TransferToDotpayTargetInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.Interfaces.InnerTransferTargetInfo result = new Dotpay.Actor.Interfaces.InnerTransferTargetInfo();
+            Dotpay.Actor.Interfaces.TransferToDotpayTargetInfo result = new Dotpay.Actor.Interfaces.TransferToDotpayTargetInfo();
             result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
             return result;
@@ -2005,7 +2055,7 @@ namespace Dotpay.Actor.Interfaces
         
         public static void Register()
         {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.InnerTransferTargetInfo), DeepCopier, Serializer, Deserializer);
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.TransferToDotpayTargetInfo), DeepCopier, Serializer, Deserializer);
         }
     }
     
@@ -2137,6 +2187,51 @@ namespace Dotpay.Actor.Interfaces
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
+    internal class Dotpay_Actor_Interfaces_RippleToDotpaySettingSerialization
+    {
+        
+        static Dotpay_Actor_Interfaces_RippleToDotpaySettingSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Dotpay.Actor.Interfaces.RippleToDotpaySetting input = ((Dotpay.Actor.Interfaces.RippleToDotpaySetting)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.FeeRate, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.FixedFee, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.MaxAmount, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.MaxFee, stream, typeof(System.Nullable<System.Decimal>));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.MinAmount, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.MinFee, stream, typeof(System.Nullable<System.Decimal>));
+        }
+        
+        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Dotpay.Actor.Interfaces.RippleToDotpaySetting result = new Dotpay.Actor.Interfaces.RippleToDotpaySetting();
+            result.FeeRate = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.FixedFee = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.MaxAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.MaxFee = ((System.Nullable<System.Decimal>)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Nullable<System.Decimal>), stream)));
+            result.MinAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.MinFee = ((System.Nullable<System.Decimal>)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Nullable<System.Decimal>), stream)));
+            return result;
+        }
+        
+        public static void Register()
+        {
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.RippleToDotpaySetting), DeepCopier, Serializer, Deserializer);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Dotpay_Actor_Interfaces_TransferTransactionInfoSerialization
     {
         
@@ -2215,6 +2310,51 @@ namespace Dotpay.Actor.Interfaces
         public static void Register()
         {
             global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.RippleTransactionInfo), DeepCopier, Serializer, Deserializer);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
+    internal class Dotpay_Actor_Interfaces_UserInfoSerialization
+    {
+        
+        static Dotpay_Actor_Interfaces_UserInfoSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            Dotpay.Actor.Interfaces.UserInfo input = ((Dotpay.Actor.Interfaces.UserInfo)(original));
+            Dotpay.Actor.Interfaces.UserInfo result = ((Dotpay.Actor.Interfaces.UserInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Interfaces.UserInfo))));
+            Orleans.Serialization.SerializationContext.Current.RecordObject(original, result);
+            result.Email = input.Email;
+            result.LoginName = input.LoginName;
+            result.Roles = ((System.Collections.Generic.IEnumerable<Dotpay.Common.ManagerType>)(Orleans.Serialization.SerializationManager.DeepCopyInner(input.Roles)));
+            return result;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Dotpay.Actor.Interfaces.UserInfo input = ((Dotpay.Actor.Interfaces.UserInfo)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Roles, stream, typeof(System.Collections.Generic.IEnumerable<Dotpay.Common.ManagerType>));
+        }
+        
+        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Dotpay.Actor.Interfaces.UserInfo result = ((Dotpay.Actor.Interfaces.UserInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Interfaces.UserInfo))));
+            result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.Roles = ((System.Collections.Generic.IEnumerable<Dotpay.Common.ManagerType>)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Collections.Generic.IEnumerable<Dotpay.Common.ManagerType>), stream)));
+            return result;
+        }
+        
+        public static void Register()
+        {
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.UserInfo), DeepCopier, Serializer, Deserializer);
         }
     }
 }
@@ -2687,6 +2827,12 @@ namespace Dotpay.Actor.Tools.Interfaces
                 return AtomicIncrementMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
+            System.Threading.Tasks.Task Dotpay.Actor.Tools.Interfaces.IAtomicIncrement.SetSeed(int @seed)
+            {
+
+                return base.InvokeMethodAsync<object>(-172872422, new object[] {@seed} );
+            }
+            
             System.Threading.Tasks.Task<int> Dotpay.Actor.Tools.Interfaces.IAtomicIncrement.GetNext()
             {
 
@@ -2719,6 +2865,8 @@ namespace Dotpay.Actor.Tools.Interfaces
                     case -1680962143:  // IAtomicIncrement
                         switch (methodId)
                         {
+                            case -172872422: 
+                                return ((IAtomicIncrement)grain).SetSeed((Int32)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -629872769: 
                                 return ((IAtomicIncrement)grain).GetNext().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
@@ -2750,7 +2898,9 @@ namespace Dotpay.Actor.Tools.Interfaces
                 case -1680962143:  // IAtomicIncrement
                     switch (methodId)
                     {
-                        case -629872769:
+                        case -172872422:
+                            return "SetSeed";
+                    case -629872769:
                             return "GetNext";
                     
                         default: 
@@ -2883,6 +3033,12 @@ namespace Dotpay.Actor.Service.Interfaces
                 return DepositTransactionManagerMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IDepositTransactionManager.ProccessRippleDeposit(System.Guid @depositTxId, System.Guid @accountId, Dotpay.Common.Enum.CurrencyType @currency, string @rippleTxId, decimal @amount, Dotpay.Common.Enum.Payway @payway, string @memo)
+            {
+
+                return base.InvokeMethodAsync<object>(-2135555547, new object[] {@depositTxId, @accountId, @currency, @rippleTxId, @amount, @payway, @memo} );
+            }
+            
             System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IDepositTransactionManager.CreateDepositTransaction(System.Guid @depositTxId, System.Guid @accountId, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, Dotpay.Common.Enum.Payway @payway, string @memo)
             {
 
@@ -2934,6 +3090,8 @@ namespace Dotpay.Actor.Service.Interfaces
                     case -2019605148:  // IDepositTransactionManager
                         switch (methodId)
                         {
+                            case -2135555547: 
+                                return ((IDepositTransactionManager)grain).ProccessRippleDeposit((Guid)arguments[0], (Guid)arguments[1], (Dotpay.Common.Enum.CurrencyType)arguments[2], (String)arguments[3], (Decimal)arguments[4], (Dotpay.Common.Enum.Payway)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1355174549: 
                                 return ((IDepositTransactionManager)grain).CreateDepositTransaction((Guid)arguments[0], (Guid)arguments[1], (Dotpay.Common.Enum.CurrencyType)arguments[2], (Decimal)arguments[3], (Dotpay.Common.Enum.Payway)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -261599897: 
@@ -2971,7 +3129,9 @@ namespace Dotpay.Actor.Service.Interfaces
                 case -2019605148:  // IDepositTransactionManager
                     switch (methodId)
                     {
-                        case -1355174549:
+                        case -2135555547:
+                            return "ProccessRippleDeposit";
+                    case -1355174549:
                             return "CreateDepositTransaction";
                     case -261599897:
                             return "ConfirmDepositTransaction";
@@ -3271,10 +3431,10 @@ namespace Dotpay.Actor.Service.Interfaces
                 return RippleQuoteServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Actor.Service.Interfaces.QuoteResult> Dotpay.Actor.Service.Interfaces.IRippleQuoteService.Quote(Dotpay.Actor.Interfaces.TransferToFinancialInstitutionTargetInfo @transferTargetInfo, decimal @amount, string @memo)
+            System.Threading.Tasks.Task<Dotpay.Actor.Service.Interfaces.QuoteResult> Dotpay.Actor.Service.Interfaces.IRippleQuoteService.Quote(Dotpay.Actor.Interfaces.TransferTargetInfo @transferTargetInfo, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Actor.Service.Interfaces.QuoteResult>(-553507891, new object[] {@transferTargetInfo, @amount, @memo} );
+                return base.InvokeMethodAsync<Dotpay.Actor.Service.Interfaces.QuoteResult>(-1643086377, new object[] {@transferTargetInfo, @currency, @amount, @memo} );
             }
         }
     }
@@ -3304,8 +3464,8 @@ namespace Dotpay.Actor.Service.Interfaces
                     case 2133055338:  // IRippleQuoteService
                         switch (methodId)
                         {
-                            case -553507891: 
-                                return ((IRippleQuoteService)grain).Quote((Dotpay.Actor.Interfaces.TransferToFinancialInstitutionTargetInfo)arguments[0], (Decimal)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1643086377: 
+                                return ((IRippleQuoteService)grain).Quote((Dotpay.Actor.Interfaces.TransferTargetInfo)arguments[0], (Dotpay.Common.Enum.CurrencyType)arguments[1], (Decimal)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -3335,7 +3495,7 @@ namespace Dotpay.Actor.Service.Interfaces
                 case 2133055338:  // IRippleQuoteService
                     switch (methodId)
                     {
-                        case -553507891:
+                        case -1643086377:
                             return "Quote";
                     
                         default: 
@@ -3566,6 +3726,401 @@ namespace Dotpay.Actor.Service.Interfaces
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    public class UserRegisterServiceFactory
+    {
+        
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserRegisterService GetGrain(long primaryKey)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserRegisterService), -1109877312, primaryKey));
+                        }
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserRegisterService GetGrain(long primaryKey, string grainClassNamePrefix)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserRegisterService), -1109877312, primaryKey, grainClassNamePrefix));
+                        }
+
+            public static Dotpay.Actor.Service.Interfaces.IUserRegisterService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            {
+                
+                return UserRegisterServiceReference.Cast(grainRef);
+            }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+        [System.SerializableAttribute()]
+        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserRegisterServ" +
+            "ice")]
+        internal class UserRegisterServiceReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Service.Interfaces.IUserRegisterService
+        {
+            
+
+            public static Dotpay.Actor.Service.Interfaces.IUserRegisterService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            {
+                
+                return (Dotpay.Actor.Service.Interfaces.IUserRegisterService) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserRegisterService), (global::Orleans.Runtime.GrainReference gr) => { return new UserRegisterServiceReference(gr);}, grainRef, -1109877312);
+            }
+            
+            protected internal UserRegisterServiceReference(global::Orleans.Runtime.GrainReference reference) : 
+                    base(reference)
+            {
+            }
+            
+            protected internal UserRegisterServiceReference(SerializationInfo info, StreamingContext context) : 
+                    base(info, context)
+            {
+            }
+            
+            protected override int InterfaceId
+            {
+                get
+                {
+                    return -1109877312;
+                }
+            }
+            
+            public override string InterfaceName
+            {
+                get
+                {
+                    return "Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserRegisterServ" +
+                        "ice";
+                }
+            }
+            
+            [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+            public static object _Copier(object original)
+            {
+                UserRegisterServiceReference input = ((UserRegisterServiceReference)(original));
+                return ((UserRegisterServiceReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+            }
+            
+            [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+            public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+            {
+                UserRegisterServiceReference input = ((UserRegisterServiceReference)(original));
+                global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
+            }
+            
+            [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+            public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+            {
+                return UserRegisterServiceReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+            }
+            
+            public override bool IsCompatible(int interfaceId)
+            {
+                return ((interfaceId == this.InterfaceId) 
+                            || (interfaceId == 1928988877));
+            }
+            
+            protected override string GetMethodName(int interfaceId, int methodId)
+            {
+                return UserRegisterServiceMethodInvoker.GetMethodName(interfaceId, methodId);
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserRegisterService.PreRegister(string @email, Dotpay.Common.Enum.Lang @lang)
+            {
+
+                return base.InvokeMethodAsync<object>(972146848, new object[] {@email, @lang} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserRegisterService.InitUserInfo(long @userId, string @userAccount, string @loginPassword, string @tradePassword)
+            {
+
+                return base.InvokeMethodAsync<object>(753550003, new object[] {@userId, @userAccount, @loginPassword, @tradePassword} );
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserRegisterServ" +
+        "ice", -1109877312)]
+    internal class UserRegisterServiceMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+    {
+        
+        int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
+        {
+            get
+            {
+                return -1109877312;
+            }
+        }
+        
+        global::System.Threading.Tasks.Task<object> global::Orleans.CodeGeneration.IGrainMethodInvoker.Invoke(global::Orleans.Runtime.IAddressable grain, int interfaceId, int methodId, object[] arguments)
+        {
+
+            try
+            {                    if (grain == null) throw new System.ArgumentNullException("grain");
+                switch (interfaceId)
+                {
+                    case -1109877312:  // IUserRegisterService
+                        switch (methodId)
+                        {
+                            case 972146848: 
+                                return ((IUserRegisterService)grain).PreRegister((String)arguments[0], (Dotpay.Common.Enum.Lang)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 753550003: 
+                                return ((IUserRegisterService)grain).InitUserInfo((Int64)arguments[0], (String)arguments[1], (String)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                        }case 1928988877:  // IGrainWithIntegerKey
+                        switch (methodId)
+                        {
+                            default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                        }
+                    default:
+                        throw new System.InvalidCastException("interfaceId="+interfaceId);
+                }
+            }
+            catch(Exception ex)
+            {
+                var t = new System.Threading.Tasks.TaskCompletionSource<object>();
+                t.SetException(ex);
+                return t.Task;
+            }
+        }
+        
+        public static string GetMethodName(int interfaceId, int methodId)
+        {
+
+            switch (interfaceId)
+            {
+                
+                case -1109877312:  // IUserRegisterService
+                    switch (methodId)
+                    {
+                        case 972146848:
+                            return "PreRegister";
+                    case 753550003:
+                            return "InitUserInfo";
+                    
+                        default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                    }
+                case 1928988877:  // IGrainWithIntegerKey
+                    switch (methodId)
+                    {
+                        
+                        default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                    }
+
+                default:
+                    throw new System.InvalidCastException("interfaceId="+interfaceId);
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    public class UserResetPasswordServiceFactory
+    {
+        
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService GetGrain(long primaryKey)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserResetPasswordService), 1229680044, primaryKey));
+                        }
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService GetGrain(long primaryKey, string grainClassNamePrefix)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserResetPasswordService), 1229680044, primaryKey, grainClassNamePrefix));
+                        }
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService GetGrain(System.Guid primaryKey)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserResetPasswordService), 1229680044, primaryKey));
+                        }
+
+                        public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService GetGrain(System.Guid primaryKey, string grainClassNamePrefix)
+                        {
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserResetPasswordService), 1229680044, primaryKey, grainClassNamePrefix));
+                        }
+
+            public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            {
+                
+                return UserResetPasswordServiceReference.Cast(grainRef);
+            }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+        [System.SerializableAttribute()]
+        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserResetPasswor" +
+            "dService")]
+        internal class UserResetPasswordServiceReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Service.Interfaces.IUserResetPasswordService
+        {
+            
+
+            public static Dotpay.Actor.Service.Interfaces.IUserResetPasswordService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            {
+                
+                return (Dotpay.Actor.Service.Interfaces.IUserResetPasswordService) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Service.Interfaces.IUserResetPasswordService), (global::Orleans.Runtime.GrainReference gr) => { return new UserResetPasswordServiceReference(gr);}, grainRef, 1229680044);
+            }
+            
+            protected internal UserResetPasswordServiceReference(global::Orleans.Runtime.GrainReference reference) : 
+                    base(reference)
+            {
+            }
+            
+            protected internal UserResetPasswordServiceReference(SerializationInfo info, StreamingContext context) : 
+                    base(info, context)
+            {
+            }
+            
+            protected override int InterfaceId
+            {
+                get
+                {
+                    return 1229680044;
+                }
+            }
+            
+            public override string InterfaceName
+            {
+                get
+                {
+                    return "Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserResetPasswor" +
+                        "dService";
+                }
+            }
+            
+            [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+            public static object _Copier(object original)
+            {
+                UserResetPasswordServiceReference input = ((UserResetPasswordServiceReference)(original));
+                return ((UserResetPasswordServiceReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+            }
+            
+            [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+            public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+            {
+                UserResetPasswordServiceReference input = ((UserResetPasswordServiceReference)(original));
+                global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
+            }
+            
+            [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+            public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+            {
+                return UserResetPasswordServiceReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+            }
+            
+            public override bool IsCompatible(int interfaceId)
+            {
+                return (interfaceId == this.InterfaceId);
+            }
+            
+            protected override string GetMethodName(int interfaceId, int methodId)
+            {
+                return UserResetPasswordServiceMethodInvoker.GetMethodName(interfaceId, methodId);
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserResetPasswordService.ForgetLoginPassword(long @userId, Dotpay.Common.Enum.Lang @lang)
+            {
+
+                return base.InvokeMethodAsync<object>(1717498359, new object[] {@userId, @lang} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserResetPasswordService.ResetLoginPassword(long @userId, string @newLoginPassword, string @resetToken)
+            {
+
+                return base.InvokeMethodAsync<object>(-1852092379, new object[] {@userId, @newLoginPassword, @resetToken} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserResetPasswordService.ForgetPaymentPassword(long @userId, Dotpay.Common.Enum.Lang @lang)
+            {
+
+                return base.InvokeMethodAsync<object>(-732924012, new object[] {@userId, @lang} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.Service.Interfaces.IUserResetPasswordService.ResetPaymentPassword(long @userId, string @newPaymentPassword, string @resetToken)
+            {
+
+                return base.InvokeMethodAsync<object>(848970653, new object[] {@userId, @newPaymentPassword, @resetToken} );
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Service.Interfaces.Dotpay.Actor.Service.Interfaces.IUserResetPasswor" +
+        "dService", 1229680044)]
+    internal class UserResetPasswordServiceMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+    {
+        
+        int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
+        {
+            get
+            {
+                return 1229680044;
+            }
+        }
+        
+        global::System.Threading.Tasks.Task<object> global::Orleans.CodeGeneration.IGrainMethodInvoker.Invoke(global::Orleans.Runtime.IAddressable grain, int interfaceId, int methodId, object[] arguments)
+        {
+
+            try
+            {                    if (grain == null) throw new System.ArgumentNullException("grain");
+                switch (interfaceId)
+                {
+                    case 1229680044:  // IUserResetPasswordService
+                        switch (methodId)
+                        {
+                            case 1717498359: 
+                                return ((IUserResetPasswordService)grain).ForgetLoginPassword((Int64)arguments[0], (Dotpay.Common.Enum.Lang)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -1852092379: 
+                                return ((IUserResetPasswordService)grain).ResetLoginPassword((Int64)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -732924012: 
+                                return ((IUserResetPasswordService)grain).ForgetPaymentPassword((Int64)arguments[0], (Dotpay.Common.Enum.Lang)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 848970653: 
+                                return ((IUserResetPasswordService)grain).ResetPaymentPassword((Int64)arguments[0], (String)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                        }
+                    default:
+                        throw new System.InvalidCastException("interfaceId="+interfaceId);
+                }
+            }
+            catch(Exception ex)
+            {
+                var t = new System.Threading.Tasks.TaskCompletionSource<object>();
+                t.SetException(ex);
+                return t.Task;
+            }
+        }
+        
+        public static string GetMethodName(int interfaceId, int methodId)
+        {
+
+            switch (interfaceId)
+            {
+                
+                case 1229680044:  // IUserResetPasswordService
+                    switch (methodId)
+                    {
+                        case 1717498359:
+                            return "ForgetLoginPassword";
+                    case -1852092379:
+                            return "ResetLoginPassword";
+                    case -732924012:
+                            return "ForgetPaymentPassword";
+                    case 848970653:
+                            return "ResetPaymentPassword";
+                    
+                        default: 
+                            throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
+                    }
+
+                default:
+                    throw new System.InvalidCastException("interfaceId="+interfaceId);
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Dotpay_Actor_Service_Interfaces_ConfirmDepositTransactionMessageSerialization
     {
@@ -3615,6 +4170,89 @@ namespace Dotpay.Actor.Service.Interfaces
             fieldInfo2 = typeof(Dotpay.Actor.Service.Interfaces.ConfirmDepositTransactionMessage).GetField("<OperatorId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
             fieldInfo3 = typeof(Dotpay.Actor.Service.Interfaces.ConfirmDepositTransactionMessage).GetField("<TransactionNo>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
+    internal class Dotpay_Actor_Service_Interfaces_RippleDepositTransactionMessageSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        private static System.Reflection.FieldInfo fieldInfo3;
+        
+        private static System.Reflection.FieldInfo fieldInfo4;
+        
+        private static System.Reflection.FieldInfo fieldInfo5;
+        
+        private static System.Reflection.FieldInfo fieldInfo6;
+        
+        private static System.Reflection.FieldInfo fieldInfo7;
+        
+        static Dotpay_Actor_Service_Interfaces_RippleDepositTransactionMessageSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage input = ((Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.DepositTxId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Memo, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.RippleTxId, stream, typeof(string));
+        }
+        
+        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage result = ((Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage))));
+            object objResult = ((object)(result));
+            object temp1 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            object temp3 = ((Dotpay.Common.Enum.CurrencyType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.CurrencyType), stream)));
+            fieldInfo3.SetValue(objResult, temp3);
+            object temp4 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            fieldInfo4.SetValue(objResult, temp4);
+            object temp5 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            fieldInfo5.SetValue(objResult, temp5);
+            object temp6 = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
+            fieldInfo6.SetValue(objResult, temp6);
+            object temp7 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            fieldInfo7.SetValue(objResult, temp7);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<AccountId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<Amount>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo3 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<Currency>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo4 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<DepositTxId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo5 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<Memo>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo6 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<Payway>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo7 = typeof(Dotpay.Actor.Service.Interfaces.RippleDepositTransactionMessage).GetField("<RippleTxId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }
@@ -3730,7 +4368,7 @@ namespace Dotpay.Actor.Service.Interfaces
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
             Dotpay.Actor.Service.Interfaces.Quote input = ((Dotpay.Actor.Service.Interfaces.Quote)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.DestinationTag, stream, typeof(int));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.DestinationTag, stream, typeof(long));
             Orleans.Serialization.SerializationManager.SerializeInner(input.InvoiceId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.SendAmount, stream, typeof(decimal));
         }
@@ -3738,7 +4376,7 @@ namespace Dotpay.Actor.Service.Interfaces
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
             Dotpay.Actor.Service.Interfaces.Quote result = ((Dotpay.Actor.Service.Interfaces.Quote)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Service.Interfaces.Quote))));
-            result.DestinationTag = ((int)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(int), stream)));
+            result.DestinationTag = ((long)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(long), stream)));
             result.InvoiceId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.SendAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
             return result;
@@ -4092,53 +4730,54 @@ namespace Dotpay.Actor.Interfaces.Ripple
     using System.Reflection;
     using Orleans.Serialization;
     using Dotpay.Actor.Interfaces.Ripple;
+    using Dotpay.Common.Enum;
     using Orleans;
     using Orleans.Runtime;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class RippleToFinancialInstitutionListenerFactory
+    public class RippleToFinancialInstitutionProcessorFactory
     {
         
 
-                        public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener GetGrain(long primaryKey)
+                        public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor GetGrain(long primaryKey)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener), 661328755, primaryKey));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor), -608710720, primaryKey));
                         }
 
-                        public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener GetGrain(long primaryKey, string grainClassNamePrefix)
+                        public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor GetGrain(long primaryKey, string grainClassNamePrefix)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener), 661328755, primaryKey, grainClassNamePrefix));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor), -608710720, primaryKey, grainClassNamePrefix));
                         }
 
-            public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return RippleToFinancialInstitutionListenerReference.Cast(grainRef);
+                return RippleToFinancialInstitutionProcessorReference.Cast(grainRef);
             }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
         [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Interfaces.Ripple.Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialI" +
-            "nstitutionListener")]
-        internal class RippleToFinancialInstitutionListenerReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener
+            "nstitutionProcessor")]
+        internal class RippleToFinancialInstitutionProcessorReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor
         {
             
 
-            public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return (Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFinancialInstitutionListenerReference(gr);}, grainRef, 661328755);
+                return (Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFinancialInstitutionProcessorReference(gr);}, grainRef, -608710720);
             }
             
-            protected internal RippleToFinancialInstitutionListenerReference(global::Orleans.Runtime.GrainReference reference) : 
+            protected internal RippleToFinancialInstitutionProcessorReference(global::Orleans.Runtime.GrainReference reference) : 
                     base(reference)
             {
             }
             
-            protected internal RippleToFinancialInstitutionListenerReference(SerializationInfo info, StreamingContext context) : 
+            protected internal RippleToFinancialInstitutionProcessorReference(SerializationInfo info, StreamingContext context) : 
                     base(info, context)
             {
             }
@@ -4147,7 +4786,7 @@ namespace Dotpay.Actor.Interfaces.Ripple
             {
                 get
                 {
-                    return 661328755;
+                    return -608710720;
                 }
             }
             
@@ -4156,28 +4795,28 @@ namespace Dotpay.Actor.Interfaces.Ripple
                 get
                 {
                     return "Dotpay.Actor.Interfaces.Ripple.Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialI" +
-                        "nstitutionListener";
+                        "nstitutionProcessor";
                 }
             }
             
             [global::Orleans.CodeGeneration.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                RippleToFinancialInstitutionListenerReference input = ((RippleToFinancialInstitutionListenerReference)(original));
-                return ((RippleToFinancialInstitutionListenerReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+                RippleToFinancialInstitutionProcessorReference input = ((RippleToFinancialInstitutionProcessorReference)(original));
+                return ((RippleToFinancialInstitutionProcessorReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
             }
             
             [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
             public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                RippleToFinancialInstitutionListenerReference input = ((RippleToFinancialInstitutionListenerReference)(original));
+                RippleToFinancialInstitutionProcessorReference input = ((RippleToFinancialInstitutionProcessorReference)(original));
                 global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return RippleToFinancialInstitutionListenerReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+                return RippleToFinancialInstitutionProcessorReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
             public override bool IsCompatible(int interfaceId)
@@ -4188,10 +4827,10 @@ namespace Dotpay.Actor.Interfaces.Ripple
             
             protected override string GetMethodName(int interfaceId, int methodId)
             {
-                return RippleToFinancialInstitutionListenerMethodInvoker.GetMethodName(interfaceId, methodId);
+                return RippleToFinancialInstitutionProcessorMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionListener.Receive(Dotpay.Actor.Interfaces.MqMessage @message)
+            System.Threading.Tasks.Task Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialInstitutionProcessor.Receive(Dotpay.Actor.Interfaces.MqMessage @message)
             {
 
                 return base.InvokeMethodAsync<object>(992454065, new object[] {@message} );
@@ -4202,15 +4841,15 @@ namespace Dotpay.Actor.Interfaces.Ripple
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Interfaces.Ripple.Dotpay.Actor.Interfaces.Ripple.IRippleToFinancialI" +
-        "nstitutionListener", 661328755)]
-    internal class RippleToFinancialInstitutionListenerMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+        "nstitutionProcessor", -608710720)]
+    internal class RippleToFinancialInstitutionProcessorMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
     {
         
         int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
         {
             get
             {
-                return 661328755;
+                return -608710720;
             }
         }
         
@@ -4221,11 +4860,11 @@ namespace Dotpay.Actor.Interfaces.Ripple
             {                    if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case 661328755:  // IRippleToFinancialInstitutionListener
+                    case -608710720:  // IRippleToFinancialInstitutionProcessor
                         switch (methodId)
                         {
                             case 992454065: 
-                                return ((IRippleToFinancialInstitutionListener)grain).Receive((Dotpay.Actor.Interfaces.MqMessage)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((IRippleToFinancialInstitutionProcessor)grain).Receive((Dotpay.Actor.Interfaces.MqMessage)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -4252,7 +4891,7 @@ namespace Dotpay.Actor.Interfaces.Ripple
             switch (interfaceId)
             {
                 
-                case 661328755:  // IRippleToFinancialInstitutionListener
+                case -608710720:  // IRippleToFinancialInstitutionProcessor
                     switch (methodId)
                     {
                         case 992454065:
@@ -4278,10 +4917,10 @@ namespace Dotpay.Actor.Interfaces.Ripple
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_Interfaces_Ripple_RippleTxMessageSerialization
+    internal class Dotpay_Actor_Interfaces_Ripple_RippleToFITxMessageSerialization
     {
         
-        static Dotpay_Actor_Interfaces_Ripple_RippleTxMessageSerialization()
+        static Dotpay_Actor_Interfaces_Ripple_RippleToFITxMessageSerialization()
         {
             Register();
         }
@@ -4293,8 +4932,9 @@ namespace Dotpay.Actor.Interfaces.Ripple
         
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
-            Dotpay.Actor.Interfaces.Ripple.RippleTxMessage input = ((Dotpay.Actor.Interfaces.Ripple.RippleTxMessage)(untypedInput));
+            Dotpay.Actor.Interfaces.Ripple.RippleToFITxMessage input = ((Dotpay.Actor.Interfaces.Ripple.RippleToFITxMessage)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
             Orleans.Serialization.SerializationManager.SerializeInner(input.DestinationTag, stream, typeof(int));
             Orleans.Serialization.SerializationManager.SerializeInner(input.InvoiceId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TxId, stream, typeof(string));
@@ -4302,8 +4942,9 @@ namespace Dotpay.Actor.Interfaces.Ripple
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.Interfaces.Ripple.RippleTxMessage result = new Dotpay.Actor.Interfaces.Ripple.RippleTxMessage();
+            Dotpay.Actor.Interfaces.Ripple.RippleToFITxMessage result = new Dotpay.Actor.Interfaces.Ripple.RippleToFITxMessage();
             result.Amount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.Currency = ((Dotpay.Common.Enum.CurrencyType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.CurrencyType), stream)));
             result.DestinationTag = ((int)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(int), stream)));
             result.InvoiceId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.TxId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
@@ -4312,7 +4953,7 @@ namespace Dotpay.Actor.Interfaces.Ripple
         
         public static void Register()
         {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.Ripple.RippleTxMessage), DeepCopier, Serializer, Deserializer);
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Interfaces.Ripple.RippleToFITxMessage), DeepCopier, Serializer, Deserializer);
         }
     }
 }

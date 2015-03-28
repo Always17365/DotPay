@@ -22,6 +22,16 @@ namespace Dotpay.Actor.Implementations
             return this.ApplyEvent(new RippleToFinancialInstitutionSettingUpdated(setting, updateBy));
         }
 
+        public Task<RippleToDotpaySetting> GetRippleToDotpaySetting()
+        {
+            return Task.FromResult(this.State.RippleToDotpaySetting);
+        }
+
+        public Task UpdateRippleToDotpaySetting(RippleToDotpaySetting setting, Guid updateBy)
+        {
+            return this.ApplyEvent(new RippleToDotpaySettingUpdated(setting, updateBy));
+        } 
+
         #region Event Handlers
         private void Handle(RippleToFinancialInstitutionSettingUpdated @event)
         {
@@ -30,13 +40,12 @@ namespace Dotpay.Actor.Implementations
             this.State.RippleToFinancialInstitutionSettingUpdateBy = @event.UpdateBy;
         }
         #endregion
-
-
     }
 
     public interface ISystemSettingState : IEventSourcingState
     {
         RippleToFinancialInstitutionSetting RippleToFinancialInstitutionSetting { get; set; }
+        RippleToDotpaySetting RippleToDotpaySetting { get; set; }
         DateTime RippleToFinancialInstitutionSettingUpdateAt { get; set; }
         Guid RippleToFinancialInstitutionSettingUpdateBy { get; set; }
     }

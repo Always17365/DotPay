@@ -16,7 +16,7 @@ namespace Dotpay.SiloHost.BootstrapTask
             var eventStoreSection = (EventStoreSection)ConfigurationManager.GetSection("eventStoreProvider");
             EventStoreProviderManager.Initailize(eventStoreSection);
 
-            var assembly = Assembly.LoadFrom(".\\Applications\\Dotpay.Actors.Implementations\\Dotpay.Actors.Implementations.dll");
+            var assembly = Assembly.LoadFrom(".\\Applications\\Dotpay.Actor.Implementations\\Dotpay.Actor.Implementations.dll");
 
             GrainInternalEventHandlerProvider.RegisterInternalEventHandler(assembly);
             EventNameTypeMapping.RegisterEventType(assembly); 

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using DFramework;
+using Dotpay.Common;
 using MySql.Data.MySqlClient;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -18,8 +19,8 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string MysqlConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
         private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private static IModel _channel;
-        private const string RippleTrustLineExchangeName = "__RippleTrustLine_Exchange";
-        private const string RippleTrustLineQueueName = "__RippleTrustLine_Queue";
+        private const string RippleTrustLineExchangeName = Constants.RippleTrustLineMQName + Constants.ExechangeSuffix;
+        private const string RippleTrustLineQueueName = Constants.RippleTrustLineMQName + Constants.QueueSuffix;
         public static void Start()
         {
             if (started) return;

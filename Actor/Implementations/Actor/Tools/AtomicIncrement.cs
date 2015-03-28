@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks; 
+﻿using System.Threading.Tasks;
 using Dotpay.Actor.Tools.Interfaces;
 using Orleans;
 using Orleans.Providers;
@@ -12,11 +12,21 @@ namespace Dotpay.Actor.Tools.Implementations
     [StorageProvider(ProviderName = "CouchbaseStore")]
     public class AtomicIncrement : Grain<IAtomicIncrementState>, IAtomicIncrement
     {
-        async Task<int> IAtomicIncrement.GetNext()
+        async Task IAtomicIncrement.SetSeed(int seed)
+        {
+            if (this.State.Seed == 0)
+            {
+                this.State.Seed = seed;
+                await this.State.WriteStateAsync();
+            }
+        }
+
+        Task<int> IAtomicIncrement.GetNext()
         {
             this.State.Seed += 1;
-            await this.State.WriteStateAsync();
-            return this.State.Seed;
+            //为了可靠性，每次写入一次.为了性能，不await
+            this.State.WriteStateAsync();
+            return Task.FromResult(this.State.Seed);
         }
     }
 

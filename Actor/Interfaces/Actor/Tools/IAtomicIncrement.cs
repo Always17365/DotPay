@@ -10,6 +10,7 @@ namespace Dotpay.Actor.Tools.Interfaces
     /// </summary>
     public interface IAtomicIncrement : IGrainWithStringKey
     {
+        Task SetSeed(int seed);
         Task<int> GetNext();
     }
 }

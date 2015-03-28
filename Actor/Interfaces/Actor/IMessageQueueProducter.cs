@@ -8,8 +8,8 @@ namespace Dotpay.Actor.Interfaces
 {
     public interface IMessageQueueProducter : Orleans.IGrainWithIntegerKey
     {
-        Task RegisterAndBindQueue(string exchange, string exchangeType, string queue, string routeKey = "", bool durable = false);
-        Task PublishMessage(MqMessage message, string exchangeName, string routeKey = "", bool durable = false);
+        Task RegisterAndBindQueue(string exchange, string exchangeType, string queue, string routeKey, bool durable);
+        Task PublishMessage(MqMessage message, string exchangeName, string routeKey, bool durable);
     }
 
     [Immutable]

@@ -1,17 +1,17 @@
-﻿ 
- using System;
+﻿
+using System;
 ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Common;
 ﻿using Dotpay.Actor.Events;
 ﻿using Dotpay.Actor.Interfaces;
- using Dotpay.Actor.Ripple.Interfaces;
- using Orleans;
+using Dotpay.Actor.Ripple.Interfaces;
+using Orleans;
 ﻿using Orleans.Concurrency;
 ﻿using Orleans.EventSourcing;
 ﻿using Orleans.Providers;
 
 namespace Dotpay.Actor.Implementations
-{
+{ 
     [StorageProvider(ProviderName = "CouchbaseStore")]
     public class RippleToFinancialInstitution : EventSourcingGrain<RippleToFinancialInstitution, IRippleToFinancialInstitutionState>, IRippleToFinancialInstitution
     {
@@ -43,7 +43,6 @@ namespace Dotpay.Actor.Implementations
             this.State.SendAmount = @event.SendAmount;
             this.State.Memo = @event.Memo;
             this.State.CreateAt = @event.UTCTimestamp;
-            this.State.WriteStateAsync();
         }
         private void Handle(RippleToFinancialInstitutionCompleted @event)
         {

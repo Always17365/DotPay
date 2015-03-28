@@ -56,13 +56,15 @@
     <Compile Include="Service\IRippleQuoteService.cs" />
     <Compile Include="Actor\SystemSetting\ISystemSetting.cs" />
     <Compile Include="Actor\Tools\IAtomicIncrement.cs" />
-    <Compile Include="Actor\Ripple\IRippleToFinancialInstitutionListener.cs" />
+    <Compile Include="Service\IRippleToFinancialInstitutionProcessor.cs" />
     <Compile Include="Actor\Transaction\ITransferTransaction.cs" />
     <Compile Include="Actor\IUser.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Actor\Ripple\IRippleToFinancialInstitution.cs" />
     <Compile Include="Service\ITransferTransactionManager.cs" />
+    <Compile Include="Service\IUserRegisterService.cs" />
+    <Compile Include="Service\IUserResetPasswordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">

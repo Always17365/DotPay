@@ -35,7 +35,7 @@ namespace Dotpay.Application.Monitor
         private void StartMessageConsumer()
         {
             var exchangeName = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
-            var queueName = Constants.TransferTransactionManagerQueueName + Constants.QueueSuffix;
+            var queueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
             var routeKey = Constants.TransferTransactionManagerRouteKey;
             _channel = RabbitMqConnectionManager.GetConnection().CreateModel();
             _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, true, false, null);

@@ -8,8 +8,8 @@
     <ProjectGuid>{F27C6F11-94A6-41C5-855B-38AA850DCAC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dotpay.Actors.Implementations</RootNamespace>
-    <AssemblyName>Dotpay.Actors.Implementations</AssemblyName>
+    <RootNamespace>Dotpay.Actor.Implementations</RootNamespace>
+    <AssemblyName>Dotpay.Actor.Implementations</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -76,7 +76,7 @@
     <Compile Include="Events\Transaction\DepositTransactionEvents.cs" />
     <Compile Include="Actor\Account.cs" />
     <Compile Include="Actor\Transaction\DepositTransaction.cs" />
-    <Compile Include="Service\RippleToFinancialInstitutionListener.cs" />
+    <Compile Include="Service\RippleToFinancialInstitutionProcessor.cs" />
     <Compile Include="Actor\TransactionPreparation.cs" />
     <Compile Include="Events\Transaction\TransferTransactionEvents.cs" />
     <Compile Include="Actor\MessageQueueProducter.cs" />
@@ -94,6 +94,8 @@
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\TransferTransactionManager.cs" />
+    <Compile Include="Service\UserRegisterService.cs" />
+    <Compile Include="Service\UserResetPasswordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">

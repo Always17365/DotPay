@@ -23,16 +23,18 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserInitialized : GrainEvent
     {
-        public UserInitialized(string loginName, string loginPassword, string paymentPassword)
+        public UserInitialized(string loginName, string loginPassword, string paymentPassword, Guid accountId)
         {
             this.LoginName = loginName;
             this.LoginPassword = loginPassword;
             this.PaymentPassword = paymentPassword;
+            this.AccountId = accountId;
         }
 
         public string LoginName { get; private set; }
         public string LoginPassword { get; private set; }
         public string PaymentPassword { get; private set; }
+        public Guid AccountId { get; private set; }
     }
     [Immutable]
     [Serializable]
