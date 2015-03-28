@@ -37,13 +37,15 @@ namespace Dotpay.Common
         #endregion
 
         #region Tranasfer
-        TranasferErrorBase = 3000,
+        TranasferErrorBase = 4000,
         TranasferTransactionIsLockedByOther = TranasferErrorBase + 1,
+        TranasferTransactionSourceAccountNotExist = TranasferErrorBase + 2,
+        TranasferTransactionTargetAccountNotExist = TranasferErrorBase + 3, 
 
         #endregion
 
         #region Ripple
-        RippleErrorBase = 4000,
+        RippleErrorBase = 5000,
         RippleTransactionNotInit = RippleErrorBase + 1,
         RippleTransactionNotPending = RippleErrorBase + 2,
         RippleTransactionNotSubmit = RippleErrorBase + 3,

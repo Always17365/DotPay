@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -133,7 +135,7 @@ namespace Dotpay.Actor.Service.Implementations
         {
             await RegisterAndBindMqQueue();
             await base.OnActivateAsync();
-        } 
+        }
         #endregion
 
         #region Private Methods
@@ -150,36 +152,67 @@ namespace Dotpay.Actor.Service.Implementations
         private async Task<ErrorCode> ProcessSubmitedTransferTransaction(SubmitTransferTransactionMessage message)
         {
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(message.TransferTransactionId);
-            var account = GrainFactory.GetGrain<IAccount>(message.Source.AccountId);
+            var sourceAccount = GrainFactory.GetGrain<IAccount>(message.Source.AccountId);
+            IAccount targetAccount = null;
 
+            var target = message.Target as TransferToDotpayTargetInfo;
+            //如果是点付内部转账，验证转入账户
+            if (target != null)
+            {
+                targetAccount = GrainFactory.GetGrain<IAccount>(target.AccountId);
+            }
 
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.Submited)
             {
-                var target = message.Target as TransferToDotpayTargetInfo;
+                var validateTasks = new List<Task<bool>>();
+                validateTasks.Add(sourceAccount.Validate());
 
-                if (target != null && !await account.Validate())
+                if (targetAccount != null) validateTasks.Add(targetAccount.Validate());
+
+                var results = await Task.WhenAll(validateTasks);
+
+                //如果转出账户有问题，则取消转账
+                if (results[0] == false)
+                {
+                    await transferTransaction.Cancel(TransferTransactionCancelReason.SourceAccountNotExist);
+                    return ErrorCode.TranasferTransactionSourceAccountNotExist;
+                }
+                else if (targetAccount != null && results[1] == false)
                 {
                     await transferTransaction.Cancel(TransferTransactionCancelReason.TargetAccountNotExist);
-                    return ErrorCode.None;
+                    return ErrorCode.TranasferTransactionTargetAccountNotExist;
                 }
 
-                var opCode = await account.AddTransactionPreparation(message.TransferTransactionId,
-                    TransactionType.TransferTransaction, PreparationType.DebitPreparation, message.Currency, message.Amount);
+                var preaparationTasks = new List<Task<ErrorCode>>();
+                preaparationTasks.Add(sourceAccount.AddTransactionPreparation(message.TransferTransactionId,
+                     TransactionType.TransferTransaction, PreparationType.DebitPreparation, message.Currency, message.Amount));
 
-                //如果金额不足
-                if (opCode == ErrorCode.AccountBalanceNotEnough)
+                if (targetAccount != null)
+                    preaparationTasks.Add(targetAccount.AddTransactionPreparation(message.TransferTransactionId,
+                      TransactionType.TransferTransaction, PreparationType.CreditPreparation, message.Currency, message.Amount));
+
+
+                var opCodeResults = await Task.WhenAll(preaparationTasks);
+                //如果转出账户金额不足
+                if (opCodeResults[0] == ErrorCode.AccountBalanceNotEnough)
                 {
                     await transferTransaction.Cancel(TransferTransactionCancelReason.BalanceNotEnough);
-                    await account.CancelTransactionPreparation(message.TransferTransactionId);
+                    await sourceAccount.CancelTransactionPreparation(message.TransferTransactionId);
                 }
+                //转入账户无需验证
 
                 await transferTransaction.ConfirmTransactionPreparation();
             }
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.PreparationCompleted)
             {
-                await account.CommitTransactionPreparation(message.TransferTransactionId);
+                var commitTasks = new List<Task>();
+                commitTasks.Add(sourceAccount.CommitTransactionPreparation(message.TransferTransactionId));
+                if (targetAccount != null)
+                    commitTasks.Add(targetAccount.CommitTransactionPreparation(message.TransferTransactionId));
+
+                await Task.WhenAll(commitTasks);
 
                 if (message.Target.Payway == Payway.Ripple)
                 {

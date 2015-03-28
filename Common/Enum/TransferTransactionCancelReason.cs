@@ -3,6 +3,7 @@
     public enum TransferTransactionCancelReason
     {
         BalanceNotEnough = 1,
-        TargetAccountNotExist
+        SourceAccountNotExist=2,
+        TargetAccountNotExist=3
     }
 }
