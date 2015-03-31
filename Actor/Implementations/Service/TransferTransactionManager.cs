@@ -58,17 +58,21 @@ namespace Dotpay.Actor.Service.Implementations
             return ErrorCode.None;
         }
 
-        Task<ErrorCode> ITransferTransactionManager.MarkAsProcessing(Guid transferTransactionId, Guid operatorId)
+        async Task<ErrorCode> ITransferTransactionManager.MarkAsProcessing(Guid transferTransactionId, Guid managerId)
         {
+            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
-            return transferTransaction.MarkAsProcessing(operatorId);
+            return await transferTransaction.MarkAsProcessing(managerId);
         }
 
         async Task<ErrorCode> ITransferTransactionManager.ConfirmTransactionFail(Guid transferTransactionId,
-            Guid operatorId, string reason)
+            Guid managerId, string reason)
         {
+            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
-            var code = await transferTransaction.ConfirmFail(operatorId, reason);
+            var code = await transferTransaction.ConfirmFail(managerId, reason);
             if (code == ErrorCode.None)
                 await PublishRefundMessage(transferTransactionId);
 
@@ -289,7 +293,12 @@ namespace Dotpay.Actor.Service.Implementations
             await MessageProducterManager.GetProducter()
                 .PublishMessage(toRippleMessage, MqRefundExchangeName, "", true);
         }
+        private Task<bool> CheckManagerPermission(Guid operatorId)
+        {
+            var @operator = GrainFactory.GetGrain<IManager>(operatorId);
 
+            return @operator.HasRole(ManagerType.TransferProcessor);
+        }
         #endregion
     }
 }

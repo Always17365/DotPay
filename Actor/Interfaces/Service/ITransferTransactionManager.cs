@@ -12,8 +12,8 @@ namespace Dotpay.Actor.Service.Interfaces
     public interface ITransferTransactionManager : Orleans.IGrainWithIntegerKey
     {
         Task<ErrorCode> SubmitTransferTransaction(TransferTransactionInfo transactionInfo);
-        Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid operatorId);
-        Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid operatorId, string reason);
+        Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid managerId);
+        Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid managerId, string reason);
         Task Receive(MqMessage message); 
     }
 

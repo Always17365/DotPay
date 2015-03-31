@@ -66,9 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actor\Manager.cs" />
     <Compile Include="Actor\Tools\RippleRpcClient.cs" />
     <Compile Include="Actor\Transaction\RefundTransaction.cs" />
     <Compile Include="Events\Transaction\RefundTransactionEvents.cs" />
+    <Compile Include="Events\ManagerEvents.cs" />
     <Compile Include="MessageProducterManager.cs" />
     <Compile Include="Actor\Tools\SequenceNoGenerator.cs" />
     <Compile Include="Actor\Transaction\TransferTransaction.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Events\Transaction\DepositTransactionEvents.cs" />
     <Compile Include="Actor\Account.cs" />
     <Compile Include="Actor\Transaction\DepositTransaction.cs" />
+    <Compile Include="Service\ManagerService.cs" />
     <Compile Include="Service\RippleToFinancialInstitutionProcessor.cs" />
     <Compile Include="Actor\TransactionPreparation.cs" />
     <Compile Include="Events\Transaction\TransferTransactionEvents.cs" />

@@ -29,16 +29,16 @@ namespace Dotpay.Actor.Implementations
                         this.State.AccountId, this.State.Amount));
         }
 
-        async Task IDepositTransaction.ConfirmDeposit(Guid? operatorId, string transferNo)
+        async Task IDepositTransaction.ConfirmDeposit(Guid? managerId, string transferNo)
         {
             if (this.State.Status == DepositStatus.PreparationCompleted)
-                await this.ApplyEvent(new DepositTransactionConfirmedEvent(operatorId, transferNo));
+                await this.ApplyEvent(new DepositTransactionConfirmedEvent(managerId, transferNo));
         }
 
-        async Task IDepositTransaction.Fail(Guid operatorId, string reason)
+        async Task IDepositTransaction.Fail(Guid managerId, string reason)
         {
             if (this.State.Status == DepositStatus.PreparationCompleted)
-                await this.ApplyEvent(new DepositTransactionFailedEvent(operatorId, this.State.AccountId, reason));
+                await this.ApplyEvent(new DepositTransactionFailedEvent(managerId, this.State.AccountId, reason));
         }
 
         public Task<DepositTransactionInfo> GetTransactionInfo()
@@ -77,7 +77,7 @@ namespace Dotpay.Actor.Implementations
 
         private void Handle(DepositTransactionConfirmedEvent @event)
         {
-            this.State.OperatorId = @event.OperatorId;
+            this.State.ManagerId = @event.ManagerId;
             this.State.TransactionNo = @event.TransactionNo;
             this.State.Status = DepositStatus.Completed;
             this.State.CompleteAt = @event.UTCTimestamp;
@@ -85,7 +85,7 @@ namespace Dotpay.Actor.Implementations
         }
         private void Handle(DepositTransactionFailedEvent @event)
         {
-            this.State.OperatorId = @event.OperatorId;
+            this.State.ManagerId = @event.ManagerId;
             this.State.Status = DepositStatus.Fail;
             this.State.FailAt = @event.UTCTimestamp;
             this.State.FailReason = @event.Reason;
@@ -105,7 +105,7 @@ namespace Dotpay.Actor.Implementations
         Payway Payway { get; set; }
         string Memo { get; set; }
         DateTime CreateAt { get; set; }
-        Guid? OperatorId { get; set; }
+        Guid? ManagerId { get; set; }
         string TransactionNo { get; set; }
         DateTime? CompleteAt { get; set; }
         DateTime? FailAt { get; set; }

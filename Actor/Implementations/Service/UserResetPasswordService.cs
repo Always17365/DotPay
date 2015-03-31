@@ -12,7 +12,7 @@ using System.Text;
 ﻿using RabbitMQ.Client;
 
 namespace Dotpay.Actor.Service.Implementations
-{
+{ 
     public class UserResetPasswordService : Orleans.Grain, IUserResetPasswordService
     {
         private const string UserMQExchange = Constants.UserMQName + Constants.ExechangeSuffix;

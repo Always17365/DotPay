@@ -52,25 +52,25 @@ namespace Dotpay.Actor.Implementations.Events.Transaction
     [Serializable]
     public class TransferTransactionMarkedAsProcessingEvent : GrainEvent
     {
-        public TransferTransactionMarkedAsProcessingEvent(Guid operatorId)
+        public TransferTransactionMarkedAsProcessingEvent(Guid managerId)
         {
-            this.OperatorId = operatorId;
+            this.ManagerId = managerId;
         }
 
-        public Guid OperatorId { get; private set; }
+        public Guid ManagerId { get; private set; }
     }
 
     [Immutable]
     [Serializable]
     public class TransferTransactionConfirmCompletedEvent : GrainEvent
     {
-        public TransferTransactionConfirmCompletedEvent(Guid operatorId, string fiTransactionNo)
+        public TransferTransactionConfirmCompletedEvent(Guid managerId, string fiTransactionNo)
         {
-            this.OperatorId = operatorId;
+            this.ManagerId = managerId;
             this.FiTransactionNo = fiTransactionNo;
         }
 
-        public Guid OperatorId { get; private set; }
+        public Guid ManagerId { get; private set; }
         public string FiTransactionNo { get; private set; }
     }
 
@@ -78,13 +78,13 @@ namespace Dotpay.Actor.Implementations.Events.Transaction
     [Serializable]
     public class TransferTransactionConfirmedFailEvent : GrainEvent
     {
-        public TransferTransactionConfirmedFailEvent(Guid operatorId, string reason)
+        public TransferTransactionConfirmedFailEvent(Guid managerId, string reason)
         {
-            this.OperatorId = operatorId;
+            this.ManagerId = managerId;
             this.Reason = reason;
         }
 
-        public Guid OperatorId { get; private set; }
+        public Guid ManagerId { get; private set; }
         public string Reason { get; private set; }
     }
     #region Transfer To Ripple Events

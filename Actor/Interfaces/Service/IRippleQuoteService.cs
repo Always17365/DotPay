@@ -32,14 +32,14 @@ namespace Dotpay.Actor.Service.Interfaces
     [Serializable]
     public class Quote
     {
-        public Quote(Int64 destinationTag, string invoiceId, decimal sendAmount)
+        public Quote(long destinationTag, string invoiceId, decimal sendAmount)
         {
             this.DestinationTag = destinationTag;
             this.InvoiceId = invoiceId;
             this.SendAmount = sendAmount;
         }
 
-        public Int64 DestinationTag { get; set; }
+        public long DestinationTag { get; set; }
         public string InvoiceId { get; set; }
         public decimal SendAmount { get; set; }
     }

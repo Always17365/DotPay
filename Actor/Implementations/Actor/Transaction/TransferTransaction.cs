@@ -47,38 +47,38 @@ namespace Dotpay.Actor.Implementations
         }
 
         #region Common Transfer
-        async Task<ErrorCode> ITransferTransaction.MarkAsProcessing(Guid operatorId)
+        async Task<ErrorCode> ITransferTransaction.MarkAsProcessing(Guid managerId)
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted)
             {
-                await this.ApplyEvent(new TransferTransactionMarkedAsProcessingEvent(operatorId));
+                await this.ApplyEvent(new TransferTransactionMarkedAsProcessingEvent(managerId));
                 return ErrorCode.None;
             }
             else
                 return ErrorCode.TranasferTransactionIsLockedByOther;
         }
 
-        async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid operatorId, string transferTxNo)
+        async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid managerId, string transferTxNo)
         {
-            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.OperatorId == operatorId)
+            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
             {
-                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(operatorId, transferTxNo));
+                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
                 return ErrorCode.None;
             }
-            else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.OperatorId != operatorId)
+            else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
                 return ErrorCode.TranasferTransactionIsLockedByOther;
             else
                 return ErrorCode.None;
         }
 
-        async Task<ErrorCode> ITransferTransaction.ConfirmFail(Guid operatorId, string reason)
+        async Task<ErrorCode> ITransferTransaction.ConfirmFail(Guid managerId, string reason)
         {
-            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.OperatorId == operatorId)
+            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
             {
-                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(operatorId, reason));
+                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(managerId, reason));
                 return ErrorCode.None;
             }
-            else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.OperatorId != operatorId)
+            else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
                 return ErrorCode.TranasferTransactionIsLockedByOther;
             else
                 return ErrorCode.None;
@@ -266,7 +266,7 @@ namespace Dotpay.Actor.Implementations
         RippleTransactionStatus? RippleTxStatus { get; set; }
         string FITransactionNo { get; set; }
         RippleTransactionInfo RippleTransactionInfo { get; set; }
-        Guid OperatorId { get; set; }
+        Guid ManagerId { get; set; }
         DateTime CreateAt { get; set; }
         DateTime? LockAt { get; set; }
         DateTime? CompleteAt { get; set; } 

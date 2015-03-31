@@ -24,6 +24,8 @@ namespace Dotpay.Common
         SmsPasswordError = UserErrorBase + 11,
         EmailHasVerified = UserErrorBase + 12,
         MobileHasSet = UserErrorBase + 13,
+        UserManagerErrorBase = 1500,
+        HasNoPermission = UserManagerErrorBase + 1,
         #endregion
 
         #region Account
@@ -40,7 +42,7 @@ namespace Dotpay.Common
         TranasferErrorBase = 4000,
         TranasferTransactionIsLockedByOther = TranasferErrorBase + 1,
         TranasferTransactionSourceAccountNotExist = TranasferErrorBase + 2,
-        TranasferTransactionTargetAccountNotExist = TranasferErrorBase + 3, 
+        TranasferTransactionTargetAccountNotExist = TranasferErrorBase + 3,
 
         #endregion
 

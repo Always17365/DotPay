@@ -9,6 +9,7 @@ using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
+using Orleans.Runtime;
 using RabbitMQ.Client;
 
 namespace Dotpay.Actor.Service.Implementations
@@ -18,12 +19,16 @@ namespace Dotpay.Actor.Service.Implementations
     {
         private const string MqExchangeName = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
         private const string MqQueueName = Constants.DepositTransactionManagerMQName + Constants.QueueSuffix;
+       
 
-
-        public Task ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount,
+        async Task IDepositTransactionManager.ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount,
             Payway payway, string memo)
-        {
-            throw new NotImplementedException();
+        {  
+            var message = new RippleDepositTransactionMessage(depositTxId, accountId, rippleTxId, currency, amount, Payway.Ripple, "");
+
+            await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, "", true);
+
+            await ProcessRippleDepositTransaction(message);
         }
 
         async Task IDepositTransactionManager.CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
@@ -33,16 +38,22 @@ namespace Dotpay.Actor.Service.Implementations
             await depositTx.Initiliaze(depositSequenceNo, accountId, currency, amount, payway, memo);
         }
 
-        async Task IDepositTransactionManager.ConfirmDepositTransaction(Guid depositTxId, Guid operatorId, string transactionNo)
+        async Task<ErrorCode> IDepositTransactionManager.ConfirmDepositTransaction(Guid depositTxId, Guid managerId, string transactionNo)
         {
-            var message = new ConfirmDepositTransactionMessage(depositTxId, operatorId, transactionNo);
+            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+
+            var message = new ConfirmDepositTransactionMessage(depositTxId, managerId, transactionNo);
 
             await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, "", true);
             await ProcessConfirmDepositTransaction(message);
+
+            return ErrorCode.None;
         }
 
-        async Task IDepositTransactionManager.DepositTransactionMarkAsFail(Guid depositTxId, Guid operatorId, string reason)
+        async Task<ErrorCode> IDepositTransactionManager.DepositTransactionMarkAsFail(Guid depositTxId, Guid managerId, string reason)
         {
+            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+
             //try
             //{
             var depositTx = GrainFactory.GetGrain<IDepositTransaction>(depositTxId);
@@ -50,13 +61,15 @@ namespace Dotpay.Actor.Service.Implementations
 
             if (depositTxState == DepositStatus.Started)
             {
-                await depositTx.Fail(operatorId, reason);
+                await depositTx.Fail(managerId, reason);
             }
             //}
             //catch (Exception ex)
             //{
             //    this.GetLogger().Error((int)ErrorCode.DepositTransactionManagerError, ex.Message, ex);
-            //}
+            //} 
+
+            return ErrorCode.None;
         }
 
         async Task IDepositTransactionManager.Receive(MqMessage message)
@@ -147,7 +160,7 @@ namespace Dotpay.Actor.Service.Implementations
                 if (depositTxState == DepositStatus.PreparationCompleted)
                 {
                     await account.CommitTransactionPreparation(confirmMessage.DepositTxId);
-                    await depositTx.ConfirmDeposit(confirmMessage.OperatorId, confirmMessage.TransactionNo);
+                    await depositTx.ConfirmDeposit(confirmMessage.ManagerId, confirmMessage.TransactionNo);
                 }
             }
             catch (Exception ex)
@@ -155,6 +168,13 @@ namespace Dotpay.Actor.Service.Implementations
                 Log.Error("ProcessRippleDepositTransaction:" + ex.Message, ex);
                 throw;
             }
+        }
+
+        private Task<bool> CheckManagerPermission(Guid operatorId)
+        {
+            var @operator = GrainFactory.GetGrain<IManager>(operatorId);
+
+            return @operator.HasRole(ManagerType.DepositProcessor);
         }
         #endregion
     }

@@ -10,6 +10,6 @@ namespace Dotpay.Common
     {
         SuperUser = 1,
         DepositProcessor = 2,
-        WithdrawProcessor = 3
+        TransferProcessor = 3
     }
 }

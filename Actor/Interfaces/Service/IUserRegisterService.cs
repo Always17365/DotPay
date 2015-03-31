@@ -10,6 +10,6 @@ namespace Dotpay.Actor.Service.Interfaces
     public interface IUserRegisterService : Orleans.IGrainWithIntegerKey
     {
         Task PreRegister(string email, Lang lang);
-        Task InitUserInfo(Int64 userId, string userAccount, string loginPassword, string tradePassword);
+        Task InitUserInfo(long userId, string userAccount, string loginPassword, string tradePassword);
     }
 }

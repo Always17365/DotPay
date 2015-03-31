@@ -13,8 +13,8 @@ namespace Dotpay.Actor.Interfaces
         Task<ErrorCode> PreRegister(string email);
         Task<Guid> Initialize(string userAccount, string loginPassword, string tradePassword);
         Task<ErrorCode> Login(string loginPassword, string ip);
-        Task Lock(Guid operatorId, string reason);
-        Task Unlock(Guid operatorId, string reason);
+        Task Lock(long operatorId, string reason);
+        Task Unlock(long operatorId, string reason);
         Task SetMobile(string mobile, string otpKey, string otp);
         Task SmsCounterIncrease();
         Task VeirfyIdentity(string fullName, IdNoType idNoType, string idNo);
@@ -26,7 +26,6 @@ namespace Dotpay.Actor.Interfaces
         Task<bool> CheckPaymentPassword(string tradePassword);
         Task<ErrorCode> ChangeLoginPassword(string oldLoginPassword, string newLoginPassword);
         Task<ErrorCode> ChangePaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode = "");
-        Task AssignRoles(Guid operatorId, IEnumerable<ManagerType> roles);
         Task<Guid?> GetAccountId();
         Task<UserInfo> GetUserInfo();
     }
@@ -52,7 +51,7 @@ namespace Dotpay.Actor.Interfaces
             this.AccountId = accountId;
         }
 
-        public Int64 UserId { get; set; }
+        public long UserId { get; set; }
         public Guid AccountId { get; set; }
     }
 
@@ -91,15 +90,13 @@ namespace Dotpay.Actor.Interfaces
 
     public class UserInfo
     {
-        public UserInfo(string loginName, string email, IEnumerable<ManagerType> roles)
+        public UserInfo(string loginName, string email)
         {
             this.LoginName = loginName;
             this.Email = email;
-            this.Roles = roles;
         }
 
         public string LoginName { get; set; }
         public string Email { get; set; }
-        public IEnumerable<ManagerType> Roles { get; set; }
     }
 }

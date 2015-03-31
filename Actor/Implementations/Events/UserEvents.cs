@@ -23,18 +23,20 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserInitialized : GrainEvent
     {
-        public UserInitialized(string loginName, string loginPassword, string paymentPassword, Guid accountId)
+        public UserInitialized(string loginName, string loginPassword, string paymentPassword, Guid accountId, string salt)
         {
             this.LoginName = loginName;
             this.LoginPassword = loginPassword;
             this.PaymentPassword = paymentPassword;
             this.AccountId = accountId;
+            this.Salt = salt;
         }
 
         public string LoginName { get; private set; }
         public string LoginPassword { get; private set; }
         public string PaymentPassword { get; private set; }
         public Guid AccountId { get; private set; }
+        public string Salt { get; private set; }
     }
     [Immutable]
     [Serializable]
@@ -50,36 +52,34 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserLoginFailed : GrainEvent
     {
-        public UserLoginFailed(string loginPassword, string ip)
+        public UserLoginFailed(string ip)
         {
-            this.LoginPassword = loginPassword;
             this.IP = ip;
         }
-        public string LoginPassword { get; private set; }
         public string IP { get; private set; }
     }
     [Immutable]
     [Serializable]
     public class UserLocked : GrainEvent
     {
-        public UserLocked(Guid operationId, string reason)
+        public UserLocked(long operationId, string reason)
         {
             this.OperationId = operationId;
             this.Reason = reason;
         }
-        public Guid OperationId { get; private set; }
+        public long OperationId { get; private set; }
         public string Reason { get; private set; }
     }
     [Immutable]
     [Serializable]
     public class UserUnlocked : GrainEvent
     {
-        public UserUnlocked(Guid operationId, string reason)
+        public UserUnlocked(long operationId, string reason)
         {
             this.OperationId = operationId;
             this.Reason = reason;
         }
-        public Guid OperationId { get; private set; }
+        public long OperationId { get; private set; }
         public string Reason { get; private set; }
     }
     [Immutable]
@@ -198,12 +198,12 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserAssignedRoles : GrainEvent
     {
-        public UserAssignedRoles(Guid operatorId, IEnumerable<ManagerType> roles)
+        public UserAssignedRoles(long operatorId, IEnumerable<ManagerType> roles)
         {
             this.OperatorId = operatorId;
             this.Roles = roles;
         }
-        public Guid OperatorId { get; private set; }
+        public long OperatorId { get; private set; }
         public IEnumerable<ManagerType> Roles { get; private set; }
     }
 }

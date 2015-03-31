@@ -38,7 +38,7 @@ namespace Dotpay.Actors.Service.Implementations
             }
         }
 
-        async Task IUserRegisterService.InitUserInfo(Int64 userId, string userAccount, string loginPassword, string tradePassword)
+        async Task IUserRegisterService.InitUserInfo(long userId, string userAccount, string loginPassword, string tradePassword)
         {
             var user = GrainFactory.GetGrain<IUser>(userId);
             var accountId = await user.Initialize(userAccount, loginPassword, tradePassword);

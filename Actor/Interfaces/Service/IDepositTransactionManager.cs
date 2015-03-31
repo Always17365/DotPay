@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
  ﻿using Dotpay.Actor.Interfaces;
+ ﻿using Dotpay.Common;
  ﻿using Dotpay.Common.Enum;
  ﻿using Orleans;
  ﻿using Orleans.Concurrency;
@@ -13,8 +14,8 @@ namespace Dotpay.Actor.Service.Interfaces
         //来自Ripple的直冲
         Task ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount, Payway payway, string memo);
         Task CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo);
-        Task ConfirmDepositTransaction(Guid depositTxId, Guid operatorId, string transactionNo);
-        Task DepositTransactionMarkAsFail(Guid depositTxId, Guid operatorId, string reason);
+        Task<ErrorCode> ConfirmDepositTransaction(Guid depositTxId, Guid managerId, string transactionNo);
+        Task<ErrorCode> DepositTransactionMarkAsFail(Guid depositTxId, Guid managerId, string reason);
         Task Receive(MqMessage message);
     }
 
@@ -23,15 +24,15 @@ namespace Dotpay.Actor.Service.Interfaces
     [Serializable]
     public class ConfirmDepositTransactionMessage : MqMessage
     {
-        public ConfirmDepositTransactionMessage(Guid depositTxId, Guid operatorId, string transactionNo)
+        public ConfirmDepositTransactionMessage(Guid depositTxId, Guid managerId, string transactionNo)
         {
             this.DepositTxId = depositTxId;
-            this.OperatorId = operatorId;
+            this.ManagerId = managerId;
             this.TransactionNo = transactionNo;
         }
 
         public Guid DepositTxId { get; private set; }
-        public Guid OperatorId { get; private set; }
+        public Guid ManagerId { get; private set; }
         public string TransactionNo { get; private set; }
     }
 

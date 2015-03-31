@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DFramework;
+using DFramework.Utilities;
 using Dotpay.Common;
 using Dotpay.Actor.Events;
 using Dotpay.Actor.Interfaces;
@@ -21,7 +22,7 @@ namespace Dotpay.Actor.Implementations
 {
     [StorageProvider(ProviderName = "CouchbaseStore")]
     public class User : EventSourcingGrain<User, IUserState>, IUser
-    {  
+    {
         #region IUser
         async Task<ErrorCode> IUser.PreRegister(string email)
         {
@@ -40,13 +41,18 @@ namespace Dotpay.Actor.Implementations
         {
             var accountId = Guid.NewGuid();
             if (!this.State.IsVerified)
-                await this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword, accountId));
+            {
+                var salt = Guid.NewGuid().Shrink().Substring(0, 8);
+                loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
+                paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + salt);
+                await this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword, accountId, salt));
+            }
             else accountId = this.State.AccountId.Value;
 
             return accountId;
         }
 
-        Task IUser.Lock(Guid operatorId, string reason)
+        Task IUser.Lock(long operatorId, string reason)
         {
             if (this.State.IsVerified && !this.State.IsLocked)
                 return this.ApplyEvent(new UserLocked(operatorId, reason));
@@ -54,7 +60,7 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        Task IUser.Unlock(Guid operatorId, string reason)
+        Task IUser.Unlock(long operatorId, string reason)
         {
             if (this.State.IsVerified && this.State.IsLocked)
                 return this.ApplyEvent(new UserUnlocked(operatorId, reason));
@@ -94,7 +100,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 var token = GenerteResetLoginPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token)); 
+                await this.ApplyEvent(new UserLoginPasswordForget(token));
                 return token;
             }
 
@@ -103,6 +109,7 @@ namespace Dotpay.Actor.Implementations
 
         Task IUser.ResetLoginPassword(string newLoginPassword, string resetToken)
         {
+            newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
             if (this.State.IsVerified)
                 return this.ApplyEvent(new UserLoginPasswordReset(resetToken, newLoginPassword));
 
@@ -114,7 +121,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 var token = this.GenerteResetPaymentPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token)); 
+                await this.ApplyEvent(new UserLoginPasswordForget(token));
                 return token;
             }
             return string.Empty;
@@ -123,8 +130,10 @@ namespace Dotpay.Actor.Implementations
         Task IUser.ResetPaymentPassword(string newPaymentPassword, string resetToken)
         {
             if (this.State.IsVerified)
+            {
+                newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
                 return this.ApplyEvent(new UserPaymentPasswordReset(resetToken, newPaymentPassword));
-
+            }
             return TaskDone.Done;
         }
 
@@ -132,32 +141,34 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.IsLocked)
                 return ErrorCode.UserAccountIsLocked;
-            else if (this.State.LoginPassword == loginPassword)
+            else if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
             {
                 await this.ApplyEvent(new UserLoginSuccessed(ip));
                 return ErrorCode.None;
             }
             else
             {
-                await this.ApplyEvent(new UserLoginFailed(loginPassword, ip));
+                await this.ApplyEvent(new UserLoginFailed(ip));
                 return ErrorCode.LoginNameOrPasswordError;
             }
         }
 
         Task<bool> IUser.CheckLoginPassword(string loginPassword)
         {
-            return Task.FromResult(this.State.LoginPassword == loginPassword);
+            return Task.FromResult(this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt));
         }
 
         Task<bool> IUser.CheckPaymentPassword(string paymentPassword)
         {
-            return Task.FromResult(this.State.PaymentPassword == paymentPassword);
+            return Task.FromResult(this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt));
         }
 
         async Task<ErrorCode> IUser.ChangeLoginPassword(string oldLoginPassword, string newLoginPassword)
         {
+            oldLoginPassword = PasswordHelper.EncryptMD5(oldLoginPassword + this.State.Salt);
             if (this.State.LoginPassword == oldLoginPassword)
             {
+                newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
                 await this.ApplyEvent(new UserLoginPasswordChanged(oldLoginPassword, newLoginPassword));
                 return ErrorCode.None;
             }
@@ -170,17 +181,15 @@ namespace Dotpay.Actor.Implementations
             if (!this.CheckSmsOtp(smsVerifyCode))
                 return ErrorCode.SmsPasswordError;
 
+            oldPaymentPassword = PasswordHelper.EncryptMD5(oldPaymentPassword + this.State.Salt);
             if (this.State.PaymentPassword != oldPaymentPassword)
                 return ErrorCode.OldPaymentPasswordError;
 
+            newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
             await this.ApplyEvent(new UserPaymentPasswordChanged(oldPaymentPassword, newPaymentPassword));
             return ErrorCode.None;
         }
 
-        Task IUser.AssignRoles(Guid operatorId, IEnumerable<ManagerType> roles)
-        {
-            return this.ApplyEvent(new UserAssignedRoles(operatorId, roles));
-        }
 
         public Task<Guid?> GetAccountId()
         {
@@ -189,7 +198,7 @@ namespace Dotpay.Actor.Implementations
 
         public Task<UserInfo> GetUserInfo()
         {
-            return Task.FromResult(new UserInfo(this.State.LoginName, this.State.Email, this.State.Roles));
+            return Task.FromResult(new UserInfo(this.State.LoginName, this.State.Email));
         }
 
         #endregion
@@ -206,6 +215,7 @@ namespace Dotpay.Actor.Implementations
             this.State.LoginName = @event.LoginName;
             this.State.LoginPassword = @event.LoginPassword;
             this.State.PaymentPassword = @event.PaymentPassword;
+            this.State.Salt = @event.Salt;
 
             this.State.WriteStateAsync();
         }
@@ -277,11 +287,6 @@ namespace Dotpay.Actor.Implementations
             this.State.LoginPassword = @event.NewPaymentPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
-        private void Handle(UserAssignedRoles @event)
-        {
-            this.State.Roles = @event.Roles;
-            this.State.WriteStateAsync();
-        }
         #endregion
 
         #region Private method
@@ -332,7 +337,7 @@ namespace Dotpay.Actor.Implementations
             return result;
         }
 
-        #endregion 
+        #endregion
     }
 
     #region IUserState
@@ -345,7 +350,6 @@ namespace Dotpay.Actor.Implementations
         bool IsVerified { get; set; }
         bool IsLocked { get; set; }
         DateTime? LockedAt { get; set; }
-        IEnumerable<ManagerType> Roles { get; set; }
         IdentityInfo IdentityInfo { get; set; }
         MobileSetting MobileSetting { get; set; }
         string LoginPassword { get; set; }
@@ -359,6 +363,7 @@ namespace Dotpay.Actor.Implementations
         string LastLoginIp { get; set; }
         DateTime? LastLoginAt { get; set; }
         DateTime? LastLoginFailedAt { get; set; }
+        string Salt { get; set; }
     }
     #endregion
 

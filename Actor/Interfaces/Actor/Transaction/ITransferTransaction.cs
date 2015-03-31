@@ -17,9 +17,9 @@ namespace Dotpay.Actor.Interfaces
         Task Cancel(TransferTransactionCancelReason cancelReason);
 
         #region 手工处理接口
-        Task<ErrorCode> MarkAsProcessing(Guid operatorId);
-        Task<ErrorCode> ConfirmComplete(Guid operatorId, string transferTxNo);
-        Task<ErrorCode> ConfirmFail(Guid operatorId, string reason);
+        Task<ErrorCode> MarkAsProcessing(Guid managerId);
+        Task<ErrorCode> ConfirmComplete(Guid managerId, string transferTxNo);
+        Task<ErrorCode> ConfirmFail(Guid managerId, string reason);
         #endregion
 
         #region 自动处理接口 for ripple

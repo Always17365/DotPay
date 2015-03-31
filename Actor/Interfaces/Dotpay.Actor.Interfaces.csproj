@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Account\IAccount.cs" />
+    <Compile Include="Actor\IManager.cs" />
     <Compile Include="Actor\IMessageQueueProducter.cs" />
     <Compile Include="Actor\Tools\IRippleRpcClient.cs" />
     <Compile Include="Actor\Tools\ISequenceNoGenerator.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Actor\Transaction\TransferSourceInfo.cs" />
     <Compile Include="Actor\Transaction\TransferTargetInfo.cs" />
     <Compile Include="Service\IDepositTransactionManager.cs" />
+    <Compile Include="Service\IManagerService.cs" />
     <Compile Include="Service\IRefundTransactionManager.cs" />
     <Compile Include="Service\IRippleQuoteService.cs" />
     <Compile Include="Actor\SystemSetting\ISystemSetting.cs" />
