@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 ﻿using DFramework;
-﻿using Dotpay.Actor.Interfaces;
-﻿using Dotpay.Actor.Implementations.Events;
+﻿using Dotpay.Actor;
+﻿using Dotpay.Actor.Events;
 ﻿using Dotpay.Common;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Dotpay.Actor.Implementations
 {
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class Account : EventSourcingGrain<Account, IAccountState>, IAccount
     {
         #region IAccount
@@ -23,7 +23,7 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.OwnerId != 0)
             {
-                await this.ApplyEvent(new AccountInitializeEvent(ownerId));
+                await this.ApplyEvent(new AccountInitializeEvent(this.GetPrimaryKey(),ownerId));
                 return ErrorCode.None;
             }
             else
@@ -102,9 +102,12 @@ namespace Dotpay.Actor.Implementations
             currencyDic.Add(CurrencyType.Cny, 0);
             currencyDic.Add(CurrencyType.Usd, 0);
 
+            this.State.Id = @event.AccountId;
             this.State.OwnerId = @event.OwnerId;
             this.State.Balances = currencyDic;
-            this.State.TransactionPreparations = new Dictionary<Guid, TransactionPreparation>();
+            this.State.TransactionPreparations = new Dictionary<Guid, TransactionPreparation>(); 
+
+            this.State.WriteStateAsync();
         }
 
         private void Handle(TransactionPreparationAddedEvent @event)
@@ -115,7 +118,9 @@ namespace Dotpay.Actor.Implementations
         {
             this.State.TransactionPreparations.Remove(@event.TransactionPreparation.TransactionId);
 
-            this.State.Balances[@event.TransactionPreparation.Currency] = @event.CurrentBalance;
+            this.State.Balances[@event.TransactionPreparation.Currency] = @event.CurrentBalance; 
+
+            this.State.WriteStateAsync();
         }
         private void Handle(TransactionPreparationCanceledEvent @event)
         {
@@ -155,6 +160,7 @@ namespace Dotpay.Actor.Implementations
 
     public interface IAccountState : IEventSourcingState
     {
+        System.Guid Id { get; set; }
         Dictionary<Guid, TransactionPreparation> TransactionPreparations { get; set; }
         int OwnerId { get; set; }
         Dictionary<CurrencyType, decimal> Balances { get; set; }

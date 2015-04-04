@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 ﻿using Dotpay.Common;
 ﻿using Orleans;
 
-namespace Dotpay.Actor.Service.Interfaces
+namespace Dotpay.Actor.Service
 {
 
     public interface IManagerService : IGrainWithIntegerKey

@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using Dotpay.Actor.Interfaces;
-using Dotpay.Actor.Implementations.Events.Transaction;
+using Dotpay.Actor.Events.Transaction;
+using Dotpay.Actor;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
-using Orleans; 
+using Orleans;
 using Orleans.EventSourcing;
-﻿using Orleans.Providers;
+using Orleans.Providers;
 
 namespace Dotpay.Actor.Implementations
 {
     /// <summary>
     /// Orleans grain implementation class TransferTransaction
     /// </summary>
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class TransferTransaction : EventSourcingGrain<TransferTransaction, ITransferTransactionState>, ITransferTransaction
     {
         #region ITransferToFinancialInstitutionTransaction
@@ -25,7 +21,7 @@ namespace Dotpay.Actor.Implementations
         async Task ITransferTransaction.Initialize(string sequenceNo, TransferTransactionInfo transferTransactionInfo)
         {
             if (this.State.Status < TransferTransactionStatus.Submited)
-                await this.ApplyEvent(new TransferInitilizedEvent(sequenceNo, transferTransactionInfo));
+                await this.ApplyEvent(new TransferInitilizedEvent(this.GetPrimaryKey(), sequenceNo, transferTransactionInfo));
         }
 
         async Task ITransferTransaction.ConfirmTransactionPreparation()
@@ -179,6 +175,7 @@ namespace Dotpay.Actor.Implementations
         #region Events Handler
         private void Handle(TransferInitilizedEvent @event)
         {
+            this.State.Id = @event.TransactionId;
             this.State.SequenceNo = @event.SequenceNo;
             this.State.TransactionInfo = @event.TransferTransactionInfo;
             this.State.Status = TransferTransactionStatus.Submited;
@@ -260,6 +257,7 @@ namespace Dotpay.Actor.Implementations
 
     public interface ITransferTransactionState : IEventSourcingState
     {
+        Guid Id { get; set; }
         string SequenceNo { get; set; }
         TransferTransactionInfo TransactionInfo { get; set; }
         TransferTransactionStatus Status { get; set; }
@@ -269,7 +267,7 @@ namespace Dotpay.Actor.Implementations
         Guid ManagerId { get; set; }
         DateTime CreateAt { get; set; }
         DateTime? LockAt { get; set; }
-        DateTime? CompleteAt { get; set; } 
+        DateTime? CompleteAt { get; set; }
         DateTime? FailAt { get; set; }
         string Reason { get; set; }
     }

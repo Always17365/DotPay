@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dotpay.Actor.Interfaces.Ripple;
+using Dotpay.Actor.Ripple;
 using Dotpay.SiloHost.BootstrapTask;
 using log4net.Repository;
 using Orleans;

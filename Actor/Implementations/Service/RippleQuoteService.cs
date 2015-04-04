@@ -1,8 +1,8 @@
 ﻿using System;
 ﻿using System.Threading.Tasks;
-﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor;
 using Dotpay.Actor.Ripple.Interfaces;
-using Dotpay.Actor.Service.Interfaces;
+using Dotpay.Actor.Service;
 using Dotpay.Actor.Tools.Interfaces;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
@@ -84,8 +84,8 @@ namespace Dotpay.Actor.Service.Implementations
             fee += setting.FixedFee;
             fee += amount * setting.FeeRate;
             fee = Math.Ceiling(fee);
-            fee = setting.MinFee.HasValue ? Math.Max(setting.MinFee.Value, fee) : fee;
-            fee = setting.MaxFee.HasValue ? Math.Min(setting.MaxFee.Value, fee) : fee;
+            fee = Math.Max(setting.MinFee, fee);
+            fee = Math.Min(setting.MaxFee, fee);
 
             return fee;
         }
@@ -108,8 +108,8 @@ namespace Dotpay.Actor.Service.Implementations
             fee += setting.FixedFee;
             fee += amount * setting.FeeRate;
             fee = Math.Ceiling(fee);
-            fee = setting.MinFee.HasValue ? Math.Max(setting.MinFee.Value, fee) : fee;
-            fee = setting.MaxFee.HasValue ? Math.Min(setting.MaxFee.Value, fee) : fee;
+            fee = Math.Max(setting.MinFee, fee);
+            fee = Math.Min(setting.MaxFee, fee);
 
             return fee;
         }

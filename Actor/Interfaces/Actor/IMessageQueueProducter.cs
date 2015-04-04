@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Orleans;
 ﻿using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     public interface IMessageQueueProducter : Orleans.IGrainWithIntegerKey
     {

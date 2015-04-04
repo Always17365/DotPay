@@ -5,8 +5,8 @@
 ﻿using System.Text;
 ﻿using System.Threading;
 ﻿using System.Threading.Tasks;
-﻿using Dotpay.Actor.Interfaces;
-﻿using Dotpay.Actor.Interfaces.Ripple;
+﻿using Dotpay.Actor;
+﻿using Dotpay.Actor.Ripple;
 ﻿using Dotpay.Actor.Ripple.Interfaces;
 ﻿using Dotpay.Actor.Implementations;
 ﻿using Newtonsoft.Json;
@@ -15,7 +15,7 @@
 ﻿using Orleans.Runtime;
 ﻿using RabbitMQ.Client;
 using DFramework;
-﻿using Dotpay.Actor.Service.Interfaces;
+﻿using Dotpay.Actor.Service;
 ﻿using Dotpay.Common;
 ﻿using Dotpay.Common.Enum;
 

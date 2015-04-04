@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using DFramework;
-using Dotpay.Actor.Service.Interfaces;
+using Dotpay.Actor.Service;
 using Dotpay.Common;
 using Newtonsoft.Json;
 using Orleans;

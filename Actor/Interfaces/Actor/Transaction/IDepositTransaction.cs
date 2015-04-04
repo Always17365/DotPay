@@ -6,7 +6,7 @@ using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     /// <summary>
     /// 充值

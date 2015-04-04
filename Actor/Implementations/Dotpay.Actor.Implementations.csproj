@@ -36,9 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework, Version=1.0.5.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DFramework.1.0.5.1\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -47,9 +47,9 @@
     <Reference Include="Orleans">
       <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing, Version=1.0.2.5, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.2.5\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.3.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime">
       <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
@@ -105,15 +105,17 @@
       <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>
       <Name>Dotpay.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interfaces\Dotpay.Actor.Interfaces.csproj">
+    <ProjectReference Include="..\Interfaces\Dotpay.Actor.csproj">
       <Project>{ca1caa62-8577-4885-b49a-f9764ab6fb45}</Project>
-      <Name>Dotpay.Actor.Interfaces</Name>
+      <Name>Dotpay.Actor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <OrleansProjectType>Server</OrleansProjectType>

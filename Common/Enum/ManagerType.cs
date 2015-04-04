@@ -9,7 +9,8 @@ namespace Dotpay.Common
     public enum ManagerType
     {
         SuperUser = 1,
-        DepositProcessor = 2,
-        TransferProcessor = 3
+        MaintenanceManager = 2,
+        DepositManager = 3,
+        TransferManager = 4
     }
 }

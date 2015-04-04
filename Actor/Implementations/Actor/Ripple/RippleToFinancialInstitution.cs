@@ -3,7 +3,7 @@ using System;
 ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Common;
 ﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor;
 using Dotpay.Actor.Ripple.Interfaces;
 using Orleans;
 ﻿using Orleans.Concurrency;
@@ -11,15 +11,15 @@ using Orleans;
 ﻿using Orleans.Providers;
 
 namespace Dotpay.Actor.Implementations
-{ 
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+{
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RippleToFinancialInstitution : EventSourcingGrain<RippleToFinancialInstitution, IRippleToFinancialInstitutionState>, IRippleToFinancialInstitution
     {
         #region IRippleToFinancialInstitution
         Task IRippleToFinancialInstitution.Initialize(string invoiceId, TransferToFinancialInstitutionTargetInfo transferTargetInfo, decimal amount, decimal sendAmount, string memo)
         {
             if (string.IsNullOrEmpty(this.State.InvoiceId))
-                return this.ApplyEvent(new RippleToFinancialInstitutionInitialized(invoiceId, transferTargetInfo, amount, sendAmount, memo));
+                return this.ApplyEvent(new RippleToFinancialInstitutionInitialized(this.GetPrimaryKeyLong(),invoiceId, transferTargetInfo, amount, sendAmount, memo));
 
             return TaskDone.Done;
         }
@@ -37,6 +37,7 @@ namespace Dotpay.Actor.Implementations
         #region Event Handlers
         private void Handle(RippleToFinancialInstitutionInitialized @event)
         {
+            this.State.Id = @event.TransactionId;
             this.State.InvoiceId = @event.InvoiceId;
             this.State.TransferTargetInfo = @event.TransferTargetInfo;
             this.State.Amount = @event.Amount;
@@ -56,6 +57,7 @@ namespace Dotpay.Actor.Implementations
 
     public interface IRippleToFinancialInstitutionState : IEventSourcingState
     {
+        long Id { get; set; }
         string InvoiceId { get; set; }
         string TxId { get; set; }
         TransferTargetInfo TransferTargetInfo { get; set; }

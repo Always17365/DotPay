@@ -36,7 +36,8 @@
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="DFramework">
-      <HintPath>..\..\packages\DFramework.1.0.5.1\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -116,9 +117,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Actor\Interfaces\Dotpay.Actor.Interfaces.csproj">
+    <ProjectReference Include="..\..\Actor\Interfaces\Dotpay.Actor.csproj">
       <Project>{ca1caa62-8577-4885-b49a-f9764ab6fb45}</Project>
-      <Name>Dotpay.Actor.Interfaces</Name>
+      <Name>Dotpay.Actor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">
       <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>

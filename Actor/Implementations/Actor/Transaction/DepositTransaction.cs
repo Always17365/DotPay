@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Dotpay.Actor.Events;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Dotpay.Common.Enum;
  using Orleans;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 using Orleans.Providers;
+using Dotpay.Common;
 
 namespace Dotpay.Actor.Implementations
 {
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class DepositTransaction : EventSourcingGrain<DepositTransaction, IDepositTransactionState>, IDepositTransaction
     {
         #region IDeposit
@@ -19,7 +20,7 @@ namespace Dotpay.Actor.Implementations
                                                   Payway payway, string memo)
         {
             if (!(this.State.Status >= DepositStatus.Started))
-                await this.ApplyEvent(new DepositTransactionInitializedEvent(sequenceNo, accountId, currency, amount, payway, memo));
+                await this.ApplyEvent(new DepositTransactionInitializedEvent(this.GetPrimaryKey(),sequenceNo, accountId, currency, amount, payway, memo));
         }
         async Task IDepositTransaction.ConfirmDepositPreparation()
         {
@@ -59,6 +60,7 @@ namespace Dotpay.Actor.Implementations
         #region Event Handlers
         private void Handle(DepositTransactionInitializedEvent @event)
         {
+            this.State.Id = @event.TransactionId;
             this.State.SequenceNo = @event.SequenceNo;
             this.State.AccountId = @event.AccountId;
             this.State.Payway = @event.Payway;
@@ -97,6 +99,7 @@ namespace Dotpay.Actor.Implementations
     #region DepositTransaction
     public interface IDepositTransactionState : IEventSourcingState
     {
+        Guid Id { get; set; }
         Guid AccountId { get; set; }
         string SequenceNo { get; set; }
         CurrencyType Currency { get; set; }

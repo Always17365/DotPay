@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OrleansConfiguration xmlns="urn:orleans">
+  <Globals>
+    <SystemStore SystemStoreType ="SqlServer" DeploymentId="Dotpayco" DataConnectionString="Data Source =(local)\SQLExpress;Initial Catalog = Orleans;User Id =sa;Password =sasa;"/>
+    <Application>
+      <Defaults>
+        <Deactivation AgeLimit="2m"/>
+      </Defaults>
+    </Application>
+    <BootstrapProviders>
+      <Provider Type="Dotpay.SiloHost.InitializeTaskBootstrap" Name="InitializeTaskBootstrap" />
+    </BootstrapProviders>
+    <StorageProviders>
+      <Provider Type="Orleans.Storage.MemoryStorage" Name="MemoryStore" />
+      <Provider Type="Orleans.Storage.MongoDB.MongoDBStorage" Name="MongoDBStore" Database="datastore" ConnectionString="mongodb://sa:sa@192.168.2.10:27017/" />
+     </StorageProviders>
+    <SeedNode Address="localhost" Port="11111" />
+  </Globals>
+  <Defaults>
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+    <Tracing DefaultTraceLevel="Warning" TraceToConsole="true" TraceToFile="{0}-{1}.log">
+      <TraceLevelOverride LogPrefix="Application" TraceLevel="Info" />
+    </Tracing>
+    <Statistics MetricsTableWriteInterval="30s" PerfCounterWriteInterval="30s" LogWriteInterval="300s" WriteLogStatisticsToTable="true"/>
+  </Defaults>
+  <Override Node="Primary">
+    <Networking Address="localhost" Port="11111" />
+    <ProxyingGateway Address="localhost" Port="30000" />
+  </Override>
+</OrleansConfiguration>

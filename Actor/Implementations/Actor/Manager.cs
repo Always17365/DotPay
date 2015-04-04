@@ -6,7 +6,7 @@ using System.Text;
 ﻿using DFramework;
 ﻿using DFramework.Utilities;
 ﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor;
 ﻿using Dotpay.Common;
 ﻿using Orleans;
 ﻿using Orleans.EventSourcing;
@@ -17,7 +17,7 @@ namespace Dotpay.Actor.Implementations.Actor
     /// <summary>
     /// Orleans grain implementation class Manager
     /// </summary>
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class Manager : EventSourcingGrain<Manager, IManagerState>, IManager
     {
         #region IManager
@@ -27,7 +27,7 @@ namespace Dotpay.Actor.Implementations.Actor
             {
                 var salt = Guid.NewGuid().Shrink().Substring(0, 10);
                 loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
-                return this.ApplyEvent(new ManagerInitializedEvent(loginName, loginPassword, twofactorKey, operatorId, salt));
+                return this.ApplyEvent(new ManagerInitializedEvent(this.GetPrimaryKey(), loginName, loginPassword, twofactorKey, operatorId, salt));
             }
 
             return TaskDone.Done;
@@ -109,6 +109,7 @@ namespace Dotpay.Actor.Implementations.Actor
         #region Events Handler
         private void Handle(ManagerInitializedEvent @event)
         {
+            this.State.Id = @event.ManagerId;
             this.State.LoginName = @event.LoginName;
             this.State.LoginPassword = @event.LoginPassword;
             this.State.TwofactorKey = @event.TwofactorKey;
@@ -157,6 +158,7 @@ namespace Dotpay.Actor.Implementations.Actor
 
     public interface IManagerState : IEventSourcingState
     {
+        Guid Id { get; set; }
         string LoginName { get; set; }
         string TwofactorKey { get; set; }
         string LoginPassword { get; set; }

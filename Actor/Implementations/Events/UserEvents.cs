@@ -10,12 +10,14 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserPreRegister : GrainEvent
     {
-        public UserPreRegister(string email, string token)
+        public UserPreRegister(long userId,string email, string token)
         {
+            this.UserId = userId;
             this.Email = email;
             this.Token = token;
         }
 
+        public long UserId { get; private set; }
         public string Email { get; private set; }
         public string Token { get; private set; }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 ﻿using Orleans;
 ﻿using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Interfaces.Ripple
+namespace Dotpay.Actor.Ripple
 {
     public interface IRippleToFinancialInstitutionProcessor : Orleans.IGrainWithIntegerKey
     {

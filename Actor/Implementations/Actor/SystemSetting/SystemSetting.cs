@@ -1,15 +1,15 @@
  
 ﻿using System;
-﻿using System.Collections.Generic;
 ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor;
+﻿using Dotpay.Common;
 ﻿using Orleans.EventSourcing;
 ﻿using Orleans.Providers;
 
 namespace Dotpay.Actor.Implementations
 {
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class SystemSetting : EventSourcingGrain<SystemSetting, ISystemSettingState>, ISystemSetting
     {
         Task<RippleToFinancialInstitutionSetting> ISystemSetting.GetRippleToFinancialInstitutionSetting()
@@ -36,8 +36,16 @@ namespace Dotpay.Actor.Implementations
         private void Handle(RippleToFinancialInstitutionSettingUpdated @event)
         {
             this.State.RippleToFinancialInstitutionSetting = @event.Setting;
-            this.State.RippleToFinancialInstitutionSettingUpdateAt = @event.UTCTimestamp;
-            this.State.RippleToFinancialInstitutionSettingUpdateBy = @event.UpdateBy;
+            this.State.FISettingUpdateAt = @event.UTCTimestamp;
+            this.State.FISettingUpdateBy = @event.UpdateBy;
+            this.State.WriteStateAsync();
+        }
+        private void Handle(RippleToDotpaySettingUpdated @event)
+        {
+            this.State.RippleToDotpaySetting = @event.Setting;
+            this.State.DotpaySettingUpdateAt = @event.UTCTimestamp;
+            this.State.DotpaySettingUpdateBy = @event.UpdateBy;
+            this.State.WriteStateAsync();
         }
         #endregion
     }
@@ -46,8 +54,10 @@ namespace Dotpay.Actor.Implementations
     {
         RippleToFinancialInstitutionSetting RippleToFinancialInstitutionSetting { get; set; }
         RippleToDotpaySetting RippleToDotpaySetting { get; set; }
-        DateTime RippleToFinancialInstitutionSettingUpdateAt { get; set; }
-        Guid RippleToFinancialInstitutionSettingUpdateBy { get; set; }
+        DateTime FISettingUpdateAt { get; set; }
+        Guid FISettingUpdateBy { get; set; }
+        DateTime DotpaySettingUpdateAt { get; set; }
+        Guid DotpaySettingUpdateBy { get; set; }
     }
 
 

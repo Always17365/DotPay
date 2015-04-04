@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+	This is a sample client configuration file. 
+-->
+<ClientConfiguration xmlns="urn:orleans">
+  <SystemStore SystemStoreType ="SqlServer" DeploymentId="Dotpayco" DataConnectionString="Data Source =(local)\SQLExpress;Initial Catalog = Orleans;User Id =sa;Password =sasa;"/>
+  <GatewayProvider ProviderType="Config"/> 
+  <Statistics MetricsTableWriteInterval="30s" PerfCounterWriteInterval="30s" LogWriteInterval="300s" WriteLogStatisticsToTable="true" StatisticsCollectionLevel="Info"/>
+</ClientConfiguration>

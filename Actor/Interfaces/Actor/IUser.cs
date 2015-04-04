@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System;
 using Dotpay.Common.Enum;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     public interface IUser : IGrainWithIntegerKey
     {

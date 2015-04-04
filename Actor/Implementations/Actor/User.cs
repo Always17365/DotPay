@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DFramework;
 using DFramework.Utilities;
-using Dotpay.Common;
 using Dotpay.Actor.Events;
-using Dotpay.Actor.Interfaces;
-using Dotpay.Actor.Implementations;
-using Dotpay.Common.Enum;
+using Dotpay.Actor;
+using Dotpay.Common;
 using Orleans;
-using Orleans.Concurrency;
 using Orleans.EventSourcing;
 using Orleans.Providers;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Content;
 
 namespace Dotpay.Actor.Implementations
 {
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class User : EventSourcingGrain<User, IUserState>, IUser
     {
         #region IUser
@@ -32,7 +26,7 @@ namespace Dotpay.Actor.Implementations
             {
                 var token = this.GenerteEmailValidateToken(email);
                 //邮件服务考虑使用Message Queue完成发送,建立独立的邮件发送服务
-                await this.ApplyEvent(new UserPreRegister(email, token));
+                await this.ApplyEvent(new UserPreRegister(this.GetPrimaryKeyLong(), email, token));
             }
             return ErrorCode.None;
         }
@@ -206,6 +200,7 @@ namespace Dotpay.Actor.Implementations
         #region Event Handlers
         private void Handle(UserPreRegister @event)
         {
+            this.State.Id = @event.UserId;
             this.State.Email = @event.Email;
             this.State.EmailVerifyToken = @event.Token;
         }
@@ -343,6 +338,7 @@ namespace Dotpay.Actor.Implementations
     #region IUserState
     public interface IUserState : IEventSourcingState
     {
+        long Id { get; set; }
         Guid? AccountId { get; set; }
         string LoginName { get; set; }
         string Email { get; set; }

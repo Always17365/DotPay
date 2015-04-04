@@ -48,9 +48,9 @@
     <Reference Include="Dapper">
       <HintPath>..\..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework">
-      <HintPath>..\..\packages\DFramework.1.0.5.1\lib\net45\DFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DFramework, Version=1.0.5.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>

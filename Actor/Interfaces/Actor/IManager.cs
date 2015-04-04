@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Orleans;
 using Dotpay.Common;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     public interface IManager : Orleans.IGrainWithGuidKey
     {

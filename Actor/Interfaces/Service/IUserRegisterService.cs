@@ -5,7 +5,7 @@ using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 
-namespace Dotpay.Actor.Service.Interfaces
+namespace Dotpay.Actor.Service
 {
     public interface IUserRegisterService : Orleans.IGrainWithIntegerKey
     {

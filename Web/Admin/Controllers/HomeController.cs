@@ -5,27 +5,23 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Admin.Controllers
+namespace Dotpay.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Welcome()
         {
-            ViewBag.Message = "Your application description page.";
-             
-            return View();
+            return PartialView();
         }
-
-        public ActionResult Contact()
+        public ActionResult SidebarNav()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            this.ViewBag.CurrentUser = this.CurrentUser;
+            return PartialView();
         }
     }
 }

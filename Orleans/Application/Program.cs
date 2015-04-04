@@ -27,6 +27,8 @@ namespace Dotpay.Application
             var mqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectionString");
             var factory = new ConnectionFactory() { Uri = mqConnectionString, AutomaticRecoveryEnabled = true };
 
+            IoC.Register<IConnectionFactory>(factory);
+
             GrainClient.Initialize("ClientConfiguration.xml");
         }
     }

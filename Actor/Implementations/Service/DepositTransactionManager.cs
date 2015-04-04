@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using DFramework;
 using Dotpay.Actor.Implementations;
-using Dotpay.Actor.Interfaces;
-using Dotpay.Actor.Service.Interfaces;
+using Dotpay.Actor;
+using Dotpay.Actor.Service;
 using Dotpay.Actor.Tools.Interfaces;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
@@ -174,7 +174,7 @@ namespace Dotpay.Actor.Service.Implementations
         {
             var @operator = GrainFactory.GetGrain<IManager>(operatorId);
 
-            return @operator.HasRole(ManagerType.DepositProcessor);
+            return @operator.HasRole(ManagerType.DepositManager);
         }
         #endregion
     }

@@ -48,9 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CouchbaseNetClient.2.0.3\lib\net45\Couchbase.NetClient.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework, Version=1.0.5.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DFramework.1.0.5.1\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -62,25 +62,37 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MongoDB.Bson.2.0.0\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MongoDB.Driver.2.0.0\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.0.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Orleans, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing, Version=1.0.2.5, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.EventSourcing.1.0.2.5\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.3.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing.Couchbase, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing.MongoDB, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.EventSourcing.Couchbase.1.1.4.0\lib\net45\Orleans.EventSourcing.Couchbase.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.MongoDB.1.0.1.0\lib\net45\Orleans.EventSourcing.MongoDB.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.Storage.Couchbase, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.Storage.MongoDB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Orleans.Storage.Couchbase.1.2.3.0\lib\net45\Orleans.Storage.Couchbase.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.Storage.MongoDB.1.0.0.0\lib\net45\Orleans.Storage.MongoDB.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -114,15 +126,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DevTestServerConfiguration.xml">
+    <Content Include="DotpayConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Actor\Interfaces\Dotpay.Actor.Interfaces.csproj">
+    <ProjectReference Include="..\..\Actor\Interfaces\Dotpay.Actor.csproj">
       <Project>{ca1caa62-8577-4885-b49a-f9764ab6fb45}</Project>
-      <Name>Dotpay.Actor.Interfaces</Name>
+      <Name>Dotpay.Actor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

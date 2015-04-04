@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     public interface ISystemSetting : IGrainWithIntegerKey
     {
@@ -22,8 +22,8 @@ namespace Dotpay.Actor.Interfaces
         public decimal MaxAmount { get; set; }
         public decimal FixedFee { get; set; }
         public decimal FeeRate { get; set; }
-        public decimal? MinFee { get; set; }
-        public decimal? MaxFee { get; set; }
+        public decimal MinFee { get; set; }
+        public decimal MaxFee { get; set; }
     }
 
     [Immutable]
@@ -34,7 +34,7 @@ namespace Dotpay.Actor.Interfaces
         public decimal MaxAmount { get; set; }
         public decimal FixedFee { get; set; }
         public decimal FeeRate { get; set; }
-        public decimal? MinFee { get; set; }
-        public decimal? MaxFee { get; set; }
+        public decimal MinFee { get; set; }
+        public decimal MaxFee { get; set; }
     }
 }

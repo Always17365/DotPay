@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     /// <summary>
     /// Orleans grain communication interface RefundTransaction

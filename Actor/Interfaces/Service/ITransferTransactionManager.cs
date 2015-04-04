@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Service.Interfaces
+namespace Dotpay.Actor.Service
 {
     public interface ITransferTransactionManager : Orleans.IGrainWithIntegerKey
     {

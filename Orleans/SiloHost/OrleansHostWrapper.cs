@@ -104,7 +104,7 @@ namespace Dotpay.SiloHost
         {
             string deploymentId = null;
 
-            string configFileName = "DevTestServerConfiguration.xml";
+            string configFileName = "DotpayConfiguration.xml";
             string siloName = Dns.GetHostName(); // Default to machine name
 
             int argPos = 1;

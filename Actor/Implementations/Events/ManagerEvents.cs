@@ -10,15 +10,17 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class ManagerInitializedEvent : GrainEvent
     {
-        public ManagerInitializedEvent(string loginName, string loginPassword, string twofactorKey, Guid operatorId, string salt)
+        public ManagerInitializedEvent(Guid managerId, string loginName, string loginPassword, string twofactorKey, Guid operatorId, string salt)
         {
             this.LoginName = loginName;
             this.LoginPassword = loginPassword;
             this.TwofactorKey = twofactorKey;
             this.OperatorId = operatorId;
             this.Salt = salt;
+            this.ManagerId = managerId;
         }
 
+        public Guid ManagerId { get; private set; }
         public string LoginName { get; private set; }
         public string LoginPassword { get; private set; }
         public string TwofactorKey { get; private set; }

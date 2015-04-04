@@ -5,7 +5,7 @@ using Orleans.Concurrency;
 using System;
 using System.Threading.Tasks;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     /// <summary>
     /// transfer transaction to financial institution or to ripple

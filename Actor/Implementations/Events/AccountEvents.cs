@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dotpay.Actor.Implementations;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 
-namespace Dotpay.Actor.Implementations.Events
+namespace Dotpay.Actor.Events
 {
     #region Events
 
@@ -14,10 +15,13 @@ namespace Dotpay.Actor.Implementations.Events
     [Serializable]
     public class AccountInitializeEvent : GrainEvent
     {
-        public AccountInitializeEvent(int ownerId)
+        public AccountInitializeEvent(Guid accountId,int ownerId)
         {
             this.OwnerId = ownerId;
+            this.AccountId = accountId;
         }
+
+        public Guid AccountId { get; private set; }
         public int OwnerId { get; private set; }
     }
 

@@ -1,11 +1,9 @@
  
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
+﻿using System.Threading.Tasks;
 ﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor.Interfaces;
+﻿using Dotpay.Actor;
+﻿using Dotpay.Common;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
 ﻿using Orleans.EventSourcing;
@@ -13,7 +11,7 @@ using System.Text;
 
 namespace Dotpay.Actor.Implementations.Actors.Transaction
 {
-    [StorageProvider(ProviderName = "CouchbaseStore")]
+    [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RefundTransaction : EventSourcingGrain<RefundTransaction, IRefundTransactionState>, IRefundTransaction
     {
         #region IRefundTransaction
@@ -22,7 +20,7 @@ namespace Dotpay.Actor.Implementations.Actors.Transaction
         {
             if (this.State.Status < RefundTransactionStatus.Initalized)
             {
-                return this.ApplyEvent(new RefundTransactionInitializedEvent(sourceTransactionId, accountId,
+                return this.ApplyEvent(new RefundTransactionInitializedEvent(this.GetPrimaryKey(), sourceTransactionId, accountId,
                      refundTransactionType, currency, amount));
             }
 
@@ -60,6 +58,7 @@ namespace Dotpay.Actor.Implementations.Actors.Transaction
 
         private void Handle(RefundTransactionInitializedEvent @event)
         {
+            this.State.Id = @event.TransactionId;
             this.State.SourceTransactionId = @event.SourceTransactionId;
             this.State.AccountId = @event.AccountId;
             this.State.Status = RefundTransactionStatus.Initalized;
@@ -83,6 +82,7 @@ namespace Dotpay.Actor.Implementations.Actors.Transaction
 
     public interface IRefundTransactionState : IEventSourcingState
     {
+        Guid Id { get; set; }
         Guid SourceTransactionId { get; set; }
         Guid AccountId { get; set; }
         RefundTransactionStatus Status { get; set; }

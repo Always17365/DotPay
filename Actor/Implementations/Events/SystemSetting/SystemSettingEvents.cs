@@ -1,5 +1,5 @@
 ﻿using System;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 

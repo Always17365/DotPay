@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
 
-namespace Dotpay.Actor.Service.Interfaces
+namespace Dotpay.Actor.Service
 {
      
     public interface IUserResetPasswordService : Orleans.IGrain

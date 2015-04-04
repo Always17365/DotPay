@@ -1,0 +1,160 @@
+﻿@using Dotpay.Admin.ViewModel
+@model ToDotpaySettingViewModel
+
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin page-header -->
+    <h1 class="page-header">Ripple-Dotpay直转设置 <small>联盟协议转入设置</small></h1>
+    <!-- end page-header -->
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-10">
+            <div class="panel panel-inverse" data-sortable-id="ui-modal-notification-1">
+                <div class="panel-heading">
+                    <h4 class="panel-title">设置明细</h4>
+                </div>
+                <div class="panel-body panel-form">
+                    <form class="form-horizontal form-bordered" id="tofisettingForm" name="demo-form2">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">转账金额下限</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.MinAmount, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "转账金额下限" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="minAmount" name="minAmount" placeholder="转账金额下限" data-parsley-required="true" />*@
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">转账金额上限</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.MaxAmount, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "转账金额上限" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="maxAmount" name="maxAmount" placeholder="转账金额上限" data-parsley-required="true">*@
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">每笔转账固定手续费</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.FixedFee, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "每笔转账固定手续费" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="fixedFee" name="fixedFee" placeholder="每笔转账固定手续费" data-parsley-required="true">*@
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">每笔转账费率</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.FeeRate, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "每笔转账费率" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="feeRate" name="feeRate" placeholder="每笔转账费率" data-parsley-required="true">*@
+                                    <span class="input-group-addon">‰</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">每笔最低手续费</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.MinFee, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "每笔最低手续费" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="minFee" name="minFee" placeholder="每笔最低手续费" data-parsley-required="true">*@
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">每笔最高手续费</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.MaxFee, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control" },
+                                      { "placeholder", "每笔最高手续费" },
+                                      { "data-parsley-required", "true" },
+                                      { "data-parsley-type", "number" }
+                                    })
+                                    @*<input type="text" class="form-control" id="maxFee" name="maxFee" placeholder="每笔最高手续费" data-parsley-required="true">*@
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6">
+                                <button type="submit" id="add-without-image" class="btn btn-sm btn-success pull-right">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+<!-- end #content -->
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="/assets/plugins/parsley/dist/parsley.js"></script>
+<script src="/assets/plugins/parsley/src/i18n/zh_cn.js"></script>
+<script src="/assets/plugins/powerange/powerange.min.js"></script>
+<!-- ================== END BASE JS ================== -->
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script>
+    App.restartGlobalFunction();
+    App.setPageTitle('转到点付账户设置');
+
+    $.getScript('/assets/jss/notification.js').done(function () {
+        Notification.init();
+    });
+    $(function () {
+        window.ParsleyValidator.setLocale('zh_cn');
+        $('#tofisettingForm').parsley();
+        $("#tofisettingForm").submit(function () {
+            $.post("/ajax/systemsetting/todotpay/save", $(this).serialize(), function (result, status) {
+                if (result.Code === 1)
+                    Notification.notice("保存成功", "");
+                else
+                    Notification.notice("保存失败", result.Message);
+            });
+            return false;
+        });
+    });
+</script>
+<!-- ================== END PAGE LEVEL JS ================== -->

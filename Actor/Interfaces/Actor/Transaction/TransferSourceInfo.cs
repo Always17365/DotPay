@@ -2,7 +2,7 @@
 using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Interfaces
+namespace Dotpay.Actor
 {
     [Immutable]
     [Serializable]

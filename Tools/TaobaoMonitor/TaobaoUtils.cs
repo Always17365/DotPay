@@ -131,7 +131,7 @@ namespace Dotpay.TaobaoMonitor
             TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
             req.Fields = "tid,status,buyer_nick,pay_time,total_fee,has_buyer_message,orders.title";
 
-            DateTime start = DateTime.Now.AddHours(-1);
+            DateTime start = DateTime.Now.AddHours(-3);
             req.StartModified = start;
             DateTime end = DateTime.Now;
             req.EndModified = end;

@@ -9,8 +9,9 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class RefundTransactionInitializedEvent : GrainEvent
     {
-        public RefundTransactionInitializedEvent(Guid sourceTransactionId, Guid accountId, RefundTransactionType refundTransactionType, CurrencyType currency, decimal amount)
+        public RefundTransactionInitializedEvent(Guid transactionId, Guid sourceTransactionId, Guid accountId, RefundTransactionType refundTransactionType, CurrencyType currency, decimal amount)
         {
+            this.TransactionId = transactionId;
             this.SourceTransactionId = sourceTransactionId;
             this.AccountId = accountId;
             this.RefundTransactionType = refundTransactionType;
@@ -18,6 +19,7 @@ namespace Dotpay.Actor.Events
             this.Amount = amount;
         }
 
+        public Guid TransactionId { get; private set; }
         public Guid SourceTransactionId { get; private set; }
         public Guid AccountId { get; private set; }
         public RefundTransactionType RefundTransactionType { get; private set; }
@@ -40,5 +42,5 @@ namespace Dotpay.Actor.Events
         public RefundTransactionConfirmedEvent()
         {
         }
-    } 
+    }
 }

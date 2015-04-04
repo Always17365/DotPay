@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -145,7 +146,7 @@ namespace Dotpay.TaobaoMonitor
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new GetLastLedgerIndexMessage());
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
-
+                var sw = Stopwatch.StartNew(); 
                 while (true)
                 {
                     BasicDeliverEventArgs ea;
@@ -156,7 +157,11 @@ namespace Dotpay.TaobaoMonitor
                             return Convert.ToInt64(Encoding.UTF8.GetString(ea.Body));
                         }
                     }
-                    return -1;
+                    if (sw.ElapsedMilliseconds > 10 * 1000)
+                    {
+                        sw.Stop();
+                        return -1;
+                    } 
                 }
             }
         }
@@ -195,7 +200,7 @@ namespace Dotpay.TaobaoMonitor
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new ValidateTxMessage(txid));
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
-
+                var sw = Stopwatch.StartNew();
                 while (true)
                 {
                     BasicDeliverEventArgs ea;
@@ -206,7 +211,11 @@ namespace Dotpay.TaobaoMonitor
                             return Convert.ToInt32(Encoding.UTF8.GetString(ea.Body));
                         }
                     }
-                    return -1;
+                    if (sw.ElapsedMilliseconds > 10 * 1000)
+                    {
+                        sw.Stop();
+                        return -1;
+                    }
                 }
             }
         }

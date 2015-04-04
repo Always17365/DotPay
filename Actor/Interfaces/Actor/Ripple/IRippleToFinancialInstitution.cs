@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Dotpay.Common;
 using Orleans;
 using Orleans.Concurrency;

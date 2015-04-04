@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 
-namespace Dotpay.Actor.Implementations.Events.Transaction
+namespace Dotpay.Actor.Events.Transaction
 {
     [Immutable]
     [Serializable]
     public class TransferInitilizedEvent : GrainEvent
     {
-        public TransferInitilizedEvent(string sequenceNo, TransferTransactionInfo transferTransactionInfo)
+        public TransferInitilizedEvent(Guid transactionId,string sequenceNo, TransferTransactionInfo transferTransactionInfo)
         {
+            this.TransactionId = transactionId;
             this.SequenceNo = sequenceNo;
             this.TransferTransactionInfo = transferTransactionInfo;
         }
 
+        public Guid TransactionId { get; private set; }
         public string SequenceNo { get; private set; }
         public TransferTransactionInfo TransferTransactionInfo { get; private set; }
     }

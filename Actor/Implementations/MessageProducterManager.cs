@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DFramework;
-using Dotpay.Actor.Interfaces;
+using Dotpay.Actor;
 using Orleans;
 using RabbitMQ.Client;
 

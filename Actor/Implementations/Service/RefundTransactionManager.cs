@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Dotpay.Actor.Implementations;
-using Dotpay.Actor.Interfaces;
-using Dotpay.Actor.Service.Interfaces;
+using Dotpay.Actor;
+using Dotpay.Actor.Service;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;

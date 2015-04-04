@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
-﻿using Dotpay.Actor.Interfaces;
-﻿using Dotpay.Actor.Service.Interfaces;
+﻿using Dotpay.Actor;
+﻿using Dotpay.Actor.Service;
 ﻿using Dotpay.Common;
 ﻿using Orleans;
 
@@ -69,7 +69,7 @@ namespace Dotpay.Actor.Implementations.Service
         {
             var @operator = GrainFactory.GetGrain<IManager>(operatorId);
 
-            return @operator.HasRole(ManagerType.SuperUser);
+            return @operator.HasRole(ManagerType.MaintenanceManager);
         }
     }
 }

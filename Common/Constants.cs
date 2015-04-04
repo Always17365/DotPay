@@ -18,6 +18,8 @@ namespace Dotpay.Common
         /// </summary>
         public const int AtleastOnActivationInSiloGrainSelfCheckPeriod = 2;
 
+        public const string StorageProviderName = "MongoDBStore";
+
         #region MQ Name
 
         public const string ExechangeSuffix = "Exchange";
