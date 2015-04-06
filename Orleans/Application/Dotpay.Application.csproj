@@ -98,8 +98,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Monitor\UserRegisterMonitor.cs" />
     <Compile Include="Monitor\TransferTransactionMonitor.cs" />
-    <Compile Include="Monitor\RippleToFinancialInstitutionMonitor.cs" />
+    <Compile Include="Monitor\RippleTxMessageMonitor.cs" />
     <Compile Include="Monitor\RefundTransactionMonitor.cs" />
     <Compile Include="Monitor\DepositRecheckerMonitor.cs" />
     <Compile Include="Monitor\IApplicationMonitor.cs" />

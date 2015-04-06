@@ -2,18 +2,12 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using DFramework;
 using Dotpay.Actor.Implementations;
-using Dotpay.Actor;
-using Dotpay.Actor.Service;
-using Dotpay.Actor.Tools.Interfaces;
+using Dotpay.Actor.Tools;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
-using Newtonsoft.Json;
 using Orleans;
 using Orleans.Concurrency;
 using Orleans.Runtime;
@@ -75,6 +69,16 @@ namespace Dotpay.Actor.Service.Implementations
             var code = await transferTransaction.ConfirmFail(managerId, reason);
             if (code == ErrorCode.None)
                 await PublishRefundMessage(transferTransactionId);
+
+            return code;
+        }
+
+        async Task<ErrorCode> ITransferTransactionManager.ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo)
+        {
+            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+
+            var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
+            var code = await transferTransaction.ConfirmComplete(managerId, transferNo);
 
             return code;
         }

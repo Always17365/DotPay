@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Dotpay.Actor.Tools.Interfaces;
+using Dotpay.Common;
 using Orleans;
 using Orleans.Providers;
-using Dotpay.Common;
 
 namespace Dotpay.Actor.Tools.Implementations
 {

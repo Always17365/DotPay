@@ -24,7 +24,8 @@ namespace Dotpay.Common
         SmsPasswordError = UserErrorBase + 11,
         EmailHasVerified = UserErrorBase + 12,
         MobileHasSet = UserErrorBase + 13,
-        UserManagerErrorBase = 1500,
+        ExceedMaxLoginFailTime = UserErrorBase + 14,
+        UserManagerErrorBase = 1500, 
         HasNoPermission = UserManagerErrorBase + 1,
         #endregion
 
@@ -55,6 +56,8 @@ namespace Dotpay.Common
         RippleTransactionInvoiceIdNotMatch = RippleErrorBase + 5,
         RippleQuoteAmountOutOfRange = RippleErrorBase + 6,
         RippleQuoteUnsupport = RippleErrorBase + 7,
+        RippleToFiErrorBase=RippleErrorBase+200,
+        RippleToFiIsLockedByOther = RippleToFiErrorBase + 1,
         #endregion
 
         #region Orleans Error

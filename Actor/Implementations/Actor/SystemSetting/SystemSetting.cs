@@ -12,14 +12,14 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class SystemSetting : EventSourcingGrain<SystemSetting, ISystemSettingState>, ISystemSetting
     {
-        Task<RippleToFinancialInstitutionSetting> ISystemSetting.GetRippleToFinancialInstitutionSetting()
+        Task<RippleToFISetting> ISystemSetting.GetRippleToFISetting()
         {
-            return Task.FromResult(this.State.RippleToFinancialInstitutionSetting);
+            return Task.FromResult(this.State.RippleToFISetting);
         }
 
-        Task ISystemSetting.UpdateRippleToFinancialInstitutionSetting(RippleToFinancialInstitutionSetting setting, Guid updateBy)
+        Task ISystemSetting.UpdateRippleToFISetting(RippleToFISetting setting, Guid updateBy)
         {
-            return this.ApplyEvent(new RippleToFinancialInstitutionSettingUpdated(setting, updateBy));
+            return this.ApplyEvent(new RippleToFISettingUpdated(setting, updateBy));
         }
 
         public Task<RippleToDotpaySetting> GetRippleToDotpaySetting()
@@ -33,9 +33,9 @@ namespace Dotpay.Actor.Implementations
         } 
 
         #region Event Handlers
-        private void Handle(RippleToFinancialInstitutionSettingUpdated @event)
+        private void Handle(RippleToFISettingUpdated @event)
         {
-            this.State.RippleToFinancialInstitutionSetting = @event.Setting;
+            this.State.RippleToFISetting = @event.Setting;
             this.State.FISettingUpdateAt = @event.UTCTimestamp;
             this.State.FISettingUpdateBy = @event.UpdateBy;
             this.State.WriteStateAsync();
@@ -52,7 +52,7 @@ namespace Dotpay.Actor.Implementations
 
     public interface ISystemSettingState : IEventSourcingState
     {
-        RippleToFinancialInstitutionSetting RippleToFinancialInstitutionSetting { get; set; }
+        RippleToFISetting RippleToFISetting { get; set; }
         RippleToDotpaySetting RippleToDotpaySetting { get; set; }
         DateTime FISettingUpdateAt { get; set; }
         Guid FISettingUpdateBy { get; set; }

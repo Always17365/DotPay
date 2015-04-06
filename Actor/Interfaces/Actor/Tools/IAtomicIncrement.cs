@@ -2,7 +2,7 @@
 ﻿using System.Threading.Tasks;
 ﻿using Orleans;
 
-namespace Dotpay.Actor.Tools.Interfaces
+namespace Dotpay.Actor.Tools
 {
     /// <summary>
     /// 自增长Id生成器

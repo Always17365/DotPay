@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text; 
-using Dotpay.Actor.Tools.Interfaces;
-using Dotpay.Common.Enum;
-﻿using Orleans;
-﻿using Orleans.Concurrency;
+using Orleans;
 
 namespace Dotpay.Actor.Tools.Implementations
 {
@@ -14,7 +8,7 @@ namespace Dotpay.Actor.Tools.Implementations
     /// 序号生成器
     /// <remarks>高性能序号生成器,非连续性、但有序的序号生成器</remarks>
     /// </summary>
-    public class SequenceNoGenerator : Orleans.Grain, ISequenceNoGenerator
+    public class SequenceNoGenerator : Grain, ISequenceNoGenerator
     {
         private const int MaxSeed = 99999;
         private int _seed = 0;

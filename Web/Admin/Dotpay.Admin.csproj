@@ -51,11 +51,20 @@
     <Reference Include="DFramework.Plusins.Log4net">
       <HintPath>..\..\packages\DFramework.Plusins.Log4net.1.0.1.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>
     </Reference>
+    <Reference Include="DFramework.Plusins.Memcached">
+      <HintPath>..\..\packages\DFramework.Plusins.Memcached.1.0.0.0\lib\net45\DFramework.Plusins.Memcached.dll</HintPath>
+    </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\..\packages\EnyimMemcached.2.13\lib\net35\Enyim.Caching.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\..\packages\FluentValidation.5.5.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MemcachedSessionProvider">
+      <HintPath>..\..\packages\MemcachedSessionProvider.1.0.5.0\lib\net35\MemcachedSessionProvider.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -2467,6 +2476,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\SystemSettingController.cs" />
     <Compile Include="DotpayConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -3479,6 +3489,7 @@
     <Content Include="Views\Home\SidebarNav.cshtml" />
     <Content Include="Views\SystemSetting\ToFI.cshtml" />
     <Content Include="Views\SystemSetting\ToDotpay.cshtml" />
+    <Content Include="Views\Home\NoPermission.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

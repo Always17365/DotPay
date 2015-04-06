@@ -23,5 +23,9 @@ namespace Dotpay.Admin.Controllers
             this.ViewBag.CurrentUser = this.CurrentUser;
             return PartialView();
         }
+        public ActionResult NoPermission()
+        { 
+            return PartialView();
+        }
     }
 }

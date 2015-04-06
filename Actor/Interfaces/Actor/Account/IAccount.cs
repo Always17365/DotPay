@@ -10,13 +10,13 @@ namespace Dotpay.Actor
 {
     public interface IAccount : Orleans.IGrainWithGuidKey
     {
-        Task<ErrorCode> Initialize(int ownerId);
+        Task<ErrorCode> Initialize(long ownerId);
         Task<bool> Validate();
         Task<ErrorCode> AddTransactionPreparation(Guid transactionId, TransactionType transactionType, PreparationType preparationType, CurrencyType currency, decimal amount);
         Task CommitTransactionPreparation(Guid transactionId);
         Task CancelTransactionPreparation(Guid transactionId);
         Task<decimal> GetBalance(CurrencyType currency);
         Task<Dictionary<CurrencyType, decimal>> GetBalances();
-        Task<int> GetOwnerId();
+        Task<long> GetOwnerId();
     }
 }

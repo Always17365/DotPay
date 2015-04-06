@@ -20,6 +20,10 @@ namespace Dotpay.Actor.Implementations.Actor
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class Manager : EventSourcingGrain<Manager, IManagerState>, IManager
     {
+        private readonly List<DateTime> _loginFailCounter = new List<DateTime>();
+        private const int MAX_RETRY_LOGIN_TIMES = 5;
+        private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
+
         #region IManager
         Task IManager.Initialize(string loginName, string loginPassword, string twofactorKey, Guid operatorId)
         {
@@ -35,6 +39,10 @@ namespace Dotpay.Actor.Implementations.Actor
 
         async Task<ErrorCode> IManager.Login(string loginPassword, string ip)
         {
+            var now = DateTime.Now;
+            if (_loginFailCounter.SkipWhile(t => t.Add(LimitPeriod) < now).Count() > MAX_RETRY_LOGIN_TIMES)
+                return ErrorCode.ExceedMaxLoginFailTime;
+
             if (this.State.IsLocked)
                 return ErrorCode.UserAccountIsLocked;
             else if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
@@ -45,6 +53,7 @@ namespace Dotpay.Actor.Implementations.Actor
             else
             {
                 await this.ApplyEvent(new ManagerLoginFailedEvent(ip));
+                _loginFailCounter.Add(DateTime.Now);
                 return ErrorCode.LoginNameOrPasswordError;
             }
         }

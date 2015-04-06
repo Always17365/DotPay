@@ -23,7 +23,7 @@ namespace Dotpay.Admin.ViewModel
 
     public class SystemSettingViewModel
     {
-        public ToFISettingViewModel RippleToFinancialInstitutionSetting { get; set; }
+        public ToFISettingViewModel RippleToFISetting { get; set; }
         public ToDotpaySettingViewModel RippleToDotpaySetting { get; set; } 
     }
 }

@@ -14,7 +14,8 @@ namespace Dotpay.Actor.Service
         Task<ErrorCode> SubmitTransferTransaction(TransferTransactionInfo transactionInfo);
         Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid managerId);
         Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid managerId, string reason);
-        Task Receive(MqMessage message); 
+        Task<ErrorCode> ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo);
+        Task Receive(MqMessage message);
     }
 
 

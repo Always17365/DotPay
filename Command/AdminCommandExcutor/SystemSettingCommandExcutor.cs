@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DFramework;
 using Dotpay.Actor;
+using Dotpay.Actor.Service;
 using Dotpay.AdminCommand;
 using Orleans;
 
@@ -13,10 +14,10 @@ namespace Dotpay.AdminCommandExcutor
     public class SystemSettingCommandExcutor : ICommandExecutor<UpdateToFISettingCommand>,
                                                ICommandExecutor<UpdateToDotpaySettingCommand>
     {
-        public Task ExecuteAsync(UpdateToFISettingCommand cmd)
+        public async Task ExecuteAsync(UpdateToFISettingCommand cmd)
         {
-            var systemSetting = GrainFactory.GetGrain<ISystemSetting>(0);
-            var setting = new RippleToFinancialInstitutionSetting()
+            var systemSettingService = GrainFactory.GetGrain<ISystemSettingService>(0);
+            var setting = new RippleToFISetting()
             {
                 MinAmount = cmd.MinAmount,
                 MaxAmount = cmd.MaxAmount,
@@ -25,12 +26,12 @@ namespace Dotpay.AdminCommandExcutor
                 MinFee = cmd.MinFee,
                 MaxFee = cmd.MaxFee
             };
-            return systemSetting.UpdateRippleToFinancialInstitutionSetting(setting, cmd.UpdateBy);
+            cmd.CommandResult = await systemSettingService.UpdateRippleToFISetting(setting, cmd.UpdateBy);
         }
 
-        public Task ExecuteAsync(UpdateToDotpaySettingCommand cmd)
+        public async Task ExecuteAsync(UpdateToDotpaySettingCommand cmd)
         {
-            var systemSetting = GrainFactory.GetGrain<ISystemSetting>(0);
+            var systemSettingService = GrainFactory.GetGrain<ISystemSettingService>(0);
             var setting = new RippleToDotpaySetting()
             {
                 MinAmount = cmd.MinAmount,
@@ -40,7 +41,7 @@ namespace Dotpay.AdminCommandExcutor
                 MinFee = cmd.MinFee,
                 MaxFee = cmd.MaxFee
             };
-            return systemSetting.UpdateRippleToDotpaySetting(setting, cmd.UpdateBy);
+            cmd.CommandResult = await systemSettingService.UpdateRippleToDotpaySetting(setting, cmd.UpdateBy);
         }
     }
 }

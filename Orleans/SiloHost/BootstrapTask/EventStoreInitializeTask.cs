@@ -69,9 +69,9 @@ namespace Dotpay.SiloHost.BootstrapTask
             typeCodeDic.Add("Dotpay.Actor.Events.Transaction.TransferTransactionConfirmedRipplePresubmitEvent", 1031);
             typeCodeDic.Add("Dotpay.Actor.Events.Transaction.TransferTransactionConfirmedRippleTxCompleteEvent", 1032);
             typeCodeDic.Add("Dotpay.Actor.Events.Transaction.TransferTransactionConfirmedRippleTxFailEvent", 1033);
-            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFinancialInstitutionInitialized", 1034);
-            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFinancialInstitutionCompleted", 1035);
-            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFinancialInstitutionSettingUpdated", 1036);
+            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFIInitialized", 1034);
+            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFICompleted", 1035);
+            typeCodeDic.Add("Dotpay.Actor.Events.RippleToFISettingUpdated", 1036);
             typeCodeDic.Add("Dotpay.Actor.Events.RippleToDotpaySettingUpdated", 1037);
             typeCodeDic.Add("Dotpay.Actor.Events.UserPreRegister", 1038);
             typeCodeDic.Add("Dotpay.Actor.Events.UserInitialized", 1039);

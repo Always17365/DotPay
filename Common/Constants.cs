@@ -10,13 +10,7 @@ namespace Dotpay.Common
 
         /// <summary>current user key
         /// </summary>
-        public const string CurrentUserKey = "__CURRENTUSER_ID_EMAIL";
-        /// <summary> time out period( Seconds )
-        /// </summary>
-        public const int MessageConsumerTimeoutPeriod = 20;
-        /// <summary> time out period( Minutes )
-        /// </summary>
-        public const int AtleastOnActivationInSiloGrainSelfCheckPeriod = 2;
+        public const string CURRENT_USER_KEY = "__CURRENTUSER_ID_EMAIL";
 
         public const string StorageProviderName = "MongoDBStore";
 
@@ -38,12 +32,15 @@ namespace Dotpay.Common
         public const string RippleLedgerIndexResultQueueName = "RippleLedgerIndex";
         public const string RippleValidateResultQueueName = "RippleValidator";
 
-        public const string RippleToFinancialInstitutionMQName = "RippleToFinancialInstitution";
+        public const string RippleToFIMQName = "RippleToFI";
 
         public const string RippleTrustLineMQName = "__RippleTrustLine_";
 
 
         public const string UserMQName = "UserMQ";
+        public const string UserRouteKey = "User";
+        public const string UserEmailRouteKey = "Email";
+        public const string UserEmailMQName = "UserEmailMQ"; 
 
         #endregion
     }

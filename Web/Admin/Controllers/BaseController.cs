@@ -18,13 +18,25 @@ namespace Dotpay.Admin.Controllers
         {
             get
             {
-                return (ManagerIdentity)Session[Constants.CurrentUserKey] ?? new ManagerIdentity()
+                return (ManagerIdentity)Session[Constants.CURRENT_USER_KEY] ?? new ManagerIdentity()
                 {
                     ManagerId = Guid.NewGuid(),
                     LoginName = "Admin",
                     Roles = new List<ManagerType>() { ManagerType.SuperUser, ManagerType.MaintenanceManager }
                 };
             }
+        }
+
+        protected string GetUserIPAddress()
+        {
+            var ip = this.Request.Headers["x-forwarded-for"];
+
+            if (string.IsNullOrEmpty(ip))
+            { 
+                ip = this.Request.UserHostAddress;
+            }
+
+            return ip;
         }
     }
 }

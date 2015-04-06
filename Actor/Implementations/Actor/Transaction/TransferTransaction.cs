@@ -16,7 +16,7 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class TransferTransaction : EventSourcingGrain<TransferTransaction, ITransferTransactionState>, ITransferTransaction
     {
-        #region ITransferToFinancialInstitutionTransaction
+        #region ITransferToFITransaction
 
         async Task ITransferTransaction.Initialize(string sequenceNo, TransferTransactionInfo transferTransactionInfo)
         {

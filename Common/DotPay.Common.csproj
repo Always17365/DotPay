@@ -73,6 +73,7 @@
     <Compile Include="Enum\RippleTransactionFailedType.cs" />
     <Compile Include="Enum\TransferTransactionFailReason.cs" />
     <Compile Include="Enum\TransferTransactionCancelReason.cs" />
+    <Compile Include="Enum\RippleToFITransactionStatus.cs" />
     <Compile Include="Enum\TransferTransactionStatus.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="Enum\IdNoType.cs" />

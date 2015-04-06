@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\Manager.cs" />
+    <Compile Include="Actor\Ripple\RippleToDotpayQuote.cs" />
+    <Compile Include="Actor\Ripple\RippleToFIQuote.cs" />
     <Compile Include="Actor\Tools\RippleRpcClient.cs" />
     <Compile Include="Actor\Transaction\RefundTransaction.cs" />
     <Compile Include="Events\Transaction\RefundTransactionEvents.cs" />
@@ -79,7 +81,7 @@
     <Compile Include="Actor\Account.cs" />
     <Compile Include="Actor\Transaction\DepositTransaction.cs" />
     <Compile Include="Service\ManagerService.cs" />
-    <Compile Include="Service\RippleToFinancialInstitutionProcessor.cs" />
+    <Compile Include="Service\RippleToFIService.cs" />
     <Compile Include="Actor\TransactionPreparation.cs" />
     <Compile Include="Events\Transaction\TransferTransactionEvents.cs" />
     <Compile Include="Actor\MessageQueueProducter.cs" />
@@ -87,7 +89,7 @@
     <Compile Include="Service\DepositTransactionManager.cs" />
     <Compile Include="Service\RefundTransactionManager.cs" />
     <Compile Include="Service\RippleQuoteService.cs" />
-    <Compile Include="Actor\Ripple\RippleToFinancialInstitution.cs" />
+    <Compile Include="Actor\Ripple\RippleToFITransaction.cs" />
     <Compile Include="Actor\SystemSetting\SystemSetting.cs" />
     <Compile Include="Actor\Tools\AtomicIncrement.cs" />
     <Compile Include="Events\Ripple\RippleToFinancialInstitutionEvents.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Actor\User.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\SystemSettingService.cs" />
     <Compile Include="Service\TransferTransactionManager.cs" />
     <Compile Include="Service\UserRegisterService.cs" />
     <Compile Include="Service\UserResetPasswordService.cs" />

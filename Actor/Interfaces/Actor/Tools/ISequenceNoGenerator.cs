@@ -5,7 +5,7 @@ using Dotpay.Common.Enum;
 using Orleans;
 ﻿using Orleans.Concurrency;
 
-namespace Dotpay.Actor.Tools.Interfaces
+namespace Dotpay.Actor.Tools
 {
     public interface ISequenceNoGenerator : Orleans.IGrainWithIntegerKey
     {

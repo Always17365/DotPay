@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
 
-namespace Dotpay.Actor.Tools.Interfaces
+namespace Dotpay.Actor.Tools
 {
     public interface IRippleRpcClient : Orleans.IGrainWithIntegerKey
     {

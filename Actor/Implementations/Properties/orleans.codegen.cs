@@ -150,6 +150,989 @@ namespace Dotpay.Actor.Implementations.Actor
         }
     }
 }
+namespace Dotpay.Actor.Implementations
+{
+    using System;
+    using Dotpay.Common.Enum;
+    using System.Collections.Generic;
+    using System.Collections;
+    using Dotpay.Actor;
+    using System.Runtime.Serialization;
+    using Orleans.CodeGeneration;
+    using Orleans;
+    using System.Runtime.InteropServices;
+    using Orleans.EventSourcing;
+    
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToDotpayQuote")]
+    public class RippleToDotpayQuoteState : global::Orleans.CodeGeneration.GrainState, IRippleToDotpayQuoteState
+    {
+        
+
+            public Int64 @Id { get; set; }
+
+            public Int64 @UserId { get; set; }
+
+            public RippleTransactionStatus @Status { get; set; }
+
+            public String @InvoiceId { get; set; }
+
+            public String @TxId { get; set; }
+
+            public TransferToDotpayTargetInfo @TransferTargetInfo { get; set; }
+
+            public CurrencyType @Currency { get; set; }
+
+            public Decimal @Amount { get; set; }
+
+            public Decimal @SendAmount { get; set; }
+
+            public String @Memo { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @ReceiveAt { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("UserId", out value)) @UserId = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Status", out value)) @Status = (RippleTransactionStatus) value;
+                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
+                if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
+                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferToDotpayTargetInfo) value;
+                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
+                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
+                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
+                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("ReceiveAt", out value)) @ReceiveAt = (Nullable<DateTime>) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("RippleToDotpayQuoteState( Id={0} UserId={1} Status={2} InvoiceId={3} TxId={4} TransferTargetInfo={5} Currency={6} Amount={7} SendAmount={8} Memo={9} CreateAt={10} ReceiveAt={11} )", @Id, @UserId, @Status, @InvoiceId, @TxId, @TransferTargetInfo, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
+            }
+        
+        public RippleToDotpayQuoteState() : 
+                base("Dotpay.Actor.Implementations.RippleToDotpayQuote")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Id"] = this.Id;
+            result["UserId"] = this.UserId;
+            result["Status"] = this.Status;
+            result["InvoiceId"] = this.InvoiceId;
+            result["TxId"] = this.TxId;
+            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["Currency"] = this.Currency;
+            result["Amount"] = this.Amount;
+            result["SendAmount"] = this.SendAmount;
+            result["Memo"] = this.Memo;
+            result["CreateAt"] = this.CreateAt;
+            result["ReceiveAt"] = this.ReceiveAt;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Id = default(Int64);
+            this.UserId = default(Int64);
+            this.Status = default(RippleTransactionStatus);
+            this.InvoiceId = default(String);
+            this.TxId = default(String);
+            this.TransferTargetInfo = new TransferToDotpayTargetInfo();
+            this.Currency = default(CurrencyType);
+            this.Amount = default(Decimal);
+            this.SendAmount = default(Decimal);
+            this.Memo = default(String);
+            this.CreateAt = default(DateTime);
+            this.ReceiveAt = default(Nullable<DateTime>);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            RippleToDotpayQuoteState input = ((RippleToDotpayQuoteState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            RippleToDotpayQuoteState input = ((RippleToDotpayQuoteState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            RippleToDotpayQuoteState result = new RippleToDotpayQuoteState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFIQuote")]
+    public class RippleToFIQuoteState : global::Orleans.CodeGeneration.GrainState, IRippleToFIQuoteState
+    {
+        
+
+            public Int64 @Id { get; set; }
+
+            public RippleTransactionStatus @Status { get; set; }
+
+            public String @InvoiceId { get; set; }
+
+            public String @TxId { get; set; }
+
+            public TransferToFITargetInfo @TransferTargetInfo { get; set; }
+
+            public Decimal @Amount { get; set; }
+
+            public Decimal @SendAmount { get; set; }
+
+            public String @Memo { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @ReceiveAt { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Status", out value)) @Status = (RippleTransactionStatus) value;
+                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
+                if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
+                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferToFITargetInfo) value;
+                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
+                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
+                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("ReceiveAt", out value)) @ReceiveAt = (Nullable<DateTime>) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("RippleToFIQuoteState( Id={0} Status={1} InvoiceId={2} TxId={3} TransferTargetInfo={4} Amount={5} SendAmount={6} Memo={7} CreateAt={8} ReceiveAt={9} )", @Id, @Status, @InvoiceId, @TxId, @TransferTargetInfo, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
+            }
+        
+        public RippleToFIQuoteState() : 
+                base("Dotpay.Actor.Implementations.RippleToFIQuote")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Id"] = this.Id;
+            result["Status"] = this.Status;
+            result["InvoiceId"] = this.InvoiceId;
+            result["TxId"] = this.TxId;
+            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["Amount"] = this.Amount;
+            result["SendAmount"] = this.SendAmount;
+            result["Memo"] = this.Memo;
+            result["CreateAt"] = this.CreateAt;
+            result["ReceiveAt"] = this.ReceiveAt;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Id = default(Int64);
+            this.Status = default(RippleTransactionStatus);
+            this.InvoiceId = default(String);
+            this.TxId = default(String);
+            this.TransferTargetInfo = default(TransferToFITargetInfo);
+            this.Amount = default(Decimal);
+            this.SendAmount = default(Decimal);
+            this.Memo = default(String);
+            this.CreateAt = default(DateTime);
+            this.ReceiveAt = default(Nullable<DateTime>);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            RippleToFIQuoteState input = ((RippleToFIQuoteState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            RippleToFIQuoteState input = ((RippleToFIQuoteState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            RippleToFIQuoteState result = new RippleToFIQuoteState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.TransferTransaction")]
+    public class TransferTransactionState : global::Orleans.CodeGeneration.GrainState, ITransferTransactionState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public Guid @Id { get; set; }
+
+            public String @SequenceNo { get; set; }
+
+            public TransferTransactionInfo @TransactionInfo { get; set; }
+
+            public TransferTransactionStatus @Status { get; set; }
+
+            public Nullable<RippleTransactionStatus> @RippleTxStatus { get; set; }
+
+            public String @FITransactionNo { get; set; }
+
+            public RippleTransactionInfo @RippleTransactionInfo { get; set; }
+
+            public Guid @ManagerId { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @LockAt { get; set; }
+
+            public Nullable<DateTime> @CompleteAt { get; set; }
+
+            public Nullable<DateTime> @FailAt { get; set; }
+
+            public String @Reason { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
+                if (values.TryGetValue("SequenceNo", out value)) @SequenceNo = (String) value;
+                if (values.TryGetValue("TransactionInfo", out value)) @TransactionInfo = (TransferTransactionInfo) value;
+                if (values.TryGetValue("Status", out value)) @Status = (TransferTransactionStatus) value;
+                if (values.TryGetValue("RippleTxStatus", out value)) @RippleTxStatus = (Nullable<RippleTransactionStatus>) value;
+                if (values.TryGetValue("FITransactionNo", out value)) @FITransactionNo = (String) value;
+                if (values.TryGetValue("RippleTransactionInfo", out value)) @RippleTransactionInfo = (RippleTransactionInfo) value;
+                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Guid) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("LockAt", out value)) @LockAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("Reason", out value)) @Reason = (String) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("TransferTransactionState( Version={0} Id={1} SequenceNo={2} TransactionInfo={3} Status={4} RippleTxStatus={5} FITransactionNo={6} RippleTransactionInfo={7} ManagerId={8} CreateAt={9} LockAt={10} CompleteAt={11} FailAt={12} Reason={13} )", @Version, @Id, @SequenceNo, @TransactionInfo, @Status, @RippleTxStatus, @FITransactionNo, @RippleTransactionInfo, @ManagerId, @CreateAt, @LockAt, @CompleteAt, @FailAt, @Reason);
+            }
+        
+        public TransferTransactionState() : 
+                base("Dotpay.Actor.Implementations.TransferTransaction")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["SequenceNo"] = this.SequenceNo;
+            result["TransactionInfo"] = this.TransactionInfo;
+            result["Status"] = this.Status;
+            result["RippleTxStatus"] = this.RippleTxStatus;
+            result["FITransactionNo"] = this.FITransactionNo;
+            result["RippleTransactionInfo"] = this.RippleTransactionInfo;
+            result["ManagerId"] = this.ManagerId;
+            result["CreateAt"] = this.CreateAt;
+            result["LockAt"] = this.LockAt;
+            result["CompleteAt"] = this.CompleteAt;
+            result["FailAt"] = this.FailAt;
+            result["Reason"] = this.Reason;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.Id = default(Guid);
+            this.SequenceNo = default(String);
+            this.TransactionInfo = default(TransferTransactionInfo);
+            this.Status = default(TransferTransactionStatus);
+            this.RippleTxStatus = default(Nullable<RippleTransactionStatus>);
+            this.FITransactionNo = default(String);
+            this.RippleTransactionInfo = default(RippleTransactionInfo);
+            this.ManagerId = default(Guid);
+            this.CreateAt = default(DateTime);
+            this.LockAt = default(Nullable<DateTime>);
+            this.CompleteAt = default(Nullable<DateTime>);
+            this.FailAt = default(Nullable<DateTime>);
+            this.Reason = default(String);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            TransferTransactionState input = ((TransferTransactionState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            TransferTransactionState input = ((TransferTransactionState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            TransferTransactionState result = new TransferTransactionState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.Account")]
+    public class AccountState : global::Orleans.CodeGeneration.GrainState, IAccountState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public Guid @Id { get; set; }
+
+            public Dictionary<Guid,TransactionPreparation> @TransactionPreparations { get; set; }
+
+            public Int64 @OwnerId { get; set; }
+
+            public Dictionary<CurrencyType,Decimal> @Balances { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
+                if (values.TryGetValue("TransactionPreparations", out value)) @TransactionPreparations = (Dictionary<Guid,TransactionPreparation>) value;
+                if (values.TryGetValue("OwnerId", out value)) @OwnerId = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Balances", out value)) @Balances = (Dictionary<CurrencyType,Decimal>) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("AccountState( Version={0} Id={1} TransactionPreparations={2} OwnerId={3} Balances={4} )", @Version, @Id, @TransactionPreparations, @OwnerId, @Balances);
+            }
+        
+        public AccountState() : 
+                base("Dotpay.Actor.Implementations.Account")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["TransactionPreparations"] = this.TransactionPreparations;
+            result["OwnerId"] = this.OwnerId;
+            result["Balances"] = this.Balances;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.Id = default(Guid);
+            this.TransactionPreparations = new Dictionary<Guid,TransactionPreparation>();
+            this.OwnerId = default(Int64);
+            this.Balances = new Dictionary<CurrencyType,Decimal>();
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            AccountState input = ((AccountState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            AccountState input = ((AccountState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            AccountState result = new AccountState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.DepositTransaction")]
+    public class DepositTransactionState : global::Orleans.CodeGeneration.GrainState, IDepositTransactionState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public Guid @Id { get; set; }
+
+            public Guid @AccountId { get; set; }
+
+            public String @SequenceNo { get; set; }
+
+            public CurrencyType @Currency { get; set; }
+
+            public Decimal @Amount { get; set; }
+
+            public DepositStatus @Status { get; set; }
+
+            public Payway @Payway { get; set; }
+
+            public String @Memo { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<Guid> @ManagerId { get; set; }
+
+            public String @TransactionNo { get; set; }
+
+            public Nullable<DateTime> @CompleteAt { get; set; }
+
+            public Nullable<DateTime> @FailAt { get; set; }
+
+            public String @FailReason { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
+                if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
+                if (values.TryGetValue("SequenceNo", out value)) @SequenceNo = (String) value;
+                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
+                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
+                if (values.TryGetValue("Status", out value)) @Status = (DepositStatus) value;
+                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
+                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Nullable<Guid>) value;
+                if (values.TryGetValue("TransactionNo", out value)) @TransactionNo = (String) value;
+                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("FailReason", out value)) @FailReason = (String) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("DepositTransactionState( Version={0} Id={1} AccountId={2} SequenceNo={3} Currency={4} Amount={5} Status={6} Payway={7} Memo={8} CreateAt={9} ManagerId={10} TransactionNo={11} CompleteAt={12} FailAt={13} FailReason={14} )", @Version, @Id, @AccountId, @SequenceNo, @Currency, @Amount, @Status, @Payway, @Memo, @CreateAt, @ManagerId, @TransactionNo, @CompleteAt, @FailAt, @FailReason);
+            }
+        
+        public DepositTransactionState() : 
+                base("Dotpay.Actor.Implementations.DepositTransaction")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["AccountId"] = this.AccountId;
+            result["SequenceNo"] = this.SequenceNo;
+            result["Currency"] = this.Currency;
+            result["Amount"] = this.Amount;
+            result["Status"] = this.Status;
+            result["Payway"] = this.Payway;
+            result["Memo"] = this.Memo;
+            result["CreateAt"] = this.CreateAt;
+            result["ManagerId"] = this.ManagerId;
+            result["TransactionNo"] = this.TransactionNo;
+            result["CompleteAt"] = this.CompleteAt;
+            result["FailAt"] = this.FailAt;
+            result["FailReason"] = this.FailReason;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.Id = default(Guid);
+            this.AccountId = default(Guid);
+            this.SequenceNo = default(String);
+            this.Currency = default(CurrencyType);
+            this.Amount = default(Decimal);
+            this.Status = default(DepositStatus);
+            this.Payway = default(Payway);
+            this.Memo = default(String);
+            this.CreateAt = default(DateTime);
+            this.ManagerId = default(Nullable<Guid>);
+            this.TransactionNo = default(String);
+            this.CompleteAt = default(Nullable<DateTime>);
+            this.FailAt = default(Nullable<DateTime>);
+            this.FailReason = default(String);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            DepositTransactionState input = ((DepositTransactionState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            DepositTransactionState input = ((DepositTransactionState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            DepositTransactionState result = new DepositTransactionState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFI")]
+    public class RippleToFIState : global::Orleans.CodeGeneration.GrainState, IRippleToFITransactionState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public Int64 @Id { get; set; }
+
+            public RippleToFITransactionStatus @Status { get; set; }
+
+            public String @RippleTxId { get; set; }
+
+            public String @InvoiceId { get; set; }
+
+            public TransferTargetInfo @TransferTargetInfo { get; set; }
+
+            public Decimal @Amount { get; set; }
+
+            public Decimal @SendAmount { get; set; }
+
+            public String @Memo { get; set; }
+
+            public String @ManagerMemo { get; set; }
+
+            public Boolean @Locked { get; set; }
+
+            public Nullable<Guid> @OperatorId { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @CompleteAt { get; set; }
+
+            public Nullable<DateTime> @FailAt { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Status", out value)) @Status = (RippleToFITransactionStatus) value;
+                if (values.TryGetValue("RippleTxId", out value)) @RippleTxId = (String) value;
+                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
+                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferTargetInfo) value;
+                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
+                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
+                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
+                if (values.TryGetValue("ManagerMemo", out value)) @ManagerMemo = (String) value;
+                if (values.TryGetValue("Locked", out value)) @Locked = (Boolean) value;
+                if (values.TryGetValue("OperatorId", out value)) @OperatorId = (Nullable<Guid>) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("RippleToFIState( Version={0} Id={1} Status={2} RippleTxId={3} InvoiceId={4} TransferTargetInfo={5} Amount={6} SendAmount={7} Memo={8} ManagerMemo={9} Locked={10} OperatorId={11} CreateAt={12} CompleteAt={13} FailAt={14} )", @Version, @Id, @Status, @RippleTxId, @InvoiceId, @TransferTargetInfo, @Amount, @SendAmount, @Memo, @ManagerMemo, @Locked, @OperatorId, @CreateAt, @CompleteAt, @FailAt);
+            }
+        
+        public RippleToFIState() : 
+                base("Dotpay.Actor.Implementations.RippleToFI")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["Status"] = this.Status;
+            result["RippleTxId"] = this.RippleTxId;
+            result["InvoiceId"] = this.InvoiceId;
+            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["Amount"] = this.Amount;
+            result["SendAmount"] = this.SendAmount;
+            result["Memo"] = this.Memo;
+            result["ManagerMemo"] = this.ManagerMemo;
+            result["Locked"] = this.Locked;
+            result["OperatorId"] = this.OperatorId;
+            result["CreateAt"] = this.CreateAt;
+            result["CompleteAt"] = this.CompleteAt;
+            result["FailAt"] = this.FailAt;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.Id = default(Int64);
+            this.Status = default(RippleToFITransactionStatus);
+            this.RippleTxId = default(String);
+            this.InvoiceId = default(String);
+            this.TransferTargetInfo = default(TransferTargetInfo);
+            this.Amount = default(Decimal);
+            this.SendAmount = default(Decimal);
+            this.Memo = default(String);
+            this.ManagerMemo = default(String);
+            this.Locked = default(Boolean);
+            this.OperatorId = default(Nullable<Guid>);
+            this.CreateAt = default(DateTime);
+            this.CompleteAt = default(Nullable<DateTime>);
+            this.FailAt = default(Nullable<DateTime>);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            RippleToFIState input = ((RippleToFIState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            RippleToFIState input = ((RippleToFIState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            RippleToFIState result = new RippleToFIState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.SystemSetting")]
+    public class SystemSettingState : global::Orleans.CodeGeneration.GrainState, ISystemSettingState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public RippleToFISetting @RippleToFISetting { get; set; }
+
+            public RippleToDotpaySetting @RippleToDotpaySetting { get; set; }
+
+            public DateTime @FISettingUpdateAt { get; set; }
+
+            public Guid @FISettingUpdateBy { get; set; }
+
+            public DateTime @DotpaySettingUpdateAt { get; set; }
+
+            public Guid @DotpaySettingUpdateBy { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("RippleToFISetting", out value)) @RippleToFISetting = (RippleToFISetting) value;
+                if (values.TryGetValue("RippleToDotpaySetting", out value)) @RippleToDotpaySetting = (RippleToDotpaySetting) value;
+                if (values.TryGetValue("FISettingUpdateAt", out value)) @FISettingUpdateAt = (DateTime) value;
+                if (values.TryGetValue("FISettingUpdateBy", out value)) @FISettingUpdateBy = (Guid) value;
+                if (values.TryGetValue("DotpaySettingUpdateAt", out value)) @DotpaySettingUpdateAt = (DateTime) value;
+                if (values.TryGetValue("DotpaySettingUpdateBy", out value)) @DotpaySettingUpdateBy = (Guid) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("SystemSettingState( Version={0} RippleToFISetting={1} RippleToDotpaySetting={2} FISettingUpdateAt={3} FISettingUpdateBy={4} DotpaySettingUpdateAt={5} DotpaySettingUpdateBy={6} )", @Version, @RippleToFISetting, @RippleToDotpaySetting, @FISettingUpdateAt, @FISettingUpdateBy, @DotpaySettingUpdateAt, @DotpaySettingUpdateBy);
+            }
+        
+        public SystemSettingState() : 
+                base("Dotpay.Actor.Implementations.SystemSetting")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["RippleToFISetting"] = this.RippleToFISetting;
+            result["RippleToDotpaySetting"] = this.RippleToDotpaySetting;
+            result["FISettingUpdateAt"] = this.FISettingUpdateAt;
+            result["FISettingUpdateBy"] = this.FISettingUpdateBy;
+            result["DotpaySettingUpdateAt"] = this.DotpaySettingUpdateAt;
+            result["DotpaySettingUpdateBy"] = this.DotpaySettingUpdateBy;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.RippleToFISetting = new RippleToFISetting();
+            this.RippleToDotpaySetting = new RippleToDotpaySetting();
+            this.FISettingUpdateAt = default(DateTime);
+            this.FISettingUpdateBy = default(Guid);
+            this.DotpaySettingUpdateAt = default(DateTime);
+            this.DotpaySettingUpdateBy = default(Guid);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            SystemSettingState input = ((SystemSettingState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            SystemSettingState input = ((SystemSettingState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            SystemSettingState result = new SystemSettingState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.User")]
+    public class UserState : global::Orleans.CodeGeneration.GrainState, IUserState
+    {
+        
+
+            public UInt64 @Version { get; set; }
+
+            public Int64 @Id { get; set; }
+
+            public Guid @AccountId { get; set; }
+
+            public String @LoginName { get; set; }
+
+            public String @Email { get; set; }
+
+            public String @EmailVerifyToken { get; set; }
+
+            public Boolean @IsVerified { get; set; }
+
+            public Boolean @IsLocked { get; set; }
+
+            public Nullable<DateTime> @LockedAt { get; set; }
+
+            public IdentityInfo @IdentityInfo { get; set; }
+
+            public MobileSetting @MobileSetting { get; set; }
+
+            public String @LoginPassword { get; set; }
+
+            public String @LoginPasswordResetToken { get; set; }
+
+            public Nullable<DateTime> @LoginPasswordResetTokenGenerateAt { get; set; }
+
+            public Nullable<DateTime> @LastLoginPasswordChangeAt { get; set; }
+
+            public String @PaymentPassword { get; set; }
+
+            public String @PaymentPasswordResetToken { get; set; }
+
+            public Nullable<DateTime> @PaymentPasswordResetTokenGenerateAt { get; set; }
+
+            public Nullable<DateTime> @LastPaymentPasswordChangeAt { get; set; }
+
+            public String @LastLoginIp { get; set; }
+
+            public Nullable<DateTime> @LastLoginAt { get; set; }
+
+            public Nullable<DateTime> @LastLoginFailedAt { get; set; }
+
+            public String @Salt { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
+                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
+                if (values.TryGetValue("LoginName", out value)) @LoginName = (String) value;
+                if (values.TryGetValue("Email", out value)) @Email = (String) value;
+                if (values.TryGetValue("EmailVerifyToken", out value)) @EmailVerifyToken = (String) value;
+                if (values.TryGetValue("IsVerified", out value)) @IsVerified = (Boolean) value;
+                if (values.TryGetValue("IsLocked", out value)) @IsLocked = (Boolean) value;
+                if (values.TryGetValue("LockedAt", out value)) @LockedAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("IdentityInfo", out value)) @IdentityInfo = (IdentityInfo) value;
+                if (values.TryGetValue("MobileSetting", out value)) @MobileSetting = (MobileSetting) value;
+                if (values.TryGetValue("LoginPassword", out value)) @LoginPassword = (String) value;
+                if (values.TryGetValue("LoginPasswordResetToken", out value)) @LoginPasswordResetToken = (String) value;
+                if (values.TryGetValue("LoginPasswordResetTokenGenerateAt", out value)) @LoginPasswordResetTokenGenerateAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("LastLoginPasswordChangeAt", out value)) @LastLoginPasswordChangeAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("PaymentPassword", out value)) @PaymentPassword = (String) value;
+                if (values.TryGetValue("PaymentPasswordResetToken", out value)) @PaymentPasswordResetToken = (String) value;
+                if (values.TryGetValue("PaymentPasswordResetTokenGenerateAt", out value)) @PaymentPasswordResetTokenGenerateAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("LastPaymentPasswordChangeAt", out value)) @LastPaymentPasswordChangeAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("LastLoginIp", out value)) @LastLoginIp = (String) value;
+                if (values.TryGetValue("LastLoginAt", out value)) @LastLoginAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("LastLoginFailedAt", out value)) @LastLoginFailedAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("Salt", out value)) @Salt = (String) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("UserState( Version={0} Id={1} AccountId={2} LoginName={3} Email={4} EmailVerifyToken={5} IsVerified={6} IsLocked={7} LockedAt={8} IdentityInfo={9} MobileSetting={10} LoginPassword={11} LoginPasswordResetToken={12} LoginPasswordResetTokenGenerateAt={13} LastLoginPasswordChangeAt={14} PaymentPassword={15} PaymentPasswordResetToken={16} PaymentPasswordResetTokenGenerateAt={17} LastPaymentPasswordChangeAt={18} LastLoginIp={19} LastLoginAt={20} LastLoginFailedAt={21} Salt={22} )", @Version, @Id, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt, @Salt);
+            }
+        
+        public UserState() : 
+                base("Dotpay.Actor.Implementations.User")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["AccountId"] = this.AccountId;
+            result["LoginName"] = this.LoginName;
+            result["Email"] = this.Email;
+            result["EmailVerifyToken"] = this.EmailVerifyToken;
+            result["IsVerified"] = this.IsVerified;
+            result["IsLocked"] = this.IsLocked;
+            result["LockedAt"] = this.LockedAt;
+            result["IdentityInfo"] = this.IdentityInfo;
+            result["MobileSetting"] = this.MobileSetting;
+            result["LoginPassword"] = this.LoginPassword;
+            result["LoginPasswordResetToken"] = this.LoginPasswordResetToken;
+            result["LoginPasswordResetTokenGenerateAt"] = this.LoginPasswordResetTokenGenerateAt;
+            result["LastLoginPasswordChangeAt"] = this.LastLoginPasswordChangeAt;
+            result["PaymentPassword"] = this.PaymentPassword;
+            result["PaymentPasswordResetToken"] = this.PaymentPasswordResetToken;
+            result["PaymentPasswordResetTokenGenerateAt"] = this.PaymentPasswordResetTokenGenerateAt;
+            result["LastPaymentPasswordChangeAt"] = this.LastPaymentPasswordChangeAt;
+            result["LastLoginIp"] = this.LastLoginIp;
+            result["LastLoginAt"] = this.LastLoginAt;
+            result["LastLoginFailedAt"] = this.LastLoginFailedAt;
+            result["Salt"] = this.Salt;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(UInt64);
+            this.Id = default(Int64);
+            this.AccountId = default(Guid);
+            this.LoginName = default(String);
+            this.Email = default(String);
+            this.EmailVerifyToken = default(String);
+            this.IsVerified = default(Boolean);
+            this.IsLocked = default(Boolean);
+            this.LockedAt = default(Nullable<DateTime>);
+            this.IdentityInfo = default(IdentityInfo);
+            this.MobileSetting = new MobileSetting();
+            this.LoginPassword = default(String);
+            this.LoginPasswordResetToken = default(String);
+            this.LoginPasswordResetTokenGenerateAt = default(Nullable<DateTime>);
+            this.LastLoginPasswordChangeAt = default(Nullable<DateTime>);
+            this.PaymentPassword = default(String);
+            this.PaymentPasswordResetToken = default(String);
+            this.PaymentPasswordResetTokenGenerateAt = default(Nullable<DateTime>);
+            this.LastPaymentPasswordChangeAt = default(Nullable<DateTime>);
+            this.LastLoginIp = default(String);
+            this.LastLoginAt = default(Nullable<DateTime>);
+            this.LastLoginFailedAt = default(Nullable<DateTime>);
+            this.Salt = default(String);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            UserState input = ((UserState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            UserState input = ((UserState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            UserState result = new UserState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
+}
 namespace Dotpay.Actor.Tools.Implementations
 {
     using Orleans.CodeGeneration;
@@ -333,739 +1316,6 @@ namespace Dotpay.Actor.Implementations.Actors.Transaction
         public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
             RefundTransactionState result = new RefundTransactionState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-}
-namespace Dotpay.Actor.Implementations
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections;
-    using Dotpay.Actor;
-    using Dotpay.Common.Enum;
-    using System.Runtime.Serialization;
-    using Orleans.CodeGeneration;
-    using Orleans;
-    using Orleans.EventSourcing;
-    using System.Runtime.InteropServices;
-    
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.TransferTransaction")]
-    public class TransferTransactionState : global::Orleans.CodeGeneration.GrainState, ITransferTransactionState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public Guid @Id { get; set; }
-
-            public String @SequenceNo { get; set; }
-
-            public TransferTransactionInfo @TransactionInfo { get; set; }
-
-            public TransferTransactionStatus @Status { get; set; }
-
-            public Nullable<RippleTransactionStatus> @RippleTxStatus { get; set; }
-
-            public String @FITransactionNo { get; set; }
-
-            public RippleTransactionInfo @RippleTransactionInfo { get; set; }
-
-            public Guid @ManagerId { get; set; }
-
-            public DateTime @CreateAt { get; set; }
-
-            public Nullable<DateTime> @LockAt { get; set; }
-
-            public Nullable<DateTime> @CompleteAt { get; set; }
-
-            public Nullable<DateTime> @FailAt { get; set; }
-
-            public String @Reason { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
-                if (values.TryGetValue("SequenceNo", out value)) @SequenceNo = (String) value;
-                if (values.TryGetValue("TransactionInfo", out value)) @TransactionInfo = (TransferTransactionInfo) value;
-                if (values.TryGetValue("Status", out value)) @Status = (TransferTransactionStatus) value;
-                if (values.TryGetValue("RippleTxStatus", out value)) @RippleTxStatus = (Nullable<RippleTransactionStatus>) value;
-                if (values.TryGetValue("FITransactionNo", out value)) @FITransactionNo = (String) value;
-                if (values.TryGetValue("RippleTransactionInfo", out value)) @RippleTransactionInfo = (RippleTransactionInfo) value;
-                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Guid) value;
-                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
-                if (values.TryGetValue("LockAt", out value)) @LockAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("Reason", out value)) @Reason = (String) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("TransferTransactionState( Version={0} Id={1} SequenceNo={2} TransactionInfo={3} Status={4} RippleTxStatus={5} FITransactionNo={6} RippleTransactionInfo={7} ManagerId={8} CreateAt={9} LockAt={10} CompleteAt={11} FailAt={12} Reason={13} )", @Version, @Id, @SequenceNo, @TransactionInfo, @Status, @RippleTxStatus, @FITransactionNo, @RippleTransactionInfo, @ManagerId, @CreateAt, @LockAt, @CompleteAt, @FailAt, @Reason);
-            }
-        
-        public TransferTransactionState() : 
-                base("Dotpay.Actor.Implementations.TransferTransaction")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["SequenceNo"] = this.SequenceNo;
-            result["TransactionInfo"] = this.TransactionInfo;
-            result["Status"] = this.Status;
-            result["RippleTxStatus"] = this.RippleTxStatus;
-            result["FITransactionNo"] = this.FITransactionNo;
-            result["RippleTransactionInfo"] = this.RippleTransactionInfo;
-            result["ManagerId"] = this.ManagerId;
-            result["CreateAt"] = this.CreateAt;
-            result["LockAt"] = this.LockAt;
-            result["CompleteAt"] = this.CompleteAt;
-            result["FailAt"] = this.FailAt;
-            result["Reason"] = this.Reason;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.Id = default(Guid);
-            this.SequenceNo = default(String);
-            this.TransactionInfo = default(TransferTransactionInfo);
-            this.Status = default(TransferTransactionStatus);
-            this.RippleTxStatus = default(Nullable<RippleTransactionStatus>);
-            this.FITransactionNo = default(String);
-            this.RippleTransactionInfo = default(RippleTransactionInfo);
-            this.ManagerId = default(Guid);
-            this.CreateAt = default(DateTime);
-            this.LockAt = default(Nullable<DateTime>);
-            this.CompleteAt = default(Nullable<DateTime>);
-            this.FailAt = default(Nullable<DateTime>);
-            this.Reason = default(String);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            TransferTransactionState input = ((TransferTransactionState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            TransferTransactionState input = ((TransferTransactionState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            TransferTransactionState result = new TransferTransactionState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.Account")]
-    public class AccountState : global::Orleans.CodeGeneration.GrainState, IAccountState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public Guid @Id { get; set; }
-
-            public Dictionary<Guid,TransactionPreparation> @TransactionPreparations { get; set; }
-
-            public Int32 @OwnerId { get; set; }
-
-            public Dictionary<CurrencyType,Decimal> @Balances { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
-                if (values.TryGetValue("TransactionPreparations", out value)) @TransactionPreparations = (Dictionary<Guid,TransactionPreparation>) value;
-                if (values.TryGetValue("OwnerId", out value)) @OwnerId = value is Int64 ? (Int32)(Int64)value : (Int32)value;
-                if (values.TryGetValue("Balances", out value)) @Balances = (Dictionary<CurrencyType,Decimal>) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("AccountState( Version={0} Id={1} TransactionPreparations={2} OwnerId={3} Balances={4} )", @Version, @Id, @TransactionPreparations, @OwnerId, @Balances);
-            }
-        
-        public AccountState() : 
-                base("Dotpay.Actor.Implementations.Account")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["TransactionPreparations"] = this.TransactionPreparations;
-            result["OwnerId"] = this.OwnerId;
-            result["Balances"] = this.Balances;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.Id = default(Guid);
-            this.TransactionPreparations = new Dictionary<Guid,TransactionPreparation>();
-            this.OwnerId = default(Int32);
-            this.Balances = new Dictionary<CurrencyType,Decimal>();
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            AccountState input = ((AccountState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            AccountState input = ((AccountState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            AccountState result = new AccountState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.DepositTransaction")]
-    public class DepositTransactionState : global::Orleans.CodeGeneration.GrainState, IDepositTransactionState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public Guid @Id { get; set; }
-
-            public Guid @AccountId { get; set; }
-
-            public String @SequenceNo { get; set; }
-
-            public CurrencyType @Currency { get; set; }
-
-            public Decimal @Amount { get; set; }
-
-            public DepositStatus @Status { get; set; }
-
-            public Payway @Payway { get; set; }
-
-            public String @Memo { get; set; }
-
-            public DateTime @CreateAt { get; set; }
-
-            public Nullable<Guid> @ManagerId { get; set; }
-
-            public String @TransactionNo { get; set; }
-
-            public Nullable<DateTime> @CompleteAt { get; set; }
-
-            public Nullable<DateTime> @FailAt { get; set; }
-
-            public String @FailReason { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
-                if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
-                if (values.TryGetValue("SequenceNo", out value)) @SequenceNo = (String) value;
-                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
-                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
-                if (values.TryGetValue("Status", out value)) @Status = (DepositStatus) value;
-                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
-                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
-                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
-                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Nullable<Guid>) value;
-                if (values.TryGetValue("TransactionNo", out value)) @TransactionNo = (String) value;
-                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("FailReason", out value)) @FailReason = (String) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("DepositTransactionState( Version={0} Id={1} AccountId={2} SequenceNo={3} Currency={4} Amount={5} Status={6} Payway={7} Memo={8} CreateAt={9} ManagerId={10} TransactionNo={11} CompleteAt={12} FailAt={13} FailReason={14} )", @Version, @Id, @AccountId, @SequenceNo, @Currency, @Amount, @Status, @Payway, @Memo, @CreateAt, @ManagerId, @TransactionNo, @CompleteAt, @FailAt, @FailReason);
-            }
-        
-        public DepositTransactionState() : 
-                base("Dotpay.Actor.Implementations.DepositTransaction")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["AccountId"] = this.AccountId;
-            result["SequenceNo"] = this.SequenceNo;
-            result["Currency"] = this.Currency;
-            result["Amount"] = this.Amount;
-            result["Status"] = this.Status;
-            result["Payway"] = this.Payway;
-            result["Memo"] = this.Memo;
-            result["CreateAt"] = this.CreateAt;
-            result["ManagerId"] = this.ManagerId;
-            result["TransactionNo"] = this.TransactionNo;
-            result["CompleteAt"] = this.CompleteAt;
-            result["FailAt"] = this.FailAt;
-            result["FailReason"] = this.FailReason;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.Id = default(Guid);
-            this.AccountId = default(Guid);
-            this.SequenceNo = default(String);
-            this.Currency = default(CurrencyType);
-            this.Amount = default(Decimal);
-            this.Status = default(DepositStatus);
-            this.Payway = default(Payway);
-            this.Memo = default(String);
-            this.CreateAt = default(DateTime);
-            this.ManagerId = default(Nullable<Guid>);
-            this.TransactionNo = default(String);
-            this.CompleteAt = default(Nullable<DateTime>);
-            this.FailAt = default(Nullable<DateTime>);
-            this.FailReason = default(String);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            DepositTransactionState input = ((DepositTransactionState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            DepositTransactionState input = ((DepositTransactionState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            DepositTransactionState result = new DepositTransactionState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFinancialInstit" +
-        "ution")]
-    public class RippleToFinancialInstitutionState : global::Orleans.CodeGeneration.GrainState, IRippleToFinancialInstitutionState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public Int64 @Id { get; set; }
-
-            public String @InvoiceId { get; set; }
-
-            public String @TxId { get; set; }
-
-            public TransferTargetInfo @TransferTargetInfo { get; set; }
-
-            public Decimal @Amount { get; set; }
-
-            public Decimal @SendAmount { get; set; }
-
-            public String @Memo { get; set; }
-
-            public DateTime @CreateAt { get; set; }
-
-            public Nullable<DateTime> @ReceiveAt { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
-                if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
-                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferTargetInfo) value;
-                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
-                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
-                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
-                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
-                if (values.TryGetValue("ReceiveAt", out value)) @ReceiveAt = (Nullable<DateTime>) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("RippleToFinancialInstitutionState( Version={0} Id={1} InvoiceId={2} TxId={3} TransferTargetInfo={4} Amount={5} SendAmount={6} Memo={7} CreateAt={8} ReceiveAt={9} )", @Version, @Id, @InvoiceId, @TxId, @TransferTargetInfo, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
-            }
-        
-        public RippleToFinancialInstitutionState() : 
-                base("Dotpay.Actor.Implementations.RippleToFinancialInstitution")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["InvoiceId"] = this.InvoiceId;
-            result["TxId"] = this.TxId;
-            result["TransferTargetInfo"] = this.TransferTargetInfo;
-            result["Amount"] = this.Amount;
-            result["SendAmount"] = this.SendAmount;
-            result["Memo"] = this.Memo;
-            result["CreateAt"] = this.CreateAt;
-            result["ReceiveAt"] = this.ReceiveAt;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.Id = default(Int64);
-            this.InvoiceId = default(String);
-            this.TxId = default(String);
-            this.TransferTargetInfo = default(TransferTargetInfo);
-            this.Amount = default(Decimal);
-            this.SendAmount = default(Decimal);
-            this.Memo = default(String);
-            this.CreateAt = default(DateTime);
-            this.ReceiveAt = default(Nullable<DateTime>);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            RippleToFinancialInstitutionState input = ((RippleToFinancialInstitutionState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            RippleToFinancialInstitutionState input = ((RippleToFinancialInstitutionState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            RippleToFinancialInstitutionState result = new RippleToFinancialInstitutionState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.SystemSetting")]
-    public class SystemSettingState : global::Orleans.CodeGeneration.GrainState, ISystemSettingState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public RippleToFinancialInstitutionSetting @RippleToFinancialInstitutionSetting { get; set; }
-
-            public RippleToDotpaySetting @RippleToDotpaySetting { get; set; }
-
-            public DateTime @FISettingUpdateAt { get; set; }
-
-            public Guid @FISettingUpdateBy { get; set; }
-
-            public DateTime @DotpaySettingUpdateAt { get; set; }
-
-            public Guid @DotpaySettingUpdateBy { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("RippleToFinancialInstitutionSetting", out value)) @RippleToFinancialInstitutionSetting = (RippleToFinancialInstitutionSetting) value;
-                if (values.TryGetValue("RippleToDotpaySetting", out value)) @RippleToDotpaySetting = (RippleToDotpaySetting) value;
-                if (values.TryGetValue("FISettingUpdateAt", out value)) @FISettingUpdateAt = (DateTime) value;
-                if (values.TryGetValue("FISettingUpdateBy", out value)) @FISettingUpdateBy = (Guid) value;
-                if (values.TryGetValue("DotpaySettingUpdateAt", out value)) @DotpaySettingUpdateAt = (DateTime) value;
-                if (values.TryGetValue("DotpaySettingUpdateBy", out value)) @DotpaySettingUpdateBy = (Guid) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("SystemSettingState( Version={0} RippleToFinancialInstitutionSetting={1} RippleToDotpaySetting={2} FISettingUpdateAt={3} FISettingUpdateBy={4} DotpaySettingUpdateAt={5} DotpaySettingUpdateBy={6} )", @Version, @RippleToFinancialInstitutionSetting, @RippleToDotpaySetting, @FISettingUpdateAt, @FISettingUpdateBy, @DotpaySettingUpdateAt, @DotpaySettingUpdateBy);
-            }
-        
-        public SystemSettingState() : 
-                base("Dotpay.Actor.Implementations.SystemSetting")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["RippleToFinancialInstitutionSetting"] = this.RippleToFinancialInstitutionSetting;
-            result["RippleToDotpaySetting"] = this.RippleToDotpaySetting;
-            result["FISettingUpdateAt"] = this.FISettingUpdateAt;
-            result["FISettingUpdateBy"] = this.FISettingUpdateBy;
-            result["DotpaySettingUpdateAt"] = this.DotpaySettingUpdateAt;
-            result["DotpaySettingUpdateBy"] = this.DotpaySettingUpdateBy;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.RippleToFinancialInstitutionSetting = new RippleToFinancialInstitutionSetting();
-            this.RippleToDotpaySetting = new RippleToDotpaySetting();
-            this.FISettingUpdateAt = default(DateTime);
-            this.FISettingUpdateBy = default(Guid);
-            this.DotpaySettingUpdateAt = default(DateTime);
-            this.DotpaySettingUpdateBy = default(Guid);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            SystemSettingState input = ((SystemSettingState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            SystemSettingState input = ((SystemSettingState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            SystemSettingState result = new SystemSettingState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.User")]
-    public class UserState : global::Orleans.CodeGeneration.GrainState, IUserState
-    {
-        
-
-            public UInt64 @Version { get; set; }
-
-            public Int64 @Id { get; set; }
-
-            public Nullable<Guid> @AccountId { get; set; }
-
-            public String @LoginName { get; set; }
-
-            public String @Email { get; set; }
-
-            public String @EmailVerifyToken { get; set; }
-
-            public Boolean @IsVerified { get; set; }
-
-            public Boolean @IsLocked { get; set; }
-
-            public Nullable<DateTime> @LockedAt { get; set; }
-
-            public IdentityInfo @IdentityInfo { get; set; }
-
-            public MobileSetting @MobileSetting { get; set; }
-
-            public String @LoginPassword { get; set; }
-
-            public String @LoginPasswordResetToken { get; set; }
-
-            public Nullable<DateTime> @LoginPasswordResetTokenGenerateAt { get; set; }
-
-            public Nullable<DateTime> @LastLoginPasswordChangeAt { get; set; }
-
-            public String @PaymentPassword { get; set; }
-
-            public String @PaymentPasswordResetToken { get; set; }
-
-            public Nullable<DateTime> @PaymentPasswordResetTokenGenerateAt { get; set; }
-
-            public Nullable<DateTime> @LastPaymentPasswordChangeAt { get; set; }
-
-            public String @LastLoginIp { get; set; }
-
-            public Nullable<DateTime> @LastLoginAt { get; set; }
-
-            public Nullable<DateTime> @LastLoginFailedAt { get; set; }
-
-            public String @Salt { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("AccountId", out value)) @AccountId = (Nullable<Guid>) value;
-                if (values.TryGetValue("LoginName", out value)) @LoginName = (String) value;
-                if (values.TryGetValue("Email", out value)) @Email = (String) value;
-                if (values.TryGetValue("EmailVerifyToken", out value)) @EmailVerifyToken = (String) value;
-                if (values.TryGetValue("IsVerified", out value)) @IsVerified = (Boolean) value;
-                if (values.TryGetValue("IsLocked", out value)) @IsLocked = (Boolean) value;
-                if (values.TryGetValue("LockedAt", out value)) @LockedAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("IdentityInfo", out value)) @IdentityInfo = (IdentityInfo) value;
-                if (values.TryGetValue("MobileSetting", out value)) @MobileSetting = (MobileSetting) value;
-                if (values.TryGetValue("LoginPassword", out value)) @LoginPassword = (String) value;
-                if (values.TryGetValue("LoginPasswordResetToken", out value)) @LoginPasswordResetToken = (String) value;
-                if (values.TryGetValue("LoginPasswordResetTokenGenerateAt", out value)) @LoginPasswordResetTokenGenerateAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("LastLoginPasswordChangeAt", out value)) @LastLoginPasswordChangeAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("PaymentPassword", out value)) @PaymentPassword = (String) value;
-                if (values.TryGetValue("PaymentPasswordResetToken", out value)) @PaymentPasswordResetToken = (String) value;
-                if (values.TryGetValue("PaymentPasswordResetTokenGenerateAt", out value)) @PaymentPasswordResetTokenGenerateAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("LastPaymentPasswordChangeAt", out value)) @LastPaymentPasswordChangeAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("LastLoginIp", out value)) @LastLoginIp = (String) value;
-                if (values.TryGetValue("LastLoginAt", out value)) @LastLoginAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("LastLoginFailedAt", out value)) @LastLoginFailedAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("Salt", out value)) @Salt = (String) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("UserState( Version={0} Id={1} AccountId={2} LoginName={3} Email={4} EmailVerifyToken={5} IsVerified={6} IsLocked={7} LockedAt={8} IdentityInfo={9} MobileSetting={10} LoginPassword={11} LoginPasswordResetToken={12} LoginPasswordResetTokenGenerateAt={13} LastLoginPasswordChangeAt={14} PaymentPassword={15} PaymentPasswordResetToken={16} PaymentPasswordResetTokenGenerateAt={17} LastPaymentPasswordChangeAt={18} LastLoginIp={19} LastLoginAt={20} LastLoginFailedAt={21} Salt={22} )", @Version, @Id, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt, @Salt);
-            }
-        
-        public UserState() : 
-                base("Dotpay.Actor.Implementations.User")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["AccountId"] = this.AccountId;
-            result["LoginName"] = this.LoginName;
-            result["Email"] = this.Email;
-            result["EmailVerifyToken"] = this.EmailVerifyToken;
-            result["IsVerified"] = this.IsVerified;
-            result["IsLocked"] = this.IsLocked;
-            result["LockedAt"] = this.LockedAt;
-            result["IdentityInfo"] = this.IdentityInfo;
-            result["MobileSetting"] = this.MobileSetting;
-            result["LoginPassword"] = this.LoginPassword;
-            result["LoginPasswordResetToken"] = this.LoginPasswordResetToken;
-            result["LoginPasswordResetTokenGenerateAt"] = this.LoginPasswordResetTokenGenerateAt;
-            result["LastLoginPasswordChangeAt"] = this.LastLoginPasswordChangeAt;
-            result["PaymentPassword"] = this.PaymentPassword;
-            result["PaymentPasswordResetToken"] = this.PaymentPasswordResetToken;
-            result["PaymentPasswordResetTokenGenerateAt"] = this.PaymentPasswordResetTokenGenerateAt;
-            result["LastPaymentPasswordChangeAt"] = this.LastPaymentPasswordChangeAt;
-            result["LastLoginIp"] = this.LastLoginIp;
-            result["LastLoginAt"] = this.LastLoginAt;
-            result["LastLoginFailedAt"] = this.LastLoginFailedAt;
-            result["Salt"] = this.Salt;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(UInt64);
-            this.Id = default(Int64);
-            this.AccountId = default(Nullable<Guid>);
-            this.LoginName = default(String);
-            this.Email = default(String);
-            this.EmailVerifyToken = default(String);
-            this.IsVerified = default(Boolean);
-            this.IsLocked = default(Boolean);
-            this.LockedAt = default(Nullable<DateTime>);
-            this.IdentityInfo = default(IdentityInfo);
-            this.MobileSetting = new MobileSetting();
-            this.LoginPassword = default(String);
-            this.LoginPasswordResetToken = default(String);
-            this.LoginPasswordResetTokenGenerateAt = default(Nullable<DateTime>);
-            this.LastLoginPasswordChangeAt = default(Nullable<DateTime>);
-            this.PaymentPassword = default(String);
-            this.PaymentPasswordResetToken = default(String);
-            this.PaymentPasswordResetTokenGenerateAt = default(Nullable<DateTime>);
-            this.LastPaymentPasswordChangeAt = default(Nullable<DateTime>);
-            this.LastLoginIp = default(String);
-            this.LastLoginAt = default(Nullable<DateTime>);
-            this.LastLoginFailedAt = default(Nullable<DateTime>);
-            this.Salt = default(String);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            UserState input = ((UserState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            UserState input = ((UserState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            UserState result = new UserState();
             result.DeserializeFrom(stream);
             return result;
         }

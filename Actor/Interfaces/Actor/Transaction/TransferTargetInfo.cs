@@ -28,6 +28,7 @@ namespace Dotpay.Actor
     [Serializable]
     public class TransferToDotpayTargetInfo : TransferTargetInfo
     {
+        public string RealName { get; set; }
         public Guid AccountId { get; set; }
     }
 
@@ -36,7 +37,7 @@ namespace Dotpay.Actor
     /// </summary>
     [Immutable]
     [Serializable]
-    public abstract class TransferToFinancialInstitutionTargetInfo : TransferTargetInfo
+    public abstract class TransferToFITargetInfo : TransferTargetInfo
     {
         public string RealName { get; set; }
         public string DestinationAccount { get; set; }
@@ -46,7 +47,7 @@ namespace Dotpay.Actor
     /// </summary>
     [Immutable]
     [Serializable]
-    public class TransferToTppTargetInfo : TransferToFinancialInstitutionTargetInfo
+    public class TransferToTppTargetInfo : TransferToFITargetInfo
     {
     }
 
@@ -55,7 +56,7 @@ namespace Dotpay.Actor
     /// </summary>
     [Immutable]
     [Serializable]
-    public class TransferToBankTargetInfo : TransferToFinancialInstitutionTargetInfo
+    public class TransferToBankTargetInfo : TransferToFITargetInfo
     {
         public Bank Bank { get; set; }
     }

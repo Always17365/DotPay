@@ -41,7 +41,7 @@ namespace Dotpay.Actor.Implementations
                 paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + salt);
                 await this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword, accountId, salt));
             }
-            else accountId = this.State.AccountId.Value;
+            else accountId = this.State.AccountId;
 
             return accountId;
         }
@@ -185,7 +185,7 @@ namespace Dotpay.Actor.Implementations
         }
 
 
-        public Task<Guid?> GetAccountId()
+        public Task<Guid> GetAccountId()
         {
             return Task.FromResult(this.State.AccountId);
         }
@@ -339,7 +339,7 @@ namespace Dotpay.Actor.Implementations
     public interface IUserState : IEventSourcingState
     {
         long Id { get; set; }
-        Guid? AccountId { get; set; }
+        Guid AccountId { get; set; }
         string LoginName { get; set; }
         string Email { get; set; }
         string EmailVerifyToken { get; set; }

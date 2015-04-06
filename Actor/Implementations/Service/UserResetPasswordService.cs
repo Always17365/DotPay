@@ -12,11 +12,12 @@ using System.Text;
 ﻿using RabbitMQ.Client;
 
 namespace Dotpay.Actor.Service.Implementations
-{ 
+{
     public class UserResetPasswordService : Orleans.Grain, IUserResetPasswordService
     {
-        private const string UserMQExchange = Constants.UserMQName + Constants.ExechangeSuffix;
-        private const string UserMQQueue = Constants.UserMQName + Constants.QueueSuffix;
+        private const string USER_MQ_EXCHANGE = Constants.UserMQName + Constants.ExechangeSuffix;
+        private const string USER_EMAIL_MQ_ROUTE_KEY = Constants.UserEmailRouteKey;
+        private const string USER_EMAIL_MQ_QUEUE = Constants.UserEmailMQName + Constants.QueueSuffix;
 
         async Task IUserResetPasswordService.ForgetLoginPassword(long userId, Lang lang)
         {
@@ -26,7 +27,7 @@ namespace Dotpay.Actor.Service.Implementations
             var forgetLoginPasswordMsg = new UserForgetLoginPasswordMessage(userInfo.Email, userInfo.LoginName,
                 resetToken, DateTime.Now, lang);
 
-            await MessageProducterManager.GetProducter().PublishMessage(forgetLoginPasswordMsg, UserMQExchange, "", true);
+            await MessageProducterManager.GetProducter().PublishMessage(forgetLoginPasswordMsg, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
         }
 
         //此处独立出来，是为了以后在用户重置密码后，可以发邮件给用户
@@ -44,7 +45,7 @@ namespace Dotpay.Actor.Service.Implementations
             var forgetPaymentPasswordMsg = new UserForgetPaymentPasswordMessage(userInfo.Email, userInfo.LoginName,
                 resetToken, DateTime.Now, lang);
 
-            await MessageProducterManager.GetProducter().PublishMessage(forgetPaymentPasswordMsg, UserMQExchange, "", true);
+            await MessageProducterManager.GetProducter().PublishMessage(forgetPaymentPasswordMsg, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
         }
 
         //此处独立出来，是为了以后在用户重置支付密码后，可以发邮件给用户
@@ -56,7 +57,7 @@ namespace Dotpay.Actor.Service.Implementations
 
         public override Task OnActivateAsync()
         {
-            MessageProducterManager.RegisterAndBindQueue(UserMQExchange, ExchangeType.Direct, UserMQQueue, durable: true);
+            MessageProducterManager.RegisterAndBindQueue(USER_MQ_EXCHANGE, ExchangeType.Direct, USER_EMAIL_MQ_QUEUE, USER_EMAIL_MQ_ROUTE_KEY, true);
             return base.OnActivateAsync();
         }
     }

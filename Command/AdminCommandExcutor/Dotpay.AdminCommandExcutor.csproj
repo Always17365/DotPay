@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ManagerCommandExcutor.cs" />
     <Compile Include="SystemSettingCommandExcutor.cs" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\..\Actor\Interfaces\Dotpay.Actor.csproj">
       <Project>{ca1caa62-8577-4885-b49a-f9764ab6fb45}</Project>
       <Name>Dotpay.Actor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">
+      <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>
+      <Name>Dotpay.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\AdminCommand\Dotpay.AdminCommand.csproj">
       <Project>{c2839daa-33a0-4872-a1b5-8f88c473d6b8}</Project>

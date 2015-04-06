@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using DFramework;
+using Dotpay.Admin.Fliter;
 using Dotpay.Admin.Validators;
 using Dotpay.Admin.ViewModel;
 using Dotpay.AdminCommand;
 using Dotpay.AdminQueryService;
+using Dotpay.Common;
 
 namespace Dotpay.Admin.Controllers
 {
@@ -17,6 +16,7 @@ namespace Dotpay.Admin.Controllers
     {
         [Route("~/ajax/systemsetting/tofi")]
         [HttpPost]
+        [AllowRoles(Role = ManagerType.MaintenanceManager)]
         public async Task<ActionResult> ToFI()
         {
             var tofiSetting = await IoC.Resolve<ISystemSettingQuery>().GetToFISetting();
@@ -25,6 +25,7 @@ namespace Dotpay.Admin.Controllers
 
         [Route("~/ajax/systemsetting/todotpay")]
         [HttpPost]
+        [AllowRoles(Role = ManagerType.MaintenanceManager)]
         public async Task<ActionResult> ToDotpay()
         {
             var toDotpaySetting = await IoC.Resolve<ISystemSettingQuery>().GetToDotpaySetting();
@@ -43,10 +44,13 @@ namespace Dotpay.Admin.Controllers
                 try
                 {
                     var cmd = new UpdateToFISettingCommand(fiSetting.MinAmount, fiSetting.MaxAmount, fiSetting.FixedFee,
-                        fiSetting.FeeRate, fiSetting.MinFee, fiSetting.MaxFee, this.CurrentUser.ManagerId);
+                        fiSetting.FeeRate / 1000.0M, fiSetting.MinFee, fiSetting.MaxFee, this.CurrentUser.ManagerId);
 
                     await this.CommandBus.SendAsync(cmd);
-                    actionResult = DotpayJsonResult.Success;
+
+                    if (cmd.CommandResult == ErrorCode.None) actionResult = DotpayJsonResult.Success;
+                    else if (cmd.CommandResult == ErrorCode.HasNoPermission)
+                        actionResult = DotpayJsonResult.CreateFailResult("无权限进行此操作");
                 }
                 catch (Exception ex)
                 {
@@ -74,11 +78,14 @@ namespace Dotpay.Admin.Controllers
                 try
                 {
                     var cmd = new UpdateToDotpaySettingCommand(dotpaySetting.MinAmount, dotpaySetting.MaxAmount,
-                        dotpaySetting.FixedFee, dotpaySetting.FeeRate, dotpaySetting.MinFee, dotpaySetting.MaxFee,
+                        dotpaySetting.FixedFee, dotpaySetting.FeeRate/1000.0M, dotpaySetting.MinFee, dotpaySetting.MaxFee,
                         this.CurrentUser.ManagerId);
 
                     await this.CommandBus.SendAsync(cmd);
-                    actionResult = DotpayJsonResult.Success;
+
+                    if (cmd.CommandResult == ErrorCode.None) actionResult = DotpayJsonResult.Success;
+                    else if (cmd.CommandResult == ErrorCode.HasNoPermission)
+                        actionResult = DotpayJsonResult.CreateFailResult("无权限进行此操作");
                 }
                 catch (Exception ex)
                 {

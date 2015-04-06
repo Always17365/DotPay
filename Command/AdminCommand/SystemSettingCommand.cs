@@ -4,13 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DFramework;
+using DFramework.Utilities;
+using Dotpay.Common;
 
 namespace Dotpay.AdminCommand
 {
-    public class UpdateToFISettingCommand : Command
+    public class UpdateToFISettingCommand : HasReturnValueCommand<ErrorCode>
     {
         public UpdateToFISettingCommand(decimal minAmount, decimal maxAmount, decimal fixedFee, decimal feeRate, decimal minFee, decimal maxFee, Guid updateBy)
         {
+            Check.Argument.IsNotNegative(minAmount, "minAmount");
+            Check.Argument.IsNotNegative(maxAmount, "maxAmount");
+            Check.Argument.IsNotNegative(fixedFee, "fixedFee");
+            Check.Argument.IsNotNegative(feeRate, "feeRate");
+            Check.Argument.IsNotNegative(minFee, "minFee");
+            Check.Argument.IsNotNegative(maxFee, "maxFee");
+            Check.Argument.IsNotEmpty(updateBy, "updateBy");
+
             this.MinAmount = minAmount;
             this.MaxAmount = maxAmount;
             this.FixedFee = fixedFee;
@@ -29,10 +39,18 @@ namespace Dotpay.AdminCommand
         public Guid UpdateBy { get; set; }
     }
 
-    public class UpdateToDotpaySettingCommand : Command
+    public class UpdateToDotpaySettingCommand : HasReturnValueCommand<ErrorCode>
     {
         public UpdateToDotpaySettingCommand(decimal minAmount, decimal maxAmount, decimal fixedFee, decimal feeRate, decimal minFee, decimal maxFee, Guid updateBy)
         {
+            Check.Argument.IsNotNegative(minAmount, "minAmount");
+            Check.Argument.IsNotNegative(maxAmount, "maxAmount");
+            Check.Argument.IsNotNegative(fixedFee, "fixedFee");
+            Check.Argument.IsNotNegative(feeRate, "feeRate");
+            Check.Argument.IsNotNegative(minFee, "minFee");
+            Check.Argument.IsNotNegative(maxFee, "maxFee");
+            Check.Argument.IsNotEmpty(updateBy, "updateBy");
+
             this.MinAmount = minAmount;
             this.MaxAmount = maxAmount;
             this.FixedFee = fixedFee;

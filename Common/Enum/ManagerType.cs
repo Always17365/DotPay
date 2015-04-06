@@ -11,6 +11,7 @@ namespace Dotpay.Common
         SuperUser = 1,
         MaintenanceManager = 2,
         DepositManager = 3,
-        TransferManager = 4
+        TransferManager = 4,
+        ToFiTransferManager =5
     }
 }

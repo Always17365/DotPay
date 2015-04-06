@@ -14,7 +14,7 @@ namespace Dotpay.SiloHost.BootstrapTask
         internal static Task Run()
         {
             ////ripple直通车消息监听器
-            //var rippleListener = GrainFactory.GetGrain<IRippleToFinancialInstitutionListener>(0);
+            //var rippleListener = GrainFactory.GetGrain<IRippleToFIListener>(0);
             //await rippleListener.Start();
             ////email监听器--终止，如果silo在内网部署的话，无法访问外网，如果通过代理访问外网，增加了复杂性
 

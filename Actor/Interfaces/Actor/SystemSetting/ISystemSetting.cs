@@ -8,15 +8,15 @@ namespace Dotpay.Actor
 {
     public interface ISystemSetting : IGrainWithIntegerKey
     {
-        Task<RippleToFinancialInstitutionSetting> GetRippleToFinancialInstitutionSetting();
-        Task UpdateRippleToFinancialInstitutionSetting(RippleToFinancialInstitutionSetting setting, Guid updateBy);
+        Task<RippleToFISetting> GetRippleToFISetting();
+        Task UpdateRippleToFISetting(RippleToFISetting setting, Guid updateBy);
         Task<RippleToDotpaySetting> GetRippleToDotpaySetting();
         Task UpdateRippleToDotpaySetting(RippleToDotpaySetting setting, Guid updateBy);
     }
 
     [Immutable]
     [Serializable]
-    public class RippleToFinancialInstitutionSetting
+    public class RippleToFISetting
     {
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }

@@ -17,13 +17,11 @@ namespace Dotpay.Admin
 
             DBConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("dbconn");
             DatabaseName = ConfigurationManagerWrapper.AppSettings["DatabaseName"];
-            WeiboAppkey = ConfigurationManagerWrapper.AppSettings["WeiboAppkey"];
-            WeiboAppSecret = ConfigurationManagerWrapper.AppSettings["WeiboAppSecret"];
+            Domain = ConfigurationManagerWrapper.AppSettings["Domain"]; 
         }
         public static bool Debug { get; private set; } 
         public static string DBConnectionString { get; private set; }
         public static string DatabaseName { get; private set; }
-        public static string WeiboAppkey { get; private set; }
-        public static string WeiboAppSecret { get; private set; } 
+        public static string Domain { get; private set; } 
     }
 }

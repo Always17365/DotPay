@@ -7,15 +7,15 @@ namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]
-    public class RippleToFinancialInstitutionSettingUpdated : GrainEvent
+    public class RippleToFISettingUpdated : GrainEvent
     {
-        public RippleToFinancialInstitutionSettingUpdated(RippleToFinancialInstitutionSetting setting, Guid updateBy)
+        public RippleToFISettingUpdated(RippleToFISetting setting, Guid updateBy)
         {
             this.Setting = setting; 
             this.UpdateBy = updateBy;
         }
 
-        public RippleToFinancialInstitutionSetting Setting { get; private set; } 
+        public RippleToFISetting Setting { get; private set; } 
         public Guid UpdateBy { get; private set; }
     }
 

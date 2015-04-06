@@ -19,7 +19,7 @@ namespace Dotpay.Actor.Implementations
     public class Account : EventSourcingGrain<Account, IAccountState>, IAccount
     {
         #region IAccount
-        async Task<ErrorCode> IAccount.Initialize(int ownerId)
+        async Task<ErrorCode> IAccount.Initialize(long ownerId)
         {
             if (this.State.OwnerId != 0)
             {
@@ -88,7 +88,7 @@ namespace Dotpay.Actor.Implementations
             return Task.FromResult(this.State.Balances);
         }
 
-        public Task<int> GetOwnerId()
+        public Task<long> GetOwnerId()
         {
             return Task.FromResult(this.State.OwnerId);
         }
@@ -162,7 +162,7 @@ namespace Dotpay.Actor.Implementations
     {
         System.Guid Id { get; set; }
         Dictionary<Guid, TransactionPreparation> TransactionPreparations { get; set; }
-        int OwnerId { get; set; }
+        long OwnerId { get; set; }
         Dictionary<CurrencyType, decimal> Balances { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace Dotpay.AdminQueryServiceImpl
             var settingCollection = MongoManager.GetCollection<BsonDocument>(CollectionName);
 
             var filter = BsonDocument.Parse("{}");
-            var projection = BsonDocument.Parse("{RippleToFinancialInstitutionSetting:1,_id:0}");
+            var projection = BsonDocument.Parse("{RippleToFISetting:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
                 Limit = 1,
@@ -60,7 +60,7 @@ namespace Dotpay.AdminQueryServiceImpl
                     result = IoC.Resolve<IJsonSerializer>().Deserialize<SystemSettingViewModel>(settingJson);
                 }
             }
-            return result==null?null:result.RippleToFinancialInstitutionSetting;
+            return result==null?null:result.RippleToFISetting;
         }
 
         public async Task<ToDotpaySettingViewModel> GetToDotpaySetting()

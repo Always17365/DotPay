@@ -11,8 +11,6 @@ namespace Dotpay.Actor.Service
 {
     public interface IDepositTransactionManager : Orleans.IGrainWithIntegerKey
     {
-        //来自Ripple的直冲
-        Task ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount, Payway payway, string memo);
         Task CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo);
         Task<ErrorCode> ConfirmDepositTransaction(Guid depositTxId, Guid managerId, string transactionNo);
         Task<ErrorCode> DepositTransactionMarkAsFail(Guid depositTxId, Guid managerId, string reason);
@@ -40,23 +38,21 @@ namespace Dotpay.Actor.Service
     [Serializable]
     public class RippleDepositTransactionMessage : MqMessage
     {
-        public RippleDepositTransactionMessage(Guid depositTxId, Guid accountId, string rippleTxId, CurrencyType currency, decimal amount, Payway payway, string memo)
+        public RippleDepositTransactionMessage(Guid depositTxId, Guid accountId, string rippleTxId, string invoiceId, long rippleToDotpayQuoteId, decimal sendAmount)
         {
             this.DepositTxId = depositTxId;
             this.AccountId = accountId;
             this.RippleTxId = rippleTxId;
-            this.Currency = currency;
-            this.Amount = amount;
-            this.Payway = payway;
-            this.Memo = memo;
+            this.InvoiceId = invoiceId;
+            this.RippleToDotpayQuoteId = rippleToDotpayQuoteId;
+            this.SendAmount = sendAmount;
         }
 
         public Guid DepositTxId { get; private set; }
         public Guid AccountId { get; private set; }
         public string RippleTxId { get; private set; }
-        public CurrencyType Currency { get; private set; }
-        public decimal Amount { get; private set; }
-        public Payway Payway { get; private set; }
-        public string Memo { get; private set; }
+        public string InvoiceId { get; private set; }
+        public long RippleToDotpayQuoteId { get; private set; }
+        public decimal SendAmount { get; private set; } 
     }
 }

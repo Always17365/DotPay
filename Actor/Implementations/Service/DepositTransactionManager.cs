@@ -2,14 +2,11 @@
 using System.Threading.Tasks;
 using DFramework;
 using Dotpay.Actor.Implementations;
-using Dotpay.Actor;
-using Dotpay.Actor.Service;
-using Dotpay.Actor.Tools.Interfaces;
+using Dotpay.Actor.Tools;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
-using Orleans.Runtime;
 using RabbitMQ.Client;
 
 namespace Dotpay.Actor.Service.Implementations
@@ -19,17 +16,7 @@ namespace Dotpay.Actor.Service.Implementations
     {
         private const string MqExchangeName = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
         private const string MqQueueName = Constants.DepositTransactionManagerMQName + Constants.QueueSuffix;
-       
 
-        async Task IDepositTransactionManager.ProccessRippleDeposit(Guid depositTxId, Guid accountId, CurrencyType currency, string rippleTxId, decimal amount,
-            Payway payway, string memo)
-        {  
-            var message = new RippleDepositTransactionMessage(depositTxId, accountId, rippleTxId, currency, amount, Payway.Ripple, "");
-
-            await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, "", true);
-
-            await ProcessRippleDepositTransaction(message);
-        }
 
         async Task IDepositTransactionManager.CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
         {
@@ -106,31 +93,46 @@ namespace Dotpay.Actor.Service.Implementations
             try
             {
                 var depositTx = GrainFactory.GetGrain<IDepositTransaction>(rippleDepositMessage.DepositTxId);
+                var rippleToDotpayQuote = GrainFactory.GetGrain<IRippleToDotpayQuote>(rippleDepositMessage.RippleToDotpayQuoteId);
 
-                var depositTxInfo = await depositTx.GetTransactionInfo();
-                var account = GrainFactory.GetGrain<IAccount>(depositTxInfo.AccountId);
+                var errorCode = await rippleToDotpayQuote.Complete(rippleDepositMessage.InvoiceId, rippleDepositMessage.RippleTxId,
+                        rippleDepositMessage.SendAmount);
 
-
-                if (await depositTx.GetStatus() < DepositStatus.Started)
+                if (errorCode == ErrorCode.None)
                 {
-                    var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(rippleDepositMessage.Payway);
-                    await
-                        depositTx.Initiliaze(depositSequenceNo, rippleDepositMessage.AccountId,
-                            rippleDepositMessage.Currency, rippleDepositMessage.Amount, rippleDepositMessage.Payway,
-                            rippleDepositMessage.Memo);
+                    var rippleToDotpayQuoteInfo = await rippleToDotpayQuote.GetQuoteInfo();
+
+                    var depositTxInfo = await depositTx.GetTransactionInfo();
+                    var account = GrainFactory.GetGrain<IAccount>(depositTxInfo.AccountId);
+
+
+                    if (await depositTx.GetStatus() < DepositStatus.Started)
+                    {
+                        var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(Payway.Ripple);
+                        await
+                            depositTx.Initiliaze(depositSequenceNo, rippleDepositMessage.AccountId,
+                                rippleToDotpayQuoteInfo.Currency, rippleToDotpayQuoteInfo.Amount, Payway.Ripple,
+                                rippleToDotpayQuoteInfo.Memo);
+                    }
+
+                    if (await depositTx.GetStatus() == DepositStatus.Started)
+                    {
+                        await
+                            account.AddTransactionPreparation(rippleDepositMessage.DepositTxId,
+                                TransactionType.DepositTransaction,
+                                PreparationType.CreditPreparation, depositTxInfo.Currency, depositTxInfo.Amount);
+                        await depositTx.ConfirmDepositPreparation();
+                    }
+
+                    if (await depositTx.GetStatus() == DepositStatus.PreparationCompleted)
+                    {
+                        await account.CommitTransactionPreparation(rippleDepositMessage.DepositTxId);
+                        await depositTx.ConfirmDeposit(null, rippleDepositMessage.RippleTxId);
+                    }
                 }
-
-                if (await depositTx.GetStatus() == DepositStatus.Started)
+                else
                 {
-                    await account.AddTransactionPreparation(rippleDepositMessage.DepositTxId, TransactionType.DepositTransaction,
-                        PreparationType.CreditPreparation, depositTxInfo.Currency, depositTxInfo.Amount);
-                    await depositTx.ConfirmDepositPreparation();
-                }
-
-                if (await depositTx.GetStatus() == DepositStatus.PreparationCompleted)
-                {
-                    await account.CommitTransactionPreparation(rippleDepositMessage.DepositTxId);
-                    await depositTx.ConfirmDeposit(null, rippleDepositMessage.RippleTxId);
+                    Log.Error("rippleToDotpayQuote.Complete Error:" + IoC.Resolve<IJsonSerializer>().Serialize(rippleDepositMessage));
                 }
             }
             catch (Exception ex)

@@ -61,16 +61,7 @@ namespace Dotpay.Application.Monitor
 
                 try
                 {
-                    var rippleDepositMsg = JsonConvert.DeserializeObject<RippleDepositTransactionMessage>(messageBody);
-
-                    if (string.IsNullOrEmpty(rippleDepositMsg.RippleTxId))
-                    {
-                        message = JsonConvert.DeserializeObject<ConfirmDepositTransactionMessage>(messageBody);
-                    }
-                    else
-                    {
-                        message = rippleDepositMsg;
-                    }
+                    message = JsonConvert.DeserializeObject<ConfirmDepositTransactionMessage>(messageBody);
                 }
                 catch (Exception ex)
                 {
