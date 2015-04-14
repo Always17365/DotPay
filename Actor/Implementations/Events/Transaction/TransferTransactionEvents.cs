@@ -8,7 +8,7 @@ using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 
-namespace Dotpay.Actor.Events.Transaction
+namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]

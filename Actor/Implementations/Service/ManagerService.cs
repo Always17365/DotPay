@@ -1,66 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using Dotpay.Actor;
-﻿using Dotpay.Actor.Service;
-﻿using Dotpay.Common;
-﻿using Orleans;
+using Dotpay.Actor.Service;
+using Dotpay.Common;
+using Orleans;
 
 namespace Dotpay.Actor.Implementations.Service
 {
 
-    public class ManagerService : Orleans.Grain, IManagerService
+    public class ManagerService : Grain, IManagerService
     {
-        async Task<ErrorCode> IManagerService.AddManager(string loginName, string loginPassword, Guid operatorId)
+        async Task<ErrorCode> IManagerService.AddManager(string loginName, string loginPassword, Guid createBy)
         {
-            if (!await CheckManagerPermission(operatorId)) return ErrorCode.HasNoPermission;
+            if (!await CheckManagerPermission(createBy)) return ErrorCode.HasNoPermission;
 
             var managerId = Guid.NewGuid();
             var manager = GrainFactory.GetGrain<IManager>(managerId);
             var twofactorKey = Utilities.GenerateOTPKey();
-            await manager.Initialize(loginName, loginPassword, twofactorKey, operatorId);
+            await manager.Initialize(loginName, loginPassword, twofactorKey, createBy);
 
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> IManagerService.AssginManagerRoles(Guid managerId, IEnumerable<ManagerType> roles, Guid operatorId)
+        async Task<ErrorCode> IManagerService.AssginManagerRoles(Guid managerId, IEnumerable<ManagerType> roles, Guid assignBy)
         {
-            if (!await CheckManagerPermission(operatorId)) return ErrorCode.HasNoPermission;
+            if (!await CheckManagerPermission(assignBy)) return ErrorCode.HasNoPermission;
 
             var manager = GrainFactory.GetGrain<IManager>(managerId);
-            await manager.AssignRoles(operatorId, roles);
+            await manager.AssignRoles(assignBy, roles);
 
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> IManagerService.Lock(Guid managerId, string reason, Guid operatorId)
+        async Task<ErrorCode> IManagerService.Lock(Guid managerId, string reason, Guid lockBy)
         {
-            if (!await CheckManagerPermission(operatorId)) return ErrorCode.HasNoPermission;
+            if (!await CheckManagerPermission(lockBy)) return ErrorCode.HasNoPermission;
 
             var manager = GrainFactory.GetGrain<IManager>(managerId);
-            await manager.Lock(operatorId, reason);
+            await manager.Lock(lockBy, reason);
 
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> IManagerService.Unlock(Guid managerId, Guid operatorId)
+        async Task<ErrorCode> IManagerService.Unlock(Guid managerId, Guid unlockBy)
         {
-            if (!await CheckManagerPermission(operatorId)) return ErrorCode.HasNoPermission;
+            if (!await CheckManagerPermission(unlockBy)) return ErrorCode.HasNoPermission;
 
             var manager = GrainFactory.GetGrain<IManager>(managerId);
-            await manager.Unlock(operatorId);
+            await manager.Unlock(unlockBy);
 
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> IManagerService.ResetLoginPassword(Guid managerId, string newLoginPassword, Guid operatorId)
+        async Task<ErrorCode> IManagerService.ResetLoginPassword(Guid managerId, string newLoginPassword, Guid resetBy)
         {
-            if (!await CheckManagerPermission(operatorId)) return ErrorCode.HasNoPermission;
+            if (!await CheckManagerPermission(resetBy)) return ErrorCode.HasNoPermission;
 
             var manager = GrainFactory.GetGrain<IManager>(managerId);
-            await manager.ResetLoginPassword(newLoginPassword, operatorId);
+            await manager.ResetLoginPassword(newLoginPassword, resetBy);
+
+            return ErrorCode.None;
+        }
+
+        async Task<ErrorCode> IManagerService.ResetTwofactorKey(Guid managerId, Guid resetBy)
+        {
+            if (!await CheckManagerPermission(resetBy)) return ErrorCode.HasNoPermission;
+
+            var manager = GrainFactory.GetGrain<IManager>(managerId);
+            await manager.ResetTwofactorKey(resetBy);
 
             return ErrorCode.None;
         }

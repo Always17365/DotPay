@@ -27,9 +27,8 @@ namespace Dotpay.Admin.Fliter
                 if (userSession == null || !((ManagerIdentity)userSession).LoginTwoFactoryVerify)
 #endif
                 {
-                    filterContext.Result = new RedirectResult("~/Index");
-                    base.OnAuthorization(filterContext);
-                }
+                    filterContext.Result = new RedirectResult("~/account/login");
+                } 
             }
         }
     }
@@ -55,9 +54,8 @@ namespace Dotpay.Admin.Fliter
                 if (userSession != null && !HasPermission(userSession))
                 {
                     filterContext.Result = new PartialViewResult() { ViewName = "~/NoPermission" };
-                    base.OnAuthorization(filterContext);
                 }
-            }
+            } 
         }
 
         private bool HasPermission(ManagerIdentity manager)

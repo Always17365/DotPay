@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using Dotpay.Admin.Fliter;
 
 namespace Dotpay.Admin
 {
@@ -8,6 +9,7 @@ namespace Dotpay.Admin
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new AuthenticationAttribute());
         }
     }
 }

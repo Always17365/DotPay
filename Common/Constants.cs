@@ -11,6 +11,7 @@ namespace Dotpay.Common
         /// <summary>current user key
         /// </summary>
         public const string CURRENT_USER_KEY = "__CURRENTUSER_ID_EMAIL";
+        public const string CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY = "__CURRENTUSER_WAIT_VERIFY_TWO_FACTOR_ID_EMAIL";
 
         public const string StorageProviderName = "MongoDBStore";
 

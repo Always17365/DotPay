@@ -7,9 +7,9 @@ namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]
-    public class RippleToFISettingUpdated : GrainEvent
+    public class RippleToFISettingUpdatedEvent : GrainEvent
     {
-        public RippleToFISettingUpdated(RippleToFISetting setting, Guid updateBy)
+        public RippleToFISettingUpdatedEvent(RippleToFISetting setting, Guid updateBy)
         {
             this.Setting = setting; 
             this.UpdateBy = updateBy;
@@ -21,9 +21,9 @@ namespace Dotpay.Actor.Events
 
     [Immutable]
     [Serializable]
-    public class RippleToDotpaySettingUpdated : GrainEvent
+    public class RippleToDotpaySettingUpdatedEvent : GrainEvent
     {
-        public RippleToDotpaySettingUpdated(RippleToDotpaySetting setting, Guid updateBy)
+        public RippleToDotpaySettingUpdatedEvent(RippleToDotpaySetting setting, Guid updateBy)
         {
             this.Setting = setting;
             this.UpdateBy = updateBy;

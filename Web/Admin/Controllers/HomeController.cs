@@ -9,11 +9,11 @@ namespace Dotpay.Admin.Controllers
 {
     public class HomeController : BaseController
     {
+        [Route("~/index")]
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult Welcome()
         {
             return PartialView();
@@ -24,7 +24,7 @@ namespace Dotpay.Admin.Controllers
             return PartialView();
         }
         public ActionResult NoPermission()
-        { 
+        {
             return PartialView();
         }
     }

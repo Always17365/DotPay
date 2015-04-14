@@ -15,10 +15,10 @@ namespace Dotpay.TaobaoMonitor
 {
     internal class LoseTransactionRevalidator
     {
-        private const string RippleValidateExchangeName = "__RippleValidate_Exchange";
-        private const string RippleValidateQueue = "__RippleValidate_LedgerIndex_Tx";
-        private const string RippleValidateQueueReply = "__RippleValidate_LedgerIndex_Reply";
-        private static bool started;
+        private const string RIPPLE_VALIDATE_EXCHANGE_NAME = "__RippleValidate_Exchange";
+        private const string RIPPLE_VALIDATE_QUEUE = "__RippleValidate_LedgerIndex_Tx";
+        private const string RIPPLE_VALIDATE_QUEUE_REPLY = "__RippleValidate_LedgerIndex_Reply";
+        private static bool _started;
 
         private static readonly string MysqlConnectionString =
             ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
@@ -26,19 +26,19 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string RabbitMqConnectionString =
             ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
 
-        private static LedgerIndexRpcClient ledgerIndexRpcClient;
-        private static ValidatorRpcClient validatorRpcClient;
+        private static LedgerIndexRpcClient _ledgerIndexRpcClient;
+        private static ValidatorRpcClient _validatorRpcClient;
 
         public static void Start()
         {
-            if (started) return;
+            if (_started) return;
 
             var thread = new Thread(() =>
             {
                 var factory = new ConnectionFactory { Uri = RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
                 var connection = factory.CreateConnection();
-                ledgerIndexRpcClient = new LedgerIndexRpcClient(connection);
-                validatorRpcClient = new ValidatorRpcClient(connection);
+                _ledgerIndexRpcClient = new LedgerIndexRpcClient(connection);
+                _validatorRpcClient = new ValidatorRpcClient(connection);
 
                 while (true)
                 {
@@ -49,7 +49,7 @@ namespace Dotpay.TaobaoMonitor
 
                         if (loseTxs.Any())
                         {
-                            completeLedgerIndex = ledgerIndexRpcClient.GetLastLedgerIndex();
+                            completeLedgerIndex = _ledgerIndexRpcClient.GetLastLedgerIndex();
 
                             if (completeLedgerIndex != -1)
                             {
@@ -61,7 +61,7 @@ namespace Dotpay.TaobaoMonitor
                                     {
                                         Log.Info("发现丢失结果的tx的最大ledger已经过了-->ripple tx : txid=" + lt.txid + ",tid=" +
                                                  lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
-                                        var result = validatorRpcClient.ValidateTx(lt.txid);
+                                        var result = _validatorRpcClient.ValidateTx(lt.txid);
 
                                         if (result == 1)
                                         {
@@ -111,7 +111,7 @@ namespace Dotpay.TaobaoMonitor
 
             thread.Start();
             Log.Info("-->ripple丢失tx验证器启动成功...");
-            started = true;
+            _started = true;
         }
 
         #region rpc client
@@ -127,10 +127,10 @@ namespace Dotpay.TaobaoMonitor
             {
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare(RippleValidateQueueReply, true, false, false, null);
-                channel.ExchangeDeclare(RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(RippleValidateQueue, RippleValidateExchangeName, "");
+                replyQueueName = channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE_REPLY, true, false, false, null);
+                channel.ExchangeDeclare(RIPPLE_VALIDATE_EXCHANGE_NAME, ExchangeType.Direct);
+                channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE, true, false, false, null);
+                channel.QueueBind(RIPPLE_VALIDATE_QUEUE, RIPPLE_VALIDATE_EXCHANGE_NAME, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
@@ -145,7 +145,7 @@ namespace Dotpay.TaobaoMonitor
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new GetLastLedgerIndexMessage());
                 var messageBytes = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
+                channel.BasicPublish(RIPPLE_VALIDATE_EXCHANGE_NAME, string.Empty, props, messageBytes);
                 var sw = Stopwatch.StartNew(); 
                 while (true)
                 {
@@ -177,10 +177,10 @@ namespace Dotpay.TaobaoMonitor
             {
                 this.connection = connection;
                 channel = connection.CreateModel();
-                replyQueueName = channel.QueueDeclare(RippleValidateQueueReply, true, false, false, null);
-                channel.ExchangeDeclare(RippleValidateExchangeName, ExchangeType.Direct);
-                channel.QueueDeclare(RippleValidateQueue, true, false, false, null);
-                channel.QueueBind(RippleValidateQueue, RippleValidateExchangeName, "");
+                replyQueueName = channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE_REPLY, true, false, false, null);
+                channel.ExchangeDeclare(RIPPLE_VALIDATE_EXCHANGE_NAME, ExchangeType.Direct);
+                channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE, true, false, false, null);
+                channel.QueueBind(RIPPLE_VALIDATE_QUEUE, RIPPLE_VALIDATE_EXCHANGE_NAME, "");
                 consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
@@ -199,7 +199,7 @@ namespace Dotpay.TaobaoMonitor
 
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new ValidateTxMessage(txid));
                 var messageBytes = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(RippleValidateExchangeName, string.Empty, props, messageBytes);
+                channel.BasicPublish(RIPPLE_VALIDATE_EXCHANGE_NAME, string.Empty, props, messageBytes);
                 var sw = Stopwatch.StartNew();
                 while (true)
                 {

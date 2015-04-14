@@ -73,6 +73,27 @@ define(function () {
           expect(parsleyForm.isValid('foo')).to.be(true);
           expect(parsleyForm.isValid('bar')).to.be(false);
       });
+      it('should handle group validation with controls with multiple group names', function () {
+        $('body').append(
+          '<form id="element">'                                                                        +
+            '<input id="field1" type="text" data-parsley-group=\'["foo", "bar"]\' data-parsley-required="true" />'  +
+            '<input id="field2" type="text" data-parsley-group=\'["bar", "baz"]\' data-parsley-required="true" />'  +
+            '<textarea id="field3" data-parsley-group=\'["baz", "qux"]\' data-parsley-required="true"></textarea>'  +
+          '</form>');
+          var parsleyForm = new Parsley($('#element'));
+          expect(parsleyForm.isValid()).to.be(false);
+          $('#field1').val('value');
+          $('#field2').val('value');
+          expect(parsleyForm.isValid()).to.be(false);
+          // group name only on one required field, with value
+          expect(parsleyForm.isValid('foo')).to.be(true);
+          // group name on multiple required fields, all with values
+          expect(parsleyForm.isValid('bar')).to.be(true);
+          // group name on multiple required fields, one missing a value
+          expect(parsleyForm.isValid('baz')).to.be(false);
+          // group name on single required field, without value
+          expect(parsleyForm.isValid('qux')).to.be(false);
+      });
       it('should handle `onFormSubmit` validation', function () {
         $('body').append(
           '<form id="element" data-parsley-trigger="change">'                 +
@@ -130,6 +151,31 @@ define(function () {
         expect(formInstance.fields[0].$element.attr('id')).to.be('email');
         expect(fieldInstance.parent.__class__).to.be('ParsleyForm');
       });
+      it('should fire the right callbacks in the right order', function () {
+        var $form = $('<form><input type="string" required /><form>').appendTo($('body'));
+        $form.on('submit', function (e) {
+          e.preventDefault();
+        });
+
+        var callbacks = [];
+        var parsleyInstance = $form.parsley();
+        $.each(['validate', 'error', 'success', 'validated'], function(i, cb) {
+          parsleyInstance.subscribe('parsley:form:' + cb, function() {
+            callbacks.push(cb);
+          });
+        });
+        $form.submit();
+        $form.find('input').val('Hello');
+        $form.submit();
+        expect(callbacks.join()).to.be('validate,error,validated,validate,success,validated');
+      });
+      it('should fire "parsley:form:validate" to give the opportunity for changes before validation occurs', function() {
+        var $form = $('<form><input type="string" required /><form>').appendTo($('body'));
+        $form.parsley().subscribe('parsley:form:validate', function(psly) {
+          psly.$element.find('input').remove();
+        });
+        expect($form.parsley().validate()).to.be(true);
+      });
       it('should stop event propagation on form submit', function (done) {
         $('body').append('<form id="element"><input type="text" required/></form>');
         var parsleyInstance = $('#element').parsley();
@@ -146,8 +192,7 @@ define(function () {
         $('#element').submit();
       });
       afterEach(function () {
-        if ($('#element').length)
-          $('#element').remove();
+        $('#element').remove();
       });
     });
   };

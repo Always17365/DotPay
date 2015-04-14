@@ -371,10 +371,10 @@ namespace Dotpay.Actor
                 return ManagerMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IManager.Initialize(string @loginName, string @loginPassword, string @twofactorKey, System.Guid @operatorId)
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.Initialize(string @loginName, string @loginPassword, string @twofactorKey, System.Guid @createBy)
             {
 
-                return base.InvokeMethodAsync<object>(1448728935, new object[] {@loginName, @loginPassword, @twofactorKey, @operatorId} );
+                return base.InvokeMethodAsync<object>(1448728935, new object[] {@loginName, @loginPassword, @twofactorKey, @createBy} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IManager.Login(string @loginPassword, string @ip)
@@ -383,16 +383,16 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1415878300, new object[] {@loginPassword, @ip} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IManager.Lock(System.Guid @operatorId, string @reason)
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.Lock(System.Guid @lockBy, string @reason)
             {
 
-                return base.InvokeMethodAsync<object>(1046983731, new object[] {@operatorId, @reason} );
+                return base.InvokeMethodAsync<object>(1046983731, new object[] {@lockBy, @reason} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IManager.Unlock(System.Guid @operatorId)
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.Unlock(System.Guid @unlockBy)
             {
 
-                return base.InvokeMethodAsync<object>(553967826, new object[] {@operatorId} );
+                return base.InvokeMethodAsync<object>(553967826, new object[] {@unlockBy} );
             }
             
             System.Threading.Tasks.Task<bool> Dotpay.Actor.IManager.CheckLoginPassword(string @loginPassword)
@@ -413,22 +413,34 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1632402458, new object[] {@oldLoginPassword, @newLoginPassword} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IManager.ResetLoginPassword(string @newLoginPassword, System.Guid @operatorId)
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.ResetLoginPassword(string @newLoginPassword, System.Guid @resetBy)
             {
 
-                return base.InvokeMethodAsync<object>(1107630634, new object[] {@newLoginPassword, @operatorId} );
+                return base.InvokeMethodAsync<object>(1107630634, new object[] {@newLoginPassword, @resetBy} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IManager.AssignRoles(System.Guid @operatorId, IEnumerable<ManagerType> @roles)
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.ResetTwofactorKey(System.Guid @resetBy)
             {
 
-                return base.InvokeMethodAsync<object>(953637368, new object[] {@operatorId, @roles} );
+                return base.InvokeMethodAsync<object>(405453267, new object[] {@resetBy} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.IManager.AssignRoles(System.Guid @assignBy, IEnumerable<ManagerType> @roles)
+            {
+
+                return base.InvokeMethodAsync<object>(953637368, new object[] {@assignBy, @roles} );
             }
             
             System.Threading.Tasks.Task<bool> Dotpay.Actor.IManager.HasRole(Dotpay.Common.ManagerType @role)
             {
 
                 return base.InvokeMethodAsync<System.Boolean>(-376292112, new object[] {@role} );
+            }
+            
+            System.Threading.Tasks.Task<bool> Dotpay.Actor.IManager.HasInitialized()
+            {
+
+                return base.InvokeMethodAsync<System.Boolean>(609716699, new object[] {} );
             }
         }
     }
@@ -473,10 +485,14 @@ namespace Dotpay.Actor
                                 return ((IManager)grain).ChangeLoginPassword((String)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1107630634: 
                                 return ((IManager)grain).ResetLoginPassword((String)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 405453267: 
+                                return ((IManager)grain).ResetTwofactorKey((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 953637368: 
                                 return ((IManager)grain).AssignRoles((Guid)arguments[0], (IEnumerable<ManagerType>)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -376292112: 
                                 return ((IManager)grain).HasRole((ManagerType)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 609716699: 
+                                return ((IManager)grain).HasInitialized().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case -1097320095:  // IGrainWithGuidKey
@@ -522,10 +538,14 @@ namespace Dotpay.Actor
                             return "ChangeLoginPassword";
                     case 1107630634:
                             return "ResetLoginPassword";
+                    case 405453267:
+                            return "ResetTwofactorKey";
                     case 953637368:
                             return "AssignRoles";
                     case -376292112:
                             return "HasRole";
+                    case 609716699:
+                            return "HasInitialized";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -4180,34 +4200,40 @@ namespace Dotpay.Actor.Service
                 return ManagerServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AddManager(string @loginName, string @loginPassword, System.Guid @operatorId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AddManager(string @loginName, string @loginPassword, System.Guid @createBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-77980335, new object[] {@loginName, @loginPassword, @operatorId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-77980335, new object[] {@loginName, @loginPassword, @createBy} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AssginManagerRoles(System.Guid @managerId, System.Collections.Generic.IEnumerable<ManagerType> @roles, System.Guid @operatorId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AssginManagerRoles(System.Guid @managerId, System.Collections.Generic.IEnumerable<ManagerType> @roles, System.Guid @assignBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1748967283, new object[] {@managerId, @roles, @operatorId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1748967283, new object[] {@managerId, @roles, @assignBy} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.Lock(System.Guid @managerId, string @reason, System.Guid @operatorId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.Lock(System.Guid @managerId, string @reason, System.Guid @lockBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(764799188, new object[] {@managerId, @reason, @operatorId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(764799188, new object[] {@managerId, @reason, @lockBy} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.Unlock(System.Guid @managerId, System.Guid @operatorId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.Unlock(System.Guid @managerId, System.Guid @unlockBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-2084981854, new object[] {@managerId, @operatorId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-2084981854, new object[] {@managerId, @unlockBy} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.ResetLoginPassword(System.Guid @managerId, string @newLoginPassword, System.Guid @operatorId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.ResetLoginPassword(System.Guid @managerId, string @newLoginPassword, System.Guid @resetBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1960555519, new object[] {@managerId, @newLoginPassword, @operatorId} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1960555519, new object[] {@managerId, @newLoginPassword, @resetBy} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.ResetTwofactorKey(System.Guid @managerId, System.Guid @resetBy)
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-439326502, new object[] {@managerId, @resetBy} );
             }
         }
     }
@@ -4246,6 +4272,8 @@ namespace Dotpay.Actor.Service
                                 return ((IManagerService)grain).Unlock((Guid)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1960555519: 
                                 return ((IManagerService)grain).ResetLoginPassword((Guid)arguments[0], (String)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -439326502: 
+                                return ((IManagerService)grain).ResetTwofactorKey((Guid)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -4285,6 +4313,8 @@ namespace Dotpay.Actor.Service
                             return "Unlock";
                     case 1960555519:
                             return "ResetLoginPassword";
+                    case -439326502:
+                            return "ResetTwofactorKey";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);

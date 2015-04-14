@@ -10,12 +10,12 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class ManagerInitializedEvent : GrainEvent
     {
-        public ManagerInitializedEvent(Guid managerId, string loginName, string loginPassword, string twofactorKey, Guid operatorId, string salt)
+        public ManagerInitializedEvent(Guid managerId, string loginName, string loginPassword, string twofactorKey, Guid createBy, string salt)
         {
             this.LoginName = loginName;
             this.LoginPassword = loginPassword;
             this.TwofactorKey = twofactorKey;
-            this.OperatorId = operatorId;
+            this.CreateBy = createBy;
             this.Salt = salt;
             this.ManagerId = managerId;
         }
@@ -24,7 +24,7 @@ namespace Dotpay.Actor.Events
         public string LoginName { get; private set; }
         public string LoginPassword { get; private set; }
         public string TwofactorKey { get; private set; }
-        public Guid OperatorId { get; private set; }
+        public Guid CreateBy { get; private set; }
         public string Salt { get; private set; }
     }
     [Immutable]
@@ -51,54 +51,27 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class ManagerLockedEvent : GrainEvent
     {
-        public ManagerLockedEvent(Guid operationId, string reason)
+        public ManagerLockedEvent(Guid lockBy, string reason)
         {
-            this.OperationId = operationId;
+            this.LockBy = lockBy;
             this.Reason = reason;
         }
-        public Guid OperationId { get; private set; }
+
+        public Guid LockBy { get; private set; }
         public string Reason { get; private set; }
     }
     [Immutable]
     [Serializable]
     public class ManagerUnlockedEvent : GrainEvent
     {
-        public ManagerUnlockedEvent(Guid operationId)
+        public ManagerUnlockedEvent(Guid unlockBy)
         {
-            this.OperationId = operationId;
-        }
-        public Guid OperationId { get; private set; }
-    }
-    [Immutable]
-    [Serializable]
-    public class ManagerSetMobileEvent : GrainEvent
-    {
-        public ManagerSetMobileEvent(string mobile, string otpKey, string otp)
-        {
-            this.Mobile = mobile;
-            this.OTPKey = otpKey;
-            this.OTP = otp;
+            this.UnlockBy = unlockBy;
         }
 
-        public string Mobile { get; private set; }
-        public string OTPKey { get; private set; }
-        public string OTP { get; private set; }
-    }
-
-    [Immutable]
-    [Serializable]
-    public class ManagerIdentityVerifiedEvent : GrainEvent
-    {
-        public ManagerIdentityVerifiedEvent(string fullName, string idNo, IdNoType idType)
-        {
-            this.FullName = fullName;
-            this.IdNo = idNo;
-            this.IdType = idType;
-        }
-        public string FullName { get; private set; }
-        public string IdNo { get; private set; }
-        public IdNoType IdType { get; private set; }
-    }
+        public Guid UnlockBy { get; private set; }
+    } 
+    
     [Immutable]
     [Serializable]
     public class ManagerLoginPasswordChangedEvent : GrainEvent
@@ -116,38 +89,39 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class ManagerLoginPasswordResetEvent : GrainEvent
     {
-        public ManagerLoginPasswordResetEvent(string newLoginPassword, Guid operatorId)
+        public ManagerLoginPasswordResetEvent(string newLoginPassword, Guid resetBy)
         {
             this.NewLoginPassword = newLoginPassword;
-            this.OperatorId = operatorId;
+            this.ResetBy = resetBy;
         }
 
         public string NewLoginPassword { get; private set; }
-        public Guid OperatorId { get; private set; }
+        public Guid ResetBy { get; private set; }
     }
     [Immutable]
     [Serializable]
-    public class ManagerPaymentPasswordChangedEvent : GrainEvent
+    public class ManagerTwofactorKeyResetEvent : GrainEvent
     {
-        public ManagerPaymentPasswordChangedEvent(string oldPaymentPassword, string newPaymentPassword)
+        public ManagerTwofactorKeyResetEvent(Guid resetBy, string otpKey)
         {
-            this.OldPaymentPassword = oldPaymentPassword;
-            this.NewPaymentPassword = newPaymentPassword;
+            this.ResetBy = resetBy;
+            this.OtpKey = otpKey;
         }
-        public string OldPaymentPassword { get; private set; }
-        public string NewPaymentPassword { get; private set; }
+
+        public Guid ResetBy { get; private set; }
+        public string OtpKey { get; private set; }
     }
 
     [Immutable]
     [Serializable]
     public class ManagerAssignedRolesEvent : GrainEvent
     {
-        public ManagerAssignedRolesEvent(Guid operatorId, IEnumerable<ManagerType> roles)
+        public ManagerAssignedRolesEvent(Guid assignBy, IEnumerable<ManagerType> roles)
         {
-            this.OperatorId = operatorId;
+            this.AssignBy = assignBy;
             this.Roles = roles;
         }
-        public Guid OperatorId { get; private set; }
+        public Guid AssignBy { get; private set; }
         public IEnumerable<ManagerType> Roles { get; private set; }
     }
 }

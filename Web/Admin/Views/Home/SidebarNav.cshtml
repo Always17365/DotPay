@@ -127,37 +127,31 @@
         </ul>
     </li>
     <li><a href="index.html#ajax/calendar.html"><i class="ion-calendar"></i> <span>Calendar</span></a></li>
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret pull-right"></b>
-            <i class="ion-map"></i>
-            <span>Map</span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="index.html#ajax/map_vector.html">Vector Map</a></li>
-            <li><a href="index.html#ajax/map_google.html">Google Map</a></li>
-        </ul>
-    </li>
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret pull-right"></b>
-            <i class="ion-image"></i>
-            <span>Gallery</span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="index.html#ajax/gallery.html">Gallery v1</a></li>
-            <li><a href="index.html#ajax/gallery_v2.html">Gallery v2</a></li>
-        </ul>
-    </li>
-    @if (DotpayConfig.Debug || user.Roles.Any(r => r == ManagerType.MaintenanceManager))
+    @if (user.Roles.Any(r => r == ManagerType.ToFiTransferManager))
+    {
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret pull-right"></b>
+                <i class="ion-map"></i>
+                <span>Map1111111</span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="index.html#ajax/map_vector.html">Vector Map</a></li>
+                <li><a href="index.html#ajax/map_google.html">Google Map</a></li>
+            </ul>
+        </li>
+    }
+   
+    @if (user.Roles.Any(r => r == ManagerType.SuperUser || r == ManagerType.MaintenanceManager))
     {
         <li class="has-sub">
             <a href="javascript:;">
                 <i class="fa fa-cogs"></i>
                 <b class="caret pull-right"></b>
-                <span>系统设置</span>
+                <span>系统管理</span>
             </a>
             <ul class="sub-menu">
+                <li><a href="#/ajax/manager">管理员列表</a></li> 
                 <li><a href="#ajax/systemsetting/tofi">金融机构直转设置</a></li>
                 <li><a href="#ajax/systemsetting/todotpay">点付直转设置</a></li>
             </ul>

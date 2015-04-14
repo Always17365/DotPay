@@ -23,9 +23,9 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string MysqlConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
         private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private static IModel _channel;
-        private const string RippleSendIOUExchangeName = "__RippleSendIOU_Exchange";
-        private const string RippleSendIOUTaobaoDepositRouteKey = "Taobao";
-        private const string RippleSendIOUDirectDepositQueue = "__RippleSendIOU_Taobao_Direct_Deposit";
+        private const string RIPPLE_SEND_IOU_EXCHANGE_NAME = "__RippleSendIOU_Exchange";
+        private const string RIPPLE_SEND_IOU_TAOBAO_DEPOSIT_ROUTE_KEY = "Taobao";
+        private const string RIPPLE_SEND_IOU_DIRECT_DEPOSIT_QUEUE = "__RippleSendIOU_Taobao_Direct_Deposit";
         private static MySqlConnection OpenConnection()
         {
             MySqlConnection connection = new MySqlConnection(MysqlConnectionString);
@@ -73,7 +73,8 @@ namespace Dotpay.TaobaoMonitor
 
                                         if (tradeTaobao != null)
                                         {
-                                            Debug.Assert(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)) == t.amount, "淘宝充值金额与数据记录的金额不符合!taobao ={0} ,db ={1}".FormatWith(Math.Round(Convert.ToDecimal(tradeTaobao.TotalFee)), t.amount));
+                                            var realAmount = Math.Round(Convert.ToDecimal(tradeTaobao.Orders[0].Price)) * tradeTaobao.Orders[0].Num;
+                                            Debug.Assert(realAmount == t.amount, "淘宝充值金额与数据记录的金额不符合!taobao ={0} ,db ={1}".FormatWith(realAmount, t.amount));
 
                                             buyer_message = tradeTaobao.BuyerMessage.Trim();
                                             var rippleAddress = buyer_message;
@@ -88,7 +89,7 @@ namespace Dotpay.TaobaoMonitor
                                                 //!=消息提交后，除了Lose Tx Validator更新状态，否则不会在提交=!
                                                 PublishMessage(
                                                     new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage, t.amount),
-                                                    RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
+                                                    RIPPLE_SEND_IOU_EXCHANGE_NAME, RIPPLE_SEND_IOU_TAOBAO_DEPOSIT_ROUTE_KEY);
                                                 TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，已提交处理",
                                                          "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount,
                                                              tradeTaobao.BuyerMessage));
@@ -236,9 +237,9 @@ namespace Dotpay.TaobaoMonitor
                 var factory = new ConnectionFactory { Uri = RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
                 var connection = factory.CreateConnection();
                 _channel = connection.CreateModel();
-                _channel.ExchangeDeclare(RippleSendIOUExchangeName, ExchangeType.Direct, true, false, null);
-                _channel.QueueDeclare(RippleSendIOUDirectDepositQueue, true, false, false, null);
-                _channel.QueueBind(RippleSendIOUDirectDepositQueue, RippleSendIOUExchangeName, RippleSendIOUTaobaoDepositRouteKey);
+                _channel.ExchangeDeclare(RIPPLE_SEND_IOU_EXCHANGE_NAME, ExchangeType.Direct, true, false, null);
+                _channel.QueueDeclare(RIPPLE_SEND_IOU_DIRECT_DEPOSIT_QUEUE, true, false, false, null);
+                _channel.QueueBind(RIPPLE_SEND_IOU_DIRECT_DEPOSIT_QUEUE, RIPPLE_SEND_IOU_EXCHANGE_NAME, RIPPLE_SEND_IOU_TAOBAO_DEPOSIT_ROUTE_KEY);
             }
             return _channel;
         }

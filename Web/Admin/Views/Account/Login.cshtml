@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+}
+@using Dotpay.Admin.ViewModel
+@model ManagerLoginViewModel
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive.css" rel="stylesheet" />
+    <link href="/assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+    <!-- ================== END BASE CSS STYLE ================== -->
+</head>
+<body>
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+
+    <div class="login-cover">
+        <div class="login-cover-image"><img src="/assets/img/login-bg/bg-3.jpg" data-id="login-cover-image" alt="" /></div>
+        <div class="login-cover-bg"></div>
+    </div>
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        <!-- begin login -->
+        <div class="login login-v2" data-pageload-addclass="animated flipInX">
+            <!-- begin brand -->
+            <div class="login-header">
+                <div class="brand">
+                    <span class="logo"></span> Dotpay Admin
+                    <small>欢迎进入点付管理后台</small>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-sign-in"></i>
+                </div>
+            </div>
+            <!-- end brand -->
+            <div class="login-content">
+                <form method="POST" id="loginForm" class="margin-bottom-0">
+                    <div class="form-group m-b-20">
+                        @Html.TextBoxFor(m => m.LoginName, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control input-lg" },
+                                      { "placeholder", "用户名" },
+                                      { "data-parsley-required", "true" },
+                                      { "autocomplete", "off" }
+                                    })
+                    </div>
+                    <div class="form-group m-b-20">
+                        @Html.PasswordFor(m => m.Password, new Dictionary<string, object>()
+                                    {
+                                      { "class" , "form-control input-lg" },
+                                      { "placeholder", "登陆密码" },
+                                      { "data-parsley-required", "true" }
+                                    })
+                    </div>
+                    <div class="login-buttons">
+                        <button type="submit" class="btn btn-success btn-block btn-lg">登陆</button>
+                    </div>
+                    <div class="m-t-20" id="loginMessage">
+
+                    </div>
+                    @{
+#if DEBUG
+                        var generate = true;
+#else
+                        var generate = false;
+#endif
+                    }
+                    @if (generate)
+                    {
+                        <div class="m-t-20">
+                            生成超级管理员账号 <a href="#" id="btnGenerate">点击生成</a>
+                            <span style="display: none" id="generateMessage"></span>
+                        </div>
+                    }
+
+                </form>
+            </div>
+        </div>
+        <!-- end login -->
+    </div>
+    <!-- end page container -->
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="/assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="/assets/crossbrowserjs/respond.min.js"></script>
+        <script src="/assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/assets/plugins/parsley/dist/parsley.min.js"></script>
+    <script src="/assets/plugins/parsley/src/i18n/zh_cn.js"></script>
+    <!-- ================== END BASE JS ================== -->
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="/assets/jss/login.js"></script>
+    <script src="/assets/jss/apps.js"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    <script>
+        $(document).ready(function () {
+            window.ParsleyValidator.setLocale('zh_cn');
+            App.init(ajax = true, login = true);
+            Login.init();
+            //Login.init();
+        });
+    </script>
+    @if (generate)
+    {
+        <script>
+            $(document).ready(function () {
+                $("#btnGenerate").click(function () {
+                    $.post("/account/InitSuperUser", function (data, status) {
+                        if (data.Code == 1)
+                            $("#generateMessage").text("生成成功").show();
+                        else
+                            $("#generateMessage").text(data.Message).show();
+                    });
+                });
+            });
+        </script>
+    }
+</body>
+</html>

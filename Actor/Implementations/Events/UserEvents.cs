@@ -8,9 +8,9 @@ namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]
-    public class UserPreRegister : GrainEvent
+    public class UserPreRegisterEvent : GrainEvent
     {
-        public UserPreRegister(long userId,string email, string token)
+        public UserPreRegisterEvent(long userId,string email, string token)
         {
             this.UserId = userId;
             this.Email = email;
@@ -23,9 +23,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserInitialized : GrainEvent
+    public class UserInitializedEvent : GrainEvent
     {
-        public UserInitialized(string loginName, string loginPassword, string paymentPassword, Guid accountId, string salt)
+        public UserInitializedEvent(string loginName, string loginPassword, string paymentPassword, Guid accountId, string salt)
         {
             this.LoginName = loginName;
             this.LoginPassword = loginPassword;
@@ -42,9 +42,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginSuccessed : GrainEvent
+    public class UserLoginSuccessedEvent : GrainEvent
     {
-        public UserLoginSuccessed(string ip)
+        public UserLoginSuccessedEvent(string ip)
         {
             this.IP = ip;
         }
@@ -52,9 +52,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginFailed : GrainEvent
+    public class UserLoginFailedEvent : GrainEvent
     {
-        public UserLoginFailed(string ip)
+        public UserLoginFailedEvent(string ip)
         {
             this.IP = ip;
         }
@@ -62,9 +62,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLocked : GrainEvent
+    public class UserLockedEvent : GrainEvent
     {
-        public UserLocked(long operationId, string reason)
+        public UserLockedEvent(long operationId, string reason)
         {
             this.OperationId = operationId;
             this.Reason = reason;
@@ -74,9 +74,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserUnlocked : GrainEvent
+    public class UserUnlockedEvent : GrainEvent
     {
-        public UserUnlocked(long operationId, string reason)
+        public UserUnlockedEvent(long operationId, string reason)
         {
             this.OperationId = operationId;
             this.Reason = reason;
@@ -86,9 +86,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserSetMobile : GrainEvent
+    public class UserSetMobileEvent : GrainEvent
     {
-        public UserSetMobile(string mobile, string otpKey, string otp)
+        public UserSetMobileEvent(string mobile, string otpKey, string otp)
         {
             this.Mobile = mobile;
             this.OTPKey = otpKey;
@@ -101,9 +101,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class SmsCounterIncreased : GrainEvent
+    public class SmsCounterIncreasedEvent : GrainEvent
     {
-        public SmsCounterIncreased(int smsCounter)
+        public SmsCounterIncreasedEvent(int smsCounter)
         {
             this.SmsCounter = smsCounter;
         }
@@ -112,9 +112,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserIdentityVerified : GrainEvent
+    public class UserIdentityVerifiedEvent : GrainEvent
     {
-        public UserIdentityVerified(string fullName, string idNo, IdNoType idType)
+        public UserIdentityVerifiedEvent(string fullName, string idNo, IdNoType idType)
         {
             this.FullName = fullName;
             this.IdNo = idNo;
@@ -126,9 +126,10 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginPasswordChanged : GrainEvent
+    public class UserLoginPasswordChangedEvent
+        : GrainEvent
     {
-        public UserLoginPasswordChanged(string oldLoginPassword, string newLoginPassword)
+        public UserLoginPasswordChangedEvent(string oldLoginPassword, string newLoginPassword)
         {
             this.OldLoginPassword = oldLoginPassword;
             this.NewLoginPassword = newLoginPassword;
@@ -138,9 +139,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginPasswordForget : GrainEvent
+    public class UserLoginPasswordForgetEvent : GrainEvent
     {
-        public UserLoginPasswordForget(string resetToken)
+        public UserLoginPasswordForgetEvent(string resetToken)
         {
             this.ResetToken = resetToken;
         }
@@ -149,9 +150,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginPasswordReset : GrainEvent
+    public class UserLoginPasswordResetEvent : GrainEvent
     {
-        public UserLoginPasswordReset(string resetToken, string newLoginPassword)
+        public UserLoginPasswordResetEvent(string resetToken, string newLoginPassword)
         {
             this.ResetToken = resetToken;
             this.NewLoginPassword = newLoginPassword;
@@ -162,9 +163,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserPaymentPasswordChanged : GrainEvent
+    public class UserPaymentPasswordChangedEvent : GrainEvent
     {
-        public UserPaymentPasswordChanged(string oldPaymentPassword, string newPaymentPassword)
+        public UserPaymentPasswordChangedEvent(string oldPaymentPassword, string newPaymentPassword)
         {
             this.OldPaymentPassword = oldPaymentPassword;
             this.NewPaymentPassword = newPaymentPassword;
@@ -174,9 +175,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserPaymentPasswordForget : GrainEvent
+    public class UserPaymentPasswordForgetEvent : GrainEvent
     {
-        public UserPaymentPasswordForget(string resetToken)
+        public UserPaymentPasswordForgetEvent(string resetToken)
         {
             this.ResetToken = resetToken;
         }
@@ -185,9 +186,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserPaymentPasswordReset : GrainEvent
+    public class UserPaymentPasswordResetEvent : GrainEvent
     {
-        public UserPaymentPasswordReset(string resetToken, string newPaymentPassword)
+        public UserPaymentPasswordResetEvent(string resetToken, string newPaymentPassword)
         {
             this.ResetToken = resetToken;
             this.NewPaymentPassword = newPaymentPassword;
@@ -195,17 +196,5 @@ namespace Dotpay.Actor.Events
 
         public string ResetToken { get; private set; }
         public string NewPaymentPassword { get; private set; }
-    }
-    [Immutable]
-    [Serializable]
-    public class UserAssignedRoles : GrainEvent
-    {
-        public UserAssignedRoles(long operatorId, IEnumerable<ManagerType> roles)
-        {
-            this.OperatorId = operatorId;
-            this.Roles = roles;
-        }
-        public long OperatorId { get; private set; }
-        public IEnumerable<ManagerType> Roles { get; private set; }
-    }
+    } 
 }

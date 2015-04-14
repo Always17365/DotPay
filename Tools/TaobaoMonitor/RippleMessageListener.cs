@@ -22,8 +22,8 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string MysqlConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
         private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private static IModel _channel;
-        private const string RippleResultExchangeName = "__RippleResult_Exchange";
-        private const string RippleResultAutoDepositQueue = "__RippleResult_AutoDeposit";
+        private const string RIPPLE_RESULT_EXCHANGE_NAME = "__RippleResult_Exchange";
+        private const string RIPPLE_RESULT_AUTO_DEPOSIT_QUEUE = "__RippleResult_AutoDeposit";
         private static MySqlConnection OpenConnection()
         {
             MySqlConnection connection = new MySqlConnection(MysqlConnectionString);
@@ -133,14 +133,14 @@ namespace Dotpay.TaobaoMonitor
                 var factory = new ConnectionFactory { Uri = RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
                 var connection = factory.CreateConnection();
                 _channel = connection.CreateModel();
-                _channel.ExchangeDeclare(RippleResultExchangeName, ExchangeType.Direct, true, false, null);
-                _channel.QueueDeclare(RippleResultAutoDepositQueue, true, false, false, null);
-                _channel.QueueBind(RippleResultAutoDepositQueue, RippleResultExchangeName, "");
+                _channel.ExchangeDeclare(RIPPLE_RESULT_EXCHANGE_NAME, ExchangeType.Direct, true, false, null);
+                _channel.QueueDeclare(RIPPLE_RESULT_AUTO_DEPOSIT_QUEUE, true, false, false, null);
+                _channel.QueueBind(RIPPLE_RESULT_AUTO_DEPOSIT_QUEUE, RIPPLE_RESULT_EXCHANGE_NAME, "");
 
                 var consumer = new RippleTxMessageConsumer(_channel);
 
                 _channel.BasicQos(0, 1, false);
-                _channel.BasicConsume(RippleResultAutoDepositQueue, false, consumer);
+                _channel.BasicConsume(RIPPLE_RESULT_AUTO_DEPOSIT_QUEUE, false, consumer);
             }
             return _channel;
         }

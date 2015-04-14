@@ -26,7 +26,7 @@ namespace Dotpay.Actor.Implementations
             {
                 var token = this.GenerteEmailValidateToken(email);
                 //邮件服务考虑使用Message Queue完成发送,建立独立的邮件发送服务
-                await this.ApplyEvent(new UserPreRegister(this.GetPrimaryKeyLong(), email, token));
+                await this.ApplyEvent(new UserPreRegisterEvent(this.GetPrimaryKeyLong(), email, token));
             }
             return ErrorCode.None;
         }
@@ -39,7 +39,7 @@ namespace Dotpay.Actor.Implementations
                 var salt = Guid.NewGuid().Shrink().Substring(0, 8);
                 loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
                 paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + salt);
-                await this.ApplyEvent(new UserInitialized(userAccount, loginPassword, paymentPassword, accountId, salt));
+                await this.ApplyEvent(new UserInitializedEvent(userAccount, loginPassword, paymentPassword, accountId, salt));
             }
             else accountId = this.State.AccountId;
 
@@ -49,7 +49,7 @@ namespace Dotpay.Actor.Implementations
         Task IUser.Lock(long operatorId, string reason)
         {
             if (this.State.IsVerified && !this.State.IsLocked)
-                return this.ApplyEvent(new UserLocked(operatorId, reason));
+                return this.ApplyEvent(new UserLockedEvent(operatorId, reason));
 
             return TaskDone.Done;
         }
@@ -57,7 +57,7 @@ namespace Dotpay.Actor.Implementations
         Task IUser.Unlock(long operatorId, string reason)
         {
             if (this.State.IsVerified && this.State.IsLocked)
-                return this.ApplyEvent(new UserUnlocked(operatorId, reason));
+                return this.ApplyEvent(new UserUnlockedEvent(operatorId, reason));
 
             return TaskDone.Done;
         }
@@ -65,7 +65,7 @@ namespace Dotpay.Actor.Implementations
         Task IUser.SetMobile(string mobile, string otpKey, string otp)
         {
             if (this.State.IsVerified && this.State.MobileSetting == null && Utilities.GenerateSmsOTP(otpKey, 1) == otp)
-                return this.ApplyEvent(new UserSetMobile(mobile, otpKey, otp));
+                return this.ApplyEvent(new UserSetMobileEvent(mobile, otpKey, otp));
 
             return TaskDone.Done;
         }
@@ -75,7 +75,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified && this.State.MobileSetting != null)
             {
                 var currentSmsCounter = this.State.MobileSetting.SmsCounter + 1;
-                return this.ApplyEvent(new SmsCounterIncreased(currentSmsCounter));
+                return this.ApplyEvent(new SmsCounterIncreasedEvent(currentSmsCounter));
             }
 
             return TaskDone.Done;
@@ -84,7 +84,7 @@ namespace Dotpay.Actor.Implementations
         Task IUser.VeirfyIdentity(string fullName, IdNoType idNoType, string idNo)
         {
             if (this.State.IsVerified && this.State.IdentityInfo == null)
-                return this.ApplyEvent(new UserIdentityVerified(fullName, idNo, idNoType));
+                return this.ApplyEvent(new UserIdentityVerifiedEvent(fullName, idNo, idNoType));
 
             return TaskDone.Done;
         }
@@ -94,7 +94,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 var token = GenerteResetLoginPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token));
+                await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
                 return token;
             }
 
@@ -105,7 +105,7 @@ namespace Dotpay.Actor.Implementations
         {
             newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
             if (this.State.IsVerified)
-                return this.ApplyEvent(new UserLoginPasswordReset(resetToken, newLoginPassword));
+                return this.ApplyEvent(new UserLoginPasswordResetEvent(resetToken, newLoginPassword));
 
             return TaskDone.Done;
         }
@@ -115,7 +115,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 var token = this.GenerteResetPaymentPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForget(token));
+                await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
                 return token;
             }
             return string.Empty;
@@ -126,7 +126,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
-                return this.ApplyEvent(new UserPaymentPasswordReset(resetToken, newPaymentPassword));
+                return this.ApplyEvent(new UserPaymentPasswordResetEvent(resetToken, newPaymentPassword));
             }
             return TaskDone.Done;
         }
@@ -137,12 +137,12 @@ namespace Dotpay.Actor.Implementations
                 return ErrorCode.UserAccountIsLocked;
             else if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
             {
-                await this.ApplyEvent(new UserLoginSuccessed(ip));
+                await this.ApplyEvent(new UserLoginSuccessedEvent(ip));
                 return ErrorCode.None;
             }
             else
             {
-                await this.ApplyEvent(new UserLoginFailed(ip));
+                await this.ApplyEvent(new UserLoginFailedEvent(ip));
                 return ErrorCode.LoginNameOrPasswordError;
             }
         }
@@ -163,7 +163,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.LoginPassword == oldLoginPassword)
             {
                 newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
-                await this.ApplyEvent(new UserLoginPasswordChanged(oldLoginPassword, newLoginPassword));
+                await this.ApplyEvent(new UserLoginPasswordChangedEvent(oldLoginPassword, newLoginPassword));
                 return ErrorCode.None;
             }
             else
@@ -180,7 +180,7 @@ namespace Dotpay.Actor.Implementations
                 return ErrorCode.OldPaymentPasswordError;
 
             newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
-            await this.ApplyEvent(new UserPaymentPasswordChanged(oldPaymentPassword, newPaymentPassword));
+            await this.ApplyEvent(new UserPaymentPasswordChangedEvent(oldPaymentPassword, newPaymentPassword));
             return ErrorCode.None;
         }
 
@@ -198,13 +198,13 @@ namespace Dotpay.Actor.Implementations
         #endregion
 
         #region Event Handlers
-        private void Handle(UserPreRegister @event)
+        private void Handle(UserPreRegisterEvent @event)
         {
             this.State.Id = @event.UserId;
             this.State.Email = @event.Email;
             this.State.EmailVerifyToken = @event.Token;
         }
-        private void Handle(UserInitialized @event)
+        private void Handle(UserInitializedEvent @event)
         {
             this.State.IsVerified = true;
             this.State.LoginName = @event.LoginName;
@@ -214,26 +214,26 @@ namespace Dotpay.Actor.Implementations
 
             this.State.WriteStateAsync();
         }
-        private void Handle(UserLoginSuccessed @event)
+        private void Handle(UserLoginSuccessedEvent @event)
         {
             this.State.LastLoginAt = @event.UTCTimestamp;
             this.State.LastLoginIp = @event.IP;
         }
-        private void Handle(UserLoginFailed @event)
+        private void Handle(UserLoginFailedEvent @event)
         {
             this.State.LastLoginFailedAt = @event.UTCTimestamp;
         }
-        private void Handle(UserLocked @event)
+        private void Handle(UserLockedEvent @event)
         {
             this.State.IsLocked = true;
             this.State.LockedAt = @event.UTCTimestamp;
         }
-        private void Handle(UserUnlocked @event)
+        private void Handle(UserUnlockedEvent @event)
         {
             this.State.IsLocked = false;
             this.State.LockedAt = null;
         }
-        private void Handle(UserSetMobile @event)
+        private void Handle(UserSetMobileEvent @event)
         {
             this.State.MobileSetting = new MobileSetting()
             {
@@ -243,41 +243,41 @@ namespace Dotpay.Actor.Implementations
             };
             this.State.WriteStateAsync();
         }
-        private void Handle(SmsCounterIncreased @event)
+        private void Handle(SmsCounterIncreasedEvent @event)
         {
             this.State.MobileSetting.SmsCounter = @event.SmsCounter;
         }
-        private void Handle(UserIdentityVerified @event)
+        private void Handle(UserIdentityVerifiedEvent @event)
         {
             this.State.IdentityInfo = new IdentityInfo(@event.FullName, @event.IdNo, @event.IdType);
             this.State.WriteStateAsync();
         }
-        private void Handle(UserLoginPasswordChanged @event)
+        private void Handle(UserLoginPasswordChangedEvent @event)
         {
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
-        private void Handle(UserLoginPasswordForget @event)
+        private void Handle(UserLoginPasswordForgetEvent @event)
         {
             this.State.LoginPasswordResetToken = @event.ResetToken;
             this.State.LoginPasswordResetTokenGenerateAt = @event.UTCTimestamp;
         }
-        private void Handle(UserLoginPasswordReset @event)
+        private void Handle(UserLoginPasswordResetEvent @event)
         {
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
-        private void Handle(UserPaymentPasswordChanged @event)
+        private void Handle(UserPaymentPasswordChangedEvent @event)
         {
             this.State.PaymentPassword = @event.NewPaymentPassword;
             this.State.LastPaymentPasswordChangeAt = @event.UTCTimestamp;
         }
-        private void Handle(UserPaymentPasswordForget @event)
+        private void Handle(UserPaymentPasswordForgetEvent @event)
         {
             this.State.PaymentPasswordResetToken = @event.ResetToken;
             this.State.PaymentPasswordResetTokenGenerateAt = @event.UTCTimestamp;
         }
-        private void Handle(UserPaymentPasswordReset @event)
+        private void Handle(UserPaymentPasswordResetEvent @event)
         {
             this.State.LoginPassword = @event.NewPaymentPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;

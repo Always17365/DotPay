@@ -51,8 +51,9 @@
     <Reference Include="DFramework.Plusins.Log4net">
       <HintPath>..\..\packages\DFramework.Plusins.Log4net.1.0.1.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework.Plusins.Memcached">
-      <HintPath>..\..\packages\DFramework.Plusins.Memcached.1.0.0.0\lib\net45\DFramework.Plusins.Memcached.dll</HintPath>
+    <Reference Include="DFramework.Plusins.Memcached, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DFramework.Plusins.Memcached.1.0.0.2\lib\net45\DFramework.Plusins.Memcached.dll</HintPath>
     </Reference>
     <Reference Include="Enyim.Caching">
       <HintPath>..\..\packages\EnyimMemcached.2.13\lib\net35\Enyim.Caching.dll</HintPath>
@@ -242,6 +243,11 @@
     <Content Include="assets\img\user-7.jpg" />
     <Content Include="assets\img\user-8.jpg" />
     <Content Include="assets\img\user-9.jpg" />
+    <Content Include="assets\jss\apps.js" />
+    <Content Include="assets\jss\login.js" />
+    <Content Include="assets\jss\manager-list.js" />
+    <Content Include="assets\jss\system-setting.js" />
+    <Content Include="assets\jss\datatables-zh_cn.txt" />
     <Content Include="assets\jss\notification.js" />
     <Content Include="assets\js\apps.js" />
     <Content Include="assets\js\apps.min.js" />
@@ -2266,29 +2272,48 @@
     <Content Include="assets\plugins\parsley\src\config.js" />
     <Content Include="assets\plugins\parsley\src\extra\plugin\bind.js" />
     <Content Include="assets\plugins\parsley\src\extra\plugin\remote.js" />
+    <Content Include="assets\plugins\parsley\src\extra\validator\comparison.js" />
     <Content Include="assets\plugins\parsley\src\extra\validator\dateiso.js" />
+    <Content Include="assets\plugins\parsley\src\extra\validator\luhn.js" />
+    <Content Include="assets\plugins\parsley\src\extra\validator\words.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\ar.js" />
     <Content Include="assets\plugins\parsley\src\i18n\bg.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\cs.extra.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\cs.js" />
     <Content Include="assets\plugins\parsley\src\i18n\da.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\de.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\de.js" />
     <Content Include="assets\plugins\parsley\src\i18n\en.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\en.js" />
     <Content Include="assets\plugins\parsley\src\i18n\es.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\fa.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\fi.extra.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\fi.js" />
     <Content Include="assets\plugins\parsley\src\i18n\fr.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\fr.js" />
     <Content Include="assets\plugins\parsley\src\i18n\he.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\he.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\id.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\id.js" />
     <Content Include="assets\plugins\parsley\src\i18n\it.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\it.js" />
     <Content Include="assets\plugins\parsley\src\i18n\ja.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\ko.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\ms_MY.extra.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\ms_MY.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\nl.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\nl.js" />
     <Content Include="assets\plugins\parsley\src\i18n\pl.js" />
     <Content Include="assets\plugins\parsley\src\i18n\pt-br.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\ru.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\ru.js" />
     <Content Include="assets\plugins\parsley\src\i18n\sv.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\sv.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\th.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\tr.js" />
     <Content Include="assets\plugins\parsley\src\i18n\zh_cn.extra.js" />
     <Content Include="assets\plugins\parsley\src\i18n\zh_cn.js" />
+    <Content Include="assets\plugins\parsley\src\i18n\zh_tw.js" />
     <Content Include="assets\plugins\parsley\src\main.js" />
     <Content Include="assets\plugins\parsley\src\parsley.css" />
     <Content Include="assets\plugins\parsley\src\parsley.js" />
@@ -2307,6 +2332,13 @@
     <Content Include="assets\plugins\parsley\src\wrap\prepend.js" />
     <Content Include="assets\plugins\parsley\test\config.js" />
     <Content Include="assets\plugins\parsley\test\dev.html" />
+    <Content Include="assets\plugins\parsley\test\dev.js" />
+    <Content Include="assets\plugins\parsley\test\env\amd.html" />
+    <Content Include="assets\plugins\parsley\test\env\amd.js" />
+    <Content Include="assets\plugins\parsley\test\env\browerify_bundle.js" />
+    <Content Include="assets\plugins\parsley\test\env\browserify.html" />
+    <Content Include="assets\plugins\parsley\test\env\browserify.js" />
+    <Content Include="assets\plugins\parsley\test\env\browserify_bundle.js" />
     <Content Include="assets\plugins\parsley\test\features\abstract.js" />
     <Content Include="assets\plugins\parsley\test\features\extra.js" />
     <Content Include="assets\plugins\parsley\test\features\field.js" />
@@ -2487,7 +2519,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validators\ReceiveRippleTransferSettingViewModelValidator.cs" />
+    <Compile Include="Validators\ManagerViewModelValidator.cs" />
+    <Compile Include="Validators\SystemSettingViewModelValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -3490,6 +3523,8 @@
     <Content Include="Views\SystemSetting\ToFI.cshtml" />
     <Content Include="Views\SystemSetting\ToDotpay.cshtml" />
     <Content Include="Views\Home\NoPermission.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

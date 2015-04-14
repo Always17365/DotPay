@@ -14,7 +14,12 @@ using Orleans;
 namespace Dotpay.AdminCommandExcutor
 {
     public class ManagerCommandExcutor : ICommandExecutor<ManagerLoginCommand>,
-                                        ICommandExecutor<CreateManagerCommand>
+                                        ICommandExecutor<CreateManagerCommand>,
+                                        ICommandExecutor<AssignManagerRolesCommand>,
+                                        ICommandExecutor<LockManagerCommand>,
+                                        ICommandExecutor<UnlockManagerCommand>,
+                                        ICommandExecutor<ResetLoginPasswordCommand>,
+                                        ICommandExecutor<ResetTwofactorKeyCommand>
 #if DEBUG
 , ICommandExecutor<CreateSuperAdministratorCommand>
 #endif
@@ -23,19 +28,30 @@ namespace Dotpay.AdminCommandExcutor
         {
             var manager = GrainFactory.GetGrain<IManager>(cmd.ManangerId);
 
-            cmd.CommandResult = await manager.Login(cmd.LoginPassword, cmd.Ip); 
+            cmd.CommandResult = await manager.Login(cmd.LoginPassword, cmd.Ip);
         }
         public async Task ExecuteAsync(CreateSuperAdministratorCommand cmd)
         {
             var manager = GrainFactory.GetGrain<IManager>(cmd.ManagerId);
             var twofactorKey = Utilities.GenerateOTPKey();
-            await manager.Initialize(cmd.LoginName, cmd.LoginPassword, twofactorKey, cmd.ManagerId);
-            var roles = new List<ManagerType>
+
+            if (!await manager.HasInitialized())
             {
-                ManagerType.SuperUser,ManagerType.MaintenanceManager,
-                ManagerType.DepositManager,ManagerType.TransferManager
-            };
-            await manager.AssignRoles(cmd.ManagerId, roles);
+                await manager.Initialize(cmd.LoginName, cmd.LoginPassword, twofactorKey, cmd.ManagerId);
+                var roles = new List<ManagerType>
+                {
+                    ManagerType.SuperUser,
+                    ManagerType.MaintenanceManager,
+                    ManagerType.DepositManager,
+                    ManagerType.TransferManager
+                };
+                await manager.AssignRoles(cmd.ManagerId, roles);
+                cmd.CommandResult = ErrorCode.None;
+            }
+            else
+            {
+                cmd.CommandResult = ErrorCode.SuperManagerHasInitialized;
+            }
         }
 
         public async Task ExecuteAsync(CreateManagerCommand cmd)
@@ -44,5 +60,34 @@ namespace Dotpay.AdminCommandExcutor
             cmd.CommandResult = await managerService.AddManager(cmd.LoginName, cmd.LoginPassword, cmd.CreateBy);
         }
 
+        public async Task ExecuteAsync(AssignManagerRolesCommand cmd)
+        {
+            var managerService = GrainFactory.GetGrain<IManagerService>(0);
+            cmd.CommandResult = await managerService.AssginManagerRoles(cmd.ManagerId, cmd.Roles, cmd.AssignBy);
+        }
+
+        public async Task ExecuteAsync(LockManagerCommand cmd)
+        {
+            var managerService = GrainFactory.GetGrain<IManagerService>(0);
+            cmd.CommandResult = await managerService.Lock(cmd.ManagerId, cmd.Reason, cmd.LockBy);
+        }
+
+        public async Task ExecuteAsync(UnlockManagerCommand cmd)
+        {
+            var managerService = GrainFactory.GetGrain<IManagerService>(0);
+            cmd.CommandResult = await managerService.Unlock(cmd.ManagerId, cmd.UnlockBy);
+        }
+
+        public async Task ExecuteAsync(ResetLoginPasswordCommand cmd)
+        {
+            var managerService = GrainFactory.GetGrain<IManagerService>(0);
+            cmd.CommandResult = await managerService.ResetLoginPassword(cmd.ManagerId, cmd.NewLoginPassword, cmd.ResetBy);
+        }
+
+        public async Task ExecuteAsync(ResetTwofactorKeyCommand cmd)
+        { 
+            var managerService = GrainFactory.GetGrain<IManagerService>(0);
+            cmd.CommandResult = await managerService.ResetTwofactorKey(cmd.ManagerId, cmd.ResetBy);
+        }
     }
 }

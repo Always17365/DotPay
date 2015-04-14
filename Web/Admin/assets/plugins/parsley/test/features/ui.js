@@ -149,7 +149,7 @@ define(function () {
         expect($('ul#parsley-id-' + parsleyField.__id__ + ' li').length).to.be(0);
         expect($('#element').hasClass('parsley-error')).to.be(true);
       });
-      it('should handle simple triggers (change, focus..)', function () {
+      it('should handle simple triggers (change, focus...)', function () {
         $('body').append('<input type="email" id="element" required data-parsley-trigger="change" />');
         var parsleyField = $('#element').psly();
         expect($('ul#parsley-id-' + parsleyField.__id__ + ' li').length).to.be(0);
@@ -181,7 +181,7 @@ define(function () {
         $('#element').trigger($.Event('change'));
         expect($('ul#parsley-id-' + parsleyField.__id__ + ' li').hasClass('parsley-type')).to.be(false);
       });
-      it('should handle complex triggers (keyup, keypress..)', function () {
+      it('should handle complex triggers (keyup, keypress...)', function () {
         $('body').append('<input type="email" id="element" required data-parsley-trigger="keyup" />');
         var parsleyField = $('#element').psly();
         expect($('ul#parsley-id-' + parsleyField.__id__ + ' li').length).to.be(0);
@@ -266,12 +266,20 @@ define(function () {
         expect(window.ParsleyUI.getErrorsMessages(parsleyInstance).length).to.be(2);
         expect(window.ParsleyUI.getErrorsMessages(parsleyInstance)[0]).to.be('This value is too short. It should have 5 characters or more.');
       });
+      it('should not have errors ul created for excluded fields', function () {
+        $('body').append('<input type="hidden" id="element" value="foo" data-parsley-minlength="5" />');
+        var parsleyInstance = $('#element').parsley();
+        expect($('body ul').length).to.be(0);
+      });
+      it('should remove filled class from errors container when reseting', function () {
+        $('body').append('<input type="email" id="element" value="foo" data-parsley-minlength="5" />');
+        var parsleyInstance = $('#element').parsley();
+        parsleyInstance.validate();
+        parsleyInstance.reset();
+        expect($('ul#parsley-id-' + parsleyInstance.__id__).hasClass('filled')).to.be(false);
+      });
       afterEach(function () {
-        if ($('#element').length)
-          $('#element').remove();
-
-        if ($('.parsley-errors-list').length)
-          $('.parsley-errors-list').remove();
+        $('#element, .parsley-errors-list').remove();
       });
     });
   };

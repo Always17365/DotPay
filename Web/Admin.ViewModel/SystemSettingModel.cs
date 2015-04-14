@@ -1,4 +1,6 @@
 ﻿ 
+using System;
+
 namespace Dotpay.Admin.ViewModel
 {
     public abstract class ReceiveRippleTransferSettingViewModel
@@ -11,16 +13,19 @@ namespace Dotpay.Admin.ViewModel
         public decimal MaxFee { get; set; }
     }
 
-    
+
+    [Serializable]
     public class ToFISettingViewModel : ReceiveRippleTransferSettingViewModel
     {
 
     }
 
+    [Serializable]
     public class ToDotpaySettingViewModel : ReceiveRippleTransferSettingViewModel
     {
     }
 
+    [Serializable]
     public class SystemSettingViewModel
     {
         public ToFISettingViewModel RippleToFISetting { get; set; }

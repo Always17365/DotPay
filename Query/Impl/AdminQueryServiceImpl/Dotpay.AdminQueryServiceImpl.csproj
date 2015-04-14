@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MongoManager.cs" />
+    <Compile Include="ManagerQueryImpl.cs" />
     <Compile Include="SystemSettingQueryImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

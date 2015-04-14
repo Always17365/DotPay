@@ -18,14 +18,14 @@ namespace Dotpay.TaobaoMonitor
 {
     internal class TaobaoUtils
     {
-        private const string TaobaoSessionKey = "_taobao_session";
-        private const string ApiKey = "23089573";
-        private const string ApiSecret = "7b4cb6afdd716c3fb4a4d0dd98b8d593";
-        private const string TaobaoRestUrl = "http://gw.api.taobao.com/router/rest";
-        private static bool hasSession = false;
-        private static DateTime? lastNoticeAt;
-        private static ITopClient client = new DefaultTopClient(TaobaoRestUrl, ApiKey, ApiSecret);
-        private static object noticeLocker = new object();
+        private const string TAOBAO_SESSION_KEY = "_taobao_session";
+        private const string API_KEY = "23089573";
+        private const string API_SECRET = "7b4cb6afdd716c3fb4a4d0dd98b8d593";
+        private const string TAOBAO_REST_URL = "http://gw.api.taobao.com/router/rest";
+        private static bool _hasSession = false;
+        private static DateTime? _lastNoticeAt;
+        private static readonly ITopClient Client = new DefaultTopClient(TAOBAO_REST_URL, API_KEY, API_SECRET);
+        private static readonly object NoticeLocker = new object();
 
 #if TAOBAODEBUG
         private static string _debugSession;
@@ -105,10 +105,10 @@ namespace Dotpay.TaobaoMonitor
 
             return _debugSession;
 #else
-            var taobaoSession = Cache.Get<string>(TaobaoSessionKey);
+            var taobaoSession = Cache.Get<string>(TAOBAO_SESSION_KEY);
 
-            if (string.IsNullOrWhiteSpace(taobaoSession)) hasSession = false;
-            else hasSession = true;
+            if (string.IsNullOrWhiteSpace(taobaoSession)) _hasSession = false;
+            else _hasSession = true;
 
             return taobaoSession;
 #endif
@@ -129,7 +129,7 @@ namespace Dotpay.TaobaoMonitor
             }
 #else
             TradesSoldIncrementGetRequest req = new TradesSoldIncrementGetRequest();
-            req.Fields = "tid,status,buyer_nick,pay_time,total_fee,has_buyer_message,orders.title";
+            req.Fields = "tid,status,buyer_nick,pay_time,has_buyer_message,orders.title,orders.price,orders.num";
 
             DateTime start = DateTime.Now.AddHours(-3);
             req.StartModified = start;
@@ -141,7 +141,7 @@ namespace Dotpay.TaobaoMonitor
             req.PageSize = 100L;
             req.UseHasNext = true;
 
-            var response = client.Execute(req, sessionKey);
+            var response = Client.Execute(req, sessionKey);
 
             if (response.IsError)
             {
@@ -161,9 +161,9 @@ namespace Dotpay.TaobaoMonitor
             }
 #else
             TradeFullinfoGetRequest req = new TradeFullinfoGetRequest();
-            req.Fields = "tid,total_fee,buyer_message";
+            req.Fields = "tid,buyer_message, orders.price, orders.num";
             req.Tid = tid;
-            TradeFullinfoGetResponse response = client.Execute(req, sessionKey);
+            TradeFullinfoGetResponse response = Client.Execute(req, sessionKey);
 
             if (response.IsError)
             {
@@ -191,7 +191,7 @@ namespace Dotpay.TaobaoMonitor
 #else
             LogisticsDummySendRequest req = new LogisticsDummySendRequest();
             req.Tid = tid;
-            LogisticsDummySendResponse response = client.Execute(req, sessionKey);
+            LogisticsDummySendResponse response = Client.Execute(req, sessionKey);
 
             if (response.IsError)
             {
@@ -222,7 +222,7 @@ namespace Dotpay.TaobaoMonitor
             var req = new TradeCloseRequest();
             req.Tid = tid;
             req.CloseReason = "买家信息填写错误，重新拍";
-            TradeCloseResponse response = client.Execute(req, sessionKey);
+            TradeCloseResponse response = Client.Execute(req, sessionKey);
 
             if (response.IsError)
             {
@@ -238,14 +238,14 @@ namespace Dotpay.TaobaoMonitor
 
         public static void NoticeWebMasterWhenSessionTimeout()
         {
-            lock (noticeLocker)
+            lock (NoticeLocker)
             {
-                if (!hasSession && ((lastNoticeAt.HasValue && lastNoticeAt.Value.AddMinutes(10) < DateTime.Now) || !lastNoticeAt.HasValue))
+                if (!_hasSession && ((_lastNoticeAt.HasValue && _lastNoticeAt.Value.AddMinutes(10) < DateTime.Now) || !_lastNoticeAt.HasValue))
                 {
                     var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
                     var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     Log.Info("taobao session time out ,notice webmaster");
-                    lastNoticeAt = DateTime.Now;
+                    _lastNoticeAt = DateTime.Now;
 
                     if (mailList.Any())
                     {

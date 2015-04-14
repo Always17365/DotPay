@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using DFramework;
-﻿using DFramework.Utilities;
-﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor;
-﻿using Dotpay.Common;
-﻿using Orleans;
-﻿using Orleans.EventSourcing;
-﻿using Orleans.Providers;
+using DFramework;
+using DFramework.Utilities;
+using Dotpay.Actor.Events;
+using Dotpay.Common;
+using Orleans;
+using Orleans.EventSourcing;
+using Orleans.Providers;
 
-namespace Dotpay.Actor.Implementations.Actor
+namespace Dotpay.Actor.Implementations
 {
     /// <summary>
     /// Orleans grain implementation class Manager
@@ -25,13 +23,13 @@ namespace Dotpay.Actor.Implementations.Actor
         private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
 
         #region IManager
-        Task IManager.Initialize(string loginName, string loginPassword, string twofactorKey, Guid operatorId)
+        Task IManager.Initialize(string loginName, string loginPassword, string twofactorKey, Guid createBy)
         {
-            if (!string.IsNullOrEmpty(this.State.LoginName))
+            if (string.IsNullOrEmpty(this.State.LoginName))
             {
                 var salt = Guid.NewGuid().Shrink().Substring(0, 10);
                 loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
-                return this.ApplyEvent(new ManagerInitializedEvent(this.GetPrimaryKey(), loginName, loginPassword, twofactorKey, operatorId, salt));
+                return this.ApplyEvent(new ManagerInitializedEvent(this.GetPrimaryKey(), loginName, loginPassword, twofactorKey, createBy, salt));
             }
 
             return TaskDone.Done;
@@ -58,18 +56,18 @@ namespace Dotpay.Actor.Implementations.Actor
             }
         }
 
-        Task IManager.Lock(Guid operatorId, string reason)
+        Task IManager.Lock(Guid lockBy, string reason)
         {
             if (!string.IsNullOrEmpty(this.State.LoginName) && !this.State.IsLocked)
-                return this.ApplyEvent(new ManagerLockedEvent(operatorId, reason));
+                return this.ApplyEvent(new ManagerLockedEvent(lockBy, reason));
 
             return TaskDone.Done;
         }
 
-        Task IManager.Unlock(Guid operatorId)
+        Task IManager.Unlock(Guid unlockBy)
         {
             if (!string.IsNullOrEmpty(this.State.LoginName) && this.State.IsLocked)
-                return this.ApplyEvent(new ManagerUnlockedEvent(operatorId));
+                return this.ApplyEvent(new ManagerUnlockedEvent(unlockBy));
 
             return TaskDone.Done;
         }
@@ -99,18 +97,33 @@ namespace Dotpay.Actor.Implementations.Actor
                 return ErrorCode.OldLoginPasswordError;
         }
 
-        Task IManager.ResetLoginPassword(string newLoginPassword, Guid operatorId)
+        Task IManager.ResetLoginPassword(string newLoginPassword, Guid resetBy)
         {
-            return this.ApplyEvent(new ManagerLoginPasswordResetEvent(newLoginPassword, operatorId));
+            var salt = Guid.NewGuid().Shrink().Substring(0, 10);
+            newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
+            return this.ApplyEvent(new ManagerLoginPasswordResetEvent(newLoginPassword, resetBy));
         }
-        Task IManager.AssignRoles(Guid operatorId, IEnumerable<ManagerType> roles)
+
+        public Task ResetTwofactorKey(Guid resetBy)
         {
-            return this.ApplyEvent(new ManagerAssignedRolesEvent(operatorId, roles));
+            var key = Utilities.GenerateOTPKey();
+
+            return this.ApplyEvent(new ManagerTwofactorKeyResetEvent(resetBy, key));
+        }
+
+        Task IManager.AssignRoles(Guid assignBy, IEnumerable<ManagerType> roles)
+        {
+            return this.ApplyEvent(new ManagerAssignedRolesEvent(assignBy, roles));
         }
 
         public Task<bool> HasRole(ManagerType role)
         {
             return Task.FromResult(this.State.Roles != null && this.State.Roles.Contains(role));
+        }
+
+        public Task<bool> HasInitialized()
+        {
+            return Task.FromResult(!string.IsNullOrEmpty(this.State.Salt));
         }
 
         #endregion
@@ -148,6 +161,11 @@ namespace Dotpay.Actor.Implementations.Actor
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.WriteStateAsync();
         }
+        private void Handle(ManagerTwofactorKeyResetEvent @event)
+        {
+            this.State.TwofactorKey = @event.OtpKey;
+            this.State.WriteStateAsync();
+        }
         private void Handle(ManagerAssignedRolesEvent @event)
         {
             this.State.Roles = @event.Roles;
@@ -157,10 +175,12 @@ namespace Dotpay.Actor.Implementations.Actor
         {
             this.State.LastLoginAt = @event.UTCTimestamp;
             this.State.LastLoginIp = @event.IP;
+            this.State.WriteStateAsync();
         }
         private void Handle(ManagerLoginFailedEvent @event)
         {
             this.State.LastLoginFailedAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         #endregion
     }

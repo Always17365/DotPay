@@ -25,8 +25,9 @@ namespace Dotpay.Common
         EmailHasVerified = UserErrorBase + 12,
         MobileHasSet = UserErrorBase + 13,
         ExceedMaxLoginFailTime = UserErrorBase + 14,
-        UserManagerErrorBase = 1500, 
+        UserManagerErrorBase = 1500,
         HasNoPermission = UserManagerErrorBase + 1,
+        SuperManagerHasInitialized = UserManagerErrorBase + 2,
         #endregion
 
         #region Account

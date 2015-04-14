@@ -14,7 +14,7 @@
 #pragma warning disable 1591
 #pragma warning disable 1998
 
-namespace Dotpay.Actor.Implementations.Actor
+namespace Dotpay.Actor.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -25,12 +25,14 @@ namespace Dotpay.Actor.Implementations.Actor
     using Orleans;
     using Orleans.EventSourcing;
     using System.Runtime.InteropServices;
+    using Dotpay.Common.Enum;
+    using Dotpay.Actor;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Actor.Dotpay.Actor.Implementations.Actor.Manager")]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.Manager")]
     public class ManagerState : global::Orleans.CodeGeneration.GrainState, IManagerState
     {
         
@@ -86,7 +88,7 @@ namespace Dotpay.Actor.Implementations.Actor
             }
         
         public ManagerState() : 
-                base("Dotpay.Actor.Implementations.Actor.Manager")
+                base("Dotpay.Actor.Implementations.Manager")
         {
             this.InitStateFields();
         }
@@ -149,20 +151,6 @@ namespace Dotpay.Actor.Implementations.Actor
             return result;
         }
     }
-}
-namespace Dotpay.Actor.Implementations
-{
-    using System;
-    using Dotpay.Common.Enum;
-    using System.Collections.Generic;
-    using System.Collections;
-    using Dotpay.Actor;
-    using System.Runtime.Serialization;
-    using Orleans.CodeGeneration;
-    using Orleans;
-    using System.Runtime.InteropServices;
-    using Orleans.EventSourcing;
-    
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]

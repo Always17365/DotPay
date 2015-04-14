@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dotpay.Actor.Events.Transaction;
-using Dotpay.Actor;
+using Dotpay.Actor.Events;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;

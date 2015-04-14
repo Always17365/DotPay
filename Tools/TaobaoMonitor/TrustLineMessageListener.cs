@@ -19,8 +19,8 @@ namespace Dotpay.TaobaoMonitor
         private static readonly string MysqlConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
         private static readonly string RabbitMqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectString");
         private static IModel _channel;
-        private const string RippleTrustLineExchangeName = Constants.RippleTrustLineMQName + Constants.ExechangeSuffix;
-        private const string RippleTrustLineQueueName = Constants.RippleTrustLineMQName + Constants.QueueSuffix;
+        private const string RIPPLE_TRUST_LINE_EXCHANGE_NAME = Constants.RippleTrustLineMQName + Constants.ExechangeSuffix;
+        private const string RIPPLE_TRUST_LINE_QUEUE_NAME = Constants.RippleTrustLineMQName + Constants.QueueSuffix;
         public static void Start()
         {
             if (started) return;
@@ -46,14 +46,14 @@ namespace Dotpay.TaobaoMonitor
                 var factory = new ConnectionFactory { Uri = RabbitMqConnectionString, AutomaticRecoveryEnabled = true };
                 var connection = factory.CreateConnection();
                 _channel = connection.CreateModel();
-                _channel.ExchangeDeclare(RippleTrustLineExchangeName, ExchangeType.Direct, true, false, null);
-                _channel.QueueDeclare(RippleTrustLineQueueName, true, false, false, null);
-                _channel.QueueBind(RippleTrustLineQueueName, RippleTrustLineExchangeName, "");
+                _channel.ExchangeDeclare(RIPPLE_TRUST_LINE_EXCHANGE_NAME, ExchangeType.Direct, true, false, null);
+                _channel.QueueDeclare(RIPPLE_TRUST_LINE_QUEUE_NAME, true, false, false, null);
+                _channel.QueueBind(RIPPLE_TRUST_LINE_QUEUE_NAME, RIPPLE_TRUST_LINE_EXCHANGE_NAME, "");
 
                 var consumer = new RippleTrustMessageConsumer(_channel);
 
                 _channel.BasicQos(0, 1, false);
-                _channel.BasicConsume(RippleTrustLineQueueName, false, consumer);
+                _channel.BasicConsume(RIPPLE_TRUST_LINE_QUEUE_NAME, false, consumer);
             }
             return _channel;
         }

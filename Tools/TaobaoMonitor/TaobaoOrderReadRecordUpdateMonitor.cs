@@ -17,18 +17,18 @@ namespace Dotpay.TaobaoMonitor
 {
     internal class TaobaoOrderReadRecordUpdateMonitor
     {
-        private static bool started;
-        private static readonly string mysqlconnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
+        private static bool _started;
+        private static readonly string MysqlconnectionString = ConfigurationManagerWrapper.GetDBConnectionString("taobaodb");
         private static MySqlConnection OpenConnection()
         {
-            MySqlConnection connection = new MySqlConnection(mysqlconnectionString);
+            MySqlConnection connection = new MySqlConnection(MysqlconnectionString);
             connection.Open();
             return connection;
         }
 
         public static void Start()
         {
-            if (started) return;
+            if (_started) return;
 
             var thread = new Thread(() =>
             {
@@ -75,7 +75,7 @@ namespace Dotpay.TaobaoMonitor
 
             thread.Start();
             Log.Info("-->淘宝交易记录读取-记录器启动成功...");
-            started = true;
+            _started = true;
         }
 
         private static void RecordTaobaoTradeToDatabase(List<Trade> trades)
@@ -139,13 +139,15 @@ namespace Dotpay.TaobaoMonitor
                             if (count.First() == 0)
                             {
                                 Log.Info("单号{0}已付款,开始写入数据库...", trade.Tid);
+                                var realAmount = Math.Round(Convert.ToDecimal(trade.Orders[0].Price))*
+                                                 trade.Orders[0].Num;
                                 conn.Execute(insertSql,
                                     new
                                     {
                                         tid = trade.Tid,
                                         buyer_nick = trade.BuyerNick.NullSafe(),
                                         pay_time = trade.PayTime,
-                                        amount = Math.Round(Convert.ToDecimal(trade.TotalFee)),
+                                        amount = realAmount,
                                         has_buyer_message = trade.HasBuyerMessage,
                                         taobao_status = trade.Status,
                                         ripple_address = string.Empty,

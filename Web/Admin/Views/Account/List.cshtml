@@ -1,0 +1,291 @@
+﻿@using Dotpay.Common
+<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
+<link href="/assets/plugins/DataTables/css/data-table.css" rel="stylesheet" />
+<link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin page-header -->
+    <h1 class="page-header">管理员管理 <small> 管理员维护及权限控制</small></h1>
+    <!-- end page-header -->
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">管理员列表</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>登陆账号</th>
+                                    <th>是否锁定</th>
+                                    <th>最后登陆IP</th>
+                                    <th>最后登陆时间</th>
+                                    <th>角色</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <!-- #create manage dialog-->
+                        <div class="modal fade" tabindex="-1" id="createManagerDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formCreateManager">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">添加管理员</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="loginName">用户名 * :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="loginName" name="loginName" autocomplete="off" placeholder="请输入用户名" data-parsley-required="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="loginPassword">密码 * :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="password" id="loginPassword" name="loginPassword" placeholder="请输入登陆密码" data-parsley-required="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">保存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #assign manage roles dialog-->
+                        <div class="modal fade" tabindex="-1" id="assignManagerRolesDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="fromAssignRoles">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">分配角色</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="loginPassword">用户名 :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="manangeLoginName" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="loginPassword">角色 * :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    @{
+                                                        var firstLoop = true;
+                                                        foreach (var role in Enum.GetValues(typeof(ManagerType)))
+                                                        {
+                                                            if ((ManagerType)role == ManagerType.SuperUser)
+                                                            {
+                                                                continue;
+                                                            }
+                                                            if (firstLoop)
+                                                            {
+                                                                firstLoop = false;
+                                                                <div class="checkbox">
+                                                                    <label><input type="checkbox" data-parsley-mincheck="1" name="roles[]" value="@(((ManagerType) role).ToString("D"))" />@(((ManagerType)role).ToString("F"))</label>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkbox">
+                                                                    <label><input type="checkbox" name="roles[]" value="@(((ManagerType) role).ToString("D"))" />@(((ManagerType)role).ToString("F"))</label>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">保存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #lock manage dialog-->
+                        <div class="modal fade" tabindex="-1" id="lockManagerDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formLockManager">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">确认要锁定吗？</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="lockLoginName">用户名 :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="lockLoginName" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="reason">锁定原因* :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <textarea class="form-control" id="reason" name="reason" autocomplete="off" placeholder="请输入锁定原因" data-parsley-required="true"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">锁定</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #unlock manage dialog-->
+                        <div class="modal fade" tabindex="-1" id="unlockManagerDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formUnlockManager">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">确认解除锁定吗？</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="unlockLoginName">用户名</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="unlockLoginName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">解除锁定</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #view tf-key dialog-->
+                        <div class="modal fade" tabindex="-1" id="viewTFKeyDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">查看谷歌秘钥</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="tfLoginName">用户名</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="tfLoginName" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="tfKey">TF-KEY</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="tfKey" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #reset login password-->
+                        <div class="modal fade" tabindex="-1" id="resetLoginPwdDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formResetLoginPassword">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">重置登陆密码</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="resetLoginName">用户名</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="resetLoginName" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="newLoginPassword">新登陆密码* :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="password" class="form-control" id="newLoginPassword" name="loginPassword" autocomplete="off" placeholder="请输入" data-parsley-required="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="confirmLoginPassword">再次确认密码* :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="password" class="form-control" id="confirmLoginPassword" name="confirmLoginPassword" autocomplete="off" placeholder="请输入锁定原因" data-parsley-equalto="#newLoginPassword" data-parsley-required="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">重置</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #reset two-factor key-->
+                        <div class="modal fade" tabindex="-1" id="resetTfKeyDialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formResetTfKey">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">确定要重置谷歌秘钥吗？</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="resetTFLoginName">用户名</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="resetTFLoginName" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
+                                            <button type="submit" class="btn btn-sm btn-success">重置</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+<!-- end #content -->
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="~/assets/plugins/parsley/dist/parsley.js"></script>
+<script src="~/assets/plugins/parsley/src/i18n/zh_cn.js"></script>
+<!-- ================== END BASE JS ================== -->
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script>
+    App.restartGlobalFunction();
+    App.setPageTitle('点付管理后台--管理员列表');
+    $.getScript('/assets/jss/notification.js').done(function () {
+        Notification.init();
+    });
+    $.getScript('/assets/jss/manager-list.js').done(function () {
+        ManagerList.init();
+    });
+</script>
+<!-- ================== END PAGE LEVEL JS ================== -->

@@ -1,6 +1,16 @@
 define(function () {
   return function (Parsley) {
     describe('ParsleyMultiple', function () {
+      it('should not throw errors with multiple items with weird automated generated names', function () {
+        $('body').append(
+          '<form id="element">' +
+            '<input type="checkbox" name="hello[]" id="check1" value="1" />'  +
+            '<input type="checkbox" name="{{ hello }}" id="check2" value="2" />'  +
+            '<input type="checkbox" name="$hello$" id="check3" value="3" />'  +
+            '<input type="checkbox" value="foo" />' +
+          '</form>');
+        $('#element').parsley();
+      });
       it('should return same ParsleyMultiple instance for each field in same multiple group, and it should count as one field in form', function () {
         $('body').append(
           '<form id="element" >' +
@@ -115,7 +125,7 @@ define(function () {
           '</select>');
         expect($('#element').parsley().isValid()).to.be(false);
       });
-      it('should not bind radio or checkboxes withoud a name or and id or a multiple option', function () {
+      it('should not bind radio or checkboxes without a name or and id or a multiple option', function () {
         $('body').append('<input type="radio" value="foo" />');
         window.console.warn = sinon.spy();
         var parsleyInstance = $('input[type=radio]').psly();
@@ -191,13 +201,27 @@ define(function () {
         $('#radio2').trigger('click');
         expect($('ul.parsley-errors-list li').length).to.be(0);
       });
+      it('should handle dynamic multiple items removal', function () {
+        $('body').append(
+          '<form id="element" >' +
+            '<input type="checkbox" name="check[]" id="check1" value="1" data-parsley-check="[1, 2]" />'  +
+            '<input type="checkbox" name="check[]" id="check2" value="2" />'  +
+            '<input type="checkbox" name="check[]" id="check3" value="3" />'  +
+            '<input type="checkbox" name="check[]" id="check4" value="4" />'  +
+          '</form>');
+        // bind all multiple checkbox inputs. TODO refacto multiple binding
+        $('#element').parsley();
+        var parsleyInstance = $('[type=checkbox]:first').parsley();
+        expect(parsleyInstance.$elements.length).to.be(4);
+        $('[type=checkbox]:last').remove();
+        // validate form to go through all multiple inputs. TODO refacto multiple binding
+        $('#element').parsley().validate();
+        expect(parsleyInstance.$elements.length).to.be(3);
+      });
       afterEach(function () {
         window.ParsleyConfig = { i18n: window.ParsleyConfig.i18n, validators: window.ParsleyConfig.validators };
 
-        if ($('#element').length)
-          $('#element').remove();
-        if ($('.parsley-errors-list').length)
-          $('.parsley-errors-list').remove();
+        $('#element, .parsley-errors-list').remove();
       });
     });
   };
