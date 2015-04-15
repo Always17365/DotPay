@@ -876,6 +876,33 @@ var handleUnlimitedTabsRender = function () {
     handlePageLoadTabFocus();
 };
 
+var handleModifyLoginPassword = function () {
+    $("#btnModifyLoginPwd").click(function () {
+        $("#formModifyLoginPassword")[0].reset();
+        $('#modifyLoginPwdDialog').modal('show');
+    });
+    $("#formModifyLoginPassword").submit(function () {
+        $.post("/ajax/manager/modifyloginpwd", $(this).serialize(), function (result, status) {
+            if (result.Code === 1) {
+                Notification.notice("操作成功", "已成功修改登陆密码，下次登陆请使用新密码");
+                $('#modifyLoginPwdDialog').modal('hide');
+            }
+            else
+                Notification.notice("操作失败", "失败原因:" + result.Message);
+        });
+        return false;
+    });
+
+    window.ParsleyValidator.setLocale('zh_cn');
+}
+
+var handleInitNoticePlugin = function () {
+    $.getScript('/assets/jss/notification.js').done(function () {
+        Notification.init();
+    });
+}
+
+
 
 /* Application Controller
 ------------------------------------------------ */
@@ -919,10 +946,13 @@ var App = function () {
             handleThemePanelExpand();
 
             // ajax
-            if (login !== true) {
+            if (typeof login === "undefined") {
                 handleSidebarAjaxClick();
                 handleCheckPageLoadUrl(window.location.hash);
                 handleHashChange();
+
+                handleInitNoticePlugin();
+                handleModifyLoginPassword();
             }
 
             // IE Compatibility

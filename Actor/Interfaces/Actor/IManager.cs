@@ -20,7 +20,8 @@ namespace Dotpay.Actor
         Task ResetTwofactorKey(Guid resetBy);
         Task AssignRoles(Guid assignBy, IEnumerable<ManagerType> roles);
 
-        Task<bool> HasRole(ManagerType role); 
+        Task<bool> HasRole(ManagerType role);
         Task<bool> HasInitialized();
+        Task<string> GetManagerLoginName();
     }
 }

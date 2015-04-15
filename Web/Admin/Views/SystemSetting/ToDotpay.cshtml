@@ -3,7 +3,6 @@
 
 <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 <link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
-<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 <!-- begin #content -->
 <div id="content" class="content">
@@ -130,18 +129,11 @@
     <!-- end row -->
 </div>
 <!-- end #content -->
-<!-- ================== BEGIN BASE JS ================== -->
-<script src="/assets/plugins/parsley/dist/parsley.js"></script>
-<script src="/assets/plugins/parsley/src/i18n/zh_cn.js"></script> 
-<!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script>
     App.restartGlobalFunction();
-    App.setPageTitle('点付管理后台--转到点付账户设置');
-
-    $.getScript('/assets/jss/notification.js').done(function () {
-        Notification.init();
-    });
+    App.setPageTitle('点付管理后台--转到点付账户设置'); 
+   
     $.getScript('/assets/jss/system-setting.js').done(function () {
         SystemSetting.dotpayFormInit();
     });

@@ -47,6 +47,26 @@ namespace Dotpay.AdminCommand
     }
     #endregion
 
+    #region Modify Login Password
+    public class ModifyLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    {
+        public ModifyLoginPasswordCommand(Guid managerId, string oldLoginPassword, string newLoginPassword)
+        {
+            Check.Argument.IsNotEmpty(managerId, "managerId");
+            Check.Argument.IsNotEmpty(oldLoginPassword, "oldLoginPassword");
+            Check.Argument.IsNotEmpty(newLoginPassword, "newLoginPassword");
+
+            this.ManagerId = managerId;
+            this.OldLoginPassword = oldLoginPassword;
+            this.NewLoginPassword = newLoginPassword;
+        }
+
+        public Guid ManagerId { get; private set; }
+        public string OldLoginPassword { get; private set; }
+        public string NewLoginPassword { get; private set; }
+    }
+    #endregion 
+
     #region CreateManagerCommand
     public class CreateManagerCommand : HasReturnValueCommand<ErrorCode>
     {

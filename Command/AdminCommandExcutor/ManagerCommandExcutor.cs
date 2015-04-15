@@ -19,7 +19,8 @@ namespace Dotpay.AdminCommandExcutor
                                         ICommandExecutor<LockManagerCommand>,
                                         ICommandExecutor<UnlockManagerCommand>,
                                         ICommandExecutor<ResetLoginPasswordCommand>,
-                                        ICommandExecutor<ResetTwofactorKeyCommand>
+                                        ICommandExecutor<ResetTwofactorKeyCommand>,
+                                        ICommandExecutor<ModifyLoginPasswordCommand>
 #if DEBUG
 , ICommandExecutor<CreateSuperAdministratorCommand>
 #endif
@@ -85,9 +86,15 @@ namespace Dotpay.AdminCommandExcutor
         }
 
         public async Task ExecuteAsync(ResetTwofactorKeyCommand cmd)
-        { 
+        {
             var managerService = GrainFactory.GetGrain<IManagerService>(0);
             cmd.CommandResult = await managerService.ResetTwofactorKey(cmd.ManagerId, cmd.ResetBy);
+        }
+
+        public async Task ExecuteAsync(ModifyLoginPasswordCommand cmd)
+        {
+            var manager = GrainFactory.GetGrain<IManager>(cmd.ManagerId);
+            cmd.CommandResult = await manager.ChangeLoginPassword(cmd.OldLoginPassword, cmd.NewLoginPassword);
         }
     }
 }

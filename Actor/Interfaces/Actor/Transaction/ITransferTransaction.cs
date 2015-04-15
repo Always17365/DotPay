@@ -74,7 +74,7 @@ namespace Dotpay.Actor
 
         public string RippleTxId { get; set; }
         public long LastLedgerIndex { get; set; }
-        public RippleTransactionFailedType FailedReason { get; set; }
+        public RippleTransactionFailedType FailReason { get; set; }
         public int RetryCount { get; set; }
     }
 }

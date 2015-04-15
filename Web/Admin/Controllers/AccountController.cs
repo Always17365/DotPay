@@ -45,9 +45,19 @@ namespace Dotpay.Admin.Controllers
 #endif
         #endregion
 
-        #region Login
+        #region Login 
+        [HttpGet] 
+        [Route("~/loginout")]
+        public ActionResult LoginOut()
+        {
+            Session.Abandon();
+            return Redirect("~/login");
+        }
+
         [AllowAnonymous]
         [HttpGet]
+        [Route("~/")]
+        [Route("~/login")]
         public ActionResult Login()
         {
             return View();
@@ -104,6 +114,45 @@ namespace Dotpay.Admin.Controllers
         }
         #endregion
 
+        #region Modify Login Password
+        [HttpPost]
+        [Route("~/ajax/manager/modifyloginpwd")]
+        public async Task<ActionResult> ModifyLoginPassword(ManagerModifyLoginPasswordViewModel modifyLoginPasswordModel)
+        {
+            var result = DotpayJsonResult.UnknowFail;
+            var validator = new ManagerModifyLoginPasswordViewModelValidator();
+
+            var validateResult = validator.Validate(modifyLoginPasswordModel);
+
+            if (validateResult.IsValid)
+            {
+                var query = IoC.Resolve<IManagerQuery>();
+                try
+                {
+                    var cmd = new ModifyLoginPasswordCommand(this.CurrentUser.ManagerId,
+                        modifyLoginPasswordModel.OldPassword, modifyLoginPasswordModel.NewPassword);
+                    await this.CommandBus.SendAsync(cmd);
+
+                    if (cmd.CommandResult == ErrorCode.None)
+                        result = DotpayJsonResult.Success;
+                    else if (cmd.CommandResult == ErrorCode.OldLoginPasswordError)
+                        result = DotpayJsonResult.CreateFailResult("原密码错误");
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ModifyLoginPassword Excepiton", ex);
+                }
+            }
+            else
+            {
+                var error = validateResult.Errors.First();
+                result = DotpayJsonResult.CreateFailResult(error.ErrorMessage);
+            }
+            return Json(result);
+        }
+        #endregion
+
         #region ManagerList
         [HttpPost]
         [AllowRoles(Role = ManagerType.SuperUser, Role1 = ManagerType.MaintenanceManager)]
@@ -116,9 +165,8 @@ namespace Dotpay.Admin.Controllers
         [HttpGet]
         [AllowRoles(Role = ManagerType.SuperUser, Role1 = ManagerType.MaintenanceManager)]
         [Route("~/ajax/manager/list")]
-        public async Task<ActionResult> GetManager(int draw, int start, int length)
+        public async Task<ActionResult> GetManager(string loginName, int draw, int start, int length)
         {
-            var loginName = Request.QueryString["search[value]"].NullSafe().Trim();
             var page = start;
             var pagesize = length;
             var query = IoC.Resolve<IManagerQuery>();
@@ -302,7 +350,6 @@ namespace Dotpay.Admin.Controllers
         }
         #endregion
 
-
         #region Reset Login Password
         [HttpPost]
         [AllowRoles(Role = ManagerType.SuperUser, Role1 = ManagerType.MaintenanceManager)]
@@ -314,10 +361,10 @@ namespace Dotpay.Admin.Controllers
             loginPassword = loginPassword.NullSafe().Trim();
             confirmLoginPassword = confirmLoginPassword.NullSafe().Trim();
 
-            if (Guid.TryParse(managerId, out managerGuidId) && 
-                !string.IsNullOrEmpty(loginPassword)&&
-                !string.IsNullOrEmpty(confirmLoginPassword)&&
-                loginPassword==confirmLoginPassword)
+            if (Guid.TryParse(managerId, out managerGuidId) &&
+                !string.IsNullOrEmpty(loginPassword) &&
+                !string.IsNullOrEmpty(confirmLoginPassword) &&
+                loginPassword == confirmLoginPassword)
             {
                 try
                 {
@@ -334,12 +381,16 @@ namespace Dotpay.Admin.Controllers
                     Log.Error("ResetLoginPassword Exception", ex);
                 }
             }
+            else if (loginPassword != confirmLoginPassword)
+            {
+                result = DotpayJsonResult.CreateFailResult("两次输入密码不一致");
+            }
 
             return Json(result);
         }
         #endregion
 
-        #region Reset TwofactorKey 
+        #region Reset TwofactorKey
         [HttpPost]
         [AllowRoles(Role = ManagerType.SuperUser, Role1 = ManagerType.MaintenanceManager)]
         [Route("~/ajax/manager/resettfkey")]

@@ -11,7 +11,6 @@ namespace Dotpay.Actor
         public Payway Payway { get; set; }
     }
 
-
     [Immutable]
     [Serializable]
     public class TransferFromRippleInfo : TransferSourceInfo
@@ -23,6 +22,13 @@ namespace Dotpay.Actor
     [Serializable]
     public class TransferFromDotpayInfo : TransferSourceInfo
     {
+        public TransferFromDotpayInfo(Guid accountId)
+        {
+            this.AccountId = accountId;
+        }
+
+        public long UserId { get; set; }
+        public string UserLoginName { get; set; }
         public Guid AccountId { get; set; }
     }
 }

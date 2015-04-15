@@ -442,6 +442,12 @@ namespace Dotpay.Actor
 
                 return base.InvokeMethodAsync<System.Boolean>(609716699, new object[] {} );
             }
+            
+            System.Threading.Tasks.Task<string> Dotpay.Actor.IManager.GetManagerLoginName()
+            {
+
+                return base.InvokeMethodAsync<System.String>(1493505015, new object[] {} );
+            }
         }
     }
     
@@ -493,6 +499,8 @@ namespace Dotpay.Actor
                                 return ((IManager)grain).HasRole((ManagerType)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 609716699: 
                                 return ((IManager)grain).HasInitialized().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 1493505015: 
+                                return ((IManager)grain).GetManagerLoginName().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case -1097320095:  // IGrainWithGuidKey
@@ -546,6 +554,8 @@ namespace Dotpay.Actor
                             return "HasRole";
                     case 609716699:
                             return "HasInitialized";
+                    case 1493505015:
+                            return "GetManagerLoginName";
                     
                         default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
@@ -2703,6 +2713,8 @@ namespace Dotpay.Actor
             Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
             Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(long));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserLoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -2711,6 +2723,8 @@ namespace Dotpay.Actor
             result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
             result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.UserId = ((long)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(long), stream)));
+            result.UserLoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -2972,13 +2986,17 @@ namespace Dotpay.Actor
             Dotpay.Actor.TransferFromDotpayInfo input = ((Dotpay.Actor.TransferFromDotpayInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(long));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserLoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.TransferFromDotpayInfo result = new Dotpay.Actor.TransferFromDotpayInfo();
+            Dotpay.Actor.TransferFromDotpayInfo result = ((Dotpay.Actor.TransferFromDotpayInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.TransferFromDotpayInfo))));
             result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
+            result.UserId = ((long)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(long), stream)));
+            result.UserLoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -3257,7 +3275,7 @@ namespace Dotpay.Actor
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
             Dotpay.Actor.RippleTransactionInfo input = ((Dotpay.Actor.RippleTransactionInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.FailedReason, stream, typeof(Dotpay.Common.Enum.RippleTransactionFailedType));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.FailReason, stream, typeof(Dotpay.Common.Enum.RippleTransactionFailedType));
             Orleans.Serialization.SerializationManager.SerializeInner(input.LastLedgerIndex, stream, typeof(long));
             Orleans.Serialization.SerializationManager.SerializeInner(input.RetryCount, stream, typeof(int));
             Orleans.Serialization.SerializationManager.SerializeInner(input.RippleTxId, stream, typeof(string));
@@ -3266,7 +3284,7 @@ namespace Dotpay.Actor
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
             Dotpay.Actor.RippleTransactionInfo result = ((Dotpay.Actor.RippleTransactionInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.RippleTransactionInfo))));
-            result.FailedReason = ((Dotpay.Common.Enum.RippleTransactionFailedType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.RippleTransactionFailedType), stream)));
+            result.FailReason = ((Dotpay.Common.Enum.RippleTransactionFailedType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.RippleTransactionFailedType), stream)));
             result.LastLedgerIndex = ((long)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(long), stream)));
             result.RetryCount = ((int)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(int), stream)));
             result.RippleTxId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));

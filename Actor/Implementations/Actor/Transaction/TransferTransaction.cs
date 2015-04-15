@@ -57,7 +57,9 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
             {
-                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
+                var manager = GrainFactory.GetGrain<IManager>(managerId);
+                var loginName = await manager.GetManagerLoginName();
+                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, loginName, transferTxNo));
                 return ErrorCode.None;
             }
             else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
@@ -70,7 +72,9 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
             {
-                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(managerId, reason));
+                var manager = GrainFactory.GetGrain<IManager>(managerId);
+                var loginName = await manager.GetManagerLoginName();
+                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(managerId, loginName, reason));
                 return ErrorCode.None;
             }
             else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
@@ -206,14 +210,18 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionConfirmCompletedEvent @event)
         {
             this.State.Status = TransferTransactionStatus.Completed;
-            this.State.FITransactionNo = @event.FiTransactionNo;
+            this.State.FiTransactionNo = @event.FiTransactionNo;
             this.State.CompleteAt = @event.UTCTimestamp;
+            this.State.ManagerId = @event.ManagerId;
+            this.State.Manager = @event.Manager;
             this.State.WriteStateAsync();
         }
         //如果转账失败，考虑把钱自动退到账户上
         private void Handle(TransferTransactionConfirmedFailEvent @event)
         {
             this.State.Status = TransferTransactionStatus.Failed;
+            this.State.ManagerId = @event.ManagerId;
+            this.State.Manager = @event.Manager;
             this.State.Reason = @event.Reason;
             this.State.FailAt = @event.UTCTimestamp;
 
@@ -245,7 +253,7 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionConfirmedRippleTxFailEvent @event)
         {
             this.State.RippleTransactionInfo.RippleTxId = @event.RippleTxId;
-            this.State.RippleTransactionInfo.FailedReason = @event.FailedReason;
+            this.State.RippleTransactionInfo.FailReason = @event.FailedReason;
             this.State.RippleTxStatus = RippleTransactionStatus.Failed;
             this.State.FailAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
@@ -261,9 +269,10 @@ namespace Dotpay.Actor.Implementations
         TransferTransactionInfo TransactionInfo { get; set; }
         TransferTransactionStatus Status { get; set; }
         RippleTransactionStatus? RippleTxStatus { get; set; }
-        string FITransactionNo { get; set; }
+        string FiTransactionNo { get; set; }
         RippleTransactionInfo RippleTransactionInfo { get; set; }
-        Guid ManagerId { get; set; }
+        Guid? ManagerId { get; set; }
+        string Manager { get; set; }
         DateTime CreateAt { get; set; }
         DateTime? LockAt { get; set; }
         DateTime? CompleteAt { get; set; }

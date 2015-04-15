@@ -90,9 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Orleans.EventSourcing.MongoDB.1.0.1.0\lib\net45\Orleans.EventSourcing.MongoDB.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.Storage.MongoDB, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Orleans.Storage.MongoDB">
       <HintPath>..\..\packages\Orleans.Storage.MongoDB.1.0.1.0\lib\net45\Orleans.Storage.MongoDB.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="OrleansRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=070f47935e3ed133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

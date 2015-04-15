@@ -162,12 +162,32 @@ namespace Dotpay.Actor.Service.Implementations
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(message.TransferTransactionId);
             var sourceAccount = GrainFactory.GetGrain<IAccount>(message.Source.AccountId);
             IAccount targetAccount = null;
+            var sourceUserId = await targetAccount.GetOwnerId();
+            var sourceUserInfo = await GrainFactory.GetGrain<IUser>(sourceUserId).GetUserInfo();
+
+            var source = new TransferFromDotpayInfo(message.Source.AccountId)
+            {
+                UserId = sourceUserId,
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway=message.Source.Payway
+            };
 
             var target = message.Target as TransferToDotpayTargetInfo;
-            //如果是点付内部转账，验证转入账户
+            //如果是点付内部转账，验证转入账户,并读取用户信息以便做冗余
             if (target != null)
             {
                 targetAccount = GrainFactory.GetGrain<IAccount>(target.AccountId);
+
+                var targetUserId = await targetAccount.GetOwnerId();
+                var targetUserInfo = await GrainFactory.GetGrain<IUser>(targetUserId).GetUserInfo();
+                target = new TransferToDotpayTargetInfo()
+                {
+                    AccountId = target.AccountId,
+                    Payway = target.Payway,
+                    UserId = targetUserId,
+                    RealName = target.RealName,
+                    UserLoginName = targetUserInfo.LoginName
+                };
             }
 
 

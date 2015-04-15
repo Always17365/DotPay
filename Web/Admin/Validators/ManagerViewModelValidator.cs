@@ -31,4 +31,13 @@ namespace Dotpay.Admin.Validators
             RuleFor(x => x.Roles).NotEmpty().WithMessage("分配的角色不能为空");
         }
     }
+    public class ManagerModifyLoginPasswordViewModelValidator : AbstractValidator<ManagerModifyLoginPasswordViewModel>
+    {
+        public ManagerModifyLoginPasswordViewModelValidator()
+        {
+            RuleFor(x => x.OldPassword).NotEmpty().WithMessage("原密码不能为空");
+            RuleFor(x => x.NewPassword).NotEmpty().WithMessage("新密码不能为空");
+            RuleFor(x => x.ConfirmPassword).Equal(x => x.NewPassword).WithMessage("两次输入密码不一致");
+        }
+    }
 }

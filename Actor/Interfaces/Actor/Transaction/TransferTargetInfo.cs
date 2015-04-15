@@ -8,6 +8,9 @@ namespace Dotpay.Actor
     [Serializable]
     public abstract class TransferTargetInfo
     {
+        /// <summary>
+        /// 用于标记转账的目标方式
+        /// </summary>
         public Payway Payway { get; set; }
     }
 
@@ -30,6 +33,8 @@ namespace Dotpay.Actor
     {
         public string RealName { get; set; }
         public Guid AccountId { get; set; }
+        public long UserId { get; set; }
+        public string UserLoginName { get; set; }
     }
 
     /// <summary>

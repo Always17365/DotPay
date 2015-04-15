@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,10 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class User : EventSourcingGrain<User, IUserState>, IUser
     {
+        private readonly List<DateTime> _loginFailCounter = new List<DateTime>();
+        private const int MAX_RETRY_LOGIN_TIMES = 5;
+        private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
+
         #region IUser
         async Task<ErrorCode> IUser.PreRegister(string email)
         {
@@ -133,6 +139,10 @@ namespace Dotpay.Actor.Implementations
 
         async Task<ErrorCode> IUser.Login(string loginPassword, string ip)
         {
+            var now = DateTime.Now;
+            if (_loginFailCounter.SkipWhile(t => t.Add(LimitPeriod) < now).Count() > MAX_RETRY_LOGIN_TIMES)
+                return ErrorCode.ExceedMaxLoginFailTime;
+
             if (this.State.IsLocked)
                 return ErrorCode.UserAccountIsLocked;
             else if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))

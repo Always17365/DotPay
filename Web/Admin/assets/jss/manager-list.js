@@ -14,23 +14,31 @@
             ],
             "columnDefs": [{
                 "targets": 1,
-                "data": "Item.Reason",
                 "render": function (data, type, full, meta) {
-                    return (data===true?"<span style='color:red'>已锁定</span>":"No") + (full.Item.Reason ? " " + full.Item.Reason : "");
+                    return (data === true ? "<span style='color:red'>已锁定</span>" : "No") + (full.Item.Reason ? " " + full.Item.Reason : "");
                 }
             }],
-            "processing": true,
+            "processing": false,
             "serverSide": true,
+            "filter": false,
             "sort": false,
-            "ajax": "ajax/manager/list",
+            "ajax": {
+                "url": "/ajax/manager/list",
+                "data": function (d) {
+                    return $.extend({}, d, {
+                        "loginName": $('#search_loginName').val()
+                    });
+                }
+            }
         });
-        $("div.dataTables_Toolbar").html('<button class="btn btn-default" id="btnAddManager"  data-toggle="modal" data-target="#createManagerDialog">添加管理员</button>' +
-                              '<button class="btn btn-default" id="btnLockManager">锁定</button>' +
-                              '<button class="btn btn-default" id="btnUnlockManager">解除锁定</button>' +
-                              '<button class="btn btn-default" id="btnAssignRoles">分配管理角色</button>' +
-                              '<button class="btn btn-default" id="btnViewTFKey">查看秘钥</button>' +
-                              '<button class="btn btn-default" id="btnResetLoginPassword">重置登陆密码</button>' +
-                              '<button class="btn btn-default" id="btnResetTFKey">重置秘钥</button>');
+        $("div.dataTables_Toolbar").html('<div class="col-xs-8 col-md-8"><button class="btn btn-inverse" id="btnAddManager"  data-toggle="modal" data-target="#createManagerDialog">添加管理员</button>' +
+                              '<button class="btn btn-inverse" id="btnLockManager">锁定</button>' +
+                              '<button class="btn btn-inverse" id="btnUnlockManager">解除锁定</button>' +
+                              '<button class="btn btn-inverse" id="btnAssignRoles">分配管理角色</button>' +
+                              '<button class="btn btn-inverse" id="btnViewTFKey">查看秘钥</button>' +
+                              '<button class="btn btn-inverse" id="btnResetLoginPassword">重置登陆密码</button>' +
+                              '<button class="btn btn-inverse" id="btnResetTFKey">重置秘钥</button></div>' +
+                              '<div class="dataTables_filter  text-right"><label>搜索 <input type="search" id="search_loginName" placeholder="输入用户名进行搜索..." /></label></div>');
 
         $('#data-table tbody').on('click', 'tr', function () {
             $(this).siblings().removeClass("selected");
@@ -40,6 +48,10 @@
                 selectedItem = null;
         });
 
+        $("#search_loginName").keyup(function () {
+            datatable.ajax.reload();
+        });
+
         //添加管理员
         $("#btnAddManager").click(function () {
             $("#formCreateManager")[0].reset();
@@ -47,12 +59,12 @@
         $("#formCreateManager").submit(function () {
             $.post("/ajax/manager/create", $(this).serialize(), function (result, status) {
                 if (result.Code === 1) {
-                    Notification.notice("保存成功", "");
+                    Notification.notice("操作成功", "成功创建管理员" + $("#formCreateManager #loginName").val() + ",别忘了给新管理员分配角色");
                     datatable.ajax.reload();
                     $('#createManagerDialog').modal('hide');
                 }
                 else
-                    Notification.notice("保存失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:" + result.Message);
             });
             return false;
         });
@@ -79,12 +91,12 @@
         $("#fromAssignRoles").submit(function () {
             $.post("/ajax/manager/assign", $(this).serialize() + "&managerId=" + selectedItem.Id, function (result, status) {
                 if (result.Code === 1) {
-                    Notification.notice("角色分配成功", selectedItem.LoginName + "已重新分配角色");
+                    Notification.notice("操作成功", "已为" + selectedItem.LoginName + "成功分配角色");
                     datatable.ajax.reload();
                     $('#assignManagerRolesDialog').modal('hide');
                 }
                 else
-                    Notification.notice("保存失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:" + result.Message);
             });
             return false;
         });
@@ -100,12 +112,12 @@
         $("#formLockManager").submit(function () {
             $.post("/ajax/manager/lock", $(this).serialize() + "&managerId=" + selectedItem.Id, function (result, status) {
                 if (result.Code === 1) {
-                    Notification.notice("锁定成功", selectedItem.LoginName + "已被锁定");
+                    Notification.notice("操作成功", selectedItem.LoginName + "已被成功锁定");
                     datatable.ajax.reload();
                     $('#lockManagerDialog').modal('hide');
                 }
                 else
-                    Notification.notice("锁定失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:"+result.Message);
             });
             return false;
         });
@@ -121,12 +133,12 @@
         $("#formUnlockManager").submit(function () {
             $.post("/ajax/manager/unlock", "managerId=" + selectedItem.Id, function (result, status) {
                 if (result.Code === 1) {
-                    Notification.notice("解除锁定成功", selectedItem.LoginName + "已解除锁定");
+                    Notification.notice("操作成功", selectedItem.LoginName + "已成功解除锁定");
                     datatable.ajax.reload();
                     $('#unlockManagerDialog').modal('hide');
                 }
                 else
-                    Notification.notice("解除锁定失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:" + result.Message);
             });
             return false;
         });
@@ -160,12 +172,12 @@
         });
 
         $("#formResetLoginPassword").submit(function () {
-            $.post("/ajax/manager/resetloginpwd", $(this).serialize() + "&managerId=" + selectedItem.Id, function(result, status) {
-                if (result.Code == 1) { 
-                    Notification.notice("重置成功", selectedItem.LoginName + "的登陆密码重置成功了");
+            $.post("/ajax/manager/resetloginpwd", $(this).serialize() + "&managerId=" + selectedItem.Id, function (result, status) {
+                if (result.Code == 1) {
+                    Notification.notice("操作失败", selectedItem.LoginName + "的登陆密码已重置成功");
                     $("#resetLoginPwdDialog").modal('hide');
                 } else {
-                    Notification.notice("重置失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:" + result.Message);
                 }
             });
             return false;
@@ -182,17 +194,16 @@
         });
 
         $("#formResetTfKey").submit(function () {
-            $.post("/ajax/manager/resettfkey", $(this).serialize() + "&managerId=" + selectedItem.Id, function(result, status) {
+            $.post("/ajax/manager/resettfkey", $(this).serialize() + "&managerId=" + selectedItem.Id, function (result, status) {
                 if (result.Code == 1) {
-                    Notification.notice("重置成功", selectedItem.LoginName+"的谷歌秘钥重置成功了");
+                    Notification.notice("重置成功", selectedItem.LoginName + "的谷歌秘钥已重置成功");
                     $("#resetTfKeyDialog").modal('hide');
                 } else {
-                    Notification.notice("重置失败", result.Message);
+                    Notification.notice("操作失败", "失败原因:" + result.Message);
                 }
             });
             return false;
         });
-        window.ParsleyValidator.setLocale('zh_cn');
     }
 };
 

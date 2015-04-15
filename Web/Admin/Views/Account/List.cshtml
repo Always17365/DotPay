@@ -2,7 +2,6 @@
 <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 <link href="/assets/plugins/DataTables/css/data-table.css" rel="stylesheet" />
 <link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
-<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 <!-- begin #content -->
 <div id="content" class="content">
@@ -63,7 +62,7 @@
                             </div>
                         </div>
                         <!-- #assign manage roles dialog-->
-                        <div class="modal fade" tabindex="-1" id="assignManagerRolesDialog">
+                        <div class="modal fade" tabindex="-1" data-parsley-validate="true" id="assignManagerRolesDialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <form class="form-horizontal form-bordered" data-parsley-validate="true" id="fromAssignRoles">
@@ -220,13 +219,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4 col-sm-4" for="newLoginPassword">新登陆密码* :</label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <input type="password" class="form-control" id="newLoginPassword" name="loginPassword" autocomplete="off" placeholder="请输入" data-parsley-required="true" />
+                                                    <input type="password" class="form-control" id="newLoginPassword" name="loginPassword" autocomplete="off" placeholder="请输入新登陆密码" data-parsley-required="true" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-4 col-sm-4" for="confirmLoginPassword">再次确认密码* :</label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <input type="password" class="form-control" id="confirmLoginPassword" name="confirmLoginPassword" autocomplete="off" placeholder="请输入锁定原因" data-parsley-equalto="#newLoginPassword" data-parsley-required="true" />
+                                                    <input type="password" class="form-control" id="confirmLoginPassword" name="confirmLoginPassword" autocomplete="off" placeholder="请再次确认新密码" data-parsley-equalto="#newLoginPassword" data-parsley-required="true" />
                                                 </div>
                                             </div>
                                         </div>
@@ -273,17 +272,10 @@
     <!-- end row -->
 </div>
 <!-- end #content -->
-<!-- ================== BEGIN BASE JS ================== -->
-<script src="~/assets/plugins/parsley/dist/parsley.js"></script>
-<script src="~/assets/plugins/parsley/src/i18n/zh_cn.js"></script>
-<!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script>
     App.restartGlobalFunction();
     App.setPageTitle('点付管理后台--管理员列表');
-    $.getScript('/assets/jss/notification.js').done(function () {
-        Notification.init();
-    });
     $.getScript('/assets/jss/manager-list.js').done(function () {
         ManagerList.init();
     });

@@ -65,12 +65,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TransferTransactionQueryImpl.cs" />
     <Compile Include="MongoManager.cs" />
     <Compile Include="ManagerQueryImpl.cs" />
     <Compile Include="SystemSettingQueryImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Dotpay.Common.csproj">
+      <Project>{1E3C1DF9-8CCB-473B-8A04-1F5C6D87C6A1}</Project>
+      <Name>Dotpay.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Web\Admin.ViewModel\Dotpay.Admin.ViewModel.csproj">
       <Project>{195c6dfa-567f-427e-bcf0-6e5ef39788a4}</Project>
       <Name>Dotpay.Admin.ViewModel</Name>

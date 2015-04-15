@@ -89,7 +89,7 @@ namespace Dotpay.Actor.Implementations
             oldLoginPassword = PasswordHelper.EncryptMD5(oldLoginPassword + this.State.Salt);
             if (this.State.LoginPassword == oldLoginPassword)
             {
-                newLoginPassword = PasswordHelper.EncryptMD5(oldLoginPassword + this.State.Salt);
+                newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
                 await this.ApplyEvent(new ManagerLoginPasswordChangedEvent(oldLoginPassword, newLoginPassword));
                 return ErrorCode.None;
             }
@@ -124,6 +124,11 @@ namespace Dotpay.Actor.Implementations
         public Task<bool> HasInitialized()
         {
             return Task.FromResult(!string.IsNullOrEmpty(this.State.Salt));
+        }
+
+        public Task<string> GetManagerLoginName()
+        { 
+            return Task.FromResult(this.State.LoginName);
         }
 
         #endregion

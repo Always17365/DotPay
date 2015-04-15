@@ -53,6 +53,12 @@ namespace Dotpay.Admin.Controllers
             return ip;
         }
 
+        protected override void EndExecute(IAsyncResult asyncResult)
+        {
+            ViewBag.CurrentUser = this.CurrentUser;
+            base.EndExecute(asyncResult);
+        }
+
         #region Json
 
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding)
@@ -102,7 +108,7 @@ namespace Dotpay.Admin.Controllers
                 {
                     IsoDateTimeConverter timeFormat = new IsoDateTimeConverter();
                     timeFormat.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
-                    response.Write(JsonConvert.SerializeObject(this.Data, Newtonsoft.Json.Formatting.Indented, timeFormat)); 
+                    response.Write(JsonConvert.SerializeObject(this.Data, Newtonsoft.Json.Formatting.None, timeFormat)); 
                 } 
             }
 

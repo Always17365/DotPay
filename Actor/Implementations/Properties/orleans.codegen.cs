@@ -398,11 +398,13 @@ namespace Dotpay.Actor.Implementations
 
             public Nullable<RippleTransactionStatus> @RippleTxStatus { get; set; }
 
-            public String @FITransactionNo { get; set; }
+            public String @FiTransactionNo { get; set; }
 
             public RippleTransactionInfo @RippleTransactionInfo { get; set; }
 
-            public Guid @ManagerId { get; set; }
+            public Nullable<Guid> @ManagerId { get; set; }
+
+            public String @Manager { get; set; }
 
             public DateTime @CreateAt { get; set; }
 
@@ -424,9 +426,10 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("TransactionInfo", out value)) @TransactionInfo = (TransferTransactionInfo) value;
                 if (values.TryGetValue("Status", out value)) @Status = (TransferTransactionStatus) value;
                 if (values.TryGetValue("RippleTxStatus", out value)) @RippleTxStatus = (Nullable<RippleTransactionStatus>) value;
-                if (values.TryGetValue("FITransactionNo", out value)) @FITransactionNo = (String) value;
+                if (values.TryGetValue("FiTransactionNo", out value)) @FiTransactionNo = (String) value;
                 if (values.TryGetValue("RippleTransactionInfo", out value)) @RippleTransactionInfo = (RippleTransactionInfo) value;
-                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Guid) value;
+                if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Nullable<Guid>) value;
+                if (values.TryGetValue("Manager", out value)) @Manager = (String) value;
                 if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
                 if (values.TryGetValue("LockAt", out value)) @LockAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
@@ -436,7 +439,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("TransferTransactionState( Version={0} Id={1} SequenceNo={2} TransactionInfo={3} Status={4} RippleTxStatus={5} FITransactionNo={6} RippleTransactionInfo={7} ManagerId={8} CreateAt={9} LockAt={10} CompleteAt={11} FailAt={12} Reason={13} )", @Version, @Id, @SequenceNo, @TransactionInfo, @Status, @RippleTxStatus, @FITransactionNo, @RippleTransactionInfo, @ManagerId, @CreateAt, @LockAt, @CompleteAt, @FailAt, @Reason);
+                return System.String.Format("TransferTransactionState( Version={0} Id={1} SequenceNo={2} TransactionInfo={3} Status={4} RippleTxStatus={5} FiTransactionNo={6} RippleTransactionInfo={7} ManagerId={8} Manager={9} CreateAt={10} LockAt={11} CompleteAt={12} FailAt={13} Reason={14} )", @Version, @Id, @SequenceNo, @TransactionInfo, @Status, @RippleTxStatus, @FiTransactionNo, @RippleTransactionInfo, @ManagerId, @Manager, @CreateAt, @LockAt, @CompleteAt, @FailAt, @Reason);
             }
         
         public TransferTransactionState() : 
@@ -454,9 +457,10 @@ namespace Dotpay.Actor.Implementations
             result["TransactionInfo"] = this.TransactionInfo;
             result["Status"] = this.Status;
             result["RippleTxStatus"] = this.RippleTxStatus;
-            result["FITransactionNo"] = this.FITransactionNo;
+            result["FiTransactionNo"] = this.FiTransactionNo;
             result["RippleTransactionInfo"] = this.RippleTransactionInfo;
             result["ManagerId"] = this.ManagerId;
+            result["Manager"] = this.Manager;
             result["CreateAt"] = this.CreateAt;
             result["LockAt"] = this.LockAt;
             result["CompleteAt"] = this.CompleteAt;
@@ -473,9 +477,10 @@ namespace Dotpay.Actor.Implementations
             this.TransactionInfo = default(TransferTransactionInfo);
             this.Status = default(TransferTransactionStatus);
             this.RippleTxStatus = default(Nullable<RippleTransactionStatus>);
-            this.FITransactionNo = default(String);
+            this.FiTransactionNo = default(String);
             this.RippleTransactionInfo = default(RippleTransactionInfo);
-            this.ManagerId = default(Guid);
+            this.ManagerId = default(Nullable<Guid>);
+            this.Manager = default(String);
             this.CreateAt = default(DateTime);
             this.LockAt = default(Nullable<DateTime>);
             this.CompleteAt = default(Nullable<DateTime>);
