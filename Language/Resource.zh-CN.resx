@@ -272,4 +272,7 @@
   <data name="Join QQ group Title" xml:space="preserve">
     <value>寻求帮助，关注点付</value>
   </data>
+  <data name="ripple_query_table_create_at" xml:space="preserve">
+    <value>创建时间</value>
+  </data>
 </root>

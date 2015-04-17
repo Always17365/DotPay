@@ -66,7 +66,7 @@
     <div class="container">
         <div class="com-sm-12 col-md-10  col-md-offset-1 col-sm-offset-0">
             <div class="alert alert-info">
-                <a href="http://bikeee.taobao.com/index.htm" class="btn btn-large btn-success">点击进入淘宝充值</a>
+                <a href="http://shop113155095.taobao.com/" class="btn btn-large btn-success">点击进入淘宝充值</a>
                 <a target="_blank" class="btn btn-large btn-primary" href="https://rippletrade.com/#/trust?to=rM8199qFwspxiWNZRChZdZbGN5WrCepVP1&currency=CNY&name=dotpayco&amount=1000000000%2FCNY" class="label label-info badge">点击信任网关</a>
                 <ul class="list-group" style="margin-top: 30px;">
                     <li class="list-group-item" style="padding: 5px 15px;">
@@ -118,7 +118,7 @@
                                 <td>@(tx.Tid) </td>
                                 <td>@(MvcHtmlString.Create(tx.has_buyer_message ? "<label class='label label-success'>有留言</label>" : "<label class='label label-danger'>未留言</label>"))</td>
                                 <td>@tx.pay_time.ToString("MM-dd HH:mm")</td>
-                                <td>@(tx.amount.ToString("C"))</td>
+                                <td>@(tx.amount>=2000?"≥￥2000":tx.amount>=1000?"≥￥1000":tx.amount.ToString("C"))</td>
                                 <td>
                                     @(MvcHtmlString.Create(tx.taobao_status == "WAIT_SELLER_SEND_GOODS" ? "<label class='label label-info'>已付款</label>"
                                     : tx.taobao_status == "WAIT_BUYER_CONFIRM_GOODS" ? "<label class='label label-danger'>等待确认收货</label>"

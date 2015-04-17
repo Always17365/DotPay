@@ -164,6 +164,7 @@
                         <tr>
                             <th>@Html.Lang("ripple_query_table_receiver_account")</th>
                             <th>@Html.Lang("ripple_query_table_processing_status")</th>
+                            <th>@Html.Lang("ripple_query_table_create_at")</th>
                             <th>@Html.Lang("ripple_query_table_done_at")</th>
                             <th>@Html.Lang("ripple_query_table_amount")</th>
                             <th>@Html.Lang("ripple_query_table_transferno")</th>
@@ -194,7 +195,8 @@
                                     <td> <label class='label label-info'>@Html.Lang("ripple_query_status_Processing")</label></td>
                                 }
 
-                                <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("yyyy-MM-dd HH:mm") : "")</td>
+                                <td>@tx.CreateAt.ToLocalDateTime().ToString("MM-dd HH:mm")</td>
+                                <td>@(tx.DoneAt > 0 ? tx.DoneAt.ToLocalDateTime().ToString("MM-dd HH:mm") : "")</td>
                                 <td>@tx.Amount.ToString("0.00") @Html.Lang("Chinese_Yuan")</td>
                                 <td>@(tx.State == TransactionState.Success ? ("****************" + tx.TransferNo.Substring(sub_transfer_length)) : "")</td>
                                 <td>@("****************" + tx.TxId.Substring(sub_txid_length))</td>

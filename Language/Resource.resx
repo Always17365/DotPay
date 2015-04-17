@@ -273,4 +273,7 @@ To bank account, it is estimated that the payment will arrive in 2 hours after t
   <data name="Join QQ group Title" xml:space="preserve">
     <value>For Support &amp; Info</value>
   </data>
+  <data name="ripple_query_table_create_at" xml:space="preserve">
+    <value>Create At</value>
+  </data>
 </root>
