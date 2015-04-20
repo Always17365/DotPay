@@ -29,19 +29,19 @@ namespace Dotpay.AdminCommand
     #region ManagerLoginCommand
     public class ManagerLoginCommand : HasReturnValueCommand<ErrorCode>
     {
-        public ManagerLoginCommand(Guid manangerId, string loginPassword, string ip)
+        public ManagerLoginCommand(Guid managerId, string loginPassword, string ip)
         {
-            Check.Argument.IsNotEmpty(manangerId, "manangerId");
+            Check.Argument.IsNotEmpty(managerId, "managerId");
             Check.Argument.IsNotEmpty(loginPassword, "loginPassword");
             Check.Argument.IsNotEmpty(ip, "ip");
 
-            this.ManangerId = manangerId;
+            this.ManagerId = managerId;
             this.LoginPassword = loginPassword;
             this.Ip = ip;
         }
 
 
-        public Guid ManangerId { get; private set; }
+        public Guid ManagerId { get; private set; }
         public string LoginPassword { get; private set; }
         public string Ip { get; private set; }
     }

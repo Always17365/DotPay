@@ -6,26 +6,7 @@ using System.Threading.Tasks;
 using Dotpay.Common;
 
 namespace Dotpay.Admin.ViewModel
-{
-    [Serializable]
-    public class UserIdentity
-    {
-        public Guid UserId { get; set; }
-        public string LoginName { get; set; } 
-    }
-
-    [Serializable]
-    public class UserLoginViewModel
-    {
-        public string LoginName { get; set; }
-        public string Password { get; set; }
-    } 
-    public class CreateUserViewModel
-    {
-        public string LoginName { get; set; }
-        public string LoginPassword { get; set; }
-    }
- 
+{ 
     [Serializable]
     public class UserListViewModel
     {

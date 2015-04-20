@@ -18,11 +18,10 @@ namespace Dotpay.TaobaoMonitor
 {
     internal class TaobaoUtils
     {
-        private const string TAOBAO_SESSION_KEY = "_taobao_session";
+        private const string TAOBAO_SESSION_KEY = "_taobao_session_json";
         private const string API_KEY = "23089573";
         private const string API_SECRET = "7b4cb6afdd716c3fb4a4d0dd98b8d593";
         private const string TAOBAO_REST_URL = "http://gw.api.taobao.com/router/rest";
-        private static bool _hasSession = false;
         private static DateTime? _lastNoticeAt;
         private static readonly ITopClient Client = new DefaultTopClient(TAOBAO_REST_URL, API_KEY, API_SECRET);
         private static readonly object NoticeLocker = new object();
@@ -94,7 +93,7 @@ namespace Dotpay.TaobaoMonitor
 #endif
 
 
-        public static string GetTaobaoSession()
+        public static IEnumerable<TaobaoSession> GetTaobaoSessionList()
         {
 #if TAOBAODEBUG
             if (string.IsNullOrEmpty(_debugSession))
@@ -105,14 +104,60 @@ namespace Dotpay.TaobaoMonitor
 
             return _debugSession;
 #else
-            var taobaoSession = Cache.Get<string>(TAOBAO_SESSION_KEY);
+            var taobaoSession = Cache.Get<Dictionary<string, TaobaoSession>>(TAOBAO_SESSION_KEY);
+            var sessionList = new List<TaobaoSession>();
+            if (taobaoSession != null && taobaoSession.Any())
+            {
+                sessionList = taobaoSession.Select(dic => dic.Value).Where(s => s.AuthAt.AddDays(1) > DateTime.Now).ToList();
+            }
 
-            if (string.IsNullOrWhiteSpace(taobaoSession)) _hasSession = false;
-            else _hasSession = true;
+            if (sessionList.Count(s => s.AuthAt.AddHours(23) > DateTime.Now) == 0)
+            {
+                lock (NoticeLocker)
+                {
+                    if (((_lastNoticeAt.HasValue && _lastNoticeAt.Value.AddMinutes(10) < DateTime.Now) ||
+                         !_lastNoticeAt.HasValue))
+                    {
+                        var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
+                        var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        Log.Info("taobao session time out ,notice webmaster");
+                        _lastNoticeAt = DateTime.Now;
+                        var title = "taobao session 超时或即将超时";
+                        var msg = "";
+                        sessionList.ForEach(s =>
+                        {
+                            if (s.AuthAt.AddDays(1) > DateTime.Now)
+                            {
+                                var timespan = DateTime.Now - s.AuthAt.AddDays(1);
+                                msg += s.NickName + "session即将超时,还剩余" + timespan.TotalMinutes + "<br>";
+                            }
+                            else
+                            {
+                                msg += s.NickName + "session已超时<br>";
+                            }
+                        });
 
-            return taobaoSession;
+                        msg += "点击<a href='https://www.dotpay.co/taobao/login' >https://www.dotpay.co<a/>进行授权";
+                        if (mailList.Any())
+                        {
+                            mailList.ForEach(m =>
+                            {
+                                EmailHelper.SendMailAsync(m, title, msg);
+                            });
+                        }
+                    }
+                }
+            }
+
+            return sessionList;
 #endif
+        }
 
+        public class TaobaoSession
+        {
+            public string NickName { get; set; }
+            public string Session { get; set; }
+            public DateTime AuthAt { get; set; }
         }
 
         /// <summary>
@@ -145,7 +190,7 @@ namespace Dotpay.TaobaoMonitor
 
             if (response.IsError)
             {
-                Log.Error("GetCompletePaymentOrder Error:" + response.ErrMsg + "--code=" + response.ErrCode); 
+                Log.Error("GetCompletePaymentOrder Error:" + response.ErrMsg + "--code=" + response.ErrCode);
             }
 
             return response.Trades;
@@ -236,27 +281,6 @@ namespace Dotpay.TaobaoMonitor
 #endif
         }
 
-        public static void NoticeWebMasterWhenSessionTimeout()
-        {
-            lock (NoticeLocker)
-            {
-                if (!_hasSession && ((_lastNoticeAt.HasValue && _lastNoticeAt.Value.AddMinutes(10) < DateTime.Now) || !_lastNoticeAt.HasValue))
-                {
-                    var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];
-                    var mailList = mails.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    Log.Info("taobao session time out ,notice webmaster");
-                    _lastNoticeAt = DateTime.Now;
-
-                    if (mailList.Any())
-                    {
-                        mailList.ForEach(m =>
-                        {
-                            EmailHelper.SendMailAsync(m, "taobao session 超时", "点击<a href='https://www.dotpay.co/taobao/login' >https://www.dotpay.co<a/>进行授权");
-                        });
-                    }
-                }
-            }
-        } 
         public static void NoticeWebMaster(string title, string message)
         {
             var mails = ConfigurationManagerWrapper.AppSettings["noticeMails"];

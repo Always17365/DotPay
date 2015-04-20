@@ -47,7 +47,7 @@ namespace Dotpay.Admin
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseLog4net()
-                        .UseMemcached("192.168.2.10")
+                        .UseMemcached("192.168.0.100")
                         .UseDefaultCommandBus(assemblies.ToArray())
                         .RegisterQueryService(DotpayConfig.DBConnectionString, DotpayConfig.DatabaseName)
                         .Start();

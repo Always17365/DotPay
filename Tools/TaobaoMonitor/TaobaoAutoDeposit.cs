@@ -9,6 +9,7 @@ namespace Dotpay.TaobaoMonitor
     internal class TaobaoAutoDeposit
     {
         public long tid { get; set; }
+        public string seller_nick { get; set; }
         public string buyer_nick { get; set; }
         public int amount { get; set; }
         public bool has_buyer_message { get; set; }

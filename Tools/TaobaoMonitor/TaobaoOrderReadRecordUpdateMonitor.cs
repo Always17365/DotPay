@@ -34,41 +34,43 @@ namespace Dotpay.TaobaoMonitor
             {
                 while (true)
                 {
-                    var session = TaobaoUtils.GetTaobaoSession();
+                    var sessionList = TaobaoUtils.GetTaobaoSessionList();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
-
-                    else
+                    if (sessionList.Any())
                     {
-                        try
+
+                        sessionList.ForEach(s =>
                         {
-                            var trades = TaobaoUtils.GetIncrementTaobaoTrade(session);
-
-                            if (trades != null)
+                            try
                             {
-                                trades = trades.Where(t => t.Orders.First().Title.Contains("官方充值") &&
-                                                           (t.Status == "TRADE_NO_CREATE_PAY" ||
-                                                            t.Status == "WAIT_BUYER_PAY" ||
-                                                            t.Status == "WAIT_SELLER_SEND_GOODS" ||
-                                                            t.Status == "WAIT_BUYER_CONFIRM_GOODS" ||
-                                                            t.Status == "TRADE_FINISHED" ||
-                                                            t.Status == "TRADE_CLOSED" ||
-                                                            t.Status == "TRADE_CLOSED_BY_TAOBAO"
-                                                            )
-                                    ).ToList();
+                                var trades = TaobaoUtils.GetIncrementTaobaoTrade(s.Session);
 
-                                if (trades.Any())
+                                if (trades != null)
                                 {
-                                    RecordTaobaoTradeToDatabase(trades);
+                                    trades = trades.Where(t => (t.Orders.First().Title.Contains("官方充值") || t.Orders.First().Title.Contains("CNY.DotPayco")) &&
+                                                               (t.Status == "TRADE_NO_CREATE_PAY" ||
+                                                                t.Status == "WAIT_BUYER_PAY" ||
+                                                                t.Status == "WAIT_SELLER_SEND_GOODS" ||
+                                                                t.Status == "WAIT_BUYER_CONFIRM_GOODS" ||
+                                                                t.Status == "TRADE_FINISHED" ||
+                                                                t.Status == "TRADE_CLOSED" ||
+                                                                t.Status == "TRADE_CLOSED_BY_TAOBAO"
+                                                                )
+                                        ).ToList();
+
+                                    if (trades.Any())
+                                    {
+                                        RecordTaobaoTradeToDatabase(trades, s.NickName, s.Session);
+                                    }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error("GetCompletePaymentTrade Exception", ex);
-                        }
-                    }
+                            catch (Exception ex)
+                            {
+                                Log.Error("GetCompletePaymentTrade Exception", ex);
+                            }
+                        });
 
+                    }
                     Task.Delay(30 * 1000).Wait();
                 }
             });
@@ -78,12 +80,12 @@ namespace Dotpay.TaobaoMonitor
             _started = true;
         }
 
-        private static void RecordTaobaoTradeToDatabase(List<Trade> trades)
+        private static void RecordTaobaoTradeToDatabase(List<Trade> trades, string sellerNick, string session)
         {
             const string existSql = "SELECT COUNT(*) FROM taobao WHERE tid=@tid";
             const string selectSql = "SELECT COUNT(*) FROM taobao WHERE tid=@tid AND taobao_status=@taobao_status";
-            const string insertSql = "INSERT INTO taobao(tid,buyer_nick,pay_time,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo) " +
-                                     "VALUES(@tid,@buyer_nick,@pay_time,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
+            const string insertSql = "INSERT INTO taobao(tid,seller_nick,buyer_nick,pay_time,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo) " +
+                                     "VALUES(@tid,@seller_nick,@buyer_nick,@pay_time,@amount,@has_buyer_message,@taobao_status,@ripple_address,@ripple_status,@txid,@memo)";
 
             const string updateStatusSql = "UPDATE taobao SET taobao_status=@taobao_status_new " +
                                            " WHERE tid=@tid AND taobao_status=@taobao_status_old AND ripple_status=@ripple_status";
@@ -102,30 +104,26 @@ namespace Dotpay.TaobaoMonitor
 
                         if (trade.Status == "TRADE_NO_CREATE_PAY" || trade.Status == "WAIT_BUYER_PAY")
                         {
-                            var session = TaobaoUtils.GetTaobaoSession();
                             var rippleAddress = string.Empty;
 
-                            if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
+                            var needClose = false;
+
+                            if (!trade.HasBuyerMessage) needClose = true;
                             else
                             {
-                                var needClose = false;
+                                var tradeFullInfo = TaobaoUtils.GetTradeFullInfo(trade.Tid, session);
+                                rippleAddress = tradeFullInfo.BuyerMessage.Trim();
+                                if (rippleAddress.Length < 32 || !rippleAddress.StartsWith("r"))
+                                    needClose = true;
+                            }
 
-                                if (!trade.HasBuyerMessage) needClose = true;
-                                else
+                            if (needClose)
+                            {
+                                if (TaobaoUtils.CloseOrder(trade.Tid, session))
                                 {
-                                    var tradeFullInfo = TaobaoUtils.GetTradeFullInfo(trade.Tid, session);
-                                    rippleAddress = tradeFullInfo.BuyerMessage.Trim();
-                                    if (rippleAddress.Length < 32 || !rippleAddress.StartsWith("r"))
-                                        needClose = true;
-                                }
-
-                                if (needClose)
-                                {
-                                    if (TaobaoUtils.CloseOrder(trade.Tid, session))
-                                    {
-                                        Log.Info("发现留言错误的交易，卖家主动关闭该交易,订单号=" + trade.Tid);
-                                        TaobaoUtils.NoticeWebMaster("淘宝交易留言错误，关闭交易", "发现未付款订单{0}留言错误,留言={1}，卖家已主动关闭该交易".FormatWith(trade.Tid, rippleAddress));
-                                    }
+                                    Log.Info("发现留言错误的交易，卖家" + sellerNick + "主动关闭该交易,订单号=" + trade.Tid);
+                                    TaobaoUtils.NoticeWebMaster("淘宝交易留言错误，关闭交易",
+                                        "发现未付款订单{0}留言错误,留言={1}，卖家{2}已主动关闭该交易".FormatWith(trade.Tid, rippleAddress, sellerNick));
                                 }
                             }
                         }
@@ -139,12 +137,13 @@ namespace Dotpay.TaobaoMonitor
                             if (count.First() == 0)
                             {
                                 Log.Info("单号{0}已付款,开始写入数据库...", trade.Tid);
-                                var realAmount = Math.Round(Convert.ToDecimal(trade.Orders[0].Price))*
+                                var realAmount = Math.Round(Convert.ToDecimal(trade.Orders[0].Price)) *
                                                  trade.Orders[0].Num;
                                 conn.Execute(insertSql,
                                     new
                                     {
                                         tid = trade.Tid,
+                                        seller_nick = sellerNick,
                                         buyer_nick = trade.BuyerNick.NullSafe(),
                                         pay_time = trade.PayTime,
                                         amount = realAmount,

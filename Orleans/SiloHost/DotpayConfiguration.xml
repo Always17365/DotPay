@@ -12,7 +12,7 @@
     </BootstrapProviders>
     <StorageProviders>
       <Provider Type="Orleans.Storage.MemoryStorage" Name="MemoryStore" />
-      <Provider Type="Orleans.Storage.MongoDB.MongoDBStorage" Name="MongoDBStore" Database="datastore" PropertyIngoreCase="true" ConnectionString="mongodb://sa:sa@192.168.2.10:27017/" />
+      <Provider Type="Orleans.Storage.MongoDB.MongoDBStorage" Name="MongoDBStore" Database="datastore" PropertyIngoreCase="true" ConnectionString="mongodb://sa:sa@192.168.0.100:27017/" />
      </StorageProviders> 
   </Globals>
   <Defaults>

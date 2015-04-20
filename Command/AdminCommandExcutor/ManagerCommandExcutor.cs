@@ -27,7 +27,7 @@ namespace Dotpay.AdminCommandExcutor
     {
         public async Task ExecuteAsync(ManagerLoginCommand cmd)
         {
-            var manager = GrainFactory.GetGrain<IManager>(cmd.ManangerId);
+            var manager = GrainFactory.GetGrain<IManager>(cmd.ManagerId);
 
             cmd.CommandResult = await manager.Login(cmd.LoginPassword, cmd.Ip);
         }

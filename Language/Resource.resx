@@ -117,1077 +117,118 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Forgotten password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Identity Information" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invalid username / password. Please try again.You still have {0} chances" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Login too frequently,Please try again 2 hours later." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Nick Name" xml:space="preserve">
-    <value />
-  </data>
-  <data name="no identity information" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your login password. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your nick name. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to verify Google Authentication code. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unknow Exception,Please refresh the page and try again" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your mobile. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="This mobile {0} is exist." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You send too much sms,Please try again next day." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to switch your Login-2FA. Your Google Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to switch your Login-2FA. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your login password. Your Google Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your login password. Your old password error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your login password. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your trade password. Your Google Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your trade password. Your old trade password error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your trade password. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your trade password. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="An account with that email address already exists. Please try again or use the forgotten password feature." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Disable Google Authenticator successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Disable Login2FA successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Disable Sms Authenticator successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enable Google Authenticator successfully.Your Login2FA enabled by default." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enable Login2FA successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enable Sms Authenticator successfully.Your Login2FA enabled by default." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Login password updated successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Mail has been sent.Please check your email." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Nickname updated successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Send email too frequently, please try again 15 minutes later." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Trade password updated successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to send email to you,Please refresh the page and try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Verification code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Mobile set yet,don't need set again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Account successfully verified. Please login below." xml:space="preserve">
-    <value />
-  </data>
-  <data name="IdentificationCard" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invalid email verify link.Please check the link then try again or contact Support." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Passport" xml:space="preserve">
-    <value />
-  </data>
-  <data name="please choose one" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Identity information updated successfuly." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Identity informations have updated yet! Please refresh the page to see your identity infomations." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to update your identity informations. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="BitCoin" xml:space="preserve">
-    <value>BTC</value>
-  </data>
-  <data name="China Yuan" xml:space="preserve">
-    <value>CNY</value>
-  </data>
-  <data name="DogeCoin" xml:space="preserve">
-    <value>DOGE</value>
-  </data>
-  <data name="FootballCoin" xml:space="preserve">
-    <value>FBC</value>
-  </data>
-  <data name="Sharkcoin" xml:space="preserve">
-    <value>SAK</value>
-  </data>
-  <data name="InfiniteCoin" xml:space="preserve">
-    <value>IFC</value>
-  </data>
-  <data name="LiteCoin" xml:space="preserve">
-    <value>LTC</value>
-  </data>
-  <data name="NextCoin" xml:space="preserve">
-    <value>NXT</value>
-  </data>
-  <data name="StrellarCoin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="or" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to verify 2 Factor Authentication. Please try again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to verify 2 Factor Authentication. Your Google Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to verify 2 Factor Authentication. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Generating deposit address ..." xml:space="preserve">
-    <value />
-  </data>
-  <data name="NXT Account Public Key" xml:space="preserve">
-    <value />
-  </data>
-  <data name="You need the public key for the first deposit." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Cpatcha  error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit Amount :" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit code has been used." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit code locked by other user." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposits are confirmed and will be available to use after &lt;strong&gt;{0}&lt;/strong&gt; confirmations. Once our system has picked up the transaction it will show in the deposits listing as pending, this may take a few minutes from when the transaction has been broadcast to the network." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Generate deposit address will not change." xml:space="preserve">
-    <value />
-  </data>
-  <data name="If a long time has not arrived, please contact business QQ {0}." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Image Captcha :" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invalid deposit code." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Lock Deposit Code" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Locked deposit code successfuly." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Locked! Unlocked after {0}." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please do not mine directly to the deposit address and / or auto withdraw from pools." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Polite Notice:" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Refresh Captcha" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Submit" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unlock Deposit Code" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unlocked deposit code successfuly." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Valid deposit code.Face value {0}." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You do not currently have a deposit address. Use the button below to generate a {0} address to deposit to." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your current available {0} balance:" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Deposit Address" xml:space="preserve">
-    <value />
-  </data>
-  <data name="{0} deposited  successfuly." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter a valid number." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please input captcha code." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please input deposit amount." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please transfer STR to this address." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Amount to Withdraw" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Click here to get SMS Authentication Code" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Confirm Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Google OTP" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Net Withdraw Amount" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter code from your Google Authenticator App." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter code from your Sms." xml:space="preserve">
-    <value />
-  </data>
-  <data name="SMS OTP" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdraw Fee" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdrawal limit of one time :" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit Code:" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Widraew No fee" xml:space="preserve">
-    <value>No fee</value>
-  </data>
-  <data name="Please don't withdraw to your deposit address." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please update your identity informations before withdraw." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please verify your email before withdraw." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Process Withdrawal" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Submit successfuly." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. Request amount out of range." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. You lack of withdrawal limit today." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. Your balance is not enough." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. Your Google Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. Your Sms Authenticator code error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to submit your request. Your trade password error." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdraw to FullCoin Deposit Code" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdraw to FullCoin Deposit Code successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdrawal Address" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your remaining withdrawal limit is &lt;strong&gt;{0}&lt;/strong&gt; today." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please confirm the password reset via email." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Unable to locate an account with that email address" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invalid password reset link." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter a new password." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset login password link is expired." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset login password successfully." xml:space="preserve">
-    <value />
-  </data>
-  <data name="User_Reset_Password_Email_Body" xml:space="preserve">
-    <value>&lt;p&gt;hi {0}:&lt;br /&gt;Somebody has completed the Forgotten Password form at FullCoin.com for this email address&lt;br&gt;&lt;br&gt;Before you can reset your password, you need to confirm the request by clicking the link below:&lt;br&gt;&lt;a href='https://www.fullcoin.com/resetPwd-{1}-{2}'&gt;https://www.fullcoin.com/resetPwd-{1}-{2}&lt;/a&gt;&lt;br&gt;&lt;br&gt;If you did not make this request please disregard this email and contact support immediately.&lt;br/&gt;&lt;br/&gt;{3}&lt;br/&gt;FullCoin Official Team</value>
-  </data>
-  <data name="User_Reset_Password_Email_Title" xml:space="preserve">
-    <value>FullCoin - Forgot Password</value>
-  </data>
-  <data name="Welcome_Register_Email_Body" xml:space="preserve">
-    <value>&lt;p&gt;&lt;span style="color: rgb(0, 0, 0);font-size: 14px; line-height: 23.32400131225586px;"&gt;Dear user: &lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span style="color: rgb(0, 0, 0); font-size: 14px; line-height: 23.32400131225586px;"&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Welcome to join FullCoin，please click this link to verify your email. you can find back your password when your forget it!&amp;nbsp;&lt;/span&gt;&lt;a href="https://www.fullcoin.com/active/{0}/{1}" style="color: rgb(6, 73, 119); font-size: 14px; line-height: 23.32400131225586px;"&gt;Click here to verify&lt;/a&gt;&lt;span style="color: rgb(0, 0, 0); font-size: 14px; line-height: 23.32400131225586px;"&gt;&amp;nbsp;or copy the following link and open in your browser.&lt;br /&gt;
-&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;https://www.fullcoin.com/active/{0}/{1}&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span style="color: rgb(0, 0, 0); font-size: 14px; line-height: 23.32400131225586px;"&gt;{2} &amp;nbsp;FullCoin Official Team&lt;/span&gt;&lt;/p&gt;</value>
-  </data>
-  <data name="Welcome_Register_Email_Title" xml:space="preserve">
-    <value>Welcome to join FullCoin</value>
-  </data>
-  <data name="Your password has been reset successfully. You may login using your new password below" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please verify your email first." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please confirm the trade password reset via email." xml:space="preserve">
-    <value />
-  </data>
-  <data name="forgot trade password? click here to reset your trade password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invalidate link." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter a new trade password." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset your trade password successfully" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Account Balances" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Actions" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Active Markets" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Android" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Available Balance" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Balances" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Below is a list of all active markets on FullCoin, ordered by 24 hour volume." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Below is a list of deposits that you have made. Click the expander icon on the left of each row to reveal more details about the deposit." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Below is a list of withdraws that you have made. Click the expander icon on the left of each row to reveal more details about the withdraw." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Click here for identity verification." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Click here to disable Google Authenticator" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Click here to enable Google Authenticator" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Click here to resend active email." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Coin Code" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Coin Deposits" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Coin Name" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Coin Withdraws" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CompanyName" xml:space="preserve">
-    <value>Shanghai FullCoin Network Technology co., LTD</value>
-  </data>
-  <data name="Confirm Login Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ContractInfo" xml:space="preserve">
-    <value>Tel：400-055-0698  ICP：14018960-1</value>
-  </data>
-  <data name="Cpatcha" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Deposit {0}" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Don't have your Google Authenticator token any more? You'll need to contact support with your &lt;strong&gt;2FA secret&lt;/strong&gt; in order to regain access to your account." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Download the &lt;strong&gt;Google Authenticator&lt;/strong&gt; app on to your mobile phone." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Email Address" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enable Login-2FA" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enter code from Google Authenticator App" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enter code from your sms" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Enter your mobile" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Excellent Support" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Full Name" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FullCoin Exchange" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FullCoin free of all currency exchange transaction fees currently" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GA2FA Secret" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Google Authentication Status" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Google Authentication Token" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Held for Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Hot And Cold Double Secure Storage" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Id No" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Id Type" xml:space="preserve">
-    <value />
-  </data>
-  <data name="If you have forgotten your password, please fill out your email address below and follow the instructions emailed to you." xml:space="preserve">
-    <value />
-  </data>
-  <data name="IMPORTANT - keep this safe in case you lose your phone" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value />
+  <data name="activationDescription" xml:space="preserve">
+    <value>click &lt;a href='/signin' &gt;here &lt;/a&gt; to sign in .</value>
   </data>
-  <data name="Login History" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Login Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Login to your Account" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Never set trade password, do not need to input." xml:space="preserve">
-    <value />
-  </data>
-  <data name="No  Fee" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Old Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Once you have set up mobile, will not be allowed to change, if your mobile phone number lost, please contact us" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Open Auth" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Optimizing multi-currency transactions" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Our carefully selected innovative and creative premium digital assets" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please accept our TOS." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter 6 characters minimum, including 1 or more digits." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter a valid email address." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter a validate mobile number!" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter the same password as above" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter your Google Authentication OTP." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please enter your SMS Authentication OTP." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please provide a password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please type your login password again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please type your password again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please type your trade password again." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value />
-  </data>
-  <data name="QQ" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Register Account" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset Login Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Reset your login password successfully" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Save Identity Information" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Scan the following QR code using the app and enter the six digit code generated for the account below." xml:space="preserve">
-    <value />
-  </data>
-  <data name="SMS Authentication Status" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SMS Authentication Token" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value />
-  </data>
-  <data name="The fast, efficient and secure cryptocurrency exchange" xml:space="preserve">
-    <value />
-  </data>
-  <data name="There are no deposits to display" xml:space="preserve">
-    <value />
-  </data>
-  <data name="There are no withdraws to display" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Time" xml:space="preserve">
-    <value />
-  </data>
-  <data name="To make a new deposit, please visit the {0} page and select the Deposit option under the actions menu for {1}." xml:space="preserve">
-    <value />
-  </data>
-  <data name="To make a new withdraw, please visit the {0} page and select the Withdraw option under the actions menu for {1}." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Trade History" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Two-Factor" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Update Login Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Update NickName" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Update Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Use the actions button to deposit, withdraw or view orders/trades for that specific coin." xml:space="preserve">
-    <value />
-  </data>
-  <data name="User Login" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Verify (enter code from Google Authenticator App)" xml:space="preserve">
-    <value />
-  </data>
-  <data name="View {0} Deposits" xml:space="preserve">
-    <value />
-  </data>
-  <data name="View {0} Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="View {0} Trades" xml:space="preserve">
-    <value />
-  </data>
-  <data name="View {0} Withdrawals" xml:space="preserve">
-    <value />
-  </data>
-  <data name="We offer 7 * 24 hours service" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Weibo" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdraw Address" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Withdraw {0}" xml:space="preserve">
-    <value />
-  </data>
-  <data name="You can change your login password using the form below. Only enter a new password if you wish to change it." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You can disable Login-2FA on your account using the form below.But We strongly advise you open Login-2FA." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You can enable 2FA on your account below. We strongly advise that you take advantage of the additional security 2FA offers." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You can enable Login-2FA on your account using the form below. We strongly advise that you open Login-2FA." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You can set or change your trade password using the form below." xml:space="preserve">
-    <value />
-  </data>
-  <data name="You should complete identity verifation before withdraw." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Details" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your digital assets at here, just as there in a strong safes" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Login Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your password must be at least 6 characters long" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your password must be at least 6 characters long." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Trade Password" xml:space="preserve">
-    <value />
-  </data>
-  <data name="order canceled" xml:space="preserve">
-    <value />
-  </data>
-  <data name="order done" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Order volume too small" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your balance is not enough for this order" xml:space="preserve">
-    <value />
-  </data>
-  <data name="24HR High" xml:space="preserve">
-    <value />
-  </data>
-  <data name="24HR Low" xml:space="preserve">
-    <value />
-  </data>
-  <data name="24HR Volume" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Buy Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Day" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Hours" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Last Price" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Minute" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Please login to trade." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Price Per {0}" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Recent Market History" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Sell Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Submit Buy Order" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Submit Sell Order" xml:space="preserve">
-    <value />
-  </data>
-  <data name="trade_amount" xml:space="preserve">
-    <value>AMOUNT</value>
-  </data>
-  <data name="trade_buy" xml:space="preserve">
-    <value>Buy</value>
-  </data>
-  <data name="trade_fee" xml:space="preserve">
-    <value>Fee</value>
-  </data>
-  <data name="trade_price" xml:space="preserve">
-    <value>PRICE</value>
-  </data>
-  <data name="trade_sell" xml:space="preserve">
-    <value>Sell</value>
-  </data>
-  <data name="trade_time" xml:space="preserve">
-    <value>TIME</value>
-  </data>
-  <data name="trade_total" xml:space="preserve">
-    <value>Total</value>
-  </data>
-  <data name="trade_type" xml:space="preserve">
-    <value>TYPE</value>
-  </data>
-  <data name="Your {0} balance is" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Zoom" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AskOrder" xml:space="preserve">
-    <value>Sell</value>
-  </data>
-  <data name="BidOrder" xml:space="preserve">
-    <value>Buy</value>
-  </data>
-  <data name="Buy order create success. &lt;br&gt; Amount : {0} &lt;br&gt; Price: {1}" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Cancel_Order" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Order canceled success." xml:space="preserve">
-    <value />
-  </data>
-  <data name="Sell order create success. &lt;br&gt; Volume : {0} &lt;br&gt; Price: {1}" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Your Active Orders" xml:space="preserve">
-    <value />
-  </data>
-  <data name="2FA_Disabled" xml:space="preserve">
-    <value>DISABLED</value>
-  </data>
-  <data name="2FA_Enabled" xml:space="preserve">
-    <value>ENABLED</value>
-  </data>
-  <data name="Account Profile" xml:space="preserve">
-    <value />
-  </data>
-  <data name="email_status_not_verified" xml:space="preserve">
-    <value>Not verified</value>
-  </data>
-  <data name="email_status_verified" xml:space="preserve">
-    <value>Verified</value>
-  </data>
-  <data name="Google Authentication OTP" xml:space="preserve">
-    <value />
-  </data>
-  <data name="header_nav_about" xml:space="preserve">
-    <value>About</value>
+  <data name="DotpayLogoTitle" xml:space="preserve">
+    <value>Dotpay</value>
   </data>
-  <data name="header_nav_terms" xml:space="preserve">
-    <value>Terms</value>
-  </data>
-  <data name="header_nav_trading" xml:space="preserve">
-    <value>Trading</value>
-  </data>
-  <data name="Hide zero balances" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value />
-  </data>
-  <data name="msg_box_error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="msg_box_success" xml:space="preserve">
-    <value>Success</value>
-  </data>
-  <data name="Old Login Password" xml:space="preserve">
+  <data name="Email already exists." xml:space="preserve">
     <value />
   </data>
-  <data name="QR Code" xml:space="preserve">
+  <data name="Invlid activation link." xml:space="preserve">
     <value />
   </data>
-  <data name="String1" xml:space="preserve">
+  <data name="Login fail too much times.You can try again 1 hour later." xml:space="preserve">
     <value />
   </data>
-  <data name="Verify (enter sms code your mobile received)" xml:space="preserve">
+  <data name="Login name already exists." xml:space="preserve">
     <value />
   </data>
-  <data name="SMS Authentication OTP" xml:space="preserve">
+  <data name="Login name or password error. You can try {0} times." xml:space="preserve">
     <value />
-  </data>
-  <data name="btn_Verify" xml:space="preserve">
-    <value>Verify</value>
-  </data>
-  <data name="header_nav_notices" xml:space="preserve">
-    <value>Notices</value>
-  </data>
-  <data name="Site_Notice_Title" xml:space="preserve">
-    <value>Notices</value>
-  </data>
-  <data name="Team Name" xml:space="preserve">
-    <value>FullCoin Official Team</value>
-  </data>
-  <data name="Withdraw" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DepositStatusCompleted" xml:space="preserve">
-    <value>Completed</value>
-  </data>
-  <data name="DepositStatusPending" xml:space="preserve">
-    <value>Pending</value>
   </data>
-  <data name="DepositStatusVerified" xml:space="preserve">
-    <value>Verified</value>
-  </data>
-  <data name="PayWay Alipay" xml:space="preserve">
-    <value>Alipay</value>
-  </data>
-  <data name="PayWay FullCoin Code" xml:space="preserve">
-    <value>FullCoin Code</value>
-  </data>
-  <data name="PayWay Ripple" xml:space="preserve">
-    <value>Ripple</value>
-  </data>
-  <data name="PayWay Virtual Coin Tranfer" xml:space="preserve">
-    <value>Virtual Coin Tranfer</value>
-  </data>
-  <data name="Below is a list of open orders that you have made. Any completed orders will show up under your {0}." xml:space="preserve">
+  <data name="Unkown Exception,Please refresh page and retry." xml:space="preserve">
     <value />
-  </data>
-  <data name="myordres_Orders" xml:space="preserve">
-    <value>Orders</value>
-  </data>
-  <data name="mytrades_Trade History" xml:space="preserve">
-    <value>Trade History</value>
-  </data>
-  <data name="header_nav_index" xml:space="preserve">
-    <value>Index</value>
   </data>
-  <data name="header_nav_news" xml:space="preserve">
-    <value>News</value>
-  </data>
-  <data name="header_nav_support" xml:space="preserve">
-    <value>Support</value>
-  </data>
-  <data name="header_nav_Hello" xml:space="preserve">
-    <value>Hello</value>
-  </data>
-  <data name="I have read and agree to the {0} ." xml:space="preserve">
+  <data name="Welcome to dotpay" xml:space="preserve">
     <value />
-  </data>
-  <data name="index_statistics_Volume" xml:space="preserve">
-    <value>Volume</value>
   </data>
-  <data name="Next Page" xml:space="preserve">
+  <data name="Almost free" xml:space="preserve">
     <value />
   </data>
-  <data name="Pre Page" xml:space="preserve">
+  <data name="Alread have an account?" xml:space="preserve">
     <value />
-  </data>
-  <data name="register_image_Code" xml:space="preserve">
-    <value>Captcha</value>
-  </data>
-  <data name="register_Terms of Service" xml:space="preserve">
-    <value>Terms of Service</value>
-  </data>
-  <data name="side_24 Hour Statistics" xml:space="preserve">
-    <value>24 Hour Statistics</value>
-  </data>
-  <data name="Site_News_Title" xml:space="preserve">
-    <value>News</value>
   </data>
-  <data name="website_Title" xml:space="preserve">
-    <value>FullCoin</value>
-  </data>
-  <data name="my balance estimation" xml:space="preserve">
-    <value>CNY estimation</value>
-  </data>
-  <data name="Total funds estimation" xml:space="preserve">
+  <data name="As fast as send a email" xml:space="preserve">
     <value />
   </data>
-  <data name="trade_volume" xml:space="preserve">
-    <value>Volume</value>
+  <data name="ChooseDotpayChooseEasyLife" xml:space="preserve">
+    <value>Choose dotpay , Choose easy life</value>
   </data>
-  <data name="Generate Deposit Address" xml:space="preserve">
-    <value />
+  <data name="DotpayDescription" xml:space="preserve">
+    <value>Dotpay is xxxx.</value>
   </data>
-  <data name="VIP Level" xml:space="preserve">
+  <data name="Enjoy our great service" xml:space="preserve">
     <value />
   </data>
-  <data name="VIP Score" xml:space="preserve">
+  <data name="Forget password?" xml:space="preserve">
     <value />
   </data>
-  <data name="Disable Login-2FA" xml:space="preserve">
-    <value />
+  <data name="indexBannerPayeasyPayCool" xml:space="preserve">
+    <value>Make pay easy , Make pay cool.</value>
   </data>
-  <data name="Please verify your email or enable Google/Sms Authenticator first." xml:space="preserve">
-    <value />
+  <data name="loginBtnText" xml:space="preserve">
+    <value>Login</value>
   </data>
-  <data name="side_All Statistics" xml:space="preserve">
-    <value>Historical Volume</value>
+  <data name="loginFieldPassword" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="Only required for a new account which does not yet have any transaction history." xml:space="preserve">
-    <value />
+  <data name="loginFieldPasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="order_Create_At" xml:space="preserve">
-    <value>Create Time</value>
+  <data name="loginFieldUserName" xml:space="preserve">
+    <value>User Name</value>
   </data>
-  <data name="Login timeout.Please login again." xml:space="preserve">
-    <value />
+  <data name="loginFieldUserNamePlaceholder" xml:space="preserve">
+    <value>Login name or email</value>
   </data>
-  <data name="Unable to submit your request.Please input your withdraw address." xml:space="preserve">
+  <data name="Register to" xml:space="preserve">
     <value />
   </data>
-  <data name="firstBuyBill" xml:space="preserve">
-    <value />
+  <data name="registerDotpayDescription" xml:space="preserve">
+    <value>You are about 30 seconds away from using Dotpay. Good choice!</value>
   </data>
-  <data name="firstSellBill" xml:space="preserve">
-    <value />
+  <data name="registerFieldConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
   </data>
-  <data name="Displaying deposits" xml:space="preserve">
-    <value />
+  <data name="registerFieldConfirmPasswordPlaceholder" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
-  <data name="BitSharesX" xml:space="preserve">
-    <value />
+  <data name="registerFieldEmail" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="BTSX Account Public Key" xml:space="preserve">
-    <value />
+  <data name="registerFieldEmailPlaceholder" xml:space="preserve">
+    <value>Email Address</value>
   </data>
-  <data name="BTSX Register Account" xml:space="preserve">
-    <value />
+  <data name="registerFieldLoginName" xml:space="preserve">
+    <value>Login Name</value>
   </data>
-  <data name="If your account not show you &quot;Unregistered&quot;,Only input your account is OK." xml:space="preserve">
-    <value />
+  <data name="registerFieldLoginNamePlaceholder" xml:space="preserve">
+    <value>Loginname</value>
   </data>
-  <data name="If your account show you &quot;Unregistered&quot;,Please make sure  input your public key." xml:space="preserve">
-    <value />
+  <data name="registerFieldPassword" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="Please make sure to fill in BTSX's transfer Memo with following information." xml:space="preserve">
-    <value />
+  <data name="registerFieldPasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="Please transfer BTSX to this register name." xml:space="preserve">
+  <data name="Sign In" xml:space="preserve">
     <value />
   </data>
-  <data name="Displaying withdraws" xml:space="preserve">
+  <data name="Sign in to" xml:space="preserve">
     <value />
   </data>
-  <data name="Your Orders History" xml:space="preserve">
+  <data name="Sign Up" xml:space="preserve">
     <value />
   </data>
-  <data name="Nxt not support numeric address now,please don't use numeric address as your withdraw address." xml:space="preserve">
+  <data name="transfer money to anywhere" xml:space="preserve">
     <value />
   </data>
-  <data name="FriendLink" xml:space="preserve">
-    <value />
+  <data name="YourQuickPayExperts" xml:space="preserve">
+    <value>Your quick pay experts</value>
   </data>
-  <data name="Click here to enable SMS Authenticator" xml:space="preserve">
+  <data name="Don't have an account yet?" xml:space="preserve">
     <value />
   </data>
 </root>

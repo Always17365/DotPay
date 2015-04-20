@@ -73,21 +73,22 @@ namespace Dotpay.SiloHost.BootstrapTask
             typeCodeDic.Add("Dotpay.Actor.Events.RippleToFIFailedEvent", 1035);
             typeCodeDic.Add("Dotpay.Actor.Events.RippleToFISettingUpdatedEvent", 1036);
             typeCodeDic.Add("Dotpay.Actor.Events.RippleToDotpaySettingUpdatedEvent", 1037);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserPreRegisterEvent", 1038);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserInitializedEvent", 1039);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginSuccessedEvent", 1040);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginFailedEvent", 1041);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLockedEvent", 1042);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserUnlockedEvent", 1043);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserSetMobileEvent", 1044);
-            typeCodeDic.Add("Dotpay.Actor.Events.SmsCounterIncreasedEvent", 1045);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserIdentityVerifiedEvent", 1046);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordChangedEvent", 1047);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordForgetEvent", 1048);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordResetEvent", 1049);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordChangedEvent", 1050);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordForgetEvent", 1051);
-            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordResetEvent", 1052);  
+            typeCodeDic.Add("Dotpay.Actor.Events.UserRegisterEvent", 1038);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordInitalizedEvent", 1039);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserActivedEvent", 1040);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginSuccessedEvent", 1041);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginFailedEvent", 1042);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLockedEvent", 1043);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserUnlockedEvent", 1044);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserSetMobileEvent", 1045);
+            typeCodeDic.Add("Dotpay.Actor.Events.SmsCounterIncreasedEvent", 1046);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserIdentityVerifiedEvent", 1047);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordModifiedEvent", 1048);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordForgetEvent", 1049);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserLoginPasswordResetEvent", 1050);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordModifiedEvent", 1051);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordForgetEvent", 1052);
+            typeCodeDic.Add("Dotpay.Actor.Events.UserPaymentPasswordResetEvent", 1053); 
 
             return typeCodeDic;
         }

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using Dotpay.Actor.Service;
-﻿using Dotpay.Common;
-﻿using Orleans;
+using Dotpay.Common;
+using Orleans;
 
 namespace Dotpay.Actor.Service.Implementations
 {
-    public class SystemSettingService : Orleans.Grain, ISystemSettingService
+    public class SystemSettingService : Grain, ISystemSettingService
     {
         async Task<ErrorCode> ISystemSettingService.UpdateRippleToFISetting(
             RippleToFISetting setting, Guid updateBy)

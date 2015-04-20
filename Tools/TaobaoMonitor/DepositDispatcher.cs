@@ -41,83 +41,93 @@ namespace Dotpay.TaobaoMonitor
             {
                 while (true)
                 {
-                    var session = TaobaoUtils.GetTaobaoSession();
+                    var session = TaobaoUtils.GetTaobaoSessionList();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
+                    var sessionList = TaobaoUtils.GetTaobaoSessionList();
 
-                    else
+                    if (sessionList.Any())
                     {
-                        try
+                        sessionList.ForEach(s =>
                         {
-                            var tradesInDb = ReadTaobaoTradeWhichUnprocess();
-
-                            if (tradesInDb.Any())
+                            try
                             {
-                                tradesInDb.ForEach(t =>
+                                var tradesInDb = ReadTaobaoTradeWhichUnprocess(s.NickName);
+
+                                if (tradesInDb.Any())
                                 {
-                                    string buyer_message = string.Empty;
-
-                                    if (CheckIfHasUnconfirmOrder(t.buyer_nick))
+                                    tradesInDb.ForEach(t =>
                                     {
-                                        //如果用户上次充值未确认,则该笔充值提示用户，并等待用户确认上笔充值后，再次为用户充值
-                                        var result = MarkTaobaoAutoDepositHasOneUnConfirmOrder(t.tid);
+                                        string buyer_message = string.Empty;
 
-                                        if (result > 0)
+                                        if (CheckIfHasUnconfirmOrder(t.buyer_nick))
                                         {
-                                            Log.Info("发现用户{0}有未确认收货的订单，更新新订单的备注为'有未确认收货订单'", t.buyer_nick);
-                                        }
-                                    }
-                                    else if (t.has_buyer_message)
-                                    {
-                                        var tradeTaobao = TaobaoUtils.GetTradeFullInfo(t.tid, session);
+                                            //如果用户上次充值未确认,则该笔充值提示用户，并等待用户确认上笔充值后，再次为用户充值
+                                            var result = MarkTaobaoAutoDepositHasOneUnConfirmOrder(t.tid);
 
-                                        if (tradeTaobao != null)
-                                        {
-                                            var realAmount = Math.Round(Convert.ToDecimal(tradeTaobao.Orders[0].Price)) * tradeTaobao.Orders[0].Num;
-                                            Debug.Assert(realAmount == t.amount, "淘宝充值金额与数据记录的金额不符合!taobao ={0} ,db ={1}".FormatWith(realAmount, t.amount));
-
-                                            buyer_message = tradeTaobao.BuyerMessage.Trim();
-                                            var rippleAddress = buyer_message;
-
-                                            if (rippleAddress.Length >= 32 && rippleAddress.StartsWith("r") &&
-                                                UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
-                                                    rippleAddress) == 1)
+                                            if (result > 0)
                                             {
-                                                //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
-                                                //当然，如果在数据库更新成功后，消息有提交失败的可能。
-                                                //如果消息提交了，更新下数据库字段即可再次提交
-                                                //!=消息提交后，除了Lose Tx Validator更新状态，否则不会在提交=!
-                                                PublishMessage(
-                                                    new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage, t.amount),
-                                                    RIPPLE_SEND_IOU_EXCHANGE_NAME, RIPPLE_SEND_IOU_TAOBAO_DEPOSIT_ROUTE_KEY);
-                                                TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，已提交处理",
-                                                         "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount,
-                                                             tradeTaobao.BuyerMessage));
-                                                Log.Info("tid={0} 提交成功..mq", t.tid);
-                                            }
-                                            else
-                                            {
-                                                Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
-                                                MarkTaobaoAutoDepositMissBuyerMessage(t.tid, buyer_message);
-                                                TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                                Log.Info("发现用户{0}有未确认收货的订单，更新新订单的备注为'有未确认收货订单'", t.buyer_nick);
                                             }
                                         }
-                                    }
-                                    else
-                                    {
-                                        Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
-                                        MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
-                                        TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言", "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
-                                    }
+                                        else if (t.has_buyer_message)
+                                        {
+                                            var tradeTaobao = TaobaoUtils.GetTradeFullInfo(t.tid, s.Session);
+                                            if (tradeTaobao != null)
+                                            {
+                                                var realAmount =
+                                                    Math.Round(Convert.ToDecimal(tradeTaobao.Orders[0].Price)) *
+                                                    tradeTaobao.Orders[0].Num;
+                                                Debug.Assert(realAmount == t.amount,
+                                                    "淘宝充值金额与数据记录的金额不符合!taobao ={0} ,db ={1}".FormatWith(realAmount,
+                                                        t.amount));
 
+                                                buyer_message = tradeTaobao.BuyerMessage.Trim();
+                                                var rippleAddress = buyer_message;
 
-                                });
+                                                if (rippleAddress.Length >= 32 && rippleAddress.StartsWith("r") &&
+                                                    UpdateRippleAddressAndRippleStatusOfTaobaoAutoDeposit(t.tid,
+                                                        rippleAddress) == 1)
+                                                {
+                                                    //如果数据库更新为pending(代表已提交【请处理】消息到队列中,更新数据库后，将不在重复提交)
+                                                    //当然，如果在数据库更新成功后，消息有提交失败的可能。
+                                                    //如果消息提交了，更新下数据库字段即可再次提交
+                                                    //!=消息提交后，除了Lose Tx Validator更新状态，否则不会在提交=!
+                                                    PublishMessage(
+                                                        new TaobaoDepositMessage(t.tid, tradeTaobao.BuyerMessage,
+                                                            t.amount),
+                                                        RIPPLE_SEND_IOU_EXCHANGE_NAME,
+                                                        RIPPLE_SEND_IOU_TAOBAO_DEPOSIT_ROUTE_KEY);
+                                                    TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，已提交处理",
+                                                        "淘宝交易号={0}，金额={1},地址={2}".FormatWith(t.tid, t.amount,
+                                                            tradeTaobao.BuyerMessage));
+                                                    Log.Info("tid={0} 提交成功..mq", t.tid);
+                                                }
+                                                else
+                                                {
+                                                    Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
+                                                    MarkTaobaoAutoDepositMissBuyerMessage(t.tid, buyer_message);
+                                                    TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言",
+                                                        "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount,
+                                                            buyer_message));
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Log.Info("tid={0} 的未留言或留言不正确,标记为失败", t.tid);
+                                            MarkTaobaoAutoDepositMissBuyerMessage(t.tid);
+                                            TaobaoUtils.NoticeWebMaster("发现淘宝自动充值，用户未正确留言",
+                                                "淘宝交易号={0}，金额={1},留言={2}".FormatWith(t.tid, t.amount, buyer_message));
+                                        }
+
+                                    });
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error("Deposit Dispatcher Exception", ex);
-                        }
+                            catch (Exception ex)
+                            {
+                                Log.Error("Deposit Dispatcher Exception", ex);
+                            }
+                        });
                     }
 
                     Task.Delay(10 * 1000).Wait();
@@ -129,17 +139,22 @@ namespace Dotpay.TaobaoMonitor
             started = true;
         }
 
-        private static IEnumerable<TaobaoAutoDeposit> ReadTaobaoTradeWhichUnprocess()
+        private static IEnumerable<TaobaoAutoDeposit> ReadTaobaoTradeWhichUnprocess(string sellerNick)
         {
             const string sql =
                 "SELECT tid,amount,buyer_nick,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo,first_submit_at" +
                 "  FROM taobao " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status";
+                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status AND seller_nick=@seller_nick";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    var tradesInDb = conn.Query<TaobaoAutoDeposit>(sql, new { taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status = RippleTransactionStatus.Init });
+                    var tradesInDb = conn.Query<TaobaoAutoDeposit>(sql, new
+                    {
+                        taobao_status = "WAIT_SELLER_SEND_GOODS",
+                        ripple_status = RippleTransactionStatus.Init,
+                        seller_nick=sellerNick
+                    });
 
                     return tradesInDb;
                 }

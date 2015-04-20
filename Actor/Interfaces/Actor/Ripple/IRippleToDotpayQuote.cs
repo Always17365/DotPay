@@ -10,7 +10,7 @@ namespace Dotpay.Actor
 {
     public interface IRippleToDotpayQuote : IGrainWithIntegerKey
     {
-        Task Initialize(long userId, string invoiceId, TransferToDotpayTargetInfo trgetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo);
+        Task Initialize(Guid userId, string invoiceId, TransferToDotpayTargetInfo trgetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo);
         Task<ErrorCode> Complete(string invoiceId, string txId, decimal sendAmount);
         Task<RippleToDotpayQuoteInfo> GetQuoteInfo();
     }
@@ -19,7 +19,7 @@ namespace Dotpay.Actor
     [Serializable]
     public class RippleToDotpayQuoteInfo
     {
-        public RippleToDotpayQuoteInfo(long userId, string invoiceId, TransferToDotpayTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
+        public RippleToDotpayQuoteInfo(Guid userId, string invoiceId, TransferToDotpayTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
         {
             this.UserId = userId;
             this.InvoiceId = invoiceId;
@@ -30,7 +30,7 @@ namespace Dotpay.Actor
             this.Memo = memo;
         }
 
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public string InvoiceId { get; set; }
         public TransferToDotpayTargetInfo TransferTargetInfo { get; set; }
         public CurrencyType Currency { get; set; }

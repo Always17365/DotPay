@@ -15,8 +15,7 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RippleToDotpayQuote : Grain<IRippleToDotpayQuoteState>, IRippleToDotpayQuote
     {
-        async Task IRippleToDotpayQuote.Initialize(long userId, string invoiceId, TransferToDotpayTargetInfo transferTargetInfo,
-               CurrencyType currency, decimal amount, decimal sendAmount, string memo)
+        async Task IRippleToDotpayQuote.Initialize(Guid userId, string invoiceId, TransferToDotpayTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
         {
             if (this.State.Status < RippleTransactionStatus.Completed) return;
 
@@ -85,7 +84,7 @@ namespace Dotpay.Actor.Implementations
     public interface IRippleToDotpayQuoteState : IGrainState
     {
         long Id { get; set; }
-        long UserId { get; set; }
+        Guid UserId { get; set; }
         RippleTransactionStatus Status { get; set; }
         string InvoiceId { get; set; }
         string TxId { get; set; }

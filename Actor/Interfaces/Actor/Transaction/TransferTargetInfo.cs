@@ -33,7 +33,7 @@ namespace Dotpay.Actor
     {
         public string RealName { get; set; }
         public Guid AccountId { get; set; }
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public string UserLoginName { get; set; }
     }
 

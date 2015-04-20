@@ -37,6 +37,13 @@ namespace Dotpay.Actor.Implementations
 
         public Task PublishMessage(MqMessage message, string exchangeName, string routeKey = "", bool durable = false)
         {
+            if (this._channel == null)
+            {
+                var connection = RabbitMqConnectionManager.GetConnection();
+
+                this._channel = connection.CreateModel();
+            } 
+
             var messageBody = IoC.Resolve<IJsonSerializer>().Serialize(message);
             var bytes = Encoding.UTF8.GetBytes(messageBody);
             var build = new BytesMessageBuilder(this._channel);

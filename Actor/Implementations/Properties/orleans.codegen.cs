@@ -162,7 +162,7 @@ namespace Dotpay.Actor.Implementations
 
             public Int64 @Id { get; set; }
 
-            public Int64 @UserId { get; set; }
+            public Guid @UserId { get; set; }
 
             public RippleTransactionStatus @Status { get; set; }
 
@@ -189,7 +189,7 @@ namespace Dotpay.Actor.Implementations
                 object value;
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("UserId", out value)) @UserId = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("UserId", out value)) @UserId = (Guid) value;
                 if (values.TryGetValue("Status", out value)) @Status = (RippleTransactionStatus) value;
                 if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
                 if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
@@ -234,7 +234,7 @@ namespace Dotpay.Actor.Implementations
         private void InitStateFields()
         {
             this.Id = default(Int64);
-            this.UserId = default(Int64);
+            this.UserId = default(Guid);
             this.Status = default(RippleTransactionStatus);
             this.InvoiceId = default(String);
             this.TxId = default(String);
@@ -525,7 +525,7 @@ namespace Dotpay.Actor.Implementations
 
             public Dictionary<Guid,TransactionPreparation> @TransactionPreparations { get; set; }
 
-            public Int64 @OwnerId { get; set; }
+            public Guid @OwnerId { get; set; }
 
             public Dictionary<CurrencyType,Decimal> @Balances { get; set; }
 
@@ -536,7 +536,7 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
                 if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
                 if (values.TryGetValue("TransactionPreparations", out value)) @TransactionPreparations = (Dictionary<Guid,TransactionPreparation>) value;
-                if (values.TryGetValue("OwnerId", out value)) @OwnerId = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("OwnerId", out value)) @OwnerId = (Guid) value;
                 if (values.TryGetValue("Balances", out value)) @Balances = (Dictionary<CurrencyType,Decimal>) value;
             }
 
@@ -567,7 +567,7 @@ namespace Dotpay.Actor.Implementations
             this.Version = default(UInt64);
             this.Id = default(Guid);
             this.TransactionPreparations = new Dictionary<Guid,TransactionPreparation>();
-            this.OwnerId = default(Int64);
+            this.OwnerId = default(Guid);
             this.Balances = new Dictionary<CurrencyType,Decimal>();
         }
         
@@ -963,7 +963,9 @@ namespace Dotpay.Actor.Implementations
 
             public UInt64 @Version { get; set; }
 
-            public Int64 @Id { get; set; }
+            public Guid @Id { get; set; }
+
+            public Lang @Lang { get; set; }
 
             public Guid @AccountId { get; set; }
 
@@ -1012,7 +1014,8 @@ namespace Dotpay.Actor.Implementations
                 object value;
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = (UInt64) value;
-                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
+                if (values.TryGetValue("Lang", out value)) @Lang = (Lang) value;
                 if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
                 if (values.TryGetValue("LoginName", out value)) @LoginName = (String) value;
                 if (values.TryGetValue("Email", out value)) @Email = (String) value;
@@ -1038,7 +1041,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("UserState( Version={0} Id={1} AccountId={2} LoginName={3} Email={4} EmailVerifyToken={5} IsVerified={6} IsLocked={7} LockedAt={8} IdentityInfo={9} MobileSetting={10} LoginPassword={11} LoginPasswordResetToken={12} LoginPasswordResetTokenGenerateAt={13} LastLoginPasswordChangeAt={14} PaymentPassword={15} PaymentPasswordResetToken={16} PaymentPasswordResetTokenGenerateAt={17} LastPaymentPasswordChangeAt={18} LastLoginIp={19} LastLoginAt={20} LastLoginFailedAt={21} Salt={22} )", @Version, @Id, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt, @Salt);
+                return System.String.Format("UserState( Version={0} Id={1} Lang={2} AccountId={3} LoginName={4} Email={5} EmailVerifyToken={6} IsVerified={7} IsLocked={8} LockedAt={9} IdentityInfo={10} MobileSetting={11} LoginPassword={12} LoginPasswordResetToken={13} LoginPasswordResetTokenGenerateAt={14} LastLoginPasswordChangeAt={15} PaymentPassword={16} PaymentPasswordResetToken={17} PaymentPasswordResetTokenGenerateAt={18} LastPaymentPasswordChangeAt={19} LastLoginIp={20} LastLoginAt={21} LastLoginFailedAt={22} Salt={23} )", @Version, @Id, @Lang, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt, @Salt);
             }
         
         public UserState() : 
@@ -1052,6 +1055,7 @@ namespace Dotpay.Actor.Implementations
             System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
             result["Version"] = this.Version;
             result["Id"] = this.Id;
+            result["Lang"] = this.Lang;
             result["AccountId"] = this.AccountId;
             result["LoginName"] = this.LoginName;
             result["Email"] = this.Email;
@@ -1079,7 +1083,8 @@ namespace Dotpay.Actor.Implementations
         private void InitStateFields()
         {
             this.Version = default(UInt64);
-            this.Id = default(Int64);
+            this.Id = default(Guid);
+            this.Lang = default(Lang);
             this.AccountId = default(Guid);
             this.LoginName = default(String);
             this.Email = default(String);

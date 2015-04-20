@@ -17,7 +17,7 @@ namespace Dotpay.Common
         PaymentPasswordError = UserErrorBase + 4,
         UserAccountIsLocked = UserErrorBase + 5,
         OldLoginPasswordError = UserErrorBase + 6,
-        TokenIsUsedOrTimeOut = UserErrorBase + 7,
+        InvalidActiveToken = UserErrorBase + 7,
         OldPaymentPasswordError = UserErrorBase + 8,
         RealNameVerifationHasPassed = UserErrorBase + 9,
         UserMobileIsNotSet = UserErrorBase + 10,
@@ -25,9 +25,19 @@ namespace Dotpay.Common
         EmailHasVerified = UserErrorBase + 12,
         MobileHasSet = UserErrorBase + 13,
         ExceedMaxLoginFailTime = UserErrorBase + 14,
+        ExceedMaxResetLoginPasswordRequestTime = UserErrorBase + 15,      //登陆密码重置次数过多，控制Email发送数量
+        ExceedMaxResetPaymentPasswordRequestTime = UserErrorBase + 16,    //支付密码重置次数过多，控制Email发送数量
+        InvalidResetLoginPasswordToken = UserErrorBase + 17,              //错误登陆密码重置Token
+        InvalidResetPaymentPasswordToken = UserErrorBase + 18,            //错误支付密码重置Token
+        InvalidUser = UserErrorBase + 19,                                 //无效的用户
+        UnactiveUser = UserErrorBase + 20,                                //未激活的用户
+        UserHasActived = UserErrorBase + 21,                              //用户已激活
+
+        #region Manager
         UserManagerErrorBase = 1500,
         HasNoPermission = UserManagerErrorBase + 1,
-        SuperManagerHasInitialized = UserManagerErrorBase + 2,
+        SuperManagerHasInitialized = UserManagerErrorBase + 2, 
+        #endregion
         #endregion
 
         #region Account
@@ -57,7 +67,7 @@ namespace Dotpay.Common
         RippleTransactionInvoiceIdNotMatch = RippleErrorBase + 5,
         RippleQuoteAmountOutOfRange = RippleErrorBase + 6,
         RippleQuoteUnsupport = RippleErrorBase + 7,
-        RippleToFiErrorBase=RippleErrorBase+200,
+        RippleToFiErrorBase = RippleErrorBase + 200,
         RippleToFiIsLockedByOther = RippleToFiErrorBase + 1,
         #endregion
 

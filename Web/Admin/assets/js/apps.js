@@ -173,7 +173,7 @@ var handleSidebarMinify = function () {
         var sidebarClass = 'page-sidebar-minified';
         var targetContainer = '#page-container';
         if ($(targetContainer).hasClass(sidebarClass)) {
-            sub - menu
+           // sub - menu
             $(targetContainer).removeClass(sidebarClass);
             if ($(targetContainer).hasClass('page-sidebar-fixed')) {
                 generateSlimScroll($('#sidebar [data-scrollbar="true"]'));

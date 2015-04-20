@@ -48,15 +48,16 @@
     <Reference Include="Orleans">
       <HintPath>..\..\packages\Microsoft.Orleans.Core.1.0.5\lib\net45\Orleans.dll</HintPath>
     </Reference>
-    <Reference Include="Orleans.EventSourcing, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Orleans.EventSourcing, Version=1.0.3.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.3.0\lib\net45\Orleans.EventSourcing.dll</HintPath>
+      <HintPath>..\..\packages\Orleans.EventSourcing.1.0.3.1\lib\net45\Orleans.EventSourcing.dll</HintPath>
     </Reference>
     <Reference Include="OrleansRuntime">
       <HintPath>..\..\packages\Microsoft.Orleans.OrleansRuntime.1.0.5\lib\net45\OrleansRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="RabbitMQ.Client">
-      <HintPath>..\..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
+    <Reference Include="RabbitMQ.Client, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

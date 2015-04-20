@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>点付</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="点付 , 您的快捷支付专家" name="description" />
+    <!--  BEGIN BASE CSS STYLE  -->
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/style@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
+    <link href="/assets/plugins/formvalidation/css/formValidation.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme/default@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
+    <!-- END BASE CSS STYLE -->
+    <!-- end #page-container -->
+    <!--  BEGIN BASE JS  -->
+    <script src="/assets/js/lang/@(ViewBag.Lang).js"></script>
+    <script src="/assets/plugins/jquery/jquery-1.11.2.min.js"></script>
+    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="/assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="/assets/crossbrowserjs/respond.min.js"></script>
+        <script src="/assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/assets/plugins/scrollMonitor/scrollMonitor.js"></script>
+    <script src="/assets/plugins/formvalidation/js/formValidation.min.js"></script>
+    <script src="/assets/js/apps@(ViewBag.Debug==true?"":".min").js"></script>
+    <!--  END BASE JS  -->
+    <script>
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+</head>
+<body data-spy="scroll" data-target="#header-navbar" data-offset="51">
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        @Html.Partial("_IndexHeader")
+        @RenderBody()
+    </div>
+</body>
+</html>

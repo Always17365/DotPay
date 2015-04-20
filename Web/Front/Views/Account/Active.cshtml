@@ -1,0 +1,28 @@
+﻿@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content active-content" data-scrollview="true">
+    <link href="~/assets/css/login.css" rel="stylesheet" />
+    <div class="container fadeInDown contentAnimated" data-animation="true" data-animation-type="fadeInDown">
+        <div class="row">
+            <div class="col-md-10 col-sm-10 col-md-offset-2">
+                @{
+                    var result = (DotpayJsonResult)ViewBag.Result;
+                }
+                @if (result.Code == 1)
+                {
+                    <h1 class="active-header">@Html.Lang("Welcome to dotpay")</h1>
+                    <p class="active-des">
+                        @Html.Lang("activationDescription")
+                    </p>
+                }
+                else
+                {
+                    <h1 class="active-header">@result.Message</h1>
+                }
+            </div>
+        </div>
+    </div>
+</div>

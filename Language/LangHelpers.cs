@@ -9,11 +9,11 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
-namespace FullCoin.Language
+namespace Dotpay.Language
 {
     public static class LangHelpers
     {
-        public static readonly ResourceManager recourseManager = new ResourceManager(typeof(Resource));
+        public static readonly ResourceManager RecourseManager = new ResourceManager(typeof(Resource));
 
         public static IHtmlString MetaAcceptLanguage<T>(this HtmlHelper<T> html)
         {
@@ -66,7 +66,7 @@ namespace FullCoin.Language
         {
             try
             {
-                if (strings.Count() > 0)
+                if (strings.Any())
                     return string.Format(Lang(key), strings);
                 else
                     return Lang(key);

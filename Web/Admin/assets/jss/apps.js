@@ -1,48 +1,3 @@
-/*
-Template Name: Color Dotpay.Admin - Responsive Dotpay.Admin Dashboard Template build with Twitter Bootstrap 3.3.2
-Version: 1.6.0
-Author: Sean Ngu
-Website: http://www.seantheme.com/color-admin-v1.6/admin/
-    ----------------------------
-        APPS CONTENT TABLE
-    ----------------------------
-    
-    <!-- ======== GLOBAL SCRIPT SETTING ======== -->
-    01. Handle Scrollbar
-    
-    02. Handle Sidebar - Menu
-    03. Handle Sidebar - Mobile View Toggle
-    04. Handle Sidebar - Minify / Expand
-    05. Handle Page Load - Fade in
-    06. Handle Panel - Remove / Reload / Collapse / Expand
-    07. Handle Panel - Draggable
-    08. Handle Tooltip & Popover Activation
-    09. Handle Scroll to Top Button Activation
-    
-    <!-- ======== Added in V1.2 ======== -->
-    10. Handle Theme & Page Structure Configuration
-    11. Handle Theme Panel Expand
-    12. Handle After Page Load Add Class Function - added in V1.2
-    
-    <!-- ======== Added in V1.5 ======== -->
-    13. Handle Save Panel Position Function - added in V1.5
-    14. Handle Draggable Panel Local Storage Function - added in V1.5
-    15. Handle Reset Local Storage - added in V1.5
-    16. Handle Ajax Page Load - added in V1.5
-    17. Handle Ajax Page Load Url - added in V1.5
-    18. Handle Ajax Sidebar Toggle Content - added in V1.5
-    19. Handle Url Hash Change - added in V1.5
-    20. Handle Pace Page Loading Plugins - added in V1.5
-    
-    <!-- ======== Added in V1.6 ======== -->
-    21. Handle IE Full Height Page Compatibility - added in V1.6
-    22. Handle Unlimited Nav Tabs - added in V1.6
-	
-    <!-- ======== APPLICATION SETTING ======== -->
-    Application Controller
-*/
-
-
 /* 01. Handle Scrollbar
 ------------------------------------------------ */
 var handleSlimScroll = function () {
@@ -173,7 +128,7 @@ var handleSidebarMinify = function () {
         var sidebarClass = 'page-sidebar-minified';
         var targetContainer = '#page-container';
         if ($(targetContainer).hasClass(sidebarClass)) {
-            sub - menu
+            //sub - menu
             $(targetContainer).removeClass(sidebarClass);
             if ($(targetContainer).hasClass('page-sidebar-fixed')) {
                 generateSlimScroll($('#sidebar [data-scrollbar="true"]'));

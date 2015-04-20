@@ -1,0 +1,43 @@
+﻿@using Dotpay.Language
+<!-- begin #header -->
+<div id="header" class="header navbar navbar-transparent navbar-fixed-top">
+    <!-- begin container -->
+    <div class="container">
+        <!-- begin navbar-header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <span class="brand-logo"></span>
+                <span class="brand-text">
+                    <span class="text-theme">@Html.Lang("DotpayLogoTitle")</span>
+                </span>
+            </a>
+        </div>
+        <!-- end navbar-header -->
+        <!-- begin navbar-collapse -->
+        <div class="collapse navbar-collapse" id="header-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#introduce" data-click="scroll-to-target">Introduce</a></li>
+                <li><a href="#service" data-click="scroll-to-target">Services</a></li>
+                <li><a href="#team" data-click="scroll-to-target">Team</a></li>
+                <li><a href="/merchants" data-click="scroll-to-target">Merchants</a></li>
+                <li><a href="/developers" data-click="scroll-to-target">Developers</a></li>
+                <li class="dropdown">
+                    <a href="#" data-click="scroll-to-target" data-toggle="dropdown">Language<b class="caret"></b></a>
+                    <ul id="lang_list" class="dropdown-menu dropdown-menu-left animated fadeInDown">
+                        <li><a theme-lang="zh-cn" href="#">简体中文</a></li>
+                        <li><a theme-lang="en-us" href="#">English</a></li>
+                        @*<li><a   theme-lang="zh-tw" href="#">繁體中文</a></li>*@
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- end navbar-collapse -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end #header -->

@@ -77,19 +77,19 @@ namespace Dotpay.Admin.Controllers
                 var query = IoC.Resolve<IManagerQuery>();
                 try
                 {
-                    var manangerId = await query.GetManagerIdByLoginName(loginModel.LoginName);
-                    if (!manangerId.HasValue)
+                    var managerId = await query.GetManagerIdByLoginName(loginModel.LoginName);
+                    if (!managerId.HasValue)
                     {
                         result = DotpayJsonResult.CreateFailResult("账号或密码错误");
                     }
                     else
                     {
-                        var cmd = new ManagerLoginCommand(manangerId.Value, loginModel.Password, this.GetUserIpAddress());
+                        var cmd = new ManagerLoginCommand(managerId.Value, loginModel.Password, this.GetUserIpAddress());
                         await this.CommandBus.SendAsync(cmd);
 
                         if (cmd.CommandResult == ErrorCode.None)
                         {
-                            var manager = await query.GetManagerIdentityById(manangerId.Value);
+                            var manager = await query.GetManagerIdentityById(managerId.Value);
                             this.SetWaitVerifyTwofactorLoginManager(manager);
 #if DEBUG
                             this.PassVerifyTwofactor();
@@ -98,6 +98,8 @@ namespace Dotpay.Admin.Controllers
                         }
                         else if (cmd.CommandResult == ErrorCode.LoginNameOrPasswordError)
                             result = DotpayJsonResult.CreateFailResult("账号或密码错误");
+                        else if (cmd.CommandResult == ErrorCode.UserAccountIsLocked)
+                            result = DotpayJsonResult.CreateFailResult("账户被锁定");
                     }
                 }
                 catch (Exception ex)

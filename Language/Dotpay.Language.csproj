@@ -7,8 +7,8 @@
     <ProjectGuid>{9E132226-8ECC-4EA6-8982-4B13096843C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FullCoin.Language</RootNamespace>
-    <AssemblyName>FullCoin.Language</AssemblyName>
+    <RootNamespace>Dotpay.Language</RootNamespace>
+    <AssemblyName>Dotpay.Language</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

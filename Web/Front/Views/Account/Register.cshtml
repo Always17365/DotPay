@@ -1,0 +1,79 @@
+﻿@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content register-content" data-scrollview="true">
+    <link href="~/assets/css/login.css" rel="stylesheet" />
+    <div class="container fadeInDown contentAnimated" data-animation="true" data-animation-type="fadeInDown">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="register-info-wraper">
+                    <div class="register-info">
+                        <h1>@Html.Lang("registerDotpayDescription")</h1>
+                        <ul dir="rtl">
+                            <li>@Html.Lang("transfer money to anywhere")</li>
+                            <li>@Html.Lang("Almost free")</li>
+                            <li>@Html.Lang("As fast as send a email")</li>
+                            <li>@Html.Lang("Enjoy our great service")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="modal-content register-wraper">
+                    <form class="form-horizontal register-form" data-parsley-validate="true" id="formSignup">
+                        <div class="modal-header">
+                            <h2 class="modal-title login-title">@Html.Lang("Register to")<span class="blue">@Html.Lang("DotpayLogoTitle")
+                                </span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="loginName">@Html.Lang("registerFieldLoginName") :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" id="loginName" name="loginName" autocomplete="off" placeholder="@Html.Lang("registerFieldLoginNamePlaceholder")" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="email">@Html.Lang("registerFieldEmail") :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" id="email" name="email" autocomplete="off" placeholder="@Html.Lang("registerFieldEmailPlaceholder")" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="loginPassword">@Html.Lang("registerFieldPassword"):</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="password" id="loginPassword" name="loginPassword" placeholder="@Html.Lang("registerFieldPasswordPlaceholder")" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="confirmPassword">@Html.Lang("registerFieldConfirmPassword") :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="@Html.Lang("registerFieldConfirmPasswordPlaceholder")" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="signupMessage" class="col-md-8 col-sm-8 col-md-offset-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-md-12 col-sm-12 text-right">
+                                @Html.Lang("Alread have an account?") <a class="link" href="/signin">@Html.Lang("Sign In")</a>
+                                <button type="submit" class="btn btn-sm btn-success col-md-offset-1">@Html.Lang("Sign Up")</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.getScript('/assets/js/login.js').done(function () {
+                LoginAndRegister.handleRegisterFrom();
+            });
+        });
+    </script>
+</div>

@@ -33,34 +33,34 @@ namespace Dotpay.TaobaoMonitor
             {
                 while (true)
                 {
-                    var session = TaobaoUtils.GetTaobaoSession();
+                    var sessionList = TaobaoUtils.GetTaobaoSessionList();
 
-                    if (string.IsNullOrWhiteSpace(session)) TaobaoUtils.NoticeWebMasterWhenSessionTimeout();
-
-                    else
+                    if (sessionList.Any())
                     {
-                        try
+                        sessionList.ForEach(s =>
                         {
-                            var tradesInDb = ReadTaobaoTradeWhichNeedSendGoods();
-
-                            if (tradesInDb.Any())
+                            try
                             {
-                                Log.Info("读取到{0}待发货的淘宝自动充值,开始自动发货..", tradesInDb.Count());
-                                tradesInDb.ForEach(t =>
-                                {
-                                    if (TaobaoUtils.SendGoods(t.tid, session))
-                                    {
-                                        MarkTaobaoAutoDepositHasSendGoods(t.tid);
-                                    }
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error("Taobao Auto Send Goods Exception", ex);
-                        }
-                    }
+                                var tradesInDb = ReadTaobaoTradeWhichNeedSendGoods(s.NickName);
 
+                                if (tradesInDb.Any())
+                                {
+                                    Log.Info("读取{0}到{1}待发货的淘宝自动充值,开始自动发货..", s.NickName, tradesInDb.Count());
+                                    tradesInDb.ForEach(t =>
+                                    {
+                                        if (TaobaoUtils.SendGoods(t.tid, s.Session))
+                                        {
+                                            MarkTaobaoAutoDepositHasSendGoods(t.tid);
+                                        }
+                                    });
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error("Taobao Auto Send Goods Exception", ex);
+                            }
+                        });
+                    }
                     Task.Delay(10 * 1000).Wait();
                 }
             });
@@ -70,17 +70,22 @@ namespace Dotpay.TaobaoMonitor
             started = true;
         }
 
-        private static IEnumerable<TaobaoAutoDeposit> ReadTaobaoTradeWhichNeedSendGoods()
+        private static IEnumerable<TaobaoAutoDeposit> ReadTaobaoTradeWhichNeedSendGoods(string sellerNick)
         {
             const string sql =
                 "SELECT tid,amount,has_buyer_message,taobao_status,ripple_address,ripple_status,txid,memo" +
                 "  FROM taobao " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status";
+                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status AND seller_nick=@seller_nick";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    var tradesInDb = conn.Query<TaobaoAutoDeposit>(sql, new { taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status = RippleTransactionStatus.Successed });
+                    var tradesInDb = conn.Query<TaobaoAutoDeposit>(sql, new
+                    {
+                        taobao_status = "WAIT_SELLER_SEND_GOODS",
+                        ripple_status = RippleTransactionStatus.Successed,
+                        seller_nick = @sellerNick
+                    });
 
                     return tradesInDb;
                 }

@@ -4,36 +4,46 @@ using System.Threading.Tasks;
 using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
+using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service
 {
     public interface IUserRegisterService : Orleans.IGrainWithIntegerKey
     {
-        Task PreRegister(string email, Lang lang);
-        Task InitUserInfo(long userId, string userAccount, string loginPassword, string tradePassword);
+        Task Register(string loginName, string email, string loginPassword, Lang lang); 
+        Task<ErrorCode> ResendActiveEmail(Guid userId);
+        Task<ErrorCode> ActiveUser(Guid userId,string token);
     }
+
     #region MessageClass
-    public class UserPreRegisterMessage : MqMessage
+    [Immutable]
+    [Serializable]
+    public class UserRegisterMessage : MqMessage
     {
-        public UserPreRegisterMessage(string email, Lang lang)
+        public UserRegisterMessage(string email, string loginName, Lang lang, string activeToken)
         {
             this.Email = email;
+            this.LoginName = loginName;
             this.Lang = lang;
+            this.ActiveToken = activeToken;
         }
-
         public string Email { get; set; }
+        public string LoginName { get; set; }
         public Lang Lang { get; set; }
+        public string ActiveToken { get; set; }
     }
 
-    public class UserInitializedMessage : MqMessage
+    [Immutable]
+    [Serializable]
+    public class UserActivedMessage : MqMessage
     {
-        public UserInitializedMessage(long userId, Guid accountId)
+        public UserActivedMessage(Guid userId, Guid accountId)
         {
             this.UserId = userId;
             this.AccountId = accountId;
         }
 
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public Guid AccountId { get; set; }
     }
 
@@ -46,6 +56,8 @@ namespace Dotpay.Actor.Service
         public Lang Lang { get; set; }
     }
 
+    [Immutable]
+    [Serializable]
     public class UserForgetLoginPasswordMessage : UserResetPasswordMessage
     {
         public UserForgetLoginPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)
@@ -57,6 +69,8 @@ namespace Dotpay.Actor.Service
             this.Lang = lang;
         }
     }
+    [Immutable]
+    [Serializable]
     public class UserForgetPaymentPasswordMessage : UserResetPasswordMessage
     {
         public UserForgetPaymentPasswordMessage(string email, string loginName, string token, DateTime timestamp, Lang lang)

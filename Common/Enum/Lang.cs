@@ -2,7 +2,9 @@
 {
     public enum Lang
     {
-        Chinese,
-        English
+        Unkown=0,
+        SimplifiedChinese=1,
+        English=2,
+        TraditionalChinese=3
     }
 }

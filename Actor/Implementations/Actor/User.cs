@@ -10,6 +10,7 @@ using DFramework.Utilities;
 using Dotpay.Actor.Events;
 using Dotpay.Actor;
 using Dotpay.Common;
+using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Providers;
@@ -20,50 +21,74 @@ namespace Dotpay.Actor.Implementations
     public class User : EventSourcingGrain<User, IUserState>, IUser
     {
         private readonly List<DateTime> _loginFailCounter = new List<DateTime>();
+        private readonly List<DateTime> _forgetLoginPasswordCounter = new List<DateTime>();
+        private readonly List<DateTime> _forgetPaymentPasswordCounter = new List<DateTime>();
         private const int MAX_RETRY_LOGIN_TIMES = 5;
+        private const int MAX_FORGET_LOGIN_PASSWORD_TIMES = 3;
         private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
 
         #region IUser
-        async Task<ErrorCode> IUser.PreRegister(string email)
+        async Task<ErrorCode> IUser.Register(string email, string userAccount, string loginPassword, Lang lang, string activeToken)
         {
-            if (this.State.IsVerified)
-                return ErrorCode.EmailAlreadyRegisted;
-            else
-            {
-                var token = this.GenerteEmailValidateToken(email);
-                //邮件服务考虑使用Message Queue完成发送,建立独立的邮件发送服务
-                await this.ApplyEvent(new UserPreRegisterEvent(this.GetPrimaryKeyLong(), email, token));
-            }
-            return ErrorCode.None;
-        }
-
-        async Task<Guid> IUser.Initialize(string userAccount, string loginPassword, string paymentPassword)
-        {
-            var accountId = Guid.NewGuid();
             if (!this.State.IsVerified)
             {
                 var salt = Guid.NewGuid().Shrink().Substring(0, 8);
                 loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
-                paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + salt);
-                await this.ApplyEvent(new UserInitializedEvent(userAccount, loginPassword, paymentPassword, accountId, salt));
+                await this.ApplyEvent(new UserRegisterEvent(this.GetPrimaryKey(), userAccount.ToLower(), email.ToLower(), loginPassword, salt, lang, activeToken));
             }
-            else accountId = this.State.AccountId;
-
-            return accountId;
+            return ErrorCode.None;
         }
 
-        Task IUser.Lock(long operatorId, string reason)
+        async Task<ErrorCode> IUser.ResetActiveToken(string activeToken)
+        {
+            if (this.State.IsVerified)
+            {
+                return ErrorCode.UserHasActived;
+            }
+            else
+            {
+                await this.ApplyEvent(new UserActiveTokenResetEvent(activeToken));
+                return ErrorCode.None;
+            }
+        }
+
+        async Task<ErrorCode> IUser.InitializePaymentPassword(string paymentPassword)
+        {
+            if (this.State.IsVerified)
+            {
+                paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt);
+                await this.ApplyEvent(new UserPaymentPasswordInitalizedEvent(paymentPassword));
+            }
+            return ErrorCode.None;
+        }
+        async Task<ErrorCode> IUser.Active(string emailToken)
+        {
+            if (!this.State.IsVerified)
+            {
+                if (this.State.EmailVerifyToken.Equals(emailToken, StringComparison.OrdinalIgnoreCase))
+                {
+                    await this.ApplyEvent(new UserActivedEvent(emailToken));
+                    return ErrorCode.None;
+                }
+                else
+                    return ErrorCode.InvalidActiveToken;
+            }
+            else
+                return ErrorCode.UserHasActived;
+        }
+
+        Task IUser.Lock(Guid lockBy, string reason)
         {
             if (this.State.IsVerified && !this.State.IsLocked)
-                return this.ApplyEvent(new UserLockedEvent(operatorId, reason));
+                return this.ApplyEvent(new UserLockedEvent(lockBy, reason));
 
             return TaskDone.Done;
         }
 
-        Task IUser.Unlock(long operatorId, string reason)
+        Task IUser.Unlock(Guid lockBy, string reason)
         {
             if (this.State.IsVerified && this.State.IsLocked)
-                return this.ApplyEvent(new UserUnlockedEvent(operatorId, reason));
+                return this.ApplyEvent(new UserUnlockedEvent(lockBy, reason));
 
             return TaskDone.Done;
         }
@@ -95,65 +120,99 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        async Task<string> IUser.ForgetLoginPassword()
+        async Task<Tuple<ErrorCode, string>> IUser.ForgetLoginPassword(string token)
         {
             if (this.State.IsVerified)
             {
-                var token = GenerteResetLoginPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
-                return token;
+                if (_forgetLoginPasswordCounter.SkipWhile(d => d.AddMinutes(15) > DateTime.Now).Count() <
+                    MAX_FORGET_LOGIN_PASSWORD_TIMES)
+                {
+                    await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
+                    _forgetLoginPasswordCounter.Add(DateTime.Now);
+                    return new Tuple<ErrorCode, string>(ErrorCode.None, token);
+                }
+                else
+                {
+                    return new Tuple<ErrorCode, string>(ErrorCode.ExceedMaxResetLoginPasswordRequestTime, string.Empty);
+                }
             }
 
-            return string.Empty;
+            return new Tuple<ErrorCode, string>(ErrorCode.InvalidUser, string.Empty);
         }
 
-        Task IUser.ResetLoginPassword(string newLoginPassword, string resetToken)
+        async Task<ErrorCode> IUser.ResetLoginPassword(string newLoginPassword, string resetToken)
         {
             newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
             if (this.State.IsVerified)
-                return this.ApplyEvent(new UserLoginPasswordResetEvent(resetToken, newLoginPassword));
-
-            return TaskDone.Done;
+            {
+                if (this.State.LoginPasswordResetToken.Equals(resetToken, StringComparison.OrdinalIgnoreCase))
+                {
+                    await this.ApplyEvent(new UserLoginPasswordResetEvent(resetToken, newLoginPassword));
+                    return ErrorCode.None;
+                }
+                else
+                    return ErrorCode.InvalidResetLoginPasswordToken;
+            }
+            else
+                return ErrorCode.InvalidUser;
         }
 
-        async Task<string> IUser.ForgetPaymentPassword()
+        async Task<Tuple<ErrorCode, string>> IUser.ForgetPaymentPassword(string token)
         {
             if (this.State.IsVerified)
             {
-                var token = this.GenerteResetPaymentPasswordToken(this.State.Email);
-                await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
-                return token;
+                if (_forgetLoginPasswordCounter.SkipWhile(d => d.AddMinutes(15) < DateTime.Now).Count() <
+                    MAX_FORGET_LOGIN_PASSWORD_TIMES)
+                {
+                    await this.ApplyEvent(new UserPaymentPasswordForgetEvent(token));
+                    _forgetLoginPasswordCounter.Add(DateTime.Now);
+                    return new Tuple<ErrorCode, string>(ErrorCode.None, token);
+                }
+                else
+                {
+                    return new Tuple<ErrorCode, string>(ErrorCode.ExceedMaxResetLoginPasswordRequestTime, string.Empty);
+                }
             }
-            return string.Empty;
+
+            return new Tuple<ErrorCode, string>(ErrorCode.InvalidUser, string.Empty);
         }
 
-        Task IUser.ResetPaymentPassword(string newPaymentPassword, string resetToken)
+        async Task<ErrorCode> IUser.ResetPaymentPassword(string newPaymentPassword, string resetToken)
         {
             if (this.State.IsVerified)
             {
-                newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
-                return this.ApplyEvent(new UserPaymentPasswordResetEvent(resetToken, newPaymentPassword));
+                if (resetToken.Equals(this.State.PaymentPasswordResetToken, StringComparison.OrdinalIgnoreCase))
+                {
+                    newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
+                    await this.ApplyEvent(new UserPaymentPasswordResetEvent(resetToken, newPaymentPassword));
+                }
+                else return ErrorCode.InvalidResetPaymentPasswordToken;
             }
-            return TaskDone.Done;
+            return ErrorCode.None;
         }
-
-        async Task<ErrorCode> IUser.Login(string loginPassword, string ip)
+        async Task<Tuple<ErrorCode, int>> IUser.Login(string loginPassword, string ip)
         {
             var now = DateTime.Now;
-            if (_loginFailCounter.SkipWhile(t => t.Add(LimitPeriod) < now).Count() > MAX_RETRY_LOGIN_TIMES)
-                return ErrorCode.ExceedMaxLoginFailTime;
+            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.Count();
+            if (remainRetryCounter <= 0)
+                return new Tuple<ErrorCode, int>(ErrorCode.ExceedMaxLoginFailTime, 0);
+            else
+                this._loginFailCounter.Add(DateTime.Now);
 
             if (this.State.IsLocked)
-                return ErrorCode.UserAccountIsLocked;
+                return new Tuple<ErrorCode, int>(ErrorCode.UserAccountIsLocked, 0);
+            else if (!this.State.IsVerified)
+                return new Tuple<ErrorCode, int>(ErrorCode.UnactiveUser, 0);
             else if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
             {
                 await this.ApplyEvent(new UserLoginSuccessedEvent(ip));
-                return ErrorCode.None;
+                _loginFailCounter.Clear();
+                return new Tuple<ErrorCode, int>(ErrorCode.None, 0); ;
             }
             else
             {
                 await this.ApplyEvent(new UserLoginFailedEvent(ip));
-                return ErrorCode.LoginNameOrPasswordError;
+                return new Tuple<ErrorCode, int>(ErrorCode.LoginNameOrPasswordError, remainRetryCounter);
             }
         }
 
@@ -167,20 +226,20 @@ namespace Dotpay.Actor.Implementations
             return Task.FromResult(this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt));
         }
 
-        async Task<ErrorCode> IUser.ChangeLoginPassword(string oldLoginPassword, string newLoginPassword)
+        async Task<ErrorCode> IUser.ModifyLoginPassword(string oldLoginPassword, string newLoginPassword)
         {
             oldLoginPassword = PasswordHelper.EncryptMD5(oldLoginPassword + this.State.Salt);
             if (this.State.LoginPassword == oldLoginPassword)
             {
                 newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
-                await this.ApplyEvent(new UserLoginPasswordChangedEvent(oldLoginPassword, newLoginPassword));
+                await this.ApplyEvent(new UserLoginPasswordModifiedEvent(oldLoginPassword, newLoginPassword));
                 return ErrorCode.None;
             }
             else
                 return ErrorCode.OldLoginPasswordError;
         }
 
-        async Task<ErrorCode> IUser.ChangePaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode)
+        async Task<ErrorCode> IUser.ModifyPaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode)
         {
             if (!this.CheckSmsOtp(smsVerifyCode))
                 return ErrorCode.SmsPasswordError;
@@ -190,7 +249,7 @@ namespace Dotpay.Actor.Implementations
                 return ErrorCode.OldPaymentPasswordError;
 
             newPaymentPassword = PasswordHelper.EncryptMD5(newPaymentPassword + this.State.Salt);
-            await this.ApplyEvent(new UserPaymentPasswordChangedEvent(oldPaymentPassword, newPaymentPassword));
+            await this.ApplyEvent(new UserPaymentPasswordModifiedEvent(oldPaymentPassword, newPaymentPassword));
             return ErrorCode.None;
         }
 
@@ -202,25 +261,39 @@ namespace Dotpay.Actor.Implementations
 
         public Task<UserInfo> GetUserInfo()
         {
-            return Task.FromResult(new UserInfo(this.State.LoginName, this.State.Email));
+            return Task.FromResult(new UserInfo(this.State.LoginName, this.State.Email, this.State.Lang));
         }
 
         #endregion
 
         #region Event Handlers
-        private void Handle(UserPreRegisterEvent @event)
+        private void Handle(UserRegisterEvent @event)
         {
             this.State.Id = @event.UserId;
             this.State.Email = @event.Email;
-            this.State.EmailVerifyToken = @event.Token;
-        }
-        private void Handle(UserInitializedEvent @event)
-        {
-            this.State.IsVerified = true;
+            this.State.Salt = @event.Salt;
             this.State.LoginName = @event.LoginName;
             this.State.LoginPassword = @event.LoginPassword;
+            this.State.EmailVerifyToken = @event.Token;
+            this.State.Lang = @event.Lang;
+
+            this.State.WriteStateAsync();
+        }
+        private void Handle(UserActiveTokenResetEvent @event)
+        {
+            this.State.EmailVerifyToken = @event.Token;
+
+            this.State.WriteStateAsync();
+        }
+        private void Handle(UserPaymentPasswordInitalizedEvent @event)
+        {
             this.State.PaymentPassword = @event.PaymentPassword;
-            this.State.Salt = @event.Salt;
+
+            this.State.WriteStateAsync();
+        }
+        private void Handle(UserActivedEvent @event)
+        {
+            this.State.IsVerified = true;
 
             this.State.WriteStateAsync();
         }
@@ -262,7 +335,7 @@ namespace Dotpay.Actor.Implementations
             this.State.IdentityInfo = new IdentityInfo(@event.FullName, @event.IdNo, @event.IdType);
             this.State.WriteStateAsync();
         }
-        private void Handle(UserLoginPasswordChangedEvent @event)
+        private void Handle(UserLoginPasswordModifiedEvent @event)
         {
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
@@ -277,7 +350,7 @@ namespace Dotpay.Actor.Implementations
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
         }
-        private void Handle(UserPaymentPasswordChangedEvent @event)
+        private void Handle(UserPaymentPasswordModifiedEvent @event)
         {
             this.State.PaymentPassword = @event.NewPaymentPassword;
             this.State.LastPaymentPasswordChangeAt = @event.UTCTimestamp;
@@ -295,39 +368,6 @@ namespace Dotpay.Actor.Implementations
         #endregion
 
         #region Private method
-        private string GenerteEmailValidateToken(string email)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-
-            var targetBytes = Encoding.UTF8.GetBytes(email + DateTime.Now.ToString(CultureInfo.InvariantCulture));
-            var md5Bytes = md5.ComputeHash(targetBytes);
-
-            var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
-
-            return result;
-        }
-        private string GenerteResetLoginPasswordToken(string email)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            Random randomNum = new Random();
-            var targetBytes = Encoding.UTF8.GetBytes(email + randomNum.Next() + DateTime.Now.ToString(CultureInfo.InvariantCulture));
-            var md5Bytes = md5.ComputeHash(targetBytes);
-
-            var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
-
-            return result;
-        }
-        private string GenerteResetPaymentPasswordToken(string email)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-
-            var targetBytes = Encoding.UTF8.GetBytes(email + Guid.NewGuid() + DateTime.Now.ToString(CultureInfo.InvariantCulture));
-            var md5Bytes = md5.ComputeHash(targetBytes);
-
-            var result = BitConverter.ToString(md5Bytes).Replace("-", string.Empty).ToLower();
-
-            return result;
-        }
         private bool CheckSmsOtp(string otp)
         {
             var result = false;
@@ -348,7 +388,8 @@ namespace Dotpay.Actor.Implementations
     #region IUserState
     public interface IUserState : IEventSourcingState
     {
-        long Id { get; set; }
+        Guid Id { get; set; }
+        Lang Lang { get; set; }
         Guid AccountId { get; set; }
         string LoginName { get; set; }
         string Email { get; set; }

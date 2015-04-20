@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HasReturnValueCommand.cs" />
     <Compile Include="ManagerCommand.cs" />

@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using DFramework;
-﻿using Dotpay.Actor;
-﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Common;
-﻿using Dotpay.Common.Enum;
-﻿using Orleans;
-﻿using Orleans.Concurrency;
-﻿using Orleans.EventSourcing;
-﻿using Orleans.Providers;
+using DFramework;
+using Dotpay.Actor.Events;
+using Dotpay.Common;
+using Dotpay.Common.Enum;
+using Orleans;
+using Orleans.EventSourcing;
+using Orleans.Providers;
 
 namespace Dotpay.Actor.Implementations
 {
@@ -19,9 +16,9 @@ namespace Dotpay.Actor.Implementations
     public class Account : EventSourcingGrain<Account, IAccountState>, IAccount
     {
         #region IAccount
-        async Task<ErrorCode> IAccount.Initialize(long ownerId)
+        async Task<ErrorCode> IAccount.Initialize(Guid ownerId)
         {
-            if (this.State.OwnerId != 0)
+            if (this.State.OwnerId.IsNullOrEmpty())
             {
                 await this.ApplyEvent(new AccountInitializeEvent(this.GetPrimaryKey(),ownerId));
                 return ErrorCode.None;
@@ -32,7 +29,7 @@ namespace Dotpay.Actor.Implementations
 
         Task<bool> IAccount.Validate()
         {
-            return Task.FromResult(this.State.OwnerId != 0);
+            return Task.FromResult(this.State.OwnerId.IsNullOrEmpty());
         }
 
         async Task<ErrorCode> IAccount.AddTransactionPreparation(Guid transactionId, TransactionType transactionType,
@@ -88,7 +85,7 @@ namespace Dotpay.Actor.Implementations
             return Task.FromResult(this.State.Balances);
         }
 
-        public Task<long> GetOwnerId()
+        public Task<Guid> GetOwnerId()
         {
             return Task.FromResult(this.State.OwnerId);
         }
@@ -160,9 +157,9 @@ namespace Dotpay.Actor.Implementations
 
     public interface IAccountState : IEventSourcingState
     {
-        System.Guid Id { get; set; }
+        Guid Id { get; set; }
         Dictionary<Guid, TransactionPreparation> TransactionPreparations { get; set; }
-        long OwnerId { get; set; }
+        Guid OwnerId { get; set; }
         Dictionary<CurrencyType, decimal> Balances { get; set; }
     }
 }

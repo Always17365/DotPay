@@ -60,11 +60,11 @@ namespace Dotpay.Application.Monitor
                 string exchange, string routingKey, IBasicProperties properties, byte[] body)
             {
                 var messageBody = Encoding.UTF8.GetString(body);
-                UserInitializedMessage message;
+                UserActivedMessage message;
 
                 try
                 {
-                    message = JsonConvert.DeserializeObject<UserInitializedMessage>(messageBody);
+                    message = JsonConvert.DeserializeObject<UserActivedMessage>(messageBody);
                 }
                 catch (Exception ex)
                 {

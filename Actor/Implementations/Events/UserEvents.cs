@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dotpay.Common;
+using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 
@@ -8,38 +9,59 @@ namespace Dotpay.Actor.Events
 {
     [Immutable]
     [Serializable]
-    public class UserPreRegisterEvent : GrainEvent
+    public class UserRegisterEvent : GrainEvent
     {
-        public UserPreRegisterEvent(long userId,string email, string token)
+        public UserRegisterEvent(Guid userId, string loginName, string email, string loginPassword, string salt, Lang lang, string token)
         {
             this.UserId = userId;
+            this.LoginName = loginName;
             this.Email = email;
+            this.LoginPassword = loginPassword;
+            this.Salt = salt;
+            this.Lang = lang;
             this.Token = token;
         }
 
-        public long UserId { get; private set; }
+        public Guid UserId { get; private set; }
+        public string LoginName { get; private set; }
         public string Email { get; private set; }
+        public string LoginPassword { get; private set; }
+        public string Salt { get; private set; }
+        public Lang Lang { get; private set; }
         public string Token { get; private set; }
     }
     [Immutable]
     [Serializable]
-    public class UserInitializedEvent : GrainEvent
+    public class UserActiveTokenResetEvent : GrainEvent
     {
-        public UserInitializedEvent(string loginName, string loginPassword, string paymentPassword, Guid accountId, string salt)
+        public UserActiveTokenResetEvent(string token)
         {
-            this.LoginName = loginName;
-            this.LoginPassword = loginPassword;
-            this.PaymentPassword = paymentPassword;
-            this.AccountId = accountId;
-            this.Salt = salt;
+            this.Token = token;
         }
-
-        public string LoginName { get; private set; }
-        public string LoginPassword { get; private set; }
-        public string PaymentPassword { get; private set; }
-        public Guid AccountId { get; private set; }
-        public string Salt { get; private set; }
+        public string Token { get; private set; }
     }
+    [Immutable]
+    [Serializable]
+    public class UserPaymentPasswordInitalizedEvent : GrainEvent
+    {
+        public UserPaymentPasswordInitalizedEvent(string paymentPassword)
+        {
+            this.PaymentPassword = paymentPassword;
+        }
+        public string PaymentPassword { get; private set; }
+    }
+
+    [Immutable]
+    [Serializable]
+    public class UserActivedEvent : GrainEvent
+    {
+        public UserActivedEvent(string emailVerifyToken)
+        {
+            this.EmailVerifyToken = emailVerifyToken;
+        }
+        public string EmailVerifyToken { get; private set; }
+    }
+   
     [Immutable]
     [Serializable]
     public class UserLoginSuccessedEvent : GrainEvent
@@ -64,24 +86,24 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserLockedEvent : GrainEvent
     {
-        public UserLockedEvent(long operationId, string reason)
+        public UserLockedEvent(Guid lockBy, string reason)
         {
-            this.OperationId = operationId;
+            this.LockBy = lockBy;
             this.Reason = reason;
         }
-        public long OperationId { get; private set; }
+        public Guid LockBy { get; private set; }
         public string Reason { get; private set; }
     }
     [Immutable]
     [Serializable]
     public class UserUnlockedEvent : GrainEvent
     {
-        public UserUnlockedEvent(long operationId, string reason)
+        public UserUnlockedEvent(Guid lockBy, string reason)
         {
-            this.OperationId = operationId;
+            this.LockBy = lockBy;
             this.Reason = reason;
         }
-        public long OperationId { get; private set; }
+        public Guid LockBy { get; private set; }
         public string Reason { get; private set; }
     }
     [Immutable]
@@ -126,10 +148,10 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserLoginPasswordChangedEvent
+    public class UserLoginPasswordModifiedEvent
         : GrainEvent
     {
-        public UserLoginPasswordChangedEvent(string oldLoginPassword, string newLoginPassword)
+        public UserLoginPasswordModifiedEvent(string oldLoginPassword, string newLoginPassword)
         {
             this.OldLoginPassword = oldLoginPassword;
             this.NewLoginPassword = newLoginPassword;
@@ -163,9 +185,9 @@ namespace Dotpay.Actor.Events
     }
     [Immutable]
     [Serializable]
-    public class UserPaymentPasswordChangedEvent : GrainEvent
+    public class UserPaymentPasswordModifiedEvent : GrainEvent
     {
-        public UserPaymentPasswordChangedEvent(string oldPaymentPassword, string newPaymentPassword)
+        public UserPaymentPasswordModifiedEvent(string oldPaymentPassword, string newPaymentPassword)
         {
             this.OldPaymentPassword = oldPaymentPassword;
             this.NewPaymentPassword = newPaymentPassword;
@@ -196,5 +218,5 @@ namespace Dotpay.Actor.Events
 
         public string ResetToken { get; private set; }
         public string NewPaymentPassword { get; private set; }
-    } 
+    }
 }

@@ -15,14 +15,14 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class AccountInitializeEvent : GrainEvent
     {
-        public AccountInitializeEvent(Guid accountId, long ownerId)
+        public AccountInitializeEvent(Guid accountId, Guid ownerId)
         {
             this.OwnerId = ownerId;
             this.AccountId = accountId;
         }
 
         public Guid AccountId { get; private set; }
-        public long OwnerId { get; private set; }
+        public Guid OwnerId { get; private set; }
     }
 
     [Immutable]
