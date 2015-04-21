@@ -99,7 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Monitor\UserRegisterMonitor.cs" />
+    <Compile Include="Monitor\EmailMessageMonitor.cs" />
+    <Compile Include="Monitor\UserActiveMessageMonitor.cs" />
     <Compile Include="Monitor\TransferTransactionMonitor.cs" />
     <Compile Include="Monitor\RippleTxMessageMonitor.cs" />
     <Compile Include="Monitor\RefundTransactionMonitor.cs" />

@@ -11,10 +11,9 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserRegisterEvent : GrainEvent
     {
-        public UserRegisterEvent(Guid userId, string loginName, string email, string loginPassword, string salt, Lang lang, string token)
+        public UserRegisterEvent(Guid userId, string email, string loginPassword, string salt, Lang lang, string token)
         {
             this.UserId = userId;
-            this.LoginName = loginName;
             this.Email = email;
             this.LoginPassword = loginPassword;
             this.Salt = salt;
@@ -23,7 +22,6 @@ namespace Dotpay.Actor.Events
         }
 
         public Guid UserId { get; private set; }
-        public string LoginName { get; private set; }
         public string Email { get; private set; }
         public string LoginPassword { get; private set; }
         public string Salt { get; private set; }
@@ -61,7 +59,18 @@ namespace Dotpay.Actor.Events
         }
         public string EmailVerifyToken { get; private set; }
     }
-   
+
+    [Immutable]
+    [Serializable]
+    public class UserLoginNameSetEvent : GrainEvent
+    {
+        public UserLoginNameSetEvent(string loginName)
+        {
+            this.LoginName = loginName;
+        }
+        public string LoginName { get; private set; }
+    }
+
     [Immutable]
     [Serializable]
     public class UserLoginSuccessedEvent : GrainEvent

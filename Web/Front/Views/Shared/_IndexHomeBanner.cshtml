@@ -15,7 +15,7 @@
             @Html.Lang("indexBannerPayeasyPayCool")<br />
             @Html.Lang("ChooseDotpayChooseEasyLife")
         </p>
-        <a href="#" data-toggle="modal" data-target="#signinDialog" class="btn indexbtn btn-theme">@Html.Lang("Sign In")</a>
+        <a href="#" id="btnIndexLogin" class="btn indexbtn btn-theme">@Html.Lang("Sign In")</a>
         <a href="/signup" class="btn indexbtn btn-outline">@Html.Lang("Sign Up")</a>
     </div>
     <div class="modal fade in" role="dialog" tabindex="-1" id="signinDialog">
@@ -51,7 +51,7 @@
         <script>
             $(document).ready(function () {
                 $.getScript('/assets/js/login.js').done(function () {
-                    LoginAndRegister.handleLoginFrom();
+                    LoginAndRegister.handleLoginForm();
                 });
             });
         </script>

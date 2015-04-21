@@ -168,7 +168,7 @@ namespace Dotpay.Actor.Service.Implementations
             var source = new TransferFromDotpayInfo(message.Source.AccountId)
             {
                 UserId = sourceUserId,
-                UserLoginName = sourceUserInfo.LoginName,
+                UserLoginName = sourceUserInfo.NickName,
                 Payway=message.Source.Payway
             };
 
@@ -186,7 +186,7 @@ namespace Dotpay.Actor.Service.Implementations
                     Payway = target.Payway,
                     UserId = targetUserId,
                     RealName = target.RealName,
-                    UserLoginName = targetUserInfo.LoginName
+                    UserLoginName = targetUserInfo.NickName
                 };
             }
 

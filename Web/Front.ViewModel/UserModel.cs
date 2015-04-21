@@ -13,11 +13,11 @@ namespace Dotpay.Front.ViewModel
         public Guid UserId { get; set; }
         public string LoginName { get; set; }
         public string Email { get; set; }
+        public bool IsActive { get; set; }
     }
     [Serializable]
     public class UserRegisterViewModel
     {
-        public string LoginName { get; set; }
         public string Email { get; set; }
         public string LoginPassword { get; set; }
         public string ConfirmPassword { get; set; }

@@ -27,7 +27,7 @@ namespace Dotpay.Actor.Service.Implementations
             var resetResult = await user.ForgetLoginPassword(resetToken);
             if (resetResult.Item1 == ErrorCode.None)
             { 
-                var forgetLoginPasswordMsg = new UserForgetLoginPasswordMessage(userInfo.Email, userInfo.LoginName,
+                var forgetLoginPasswordMsg = new UserForgetLoginPasswordMessage(userInfo.Email, userInfo.NickName,
                     resetResult.Item2, DateTime.Now, lang);
 
                 await MessageProducterManager.GetProducter().PublishMessage(forgetLoginPasswordMsg, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
@@ -51,7 +51,7 @@ namespace Dotpay.Actor.Service.Implementations
             var resetResult = await user.ForgetPaymentPassword(resetToken);
             if (resetResult.Item1 == ErrorCode.None)
             { 
-                var forgetPaymentPasswordMsg = new UserForgetPaymentPasswordMessage(userInfo.Email, userInfo.LoginName,
+                var forgetPaymentPasswordMsg = new UserForgetPaymentPasswordMessage(userInfo.Email, userInfo.NickName,
                     resetResult.Item2, DateTime.Now, lang);
                 await MessageProducterManager.GetProducter().PublishMessage(forgetPaymentPasswordMsg, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
             }

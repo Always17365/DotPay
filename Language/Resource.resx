@@ -231,4 +231,10 @@
   <data name="Don't have an account yet?" xml:space="preserve">
     <value />
   </data>
+  <data name="Account has actived." xml:space="preserve">
+    <value />
+  </data>
+  <data name="You can send active email after 15 minutes." xml:space="preserve">
+    <value>Send mail too Frequently,Please resend after 15 minutes.</value>
+  </data>
 </root>

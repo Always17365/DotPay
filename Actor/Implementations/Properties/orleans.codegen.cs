@@ -1003,6 +1003,10 @@ namespace Dotpay.Actor.Implementations
 
             public String @LastLoginIp { get; set; }
 
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @ActiveAt { get; set; }
+
             public Nullable<DateTime> @LastLoginAt { get; set; }
 
             public Nullable<DateTime> @LastLoginFailedAt { get; set; }
@@ -1034,6 +1038,8 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("PaymentPasswordResetTokenGenerateAt", out value)) @PaymentPasswordResetTokenGenerateAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("LastPaymentPasswordChangeAt", out value)) @LastPaymentPasswordChangeAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("LastLoginIp", out value)) @LastLoginIp = (String) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("ActiveAt", out value)) @ActiveAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("LastLoginAt", out value)) @LastLoginAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("LastLoginFailedAt", out value)) @LastLoginFailedAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("Salt", out value)) @Salt = (String) value;
@@ -1041,7 +1047,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("UserState( Version={0} Id={1} Lang={2} AccountId={3} LoginName={4} Email={5} EmailVerifyToken={6} IsVerified={7} IsLocked={8} LockedAt={9} IdentityInfo={10} MobileSetting={11} LoginPassword={12} LoginPasswordResetToken={13} LoginPasswordResetTokenGenerateAt={14} LastLoginPasswordChangeAt={15} PaymentPassword={16} PaymentPasswordResetToken={17} PaymentPasswordResetTokenGenerateAt={18} LastPaymentPasswordChangeAt={19} LastLoginIp={20} LastLoginAt={21} LastLoginFailedAt={22} Salt={23} )", @Version, @Id, @Lang, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @LastLoginAt, @LastLoginFailedAt, @Salt);
+                return System.String.Format("UserState( Version={0} Id={1} Lang={2} AccountId={3} LoginName={4} Email={5} EmailVerifyToken={6} IsVerified={7} IsLocked={8} LockedAt={9} IdentityInfo={10} MobileSetting={11} LoginPassword={12} LoginPasswordResetToken={13} LoginPasswordResetTokenGenerateAt={14} LastLoginPasswordChangeAt={15} PaymentPassword={16} PaymentPasswordResetToken={17} PaymentPasswordResetTokenGenerateAt={18} LastPaymentPasswordChangeAt={19} LastLoginIp={20} CreateAt={21} ActiveAt={22} LastLoginAt={23} LastLoginFailedAt={24} Salt={25} )", @Version, @Id, @Lang, @AccountId, @LoginName, @Email, @EmailVerifyToken, @IsVerified, @IsLocked, @LockedAt, @IdentityInfo, @MobileSetting, @LoginPassword, @LoginPasswordResetToken, @LoginPasswordResetTokenGenerateAt, @LastLoginPasswordChangeAt, @PaymentPassword, @PaymentPasswordResetToken, @PaymentPasswordResetTokenGenerateAt, @LastPaymentPasswordChangeAt, @LastLoginIp, @CreateAt, @ActiveAt, @LastLoginAt, @LastLoginFailedAt, @Salt);
             }
         
         public UserState() : 
@@ -1074,6 +1080,8 @@ namespace Dotpay.Actor.Implementations
             result["PaymentPasswordResetTokenGenerateAt"] = this.PaymentPasswordResetTokenGenerateAt;
             result["LastPaymentPasswordChangeAt"] = this.LastPaymentPasswordChangeAt;
             result["LastLoginIp"] = this.LastLoginIp;
+            result["CreateAt"] = this.CreateAt;
+            result["ActiveAt"] = this.ActiveAt;
             result["LastLoginAt"] = this.LastLoginAt;
             result["LastLoginFailedAt"] = this.LastLoginFailedAt;
             result["Salt"] = this.Salt;
@@ -1103,6 +1111,8 @@ namespace Dotpay.Actor.Implementations
             this.PaymentPasswordResetTokenGenerateAt = default(Nullable<DateTime>);
             this.LastPaymentPasswordChangeAt = default(Nullable<DateTime>);
             this.LastLoginIp = default(String);
+            this.CreateAt = default(DateTime);
+            this.ActiveAt = default(Nullable<DateTime>);
             this.LastLoginAt = default(Nullable<DateTime>);
             this.LastLoginFailedAt = default(Nullable<DateTime>);
             this.Salt = default(String);

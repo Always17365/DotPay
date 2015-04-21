@@ -9,7 +9,7 @@ namespace Dotpay.Front.Validators
         public UserRegisterViewModelValidator()
         {
             //validator中的消息不用返回，只是在客户端验证失效的情况下，配合记录日志使用
-            RuleFor(x => x.LoginName).NotEmpty().WithMessage("用户名不能为空");
+            //RuleFor(x => x.LoginName).NotEmpty().WithMessage("用户名不能为空");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email不能为空");
             RuleFor(x => x.LoginPassword).NotEmpty().WithMessage("密码不能为空");
             RuleFor(x => x.ConfirmPassword).Equal(x => x.LoginPassword).WithMessage("两次密码输入不一致");

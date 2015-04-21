@@ -10,8 +10,8 @@ using RabbitMQ.Client;
 
 namespace Dotpay.Application.Monitor
 {
-    //这里只处理用户成功注册后的账户初始化，邮件系统交给单独的应用处理
-    internal class UserRegisterMonitor : IApplicationMonitor
+    //这里只处理用户成功注册-激活后的账户初始化
+    internal class EmailMessageMonitor : IApplicationMonitor
     {
         private IModel _channel;
         private bool started;
@@ -45,49 +45,52 @@ namespace Dotpay.Application.Monitor
             _channel.QueueDeclare(queueName, true, false, false, null);
             _channel.QueueBind(queueName, exchangeName, routeKey);
 
-            var consumer = new UserRegisterMessageConsumer(_channel);
+            var consumer = new EmailMessageConsumer(_channel);
             _channel.BasicQos(0, 1, false);
             _channel.BasicConsume(queueName, false, consumer);
 
         }
         #region Consumer
 
-        private class UserRegisterMessageConsumer : DefaultBasicConsumer
+        private class EmailMessageConsumer : DefaultBasicConsumer
         {
-            public UserRegisterMessageConsumer(IModel model) : base(model) { }
+            public EmailMessageConsumer(IModel model) : base(model) { }
 
             public override async void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered,
                 string exchange, string routingKey, IBasicProperties properties, byte[] body)
             {
                 var messageBody = Encoding.UTF8.GetString(body);
-                UserActivedMessage message;
+                MqMessage message;
 
                 try
                 {
-                    message = JsonConvert.DeserializeObject<UserActivedMessage>(messageBody);
+                    var regMessage = JsonConvert.DeserializeObject<UserRegisterMessage>(messageBody);
+                    if (!string.IsNullOrEmpty(regMessage.ActiveToken))
+                    {
+                        Log.Debug("收到注册邮件消息:"+messageBody);
+                    }
+                    else
+                    {
+                        var forgetMessage = JsonConvert.DeserializeObject<UserForgetPasswordMessage>(messageBody);
+
+                        if (forgetMessage.Type == typeof (UserForgetLoginPasswordMessage).Name)
+                        {
+                            message = forgetMessage.ToUserForgetLoginPasswordMessage();
+                            Log.Debug("收到找回登陆密码邮件消息:" + messageBody);
+                        }
+                        else
+                        {
+                            message = forgetMessage.ToUserForgetPaymentPasswordMessage();
+                            Log.Debug("收到找回支付密码邮件消息:" + messageBody);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
-#if !DEBUG
-                    Model.BasicAck(deliveryTag, false);
-#endif
-                    Log.Error("UserRegisterMessageConsumer Message Error Format,Message=" + messageBody, ex);
+
+                    Log.Error("EmailMessageConsumer Message Error Format,Message=" + messageBody, ex);
                     return;
-                }
-
-
-                try
-                {
-                    var account = GrainFactory.GetGrain<IAccount>(message.AccountId);
-                    await account.Initialize(message.UserId);
-
-                    Model.BasicAck(deliveryTag, false);
-                }
-                catch (Exception ex)
-                {
-                    Model.BasicNack(deliveryTag, false, true);
-                    Log.Error("TransferTransactionMessageConsumer Exception,Message=" + messageBody, ex);
-                }
+                } 
             }
         }
 

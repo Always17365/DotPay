@@ -11,8 +11,8 @@
 .login-single-wraper { margin-bottom: 0px !important; }
 
 /* $REGISTER */
-.register-content { background: url(../img/regbg.png) no-repeat; -moz-background-size: 100% 100%; background-size: 100% 100%; }
-.register-wraper { -webkit-border-radius: 15px; -moz-border-radius: 15px; -ms-border-radius: 15px; -o-border-radius: 15px; border-radius: 15px; -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); margin-top: 25px; margin-bottom: 70px; padding-top: 25px; padding-bottom: 25px; background: white; text-align: center; }
+.register-content { min-height: 720px; background: url(../img/regbg.png) no-repeat; -moz-background-size: 100% 100%; background-size: 100% 100%; }
+.register-wraper { -webkit-border-radius: 15px; -moz-border-radius: 15px; -ms-border-radius: 15px; -o-border-radius: 15px; border-radius: 15px; -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); margin-top: 25px; padding-top: 25px; padding-bottom: 25px; background: white; text-align: center; }
 
 .register-form { margin: 0 auto; }
     .register-form legend { margin-bottom: 15px; border-bottom: none; }

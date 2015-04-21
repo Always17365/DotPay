@@ -234,4 +234,10 @@
   <data name="Don't have an account yet?" xml:space="preserve">
     <value>已注册账号？</value>
   </data>
+  <data name="Account has actived." xml:space="preserve">
+    <value>账号已激活</value>
+  </data>
+  <data name="You can send active email after 15 minutes." xml:space="preserve">
+    <value>发送激活邮件过于频繁，请15分钟后重试</value>
+  </data>
 </root>

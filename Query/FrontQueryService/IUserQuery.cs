@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Dotpay.Front.ViewModel;
+using Dotpay.Front.ViewModel; 
+using System.Collections.Generic;
 
 namespace Dotpay.FrontQueryService
 {

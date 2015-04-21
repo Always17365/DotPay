@@ -9,6 +9,7 @@ namespace Dotpay.CommandExecutor
 {
     public class UserCommandExcutor : ICommandExecutor<UserRegisterCommand>,
                                       ICommandExecutor<UserActiveCommand>,
+                                      ICommandExecutor<UserResendActiveEmailCommand>,
                                       ICommandExecutor<UserLoginCommand>,
                                       ICommandExecutor<InitalizePaymentPasswordCommand>,
                                       ICommandExecutor<ForgetLoginPasswordCommand>,
@@ -21,7 +22,12 @@ namespace Dotpay.CommandExecutor
         public Task ExecuteAsync(UserRegisterCommand cmd)
         {
             var userRegisterService = GrainFactory.GetGrain<IUserRegisterService>(0);
-            return userRegisterService.Register(cmd.LoginName, cmd.Email, cmd.LoginPassword, cmd.Lang);
+            return userRegisterService.Register(cmd.Email, cmd.LoginPassword, cmd.Lang);
+        } 
+        public Task ExecuteAsync(UserResendActiveEmailCommand cmd)
+        {
+            var userRegisterService = GrainFactory.GetGrain<IUserRegisterService>(0);
+            return userRegisterService.ResendActiveEmail(cmd.UserId);
         }
         public async Task ExecuteAsync(UserActiveCommand cmd)
         {

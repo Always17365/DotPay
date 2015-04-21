@@ -2199,10 +2199,10 @@ namespace Dotpay.Actor
                 return UserMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.Register(string @email, string @userAccount, string @loginPassword, Dotpay.Common.Enum.Lang @lang, string @activeToken)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.Register(string @email, string @loginPassword, Dotpay.Common.Enum.Lang @lang, string @activeToken)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1715552657, new object[] {@email, @userAccount, @loginPassword, @lang, @activeToken} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-251868240, new object[] {@email, @loginPassword, @lang, @activeToken} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.ResetActiveToken(string @activeToken)
@@ -2211,16 +2211,22 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1845824322, new object[] {@activeToken} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.InitializePaymentPassword(string @paymentPassword)
+            System.Threading.Tasks.Task Dotpay.Actor.IUser.InitializePaymentPassword(string @paymentPassword)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-391366004, new object[] {@paymentPassword} );
+                return base.InvokeMethodAsync<object>(-391366004, new object[] {@paymentPassword} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.Active(string @emailToken)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(916048114, new object[] {@emailToken} );
+            }
+            
+            System.Threading.Tasks.Task Dotpay.Actor.IUser.SetLoginName(string @loginName)
+            {
+
+                return base.InvokeMethodAsync<object>(275669283, new object[] {@loginName} );
             }
             
             System.Threading.Tasks.Task<System.Tuple<Dotpay.Common.ErrorCode, int>> Dotpay.Actor.IUser.Login(string @loginPassword, string @ip)
@@ -2345,14 +2351,16 @@ namespace Dotpay.Actor
                     case 1018474137:  // IUser
                         switch (methodId)
                         {
-                            case 1715552657: 
-                                return ((IUser)grain).Register((String)arguments[0], (String)arguments[1], (String)arguments[2], (Lang)arguments[3], (String)arguments[4]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -251868240: 
+                                return ((IUser)grain).Register((String)arguments[0], (String)arguments[1], (Lang)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1845824322: 
                                 return ((IUser)grain).ResetActiveToken((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -391366004: 
-                                return ((IUser)grain).InitializePaymentPassword((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IUser)grain).InitializePaymentPassword((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 916048114: 
                                 return ((IUser)grain).Active((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 275669283: 
+                                return ((IUser)grain).SetLoginName((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1415878300: 
                                 return ((IUser)grain).Login((String)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1046983731: 
@@ -2414,7 +2422,7 @@ namespace Dotpay.Actor
                 case 1018474137:  // IUser
                     switch (methodId)
                     {
-                        case 1715552657:
+                        case -251868240:
                             return "Register";
                     case 1845824322:
                             return "ResetActiveToken";
@@ -2422,6 +2430,8 @@ namespace Dotpay.Actor
                             return "InitializePaymentPassword";
                     case 916048114:
                             return "Active";
+                    case 275669283:
+                            return "SetLoginName";
                     case 1415878300:
                             return "Login";
                     case 1046983731:
@@ -3335,7 +3345,7 @@ namespace Dotpay.Actor
             Orleans.Serialization.SerializationContext.Current.RecordObject(original, result);
             result.Email = input.Email;
             result.Lang = input.Lang;
-            result.LoginName = input.LoginName;
+            result.NickName = input.NickName;
             return result;
         }
         
@@ -3344,7 +3354,7 @@ namespace Dotpay.Actor
             Dotpay.Actor.UserInfo input = ((Dotpay.Actor.UserInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Lang, stream, typeof(Dotpay.Common.Enum.Lang));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.NickName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -3352,7 +3362,7 @@ namespace Dotpay.Actor
             Dotpay.Actor.UserInfo result = ((Dotpay.Actor.UserInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.UserInfo))));
             result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Lang = ((Dotpay.Common.Enum.Lang)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Lang), stream)));
-            result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.NickName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -5221,10 +5231,10 @@ namespace Dotpay.Actor.Service
                 return UserRegisterServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Service.IUserRegisterService.Register(string @loginName, string @email, string @loginPassword, Dotpay.Common.Enum.Lang @lang)
+            System.Threading.Tasks.Task Dotpay.Actor.Service.IUserRegisterService.Register(string @email, string @loginPassword, Dotpay.Common.Enum.Lang @lang)
             {
 
-                return base.InvokeMethodAsync<object>(1657045015, new object[] {@loginName, @email, @loginPassword, @lang} );
+                return base.InvokeMethodAsync<object>(-634157928, new object[] {@email, @loginPassword, @lang} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IUserRegisterService.ResendActiveEmail(System.Guid @userId)
@@ -5265,8 +5275,8 @@ namespace Dotpay.Actor.Service
                     case -1012341494:  // IUserRegisterService
                         switch (methodId)
                         {
-                            case 1657045015: 
-                                return ((IUserRegisterService)grain).Register((String)arguments[0], (String)arguments[1], (String)arguments[2], (Dotpay.Common.Enum.Lang)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -634157928: 
+                                return ((IUserRegisterService)grain).Register((String)arguments[0], (String)arguments[1], (Dotpay.Common.Enum.Lang)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 535240260: 
                                 return ((IUserRegisterService)grain).ResendActiveEmail((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1181405321: 
@@ -5300,7 +5310,7 @@ namespace Dotpay.Actor.Service
                 case -1012341494:  // IUserRegisterService
                     switch (methodId)
                     {
-                        case 1657045015:
+                        case -634157928:
                             return "Register";
                     case 535240260:
                             return "ResendActiveEmail";
@@ -6145,7 +6155,6 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.ActiveToken, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Lang, stream, typeof(Dotpay.Common.Enum.Lang));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6154,7 +6163,6 @@ namespace Dotpay.Actor.Service
             result.ActiveToken = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Lang = ((Dotpay.Common.Enum.Lang)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Lang), stream)));
-            result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -6225,6 +6233,7 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Timestamp, stream, typeof(System.DateTime));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Token, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6235,6 +6244,7 @@ namespace Dotpay.Actor.Service
             result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Timestamp = ((System.DateTime)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.DateTime), stream)));
             result.Token = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.Type = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -6268,6 +6278,7 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Timestamp, stream, typeof(System.DateTime));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Token, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6278,6 +6289,7 @@ namespace Dotpay.Actor.Service
             result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Timestamp = ((System.DateTime)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.DateTime), stream)));
             result.Token = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.Type = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         

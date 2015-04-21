@@ -1,10 +1,9 @@
- ﻿using System;
+﻿using System;
  ﻿using System.Globalization;
  ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Actor;
 ﻿using Dotpay.Actor.Implementations;
 ﻿using Dotpay.Actor.Service;
-﻿using Dotpay.Actor.Tools;
 ﻿using Dotpay.Common;
 ﻿using Dotpay.Common.Enum;
 ﻿using Orleans;
@@ -24,18 +23,17 @@ namespace Dotpay.Actors.Service.Implementations
         private const string USER_EMAIL_MQ_ROUTE_KEY = Constants.UserEmailRouteKey;
         private const string USER_EMAIL_MQ_QUEUE = Constants.UserEmailMQName + Constants.QueueSuffix;
 
-        async Task IUserRegisterService.Register(string loginName, string email, string loginPassword, Lang lang)
+        async Task IUserRegisterService.Register(string email, string loginPassword, Lang lang)
         {
             var userId = Guid.NewGuid();
             email = email.ToLower();
-            loginName = loginName.ToLower();
             var user = GrainFactory.GetGrain<IUser>(userId);
             var token = this.GenerteEmailValidateToken(email);
-            var errorCode = await user.Register(email, loginName, loginPassword, lang, token);
+            var errorCode = await user.Register(email, loginPassword, lang, token);
 
             if (errorCode == ErrorCode.None)
             {
-                var message = new UserRegisterMessage(email, loginName, lang, token);
+                var message = new UserRegisterMessage(email, lang, token);
                 //发送注册邮件的消息
                 await MessageProducterManager.GetProducter().PublishMessage(message, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
             }
@@ -49,7 +47,7 @@ namespace Dotpay.Actors.Service.Implementations
             var errorCode = await user.ResetActiveToken(token);
             if (errorCode == ErrorCode.None)
             {
-                var message = new UserRegisterMessage(userInfo.Email, userInfo.LoginName, userInfo.Lang, token);
+                var message = new UserRegisterMessage(userInfo.Email, userInfo.Lang, token);
                 //发送注册邮件的消息
                 await MessageProducterManager.GetProducter().PublishMessage(message, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -21,7 +22,30 @@ namespace Dotpay.Front.Controllers
         {
             return View();
         }
-
+        [Route("~/validate/loginname")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ValidateLoginName(string loginName)
+        {
+            var query = IoC.Resolve<IUserQuery>();
+            var user = await query.GetUserByLoginName(loginName.Trim());
+            if (user != null)
+                return Json(new { valid = false });
+            else
+                return Json(new { valid = true });
+        }
+        [Route("~/validate/email")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ValidateEmail(string email)
+        {
+            var query = IoC.Resolve<IUserQuery>();
+            var user = await query.GetUserByEmail(email.Trim());
+            if (user != null)
+                return Json(new { valid = false });
+            else
+                return Json(new { valid = true });
+        }
         [Route("~/signup")]
         [HttpPost]
         [AllowAnonymous]
@@ -35,24 +59,21 @@ namespace Dotpay.Front.Controllers
             {
                 var query = IoC.Resolve<IUserQuery>();
 
-                var taskExistName = query.GetUserByLoginName(user.LoginName.Trim());
-                var taskExistEmail = query.GetUserByEmail(user.Email.Trim());
+                var exist = await query.GetUserByEmail(user.Email.Trim());
 
-                var users = await Task.WhenAll(taskExistName, taskExistEmail);
-
-                if (users[0] != null)
+                if (exist != null)
                 {
                     result = DotpayJsonResult.CreateFailResult(this.Lang("Login name already exists."));
                 }
-                else if (users[1] != null)
-                {
-                    result = DotpayJsonResult.CreateFailResult(this.Lang("Email already exists."));
-                }
+                //else if (users[1] != null)
+                //{
+                //    result = DotpayJsonResult.CreateFailResult(this.Lang("Email already exists."));
+                //}
                 else
                 {
                     try
                     {
-                        var cmd = new UserRegisterCommand(user.LoginName, user.Email, user.LoginPassword, GetCurrentLang());
+                        var cmd = new UserRegisterCommand(user.Email, user.LoginPassword, GetCurrentLang());
                         await this.CommandBus.SendAsync(cmd);
                         result = DotpayJsonResult.Success;
                     }
@@ -93,7 +114,7 @@ namespace Dotpay.Front.Controllers
             else if (validResult.IsValid)
             {
                 var query = IoC.Resolve<IUserQuery>();
-                UserIdentity userIdentity;
+                UserIdentity userIdentity = null;
                 if (user.LoginName.IsEmail())
                 {
                     userIdentity = await query.GetUserByEmail(user.LoginName.Trim());
@@ -114,7 +135,10 @@ namespace Dotpay.Front.Controllers
                         if (cmd.CommandResult.Item1 == ErrorCode.None)
                             result = DotpayJsonResult.Success;
                         else if (cmd.CommandResult.Item1 == ErrorCode.UnactiveUser)
-                            result = DotpayJsonResult.CreateFailResult(-2, "");
+                        {
+                            this.CurrentUnactiveUserEmail = userIdentity.Email;
+                            result = DotpayJsonResult.CreateFailResult(-2, user.LoginName);
+                        }
                         else if (cmd.CommandResult.Item1 == ErrorCode.UserAccountIsLocked)
                             result = DotpayJsonResult.CreateFailResult(-3, "");
                         else if (cmd.CommandResult.Item1 == ErrorCode.LoginNameOrPasswordError)
@@ -147,31 +171,66 @@ namespace Dotpay.Front.Controllers
         [Route("~/active")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> Active(string email, string token)
+        public async Task<ActionResult> Active(string user, string token)
         {
             var result = DotpayJsonResult.CreateFailResult("Invlid activation link.");
 
-            if (email.IsEmail() && !token.IsEmpty())
+            if (!user.IsEmpty() && !token.IsEmpty())
             {
                 var query = IoC.Resolve<IUserQuery>();
-                var userIdentity = await query.GetUserByEmail(email.Trim());
+                var userIdentity = await query.GetUserByLoginName(user.Trim());
                 if (userIdentity != null)
                 {
                     try
                     {
                         var cmd = new UserActiveCommand(userIdentity.UserId, token);
                         await this.CommandBus.SendAsync(cmd);
-                        if(cmd.CommandResult==ErrorCode.None)
-                            result=DotpayJsonResult.Success;
+                        if (cmd.CommandResult == ErrorCode.None)
+                            result = DotpayJsonResult.Success;
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("Active Exception", ex); 
-                    } 
+                        Log.Error("Active Exception", ex);
+                    }
                 }
             }
             ViewBag.Result = result;
             return View();
+        }
+        #endregion
+
+        #region 重发激活邮件
+        [Route("~/resend")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResendActiveEmail()
+        {
+            var result = DotpayJsonResult.CreateFailResult("You can send active email after 15 minutes.");
+            var email = this.CurrentUnactiveUserEmail;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var query = IoC.Resolve<IUserQuery>();
+                var userIdentity = await query.GetUserByEmail(email);
+                if (userIdentity != null)
+                {
+                    try
+                    {
+                        var cmd = new UserResendActiveEmailCommand(userIdentity.UserId);
+                        await this.CommandBus.SendAsync(cmd);
+                        if (cmd.CommandResult == ErrorCode.None)
+                            result = DotpayJsonResult.Success;
+                        if (cmd.CommandResult == ErrorCode.UserHasActived)
+                            result = DotpayJsonResult.CreateFailResult("Account has actived."); ;
+                        if (cmd.CommandResult == ErrorCode.UserHasActived)
+                            result = DotpayJsonResult.CreateFailResult("You can send active email after 15 minutes.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("ResendActiveEmail Exception", ex);
+                    }
+                }
+            }
+            return Json(result);
         }
         #endregion
 

@@ -28,12 +28,12 @@
                                 </span></h2>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="loginName">@Html.Lang("registerFieldLoginName") :</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" type="text" id="loginName" name="loginName" autocomplete="off" placeholder="@Html.Lang("registerFieldLoginNamePlaceholder")" />
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="email">@Html.Lang("registerFieldEmail") :</label>
                                 <div class="col-md-6 col-sm-6">
@@ -72,7 +72,7 @@
     <script>
         $(document).ready(function () {
             $.getScript('/assets/js/login.js').done(function () {
-                LoginAndRegister.handleRegisterFrom();
+                LoginAndRegister.handleRegisterForm();
             });
         });
     </script>

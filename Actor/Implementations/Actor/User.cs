@@ -23,18 +23,19 @@ namespace Dotpay.Actor.Implementations
         private readonly List<DateTime> _loginFailCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetLoginPasswordCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetPaymentPasswordCounter = new List<DateTime>();
+        private DateTime lastResetActiveTokenAt;
         private const int MAX_RETRY_LOGIN_TIMES = 5;
         private const int MAX_FORGET_LOGIN_PASSWORD_TIMES = 3;
         private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
 
         #region IUser
-        async Task<ErrorCode> IUser.Register(string email, string userAccount, string loginPassword, Lang lang, string activeToken)
+        async Task<ErrorCode> IUser.Register(string email, string loginPassword, Lang lang, string activeToken)
         {
             if (!this.State.IsVerified)
             {
                 var salt = Guid.NewGuid().Shrink().Substring(0, 8);
                 loginPassword = PasswordHelper.EncryptMD5(loginPassword + salt);
-                await this.ApplyEvent(new UserRegisterEvent(this.GetPrimaryKey(), userAccount.ToLower(), email.ToLower(), loginPassword, salt, lang, activeToken));
+                await this.ApplyEvent(new UserRegisterEvent(this.GetPrimaryKey(), email.ToLower(), loginPassword, salt, lang, activeToken));
             }
             return ErrorCode.None;
         }
@@ -47,19 +48,26 @@ namespace Dotpay.Actor.Implementations
             }
             else
             {
-                await this.ApplyEvent(new UserActiveTokenResetEvent(activeToken));
-                return ErrorCode.None;
+                if (lastResetActiveTokenAt.AddMinutes(15) > DateTime.Now)
+                    return ErrorCode.UserActiveEmailSendFrequently;
+                else
+                {
+                    await this.ApplyEvent(new UserActiveTokenResetEvent(activeToken));
+                    lastResetActiveTokenAt = DateTime.Now;
+                    return ErrorCode.None;
+                }
             }
         }
 
-        async Task<ErrorCode> IUser.InitializePaymentPassword(string paymentPassword)
+        Task IUser.InitializePaymentPassword(string paymentPassword)
         {
             if (this.State.IsVerified)
             {
                 paymentPassword = PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt);
-                await this.ApplyEvent(new UserPaymentPasswordInitalizedEvent(paymentPassword));
+                return this.ApplyEvent(new UserPaymentPasswordInitalizedEvent(paymentPassword));
             }
-            return ErrorCode.None;
+            else
+                return TaskDone.Done;
         }
         async Task<ErrorCode> IUser.Active(string emailToken)
         {
@@ -75,6 +83,15 @@ namespace Dotpay.Actor.Implementations
             }
             else
                 return ErrorCode.UserHasActived;
+        }
+
+        public Task SetLoginName(string loginName)
+        {
+            if (this.State.IsVerified)
+            {
+                return this.ApplyEvent(new UserLoginNameSetEvent(loginName));
+            }
+            else return TaskDone.Done;
         }
 
         Task IUser.Lock(Guid lockBy, string reason)
@@ -272,9 +289,10 @@ namespace Dotpay.Actor.Implementations
             this.State.Id = @event.UserId;
             this.State.Email = @event.Email;
             this.State.Salt = @event.Salt;
-            this.State.LoginName = @event.LoginName;
             this.State.LoginPassword = @event.LoginPassword;
             this.State.EmailVerifyToken = @event.Token;
+            this.State.CreateAt = @event.UTCTimestamp;
+            this.State.LoginName = string.Empty;
             this.State.Lang = @event.Lang;
 
             this.State.WriteStateAsync();
@@ -294,6 +312,13 @@ namespace Dotpay.Actor.Implementations
         private void Handle(UserActivedEvent @event)
         {
             this.State.IsVerified = true;
+            this.State.ActiveAt = @event.UTCTimestamp;
+
+            this.State.WriteStateAsync();
+        }
+        private void Handle(UserLoginNameSetEvent @event)
+        {
+            this.State.LoginName = @event.LoginName;
 
             this.State.WriteStateAsync();
         }
@@ -408,6 +433,8 @@ namespace Dotpay.Actor.Implementations
         DateTime? PaymentPasswordResetTokenGenerateAt { get; set; }
         DateTime? LastPaymentPasswordChangeAt { get; set; }
         string LastLoginIp { get; set; }
+        DateTime CreateAt { get; set; }
+        DateTime? ActiveAt { get; set; }
         DateTime? LastLoginAt { get; set; }
         DateTime? LastLoginFailedAt { get; set; }
         string Salt { get; set; }

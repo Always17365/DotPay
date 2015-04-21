@@ -50,6 +50,18 @@ namespace Dotpay.Front.Controllers
 
             return ip;
         }
+        protected string CurrentUnactiveUserEmail
+        {
+            get
+            {
+                return Session["UNACTIVE_USERID"] != null ? Session["UNACTIVE_USERID"].ToString() : null;
+            }
+            set
+            {
+                Session["UNACTIVE_USERID"] = value;
+            }
+        }
+
 
         protected Lang GetCurrentLang()
         {
@@ -76,8 +88,8 @@ namespace Dotpay.Front.Controllers
         {
             var cultureName = Thread.CurrentThread.CurrentCulture.Name.ToLower();
             ViewBag.CurrentUser = this.CurrentUser;
-            ViewBag.Lang = cultureName; 
-            ViewBag.Debug =DotpayConfig.Debug;
+            ViewBag.Lang = cultureName;
+            ViewBag.Debug = DotpayConfig.Debug;
             base.EndExecute(asyncResult);
         }
 

@@ -9,20 +9,17 @@ namespace Dotpay.Command
     #region User Register Command
     public class UserRegisterCommand : DFramework.Command
     {
-        public UserRegisterCommand(string loginName, string email, string loginPassword, Lang lang)
+        public UserRegisterCommand(string email, string loginPassword, Lang lang)
         {
-            Check.Argument.IsNotEmpty(loginName, "loginName");
             Check.Argument.IsNotEmpty(email, "email");
             Check.Argument.IsNotEmpty(loginPassword, "loginPassword");
             Check.Argument.IsNotNegativeOrZero((int)lang, "lang");
 
-            this.LoginName = loginName;
             this.Email = email;
             this.LoginPassword = loginPassword;
             this.Lang = lang;
         }
 
-        public string LoginName { get; private set; }
         public string LoginPassword { get; private set; }
         public string Email { get; private set; }
         public Lang Lang { get; private set; }
@@ -34,14 +31,27 @@ namespace Dotpay.Command
     {
         public UserActiveCommand(Guid userId, string token)
         {
-            Check.Argument.IsNotEmpty(userId, "userId"); 
+            Check.Argument.IsNotEmpty(userId, "userId");
             Check.Argument.IsNotEmpty(token, "token");
 
             this.UserId = userId;
-            this.Token = token; 
-        } 
-        public Guid UserId { get; private set; } 
+            this.Token = token;
+        }
+        public Guid UserId { get; private set; }
         public string Token { get; private set; }
+    }
+    #endregion
+
+    #region User Resned Active Email Command
+    public class UserResendActiveEmailCommand : HasReturnValueCommand<ErrorCode>
+    {
+        public UserResendActiveEmailCommand(Guid userId)
+        {
+            Check.Argument.IsNotEmpty(userId, "userId");
+
+            this.UserId = userId;
+        }
+        public Guid UserId { get; private set; }
     }
     #endregion
 

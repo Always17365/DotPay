@@ -31,8 +31,8 @@ namespace Dotpay.Common
         InvalidResetPaymentPasswordToken = UserErrorBase + 18,            //错误支付密码重置Token
         InvalidUser = UserErrorBase + 19,                                 //无效的用户
         UnactiveUser = UserErrorBase + 20,                                //未激活的用户
-        UserHasActived = UserErrorBase + 21,                              //用户已激活
-
+        UserHasActived = UserErrorBase + 21,                              //用户已激活 
+        UserActiveEmailSendFrequently = UserErrorBase + 22,               //用户激活发送过于频繁
         #region Manager
         UserManagerErrorBase = 1500,
         HasNoPermission = UserManagerErrorBase + 1,

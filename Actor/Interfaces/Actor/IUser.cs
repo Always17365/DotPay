@@ -10,10 +10,11 @@ namespace Dotpay.Actor
 {
     public interface IUser : IGrainWithGuidKey
     {
-        Task<ErrorCode> Register(string email, string userAccount, string loginPassword, Lang lang, string activeToken);
+        Task<ErrorCode> Register(string email,string loginPassword, Lang lang, string activeToken);
         Task<ErrorCode> ResetActiveToken(string activeToken);
-        Task<ErrorCode> InitializePaymentPassword(string paymentPassword);
+        Task InitializePaymentPassword(string paymentPassword);
         Task<ErrorCode> Active(string emailToken);
+        Task SetLoginName(string loginName);
         Task<Tuple<ErrorCode, int>> Login(string loginPassword, string ip);
         Task Lock(Guid lockBy, string reason);
         Task Unlock(Guid lockBy, string reason);
@@ -34,14 +35,14 @@ namespace Dotpay.Actor
 
     public class UserInfo
     {
-        public UserInfo(string loginName, string email, Lang lang)
+        public UserInfo(string nickName, string email, Lang lang)
         {
-            this.LoginName = loginName;
+            this.NickName = nickName;
             this.Email = email;
             this.Lang = lang;
         }
 
-        public string LoginName { get; set; }
+        public string NickName { get; set; }
         public string Email { get; set; }
         public Lang Lang { get; set; }
     }

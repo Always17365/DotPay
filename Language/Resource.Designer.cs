@@ -61,6 +61,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Account_has_actived_ {
+            get {
+                return ResourceManager.GetString("Account has actived.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 click &lt;a href=&apos;/signin&apos; &gt;here &lt;/a&gt; to sign in . 的本地化字符串。
         /// </summary>
         internal static string activationDescription {
@@ -390,6 +399,15 @@ namespace Dotpay.Language {
         internal static string Welcome_to_dotpay {
             get {
                 return ResourceManager.GetString("Welcome to dotpay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Send mail too Frequently,Please resend after 15 minutes. 的本地化字符串。
+        /// </summary>
+        internal static string You_can_send_active_email_after_15_minutes_ {
+            get {
+                return ResourceManager.GetString("You can send active email after 15 minutes.", resourceCulture);
             }
         }
         
