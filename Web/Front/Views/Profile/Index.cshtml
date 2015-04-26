@@ -1,0 +1,141 @@
+﻿@using DFramework
+@using Dotpay.Common.Enum
+@using Dotpay.Front.ViewModel
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@Html.Partial("_ProfileIndexBanner")
+<div class="profile-main">
+    <div class="container">
+        <div class="row top-welcome text-center">欢迎来到点付全球支付中心</div>
+        <div class="row profile-dashboard">
+            <table class="table">
+                <tr>
+                    <td class="left">
+                        <div class="row welcome">
+                            <div class="col-sm-12 col-md-12">
+                                下午好，
+                                @if (ViewBag.CurrentUser.IdentityInfo != null)
+                                {
+                                    <span>ViewBag.CurrentUser.IdentityInfo.RealName</span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        @(string.IsNullOrEmpty(ViewBag.CurrentUser.LoginName) ? ViewBag.CurrentUser.Email : ViewBag.CurrentUser.LoginName)
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row account">
+                            <div class="col-sm-6 col-md-6">
+                                邮箱: @ViewBag.CurrentUser.Email
+                            </div>
+                            <div class="col-sm-6 col-md-6 auth">
+                                @if (ViewBag.CurrentUser.IdentityInfo != null)
+                                {
+                                    <span>已认证</span>
+                                }
+                                else
+                                {
+                                    <span>未认证</span> @("立即")<a>实名认证</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="row lastlogin">
+                            <div class="col-sm-12 col-md-12">
+                                上次登录时间: @(ViewBag.CurrentUser.LastLoginAt != null ? ViewBag.CurrentUser.LastLoginAt.ToString("MM-dd HH:mm") : "首次登陆")
+                            </div>
+                        </div>
+                        <div class="row balance">
+                            <div class="col-sm-12 col-md-12 title">
+                                账户余额
+                            </div>
+                            <div class="col-sm-5 col-md-5 amount">
+                                @{
+                                    var balances = (List<AccountBalanceViewModel>)ViewBag.Balances;
+                                    var balanceCNY = balances.SingleOrDefault(b => b.Currency == CurrencyType.Cny);
+                                }
+                                <span>@((int)(balanceCNY != null ? balanceCNY.Amount : 0))</span><span class="decimal">@(balanceCNY == null ? ".00" : (balanceCNY.Amount - (int)balanceCNY.Amount).ToString(".00"))元</span>
+                            </div>
+                            <div class="col-sm-7 col-md-7 amount">
+                                <a class="btn btn-info btn-sm " href="/deposit">充值</a>
+                                <a class="btn btn-info btn-sm " href="/withdraw">转账</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="right">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="iotitle">最近一个月收支情况</div>
+                                <div class="io">
+                                    <span class="incometitle">收入</span>
+                                    <div class="col-sm-12 col-md-12 amount"><span>15640</span><span class="decimal">.00元</span></div>
+                                </div>
+                                <div class="io">
+                                    <span class="outboundtitle">支出</span>
+                                    <div class="col-sm-12 col-md-12 amount"><span>2560</span><span class="decimal">.00元</span></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-8 assetsChartsContainer">
+                                <div id="assetsCharts"></div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+        <div class="row tx-pannel">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">交易记录</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>流水号</th>
+                                <th>收支金额</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04-20 11:20</td>
+                                <td>2015687613876135465</td>
+                                <td>+1000</td>
+                                <td>退款中</td>
+                            </tr>
+                            <tr>
+                                <td>04-20 09:39</td>
+                                <td>2015687613876135465</td>
+                                <td>-200</td>
+                                <td>处理中</td>
+                            </tr>
+                            <tr>
+                                <td>04-20 09:39</td>
+                                <td>2015687613876135465</td>
+                                <td>+500</td>
+                                <td>交易成功</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    &nbsp;<a href="/transactions" class="pull-right">查看所有交易记录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/assets/plugins/amcharts/amcharts.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.getScript('/assets/js/profile.js').done(function () {
+                Profile.handleChart();
+            });
+        });
+    </script>
+</div>

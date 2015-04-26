@@ -79,7 +79,7 @@ namespace Dotpay.Application.Monitor
                 {
                     var account = GrainFactory.GetGrain<IAccount>(message.AccountId);
                     await account.Initialize(message.UserId);
-
+                    Log.Debug("User Active And Account has been initialize");
                     Model.BasicAck(deliveryTag, false);
                 }
                 catch (Exception ex)

@@ -141,6 +141,7 @@ namespace Dotpay.Actor.Implementations
             this.State.LoginPassword = @event.LoginPassword;
             this.State.TwofactorKey = @event.TwofactorKey;
             this.State.Salt = @event.Salt;
+            this.State.CreateAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
         }
         private void Handle(ManagerLockedEvent @event)
@@ -198,6 +199,7 @@ namespace Dotpay.Actor.Implementations
         string LoginPassword { get; set; }
         string Salt { get; set; }
         bool IsLocked { get; set; }
+        DateTime CreateAt { get; set; }
         DateTime? LockedAt { get; set; }
         DateTime? LastLoginAt { get; set; }
         string LastLoginIp { get; set; }

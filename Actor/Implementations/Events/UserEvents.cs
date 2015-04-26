@@ -53,11 +53,14 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class UserActivedEvent : GrainEvent
     {
-        public UserActivedEvent(string emailVerifyToken)
+        public UserActivedEvent(string emailVerifyToken, Guid accountId)
         {
             this.EmailVerifyToken = emailVerifyToken;
+            this.AccountId = accountId;
         }
+
         public string EmailVerifyToken { get; private set; }
+        public Guid AccountId { get; private set; }
     }
 
     [Immutable]

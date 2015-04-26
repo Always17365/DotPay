@@ -23,7 +23,7 @@ namespace Dotpay.CommandExecutor
         {
             var userRegisterService = GrainFactory.GetGrain<IUserRegisterService>(0);
             return userRegisterService.Register(cmd.Email, cmd.LoginPassword, cmd.Lang);
-        } 
+        }
         public Task ExecuteAsync(UserResendActiveEmailCommand cmd)
         {
             var userRegisterService = GrainFactory.GetGrain<IUserRegisterService>(0);
@@ -31,8 +31,8 @@ namespace Dotpay.CommandExecutor
         }
         public async Task ExecuteAsync(UserActiveCommand cmd)
         {
-            var user = GrainFactory.GetGrain<IUser>(cmd.UserId);
-            cmd.CommandResult = await user.Active(cmd.Token);
+            var userRegisterService = GrainFactory.GetGrain<IUserRegisterService>(0);
+            cmd.CommandResult = await userRegisterService.ActiveUser(cmd.UserId, cmd.Token);
         }
         public async Task ExecuteAsync(UserLoginCommand cmd)
         {

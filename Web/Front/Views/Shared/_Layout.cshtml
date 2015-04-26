@@ -14,8 +14,9 @@
     <link href="/assets/css/style@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
     <link href="/assets/css/style-responsive@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
     <link href="/assets/css/theme/default@(ViewBag.Debug==true?"":".min").css" id="theme" rel="stylesheet" />
+    <link href="/assets/css/lang/@(ViewBag.Lang != "zh-cn" && ViewBag.Lang != "zh-tw"?"other":ViewBag.Lang).css" id="fontstyle" rel="stylesheet" />
     <!-- END BASE CSS STYLE -->
-    <!--  BEGIN BASE JS  -->
+    <!-- BEGIN BASE JS -->
     <script src="/assets/js/lang/@(ViewBag.Lang).js"></script>
     <script src="~/assets/plugins/jquery/jquery-1.11.2.min.js"></script>
     <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -42,6 +43,6 @@
         @RenderBody()
     </div>
     @Html.Partial("_CommonFooter")
-    <!-- end #page-container --> 
+    <!-- end #page-container -->
 </body>
 </html>

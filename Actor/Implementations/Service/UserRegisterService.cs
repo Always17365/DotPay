@@ -62,9 +62,9 @@ namespace Dotpay.Actors.Service.Implementations
 
             if (errorCode == ErrorCode.None)
             {
-                var accountId = Guid.NewGuid();
+                var accountId = await user.GetAccountId();
                 var message = new UserActivedMessage(userId, accountId);
-                await MessageProducterManager.GetProducter().PublishMessage(message, USER_MQ_EXCHANGE, USER_EMAIL_MQ_ROUTE_KEY, true);
+                await MessageProducterManager.GetProducter().PublishMessage(message, USER_MQ_EXCHANGE, USER_MQ_ROUTE_KEY, true);
             }
 
             return errorCode;

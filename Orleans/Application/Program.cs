@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using DFramework;
 using DFramework.Autofac;
 using DFramework.Log4net;
+using Dotpay.Actor.Ripple;
 using Orleans;
 using RabbitMQ.Client;
+using Dotpay.Application.Monitor;
+
 
 namespace Dotpay.Application
 {
@@ -16,6 +19,16 @@ namespace Dotpay.Application
         static void Main(string[] args)
         {
             InitEnvronment();
+            StartMonitor();
+            var random = new Random();
+            var exitCode = "999";
+
+            while (true)
+            {
+                var input = Console.ReadLine();
+                if(input==exitCode)
+                    break;
+            }
         }
 
         private static void InitEnvronment()
@@ -30,6 +43,23 @@ namespace Dotpay.Application
             IoC.Register<IConnectionFactory>(factory);
 
             GrainClient.Initialize("ClientConfiguration.xml");
+        }
+
+        private static void StartMonitor()
+        {
+            var depositRecheckerMonitor = new DepositRecheckerMonitor();
+            var emailMessagMonitor = new EmailMessageMonitor();
+            var refundTransactionMonitor = new RefundTransactionMonitor();
+            var rippleTxMessageMonitor = new RippleToFIMonitor();
+            var transferTxMonitor = new TransferTransactionMonitor();
+            var userActiveMonitor = new UserActiveMessageMonitor();
+
+             depositRecheckerMonitor.Start();
+             emailMessagMonitor.Start();
+             refundTransactionMonitor.Start();
+             rippleTxMessageMonitor.Start();
+             transferTxMonitor.Start();
+             userActiveMonitor.Start(); 
         }
     }
 }

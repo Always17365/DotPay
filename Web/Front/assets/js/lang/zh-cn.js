@@ -21,4 +21,5 @@
     emailAddressRequired: "Email地址必须填写",
     emailAdressRegexNotMatch: "Email地址格式错误",
     registerEmailExist: "邮件地址已存在",
+    activeEmailHasSend: "激活邮件已发送",
 };

@@ -21,4 +21,5 @@
     emailAddressRequired: "The email address is required",
     emailAdressRegexNotMatch: "The input is not a valid email address",
     registerEmailExist: "The email already exists.",
+    activeEmailHasSend: "Activation email has been sent.",
 };

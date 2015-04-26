@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dotpay.Common;
+using Newtonsoft.Json;
 
 namespace Dotpay.Front.ViewModel
 {
@@ -13,8 +11,17 @@ namespace Dotpay.Front.ViewModel
         public Guid UserId { get; set; }
         public string LoginName { get; set; }
         public string Email { get; set; }
+        public DateTime? LastLoginAt { get; set; }
+        public IdentityInfo IdentityInfo { get; set; }
         public bool IsActive { get; set; }
     }
+    [Serializable]
+    public class IdentityInfo
+    {
+        public string FullName { get; set; }
+        public string IdNo { get; set; }
+        public IdNoType IdType { get; set; }
+    } 
     [Serializable]
     public class UserRegisterViewModel
     {

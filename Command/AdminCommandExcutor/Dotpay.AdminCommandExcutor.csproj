@@ -35,9 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework, Version=1.0.5.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.4\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Log4net">
       <HintPath>..\..\packages\DFramework.Plusins.Log4net.1.0.1.0\lib\net45\DFramework.Plusins.Log4net.dll</HintPath>

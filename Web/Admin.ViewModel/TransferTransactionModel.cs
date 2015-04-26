@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
+using Newtonsoft.Json;
 
 namespace Dotpay.Admin.ViewModel
 {
@@ -22,6 +23,7 @@ namespace Dotpay.Admin.ViewModel
         public string DestinationAccount { get; set; }
         public string TransactionNo { get; set; }
         public string Memo { get; set; }
+
         public DateTime CreateAt { get; set; }
         public DateTime? FailAt { get; set; }
         DateTime? CompleteAt { get; set; }

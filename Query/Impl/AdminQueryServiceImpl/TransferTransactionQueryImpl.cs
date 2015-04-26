@@ -38,8 +38,8 @@ namespace Dotpay.AdminQueryServiceImpl
 
             IEnumerable<TransferFromDotpayToFiListViewModel> result = null;
             var condation = "{" +
-                         (string.IsNullOrEmpty(userLoginName)? "": "UserLoginName : { $regex : '" + userLoginName + "', $options : 'i' },") +
-                               "Status:{ $in:[" + TransferTransactionStatus.Submited.ToString("D") + 
+                         (string.IsNullOrEmpty(userLoginName) ? "" : "UserLoginName : { $regex : '" + userLoginName + "', $options : 'i' },") +
+                               "Status:{ $in:[" + TransferTransactionStatus.Submited.ToString("D") +
                                     "," + TransferTransactionStatus.LockeByProcessor.ToString("D") + "]}}";
 
             var filter = BsonDocument.Parse(condation);
@@ -65,13 +65,13 @@ namespace Dotpay.AdminQueryServiceImpl
                         var bank = ((Bank?)r["TransferTransactionInfo"]["Target"]["Bank"].AsNullableInt32);
                         var item = new TransferFromDotpayToFiListViewModel()
                         {
-                            Id = Guid.Parse(r["Id"].AsString),
+                            Id = r["Id"].AsGuid,
                             UserLoginName = r["TransferTransactionInfo"]["Source"]["UserLoginName"] != null ? r["TransferTransactionInfo"]["Source"]["UserLoginName"].AsString : null,
                             SequenceNo = r["SequenceNo"].AsString,
                             Currency = ((CurrencyType)r["TransferTransactionInfo"]["Currency"].ToInt32()).ToString("F"),
                             Amount = (decimal)r["TransferTransactionInfo"]["Amount"].ToDouble(),
                             Bank = bank.HasValue ? bank.Value.ToString("F") : "",
-                            CreateAt = Convert.ToDateTime(r["CreateAt"].AsString),
+                            CreateAt = r["CreateAt"].ToLocalTime(),
                             DestinationAccount = r["TransferTransactionInfo"]["Target"]["DestinationAccount"].AsString,
                             Manager = r["Manager"] != null ? r["Manager"].AsString : null,
                             Payway = ((Payway)r["TransferTransactionInfo"]["Target"]["Payway"].AsInt32).ToString("F")
@@ -85,9 +85,9 @@ namespace Dotpay.AdminQueryServiceImpl
         public async Task<int> CountDotpayToFiTransferTx(string userLoginName, string sequenceNo, string transferNo, TransferTransactionStatus status)
         {
             var condation = "{" +
-                            (string.IsNullOrEmpty(userLoginName)? "": "UserLoginName : { $regex : '" + userLoginName + "', $options : 'i' },") +
-                            (string.IsNullOrEmpty(sequenceNo)? "": " SequenceNo:'" + sequenceNo + "',") +
-                            (string.IsNullOrEmpty(transferNo) ? "" : " FiTransactionNo:'" + transferNo + "',") + 
+                            (string.IsNullOrEmpty(userLoginName) ? "" : "UserLoginName : { $regex : '" + userLoginName + "', $options : 'i' },") +
+                            (string.IsNullOrEmpty(sequenceNo) ? "" : " SequenceNo:'" + sequenceNo + "',") +
+                            (string.IsNullOrEmpty(transferNo) ? "" : " FiTransactionNo:'" + transferNo + "',") +
                             " Status:" + status.ToString("D") + "}";
             long result = 0;
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
@@ -131,27 +131,25 @@ namespace Dotpay.AdminQueryServiceImpl
                 if (results.Any())
                 {
                     result = new List<TransferFromDotpayToFiListViewModel>();
-                    results.ForEach(r =>
+                    results.ForEach(row =>
                     {
-                        var bank = ((Bank?)r["TransferTransactionInfo"]["Target"]["Bank"].AsNullableInt32);
+                        var bank = (Bank?)
+                            (row["TransferTransactionInfo"]["Target"].AsBsonDocument.GetValue("Bank", BsonValue.Create(0)).ToInt32())
+                        ;
                         var item = new TransferFromDotpayToFiListViewModel()
                         {
-                            Id = Guid.Parse(r["Id"].AsString),
-                            UserLoginName =
-                                r["TransferTransactionInfo"]["Source"]["UserLoginName"] != null
-                                    ? r["TransferTransactionInfo"]["Source"]["UserLoginName"].AsString
-                                    : null,
-                            SequenceNo = r["SequenceNo"].AsString,
-                            Currency = ((CurrencyType)r["TransferTransactionInfo"]["Currency"].ToInt32()).ToString("F"),
-                            Amount = (decimal)r["TransferTransactionInfo"]["Amount"].AsDouble,
+                            Id = Guid.Parse(row["Id"].AsString),
+                            UserLoginName = row["TransferTransactionInfo"]["Source"].AsBsonDocument.GetValue("UserLoginName", BsonValue.Create("")).AsString,
+                            SequenceNo = row["SequenceNo"].AsString,
+                            Currency = ((CurrencyType)row["TransferTransactionInfo"]["Currency"].ToInt32()).ToString("F"),
+                            Amount = (decimal)row["TransferTransactionInfo"]["Amount"].AsDouble,
                             Bank = bank.HasValue ? bank.Value.ToString("F") : "",
-                            CreateAt = Convert.ToDateTime(r["CreateAt"].AsString),
-                            DestinationAccount = r["TransferTransactionInfo"]["Target"]["DestinationAccount"].AsString,
-                            FailAt =
-                                r["FailAt"] != null ? new DateTime?(Convert.ToDateTime(r["FailAt"].AsString)) : null,
-                            Manager = r["Manager"] != null ? r["Manager"].AsString : null,
-                            Payway = ((Payway)r["TransferTransactionInfo"]["Target"]["Payway"].AsInt32).ToString("F"),
-                            TransactionNo = r["FiTransactionNo"].AsString
+                            CreateAt = row.GetValue("CreateAt", 0d).AsDouble.ToLocalDateTime(),
+                            DestinationAccount = row["TransferTransactionInfo"]["Target"]["DestinationAccount"].AsString,
+                            FailAt = row.GetValue("LastLoginAt", 0d).AsDouble.ToNullableLocalDateTime(),
+                            Manager = row.GetValue("Manager", BsonValue.Create("")).AsString,
+                            Payway = ((Payway)row["TransferTransactionInfo"]["Target"]["Payway"].AsInt32).ToString("F"),
+                            TransactionNo = row["FiTransactionNo"].AsString
                         };
                     });
                 }

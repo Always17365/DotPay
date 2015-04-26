@@ -4,228 +4,45 @@
 <html lang="en">
 <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Dotpay Admin</title>
+    <title>点付</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <!-- ================== BEGIN BASE CSS STYLE ================== -->
-    @*<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />*@
-    <link href="/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <meta content="点付 , 您的快捷支付专家" name="description" />
+    <!--  BEGIN BASE CSS STYLE  -->
     <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/assets/css/animate.min.css" rel="stylesheet" />
-    <link href="/assets/css/style.css" rel="stylesheet" />
-    <link href="/assets/css/style-responsive.min.css" rel="stylesheet" />
-    <link href="/assets/css/theme/default.css" rel="stylesheet" id="theme" />
-    <link href="/assets/plugins/ionicons/css/ionicons.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
-    <!-- ================== END BASE CSS STYLE ================== -->
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="/assets/plugins/pace/pace.min.js"></script>
-</head>
-<body>
-    <!-- begin #page-loader -->
-    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
-    <!-- end #page-loader -->
-    <!-- begin #page-container -->
-    <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
-        <!-- begin #header -->
-        <div id="header" class="header navbar navbar-inverse navbar-fixed-top">
-            <!-- begin container-fluid -->
-            <div class="container-fluid">
-                <!-- begin mobile sidebar expand / collapse button -->
-                <div class="navbar-header">
-                    <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span>点付管理后台</a>
-                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <!-- end mobile sidebar expand / collapse button -->
-                <!-- begin header navigation right -->
-                <ul class="nav navbar-nav navbar-right">
-                    @*<li>
-                            <form class="navbar-form full-width">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Enter keyword" />
-                                    <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-                                </div>
-                            </form>
-                        </li>*@
-                    @*<li class="dropdown">
-                                            <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label">5</span>
-                            </a>
-                            <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-                                <li class="dropdown-header">Notifications (5)</li>
-                                <li class="media">
-                                    <a href="javascript:;">
-                                        <div class="media-left"><i class="fa fa-bug media-object bg-red"></i></div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading">Server Error Reports</h6>
-                                            <div class="text-muted f-s-11">3 minutes ago</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="media">
-                                    <a href="javascript:;">
-                                        <div class="media-left"><img src="/assets/img/user-1.jpg" class="media-object" alt="" /></div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading">John Smith</h6>
-                                            <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                            <div class="text-muted f-s-11">25 minutes ago</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="media">
-                                    <a href="javascript:;">
-                                        <div class="media-left"><img src="/assets/img/user-2.jpg" class="media-object" alt="" /></div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading">Olivia</h6>
-                                            <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                            <div class="text-muted f-s-11">35 minutes ago</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="media">
-                                    <a href="javascript:;">
-                                        <div class="media-left"><i class="fa fa-plus media-object bg-green"></i></div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading"> New User Registered</h6>
-                                            <div class="text-muted f-s-11">1 hour ago</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="media">
-                                    <a href="javascript:;">
-                                        <div class="media-left"><i class="fa fa-envelope media-object bg-blue"></i></div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading"> New Email From John</h6>
-                                            <div class="text-muted f-s-11">2 hour ago</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="dropdown-footer text-center">
-                                    <a href="javascript:;">View more</a>
-                                </li>
-                            </ul>
-                        </li>*@
-                    <li class="dropdown navbar-user">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/assets/img/user-13.jpg" alt="" />
-                            <span class="hidden-xs">@ViewBag.CurrentUser.LoginName</span> <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu animated fadeInLeft">
-                            <li class="arrow"></li>
-                            <li><a href="javascript:;" id="btnModifyLoginPwd">修改登录密码</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/loginout">退出登录</a></li>
-                        </ul>
-                        <!-- #reset login password-->
-                        <div class="modal fade" tabindex="-1" id="modifyLoginPwdDialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formModifyLoginPassword">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title">修改登陆密码</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="oldPassword">原密码* :</label>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <input class="form-control" type="password" id="oldPassword" name="oldPassword" autocomplete="off" placeholder="请输入原密码" data-parsley-required="true" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="newLoginPassword">新登陆密码* :</label>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <input type="password" class="form-control" id="newLoginPassword" name="newPassword" autocomplete="off" placeholder="请输入新密码" data-parsley-required="true" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="confirmLoginPassword">再次确认密码* :</label>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <input type="password" class="form-control" id="confirmLoginPassword" name="confirmPassword" autocomplete="off" placeholder="请再次确认密码" data-parsley-equalto="#newLoginPassword" data-parsley-required="true" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
-                                            <button type="submit" class="btn btn-sm btn-success">确定</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <!-- end header navigation right -->
-            </div>
-            <!-- end container-fluid -->
-        </div>
-        <!-- end #header -->
-        <!-- begin #sidebar --><div id="sidebar" class="sidebar">
-            <!-- begin sidebar scrollbar -->
-            <div data-scrollbar="true" data-height="100%">
-                <!-- begin sidebar user -->
-                <ul class="nav">
-                    <li class="nav-profile">
-                        <div class="image">
-                            <a href="javascript:;"><img src="/assets/img/user-13.jpg" alt="" /></a>
-                        </div>
-                        <div class="info">
-                            @ViewBag.CurrentUser.LoginName
-                            <small>欢迎进入点付管理后台</small>
-                        </div>
-                    </li>
-                </ul>
-                <!-- end sidebar user -->
-                <!-- begin sidebar nav -->
-                @{ Html.RenderAction("SidebarNav", "Home");}
-                <!-- end sidebar nav -->
-            </div>
-            <!-- end sidebar scrollbar -->
-        </div>
-        <div class="sidebar-bg"></div>
-        <!-- end #sidebar -->
-        <!-- begin #ajax-content -->
-        <div id="ajax-content">
-            @RenderBody()
-        </div>
-        <!-- end #ajax-content
-        <!-- begin scroll to top btn -->
-        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
-        <!-- end scroll to top btn -->
-    </div>
-    <!-- end page container -->
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
-    <script src="/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
-    <script src="/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/assets/css/style@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
+    <link href="/assets/css/theme/default@(ViewBag.Debug==true?"":".min").css" id="theme" rel="stylesheet" />
+    <link href="/assets/css/lang/@(ViewBag.Lang != "zh-cn" && ViewBag.Lang != "zh-tw"?"other":ViewBag.Lang).css" id="fontstyle" rel="stylesheet" />
+    <!-- END BASE CSS STYLE -->
+    <!--  BEGIN BASE JS  -->
+    <script src="/assets/js/lang/@(ViewBag.Lang).js"></script>
+    <script src="~/assets/plugins/jquery/jquery-1.11.2.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!--[if lt IE 9]>
         <script src="/assets/crossbrowserjs/html5shiv.js"></script>
         <script src="/assets/crossbrowserjs/respond.min.js"></script>
         <script src="/assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
-    <script src="/assets/plugins/jquery-hashchange/jquery.hashchange.min.js"></script>
-    <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>    
-    <script src="/assets/plugins/parsley/dist/parsley.js"></script>
-    <script src="/assets/plugins/parsley/src/i18n/zh_cn.js"></script> 
-    <!-- ================== END BASE JS ================== -->
-    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-    <script src="/assets/jss/apps.js"></script>
-    <!-- ================== END PAGE LEVEL JS ================== -->
-
+    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/assets/plugins/scrollMonitor/scrollMonitor.js"></script>
+    <script src="/assets/plugins/formvalidation/js/formValidation.min.js"></script>
+    <script src="/assets/js/apps@(ViewBag.Debug==true?"":".min").js"></script>
+    <!--  END BASE JS  -->
     <script>
         $(document).ready(function () {
             App.init();
         });
     </script>
+</head>
+<body class="page-navbar-fixed-top-profile">
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        @Html.Partial("_ProfileHeader")
+        @RenderBody()
+    </div>
+    @Html.Partial("_ProfileFooter")
+    <!-- end #page-container -->
 </body>
 </html>

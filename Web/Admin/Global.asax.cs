@@ -16,6 +16,9 @@ using DFramework.Autofac;
 using DFramework.Log4net;
 using Dotpay.AdminQueryServiceImpl;
 using DFramework.Memcached;
+using Dotpay.Admin.ViewModel;
+using Dotpay.Common;
+using Newtonsoft.Json;
 using Orleans;
 
 namespace Dotpay.Admin
@@ -49,8 +52,9 @@ namespace Dotpay.Admin
                         .UseLog4net()
                         .UseMemcached("192.168.0.100")
                         .UseDefaultCommandBus(assemblies.ToArray())
-                        .RegisterQueryService(DotpayConfig.DBConnectionString, DotpayConfig.DatabaseName)
-                        .Start();
+                        .RegisterQueryService(DotpayConfig.DBConnectionString, DotpayConfig.DatabaseName);
+
+            IoC.Register<IJsonSerializer, DotpayJsonSerializer>(LifeStyle.Singleton);
 
             GrainClient.Initialize(Path.Combine(basePath, "ClientConfiguration.xml"));
         }
@@ -77,5 +81,46 @@ namespace Dotpay.Admin
             }
         }
 
+    }
+
+    public class DotpayJsonSerializer : IJsonSerializer
+    {
+        JsonSerializerSettings settings;
+
+        public DotpayJsonSerializer()
+        {
+            settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.Converters.Add(new UnixDateTimeConverter());
+        }
+        public string Serialize(object obj)
+        {
+            string jsonData = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
+
+            return jsonData;
+        }
+
+        public object Deserialize(string value, Type type)
+        {
+            object obj = JsonConvert.DeserializeObject(value, type, settings);
+
+            return obj;
+        }
+
+        public T Deserialize<T>(string value) where T : class
+        {
+            T obj = null;
+
+            try
+            {
+                obj = (T)this.Deserialize(value, typeof(T));
+                return obj;
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
     }
 }

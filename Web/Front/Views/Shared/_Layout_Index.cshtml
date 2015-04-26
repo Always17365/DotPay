@@ -15,7 +15,8 @@
     <link href="/assets/css/style-responsive@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
     <link href="/assets/plugins/formvalidation/css/formValidation.min.css" rel="stylesheet" />
     <link href="/assets/css/theme/default@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
-    <!-- END BASE CSS STYLE -->
+    <link href="/assets/css/lang/@(ViewBag.Lang != "zh-cn" && ViewBag.Lang != "zh-tw"?"other":ViewBag.Lang).css" id="fontstyle" rel="stylesheet" />
+ <!-- END BASE CSS STYLE -->
     <!-- end #page-container -->
     <!--  BEGIN BASE JS  -->
     <script src="/assets/js/lang/@(ViewBag.Lang).js"></script>
@@ -40,7 +41,6 @@
 <body data-spy="scroll" data-target="#header-navbar" data-offset="51">
     <!-- begin #page-container -->
     <div id="page-container" class="fade">
-        @Html.Partial("_IndexHeader")
         @RenderBody()
     </div>
 </body>

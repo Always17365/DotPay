@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFramework">
-      <HintPath>..\..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
+    <Reference Include="DFramework, Version=1.0.5.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DFramework.1.0.5.4\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\..\packages\MongoDB.Bson.2.0.0\lib\net45\MongoDB.Bson.dll</HintPath>
@@ -57,10 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MongoManager.cs" />
-    <Compile Include="UserQuery.cs" />
+    <Compile Include="AccountQueryImpl.cs" />
+    <Compile Include="TransactionQueryImpl.cs" />
+    <Compile Include="UserQueryImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Dotpay.Common.csproj">
+      <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>
+      <Name>Dotpay.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Web\Front.ViewModel\Dotpay.Front.ViewModel.csproj">
       <Project>{74028c34-9599-45a4-85b2-73a085c10785}</Project>
       <Name>Dotpay.Front.ViewModel</Name>

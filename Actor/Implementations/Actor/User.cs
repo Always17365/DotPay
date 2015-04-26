@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using DFramework;
 using DFramework.Utilities;
 using Dotpay.Actor.Events;
-using Dotpay.Actor;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;
@@ -25,7 +21,7 @@ namespace Dotpay.Actor.Implementations
         private readonly List<DateTime> _forgetPaymentPasswordCounter = new List<DateTime>();
         private DateTime lastResetActiveTokenAt;
         private const int MAX_RETRY_LOGIN_TIMES = 5;
-        private const int MAX_FORGET_LOGIN_PASSWORD_TIMES = 3;
+        private const int MAX_FORGET_PASSWORD_TIMES = 3;
         private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
 
         #region IUser
@@ -75,7 +71,8 @@ namespace Dotpay.Actor.Implementations
             {
                 if (this.State.EmailVerifyToken.Equals(emailToken, StringComparison.OrdinalIgnoreCase))
                 {
-                    await this.ApplyEvent(new UserActivedEvent(emailToken));
+                    var accountId = Guid.NewGuid();
+                    await this.ApplyEvent(new UserActivedEvent(emailToken, accountId));
                     return ErrorCode.None;
                 }
                 else
@@ -142,7 +139,7 @@ namespace Dotpay.Actor.Implementations
             if (this.State.IsVerified)
             {
                 if (_forgetLoginPasswordCounter.SkipWhile(d => d.AddMinutes(15) > DateTime.Now).Count() <
-                    MAX_FORGET_LOGIN_PASSWORD_TIMES)
+                    MAX_FORGET_PASSWORD_TIMES)
                 {
                     await this.ApplyEvent(new UserLoginPasswordForgetEvent(token));
                     _forgetLoginPasswordCounter.Add(DateTime.Now);
@@ -178,8 +175,8 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.IsVerified)
             {
-                if (_forgetLoginPasswordCounter.SkipWhile(d => d.AddMinutes(15) < DateTime.Now).Count() <
-                    MAX_FORGET_LOGIN_PASSWORD_TIMES)
+                if (_forgetPaymentPasswordCounter.SkipWhile(d => d.AddMinutes(15) < DateTime.Now).Count() <
+                    MAX_FORGET_PASSWORD_TIMES)
                 {
                     await this.ApplyEvent(new UserPaymentPasswordForgetEvent(token));
                     _forgetLoginPasswordCounter.Add(DateTime.Now);
@@ -210,7 +207,7 @@ namespace Dotpay.Actor.Implementations
         async Task<Tuple<ErrorCode, int>> IUser.Login(string loginPassword, string ip)
         {
             var now = DateTime.Now;
-            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.Count();
+            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.SkipWhile(f => f.Add(LimitPeriod) > DateTime.Now).Count();
             if (remainRetryCounter <= 0)
                 return new Tuple<ErrorCode, int>(ErrorCode.ExceedMaxLoginFailTime, 0);
             else
@@ -312,6 +309,7 @@ namespace Dotpay.Actor.Implementations
         private void Handle(UserActivedEvent @event)
         {
             this.State.IsVerified = true;
+            this.State.AccountId = @event.AccountId;
             this.State.ActiveAt = @event.UTCTimestamp;
 
             this.State.WriteStateAsync();
@@ -324,8 +322,11 @@ namespace Dotpay.Actor.Implementations
         }
         private void Handle(UserLoginSuccessedEvent @event)
         {
-            this.State.LastLoginAt = @event.UTCTimestamp;
+            this.State.LastLoginAt = this.State.CurrentLoginAt ?? @event.UTCTimestamp;
+            this.State.CurrentLoginAt = @event.UTCTimestamp;
             this.State.LastLoginIp = @event.IP;
+
+            this.State.WriteStateAsync();
         }
         private void Handle(UserLoginFailedEvent @event)
         {
@@ -335,11 +336,15 @@ namespace Dotpay.Actor.Implementations
         {
             this.State.IsLocked = true;
             this.State.LockedAt = @event.UTCTimestamp;
+
+            this.State.WriteStateAsync();
         }
         private void Handle(UserUnlockedEvent @event)
         {
             this.State.IsLocked = false;
             this.State.LockedAt = null;
+
+            this.State.WriteStateAsync();
         }
         private void Handle(UserSetMobileEvent @event)
         {
@@ -436,6 +441,7 @@ namespace Dotpay.Actor.Implementations
         DateTime CreateAt { get; set; }
         DateTime? ActiveAt { get; set; }
         DateTime? LastLoginAt { get; set; }
+        DateTime? CurrentLoginAt { get; set; }
         DateTime? LastLoginFailedAt { get; set; }
         string Salt { get; set; }
     }

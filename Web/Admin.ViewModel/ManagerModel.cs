@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dotpay.Common;
+using Newtonsoft.Json;
 
 namespace Dotpay.Admin.ViewModel
 {

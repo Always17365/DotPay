@@ -1,5 +1,6 @@
 ﻿using System;
 using Dotpay.Common;
+using Newtonsoft.Json;
 
 namespace Dotpay.Admin.ViewModel
 { 
@@ -15,17 +16,13 @@ namespace Dotpay.Admin.ViewModel
         public DateTime? LockedAt { get; set; }
         public string LastLoginIp { get; set; }
         public string Reason { get; set; }
-        public DateTime? LastLoginAt { get; set; }  
+        public DateTime? LastLoginAt { get; set; }
+        public bool VerifyRealName { get; set; }
     }
 
+    [Serializable]
     public class IdentityInfo
     {
-        public IdentityInfo(string fullName, string idNo, IdNoType idType)
-        {
-            this.FullName = fullName;
-            this.IdNo = idNo;
-            this.IdType = IdType;
-        }
         public string FullName { get; set; }
         public string IdNo { get; set; }
         public IdNoType IdType { get; set; }

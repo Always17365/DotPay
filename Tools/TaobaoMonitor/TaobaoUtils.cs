@@ -129,7 +129,7 @@ namespace Dotpay.TaobaoMonitor
                             if (s.AuthAt.AddDays(1) > DateTime.Now)
                             {
                                 var timespan = DateTime.Now - s.AuthAt.AddDays(1);
-                                msg += s.NickName + "session即将超时,还剩余" + timespan.TotalMinutes + "<br>";
+                                msg += s.NickName + "的session即将超时,还剩余" + (int)Math.Abs(timespan.TotalMinutes) + "<br>";
                             }
                             else
                             {
@@ -165,7 +165,7 @@ namespace Dotpay.TaobaoMonitor
         /// </summary>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static List<Trade> GetIncrementTaobaoTrade(string sessionKey)
+        public static List<Trade> GetIncrementTaobaoTrade(string nickname,string sessionKey)
         {
 #if TAOBAODEBUG
             lock (locker)
@@ -190,7 +190,7 @@ namespace Dotpay.TaobaoMonitor
 
             if (response.IsError)
             {
-                Log.Error("GetCompletePaymentOrder Error:" + response.ErrMsg + "--code=" + response.ErrCode);
+                Log.Error("GetCompletePaymentOrder Error:" + nickname +"-->"+ response.ErrMsg + "--code=" + response.ErrCode);
             }
 
             return response.Trades;

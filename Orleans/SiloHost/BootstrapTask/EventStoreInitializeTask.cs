@@ -32,10 +32,10 @@ namespace Dotpay.SiloHost.BootstrapTask
             }
         }
 
-        private static Dictionary<string, uint> GetEventTypeNameAndCodeMapping()
+        private static Dictionary<string, int> GetEventTypeNameAndCodeMapping()
         {
             //Generate from EventTypeCodeRegisterTool
-            var typeCodeDic = new Dictionary<string, uint>();
+            var typeCodeDic = new Dictionary<string, int>();
             typeCodeDic.Add("Dotpay.Actor.Events.RefundTransactionInitializedEvent", 1001);
             typeCodeDic.Add("Dotpay.Actor.Events.RefundTransactionPreparationCompletedEvent", 1002);
             typeCodeDic.Add("Dotpay.Actor.Events.RefundTransactionConfirmedEvent", 1003);

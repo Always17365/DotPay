@@ -20,7 +20,7 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.OwnerId.IsNullOrEmpty())
             {
-                await this.ApplyEvent(new AccountInitializeEvent(this.GetPrimaryKey(),ownerId));
+                await this.ApplyEvent(new AccountInitializeEvent(this.GetPrimaryKey(), ownerId));
                 return ErrorCode.None;
             }
             else
@@ -75,14 +75,19 @@ namespace Dotpay.Actor.Implementations
             }
         }
 
-        public Task<decimal> GetBalance(CurrencyType currency)
+        Task<decimal> IAccount.GetBalance(CurrencyType currency)
         {
             return Task.FromResult(this.GetCurrentBalance(currency));
         }
 
-        public Task<Dictionary<CurrencyType, decimal>> GetBalances()
+        Task<Dictionary<CurrencyType, decimal>> IAccount.GetBalances()
         {
-            return Task.FromResult(this.State.Balances);
+            var dic = new Dictionary<CurrencyType, decimal>();
+            this.State.Balances.ForEach(b =>
+            {
+                dic.Add(b.Currency, b.Amount);
+            });
+            return Task.FromResult(dic);
         }
 
         public Task<Guid> GetOwnerId()
@@ -95,14 +100,15 @@ namespace Dotpay.Actor.Implementations
         #region Event Handlers
         private void Handle(AccountInitializeEvent @event)
         {
-            var currencyDic = new Dictionary<CurrencyType, decimal>();
-            currencyDic.Add(CurrencyType.Cny, 0);
-            currencyDic.Add(CurrencyType.Usd, 0);
+            var currencyList = new List<AccountBalance>
+            {
+                new AccountBalance() { Currency = CurrencyType.Cny ,Amount = 0} 
+            };
 
             this.State.Id = @event.AccountId;
             this.State.OwnerId = @event.OwnerId;
-            this.State.Balances = currencyDic;
-            this.State.TransactionPreparations = new Dictionary<Guid, TransactionPreparation>(); 
+            this.State.Balances = currencyList;
+            this.State.TransactionPreparations = new Dictionary<Guid, TransactionPreparation>();
 
             this.State.WriteStateAsync();
         }
@@ -115,7 +121,18 @@ namespace Dotpay.Actor.Implementations
         {
             this.State.TransactionPreparations.Remove(@event.TransactionPreparation.TransactionId);
 
-            this.State.Balances[@event.TransactionPreparation.Currency] = @event.CurrentBalance; 
+            var balance = this.State.Balances.SingleOrDefault(b => b.Currency == @event.TransactionPreparation.Currency);
+
+            if (balance == null)
+            {
+                balance = new AccountBalance()
+                {
+                    Currency = @event.TransactionPreparation.Currency
+                };
+                this.State.Balances.Add(balance);
+            }
+
+            balance.Amount = @event.CurrentBalance;
 
             this.State.WriteStateAsync();
         }
@@ -146,11 +163,9 @@ namespace Dotpay.Actor.Implementations
         }
         private decimal GetCurrentBalance(CurrencyType currency)
         {
-            var currentBalance = 0M;
+            var balance = this.State.Balances.SingleOrDefault(b => b.Currency == currency);
 
-            this.State.Balances.TryGetValue(currency, out currentBalance);
-
-            return currentBalance;
+            return balance != null ? balance.Amount : 0M;
         }
         #endregion
     }
@@ -160,6 +175,12 @@ namespace Dotpay.Actor.Implementations
         Guid Id { get; set; }
         Dictionary<Guid, TransactionPreparation> TransactionPreparations { get; set; }
         Guid OwnerId { get; set; }
-        Dictionary<CurrencyType, decimal> Balances { get; set; }
+        List<AccountBalance> Balances { get; set; }
+    }
+
+    public class AccountBalance
+    {
+        public CurrencyType Currency { get; set; }
+        public decimal Amount { get; set; }
     }
 }

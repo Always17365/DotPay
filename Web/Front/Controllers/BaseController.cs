@@ -20,10 +20,10 @@ namespace Dotpay.Front.Controllers
         {
             get
             {
-                return (UserIdentity)Session[Constants.CURRENT_USER_KEY] ?? new UserIdentity()
+                return (UserIdentity)Session[Constants.CURRENT_USER_KEY+""] ?? new UserIdentity()
                 {
                     UserId = Guid.NewGuid(),
-                    LoginName = "Admin"
+                    LoginName = "Test"
                 };
             }
         }
@@ -33,11 +33,11 @@ namespace Dotpay.Front.Controllers
             Session[Constants.CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY] = manager;
         }
 
-        //protected void PassVerifyTwofactor()
-        //{
-        //    Session[Constants.CURRENT_USER_KEY] = Session[Constants.CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY];
-        //    Session[Constants.CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY] = null;
-        //}
+        protected void PassVerifyTwofactor()
+        {
+            Session[Constants.CURRENT_USER_KEY] = Session[Constants.CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY];
+            Session[Constants.CURRENT_USER_WAIT_VERIFY_TWO_FACTOR_KEY] = null;
+        }
 
         protected string GetUserIpAddress()
         {

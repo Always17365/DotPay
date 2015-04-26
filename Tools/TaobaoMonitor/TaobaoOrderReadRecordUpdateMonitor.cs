@@ -43,7 +43,7 @@ namespace Dotpay.TaobaoMonitor
                         {
                             try
                             {
-                                var trades = TaobaoUtils.GetIncrementTaobaoTrade(s.Session);
+                                var trades = TaobaoUtils.GetIncrementTaobaoTrade(s.NickName,s.Session);
 
                                 if (trades != null)
                                 {
@@ -71,7 +71,7 @@ namespace Dotpay.TaobaoMonitor
                         });
 
                     }
-                    Task.Delay(30 * 1000).Wait();
+                    Task.Delay(60 * 1000).Wait();
                 }
             });
 

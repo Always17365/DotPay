@@ -41,9 +41,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework, Version=1.0.5.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DFramework.1.0.5.2\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.4\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -246,6 +246,7 @@
     <Content Include="assets\jss\apps.js" />
     <Content Include="assets\jss\login.js" />
     <Content Include="assets\jss\dotpayToFi-list.js" />
+    <Content Include="assets\jss\user-list.js" />
     <Content Include="assets\jss\manager-list.js" />
     <Content Include="assets\jss\system-setting.js" />
     <Content Include="assets\jss\datatables-zh_cn.txt" />
@@ -2511,6 +2512,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\SystemSettingController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DotpayConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3526,6 +3528,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\List.cshtml" />
     <Content Include="Views\Transfer\DotpayToFi.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

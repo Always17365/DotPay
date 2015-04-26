@@ -133,7 +133,11 @@ namespace Dotpay.Front.Controllers
                         await this.CommandBus.SendAsync(cmd);
 
                         if (cmd.CommandResult.Item1 == ErrorCode.None)
+                        {
+                            this.SetCurrentUser(userIdentity);
+                            this.PassVerifyTwofactor();
                             result = DotpayJsonResult.Success;
+                        }
                         else if (cmd.CommandResult.Item1 == ErrorCode.UnactiveUser)
                         {
                             this.CurrentUnactiveUserEmail = userIdentity.Email;
@@ -167,18 +171,29 @@ namespace Dotpay.Front.Controllers
         }
         #endregion
 
+        #region logout
+
+        [Route("~/logout")]
+        [HttpGet] 
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return Redirect("~/");
+        }
+
+        #endregion
         #region 激活
         [Route("~/active")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> Active(string user, string token)
+        public async Task<ActionResult> Active(string email, string token)
         {
-            var result = DotpayJsonResult.CreateFailResult("Invlid activation link.");
+            var result = DotpayJsonResult.CreateFailResult(this.Lang("Invlid activation link."));
 
-            if (!user.IsEmpty() && !token.IsEmpty())
+            if (!email.IsEmpty() && !token.IsEmpty())
             {
                 var query = IoC.Resolve<IUserQuery>();
-                var userIdentity = await query.GetUserByLoginName(user.Trim());
+                var userIdentity = await query.GetUserByEmail(email.Trim());
                 if (userIdentity != null)
                 {
                     try
@@ -205,7 +220,7 @@ namespace Dotpay.Front.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResendActiveEmail()
         {
-            var result = DotpayJsonResult.CreateFailResult("You can send active email after 15 minutes.");
+            var result = DotpayJsonResult.UnknowFail;
             var email = this.CurrentUnactiveUserEmail;
             if (!string.IsNullOrEmpty(email))
             {
@@ -220,9 +235,9 @@ namespace Dotpay.Front.Controllers
                         if (cmd.CommandResult == ErrorCode.None)
                             result = DotpayJsonResult.Success;
                         if (cmd.CommandResult == ErrorCode.UserHasActived)
-                            result = DotpayJsonResult.CreateFailResult("Account has actived."); ;
+                            result = DotpayJsonResult.CreateFailResult(this.Lang("Account has actived.")); ;
                         if (cmd.CommandResult == ErrorCode.UserHasActived)
-                            result = DotpayJsonResult.CreateFailResult("You can send active email after 15 minutes.");
+                            result = DotpayJsonResult.CreateFailResult(this.Lang("You can send active email after 15 minutes."));
                     }
                     catch (Exception ex)
                     {

@@ -7,11 +7,12 @@ using Dotpay.Front.ViewModel;
 using Dotpay.FrontQueryService;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using DFramework;
 
 namespace Dotpay.FrontQueryServiceImpl
 {
     [QueryService]
-    public class UserQuery : IUserQuery
+    public class UserQueryImpl : IUserQuery
     {
         private const string COLLECTION_NAME = "Dotpay.Actor.Implementations.User";
 
@@ -21,7 +22,7 @@ namespace Dotpay.FrontQueryServiceImpl
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
             var filter = new BsonDocument("Email", email.ToLower());
-            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,Email:1,_id:0}");
+            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,IdentityInfo:1,Email:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
                 Limit = 1,
@@ -33,17 +34,20 @@ namespace Dotpay.FrontQueryServiceImpl
 
                 if (results.Any())
                 {
-                    results.ForEach(r =>
+                    results.ForEach(row =>
                     {
+                        var identityInfoStr = row.GetValue("IdentityInfo", BsonValue.Create("")).AsString;
                         var item = new UserIdentity
                         {
-                            UserId = new Guid(r["Id"].AsString),
-                            Email = r["Email"].AsString,
-                            LoginName = r["LoginName"] != null ? r["LoginName"].AsString : null,
-                            IsActive = r["IsVerified"].AsBoolean
+                            UserId = new Guid(row["Id"].AsString),
+                            Email = row["Email"].AsString,
+                            LoginName = row.GetValue("LoginName", BsonValue.Create("")).AsString,
+                            LastLoginAt = row.GetValue("LastLoginAt", BsonValue.Create(0d)).AsDouble.ToNullableLocalDateTime(),
+                            IsActive = row["IsVerified"].AsBoolean,
+                            IdentityInfo = string.IsNullOrEmpty(identityInfoStr) ? null : IoC.Resolve<IJsonSerializer>().Deserialize<IdentityInfo>(identityInfoStr)
                         };
                         result.Add(item);
-                    }); 
+                    });
                 }
             }
             return result.FirstOrDefault();
@@ -55,7 +59,7 @@ namespace Dotpay.FrontQueryServiceImpl
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
             var filter = new BsonDocument("LoginName", loginName.ToLower());
-            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,Email:1,_id:0}");
+            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,IdentityInfo:1,Email:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
                 Limit = 1,
@@ -67,13 +71,16 @@ namespace Dotpay.FrontQueryServiceImpl
 
                 if (results.Any())
                 {
-                    var item = results.First();
+                    var row = results.First();
+                    var identityInfoStr = row.GetValue("IdentityInfo", "").AsString;
                     result = new UserIdentity
                     {
-                        UserId = new Guid(item["Id"].AsString),
-                        Email = item["Email"].AsString,
-                        LoginName = item["LoginName"] != null ? item["LoginName"].AsString : null,
-                        IsActive = item["IsVerified"].AsBoolean
+                        UserId = new Guid(row["Id"].AsString),
+                        Email = row["Email"].AsString,
+                        LoginName = row.GetValue("LoginName", "").AsString,
+                        LastLoginAt = row.GetValue("LastLoginAt", 0d).AsDouble.ToNullableLocalDateTime(),
+                        IsActive = row["IsVerified"].AsBoolean,
+                        IdentityInfo = string.IsNullOrEmpty(identityInfoStr) ? null : IoC.Resolve<IJsonSerializer>().Deserialize<IdentityInfo>(identityInfoStr)
                     };
                 }
             }

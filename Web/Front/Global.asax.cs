@@ -15,8 +15,11 @@ using System.Web.Http;
 using DFramework;
 using DFramework.Autofac;
 using DFramework.Log4net;
-using DFramework.Memcached; 
+using DFramework.Memcached;
+using Dotpay.Common;
+using Dotpay.Front.ViewModel;
 using Dotpay.FrontQueryServiceImpl;
+using Newtonsoft.Json;
 using Orleans;
 
 namespace Dotpay.Front
@@ -65,8 +68,10 @@ namespace Dotpay.Front
                         .UseLog4net()
                         .UseMemcached("192.168.0.100")
                         .UseDefaultCommandBus(assemblies.ToArray())
-                        .RegisterQueryService(DotpayConfig.DBConnectionString, DotpayConfig.DatabaseName)
-                        .Start();
+                        .RegisterQueryService(DotpayConfig.DBConnectionString, DotpayConfig.DatabaseName);
+
+
+            IoC.Register<IJsonSerializer, DotpayJsonSerializer>(LifeStyle.Singleton);
 
             GrainClient.Initialize(Path.Combine(basePath, "ClientConfiguration.xml"));
         }
@@ -102,5 +107,46 @@ namespace Dotpay.Front
         #endregion
 
 
+    }
+
+    public class DotpayJsonSerializer : IJsonSerializer
+    {
+        JsonSerializerSettings settings;
+
+        public DotpayJsonSerializer()
+        {
+            settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.Converters.Add(new UnixDateTimeConverter());
+        }
+        public string Serialize(object obj)
+        {
+            string jsonData = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
+
+            return jsonData;
+        }
+
+        public object Deserialize(string value, Type type)
+        {
+            object obj = JsonConvert.DeserializeObject(value, type, settings);
+
+            return obj;
+        }
+
+        public T Deserialize<T>(string value) where T : class
+        {
+            T obj = null;
+
+            try
+            {
+                obj = (T)this.Deserialize(value, typeof(T));
+                return obj;
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
     }
 }

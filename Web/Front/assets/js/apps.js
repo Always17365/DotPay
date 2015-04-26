@@ -13,9 +13,9 @@ var handleHeaderNavigationState = function () {
             var totalScroll = $(window).scrollTop();
             var headerHeight = $('#header').height();
             if (totalScroll >= headerHeight) {
-                $('#header').addClass('navbar-small');
+                $('#header').addClass('navbar-small  navbar-fixed-top');
             } else {
-                $('#header').removeClass('navbar-small');
+                $('#header').removeClass('navbar-small  navbar-fixed-top');
             }
         }
     });
@@ -110,9 +110,18 @@ var handleTooltipActivation = function () {
 ------------------------------------------------ */
 var handleSwitchLanguage = function () {
     $("#lang_list a[theme-lang]").click(function () {
-        $.cookie("lanaguage", $(this).attr("theme-lang"));
+        var lang = $(this).attr("theme-lang");
+        $.cookie("lanaguage", lang);
+
+        var fontStyle = 'assets/css/lang/other.css'
+        if (lang==="zh-cn"||lang==="zh-tw")
+            var fontStyle = 'assets/css/lang/' + lang + '.css'; 
+
+        $('#fontStyle').attr('href', fontStyle);
         window.location.reload();
-    }); 
+    });
+
+    fontstyle
 }
 /* Application Controller
 ------------------------------------------------ */

@@ -84,6 +84,7 @@ namespace Dotpay.Application.Monitor
                             Log.Debug("收到找回支付密码邮件消息:" + messageBody);
                         }
                     }
+                    Model.BasicAck(deliveryTag, false);
                 }
                 catch (Exception ex)
                 {

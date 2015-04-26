@@ -122,8 +122,7 @@ var handleRegisterForm = function () {
         var $form = $(e.target);
         $.post("/signup", $(this).serialize(), function (result, status) {
             if (result.Code === 1) {
-                $("#signupMessage").html('<div id="loginMessage" class="alert alert-info fade in m-b-15"><strong>' + Language.registerSuccess + '</strong><p></div>');
-                setTimeout(function () { window.location.href = "/i" }, 1500)
+                $("#signupMessage").html('<div id="loginMessage" class="alert alert-info fade in m-b-15"><strong>' + Language.registerSuccess + '</strong><p>' + Language.activeEmailHasSend + '</p></div>');
             } else {
                 console.log(1);
                 $("#signupMessage").html('<div class="alert alert-danger fade in m-b-15"><strong>' + Language.registerFail + '</strong>' + result.Message + '<span class="close" data-dismiss="alert">×</span></div>');
