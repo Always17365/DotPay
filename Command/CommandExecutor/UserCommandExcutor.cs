@@ -17,7 +17,8 @@ namespace Dotpay.CommandExecutor
                                       ICommandExecutor<ModifyLoginPasswordCommand>,
                                       ICommandExecutor<ForgetPaymentPasswordCommand>,
                                       ICommandExecutor<ResetPaymentPasswordCommand>,
-                                      ICommandExecutor<ModifyPaymentPasswordCommand>
+                                      ICommandExecutor<ModifyPaymentPasswordCommand>,
+                                      ICommandExecutor<UserIdentityVerifyCommand>
     {
         public Task ExecuteAsync(UserRegisterCommand cmd)
         {
@@ -82,5 +83,10 @@ namespace Dotpay.CommandExecutor
             cmd.CommandResult = await user.ModifyPaymentPassword(cmd.OldPaymentPassword, cmd.NewPaymentPassword);
         }
 
+        public  Task ExecuteAsync(UserIdentityVerifyCommand cmd)
+        {
+            var user = GrainFactory.GetGrain<IUser>(cmd.UserId);
+            return user.VeirfyIdentity(cmd.FullName, cmd.IdNoType, cmd.IdNo);
+        }
     }
 }

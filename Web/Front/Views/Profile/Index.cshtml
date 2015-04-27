@@ -2,7 +2,7 @@
 @using Dotpay.Common.Enum
 @using Dotpay.Front.ViewModel
 @{
-    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+    Layout = "~/Views/Shared/_Layout_Profile_Index.cshtml";
 }
 @Html.Partial("_ProfileIndexBanner")
 <div class="profile-main">
@@ -17,7 +17,7 @@
                                 下午好，
                                 @if (ViewBag.CurrentUser.IdentityInfo != null)
                                 {
-                                    <span>ViewBag.CurrentUser.IdentityInfo.RealName</span>
+                                    <span>@ViewBag.CurrentUser.IdentityInfo.FullName</span>
                                 }
                                 else
                                 {
@@ -38,7 +38,7 @@
                                 }
                                 else
                                 {
-                                    <span>未认证</span> @("立即")<a>实名认证</a>
+                                    <span>未认证</span> @("立即")<a href="/identityverify">实名认证</a>
                                 }
                             </div>
                         </div>

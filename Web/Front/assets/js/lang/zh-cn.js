@@ -22,4 +22,11 @@
     emailAdressRegexNotMatch: "Email地址格式错误",
     registerEmailExist: "邮件地址已存在",
     activeEmailHasSend: "激活邮件已发送",
+    //identity verify
+    identityNoTypeRequired: "请选择证件类型",
+    identityNoRequired: "请输入证件号",
+    identityFullNameRequired: "请输入真实姓名",
+    identityNoInvalid: "请输入正确的身份证号",
+    identityVerifySuccess: "实名认证完成",
+    identityVerifySuccessDesc: "实名认证后，您的单次充值、提现额度不在有最高5000的限额",
 };

@@ -209,4 +209,26 @@ namespace Dotpay.Command
         public string NewPaymentPassword { get; private set; }
     }
     #endregion
+
+    #region User Identity Verify Command
+    public class UserIdentityVerifyCommand : DFramework.Command
+    {
+        public UserIdentityVerifyCommand(Guid userId,string fullname, string idno, IdNoType idType)
+        {
+            Check.Argument.IsNotEmpty(userId, "userId");
+            Check.Argument.IsNotEmpty(fullname, "fullname");
+            Check.Argument.IsNotEmpty(idno, "idno");
+            Check.Argument.IsNotNegativeOrZero((int)idType, "idType");
+
+            this.UserId = userId;
+            this.FullName = fullname;
+            this.IdNo = idno;
+            this.IdNoType = idType;
+        } 
+        public Guid UserId { get; private set; }
+        public string FullName { get; private set; }
+        public string IdNo { get; private set; }
+        public IdNoType IdNoType { get; private set; }
+    }
+    #endregion
 }

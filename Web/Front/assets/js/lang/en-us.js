@@ -22,4 +22,12 @@
     emailAdressRegexNotMatch: "The input is not a valid email address",
     registerEmailExist: "The email already exists.",
     activeEmailHasSend: "Activation email has been sent.",
+    //identity verify
+    identityNoTypeRequired: "The identity type is required",
+    identityNoRequired: "The identity No is required",
+    identityFullNameRequired: "The full name is required",
+    identityNoInvalid: "identity No invalid",
+    identityVerifySuccess: "identity verify success",
+    identityVerifySuccessDesc: "after identity verify , you deposit/withdraw higher amount",
+    identityVerifyFail: "identity verify fail",
 };

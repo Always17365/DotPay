@@ -133,6 +133,7 @@ p { font-size: 12px; line-height: 20px; }
 body.page-navbar-fixed-top { padding-top: 70px; }
 body.page-navbar-fixed-top-sm { padding-top: 51px; }
 body.page-navbar-fixed-top-profile { padding-top: 30px; background-color: #EFEFEF; }
+body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
 
 
 
@@ -1515,7 +1516,7 @@ a.list-group-item.active:focus { background: #348fe2; }
 /*  17.2 profile banner*/
 .profilebanner { background-color: #CC99CC; line-height: 80px; margin-top: -18px; }
 /*  17.3 profile main*/
-.profile-main { background-color: #EFEFEF;margin-bottom: 50px; }
+.profile-main { margin-bottom: 50px; }
     .profile-main .top-welcome { padding: 5px; color: #F4F4F4; text-shadow: 3px 2px 2px #EEE; font-size: 20px; font-weight: bolder; }
 .profile-dashboard { background-color: #FFF; }
     .profile-dashboard .table { margin-bottom: 0px; }
@@ -1542,9 +1543,16 @@ a.list-group-item.active:focus { background: #348fe2; }
         .profile-dashboard .right #assetsCharts { width: 100%; height: 180px; font-size: 11px; }
 .profile-main .tx-pannel { background-color: #FFF; margin-top: 30px; }
     .profile-main .tx-pannel .panel { margin-bottom: 0 !important; }
-     .profile-main .tx-pannel .panel .table>tbody>tr>td, 
-     .profile-main .tx-pannel .panel .table>tbody>tr>th, 
-     .profile-main .tx-pannel .panel .table>tfoot>tr>td, 
-     .profile-main .tx-pannel .panel .table>tfoot>tr>th, 
-     .profile-main .tx-pannel .panel .table>thead>tr>td, 
-     .profile-main .tx-pannel .panel .table>thead>tr>th{ border: none;}
+        .profile-main .tx-pannel .panel .table > tbody > tr > td,
+        .profile-main .tx-pannel .panel .table > tbody > tr > th,
+        .profile-main .tx-pannel .panel .table > tfoot > tr > td,
+        .profile-main .tx-pannel .panel .table > tfoot > tr > th,
+        .profile-main .tx-pannel .panel .table > thead > tr > td,
+        .profile-main .tx-pannel .panel .table > thead > tr > th { border: none; }
+
+.profile-main .sub-nav { background-color: #EFEFEF; margin-top: -19px; margin-bottom: 20px; }
+    .profile-main .sub-nav .nav > li { padding: 5px 15px; }
+        .profile-main .sub-nav .nav > li > a { padding: 2px 5px; border-radius: 3px; }
+        .profile-main .sub-nav .nav > li.active > a { background: #D2D2D2; }
+        .profile-main .sub-nav .nav > li > a:hover,
+        .profile-main .sub-nav .nav > li > a:focus { color: #333; background: #D2D2D2; }

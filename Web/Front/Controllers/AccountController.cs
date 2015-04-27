@@ -49,6 +49,7 @@ namespace Dotpay.Front.Controllers
         [Route("~/signup")]
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(UserRegisterViewModel user)
         {
             var result = DotpayJsonResult.UnknowFail;
@@ -99,6 +100,7 @@ namespace Dotpay.Front.Controllers
         [Route("~/signin")]
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SignIn(UserLoginViewModel user)
         {
             var result = DotpayJsonResult.UnknowFail;

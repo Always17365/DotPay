@@ -27,16 +27,17 @@
                             <h2 class="modal-title login-title">@Html.Lang("Sign in to") <span class="blue">@Html.Lang("DotpayLogoTitle")</span></h2>
                         </div>
                         <div class="modal-body">
+                            @Html.AntiForgeryToken()
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="loginName">@Html.Lang("loginFieldUserName") :</label>
                                 <div class="col-md-8 col-sm-6">
-                                    <input class="form-control" type="text" id="loginName" name="loginName" autocomplete="off" placeholder="@Html.Lang("loginFieldUserNamePlaceholder")" />
+                                    <input class="form-control" type="text" id="loginName" name="loginName" autocomplete="off" placeholder="@Html.Lang("loginFieldUserNamePlaceholder")"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="password">@Html.Lang("loginFieldPassword") :</label>
                                 <div class="col-md-8 col-sm-6">
-                                    <input class="form-control" type="password" id="password" name="password" placeholder="@Html.Lang("loginFieldPasswordPlaceholder")" />
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="@Html.Lang("loginFieldPasswordPlaceholder")"/>
                                 </div>
                             </div>
                             <div id="signinMessage">&nbsp;</div>

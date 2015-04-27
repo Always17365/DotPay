@@ -322,8 +322,7 @@ namespace Dotpay.Actor.Implementations
         }
         private void Handle(UserLoginSuccessedEvent @event)
         {
-            this.State.LastLoginAt = this.State.CurrentLoginAt ?? @event.UTCTimestamp;
-            this.State.CurrentLoginAt = @event.UTCTimestamp;
+            this.State.LastLoginAt = @event.UTCTimestamp;
             this.State.LastLoginIp = @event.IP;
 
             this.State.WriteStateAsync();
@@ -441,7 +440,6 @@ namespace Dotpay.Actor.Implementations
         DateTime CreateAt { get; set; }
         DateTime? ActiveAt { get; set; }
         DateTime? LastLoginAt { get; set; }
-        DateTime? CurrentLoginAt { get; set; }
         DateTime? LastLoginFailedAt { get; set; }
         string Salt { get; set; }
     }
@@ -454,7 +452,7 @@ namespace Dotpay.Actor.Implementations
         {
             this.FullName = fullName;
             this.IdNo = idNo;
-            this.IdType = IdType;
+            this.IdType = idType;
         }
         public string FullName { get; set; }
         public string IdNo { get; set; }

@@ -1,0 +1,150 @@
+﻿@using Dotpay.Common
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+<div class="profile-main">
+    <div class="sub-nav ">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/profile">基本信息 <i class="icon-chevron-right"></i></a>
+                </li>
+                @*<li>
+                    <a href="/profile/mobile">手机设置<i class="icon-chevron-right"></i></a>
+                </li>*@
+                <li>
+                    <a href="#">实名认证<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/profile/modifyloginpwd">修改登录密码<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/profile/modifypaypwd">修改支付密码<i class="icon-chevron-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div class="basetitle">
+                <h4>基本信息</h4>
+            </div>
+            <table class="table mtl-3">
+                <tr>
+                    <td colspan="3">
+                        <div class="col-sm-2 col-lg-1"><img class="head-icon" src="~/assets/img/head.gif" /></div>
+                        <div class="base-info col-sm-8">
+                            <p>账户：@ViewBag.CurrentUser.Email</p> 
+                            <p>
+                                真实姓名：
+                                @if (ViewBag.CurrentUser.IdentityInfo != null)
+                                {
+                                    @ViewBag.CurrentUser.IdentityInfo.FullName
+                                }
+                                else
+                                {
+                                    @("未提交实名认证信息")
+                                }
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="table mtl-3">
+                <tr>
+                    <td>
+                        <div>
+                            <label class="base-header">登陆密码:</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content">
+                            登录点付账户时需要输入的密码
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content  pull-right">
+                            <a class="app-link" href="/my/modifyloginpwd">修改登陆密码</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <label class="base-header">支付密码:</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content">
+                            在账户资金变动、修改账户信息时需要输入的密码
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content pull-right">
+                            <a class="app-link" href="/deposit/cny">修改支付密码</a>
+                            <span>|</span>
+                            <a class="app-link" href="javascript:void(0)" onclick="forgetpaypwd();">找回支付密码</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <label class="base-header">实名认证:</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content">
+                            @if (ViewBag.CurrentUser.IdentityInfo != null)
+                            {
+                                @("身份证号码 " + ViewBag.CurrentUser.IdentityInfo.IdNo.Substring(0,2) + "****************" + ViewBag.CurrentUser.IdentityInfo.IdNo[17])
+                            }
+                            else
+                            {
+                                @("未提交实名认证信息")
+                            }
+                        </div>
+                    </td>
+
+                    @if (ViewBag.CurrentUser.IdentityInfo != null)
+                    {
+                        <td>&nbsp;</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="base-content  pull-right">
+                                <a class="app-link" href="/profile/identityverify">提交实名信息</a>
+                            </div>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <label class="base-header">注册时间:</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="base-content">
+                            @(ViewBag.CurrentUser.CreateAt.ToString("yyyy年MM月dd日"))
+                        </div>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.getScript('/assets/js/identityVerify.js').done(function () {
+                IdentityVerify.init();
+            });
+        });
+    </script>
+</div>

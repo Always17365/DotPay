@@ -186,6 +186,7 @@
     <Content Include="assets\img\client-bg.jpg" />
     <Content Include="assets\img\content-bg-cover.png" />
     <Content Include="assets\img\content-bg-cover2.png" />
+    <Content Include="assets\img\head.gif" />
     <Content Include="assets\img\home-bg.jpg" />
     <Content Include="assets\img\milestone-bg.jpg" />
     <Content Include="assets\img\quote-bg.jpg" />
@@ -205,6 +206,7 @@
     <Content Include="assets\img\work-8.jpg" />
     <Content Include="assets\js\lang\en-us.js" />
     <Content Include="assets\js\lang\zh-cn.js" />
+    <Content Include="assets\js\identityVerify.js" />
     <Content Include="assets\js\profile.js" />
     <Content Include="assets\js\login.js" />
     <Content Include="assets\js\apps.js" />
@@ -527,12 +529,15 @@
     <Content Include="assets\plugins\amcharts\plugins\export\LICENSE" />
     <Content Include="assets\plugins\amcharts\plugins\export\README.md" />
     <Content Include="assets\plugins\amcharts\plugins\responsive\readme.md" />
+    <Content Include="Views\Profile\IdentityVerify.cshtml" />
+    <Content Include="Views\Profile\ProfileIndex.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_CommonHeader.cshtml" />
     <Content Include="Views\Shared\_ProfileIndexBanner.cshtml" />
+    <Content Include="Views\Shared\_Layout_Profile_Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -20,7 +23,7 @@ namespace Dotpay.Front.Controllers
         {
             get
             {
-                return (UserIdentity)Session[Constants.CURRENT_USER_KEY+""] ?? new UserIdentity()
+                return (UserIdentity)Session[Constants.CURRENT_USER_KEY + ""] ?? new UserIdentity()
                 {
                     UserId = Guid.NewGuid(),
                     LoginName = "Test"
@@ -149,4 +152,24 @@ namespace Dotpay.Front.Controllers
         }
         #endregion
     }
+
+    public static class HtmlHelperExtension
+    {
+        public static SelectList SelectListFor<T>(this HtmlHelper html, Enum[] filter)
+        {
+            var enumValueList = new Dictionary<string, string>();
+
+            foreach (Enum crtEnum in Enum.GetValues(typeof(T)))
+            {
+                //如果过滤器中包含该枚举值，则跳过此次循环
+                if (filter != null && filter.Contains(crtEnum)) continue;
+
+                enumValueList.Add(crtEnum.ToString("D"),  Language.LangHelpers.Lang(crtEnum.ToString()));
+
+            }
+
+            return new SelectList(enumValueList, "Key", "Value");
+        }
+    }
+
 }

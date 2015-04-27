@@ -23,7 +23,12 @@ Website: http://www.seantheme.com/color-admin-v1.5/admin/
      .profile-dashboard .right .assetsChartsContainer { display: block;}
 } 
 @media (max-width: 600px) {  
-    .profile-dashboard .right {display: none !important;}  
+    .profile-dashboard .right {display: none !important;}   
+}
+
+@media (min-width: 500px) {   
+    .profile-main .sub-nav .navbar-nav{  float: left;margin: 0;}
+    .profile-main .sub-nav .navbar-nav>li{  float: left;}
 }
 
 @media (max-width: 767px) {
