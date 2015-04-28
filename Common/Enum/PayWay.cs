@@ -14,6 +14,7 @@ namespace Dotpay.Common.Enum
         Alipay = PaywayBase + 3,
         Tenpay = PaywayBase + 4,
         Dotpay = PaywayBase + 5,
+        EasyPay = PaywayBase + 6,
         PaywayMax = 99
     }
 }

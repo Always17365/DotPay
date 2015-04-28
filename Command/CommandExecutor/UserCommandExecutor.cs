@@ -7,7 +7,7 @@ using Orleans;
 
 namespace Dotpay.CommandExecutor
 {
-    public class UserCommandExcutor : ICommandExecutor<UserRegisterCommand>,
+    public class UserCommandExecutor : ICommandExecutor<UserRegisterCommand>,
                                       ICommandExecutor<UserActiveCommand>,
                                       ICommandExecutor<UserResendActiveEmailCommand>,
                                       ICommandExecutor<UserLoginCommand>,

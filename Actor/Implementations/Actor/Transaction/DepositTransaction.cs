@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Dotpay.Actor.Events;
 using Dotpay.Actor;
 using Dotpay.Common.Enum;
- using Orleans;
+using Orleans;
 using Orleans.Concurrency;
 using Orleans.EventSourcing;
 using Orleans.Providers;
@@ -20,7 +20,7 @@ namespace Dotpay.Actor.Implementations
                                                   Payway payway, string memo)
         {
             if (!(this.State.Status >= DepositStatus.Started))
-                await this.ApplyEvent(new DepositTransactionInitializedEvent(this.GetPrimaryKey(),sequenceNo, accountId, currency, amount, payway, memo));
+                await this.ApplyEvent(new DepositTransactionInitializedEvent(this.GetPrimaryKey(), sequenceNo, accountId, currency, amount, payway, memo));
         }
         async Task IDepositTransaction.ConfirmDepositPreparation()
         {

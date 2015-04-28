@@ -16,7 +16,7 @@ namespace Dotpay.Actor
     {
         Task Initiliaze(string sequenceNo, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo);
         Task ConfirmDepositPreparation();
-        Task ConfirmDeposit(Guid? managerId, string transsactionNo);
+        Task ConfirmDeposit(Guid? managerId, string transferNo);
         Task Fail(Guid managerId, string reason);
         Task<DepositTransactionInfo> GetTransactionInfo();
         Task<DepositStatus> GetStatus();

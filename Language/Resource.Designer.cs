@@ -115,6 +115,33 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 Continue deposit 的本地化字符串。
+        /// </summary>
+        internal static string continueDeposit {
+            get {
+                return ResourceManager.GetString("continueDeposit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deposit Result 的本地化字符串。
+        /// </summary>
+        internal static string depositResult {
+            get {
+                return ResourceManager.GetString("depositResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Congratulations , deposit {0} yuan success. 的本地化字符串。
+        /// </summary>
+        internal static string depositSuccessNotice {
+            get {
+                return ResourceManager.GetString("depositSuccessNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string Don_t_have_an_account_yet_ {
@@ -138,6 +165,15 @@ namespace Dotpay.Language {
         internal static string DotpayLogoTitle {
             get {
                 return ResourceManager.GetString("DotpayLogoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 invalid result. 的本地化字符串。
+        /// </summary>
+        internal static string easypayInvlidResult {
+            get {
+                return ResourceManager.GetString("easypayInvlidResult", resourceCulture);
             }
         }
         
@@ -261,6 +297,15 @@ namespace Dotpay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string order_amount_not_match_ {
+            get {
+                return ResourceManager.GetString("order amount not match.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Register_to {
             get {
                 return ResourceManager.GetString("Register to", resourceCulture);
@@ -349,6 +394,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 Return my dotpay 的本地化字符串。
+        /// </summary>
+        internal static string returnToI {
+            get {
+                return ResourceManager.GetString("returnToI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string Sign_In {
@@ -376,6 +430,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 sorry,please contact us for this error #webmaster@dotpay.co 的本地化字符串。
+        /// </summary>
+        internal static string systemProcessError {
+            get {
+                return ResourceManager.GetString("systemProcessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string transfer_money_to_anywhere {
@@ -390,6 +453,15 @@ namespace Dotpay.Language {
         internal static string Unkown_Exception_Please_refresh_page_and_retry_ {
             get {
                 return ResourceManager.GetString("Unkown Exception,Please refresh page and retry.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View deposit records 的本地化字符串。
+        /// </summary>
+        internal static string viewDepositRecord {
+            get {
+                return ResourceManager.GetString("viewDepositRecord", resourceCulture);
             }
         }
         

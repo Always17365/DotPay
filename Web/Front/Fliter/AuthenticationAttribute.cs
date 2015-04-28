@@ -25,7 +25,7 @@ namespace Dotpay.Front.Fliter
                 if (userSession == null || !((ManagerIdentity)userSession).LoginTwoFactoryVerify)
 #endif
                 {
-                    filterContext.Result = new RedirectResult("~/login");
+                    filterContext.Result = new RedirectResult("~/signin");
                 }
             }
         }

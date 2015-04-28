@@ -1,5 +1,6 @@
 ﻿using System.Web;
-using System.Web.Mvc; 
+using System.Web.Mvc;
+using Dotpay.Front.Fliter;
 
 namespace Dotpay.Front
 {
@@ -8,7 +9,7 @@ namespace Dotpay.Front
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            //filters.Add(new AuthenticationAttribute());
+            filters.Add(new AuthenticationAttribute());
         }
     }
 }

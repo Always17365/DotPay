@@ -1,122 +1,125 @@
 ﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
 @using Dotpay.Front.Controllers
 @using Dotpay.Language
 @{
     Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
 <div class="profile-main">
     <div class="sub-nav ">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="/profile">基本信息 <i class="icon-chevron-right"></i></a>
-                </li>
-                <li>
-                    <a href="/profile/mobile">手机设置<i class="icon-chevron-right"></i></a>
-                </li>
                 <li class="active">
-                    <a href="#">实名认证<i class="icon-chevron-right"></i></a>
+                    <a href="/profile">在线支付<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/profile/modifyloginpwd">修改登录密码<i class="icon-chevron-right"></i></a>
+                    <a href="/profile/mobile">支付宝<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/profile/modifypaypwd">修改支付密码<i class="icon-chevron-right"></i></a>
+                    <a href="#">淘宝<i class="icon-chevron-right"></i></a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="container">
+    <div class="container deposit">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <div>
-                <h4>实名认证</h4>
-            </div>
-            <div>
-                <span class="glyphicon glyphicon-info-sign"></span>
-                <span class="desc">
-                    升级认证后即可享受更高额度的收付款服务<br>
-                </span>
+                <h4>在线支付</h4>
             </div>
             <hr />
-            <div class="note" id="noticeBox" style="display: none;">
-            </div>
-            @if (ViewBag.CurrentUser.IdentityInfo == null)
-            {
-                <form id="identityVerifyForm" class="form-horizontal">
+            <div class="note" id="noticeBox" style="display: none;"></div>
+            <form id="depositForm" class="form-horizontal" method="POST" action="~/deposit/epsubmit">
+                <div class="row selectbank">
                     @Html.AntiForgeryToken()
-                    <div class="form-group">
-                        <label class="col-sm-4 col-md-2 control-label" for="identityno">账户名</label>
-                        <div class="col-sm-4 controls">
-                            <label class="control-label">@ViewBag.CurrentUser.LoginName<span class="desc">@ViewBag.CurrentUser.Email</span></label>
-                        </div>
+                    <ul>
+                        <li>
+                            <input name="bank" type="radio" value="ICBC" checked="checked" />
+                            <label><img src="~/assets/img/bank/ICBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="ABC" />
+                            <label><img src="~/assets/img/bank/ABC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CCB" />
+                            <label><img src="~/assets/img/bank/CCB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CMB" />
+                            <label><img src="~/assets/img/bank/CMB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="BOC" />
+                            <label><img src="~/assets/img/bank/BOC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HSBC" />
+                            <label><img src="~/assets/img/bank/COMM_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CEB" />
+                            <label><img src="~/assets/img/bank/CEB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CITIC" />
+                            <label><img src="~/assets/img/bank/CITIC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SPDB" />
+                            <label><img src="~/assets/img/bank/SPDB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SDB" />
+                            <label><img src="~/assets/img/bank/SDB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CMBC" />
+                            <label><img src="~/assets/img/bank/CMBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HXB" />
+                            <label><img src="~/assets/img/bank/HXB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="PSBC" />
+                            <label><img src="~/assets/img/bank/PSBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HSBK" />
+                            <label><img src="~/assets/img/bank/HSBK_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HZBANK" />
+                            <label><img src="~/assets/img/bank/HZBANK_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="NJB" />
+                            <label><img src="~/assets/img/bank/NJB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SHBANK" />
+                            <label><img src="~/assets/img/bank/SHBANK_OUT.png" /></label>
+                        </li>
+                    </ul>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-2 control-label" for="amount">充值金额</label>
+                    <div class="col-sm-4 controls">
+                        <input class="form-control" id="amount" name="amount" type="text" autocomplete="off">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 col-md-2 control-label" for="identityno">请选择证件类型</label>
-                        <div class="col-sm-4 controls">
-                            @{
-                Enum[] filter = null;
-                if (ViewBag.Lang != "zh-cn")
-                {
-                    filter = new Enum[] { IdNoType.IdentificationCard, IdNoType.CertificateOfOfficer, IdNoType.HKAndMacauResidentsPass, IdNoType.TaiwanResidentsPass };
-                }
-                            }
-                            @Html.DropDownList("idType", Html.SelectListFor<IdNoType>(filter))
-                            @*<input class="form-control" id="idType" type="text" name="idno" value="">*@
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 col-md-2 control-label" for="identityno">请输入身份证号</label>
-                        <div class="col-sm-4 controls">
-                            <input class="form-control" id="identityno" type="text" name="idno" value="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 col-md-2 control-label" for="fullname">真实姓名</label>
-                        <div class="col-sm-4 controls">
-                            <input class="form-control" type="text" name="fullname" id="fullname" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-6 col-md-4 col-lg-3  col-sm-offset-3 controls">
-                            <input type="submit" class="btn btn-primary btn-large btn-block" value="确定">
-                        </div>
-                    </div>
-                </form>
-            }
-            else
-            {
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        已通过实名认证
-                    </div>
-                    <div class="panel-body form-horizontal">
-                        <div class="form-group">
-                            <label class="col-sm-2 col-md-2 text-right ">账户名：</label>
-                            <span class="col-sm-4 text-left">
-                                @ViewBag.CurrentUser.LoginName <span class="desc">@ViewBag.CurrentUser.Email</span>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-md-2  text-right">真实姓名：</label>
-                            <span class="col-sm-4 text-left">
-                                @ViewBag.CurrentUser.IdentityInfo.FullName
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-md-2 text-right ">身份证号：</label>
-                            <span class="col-sm-4 text-left">
-                                @(ViewBag.CurrentUser.IdentityInfo.IdNo.ToString().Substring(0, 1) + "******" + ViewBag.CurrentUser.IdentityInfo.IdNo.ToString().Substring(17, 1))
-                            </span>
-                        </div>
+                    <div class="col-sm-2 col-md-2   controls">
+                        <input type="submit" class="btn btn-primary btn-large btn-block" value="确定">
                     </div>
                 </div>
-            }
+            </form>
         </div>
     </div>
     <script>
         $(document).ready(function () {
-            $.getScript('/assets/js/identityVerify.js').done(function () {
-                IdentityVerify.init();
+            $.getScript('/assets/js/deposityisheng.js').done(function () {
+                DepositYisheng.init();
             });
         });
     </script>

@@ -240,4 +240,28 @@
   <data name="You can send active email after 15 minutes." xml:space="preserve">
     <value>发送激活邮件过于频繁，请15分钟后重试</value>
   </data>
+  <data name="order amount not match." xml:space="preserve">
+    <value>订单金额不匹配</value>
+  </data>
+  <data name="systemProcessError" xml:space="preserve">
+    <value>系统处理错误，请将这个错误报告给我们 webmaster@dotpay.co,非常感谢</value>
+  </data>
+  <data name="easypayInvlidResult" xml:space="preserve">
+    <value>错误的返回结果</value>
+  </data>
+  <data name="continueDeposit" xml:space="preserve">
+    <value>继续充值</value>
+  </data>
+  <data name="depositResult" xml:space="preserve">
+    <value>充值处理结果</value>
+  </data>
+  <data name="depositSuccessNotice" xml:space="preserve">
+    <value>恭喜，{0}充值成功.</value>
+  </data>
+  <data name="returnToI" xml:space="preserve">
+    <value>返回我的点付</value>
+  </data>
+  <data name="viewDepositRecord" xml:space="preserve">
+    <value>查看我的充值记录</value>
+  </data>
 </root>

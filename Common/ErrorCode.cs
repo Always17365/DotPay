@@ -44,10 +44,12 @@ namespace Dotpay.Common
         AccountErrorBase = 2000,
         AccountHasInitilized = AccountErrorBase + 1,
         AccountBalanceNotEnough = AccountErrorBase + 2,
+        InvalidAccount = AccountErrorBase + 3,
         #endregion
 
         #region Deposit
         DepositErrorBase = 3000,
+        DepositAmountNotMatch = DepositErrorBase+1,                      //充值金额不匹配
         #endregion
 
         #region Tranasfer

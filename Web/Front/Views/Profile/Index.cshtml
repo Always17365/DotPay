@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout_Profile_Index.cshtml";
 }
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 1 })
 @Html.Partial("_ProfileIndexBanner")
 <div class="profile-main">
     <div class="container">

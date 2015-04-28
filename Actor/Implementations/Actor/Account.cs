@@ -29,7 +29,7 @@ namespace Dotpay.Actor.Implementations
 
         Task<bool> IAccount.Validate()
         {
-            return Task.FromResult(this.State.OwnerId.IsNullOrEmpty());
+            return Task.FromResult(!this.State.OwnerId.IsNullOrEmpty());
         }
 
         async Task<ErrorCode> IAccount.AddTransactionPreparation(Guid transactionId, TransactionType transactionType,

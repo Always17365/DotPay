@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 5 })
 <div class="profile-main">
     <div class="sub-nav ">
         <div class="container">
@@ -85,7 +86,7 @@
             }
             else
             {
-                <div class="panel panel-info">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         已通过实名认证
                     </div>

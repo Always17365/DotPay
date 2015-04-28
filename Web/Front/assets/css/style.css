@@ -1270,8 +1270,8 @@ legend { padding-bottom: 3px; border-bottom: 1px solid #e2e7eb; }
     .panel-success > .panel-heading { background: #008a8a; }
 .panel-warning { border-color: #c47d15; }
     .panel-warning > .panel-heading { background: #c47d15; }
-.panel-danger { border-color: #cc4946; }
-    .panel-danger > .panel-heading { background: #cc4946; }
+.panel-danger { border-color: #ebccd1; }
+    .panel-danger > .panel-heading { background: #f2dede; }
 .panel-primary { border-color: #2a72b5; }
     .panel-primary > .panel-heading { background: #2a72b5; }
 .panel-info { border-color: #3a92ab; }
@@ -1556,3 +1556,10 @@ a.list-group-item.active:focus { background: #348fe2; }
         .profile-main .sub-nav .nav > li.active > a { background: #D2D2D2; }
         .profile-main .sub-nav .nav > li > a:hover,
         .profile-main .sub-nav .nav > li > a:focus { color: #333; background: #D2D2D2; }
+
+/*  17.3 profile deposit*/
+.profile-main .deposit .selectbank ul li { float: left; width: 170px; list-style: none; }
+    .profile-main .deposit .selectbank ul li input[type="radio"] { margin: 20px 0 5px 5px; }
+    .profile-main .deposit .selectbank ul li label { vertical-align: top; }
+    .profile-main .deposit .selectbank ul li img { border: 1px solid #ccc; padding: 2px;  cursor: pointer; }
+.profile-main .deposit .depositamount { margin: 30px 30px 30px 20px; height: 30px; }

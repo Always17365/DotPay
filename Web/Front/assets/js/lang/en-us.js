@@ -30,4 +30,8 @@
     identityVerifySuccess: "identity verify success",
     identityVerifySuccessDesc: "after identity verify , you deposit/withdraw higher amount",
     identityVerifyFail: "identity verify fail",
+    //deposit yisheng
+    bankIsRequited: "The bank is required",
+    depositAmountIsRequited: "The amount is required", 
+    depositAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
 };

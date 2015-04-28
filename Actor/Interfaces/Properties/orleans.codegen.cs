@@ -1257,10 +1257,10 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<object>(1732007996, new object[] {} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IDepositTransaction.ConfirmDeposit(Nullable<Guid> @managerId, string @transsactionNo)
+            System.Threading.Tasks.Task Dotpay.Actor.IDepositTransaction.ConfirmDeposit(Nullable<Guid> @managerId, string @transferNo)
             {
 
-                return base.InvokeMethodAsync<object>(50814780, new object[] {@managerId, @transsactionNo} );
+                return base.InvokeMethodAsync<object>(50814780, new object[] {@managerId, @transferNo} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.IDepositTransaction.Fail(System.Guid @managerId, string @reason)
@@ -3950,6 +3950,7 @@ namespace Dotpay.Actor.Service
     using Dotpay.Actor;
     using Orleans;
     using Orleans.Runtime;
+    using System.Collections;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
@@ -4045,16 +4046,16 @@ namespace Dotpay.Actor.Service
                 return DepositTransactionManagerMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Service.IDepositTransactionManager.CreateDepositTransaction(System.Guid @depositTxId, System.Guid @accountId, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, Dotpay.Common.Enum.Payway @payway, string @memo)
+            System.Threading.Tasks.Task<System.Tuple<Dotpay.Common.ErrorCode, string>> Dotpay.Actor.Service.IDepositTransactionManager.CreateDepositTransaction(System.Guid @depositTxId, System.Guid @accountId, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, Dotpay.Common.Enum.Payway @payway, string @memo)
             {
 
-                return base.InvokeMethodAsync<object>(-1355174549, new object[] {@depositTxId, @accountId, @currency, @amount, @payway, @memo} );
+                return base.InvokeMethodAsync<System.Tuple<Dotpay.Common.ErrorCode,System.String>>(-1355174549, new object[] {@depositTxId, @accountId, @currency, @amount, @payway, @memo} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IDepositTransactionManager.ConfirmDepositTransaction(System.Guid @depositTxId, System.Guid @managerId, string @transactionNo)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IDepositTransactionManager.ConfirmDepositTransaction(System.Guid @depositTxId, Nullable<Guid> @managerId, string @transactionNo, decimal @amount)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-261599897, new object[] {@depositTxId, @managerId, @transactionNo} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1032158948, new object[] {@depositTxId, @managerId, @transactionNo, @amount} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IDepositTransactionManager.DepositTransactionMarkAsFail(System.Guid @depositTxId, System.Guid @managerId, string @reason)
@@ -4096,9 +4097,9 @@ namespace Dotpay.Actor.Service
                         switch (methodId)
                         {
                             case -1355174549: 
-                                return ((IDepositTransactionManager)grain).CreateDepositTransaction((Guid)arguments[0], (Guid)arguments[1], (Dotpay.Common.Enum.CurrencyType)arguments[2], (Decimal)arguments[3], (Dotpay.Common.Enum.Payway)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
-                            case -261599897: 
-                                return ((IDepositTransactionManager)grain).ConfirmDepositTransaction((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IDepositTransactionManager)grain).CreateDepositTransaction((Guid)arguments[0], (Guid)arguments[1], (Dotpay.Common.Enum.CurrencyType)arguments[2], (Decimal)arguments[3], (Dotpay.Common.Enum.Payway)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1032158948: 
+                                return ((IDepositTransactionManager)grain).ConfirmDepositTransaction((Guid)arguments[0], (Nullable<Guid>)arguments[1], (String)arguments[2], (Decimal)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 56473246: 
                                 return ((IDepositTransactionManager)grain).DepositTransactionMarkAsFail((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 992454065: 
@@ -4134,7 +4135,7 @@ namespace Dotpay.Actor.Service
                     {
                         case -1355174549:
                             return "CreateDepositTransaction";
-                    case -261599897:
+                    case -1032158948:
                             return "ConfirmDepositTransaction";
                     case 56473246:
                             return "DepositTransactionMarkAsFail";
@@ -4257,7 +4258,7 @@ namespace Dotpay.Actor.Service
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-77980335, new object[] {@loginName, @loginPassword, @createBy} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AssginManagerRoles(System.Guid @managerId, System.Collections.Generic.IEnumerable<ManagerType> @roles, System.Guid @assignBy)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.IManagerService.AssginManagerRoles(System.Guid @managerId, IEnumerable<ManagerType> @roles, System.Guid @assignBy)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1748967283, new object[] {@managerId, @roles, @assignBy} );
@@ -4316,7 +4317,7 @@ namespace Dotpay.Actor.Service
                             case -77980335: 
                                 return ((IManagerService)grain).AddManager((String)arguments[0], (String)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1748967283: 
-                                return ((IManagerService)grain).AssginManagerRoles((Guid)arguments[0], (System.Collections.Generic.IEnumerable<ManagerType>)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IManagerService)grain).AssginManagerRoles((Guid)arguments[0], (IEnumerable<ManagerType>)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 764799188: 
                                 return ((IManagerService)grain).Lock((Guid)arguments[0], (String)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -2084981854: 
@@ -5552,6 +5553,8 @@ namespace Dotpay.Actor.Service
         
         private static System.Reflection.FieldInfo fieldInfo3;
         
+        private static System.Reflection.FieldInfo fieldInfo4;
+        
         static Dotpay_Actor_Service_ConfirmDepositTransactionMessageSerialization()
         {
             Register();
@@ -5565,8 +5568,9 @@ namespace Dotpay.Actor.Service
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
             Dotpay.Actor.Service.ConfirmDepositTransactionMessage input = ((Dotpay.Actor.Service.ConfirmDepositTransactionMessage)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.DepositTxId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.ManagerId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.ManagerId, stream, typeof(System.Nullable<System.Guid>));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TransactionNo, stream, typeof(string));
         }
         
@@ -5574,23 +5578,27 @@ namespace Dotpay.Actor.Service
         {
             Dotpay.Actor.Service.ConfirmDepositTransactionMessage result = ((Dotpay.Actor.Service.ConfirmDepositTransactionMessage)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage))));
             object objResult = ((object)(result));
-            object temp1 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            object temp1 = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
             fieldInfo1.SetValue(objResult, temp1);
             object temp2 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo2.SetValue(objResult, temp2);
-            object temp3 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            object temp3 = ((System.Nullable<System.Guid>)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Nullable<System.Guid>), stream)));
             fieldInfo3.SetValue(objResult, temp3);
+            object temp4 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            fieldInfo4.SetValue(objResult, temp4);
             return objResult;
         }
         
         public static void Register()
         {
             global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage), DeepCopier, Serializer, Deserializer);
-            fieldInfo1 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<DepositTxId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo1 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<Amount>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo2 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<ManagerId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo2 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<DepositTxId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo3 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<TransactionNo>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo3 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<ManagerId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo4 = typeof(Dotpay.Actor.Service.ConfirmDepositTransactionMessage).GetField("<TransactionNo>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }

@@ -14,27 +14,33 @@ namespace Dotpay.Actor.Service.Implementations
     [StatelessWorker]
     public class DepositTransactionManager : Grain, IDepositTransactionManager
     {
-        private const string MqExchangeName = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
-        private const string MqQueueName = Constants.DepositTransactionManagerMQName + Constants.QueueSuffix;
+        private const string MQ_EXCHANGE_NAME = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
+        private const string MQ_QUEUE_NAME = Constants.DepositTransactionManagerMQName + Constants.QueueSuffix;
 
 
-        async Task IDepositTransactionManager.CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
+        async Task<Tuple<ErrorCode, string>> IDepositTransactionManager.CreateDepositTransaction(Guid depositTxId, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
         {
-            var depositTx = GrainFactory.GetGrain<IDepositTransaction>(depositTxId);
-            var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(payway);
-            await depositTx.Initiliaze(depositSequenceNo, accountId, currency, amount, payway, memo);
+            //memo主要用于ripple转入用
+            var account = GrainFactory.GetGrain<IAccount>(accountId);
+            if (await account.Validate())
+            {
+                var depositTx = GrainFactory.GetGrain<IDepositTransaction>(depositTxId);
+                var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(payway);
+                await depositTx.Initiliaze(depositSequenceNo, accountId, currency, amount, payway, memo);
+                return new Tuple<ErrorCode, string>(ErrorCode.None, depositSequenceNo);
+            }
+            else
+                return new Tuple<ErrorCode, string>(ErrorCode.InvalidAccount, string.Empty);
         }
 
-        async Task<ErrorCode> IDepositTransactionManager.ConfirmDepositTransaction(Guid depositTxId, Guid managerId, string transactionNo)
+        async Task<ErrorCode> IDepositTransactionManager.ConfirmDepositTransaction(Guid depositTxId, Guid? managerId, string transactionNo, decimal amount)
         {
-            if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
+            if (managerId.HasValue && !await CheckManagerPermission(managerId.Value)) return ErrorCode.HasNoPermission;
 
-            var message = new ConfirmDepositTransactionMessage(depositTxId, managerId, transactionNo);
+            var message = new ConfirmDepositTransactionMessage(depositTxId, managerId, transactionNo, amount);
 
-            await MessageProducterManager.GetProducter().PublishMessage(message, MqExchangeName, "", true);
-            await ProcessConfirmDepositTransaction(message);
-
-            return ErrorCode.None;
+            await MessageProducterManager.GetProducter().PublishMessage(message, MQ_EXCHANGE_NAME, "", true);
+            return await ProcessConfirmDepositTransaction(message);
         }
 
         async Task<ErrorCode> IDepositTransactionManager.DepositTransactionMarkAsFail(Guid depositTxId, Guid managerId, string reason)
@@ -75,7 +81,7 @@ namespace Dotpay.Actor.Service.Implementations
 
         public override Task OnActivateAsync()
         {
-            MessageProducterManager.RegisterAndBindQueue(MqExchangeName, ExchangeType.Direct, MqQueueName, durable: true);
+            MessageProducterManager.RegisterAndBindQueue(MQ_EXCHANGE_NAME, ExchangeType.Direct, MQ_QUEUE_NAME, durable: true);
             return base.OnActivateAsync();
         }
 
@@ -83,7 +89,7 @@ namespace Dotpay.Actor.Service.Implementations
         private Task<string> GeneratorDepositTransactionSequenceNo(Payway payway)
         {
             //sequenceNoGeneratorId设计中只有5位,SequenceNoType占据3位 payway占据2位
-            var sequenceNoGeneratorId = Convert.ToInt64(SequenceNoType.DepositTransaction.ToString() + payway.ToString());
+            var sequenceNoGeneratorId = Convert.ToInt64(SequenceNoType.DepositTransaction.ToString("D") + payway.ToString("D"));
             var sequenceNoGenerator = GrainFactory.GetGrain<ISequenceNoGenerator>(sequenceNoGeneratorId);
 
             return sequenceNoGenerator.GetNext();
@@ -142,7 +148,7 @@ namespace Dotpay.Actor.Service.Implementations
             }
         }
 
-        private async Task ProcessConfirmDepositTransaction(ConfirmDepositTransactionMessage confirmMessage)
+        private async Task<ErrorCode> ProcessConfirmDepositTransaction(ConfirmDepositTransactionMessage confirmMessage)
         {
             try
             {
@@ -150,6 +156,8 @@ namespace Dotpay.Actor.Service.Implementations
                 var depositTxState = await depositTx.GetStatus();
                 var depositTxInfo = await depositTx.GetTransactionInfo();
                 var account = GrainFactory.GetGrain<IAccount>(depositTxInfo.AccountId);
+
+                if (depositTxInfo.Amount != confirmMessage.Amount) return ErrorCode.DepositAmountNotMatch;
 
                 if (depositTxState == DepositStatus.Started)
                 {
@@ -164,6 +172,7 @@ namespace Dotpay.Actor.Service.Implementations
                     await account.CommitTransactionPreparation(confirmMessage.DepositTxId);
                     await depositTx.ConfirmDeposit(confirmMessage.ManagerId, confirmMessage.TransactionNo);
                 }
+                return ErrorCode.None;
             }
             catch (Exception ex)
             {

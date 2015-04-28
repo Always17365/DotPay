@@ -24,6 +24,12 @@ namespace Dotpay.Front.Controllers
             ViewBag.Balances = userBalances;
             return View();
         }
+         
+        public ActionResult ProfileHeader(int activeIndex)
+        {
+            ViewBag.ActiveIndex = activeIndex;
+            return View();
+        }
 
         [Route("~/profile")]
         [Route("~/profile/index")]

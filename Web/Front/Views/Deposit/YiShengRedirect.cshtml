@@ -1,0 +1,22 @@
+﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>点付</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="点付 , 您的快捷支付专家" name="description" />
+</head>
+<body>
+    @{
+        var a = MvcHtmlString.Create(ViewBag.FromHtml);
+    }
+    @a
+</body>
+</html>

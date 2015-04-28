@@ -13,7 +13,7 @@ using Orleans;
 
 namespace Dotpay.AdminCommandExcutor
 {
-    public class ManagerCommandExcutor : ICommandExecutor<ManagerLoginCommand>,
+    public class ManagerCommandExecutor : ICommandExecutor<ManagerLoginCommand>,
                                         ICommandExecutor<CreateManagerCommand>,
                                         ICommandExecutor<AssignManagerRolesCommand>,
                                         ICommandExecutor<LockManagerCommand>,

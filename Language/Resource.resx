@@ -237,4 +237,28 @@
   <data name="You can send active email after 15 minutes." xml:space="preserve">
     <value>Send mail too Frequently,Please resend after 15 minutes.</value>
   </data>
+  <data name="order amount not match." xml:space="preserve">
+    <value />
+  </data>
+  <data name="systemProcessError" xml:space="preserve">
+    <value>sorry,please contact us for this error #webmaster@dotpay.co</value>
+  </data>
+  <data name="continueDeposit" xml:space="preserve">
+    <value>Continue deposit</value>
+  </data>
+  <data name="depositResult" xml:space="preserve">
+    <value>Deposit Result</value>
+  </data>
+  <data name="depositSuccessNotice" xml:space="preserve">
+    <value>Congratulations , deposit {0} yuan success.</value>
+  </data>
+  <data name="easypayInvlidResult" xml:space="preserve">
+    <value>invalid result.</value>
+  </data>
+  <data name="returnToI" xml:space="preserve">
+    <value>Return my dotpay</value>
+  </data>
+  <data name="viewDepositRecord" xml:space="preserve">
+    <value>View deposit records</value>
+  </data>
 </root>

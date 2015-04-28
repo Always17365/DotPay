@@ -23,11 +23,7 @@ namespace Dotpay.Front.Controllers
         {
             get
             {
-                return (UserIdentity)Session[Constants.CURRENT_USER_KEY + ""] ?? new UserIdentity()
-                {
-                    UserId = Guid.NewGuid(),
-                    LoginName = "Test"
-                };
+                return (UserIdentity)Session[Constants.CURRENT_USER_KEY + ""];
             }
         }
 

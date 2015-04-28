@@ -8,7 +8,7 @@ namespace Dotpay.Common.Enum
 {
     public enum CurrencyType
     {
-        Cny,
-        Usd
+        Cny=1,
+        Usd=2
     }
 }

@@ -11,7 +11,7 @@ using Orleans;
 
 namespace Dotpay.AdminCommandExcutor
 {
-    public class SystemSettingCommandExcutor : ICommandExecutor<UpdateToFISettingCommand>,
+    public class SystemSettingCommandExecutor : ICommandExecutor<UpdateToFISettingCommand>,
                                                ICommandExecutor<UpdateToDotpaySettingCommand>
     {
         public async Task ExecuteAsync(UpdateToFISettingCommand cmd)

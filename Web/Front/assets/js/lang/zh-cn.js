@@ -29,4 +29,9 @@
     identityNoInvalid: "请输入正确的身份证号",
     identityVerifySuccess: "实名认证完成",
     identityVerifySuccessDesc: "实名认证后，您的单次充值、提现额度不在有最高5000的限额",
+    identityVerifyFail: "实名认证失败",
+    //deposit yisheng
+    bankIsRequited: "请选择银行",
+    depositAmountIsRequited: "请输入充值金额",
+    depositAmountFormatNotMatch: "充值金额必须是数字，小数部分不超过2位",
 };

@@ -65,8 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ManagerCommandExcutor.cs" />
-    <Compile Include="SystemSettingCommandExcutor.cs" />
+    <Compile Include="ManagerCommandExecutor.cs" />
+    <Compile Include="SystemSettingCommandExecutor.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

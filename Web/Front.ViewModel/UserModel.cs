@@ -9,6 +9,7 @@ namespace Dotpay.Front.ViewModel
     public class UserIdentity
     {
         public Guid UserId { get; set; }
+        public Guid AccountId { get; set; }
         public string LoginName { get; set; }
         public string Email { get; set; }
         public DateTime? LastLoginAt { get; set; } 
