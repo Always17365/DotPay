@@ -625,6 +625,15 @@ var handleLoadPage = function (hash) {
         url: targetUrl,	//with the page number as a parameter
         dataType: 'html',	//expect html to be returned
         success: function (data) {
+            var timeoutHtml = '<div id="content" class="content"><h1 class="page-header">登陆超时</h1>' +
+                '<div class="panel panel-inverse"><div class="panel-heading"><h4 class="panel-title">登陆超时了</h4>' +
+                '</div><div class="panel-body">点击<a href="/login">这里重新登陆</a>,3秒后自动跳转...</div></div></div>' +
+                '<script>setTimeout(function() {window.location.href = "/login";},3000);</script>'; 
+            if (data.indexOf('"SessionTimeOut":true')>-1) {
+                $('#ajax-content').html(timeoutHtml);
+                return;
+            }
+
             $('#ajax-content').html(data);
             $('html, body').animate({
                 scrollTop: $("body").offset().top
@@ -847,8 +856,6 @@ var handleModifyLoginPassword = function () {
         });
         return false;
     });
-
-    window.ParsleyValidator.setLocale('zh_cn');
 }
 
 var handleInitNoticePlugin = function () {

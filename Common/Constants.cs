@@ -20,6 +20,7 @@ namespace Dotpay.Common
         public const string ExechangeSuffix = "Exchange";
         public const string QueueSuffix = "Queue";
         public const string DepositTransactionManagerMQName = "DepositTransactionManager";
+        public const string TaobaoMQName = "Taobao";
 
         public const string TransferTransactionManagerMQName = "TransferTransactionManager";
         public const string TransferToRippleQueueName = "TransferToRipple";

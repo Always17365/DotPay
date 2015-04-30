@@ -264,4 +264,58 @@
   <data name="viewDepositRecord" xml:space="preserve">
     <value>查看我的充值记录</value>
   </data>
+  <data name="DepositTransaction" xml:space="preserve">
+    <value>充值</value>
+  </data>
+  <data name="TransferTransaction" xml:space="preserve">
+    <value>转账</value>
+  </data>
+  <data name="CurrencyTypeCny" xml:space="preserve">
+    <value>人民币</value>
+  </data>
+  <data name="CurrencyTypeUsd" xml:space="preserve">
+    <value>美元</value>
+  </data>
+  <data name="DepositStatusCompleted" xml:space="preserve">
+    <value>充值成功</value>
+  </data>
+  <data name="DepositStatusFail" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="DepositStatusStarted" xml:space="preserve">
+    <value>待确认</value>
+  </data>
+  <data name="PaywayAlipay" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="PaywayBank" xml:space="preserve">
+    <value>网上银行</value>
+  </data>
+  <data name="PaywayDotpay" xml:space="preserve">
+    <value>点付</value>
+  </data>
+  <data name="PaywayEasyPay" xml:space="preserve">
+    <value>网上银行</value>
+  </data>
+  <data name="PaywayRipple" xml:space="preserve">
+    <value>Ripple</value>
+  </data>
+  <data name="PaywayTenpay" xml:space="preserve">
+    <value>财付通</value>
+  </data>
+  <data name="TransferTransactionStatusCanceled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="TransferTransactionStatusFailed" xml:space="preserve">
+    <value>转账失败</value>
+  </data>
+  <data name="TransferTransactionStatusLockeByProcessor" xml:space="preserve">
+    <value>处理中</value>
+  </data>
+  <data name="TransferTransactionStatusSubmited" xml:space="preserve">
+    <value>处理中</value>
+  </data>
+  <data name="Invalid amount" xml:space="preserve">
+    <value>金额只能是大于0的数字</value>
+  </data>
 </root>

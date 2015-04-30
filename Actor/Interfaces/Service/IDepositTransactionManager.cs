@@ -56,5 +56,25 @@ namespace Dotpay.Actor.Service
         public string InvoiceId { get; private set; }
         public long RippleToDotpayQuoteId { get; private set; }
         public decimal SendAmount { get; private set; }
+    } 
+     
+    [Immutable]
+    [Serializable]
+    public class TaobaoDepositTransactionMessage : MqMessage
+    {
+        public TaobaoDepositTransactionMessage(Guid depositTxId, Guid accountId, string taobaoTradeNo, CurrencyType currency, decimal depositAmount)
+        {
+            this.DepositTxId = depositTxId;
+            this.AccountId = accountId;
+            this.TaobaoTradeNo = taobaoTradeNo;
+            this.Currency = currency;
+            this.DepositAmount = depositAmount;
+        }
+
+        public Guid DepositTxId { get; private set; }
+        public Guid AccountId { get; private set; }
+        public string TaobaoTradeNo { get; private set; }
+        public CurrencyType Currency { get; private set; }
+        public decimal DepositAmount { get; private set; }
     }
 }

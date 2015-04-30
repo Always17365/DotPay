@@ -11,7 +11,7 @@ using Dotpay.Common;
 namespace Dotpay.AdminCommand
 {
     #region Lock/Unlock
-    public class LockUserCommand : HasReturnValueCommand<ErrorCode>
+    public class LockUserCommand : Command<ErrorCode>
     {
         public LockUserCommand(Guid userId, string reason, Guid lockBy)
         {
@@ -28,7 +28,7 @@ namespace Dotpay.AdminCommand
         public string Reason { get; private set; }
         public Guid LockBy { get; private set; }
     }
-    public class UnlockUserCommand : HasReturnValueCommand<ErrorCode>
+    public class UnlockUserCommand : Command<ErrorCode>
     {
         public UnlockUserCommand(Guid userId, Guid unlockBy)
         {

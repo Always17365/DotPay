@@ -55,11 +55,11 @@
                         <label class="col-sm-4 col-md-2 control-label" for="identityno">请选择证件类型</label>
                         <div class="col-sm-4 controls">
                             @{
-                Enum[] filter = null;
-                if (ViewBag.Lang != "zh-cn")
-                {
-                    filter = new Enum[] { IdNoType.IdentificationCard, IdNoType.CertificateOfOfficer, IdNoType.HKAndMacauResidentsPass, IdNoType.TaiwanResidentsPass };
-                }
+                                Enum[] filter = null;
+                                if (ViewBag.Lang != "zh-cn")
+                                {
+                                    filter = new Enum[] {IdNoType.IdentificationCard, IdNoType.CertificateOfOfficer, IdNoType.HKAndMacauResidentsPass, IdNoType.TaiwanResidentsPass};
+                                }
                             }
                             @Html.DropDownList("idType", Html.SelectListFor<IdNoType>(filter))
                             @*<input class="form-control" id="idType" type="text" name="idno" value="">*@

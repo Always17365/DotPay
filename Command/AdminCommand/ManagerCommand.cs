@@ -11,7 +11,7 @@ using Dotpay.Common;
 namespace Dotpay.AdminCommand
 {
 #if DEBUG
-    public class CreateSuperAdministratorCommand : HasReturnValueCommand<ErrorCode>
+    public class CreateSuperAdministratorCommand : Command<ErrorCode>
     {
         public CreateSuperAdministratorCommand(Guid managerId, string loginName, string loginPassword)
         {
@@ -27,7 +27,7 @@ namespace Dotpay.AdminCommand
 #endif
 
     #region ManagerLoginCommand
-    public class ManagerLoginCommand : HasReturnValueCommand<ErrorCode>
+    public class ManagerLoginCommand : Command<ErrorCode>
     {
         public ManagerLoginCommand(Guid managerId, string loginPassword, string ip)
         {
@@ -48,7 +48,7 @@ namespace Dotpay.AdminCommand
     #endregion
 
     #region Modify Login Password
-    public class ModifyLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ModifyLoginPasswordCommand : Command<ErrorCode>
     {
         public ModifyLoginPasswordCommand(Guid managerId, string oldLoginPassword, string newLoginPassword)
         {
@@ -68,7 +68,7 @@ namespace Dotpay.AdminCommand
     #endregion 
 
     #region CreateManagerCommand
-    public class CreateManagerCommand : HasReturnValueCommand<ErrorCode>
+    public class CreateManagerCommand : Command<ErrorCode>
     {
         public CreateManagerCommand(string loginName, string loginPassword, Guid createBy)
         {
@@ -88,7 +88,7 @@ namespace Dotpay.AdminCommand
     #endregion
 
     #region AssignManagerRolesCommand
-    public class AssignManagerRolesCommand : HasReturnValueCommand<ErrorCode>
+    public class AssignManagerRolesCommand : Command<ErrorCode>
     {
         public AssignManagerRolesCommand(Guid managerId, IEnumerable<ManagerType> roles, Guid assignBy)
         {
@@ -108,7 +108,7 @@ namespace Dotpay.AdminCommand
     #endregion
 
     #region Lock/Unlock
-    public class LockManagerCommand : HasReturnValueCommand<ErrorCode>
+    public class LockManagerCommand : Command<ErrorCode>
     {
         public LockManagerCommand(Guid managerId, string reason, Guid lockBy)
         {
@@ -125,7 +125,7 @@ namespace Dotpay.AdminCommand
         public string Reason { get; private set; }
         public Guid LockBy { get; private set; }
     }
-    public class UnlockManagerCommand : HasReturnValueCommand<ErrorCode>
+    public class UnlockManagerCommand : Command<ErrorCode>
     {
         public UnlockManagerCommand(Guid managerId, Guid unlockBy)
         {
@@ -142,7 +142,7 @@ namespace Dotpay.AdminCommand
     #endregion
 
     #region Reset Login Password
-    public class ResetLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ResetLoginPasswordCommand : Command<ErrorCode>
     {
         public ResetLoginPasswordCommand(Guid managerId,string newLoginPassword  , Guid resetBy)
         {
@@ -163,7 +163,7 @@ namespace Dotpay.AdminCommand
     #endregion
 
     #region 重置Twofactor-key
-    public class ResetTwofactorKeyCommand : HasReturnValueCommand<ErrorCode>
+    public class ResetTwofactorKeyCommand : Command<ErrorCode>
     {
         public ResetTwofactorKeyCommand(Guid managerId, Guid resetBy)
         {

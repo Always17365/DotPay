@@ -20,11 +20,15 @@ namespace Dotpay.Front.Controllers
         public async Task<ActionResult> Index()
         {
             var accountQuery = IoC.Resolve<IAccountQuery>();
+            var txQuery = IoC.Resolve<ITransactionQuery>();
             var userBalances = await accountQuery.GetAccountBalanceByOwnerId(this.CurrentUser.UserId);
             ViewBag.Balances = userBalances;
+            var indexTxs = await txQuery.GetLastTenTransationByAccountId(this.CurrentUser.AccountId);
+
+            ViewBag.RecentTxs = indexTxs;
             return View();
         }
-         
+
         public ActionResult ProfileHeader(int activeIndex)
         {
             ViewBag.ActiveIndex = activeIndex;

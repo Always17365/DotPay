@@ -18,7 +18,7 @@ namespace Dotpay.SiloHost.BootstrapTask
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseLog4net()
-                        .Start();
+                        .UseDefaultJsonSerialaizer();
 
             var mqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("MQConnectionString");
             var factory = new ConnectionFactory() { Uri = mqConnectionString, AutomaticRecoveryEnabled = true };

@@ -15,12 +15,18 @@ namespace Dotpay.Actor.Implementations
     public class DepositTransaction : EventSourcingGrain<DepositTransaction, IDepositTransactionState>, IDepositTransaction
     {
         #region IDeposit
-
+        //这里增加一个user info 做冗余
         async Task IDepositTransaction.Initiliaze(string sequenceNo, Guid accountId, CurrencyType currency, decimal amount,
                                                   Payway payway, string memo)
         {
+            //--------------------------冗余，在启用EventStream之后可删除相关的代码-----------------------------
+            var account = GrainFactory.GetGrain<IAccount>(accountId);
+            var userId = await account.GetOwnerId();
+            var user = GrainFactory.GetGrain<IUser>(userId);
+            var userInfo = await user.GetUserInfo();
+            //--------------------------------------------------------------------------------------------------
             if (!(this.State.Status >= DepositStatus.Started))
-                await this.ApplyEvent(new DepositTransactionInitializedEvent(this.GetPrimaryKey(), sequenceNo, accountId, currency, amount, payway, memo));
+                await this.ApplyEvent(new DepositTransactionInitializedEvent(this.GetPrimaryKey(), sequenceNo, accountId, currency, amount, payway, memo, userInfo));
         }
         async Task IDepositTransaction.ConfirmDepositPreparation()
         {
@@ -32,8 +38,14 @@ namespace Dotpay.Actor.Implementations
 
         async Task IDepositTransaction.ConfirmDeposit(Guid? managerId, string transferNo)
         {
+            string managerName = null;
+            if (managerId.HasValue)
+            {
+                var manager = GrainFactory.GetGrain<IManager>(managerId.Value);
+                managerName = await manager.GetManagerLoginName();
+            }
             if (this.State.Status == DepositStatus.PreparationCompleted)
-                await this.ApplyEvent(new DepositTransactionConfirmedEvent(managerId, transferNo));
+                await this.ApplyEvent(new DepositTransactionConfirmedEvent(managerId, transferNo, managerName));
         }
 
         async Task IDepositTransaction.Fail(Guid managerId, string reason)
@@ -61,6 +73,9 @@ namespace Dotpay.Actor.Implementations
         private void Handle(DepositTransactionInitializedEvent @event)
         {
             this.State.Id = @event.TransactionId;
+            //---------------冗余------------------
+            this.State.Email = @event.UserInfo.Email;
+            //-------------------------------------
             this.State.SequenceNo = @event.SequenceNo;
             this.State.AccountId = @event.AccountId;
             this.State.Payway = @event.Payway;
@@ -80,6 +95,9 @@ namespace Dotpay.Actor.Implementations
         private void Handle(DepositTransactionConfirmedEvent @event)
         {
             this.State.ManagerId = @event.ManagerId;
+            //---------------冗余------------------
+            this.State.ManagerName = @event.ManagerName;
+            //-------------------------------------
             this.State.TransactionNo = @event.TransactionNo;
             this.State.Status = DepositStatus.Completed;
             this.State.CompleteAt = @event.UTCTimestamp;
@@ -100,6 +118,7 @@ namespace Dotpay.Actor.Implementations
     public interface IDepositTransactionState : IEventSourcingState
     {
         Guid Id { get; set; }
+        string Email { get; set; }        //冗余
         Guid AccountId { get; set; }
         string SequenceNo { get; set; }
         CurrencyType Currency { get; set; }
@@ -109,6 +128,7 @@ namespace Dotpay.Actor.Implementations
         string Memo { get; set; }
         DateTime CreateAt { get; set; }
         Guid? ManagerId { get; set; }
+        string ManagerName { get; set; }
         string TransactionNo { get; set; }
         DateTime? CompleteAt { get; set; }
         DateTime? FailAt { get; set; }

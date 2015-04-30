@@ -94,6 +94,7 @@ namespace Dotpay.Actor.Service.Implementations
 
             return sequenceNoGenerator.GetNext();
         }
+        #region ripple deposit processor
         private async Task ProcessRippleDepositTransaction(RippleDepositTransactionMessage rippleDepositMessage)
         {
             try
@@ -147,6 +148,47 @@ namespace Dotpay.Actor.Service.Implementations
                 throw;
             }
         }
+        #endregion
+
+        #region taobao deposit processor
+        private async Task ProcessTaobaoDepositTransaction(TaobaoDepositTransactionMessage taobaoDepositMessage)
+        {
+            try
+            {
+                var depositTx = GrainFactory.GetGrain<IDepositTransaction>(taobaoDepositMessage.DepositTxId);
+
+                var depositTxInfo = await depositTx.GetTransactionInfo();
+                var account = GrainFactory.GetGrain<IAccount>(depositTxInfo.AccountId);
+
+                if (await depositTx.GetStatus() < DepositStatus.Started)
+                {
+                    var depositSequenceNo = await GeneratorDepositTransactionSequenceNo(Payway.Taobao);
+                    await
+                        depositTx.Initiliaze(depositSequenceNo, taobaoDepositMessage.AccountId,
+                            taobaoDepositMessage.Currency, taobaoDepositMessage.DepositAmount, Payway.Taobao, string.Empty);
+                }
+
+                if (await depositTx.GetStatus() == DepositStatus.Started)
+                {
+                    await account.AddTransactionPreparation(taobaoDepositMessage.DepositTxId,
+                            TransactionType.DepositTransaction,
+                            PreparationType.CreditPreparation, depositTxInfo.Currency, depositTxInfo.Amount);
+                    await depositTx.ConfirmDepositPreparation();
+                }
+
+                if (await depositTx.GetStatus() == DepositStatus.PreparationCompleted)
+                {
+                    await account.CommitTransactionPreparation(taobaoDepositMessage.DepositTxId);
+                    await depositTx.ConfirmDeposit(null, taobaoDepositMessage.TaobaoTradeNo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("ProcessTaobaoDepositTransaction:" + ex.Message, ex);
+                throw;
+            }
+        }
+        #endregion
 
         private async Task<ErrorCode> ProcessConfirmDepositTransaction(ConfirmDepositTransactionMessage confirmMessage)
         {

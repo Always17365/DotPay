@@ -1,0 +1,54 @@
+﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
+<div class="profile-main">
+    <div class="sub-nav ">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/deposit/index">在线支付<i class="icon-chevron-right"></i></a>
+                </li>
+                <li class="active">
+                    <a href="#">支付宝<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/deposit/taobao">淘宝<i class="icon-chevron-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+    <div class="container deposit">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div>
+                <h4>支付宝充值</h4>
+            </div>
+            <hr/>
+            <div class="note" id="noticeBox" style="display: none;">
+            </div>
+            <form id="depositAlipayForm" class="form-horizontal" method="POST" action="~/deposit/alipay/submit">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-2 control-label" for="amount">充值金额</label>
+                    <div class="col-sm-4 controls">
+                        <input class="form-control" id="amount" name="amount" type="text" autocomplete="off">
+                    </div>
+                    <div class="col-sm-2 col-md-2   controls">
+                        <input type="submit" class="btn btn-primary btn-large btn-block" value="下一步">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+        $(document).ready(function () {
+            $.getScript('/assets/js/deposit.js').done(function () {
+                Deposit.initAlipayDeposit();
+            });
+        });
+        </script>
+    </div>
+</div>

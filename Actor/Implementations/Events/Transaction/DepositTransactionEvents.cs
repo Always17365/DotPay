@@ -13,7 +13,7 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class DepositTransactionInitializedEvent : GrainEvent
     {
-        public DepositTransactionInitializedEvent(Guid transactionId, string sequenceNo, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo)
+        public DepositTransactionInitializedEvent(Guid transactionId, string sequenceNo, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo, UserInfo userInfo)
         {
             this.TransactionId = transactionId;
             this.SequenceNo = sequenceNo;
@@ -21,6 +21,7 @@ namespace Dotpay.Actor.Events
             this.Currency = currency;
             this.Amount = amount;
             this.Memo = memo;
+            this.UserInfo = userInfo;
             this.Payway = payway;
         }
 
@@ -31,6 +32,7 @@ namespace Dotpay.Actor.Events
         public decimal Amount { get; private set; }
         public Payway Payway { get; private set; }
         public string Memo { get; private set; }
+        public UserInfo UserInfo { get; private set; }
     }
 
     [Immutable]
@@ -52,14 +54,16 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class DepositTransactionConfirmedEvent : GrainEvent
     {
-        public DepositTransactionConfirmedEvent(Guid? mannagerId, string transactionNo)
+        public DepositTransactionConfirmedEvent(Guid? mannagerId, string transactionNo, string managerName)
         {
             this.ManagerId = mannagerId;
             this.TransactionNo = transactionNo;
+            this.ManagerName = managerName;
         }
 
         public Guid? ManagerId { get; private set; }
         public string TransactionNo { get; private set; }
+        public string ManagerName { get; private set; }
     }
     [Immutable]
     [Serializable]

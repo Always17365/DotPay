@@ -22,13 +22,24 @@ namespace Dotpay.Admin.Fliter
                 var userSession = filterContext.HttpContext.Session[Constants.CURRENT_USER_KEY];
 
 #if DEBUG
-                if (userSession == null)
+                if (userSession == null && !filterContext.HttpContext.Request.IsAjaxRequest())
 #else
                 if (userSession == null || !((ManagerIdentity)userSession).LoginTwoFactoryVerify)
 #endif
                 {
                     filterContext.Result = new RedirectResult("~/login");
-                } 
+                }
+                else if (userSession == null)
+                {
+                    filterContext.Result = new JsonResult
+                    {
+                        Data = new
+                        {
+                            SessionTimeOut = true
+                        },
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
             }
         }
     }
@@ -55,7 +66,7 @@ namespace Dotpay.Admin.Fliter
                 {
                     filterContext.Result = new PartialViewResult() { ViewName = "~/NoPermission" };
                 }
-            } 
+            }
         }
 
         private bool HasPermission(ManagerIdentity manager)

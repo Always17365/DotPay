@@ -27,7 +27,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Active Command
-    public class UserActiveCommand : HasReturnValueCommand<ErrorCode>
+    public class UserActiveCommand : Command<ErrorCode>
     {
         public UserActiveCommand(Guid userId, string token)
         {
@@ -43,7 +43,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Resned Active Email Command
-    public class UserResendActiveEmailCommand : HasReturnValueCommand<ErrorCode>
+    public class UserResendActiveEmailCommand : Command<ErrorCode>
     {
         public UserResendActiveEmailCommand(Guid userId)
         {
@@ -56,7 +56,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Login Command
-    public class UserLoginCommand : HasReturnValueCommand<Tuple<ErrorCode, int>>
+    public class UserLoginCommand : Command<Tuple<ErrorCode, int>>
     {
         public UserLoginCommand(Guid userId, string loginPassword, string ip)
         {
@@ -93,7 +93,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Forget Login Password Command
-    public class ForgetLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ForgetLoginPasswordCommand : Command<ErrorCode>
     {
         public ForgetLoginPasswordCommand(Guid userId, Lang lang)
         {
@@ -111,7 +111,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Reset Login Password Command
-    public class ResetLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ResetLoginPasswordCommand : Command<ErrorCode>
     {
         public ResetLoginPasswordCommand(Guid userId, string newLoginPassword, string token)
         {
@@ -132,7 +132,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Modify Login Password Command
-    public class ModifyLoginPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ModifyLoginPasswordCommand : Command<ErrorCode>
     {
         public ModifyLoginPasswordCommand(Guid userId, string oldLoginPassword, string newLoginPassword)
         {
@@ -152,7 +152,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Forget Payment Password Command
-    public class ForgetPaymentPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ForgetPaymentPasswordCommand : Command<ErrorCode>
     {
         public ForgetPaymentPasswordCommand(Guid userId, Lang lang)
         {
@@ -170,7 +170,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Reset Payment Password Command
-    public class ResetPaymentPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ResetPaymentPasswordCommand : Command<ErrorCode>
     {
         public ResetPaymentPasswordCommand(Guid userId, string newPaymentPassword, string token)
         {
@@ -191,7 +191,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Modify Payment Password Command
-    public class ModifyPaymentPasswordCommand : HasReturnValueCommand<ErrorCode>
+    public class ModifyPaymentPasswordCommand : Command<ErrorCode>
     {
         public ModifyPaymentPasswordCommand(Guid userId, string oldPaymentPassword, string newPaymentPassword)
         {

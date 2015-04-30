@@ -261,4 +261,58 @@
   <data name="viewDepositRecord" xml:space="preserve">
     <value>View deposit records</value>
   </data>
+  <data name="CurrencyTypeCny" xml:space="preserve">
+    <value>CNY</value>
+  </data>
+  <data name="CurrencyTypeUsd" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="DepositStatusCompleted" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="DepositStatusFail" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="DepositStatusStarted" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="DepositTransaction" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="PaywayAlipay" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaywayBank" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaywayDotpay" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaywayEasyPay" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaywayRipple" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaywayTenpay" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TransferTransaction" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="TransferTransactionStatusCanceled" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TransferTransactionStatusFailed" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="TransferTransactionStatusLockeByProcessor" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="TransferTransactionStatusSubmited" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="Invalid amount" xml:space="preserve">
+    <value />
+  </data>
 </root>

@@ -20,10 +20,23 @@ namespace Dotpay.Front.Controllers
     public class DepositController : BaseController
     {
         [Route("~/deposit")]
+        [Route("~/deposit/index")]
         public ActionResult Index()
         {
             return View();
         }
+        [Route("~/deposit/alipay")]
+        public ActionResult Alipay()
+        {
+            return View();
+        }
+        [Route("~/deposit/taobao")]
+        public ActionResult Taobao()
+        {
+            return View();
+        }
+
+
         #region 易生支付充值接口
 
         #region 易生充值跳转
@@ -70,7 +83,7 @@ namespace Dotpay.Front.Controllers
         public async Task<ActionResult> EasypayReturn()
         {
             var @params = new SortedDictionary<string, string>();
-             
+
             ViewBag.Result = DotpayJsonResult.CreateFailResult(this.Lang("easypayInvlidResult"));
             foreach (KeyValuePair<string, object> item in Request.Form)
             {
@@ -113,8 +126,8 @@ namespace Dotpay.Front.Controllers
 
                     //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
                     //获取易生支付的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
-                    var trade_no = Request.Params["trade_no"];      //易生支付交易号
-                    var order_no = Request.Params["out_trade_no"];	//获取订单号
+                    var tradeNo = Request.Params["trade_no"];      //易生支付交易号
+                    var orderNo = Request.Params["out_trade_no"];	//获取订单号
                     var totalAmount = Convert.ToDecimal(Request.Params["total_fee"]);	//获取总金额
                     //var subject = Request.Params["subject"];        //商品名称、订单名称
                     //var body = Request.Params["body"];              //商品描述、订单备注、描述
@@ -124,12 +137,12 @@ namespace Dotpay.Front.Controllers
                     //如果交易完成
                     if (trade_status == "TRADE_FINISHED")
                     {
-                        //查询我们的订单号对应的充值记录，得到txid后执行cmd
-                        //执行cmd前
-                        Guid txid = new Guid();
+                        //查询我们的订单号对应的充值记录，得到txid后执行cmd 
+                        var txQuery = IoC.Resolve<ITransactionQuery>();
+                        Guid txid = await txQuery.GetDepositTransactionIdBySeqNo(orderNo);
                         try
                         {
-                            var cmd = new ConfirmDepositCommand(txid, trade_no, totalAmount);
+                            var cmd = new ConfirmDepositCommand(txid, tradeNo, totalAmount);
                             await this.CommandBus.SendAsync(cmd);
 
                             if (cmd.CommandResult == ErrorCode.None)
@@ -138,7 +151,7 @@ namespace Dotpay.Front.Controllers
                             }
                             else if (cmd.CommandResult == ErrorCode.DepositAmountNotMatch)
                             {
-                                Log.Debug("easy pay订单金额不匹配失败了" + order_no + trade_status);
+                                Log.Debug("easy pay订单金额不匹配失败了" + orderNo + trade_status);
                                 ViewBag.Result = DotpayJsonResult.CreateFailResult("order amount not match.");
                                 //充值的金额不匹配
                                 //ViewBag.Success = false;
@@ -147,19 +160,19 @@ namespace Dotpay.Front.Controllers
                         catch (Exception ex)
                         {
                             ViewBag.Result = DotpayJsonResult.SystemError;
-                            Log.Debug("订单失败了" + order_no + trade_status);
+                            Log.Debug("订单失败了" + orderNo + trade_status);
                         }
                     }
                     else
                     {
                         ViewBag.Result = DotpayJsonResult.SystemError;
                         //处理支付失败的订单
-                        Log.Debug("订单失败了" + order_no + trade_status);
+                        Log.Debug("订单失败了" + orderNo + trade_status);
                     }
                 }
                 else
                 {
-                    Log.Debug("易生支付返回结果验证失败"); 
+                    Log.Debug("易生支付返回结果验证失败");
                 }
             }
             else
@@ -170,7 +183,7 @@ namespace Dotpay.Front.Controllers
         }
         #endregion
 
-        #region easy pay return
+        #region easy pay notice
         [HttpGet]
         [Route("~/deposit/epnotice")]
         public async Task<ActionResult> EasypayNotice()
@@ -217,24 +230,25 @@ namespace Dotpay.Front.Controllers
 
                     //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
                     //获取易生支付的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
-                    var trade_no = Request.Params["trade_no"];      //易生支付交易号
-                    var order_no = Request.Params["out_trade_no"];	//获取订单号
+                    var tradeNo = Request.Params["trade_no"];      //易生支付交易号
+                    var orderNo = Request.Params["out_trade_no"];	//获取订单号
                     var totalAmount = Convert.ToDecimal(Request.Params["total_fee"]);	//获取总金额
                     //var subject = Request.Params["subject"];        //商品名称、订单名称
                     //var body = Request.Params["body"];              //商品描述、订单备注、描述
                     //var buyer_email = Request.Params["buyer_email"];//买家易生支付买家账号
-                    var trade_status = Request.Params["trade_status"];//交易状态
+                    var tradeStatus = Request.Params["trade_status"];//交易状态
 
                     //如果交易完成
-                    if (trade_status == "TRADE_FINISHED")
+                    if (tradeStatus == "TRADE_FINISHED")
                     {
                         //查询我们的订单号对应的充值记录，得到txid后执行cmd
-                        //执行cmd前
-                        Guid txid = new Guid();
+                        var txQuery = IoC.Resolve<ITransactionQuery>();
+                        Guid txid = await txQuery.GetDepositTransactionIdBySeqNo(orderNo);
                         try
                         {
+
                             //无需担心重复执行cmd的问题，后端做了幂等，重复处理不影响最终结果
-                            var cmd = new ConfirmDepositCommand(txid, trade_no, totalAmount);
+                            var cmd = new ConfirmDepositCommand(txid, tradeNo, totalAmount);
                             await this.CommandBus.SendAsync(cmd);
 
                             if (cmd.CommandResult == ErrorCode.None)
@@ -243,17 +257,17 @@ namespace Dotpay.Front.Controllers
                             }
                             else if (cmd.CommandResult == ErrorCode.DepositAmountNotMatch)
                             {
-                                Log.Debug("easy pay订单金额不匹配失败了" + order_no + trade_status);
+                                Log.Debug("easy pay订单金额不匹配失败了" + orderNo + tradeStatus);
                             }
                         }
                         catch (Exception ex)
                         {
-                            Log.Debug("订单失败了" + order_no + trade_status);
+                            Log.Error("订单失败了" + orderNo + tradeStatus, ex);
                         }
                     }
                     else
                     {   //处理支付失败的订单
-                        Log.Debug("订单失败了" + order_no + trade_status);
+                        Log.Debug("订单失败了" + orderNo + tradeStatus);
                     }
 
                     return Content("success");
@@ -305,6 +319,54 @@ namespace Dotpay.Front.Controllers
             }
         }
         #endregion
+        #endregion
+
+        #region 支付宝充值
+        [HttpGet]
+        [Route("~/deposit/alipayredirect")]
+        public async Task<ActionResult> AlipayRedirect(decimal amount, string seq)
+        {
+            var result = DotpayJsonResult.SystemError;
+
+            ViewBag.Result = false;
+            if (amount > 0 && !string.IsNullOrEmpty(seq))
+            {
+                ViewBag.Account = "12666954@qq.com";
+                ViewBag.Amount = amount;
+                ViewBag.Seq = seq;
+                ViewBag.Result = true;
+            }
+
+            return View();
+        }
+        [HttpPost]
+        [Route("~/deposit/alipay/submit")]
+        public async Task<ActionResult> AlipayDepositSubmit(decimal amount)
+        {
+            var result = DotpayJsonResult.UnknowFail;
+            if (amount <= 0) result = DotpayJsonResult.CreateFailResult(this.Lang("Invalid amount"));
+            else
+            {
+                try
+                {
+                    var cmd = new CreateDepositCommand(this.CurrentUser.AccountId, CurrencyType.Cny, amount,
+                        Payway.Alipay);
+                    await this.CommandBus.SendAsync(cmd);
+
+                    if (cmd.CommandResult.Item1 == ErrorCode.None)
+                    {
+                        var seqNo = cmd.CommandResult.Item2;
+                        result = DotpayJsonResult<string>.CreateSuccessResult(seqNo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("AlipayDepositSubmit Excepiton", ex);
+                }
+            }
+
+            return Json(result);
+        }
         #endregion
     }
 }

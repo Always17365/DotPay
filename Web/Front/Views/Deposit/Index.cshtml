@@ -11,13 +11,13 @@
         <div class="container">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="/profile">在线支付<i class="icon-chevron-right"></i></a>
+                    <a href="#">在线支付<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/profile/mobile">支付宝<i class="icon-chevron-right"></i></a>
+                    <a href="/deposit/alipay">支付宝<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="#">淘宝<i class="icon-chevron-right"></i></a>
+                    <a href="/deposit/taobao">淘宝<i class="icon-chevron-right"></i></a>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,6 @@
                 <h4>在线支付</h4>
             </div>
             <hr />
-            <div class="note" id="noticeBox" style="display: none;"></div>
             <form id="depositForm" class="form-horizontal" method="POST" action="~/deposit/epsubmit">
                 <div class="row selectbank">
                     @Html.AntiForgeryToken()
@@ -118,8 +117,8 @@
     </div>
     <script>
         $(document).ready(function () {
-            $.getScript('/assets/js/deposityisheng.js').done(function () {
-                DepositYisheng.init();
+            $.getScript('/assets/js/deposit.js').done(function () {
+                Deposit.initOnlineDeposit();
             });
         });
     </script>

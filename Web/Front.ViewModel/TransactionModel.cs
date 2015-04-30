@@ -14,6 +14,7 @@ namespace Dotpay.Front.ViewModel
     public class IndexTransactionListViewModel
     {
         public string Type { get; set; }
+        public string SequenceNo { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public string Status { get; set; }

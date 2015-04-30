@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDepositTransactionQuery.cs" />
     <Compile Include="IUserQuery.cs" />
     <Compile Include="ITransferTransactionQuery.cs" />
     <Compile Include="IManagerQuery.cs" />

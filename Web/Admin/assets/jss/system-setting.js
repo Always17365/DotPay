@@ -1,5 +1,4 @@
 ﻿var HandleFiFormInit= function() { 
-    $('#tofisettingForm').parsley();
     $("#tofisettingForm").submit(function () {
         $.post("/ajax/systemsetting/tofi/save", $(this).serialize(), function (result, status) {
             if (result.Code === 1)
@@ -11,7 +10,6 @@
     }); 
 }
 var HandleDotpayFormInit = function () {
-    $('#toDotpaySettingForm').parsley();
     $("#toDotpaySettingForm").submit(function () {
         $.post("/ajax/systemsetting/todotpay/save", $(this).serialize(), function (result, status) {
             if (result.Code === 1)

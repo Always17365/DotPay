@@ -137,6 +137,11 @@
     $.getScript('/assets/jss/system-setting.js').done(function () {
         SystemSetting.dotpayFormInit();
     });
-    
+
+    $.getScript('/assets/plugins/parsley/dist/parsley.js').done(function () {
+        $.getScript('/assets/plugins/parsley/src/i18n/zh_cn.js').done(function () {
+            window.ParsleyValidator.setLocale('zh_cn');
+        });
+    });
 </script>
 <!-- ================== END PAGE LEVEL JS ================== -->

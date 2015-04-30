@@ -21,12 +21,7 @@ namespace Dotpay.Admin.Controllers
         {
             get
             {
-                return (ManagerIdentity)Session[Constants.CURRENT_USER_KEY] ?? new ManagerIdentity()
-                {
-                    ManagerId = Guid.NewGuid(),
-                    LoginName = "Admin",
-                    Roles = new List<ManagerType>() { ManagerType.SuperUser, ManagerType.MaintenanceManager }
-                };
+                return (ManagerIdentity)Session[Constants.CURRENT_USER_KEY];
             }
         }
 

@@ -67,32 +67,22 @@
             <li><a href="index.html#ajax/form_multiple_upload.html">Multiple File Upload</a></li>
         </ul>
     </li>
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret pull-right"></b>
-            <i class="ion-grid"></i>
-            <span>Tables <span class="label label-theme m-l-5">NEW</span></span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="index.html#ajax/table_basic.html">Basic Tables</a></li>
-            <li class="has-sub">
-                <a href="javascript:;"><b class="caret pull-right"></b> Managed Tables <i class="ion-paper-airplane text-theme m-l-5"></i></a>
-                <ul class="sub-menu">
-                    <li><a href="index.html#ajax/table_manage.html">Default</a></li>
-                    <li><a href="index.html#ajax/table_manage_autofill.html">Autofill</a></li>
-                    <li><a href="index.html#ajax/table_manage_colreorder.html">ColReorder</a></li>
-                    <li><a href="index.html#ajax/table_manage_colvis.html">ColVis</a></li>
-                    <li><a href="index.html#ajax/table_manage_fixed_columns.html">Fixed Column</a></li>
-                    <li><a href="index.html#ajax/table_manage_fixed_header.html">Fixed Header</a></li>
-                    <li><a href="index.html#ajax/table_manage_keytable.html">KeyTable</a></li>
-                    <li><a href="index.html#ajax/table_manage_responsive.html">Responsive</a></li>
-                    <li><a href="index.html#ajax/table_manage_scroller.html">Scroller</a></li>
-                    <li><a href="index.html#ajax/table_manage_tabletools.html">TableTools</a></li>
-                    <li><a href="index.html#ajax/table_manage_combine.html">Extension Combination <i class="fa fa-paper-plane text-theme m-l-5"></i></a></li>
-                </ul>
-            </li>
-        </ul>
-    </li>
+    @if (user.Roles.Any(r => r == ManagerType.TransferManager || r == ManagerType.MaintenanceManager || r == ManagerType.DepositManager))
+    {
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret pull-right"></b>
+                <i class="ion-grid"></i>
+                <span>充值管理 <span class="label label-theme m-l-5">Deposit</span></span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="#/ajax/deposit/tx/alipaypendinglist">待处理支付宝充值</a></li>
+                <li><a href="#/ajax/deposit/tx/pendinglist">待处理充值</a></li>
+                <li><a href="#/ajax/deposit/tx/completelist">已完成充值<i class="fa fa-paper-plane text-theme m-l-5"></i></a></li>
+                <li><a href="#/ajax/deposit/tx/faillist">失败的充值</a></li>
+            </ul>
+        </li>
+    }
     <li class="has-sub">
         <a href="javascript:;">
             <b class="caret pull-right"></b>

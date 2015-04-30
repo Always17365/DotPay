@@ -9,7 +9,7 @@ using Dotpay.Common;
 
 namespace Dotpay.AdminCommand
 {
-    public class UpdateToFISettingCommand : HasReturnValueCommand<ErrorCode>
+    public class UpdateToFISettingCommand : Command<ErrorCode>
     {
         public UpdateToFISettingCommand(decimal minAmount, decimal maxAmount, decimal fixedFee, decimal feeRate, decimal minFee, decimal maxFee, Guid updateBy)
         {
@@ -39,7 +39,7 @@ namespace Dotpay.AdminCommand
         public Guid UpdateBy { get; set; }
     }
 
-    public class UpdateToDotpaySettingCommand : HasReturnValueCommand<ErrorCode>
+    public class UpdateToDotpaySettingCommand : Command<ErrorCode>
     {
         public UpdateToDotpaySettingCommand(decimal minAmount, decimal maxAmount, decimal fixedFee, decimal feeRate, decimal minFee, decimal maxFee, Guid updateBy)
         {

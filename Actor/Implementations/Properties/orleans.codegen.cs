@@ -611,6 +611,8 @@ namespace Dotpay.Actor.Implementations
 
             public Guid @Id { get; set; }
 
+            public String @Email { get; set; }
+
             public Guid @AccountId { get; set; }
 
             public String @SequenceNo { get; set; }
@@ -629,6 +631,8 @@ namespace Dotpay.Actor.Implementations
 
             public Nullable<Guid> @ManagerId { get; set; }
 
+            public String @ManagerName { get; set; }
+
             public String @TransactionNo { get; set; }
 
             public Nullable<DateTime> @CompleteAt { get; set; }
@@ -643,6 +647,7 @@ namespace Dotpay.Actor.Implementations
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = value is Int32 ? (Int32)value : (Int64)value;
                 if (values.TryGetValue("Id", out value)) @Id = (Guid) value;
+                if (values.TryGetValue("Email", out value)) @Email = (String) value;
                 if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
                 if (values.TryGetValue("SequenceNo", out value)) @SequenceNo = (String) value;
                 if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
@@ -652,6 +657,7 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
                 if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
                 if (values.TryGetValue("ManagerId", out value)) @ManagerId = (Nullable<Guid>) value;
+                if (values.TryGetValue("ManagerName", out value)) @ManagerName = (String) value;
                 if (values.TryGetValue("TransactionNo", out value)) @TransactionNo = (String) value;
                 if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
                 if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
@@ -660,7 +666,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("DepositTransactionState( Version={0} Id={1} AccountId={2} SequenceNo={3} Currency={4} Amount={5} Status={6} Payway={7} Memo={8} CreateAt={9} ManagerId={10} TransactionNo={11} CompleteAt={12} FailAt={13} FailReason={14} )", @Version, @Id, @AccountId, @SequenceNo, @Currency, @Amount, @Status, @Payway, @Memo, @CreateAt, @ManagerId, @TransactionNo, @CompleteAt, @FailAt, @FailReason);
+                return System.String.Format("DepositTransactionState( Version={0} Id={1} Email={2} AccountId={3} SequenceNo={4} Currency={5} Amount={6} Status={7} Payway={8} Memo={9} CreateAt={10} ManagerId={11} ManagerName={12} TransactionNo={13} CompleteAt={14} FailAt={15} FailReason={16} )", @Version, @Id, @Email, @AccountId, @SequenceNo, @Currency, @Amount, @Status, @Payway, @Memo, @CreateAt, @ManagerId, @ManagerName, @TransactionNo, @CompleteAt, @FailAt, @FailReason);
             }
         
         public DepositTransactionState() : 
@@ -674,6 +680,7 @@ namespace Dotpay.Actor.Implementations
             System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
             result["Version"] = this.Version;
             result["Id"] = this.Id;
+            result["Email"] = this.Email;
             result["AccountId"] = this.AccountId;
             result["SequenceNo"] = this.SequenceNo;
             result["Currency"] = this.Currency;
@@ -683,6 +690,7 @@ namespace Dotpay.Actor.Implementations
             result["Memo"] = this.Memo;
             result["CreateAt"] = this.CreateAt;
             result["ManagerId"] = this.ManagerId;
+            result["ManagerName"] = this.ManagerName;
             result["TransactionNo"] = this.TransactionNo;
             result["CompleteAt"] = this.CompleteAt;
             result["FailAt"] = this.FailAt;
@@ -694,6 +702,7 @@ namespace Dotpay.Actor.Implementations
         {
             this.Version = default(Int64);
             this.Id = default(Guid);
+            this.Email = default(String);
             this.AccountId = default(Guid);
             this.SequenceNo = default(String);
             this.Currency = default(CurrencyType);
@@ -703,6 +712,7 @@ namespace Dotpay.Actor.Implementations
             this.Memo = default(String);
             this.CreateAt = default(DateTime);
             this.ManagerId = default(Nullable<Guid>);
+            this.ManagerName = default(String);
             this.TransactionNo = default(String);
             this.CompleteAt = default(Nullable<DateTime>);
             this.FailAt = default(Nullable<DateTime>);

@@ -124,6 +124,24 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 CNY 的本地化字符串。
+        /// </summary>
+        internal static string CurrencyTypeCny {
+            get {
+                return ResourceManager.GetString("CurrencyTypeCny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 USD 的本地化字符串。
+        /// </summary>
+        internal static string CurrencyTypeUsd {
+            get {
+                return ResourceManager.GetString("CurrencyTypeUsd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Deposit Result 的本地化字符串。
         /// </summary>
         internal static string depositResult {
@@ -133,11 +151,47 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 Complete 的本地化字符串。
+        /// </summary>
+        internal static string DepositStatusCompleted {
+            get {
+                return ResourceManager.GetString("DepositStatusCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fail 的本地化字符串。
+        /// </summary>
+        internal static string DepositStatusFail {
+            get {
+                return ResourceManager.GetString("DepositStatusFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pending 的本地化字符串。
+        /// </summary>
+        internal static string DepositStatusStarted {
+            get {
+                return ResourceManager.GetString("DepositStatusStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Congratulations , deposit {0} yuan success. 的本地化字符串。
         /// </summary>
         internal static string depositSuccessNotice {
             get {
                 return ResourceManager.GetString("depositSuccessNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deposit 的本地化字符串。
+        /// </summary>
+        internal static string DepositTransaction {
+            get {
+                return ResourceManager.GetString("DepositTransaction", resourceCulture);
             }
         }
         
@@ -210,6 +264,15 @@ namespace Dotpay.Language {
         internal static string indexBannerPayeasyPayCool {
             get {
                 return ResourceManager.GetString("indexBannerPayeasyPayCool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Invalid_amount {
+            get {
+                return ResourceManager.GetString("Invalid amount", resourceCulture);
             }
         }
         
@@ -300,6 +363,60 @@ namespace Dotpay.Language {
         internal static string order_amount_not_match_ {
             get {
                 return ResourceManager.GetString("order amount not match.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayAlipay {
+            get {
+                return ResourceManager.GetString("PaywayAlipay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayBank {
+            get {
+                return ResourceManager.GetString("PaywayBank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayDotpay {
+            get {
+                return ResourceManager.GetString("PaywayDotpay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayEasyPay {
+            get {
+                return ResourceManager.GetString("PaywayEasyPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayRipple {
+            get {
+                return ResourceManager.GetString("PaywayRipple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string PaywayTenpay {
+            get {
+                return ResourceManager.GetString("PaywayTenpay", resourceCulture);
             }
         }
         
@@ -444,6 +561,51 @@ namespace Dotpay.Language {
         internal static string transfer_money_to_anywhere {
             get {
                 return ResourceManager.GetString("transfer money to anywhere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Transfer 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransaction {
+            get {
+                return ResourceManager.GetString("TransferTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusCanceled {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fail 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusFailed {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusLockeByProcessor {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusLockeByProcessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusSubmited {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusSubmited", resourceCulture);
             }
         }
         

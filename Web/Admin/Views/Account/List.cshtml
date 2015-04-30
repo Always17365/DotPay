@@ -6,7 +6,9 @@
 <!-- begin #content -->
 <div id="content" class="content">
     <!-- begin page-header -->
-    <h1 class="page-header">管理员管理 <small> 管理员维护及权限控制</small></h1>
+    <h1 class="page-header">
+        管理员管理 <small> 管理员维护及权限控制</small>
+    </h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row">
@@ -271,6 +273,8 @@
     </div>
     <!-- end row -->
 </div>
+
+
 <!-- end #content -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script>
@@ -278,6 +282,11 @@
     App.setPageTitle('点付管理后台--管理员列表');
     $.getScript('/assets/jss/manager-list.js').done(function () {
         ManagerList.init();
+    });
+    $.getScript('/assets/plugins/parsley/dist/parsley.js').done(function () {
+        $.getScript('/assets/plugins/parsley/src/i18n/zh_cn.js').done(function () {
+            window.ParsleyValidator.setLocale('zh_cn');
+        });
     });
 </script>
 <!-- ================== END PAGE LEVEL JS ================== -->

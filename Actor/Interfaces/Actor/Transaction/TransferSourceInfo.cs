@@ -29,6 +29,7 @@ namespace Dotpay.Actor
 
         public Guid UserId { get; set; }
         public string UserLoginName { get; set; }
+        public string Email { get; set; }
         public Guid AccountId { get; set; }
     }
 }

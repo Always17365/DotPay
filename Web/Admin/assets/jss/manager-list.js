@@ -53,10 +53,11 @@
         });
 
         //添加管理员
-        $("#btnAddManager").click(function () {
+        $("#btnAddManager").click(function () { 
             $("#formCreateManager")[0].reset();
         });
         $("#formCreateManager").submit(function () {
+            console.log(1);
             $.post("/ajax/manager/create", $(this).serialize(), function (result, status) {
                 if (result.Code === 1) {
                     Notification.notice("操作成功", "成功创建管理员" + $("#formCreateManager #loginName").val() + ",别忘了给新管理员分配角色");

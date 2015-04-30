@@ -41,9 +41,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DFramework, Version=1.0.5.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DFramework, Version=1.0.5.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DFramework.1.0.5.4\lib\net45\DFramework.dll</HintPath>
+      <HintPath>..\..\packages\DFramework.1.0.5.5\lib\net45\DFramework.dll</HintPath>
     </Reference>
     <Reference Include="DFramework.Plusins.Autofac">
       <HintPath>..\..\packages\DFramework.Plusins.Autofac.1.0.0.0\lib\net45\DFramework.Plusins.Autofac.dll</HintPath>
@@ -222,7 +222,7 @@
     <Content Include="assets\img\work-6.jpg" />
     <Content Include="assets\img\work-7.jpg" />
     <Content Include="assets\img\work-8.jpg" />
-    <Content Include="assets\js\deposityisheng.js" />
+    <Content Include="assets\js\deposit.js" />
     <Content Include="assets\js\lang\en-us.js" />
     <Content Include="assets\js\lang\zh-cn.js" />
     <Content Include="assets\js\identityVerify.js" />
@@ -558,6 +558,9 @@
     <Content Include="Views\Deposit\Index.cshtml" />
     <Content Include="Views\Deposit\YiShengRedirect.cshtml" />
     <Content Include="Views\Deposit\DepositResult.cshtml" />
+    <Content Include="Views\Deposit\Taobao.cshtml" />
+    <Content Include="Views\Deposit\Alipay.cshtml" />
+    <Content Include="Views\Deposit\AlipayRedirect.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />
