@@ -12,6 +12,7 @@ namespace Dotpay.Front.Controllers
     public class HomeController : BaseController
     {
         [Route("~/")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

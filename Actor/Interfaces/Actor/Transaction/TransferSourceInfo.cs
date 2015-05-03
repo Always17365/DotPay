@@ -27,9 +27,11 @@ namespace Dotpay.Actor
             this.AccountId = accountId;
         }
 
+        #region 冗余
         public Guid UserId { get; set; }
         public string UserLoginName { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } 
+        #endregion
         public Guid AccountId { get; set; }
     }
 }

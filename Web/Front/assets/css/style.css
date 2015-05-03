@@ -152,9 +152,8 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
 
 /* 2.2 Navbar Brand Logo & Text Setting */
 
-.header .navbar-brand { padding: 25px 15px; }
-.brand-logo { float: left; border: 15px solid; border-color: #4DCACA #31A3A3 #1D8888; margin-right: 10px; margin-top: -5px; border-radius: 4px; }
-    .brand-logo + .brand-text { margin-left: 42px; display: block; color: #2d353c; font-size: 20px; line-height: 20px; display: block; }
+.brand-logo { width: }
+   
 
 
 /* 2.3 Navbar Mobile Toggle */
@@ -190,6 +189,7 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
     .header.navbar.navbar-transparent.navbar-small .brand-logo + .brand-text { color: #2d353c; }
 .navbar-small .navbar-toggle { border-color: #ddd; margin-top: 8px; margin-bottom: 8px; }
     .navbar-small .navbar-toggle .icon-bar { background: #888; }
+    .navbar-small .logo { width: 120px;height: 30px }
 
 
 /* 2.7 Navbar Dropdown */
@@ -215,9 +215,9 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
     .content .content-desc { text-align: center; margin-bottom: 60px; color: #242a30; }
     .content.has-bg { padding-bottom: 60px; overflow: hidden; position: relative; }
         .content.has-bg .content-bg { position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
-            .content.has-bg .content-bg img { max-width: 100%; }
+            .content.has-bg .content-bg img { max-width: 100%;width: 100%; }
         .content.has-bg .content-title:after { background: #fff; }
-        .content.has-bg .content-bg:before { content: ''; background: url(../img/content-bg-cover.png); position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+        .content.has-bg .content-bg:before { content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
         .content.has-bg .container { position: relative; }
             .content.has-bg .container .content-title { color: #fff; }
             .content.has-bg .container .content-desc { color: rgba(255,255,255,0.6); }
@@ -1105,7 +1105,13 @@ legend { padding-bottom: 3px; border-bottom: 1px solid #e2e7eb; }
         .note.note-warning h4,
         .note.note-warning h5,
         .note.note-warning h6 { color: #8a6d3b; }
-
+.box { margin: 0 0 25px; padding: 5px 15px; }
+    .box img.left { margin: 6px 13px 0 0; }
+.fail { border-left: 2px solid #ef8c82; background: #FBEEEB; }
+.success { border-left: 2px solid #8ddf79; background: #f0fbeb; }
+.warning { border-left: 2px solid #f7df7a; background: #fcf9e5; }
+.options { border-left: 2px solid #efbd98; background: #fdf6ea; }
+    .options img { padding-right: 10px; }
 
 /* 16.8 Component - Badge & Label Setting */
 

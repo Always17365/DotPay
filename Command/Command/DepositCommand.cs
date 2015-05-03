@@ -7,7 +7,7 @@ using Dotpay.Common.Enum;
 namespace Dotpay.Command
 {
     #region Create Deposit Command
-    public class CreateDepositCommand : Command<Tuple<ErrorCode, string>>
+    public class CreateDepositCommand : DFramework.Command<Tuple<ErrorCode, string>>
     {
         public CreateDepositCommand(Guid accountId, CurrencyType currency, decimal amount, Payway payway)
         {
@@ -30,7 +30,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Confirm Deposit Command
-    public class ConfirmDepositCommand : Command<ErrorCode>
+    public class ConfirmDepositCommand : DFramework.Command<ErrorCode>
     {
         public ConfirmDepositCommand(Guid depositTxId, string transferNo, decimal amount)
         {

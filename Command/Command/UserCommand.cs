@@ -27,7 +27,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Active Command
-    public class UserActiveCommand : Command<ErrorCode>
+    public class UserActiveCommand : DFramework.Command<ErrorCode>
     {
         public UserActiveCommand(Guid userId, string token)
         {
@@ -43,7 +43,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Resned Active Email Command
-    public class UserResendActiveEmailCommand : Command<ErrorCode>
+    public class UserResendActiveEmailCommand : DFramework.Command<ErrorCode>
     {
         public UserResendActiveEmailCommand(Guid userId)
         {
@@ -56,7 +56,7 @@ namespace Dotpay.Command
     #endregion
 
     #region User Login Command
-    public class UserLoginCommand : Command<Tuple<ErrorCode, int>>
+    public class UserLoginCommand : DFramework.Command<Tuple<ErrorCode, int>>
     {
         public UserLoginCommand(Guid userId, string loginPassword, string ip)
         {
@@ -93,7 +93,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Forget Login Password Command
-    public class ForgetLoginPasswordCommand : Command<ErrorCode>
+    public class ForgetLoginPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ForgetLoginPasswordCommand(Guid userId, Lang lang)
         {
@@ -111,7 +111,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Reset Login Password Command
-    public class ResetLoginPasswordCommand : Command<ErrorCode>
+    public class ResetLoginPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ResetLoginPasswordCommand(Guid userId, string newLoginPassword, string token)
         {
@@ -132,7 +132,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Modify Login Password Command
-    public class ModifyLoginPasswordCommand : Command<ErrorCode>
+    public class ModifyLoginPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ModifyLoginPasswordCommand(Guid userId, string oldLoginPassword, string newLoginPassword)
         {
@@ -152,7 +152,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Forget Payment Password Command
-    public class ForgetPaymentPasswordCommand : Command<ErrorCode>
+    public class ForgetPaymentPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ForgetPaymentPasswordCommand(Guid userId, Lang lang)
         {
@@ -170,7 +170,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Reset Payment Password Command
-    public class ResetPaymentPasswordCommand : Command<ErrorCode>
+    public class ResetPaymentPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ResetPaymentPasswordCommand(Guid userId, string newPaymentPassword, string token)
         {
@@ -191,7 +191,7 @@ namespace Dotpay.Command
     #endregion
 
     #region Modify Payment Password Command
-    public class ModifyPaymentPasswordCommand : Command<ErrorCode>
+    public class ModifyPaymentPasswordCommand : DFramework.Command<ErrorCode>
     {
         public ModifyPaymentPasswordCommand(Guid userId, string oldPaymentPassword, string newPaymentPassword)
         {

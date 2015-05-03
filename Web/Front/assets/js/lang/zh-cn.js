@@ -33,5 +33,10 @@
     //deposit yisheng
     bankIsRequited: "请选择银行",
     depositAmountIsRequited: "请输入充值金额",
-    depositAmountFormatNotMatch: "充值金额必须是数字，小数部分不超过2位",
+    depositAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
+    //transfer 
+    receiverAccountIsRequited: "收款人账号不能为空",
+    transferAmountIsRequited: "转账金额不能为空",
+    transferAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
+    paymentPasswordIsRequited:"请输入支付密码",
 };

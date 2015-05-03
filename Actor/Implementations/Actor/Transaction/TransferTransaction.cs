@@ -190,6 +190,7 @@ namespace Dotpay.Actor.Implementations
 
             this.State.CreateAt = @event.UTCTimestamp;
         }
+
         private void Handle(ConfirmedTransferTransactionPreparationEvent @event)
         {
             this.State.Status = TransferTransactionStatus.PreparationCompleted;

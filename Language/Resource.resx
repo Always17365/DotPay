@@ -241,7 +241,7 @@
     <value />
   </data>
   <data name="systemProcessError" xml:space="preserve">
-    <value>sorry,please contact us for this error #webmaster@dotpay.co</value>
+    <value>Sorry,please try again later</value>
   </data>
   <data name="continueDeposit" xml:space="preserve">
     <value>Continue deposit</value>
@@ -314,5 +314,26 @@
   </data>
   <data name="Invalid amount" xml:space="preserve">
     <value />
+  </data>
+  <data name="Invalid receiver account" xml:space="preserve">
+    <value />
+  </data>
+  <data name="transferReceiverUnauth" xml:space="preserve">
+    <value>Receiver account has not identity info</value>
+  </data>
+  <data name="transferBalanceNotEnough" xml:space="preserve">
+    <value>Account balance not enough</value>
+  </data>
+  <data name="cannotTransferToYourSelf" xml:space="preserve">
+    <value>You can not transfer to your self</value>
+  </data>
+  <data name="Receiver Account:" xml:space="preserve">
+    <value />
+  </data>
+  <data name="systemError" xml:space="preserve">
+    <value>System Error</value>
+  </data>
+  <data name="transferPaymentPasswordError" xml:space="preserve">
+    <value>Payment password error</value>
   </data>
 </root>

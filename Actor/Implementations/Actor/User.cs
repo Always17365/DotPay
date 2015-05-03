@@ -230,14 +230,26 @@ namespace Dotpay.Actor.Implementations
             }
         }
 
-        Task<bool> IUser.CheckLoginPassword(string loginPassword)
+        Task<ErrorCode> IUser.CheckLoginPassword(string loginPassword)
         {
-            return Task.FromResult(this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt));
+            if (string.IsNullOrEmpty(this.State.PaymentPassword))
+                return Task.FromResult(ErrorCode.PaymentPasswordNotInitialized);
+
+            if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
+                return Task.FromResult(ErrorCode.None);
+
+            return Task.FromResult(ErrorCode.Unknow);
         }
 
-        Task<bool> IUser.CheckPaymentPassword(string paymentPassword)
+        Task<ErrorCode> IUser.CheckPaymentPassword(string paymentPassword)
         {
-            return Task.FromResult(this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt));
+            if (string.IsNullOrEmpty(this.State.PaymentPassword))
+                return Task.FromResult(ErrorCode.PaymentPasswordNotInitialized);
+
+            if (this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt))
+                return Task.FromResult(ErrorCode.None);
+
+            return Task.FromResult(ErrorCode.Unknow);
         }
 
         async Task<ErrorCode> IUser.ModifyLoginPassword(string oldLoginPassword, string newLoginPassword)

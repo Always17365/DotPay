@@ -60,6 +60,7 @@
     <Compile Include="MongoManager.cs" />
     <Compile Include="AccountQueryImpl.cs" />
     <Compile Include="TransactionQueryImpl.cs" />
+    <Compile Include="EnumExtensionForLang.cs" />
     <Compile Include="UserQueryImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

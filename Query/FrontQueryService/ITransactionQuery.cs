@@ -13,5 +13,6 @@ namespace Dotpay.FrontQueryService
         Task<int> CountTransferTransaction(Guid accountId, DateTime start, DateTime end);
         Task<IEnumerable<TransferTransactionListViewModel>> GetTransferTransaction(Guid accountId, DateTime start, DateTime end, int page, int pagesize);
         Task<Guid> GetDepositTransactionIdBySeqNo(string sequenceNo);
+        Task<TransferTransactionDetailViewModel> GetTransferTransactionBySeqNo(string sequenceNo);
     }
 }

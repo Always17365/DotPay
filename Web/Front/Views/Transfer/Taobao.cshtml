@@ -1,0 +1,41 @@
+﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
+<div class="profile-main">
+    <div class="sub-nav ">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/deposit/index">在线支付<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/deposit/alipay">支付宝<i class="icon-chevron-right"></i></a>
+                </li>
+                <li class="active">
+                    <a href="#">淘宝<i class="icon-chevron-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container deposit">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div>
+                <h4>淘宝自动充值</h4>
+            </div>
+            <hr />
+            <div>
+                <h5>充值说明：</h5>
+                <p style="margin: 10px;">Dotpayco提供自动充值服务，请在充值前仔细阅读商品说明。</p>
+                <p style="margin: 10px;">如在充值遇到问题，请点击充值进度查询，查看原因。</p>
+                <p style="margin: 10px;">更多问题咨询，请加入QQ群385108034咨询管理员或致电021-31608155</p>
+                <a href="http://shop113155095.taobao.com/category-1067094686.htm" class="btn btn-success btn-large">进入淘宝充值</a>
+                <a href="/deposit/records" class="btn btn-info btn-large">查看充值记录</a>
+            </div>
+        </div>
+    </div> 
+</div>

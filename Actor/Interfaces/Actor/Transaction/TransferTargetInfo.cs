@@ -31,10 +31,11 @@ namespace Dotpay.Actor
     [Serializable]
     public class TransferToDotpayTargetInfo : TransferTargetInfo
     {
-        public string RealName { get; set; }
         public Guid AccountId { get; set; }
+        public string Email { get; set; }
+        public string RealName { get; set; }
         public Guid UserId { get; set; }
-        public string UserLoginName { get; set; }
+        public string UserLoginName { get; set; } 
     }
 
     /// <summary>

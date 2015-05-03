@@ -62,7 +62,7 @@
                             </div>
                             <div class="col-sm-7 col-md-7 amount">
                                 <a class="btn btn-info btn-sm " href="/deposit">充值</a>
-                                <a class="btn btn-info btn-sm " href="/withdraw">转账</a>
+                                <a class="btn btn-info btn-sm " href="/transfer">转账</a>
                             </div>
                         </div>
                     </td>
@@ -110,9 +110,9 @@
                             {
                                 <tr>
                                     <td class="hide600">@tx.CreateAt.ToString("yyyy-MM-dd")</td>
-                                    <td>@Html.Lang(tx.Type)-@Html.Lang(tx.Payway)<br> @tx.Memo </td>
+                                    <td>@Html.Lang(tx.Type)-@Html.Lang(tx.Payway)<br>@(string.IsNullOrEmpty(tx.Destination)?"":Html.Lang("Receiver Account:")+tx.Destination)</td> 
                                     <td class="hide600">@tx.SequenceNo</td>
-                                    <td>@tx.Amount.ToString("+#;-#;0")</td>
+                                    <td>@(tx.Type.Contains("Deposit") ? tx.Amount.ToString("+#;0") : tx.Amount.ToString("-#;0"))</td>
                                     <td>@Html.Lang(tx.Status)</td>
                                 </tr>
                             }

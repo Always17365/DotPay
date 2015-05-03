@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TransferCommandExecutor.cs" />
     <Compile Include="DepositCommandExecutor.cs" />
     <Compile Include="UserCommandExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

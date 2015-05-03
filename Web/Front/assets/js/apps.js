@@ -14,8 +14,10 @@ var handleHeaderNavigationState = function () {
             var headerHeight = $('#header').height();
             if (totalScroll >= headerHeight) {
                 $('#header').addClass('navbar-small  navbar-fixed-top');
+                $('#header .logo').attr("src", "/assets/img/logo2.png");
             } else {
                 $('#header').removeClass('navbar-small  navbar-fixed-top');
+                $('#header .logo').attr("src", "/assets/img/logo.png");
             }
         }
     });

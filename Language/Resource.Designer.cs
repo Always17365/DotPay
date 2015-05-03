@@ -106,6 +106,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 You can not transfer to your self 的本地化字符串。
+        /// </summary>
+        internal static string cannotTransferToYourSelf {
+            get {
+                return ResourceManager.GetString("cannotTransferToYourSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Choose dotpay , Choose easy life 的本地化字符串。
         /// </summary>
         internal static string ChooseDotpayChooseEasyLife {
@@ -279,6 +288,15 @@ namespace Dotpay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string Invalid_receiver_account {
+            get {
+                return ResourceManager.GetString("Invalid receiver account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Invlid_activation_link_ {
             get {
                 return ResourceManager.GetString("Invlid activation link.", resourceCulture);
@@ -423,6 +441,15 @@ namespace Dotpay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string Receiver_Account_ {
+            get {
+                return ResourceManager.GetString("Receiver Account:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Register_to {
             get {
                 return ResourceManager.GetString("Register to", resourceCulture);
@@ -547,7 +574,16 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
-        ///   查找类似 sorry,please contact us for this error #webmaster@dotpay.co 的本地化字符串。
+        ///   查找类似 System Error 的本地化字符串。
+        /// </summary>
+        internal static string systemError {
+            get {
+                return ResourceManager.GetString("systemError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sorry,please try again later 的本地化字符串。
         /// </summary>
         internal static string systemProcessError {
             get {
@@ -561,6 +597,33 @@ namespace Dotpay.Language {
         internal static string transfer_money_to_anywhere {
             get {
                 return ResourceManager.GetString("transfer money to anywhere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Account balance not enough 的本地化字符串。
+        /// </summary>
+        internal static string transferBalanceNotEnough {
+            get {
+                return ResourceManager.GetString("transferBalanceNotEnough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Payment password error 的本地化字符串。
+        /// </summary>
+        internal static string transferPaymentPasswordError {
+            get {
+                return ResourceManager.GetString("transferPaymentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Receiver account has not identity info 的本地化字符串。
+        /// </summary>
+        internal static string transferReceiverUnauth {
+            get {
+                return ResourceManager.GetString("transferReceiverUnauth", resourceCulture);
             }
         }
         

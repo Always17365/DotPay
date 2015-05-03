@@ -14,7 +14,7 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class TransferInitilizedEvent : GrainEvent
     {
-        public TransferInitilizedEvent(Guid transactionId,string sequenceNo, TransferTransactionInfo transferTransactionInfo)
+        public TransferInitilizedEvent(Guid transactionId, string sequenceNo, TransferTransactionInfo transferTransactionInfo)
         {
             this.TransactionId = transactionId;
             this.SequenceNo = sequenceNo;

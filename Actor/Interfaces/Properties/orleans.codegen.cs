@@ -2289,16 +2289,16 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1437379261, new object[] {@newPaymentPassword, @resetToken} );
             }
             
-            System.Threading.Tasks.Task<bool> Dotpay.Actor.IUser.CheckLoginPassword(string @loginPassword)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.CheckLoginPassword(string @loginPassword)
             {
 
-                return base.InvokeMethodAsync<System.Boolean>(-1388525298, new object[] {@loginPassword} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1388525298, new object[] {@loginPassword} );
             }
             
-            System.Threading.Tasks.Task<bool> Dotpay.Actor.IUser.CheckPaymentPassword(string @tradePassword)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.CheckPaymentPassword(string @tradePassword)
             {
 
-                return base.InvokeMethodAsync<System.Boolean>(-1286558509, new object[] {@tradePassword} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1286558509, new object[] {@tradePassword} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.ModifyLoginPassword(string @oldLoginPassword, string @newLoginPassword)
@@ -2741,6 +2741,7 @@ namespace Dotpay.Actor
         {
             Dotpay.Actor.TransferToDotpayTargetInfo input = ((Dotpay.Actor.TransferToDotpayTargetInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
             Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
@@ -2751,6 +2752,7 @@ namespace Dotpay.Actor
         {
             Dotpay.Actor.TransferToDotpayTargetInfo result = new Dotpay.Actor.TransferToDotpayTargetInfo();
             result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
             result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.UserId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
@@ -3347,7 +3349,7 @@ namespace Dotpay.Actor
             Orleans.Serialization.SerializationContext.Current.RecordObject(original, result);
             result.Email = input.Email;
             result.Lang = input.Lang;
-            result.NickName = input.NickName;
+            result.LoginName = input.LoginName;
             return result;
         }
         
@@ -3356,7 +3358,7 @@ namespace Dotpay.Actor
             Dotpay.Actor.UserInfo input = ((Dotpay.Actor.UserInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Lang, stream, typeof(Dotpay.Common.Enum.Lang));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.NickName, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.LoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -3364,7 +3366,7 @@ namespace Dotpay.Actor
             Dotpay.Actor.UserInfo result = ((Dotpay.Actor.UserInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.UserInfo))));
             result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Lang = ((Dotpay.Common.Enum.Lang)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Lang), stream)));
-            result.NickName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.LoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -5018,10 +5020,28 @@ namespace Dotpay.Actor.Service
                 return TransferTransactionManagerMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.SubmitTransferTransaction(Dotpay.Actor.TransferTransactionInfo @transactionInfo)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.SubmitTransferToDotpayTransaction(System.Guid @transferTransactionId, System.Guid @sourceAccountId, System.Guid @targetAccountId, string @targetUserRealName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo, string @paymentPassword)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1117285809, new object[] {@transactionInfo} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1391106706, new object[] {@transferTransactionId, @sourceAccountId, @targetAccountId, @targetUserRealName, @currency, @amount, @memo, @paymentPassword} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.SubmitTransferToTppTransaction(System.Guid @transferTransactionId, System.Guid @sourceAccountId, string @targetAccount, string @realName, Dotpay.Common.Enum.Payway @targetPayway, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo, string @paymentPassword)
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1322040955, new object[] {@transferTransactionId, @sourceAccountId, @targetAccount, @realName, @targetPayway, @currency, @amount, @memo, @paymentPassword} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.SubmitTransferToBankTransaction(System.Guid @transferTransactionId, System.Guid @sourceAccountId, string @targetAccount, string @realName, Dotpay.Common.Enum.Bank @targetBank, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo, string @paymentPassword)
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1319879019, new object[] {@transferTransactionId, @sourceAccountId, @targetAccount, @realName, @targetBank, @currency, @amount, @memo, @paymentPassword} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.SubmitTransferToRippleTransaction(System.Guid @transferTransactionId, System.Guid @sourceAccountId, string @rippleAddress, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo, string @paymentPassword)
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1163446309, new object[] {@transferTransactionId, @sourceAccountId, @rippleAddress, @currency, @amount, @memo, @paymentPassword} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.MarkAsProcessing(System.Guid @transferTransactionId, System.Guid @managerId)
@@ -5074,8 +5094,14 @@ namespace Dotpay.Actor.Service
                     case 180790526:  // ITransferTransactionManager
                         switch (methodId)
                         {
-                            case 1117285809: 
-                                return ((ITransferTransactionManager)grain).SubmitTransferTransaction((Dotpay.Actor.TransferTransactionInfo)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1391106706: 
+                                return ((ITransferTransactionManager)grain).SubmitTransferToDotpayTransaction((Guid)arguments[0], (Guid)arguments[1], (Guid)arguments[2], (String)arguments[3], (Dotpay.Common.Enum.CurrencyType)arguments[4], (Decimal)arguments[5], (String)arguments[6], (String)arguments[7]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1322040955: 
+                                return ((ITransferTransactionManager)grain).SubmitTransferToTppTransaction((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2], (String)arguments[3], (Dotpay.Common.Enum.Payway)arguments[4], (Dotpay.Common.Enum.CurrencyType)arguments[5], (Decimal)arguments[6], (String)arguments[7], (String)arguments[8]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 1319879019: 
+                                return ((ITransferTransactionManager)grain).SubmitTransferToBankTransaction((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2], (String)arguments[3], (Dotpay.Common.Enum.Bank)arguments[4], (Dotpay.Common.Enum.CurrencyType)arguments[5], (Decimal)arguments[6], (String)arguments[7], (String)arguments[8]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 1163446309: 
+                                return ((ITransferTransactionManager)grain).SubmitTransferToRippleTransaction((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2], (Dotpay.Common.Enum.CurrencyType)arguments[3], (Decimal)arguments[4], (String)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -675132736: 
                                 return ((ITransferTransactionManager)grain).MarkAsProcessing((Guid)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1362925427: 
@@ -5113,8 +5139,14 @@ namespace Dotpay.Actor.Service
                 case 180790526:  // ITransferTransactionManager
                     switch (methodId)
                     {
-                        case 1117285809:
-                            return "SubmitTransferTransaction";
+                        case -1391106706:
+                            return "SubmitTransferToDotpayTransaction";
+                    case -1322040955:
+                            return "SubmitTransferToTppTransaction";
+                    case 1319879019:
+                            return "SubmitTransferToBankTransaction";
+                    case 1163446309:
+                            return "SubmitTransferToRippleTransaction";
                     case -675132736:
                             return "MarkAsProcessing";
                     case 1362925427:

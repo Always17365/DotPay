@@ -25,8 +25,8 @@ namespace Dotpay.Actor
         Task<ErrorCode> ResetLoginPassword(string newLoginPassword, string resetToken);
         Task<Tuple<ErrorCode, string>> ForgetPaymentPassword(string token);
         Task<ErrorCode> ResetPaymentPassword(string newPaymentPassword, string resetToken);
-        Task<bool> CheckLoginPassword(string loginPassword);
-        Task<bool> CheckPaymentPassword(string tradePassword);
+        Task<ErrorCode> CheckLoginPassword(string loginPassword);
+        Task<ErrorCode> CheckPaymentPassword(string tradePassword);
         Task<ErrorCode> ModifyLoginPassword(string oldLoginPassword, string newLoginPassword);
         Task<ErrorCode> ModifyPaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode = "");
         Task<Guid> GetAccountId();
@@ -35,14 +35,14 @@ namespace Dotpay.Actor
 
     public class UserInfo
     {
-        public UserInfo(string nickName, string email, Lang lang)
+        public UserInfo(string loginName, string email, Lang lang)
         {
-            this.NickName = nickName;
+            this.LoginName = loginName;
             this.Email = email;
             this.Lang = lang;
         }
 
-        public string NickName { get; set; }
+        public string LoginName { get; set; }
         public string Email { get; set; }
         public Lang Lang { get; set; }
     }

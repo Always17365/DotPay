@@ -11,10 +11,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/i" class="navbar-brand">
-                <span class="brand-logo"></span>
-                <span class="brand-text">
-                    <span class="text-theme">@Html.Lang("DotpayLogoTitle")</span>
-                </span>
+                <img alt="Brand" class="logo" src="/assets/img/logo2.png">
             </a>
         </div>
         <!-- end navbar-header -->
@@ -25,7 +22,7 @@
                 <li @(ViewBag.ActiveIndex == 2 ? "class=active" : "")><a href="/transaction">收支明细</a></li>
                 <li @(ViewBag.ActiveIndex == 3 ? "class=active" : "")><a href="/deposit">充值</a></li>
                 <li @(ViewBag.ActiveIndex == 4 ? "class=active" : "")><a href="/transfer">转账</a></li>
-                <li @(ViewBag.ActiveIndex == 4 ? "class=active" : "")><a href="/profile">个人设置</a></li>
+                <li @(ViewBag.ActiveIndex == 5 ? "class=active" : "")><a href="/profile">个人设置</a></li>
             </ul>
         </div>
         <!-- end navbar-collapse -->

@@ -11,7 +11,10 @@ namespace Dotpay.Actor.Service
 {
     public interface ITransferTransactionManager : Orleans.IGrainWithIntegerKey
     {
-        Task<ErrorCode> SubmitTransferTransaction(TransferTransactionInfo transactionInfo);
+        Task<ErrorCode> SubmitTransferToDotpayTransaction(Guid transferTransactionId,Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo,string paymentPassword);
+        Task<ErrorCode> SubmitTransferToTppTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Payway targetPayway, CurrencyType currency, decimal amount, string memo,string paymentPassword);
+        Task<ErrorCode> SubmitTransferToBankTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Bank targetBank, CurrencyType currency, decimal amount, string memo, string paymentPassword);
+        Task<ErrorCode> SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo,string paymentPassword);
         Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid managerId);
         Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid managerId, string reason);
         Task<ErrorCode> ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo);

@@ -12,9 +12,9 @@ namespace Dotpay.Common
         #region user
         UserErrorBase = 1000,
         EmailAlreadyRegisted = UserErrorBase + 1,
-        UserAccountAlreadyExists = UserErrorBase + 2,
-        LoginNameOrPasswordError = UserErrorBase + 3,
-        PaymentPasswordError = UserErrorBase + 4,
+        LoginNameOrPasswordError = UserErrorBase + 2,
+        PaymentPasswordError = UserErrorBase + 3,
+        PaymentPasswordNotInitialized = UserErrorBase + 4,
         UserAccountIsLocked = UserErrorBase + 5,
         OldLoginPasswordError = UserErrorBase + 6,
         InvalidActiveToken = UserErrorBase + 7,

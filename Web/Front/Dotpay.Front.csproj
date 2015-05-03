@@ -198,14 +198,19 @@
     <Content Include="assets\img\bank\SDB_OUT.png" />
     <Content Include="assets\img\bank\SHBANK_OUT.png" />
     <Content Include="assets\img\bank\SPDB_OUT.png" />
+    <Content Include="assets\img\banner1.jpg" />
     <Content Include="assets\img\carousel-1.jpg" />
     <Content Include="assets\img\carousel-2.jpg" />
     <Content Include="assets\img\carousel-3.jpg" />
     <Content Include="assets\img\client-bg.jpg" />
     <Content Include="assets\img\content-bg-cover.png" />
     <Content Include="assets\img\content-bg-cover2.png" />
+    <Content Include="assets\img\error.png" />
+    <Content Include="assets\img\future.png" />
     <Content Include="assets\img\head.gif" />
     <Content Include="assets\img\home-bg.jpg" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\logo2.png" />
     <Content Include="assets\img\milestone-bg.jpg" />
     <Content Include="assets\img\quote-bg.jpg" />
     <Content Include="assets\img\quote.jpg" />
@@ -222,6 +227,7 @@
     <Content Include="assets\img\work-6.jpg" />
     <Content Include="assets\img\work-7.jpg" />
     <Content Include="assets\img\work-8.jpg" />
+    <Content Include="assets\js\transfer.js" />
     <Content Include="assets\js\deposit.js" />
     <Content Include="assets\js\lang\en-us.js" />
     <Content Include="assets\js\lang\zh-cn.js" />
@@ -487,6 +493,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -561,6 +568,12 @@
     <Content Include="Views\Deposit\Taobao.cshtml" />
     <Content Include="Views\Deposit\Alipay.cshtml" />
     <Content Include="Views\Deposit\AlipayRedirect.cshtml" />
+    <Content Include="Views\Transfer\Alipay.cshtml" />
+    <Content Include="Views\Transfer\AlipayRedirect.cshtml" />
+    <Content Include="Views\Transfer\InternalResult.cshtml" />
+    <Content Include="Views\Transfer\Internal.cshtml" />
+    <Content Include="Views\Transfer\Taobao.cshtml" />
+    <Content Include="Views\Transfer\YiShengRedirect.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />
@@ -569,6 +582,12 @@
     <Content Include="Views\Shared\_ProfileIndexBanner.cshtml" />
     <Content Include="Views\Shared\_Layout_Profile_Index.cshtml" />
     <Content Include="Views\Shared\_ProfileTop.cshtml" />
+    <Content Include="Views\Transfer\Bank.cshtml" />
+    <Content Include="Views\Transfer\BankResult.cshtml" />
+    <Content Include="Views\Transfer\ToDotpayConfirm.cshtml" />
+    <Content Include="Views\Transfer\TppResult.cshtml" />
+    <Content Include="Views\Transfer\RippleResult.cshtml" />
+    <Content Include="Views\Transfer\InternalConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

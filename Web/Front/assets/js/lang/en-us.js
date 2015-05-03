@@ -34,4 +34,9 @@
     bankIsRequited: "The bank is required",
     depositAmountIsRequited: "The amount is required", 
     depositAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
+    //transfer 
+    receiverAccountIsRequited: "Receiver account is required",
+    transferAmountIsRequited: "The amount is required",
+    transferAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
+    paymentPasswordIsRequited: "payment password is requited",
 };

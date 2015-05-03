@@ -28,28 +28,51 @@ namespace Dotpay.Actor.Service.Implementations
         private static readonly ConcurrentDictionary<Guid, TaskScheduler> OrleansSchedulerContainer =
             new ConcurrentDictionary<Guid, TaskScheduler>();
 
-        async Task<ErrorCode> ITransferTransactionManager.SubmitTransferTransaction(
-            TransferTransactionInfo transactionInfo)
+
+        async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToDotpayTransaction(Guid transferTransactionId, Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo, string paymentPassword)
         {
-            var transferFromDotpay = transactionInfo.Source as TransferFromDotpayInfo;
+            var checkPaymentPasswordResult = await CheckUserPaymentPassword(sourceAccountId, paymentPassword);
+            if (checkPaymentPasswordResult != ErrorCode.None)
+                return checkPaymentPasswordResult;
 
-            if (transferFromDotpay != null)
-            {
-                var transferTransactionId = Guid.NewGuid();
-                var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
-                var transferTransactionSeq =
-                    await this.GeneratorTransferTransactionSequenceNo(transactionInfo.Target.Payway);
-                await transferTransaction.Initialize(transferTransactionSeq, transactionInfo);
-                var message = new SubmitTransferTransactionMessage(transferTransactionId, transferFromDotpay,
-                    transactionInfo.Target,
-                    transactionInfo.Currency, transactionInfo.Amount, transactionInfo.Memo);
-                await
-                    MessageProducterManager.GetProducter()
-                        .PublishMessage(message, MqTransferExchangeName, MqTransferRouteKey, true);
-                return await ProcessSubmitedTransferTransaction(message);
-            }
+            var transferTransactionInfo = await BuildTransferToDotpayTransactionInfo(sourceAccountId, targetAccountId,
+                targetUserRealName, currency, amount, memo);
+            return await SubmitTransferTransaction(transferTransactionId, transferTransactionInfo);
+        }
 
-            return ErrorCode.None;
+        async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToTppTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Payway targetPayway, CurrencyType currency, decimal amount, string memo, string paymentPassword)
+        {
+            var checkPaymentPasswordResult = await CheckUserPaymentPassword(sourceAccountId, paymentPassword);
+            if (checkPaymentPasswordResult != ErrorCode.None)
+                return checkPaymentPasswordResult;
+
+            var transferTransactionInfo = await BuildTransferToTppTransactionInfo(sourceAccountId, targetAccount,
+               realName, targetPayway, currency, amount, memo);
+            return await SubmitTransferTransaction(transferTransactionId, transferTransactionInfo);
+        }
+
+        async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToBankTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Bank targetBank, CurrencyType currency, decimal amount, string memo, string paymentPassword)
+        {
+            var checkPaymentPasswordResult = await CheckUserPaymentPassword(sourceAccountId, paymentPassword);
+            if (checkPaymentPasswordResult != ErrorCode.None)
+                return checkPaymentPasswordResult;
+
+            var transferTransactionInfo = await BuildTransferToBankTransactionInfo(sourceAccountId, targetAccount,
+                 realName, targetBank, currency, amount, memo);
+            return await SubmitTransferTransaction(transferTransactionId, transferTransactionInfo);
+
+        }
+
+        async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo, string paymentPassword)
+        {
+            var checkPaymentPasswordResult = await CheckUserPaymentPassword(sourceAccountId, paymentPassword);
+            if (checkPaymentPasswordResult != ErrorCode.None)
+                return checkPaymentPasswordResult;
+
+            var transferTransactionInfo = await BuildTransferToRippleTransactionInfo(sourceAccountId,
+                                          rippleAddress, currency, amount, memo);
+            return await SubmitTransferTransaction(transferTransactionId, transferTransactionInfo);
+
         }
 
         async Task<ErrorCode> ITransferTransactionManager.MarkAsProcessing(Guid transferTransactionId, Guid managerId)
@@ -89,7 +112,7 @@ namespace Dotpay.Actor.Service.Implementations
 
             if (transactionMessage != null)
             {
-                await ProcessSubmitedTransferTransaction(transactionMessage);
+                await ProcessSubmitedTransferTransactionMessage(transactionMessage);
                 return;
             }
 
@@ -148,28 +171,181 @@ namespace Dotpay.Actor.Service.Implementations
 
         #region Private Methods
 
+        #region BuildTransferTransactionInfo
+
+        private async Task<TransferTransactionInfo> BuildTransferToDotpayTransactionInfo(Guid sourceAccountId, Guid targetAccountId,
+           string targetUserRealName, CurrencyType currency, decimal amount, string memo)
+        {
+            var sourceAccount = GrainFactory.GetGrain<IAccount>(sourceAccountId);
+            var sourceUserId = await sourceAccount.GetOwnerId();
+            var sourceUser = GrainFactory.GetGrain<IUser>(sourceUserId);
+            var sourceUserInfo = await sourceUser.GetUserInfo();
+            var transferFromDotpayinfo = new TransferFromDotpayInfo(sourceAccountId)
+            {
+                Email = sourceUserInfo.Email,
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway = Payway.Dotpay,
+                UserId = sourceUserId
+            };
+
+            var targetAccount = GrainFactory.GetGrain<IAccount>(targetAccountId);
+            var targetUserId = await targetAccount.GetOwnerId();
+            var targetUser = GrainFactory.GetGrain<IUser>(targetUserId);
+            var targetUserInfo = await targetUser.GetUserInfo();
+            var transferToDotpayinfo = new TransferToDotpayTargetInfo()
+            {
+                AccountId = targetAccountId,
+                Email = targetUserInfo.Email,
+                UserLoginName = targetUserInfo.LoginName,
+                Payway = Payway.Dotpay,
+                UserId = targetUserId,
+                RealName = targetUserRealName
+            };
+
+            var transferTransactionInfo = new TransferTransactionInfo(transferFromDotpayinfo, transferToDotpayinfo,
+                currency, amount, memo);
+
+
+            return transferTransactionInfo;
+        }
+        private async Task<TransferTransactionInfo> BuildTransferToTppTransactionInfo(Guid sourceAccountId, string targetAccount, string realName,
+            Payway targetPayway, CurrencyType currency, decimal amount, string memo)
+        {
+            var sourceAccount = GrainFactory.GetGrain<IAccount>(sourceAccountId);
+            var sourceUserId = await sourceAccount.GetOwnerId();
+            var sourceUser = GrainFactory.GetGrain<IUser>(sourceUserId);
+            var sourceUserInfo = await sourceUser.GetUserInfo();
+            var transferFromDotpayinfo = new TransferFromDotpayInfo(sourceAccountId)
+            {
+                Email = sourceUserInfo.Email,
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway = Payway.Dotpay,
+                UserId = sourceUserId
+            };
+
+            var transferToTppTargetInfo = new TransferToTppTargetInfo()
+            {
+                Payway = targetPayway,
+                DestinationAccount = targetAccount,
+                RealName = realName
+            };
+
+            var transferTransactionInfo = new TransferTransactionInfo(transferFromDotpayinfo, transferToTppTargetInfo,
+                currency, amount, memo);
+
+
+            return transferTransactionInfo;
+        }
+        private async Task<TransferTransactionInfo> BuildTransferToBankTransactionInfo(Guid sourceAccountId, string targetAccount, string realName,
+          Bank targetBank, CurrencyType currency, decimal amount, string memo)
+        {
+            var sourceAccount = GrainFactory.GetGrain<IAccount>(sourceAccountId);
+            var sourceUserId = await sourceAccount.GetOwnerId();
+            var sourceUser = GrainFactory.GetGrain<IUser>(sourceUserId);
+            var sourceUserInfo = await sourceUser.GetUserInfo();
+            var transferFromDotpayinfo = new TransferFromDotpayInfo(sourceAccountId)
+            {
+                Email = sourceUserInfo.Email,
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway = Payway.Dotpay,
+                UserId = sourceUserId
+            };
+
+            var transferToBankTargetInfo = new TransferToBankTargetInfo()
+            {
+                Payway = Payway.Bank,
+                Bank = targetBank,
+                DestinationAccount = targetAccount,
+                RealName = realName
+            };
+
+            var transferTransactionInfo = new TransferTransactionInfo(transferFromDotpayinfo, transferToBankTargetInfo,
+                currency, amount, memo);
+
+
+            return transferTransactionInfo;
+        }
+        private async Task<TransferTransactionInfo> BuildTransferToRippleTransactionInfo(Guid sourceAccountId, string rippleAddress,
+            CurrencyType currency, decimal amount, string memo)
+        {
+            var sourceAccount = GrainFactory.GetGrain<IAccount>(sourceAccountId);
+            var sourceUserId = await sourceAccount.GetOwnerId();
+            var sourceUser = GrainFactory.GetGrain<IUser>(sourceUserId);
+            var sourceUserInfo = await sourceUser.GetUserInfo();
+            var transferFromDotpayinfo = new TransferFromDotpayInfo(sourceAccountId)
+            {
+                Email = sourceUserInfo.Email,
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway = Payway.Dotpay,
+                UserId = sourceUserId
+            };
+
+            var transferToBankTargetInfo = new TransferToRippleTargetInfo()
+            {
+                Payway = Payway.Ripple,
+                Destination = rippleAddress
+            };
+
+            var transferTransactionInfo = new TransferTransactionInfo(transferFromDotpayinfo, transferToBankTargetInfo,
+                currency, amount, memo);
+
+
+            return transferTransactionInfo;
+        }
+        #endregion
+        /// <summary>
+        /// 根据用户的AccountId去检查用户的支付密码
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        private async Task<ErrorCode> CheckUserPaymentPassword(Guid accountId, string paymentPassword)
+        {
+            var account = GrainFactory.GetGrain<IAccount>(accountId);
+            var userId = await account.GetOwnerId();
+
+            var user = GrainFactory.GetGrain<IUser>(userId);
+            return await user.CheckPaymentPassword(paymentPassword);
+        }
+
+        private async Task<ErrorCode> SubmitTransferTransaction(Guid transferTransactionId,
+            TransferTransactionInfo transactionInfo)
+        {
+            var transferFromDotpay = (TransferFromDotpayInfo)transactionInfo.Source;
+
+            var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
+            var transferTransactionSeq =
+                await this.GeneratorTransferTransactionSequenceNo(transactionInfo.Target.Payway);
+            await transferTransaction.Initialize(transferTransactionSeq, transactionInfo);
+
+            var message = new SubmitTransferTransactionMessage(transferTransactionId, transactionInfo.Source,
+                   transactionInfo.Target, transactionInfo.Currency, transactionInfo.Amount, transactionInfo.Memo);
+            await MessageProducterManager.GetProducter()
+                    .PublishMessage(message, MqTransferExchangeName, MqTransferRouteKey, true);
+            return await ProcessSubmitedTransferTransactionMessage(message);
+        }
+
         private Task<string> GeneratorTransferTransactionSequenceNo(Payway payway)
         {
             //sequenceNoGeneratorId设计中只有5位,SequenceNoType占据3位 payway占据2位
-            var sequenceNoGeneratorId = Convert.ToInt64(SequenceNoType.TransferTransaction + payway.ToString());
+            var sequenceNoGeneratorId = Convert.ToInt64(SequenceNoType.TransferTransaction.ToString("D") + payway.ToString("D"));
             var sequenceNoGenerator = GrainFactory.GetGrain<ISequenceNoGenerator>(sequenceNoGeneratorId);
 
             return sequenceNoGenerator.GetNext();
         }
 
-        private async Task<ErrorCode> ProcessSubmitedTransferTransaction(SubmitTransferTransactionMessage message)
+        private async Task<ErrorCode> ProcessSubmitedTransferTransactionMessage(SubmitTransferTransactionMessage message)
         {
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(message.TransferTransactionId);
             var sourceAccount = GrainFactory.GetGrain<IAccount>(message.Source.AccountId);
             IAccount targetAccount = null;
-            var sourceUserId = await targetAccount.GetOwnerId();
+            var sourceUserId = await sourceAccount.GetOwnerId();
             var sourceUserInfo = await GrainFactory.GetGrain<IUser>(sourceUserId).GetUserInfo();
 
             var source = new TransferFromDotpayInfo(message.Source.AccountId)
             {
                 UserId = sourceUserId,
-                UserLoginName = sourceUserInfo.NickName,
-                Payway=message.Source.Payway
+                UserLoginName = sourceUserInfo.LoginName,
+                Payway = message.Source.Payway
             };
 
             var target = message.Target as TransferToDotpayTargetInfo;
@@ -186,10 +362,9 @@ namespace Dotpay.Actor.Service.Implementations
                     Payway = target.Payway,
                     UserId = targetUserId,
                     RealName = target.RealName,
-                    UserLoginName = targetUserInfo.NickName
+                    UserLoginName = targetUserInfo.LoginName
                 };
             }
-
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.Submited)
             {
@@ -222,15 +397,13 @@ namespace Dotpay.Actor.Service.Implementations
 
 
                 var opCodeResults = await Task.WhenAll(preaparationTasks);
-                //如果转出账户金额不足
-                if (opCodeResults[0] == ErrorCode.AccountBalanceNotEnough)
+                //如果转出账户金额充足
+                if (opCodeResults[0] != ErrorCode.AccountBalanceNotEnough)
                 {
-                    await transferTransaction.Cancel(TransferTransactionCancelReason.BalanceNotEnough);
-                    await sourceAccount.CancelTransactionPreparation(message.TransferTransactionId);
-                }
-                //转入账户无需验证
-
-                await transferTransaction.ConfirmTransactionPreparation();
+                    await transferTransaction.ConfirmTransactionPreparation();
+                    //await transferTransaction.Cancel(TransferTransactionCancelReason.BalanceNotEnough);
+                    //await sourceAccount.CancelTransactionPreparation(message.TransferTransactionId);
+                } 
             }
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.PreparationCompleted)
