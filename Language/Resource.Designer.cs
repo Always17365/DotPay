@@ -268,6 +268,51 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 CertificateOfOfficer 的本地化字符串。
+        /// </summary>
+        internal static string IdNoTypeCertificateOfOfficer {
+            get {
+                return ResourceManager.GetString("IdNoTypeCertificateOfOfficer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 HKAndMacauResidentsPass 的本地化字符串。
+        /// </summary>
+        internal static string IdNoTypeHKAndMacauResidentsPass {
+            get {
+                return ResourceManager.GetString("IdNoTypeHKAndMacauResidentsPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 IdentificationCard 的本地化字符串。
+        /// </summary>
+        internal static string IdNoTypeIdentificationCard {
+            get {
+                return ResourceManager.GetString("IdNoTypeIdentificationCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Passport 的本地化字符串。
+        /// </summary>
+        internal static string IdNoTypePassport {
+            get {
+                return ResourceManager.GetString("IdNoTypePassport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TaiwanResidentsPass 的本地化字符串。
+        /// </summary>
+        internal static string IdNoTypeTaiwanResidentsPass {
+            get {
+                return ResourceManager.GetString("IdNoTypeTaiwanResidentsPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Make pay easy , Make pay cool. 的本地化字符串。
         /// </summary>
         internal static string indexBannerPayeasyPayCool {
@@ -610,11 +655,29 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
-        ///   查找类似 Payment password error 的本地化字符串。
+        ///   查找类似 Payment password error, if fail 3 times, you only can try again 5 hour later 的本地化字符串。
         /// </summary>
         internal static string transferPaymentPasswordError {
             get {
                 return ResourceManager.GetString("transferPaymentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Payment password max error time,please retry 5 hours later 的本地化字符串。
+        /// </summary>
+        internal static string transferPaymentPasswordMaxErrorTime {
+            get {
+                return ResourceManager.GetString("transferPaymentPasswordMaxErrorTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please set payment password first 的本地化字符串。
+        /// </summary>
+        internal static string transferPaymentPasswordNotInit {
+            get {
+                return ResourceManager.GetString("transferPaymentPasswordNotInit", resourceCulture);
             }
         }
         
@@ -678,6 +741,15 @@ namespace Dotpay.Language {
         internal static string Unkown_Exception_Please_refresh_page_and_retry_ {
             get {
                 return ResourceManager.GetString("Unkown Exception,Please refresh page and retry.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please verify your identity first 的本地化字符串。
+        /// </summary>
+        internal static string verifyIdentityFirst {
+            get {
+                return ResourceManager.GetString("verifyIdentityFirst", resourceCulture);
             }
         }
         

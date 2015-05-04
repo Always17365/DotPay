@@ -14,12 +14,16 @@ namespace Dotpay.Front.Controllers
 {
     public class TransferController : BaseController
     {
+        #region Internal Transfer Page
         [Route("~/transfer")]
         [Route("~/transfer/index")]
         public ActionResult Internal()
         {
+            if (this.CurrentUser.IdentityInfo==null) return Redirect("/profile/identityverify?source=transfer");
+            if (!this.CurrentUser.IsInitPaymentPassword) return Redirect("/profile/setpaymentpassword?source=transfer");
             return View();
         }
+        #endregion
 
         #region ValidateAccount
         [Route("~/transfer/validateaccount")]
@@ -44,7 +48,7 @@ namespace Dotpay.Front.Controllers
                 userIdentity = await query.GetUserByLoginName(receiverAccount.Trim());
             }
 
-            if (userIdentity != null)
+            if (userIdentity != null&&userIdentity.IsActive)
                 return
                     Json(
                         new
@@ -103,7 +107,7 @@ namespace Dotpay.Front.Controllers
             {
                 ViewBag.TransferTransaction = transferTransaction;
             }
-            return View(); 
+            return View();
         }
 
         [Route("~/transfer/tpp/result")]
@@ -208,7 +212,7 @@ namespace Dotpay.Front.Controllers
                 if (tx != null)
                 {
                     var cmd = new SubmitTransferToDotpayTransactionCommand(txid, this.CurrentUser.AccountId,
-                        tx.DestinationAccountId, CurrencyType.Cny, tx.Amount,tx.Memo, tx.RealName,paymentPassword);
+                        tx.DestinationAccountId, CurrencyType.Cny, tx.Amount, tx.Memo, tx.RealName, paymentPassword);
                     await this.CommandBus.SendAsync(cmd);
 
                     if (cmd.CommandResult == ErrorCode.None)
@@ -219,6 +223,8 @@ namespace Dotpay.Front.Controllers
                         result = DotpayJsonResult.CreateFailResult(-3, this.Lang("transferPaymentPasswordError"));
                     else if (cmd.CommandResult == ErrorCode.PaymentPasswordNotInitialized)
                         result = DotpayJsonResult.CreateFailResult(-4, this.Lang("transferPaymentPasswordNotInit"));
+                    else if (cmd.CommandResult == ErrorCode.ExceedMaxPaymentPasswordFailTime)
+                        result = DotpayJsonResult.CreateFailResult(-5, this.Lang("transferPaymentPasswordMaxErrorTime"));
                 }
 
             }

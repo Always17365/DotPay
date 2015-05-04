@@ -102,20 +102,18 @@ var handleTransferToDotpay = function () {
                 $("#frontAccount").attr("readonly", "readonly");
                 $("#realAccount").val(result.account);
                 var field = data.field, $field = data.element;
-
-                $field
-                    .next('.validMessage[data-field="' + field + '"]')
-                    .hide();
+                console.log(1)
+                $field.nextUntil('[data-fv-validator="promise"][data-fv-for="' + field + '"]')
+                      .text(result.message).show();
             }
         }
 
     }).on('err.field.fv', function (e, data) {
         if (data.field === 'frontAccount' && data.validator === 'promise') {
-            var field = data.field, $field = data.element; t
+            var field = data.field, $field = data.element; 
 
-            $field
-                .next('.validMessage[data-field="' + field + '"]')
-                .hide();
+            $field.nextUntil('[data-fv-validator="promise"][data-fv-for="' + field + '"]')
+                  .hide();
         }
     });
 }
@@ -141,7 +139,7 @@ var handleConfrimTransferToDotpay = function () {
                 window.location.href = "/transfer/dotpay/result?txid=" + txid;
 
             } else {
-                $("#noticeBox").html("<h4>" + result.Message + "</h4>");
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class","note note-danger").show();
             }
         });
     })

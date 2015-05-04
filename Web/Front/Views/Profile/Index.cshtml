@@ -110,10 +110,19 @@
                             {
                                 <tr>
                                     <td class="hide600">@tx.CreateAt.ToString("yyyy-MM-dd")</td>
-                                    <td>@Html.Lang(tx.Type)-@Html.Lang(tx.Payway)<br>@(string.IsNullOrEmpty(tx.Destination)?"":Html.Lang("Receiver Account:")+tx.Destination)</td> 
+                                    <td>@Html.Lang(tx.Type)-@Html.Lang(tx.Payway)<br>@(string.IsNullOrEmpty(tx.Destination) ? "" : Html.Lang("Receiver Account:") + tx.Destination)</td>
                                     <td class="hide600">@tx.SequenceNo</td>
                                     <td>@(tx.Type.Contains("Deposit") ? tx.Amount.ToString("+#;0") : tx.Amount.ToString("-#;0"))</td>
-                                    <td>@Html.Lang(tx.Status)</td>
+                                    <td>
+                                        @if (tx.Status == "TransferTransactionStatusSubmited")
+                                        {
+                                            <a class='btn btn-info btn-sm'>付款</a>
+                                        }
+                                        else
+                                        {
+                                            @Html.Lang(tx.Status)
+                                        }
+                                    </td>
                                 </tr>
                             }
                         </tbody>

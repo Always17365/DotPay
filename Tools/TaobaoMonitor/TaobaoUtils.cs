@@ -111,7 +111,7 @@ namespace Dotpay.TaobaoMonitor
                 sessionList = taobaoSession.Select(dic => dic.Value).Where(s => s.AuthAt.AddDays(1) > DateTime.Now).ToList();
             }
 
-            if (sessionList.Count(s => s.AuthAt.AddHours(23) > DateTime.Now) == 0)
+            if (taobaoSession == null || sessionList.Count(s => s.AuthAt.AddHours(23) > DateTime.Now) < taobaoSession.Count)
             {
                 lock (NoticeLocker)
                 {
@@ -124,16 +124,16 @@ namespace Dotpay.TaobaoMonitor
                         _lastNoticeAt = DateTime.Now;
                         var title = "taobao session 超时或即将超时";
                         var msg = "";
-                        sessionList.ForEach(s =>
+                        taobaoSession.Select(t => t.Value).ForEach(s =>
                         {
-                            if (s.AuthAt.AddDays(1) > DateTime.Now)
+                            var leftMinutes = (int)(s.AuthAt.AddDays(1) - DateTime.Now).TotalMinutes;
+                            if (leftMinutes < 60 && leftMinutes > 0)
                             {
-                                var timespan = DateTime.Now - s.AuthAt.AddDays(1);
-                                msg += s.NickName + "的session即将超时,还剩余" + (int)Math.Abs(timespan.TotalMinutes) + "<br>";
+                                msg += s.NickName + "的session即将超时,还剩余" + leftMinutes + "<br>";
                             }
-                            else
+                            else if (leftMinutes < 0)
                             {
-                                msg += s.NickName + "session已超时<br>";
+                                msg += s.NickName + "的session已超时<br>";
                             }
                         });
 
@@ -165,7 +165,7 @@ namespace Dotpay.TaobaoMonitor
         /// </summary>
         /// <param name="sessionKey"></param>
         /// <returns></returns>
-        public static List<Trade> GetIncrementTaobaoTrade(string nickname,string sessionKey)
+        public static List<Trade> GetIncrementTaobaoTrade(string nickname, string sessionKey)
         {
 #if TAOBAODEBUG
             lock (locker)
@@ -190,7 +190,7 @@ namespace Dotpay.TaobaoMonitor
 
             if (response.IsError)
             {
-                Log.Error("GetCompletePaymentOrder Error:" + nickname +"-->"+ response.ErrMsg + "--code=" + response.ErrCode);
+                Log.Error("GetCompletePaymentOrder Error:" + nickname + "-->" + response.ErrMsg + "--code=" + response.ErrCode);
             }
 
             return response.Trades;

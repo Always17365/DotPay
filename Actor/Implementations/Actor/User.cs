@@ -17,12 +17,15 @@ namespace Dotpay.Actor.Implementations
     public class User : EventSourcingGrain<User, IUserState>, IUser
     {
         private readonly List<DateTime> _loginFailCounter = new List<DateTime>();
+        private readonly List<DateTime> _paymentPasswordFailCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetLoginPasswordCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetPaymentPasswordCounter = new List<DateTime>();
         private DateTime lastResetActiveTokenAt;
         private const int MAX_RETRY_LOGIN_TIMES = 5;
+        private const int MAX_RETRY_PAYMENT_PASSWORD_TIMES = 3;
         private const int MAX_FORGET_PASSWORD_TIMES = 3;
-        private readonly static TimeSpan LimitPeriod = TimeSpan.FromHours(1);
+        private readonly static TimeSpan LoginRetryLimitPeriod = TimeSpan.FromHours(1);
+        private readonly static TimeSpan PaymentRetryLimitPeriod = TimeSpan.FromHours(5);
 
         #region IUser
         async Task<ErrorCode> IUser.Register(string email, string loginPassword, Lang lang, string activeToken)
@@ -207,7 +210,7 @@ namespace Dotpay.Actor.Implementations
         async Task<Tuple<ErrorCode, int>> IUser.Login(string loginPassword, string ip)
         {
             var now = DateTime.Now;
-            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.SkipWhile(f => f.Add(LimitPeriod) > DateTime.Now).Count();
+            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.SkipWhile(f => f.Add(LoginRetryLimitPeriod) > DateTime.Now).Count();
             if (remainRetryCounter <= 0)
                 return new Tuple<ErrorCode, int>(ErrorCode.ExceedMaxLoginFailTime, 0);
             else
@@ -232,13 +235,10 @@ namespace Dotpay.Actor.Implementations
 
         Task<ErrorCode> IUser.CheckLoginPassword(string loginPassword)
         {
-            if (string.IsNullOrEmpty(this.State.PaymentPassword))
-                return Task.FromResult(ErrorCode.PaymentPasswordNotInitialized);
-
             if (this.State.LoginPassword == PasswordHelper.EncryptMD5(loginPassword + this.State.Salt))
                 return Task.FromResult(ErrorCode.None);
-
-            return Task.FromResult(ErrorCode.Unknow);
+            else
+                return Task.FromResult(ErrorCode.LoginPasswordError);
         }
 
         Task<ErrorCode> IUser.CheckPaymentPassword(string paymentPassword)
@@ -249,7 +249,14 @@ namespace Dotpay.Actor.Implementations
             if (this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt))
                 return Task.FromResult(ErrorCode.None);
 
-            return Task.FromResult(ErrorCode.Unknow);
+             var now = DateTime.Now;
+             var remainRetryCounter = MAX_RETRY_PAYMENT_PASSWORD_TIMES - _paymentPasswordFailCounter.SkipWhile(f => f.Add(PaymentRetryLimitPeriod) > DateTime.Now).Count();
+            if (remainRetryCounter <= 0)
+                return Task.FromResult(ErrorCode.ExceedMaxPaymentPasswordFailTime)  ;
+            else
+                this._paymentPasswordFailCounter.Add(DateTime.Now); 
+
+            return Task.FromResult(ErrorCode.PaymentPasswordError);
         }
 
         async Task<ErrorCode> IUser.ModifyLoginPassword(string oldLoginPassword, string newLoginPassword)

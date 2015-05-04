@@ -36,7 +36,7 @@ namespace Dotpay.Application
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseLog4net()
-                        .Start();
+                        .UseDefaultJsonSerialaizer();
             var mqConnectionString = ConfigurationManagerWrapper.GetDBConnectionString("messageQueueServerConnectionString");
             var factory = new ConnectionFactory() { Uri = mqConnectionString, AutomaticRecoveryEnabled = true };
 

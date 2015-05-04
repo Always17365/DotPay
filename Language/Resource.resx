@@ -334,6 +334,30 @@
     <value>System Error</value>
   </data>
   <data name="transferPaymentPasswordError" xml:space="preserve">
-    <value>Payment password error</value>
+    <value>Payment password error, if fail 3 times, you only can try again 5 hour later</value>
+  </data>
+  <data name="transferPaymentPasswordNotInit" xml:space="preserve">
+    <value>Please set payment password first</value>
+  </data>
+  <data name="transferPaymentPasswordMaxErrorTime" xml:space="preserve">
+    <value>Payment password max error time,please retry 5 hours later</value>
+  </data>
+  <data name="verifyIdentityFirst" xml:space="preserve">
+    <value>Please verify your identity first</value>
+  </data>
+  <data name="IdNoTypeCertificateOfOfficer" xml:space="preserve">
+    <value>CertificateOfOfficer</value>
+  </data>
+  <data name="IdNoTypeHKAndMacauResidentsPass" xml:space="preserve">
+    <value>HKAndMacauResidentsPass</value>
+  </data>
+  <data name="IdNoTypeIdentificationCard" xml:space="preserve">
+    <value>IdentificationCard</value>
+  </data>
+  <data name="IdNoTypePassport" xml:space="preserve">
+    <value>Passport</value>
+  </data>
+  <data name="IdNoTypeTaiwanResidentsPass" xml:space="preserve">
+    <value>TaiwanResidentsPass</value>
   </data>
 </root>

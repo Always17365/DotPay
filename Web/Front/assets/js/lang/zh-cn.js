@@ -38,5 +38,11 @@
     receiverAccountIsRequited: "收款人账号不能为空",
     transferAmountIsRequited: "转账金额不能为空",
     transferAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
-    paymentPasswordIsRequited:"请输入支付密码",
+    paymentPasswordIsRequited: "请输入支付密码",
+    //setpaymentpassword 
+    paymentPasswordIsRequited_Set: "请输入支付密码",
+    paymentPasswordNotMatch: "支付密码不能少于6位",
+    confirmPaymentPasswordIsRequited: "请再次输入支付密码",
+    confirmPaymentPasswordMustEquals: "两次输入密码不一致",
+    paymentPasswordInitializeSuccess: "支付密码设置成功",
 };

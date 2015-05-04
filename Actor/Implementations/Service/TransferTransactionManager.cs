@@ -398,12 +398,13 @@ namespace Dotpay.Actor.Service.Implementations
 
                 var opCodeResults = await Task.WhenAll(preaparationTasks);
                 //如果转出账户金额充足
-                if (opCodeResults[0] != ErrorCode.AccountBalanceNotEnough)
+                if (opCodeResults[0] == ErrorCode.AccountBalanceNotEnough)
                 {
-                    await transferTransaction.ConfirmTransactionPreparation();
+                    return ErrorCode.AccountBalanceNotEnough;
                     //await transferTransaction.Cancel(TransferTransactionCancelReason.BalanceNotEnough);
                     //await sourceAccount.CancelTransactionPreparation(message.TransferTransactionId);
-                } 
+                }
+                await transferTransaction.ConfirmTransactionPreparation();
             }
 
             if (await transferTransaction.GetStatus() == TransferTransactionStatus.PreparationCompleted)

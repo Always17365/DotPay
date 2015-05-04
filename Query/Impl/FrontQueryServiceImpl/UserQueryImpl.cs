@@ -22,7 +22,7 @@ namespace Dotpay.FrontQueryServiceImpl
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
             var filter = new BsonDocument("Email", email.ToLower());
-            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,CreateAt:1,AccountId:1,IdentityInfo:1,Email:1,_id:0}");
+            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,CreateAt:1,PaymentPassword:1,AccountId:1,IdentityInfo:1,Email:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
                 Limit = 1,
@@ -42,10 +42,11 @@ namespace Dotpay.FrontQueryServiceImpl
                             UserId = new Guid(row["Id"].AsString),
                             AccountId = new Guid(row["AccountId"].AsString),
                             Email = row["Email"].AsString,
-                            LoginName = row.GetValue("LoginName", BsonValue.Create("")).AsString,
+                            LoginName = row.GetValue("LoginName", "").AsString,
                             LastLoginAt = row.GetValue("LastLoginAt", 0d).AsDouble.ToNullableLocalDateTime(),
                             CreateAt = row.GetValue("CreateAt", 0d).AsDouble.ToLocalDateTime(),
                             IsActive = row["IsVerified"].AsBoolean,
+                            IsInitPaymentPassword = !string.IsNullOrEmpty(row.GetValue("PaymentPassword", "").AsString),
                             IdentityInfo = string.IsNullOrEmpty(identityInfoStr) ? null : IoC.Resolve<IJsonSerializer>().Deserialize<IdentityInfoViewModel>(identityInfoStr)
                         };
                         result.Add(item);
@@ -61,7 +62,7 @@ namespace Dotpay.FrontQueryServiceImpl
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
             var filter = new BsonDocument("LoginName", loginName.ToLower());
-            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,CreateAt:1,AccountId:1,IdentityInfo:1,Email:1,_id:0}");
+            var projection = BsonDocument.Parse("{Id:1,LoginName:1,IsVerified:1,LastLoginAt:1,CreateAt:1,PaymentPassword:1,AccountId:1,IdentityInfo:1,Email:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
                 Limit = 1,
@@ -84,6 +85,7 @@ namespace Dotpay.FrontQueryServiceImpl
                         LastLoginAt = row.GetValue("LastLoginAt", 0d).AsDouble.ToNullableLocalDateTime(),
                         CreateAt = row.GetValue("CreateAt", 0d).AsDouble.ToLocalDateTime(),
                         IsActive = row["IsVerified"].AsBoolean,
+                        IsInitPaymentPassword = !string.IsNullOrEmpty(row.GetValue("PaymentPassword", "").AsString),
                         IdentityInfo = string.IsNullOrEmpty(identityInfoStr) ? null : IoC.Resolve<IJsonSerializer>().Deserialize<IdentityInfoViewModel>(identityInfoStr)
                     };
                 }

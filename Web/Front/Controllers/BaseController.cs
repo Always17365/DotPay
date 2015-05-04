@@ -160,7 +160,7 @@ namespace Dotpay.Front.Controllers
                 //如果过滤器中包含该枚举值，则跳过此次循环
                 if (filter != null && filter.Contains(crtEnum)) continue;
 
-                enumValueList.Add(crtEnum.ToString("D"),  Language.LangHelpers.Lang(crtEnum.ToString()));
+                enumValueList.Add(crtEnum.ToString("D"),  Language.LangHelpers.Lang(crtEnum.ToLangString()));
 
             }
 

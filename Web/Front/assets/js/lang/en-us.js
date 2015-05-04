@@ -38,5 +38,11 @@
     receiverAccountIsRequited: "Receiver account is required",
     transferAmountIsRequited: "The amount is required",
     transferAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
-    paymentPasswordIsRequited: "payment password is requited",
+    paymentPasswordIsRequited: "Please type your payment password",
+    //setpaymentpassword 
+    paymentPasswordIsRequited_Set: "Payment password is required",
+    paymentPasswordNotMatch: "Payment password must be more than 6",
+    confirmPaymentPasswordIsRequited: "Please type your payment password again",
+    confirmPaymentPasswordMustEquals: "confirm password not equals payment password",
+    paymentPasswordInitializeSuccess: "payment passwort initialized success",
 };

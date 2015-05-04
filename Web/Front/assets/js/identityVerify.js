@@ -24,7 +24,7 @@ var handleIdentityVerify = function () {
                         message:"",
                         callback: function (value, validator, $field) {
                     
-                            var idtype = $("#identityVerifyForm [name='idNoType']").val();
+                            var idtype = $("#identityVerifyForm [name='idType']").val();
                             var reg = /^(^\d{18}$|^\d{17}(\d|X|x))$/;
                             if (idtype == 1 && !reg.test(value)) {
                                 return {

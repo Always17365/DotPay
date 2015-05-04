@@ -227,6 +227,7 @@
     <Content Include="assets\img\work-6.jpg" />
     <Content Include="assets\img\work-7.jpg" />
     <Content Include="assets\img\work-8.jpg" />
+    <Content Include="assets\js\setpaymentpwd.js" />
     <Content Include="assets\js\transfer.js" />
     <Content Include="assets\js\deposit.js" />
     <Content Include="assets\js\lang\en-us.js" />
@@ -574,6 +575,7 @@
     <Content Include="Views\Transfer\Internal.cshtml" />
     <Content Include="Views\Transfer\Taobao.cshtml" />
     <Content Include="Views\Transfer\YiShengRedirect.cshtml" />
+    <Content Include="Views\Profile\SetPaymentPassword.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />

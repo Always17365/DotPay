@@ -54,7 +54,7 @@ namespace Dotpay.TaobaoMonitor
                         .UseAutofac()
                         .UseCouchbaseCache(clientConfig, "dotpay")
                         .UseLog4net()
-                        .Start();
+                        .UseDefaultJsonSerialaizer();
 
             EmailHelper.Config("smtp.exmail.qq.com", "webmaster@dotpay.co", "webmaster@dotpay.co", "lwt#dotpay1");
         }

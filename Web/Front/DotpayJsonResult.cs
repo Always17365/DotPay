@@ -27,14 +27,14 @@ namespace Dotpay.Front
             get { return new DotpayJsonResult(-100, LangHelpers.Lang("systemProcessError")); }
         }
 
-        public static DotpayJsonResult UnknowFail
-        {
-            get
-            {
-                return
-                    DotpayJsonResult.CreateFailResult(LangHelpers.Lang("Unkown Exception,Please refresh page and retry."));
-            }
-        }
+        //public static DotpayJsonResult SystemError
+        //{
+        //    get
+        //    {
+        //        return
+        //            DotpayJsonResult.CreateFailResult(LangHelpers.Lang("Unkown Exception,Please refresh page and retry."));
+        //    }
+        //}
 
         public static DotpayJsonResult CreateSuccessResult(string message = "")
         {

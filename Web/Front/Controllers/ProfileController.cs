@@ -45,11 +45,24 @@ namespace Dotpay.Front.Controllers
             return View();
         }
 
+        #region 设置支付密码
+        [Route("~/profile/setpaymentpassword")]
+        [HttpGet] 
+        public ActionResult SetPaymentPassword(string source)
+        {
+            ViewBag.Message = this.Lang("transferPaymentPasswordNotInit");
+            return View();
+        }
+
+        #endregion
+
         #region 实名认证
         [HttpGet]
         [Route("~/profile/identityverify")]
-        public ActionResult IdentityVerify()
+        public ActionResult IdentityVerify(string source)
         {
+            if (source.NullSafe().Trim().Equals("transfer"))
+                ViewBag.Message =this.Lang("verifyIdentityFirst");
             return View();
         }
 
@@ -60,7 +73,7 @@ namespace Dotpay.Front.Controllers
         {
             var validator = new IdentityInfoViewModelValidator();
             var validResult = validator.Validate(identity);
-            var result = DotpayJsonResult.UnknowFail;
+            var result = DotpayJsonResult.SystemError;
             if (validResult.IsValid)
             {
                 var cmd = new UserIdentityVerifyCommand(this.CurrentUser.UserId, identity.FullName, identity.IdNo, identity.IdType);

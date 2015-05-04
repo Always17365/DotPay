@@ -39,8 +39,15 @@
                 </span>
             </div>
             <hr />
-            <div class="note" id="noticeBox" style="display: none;">
-            </div>
+
+            @if (ViewBag.CurrentUser.IdentityInfo == null && ViewBag.Message != null)
+            {
+                <div class="note note-warning" id="noticeBox">@ViewBag.Message</div>
+            }
+            else
+            {
+                <div class="note" id="noticeBox" style="display: none;"></div>
+            }
             @if (ViewBag.CurrentUser.IdentityInfo == null)
             {
                 <form id="identityVerifyForm" class="form-horizontal">

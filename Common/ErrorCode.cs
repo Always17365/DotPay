@@ -11,7 +11,7 @@ namespace Dotpay.Common
         Unknow = 1,
         #region user
         UserErrorBase = 1000,
-        EmailAlreadyRegisted = UserErrorBase + 1,
+        LoginPasswordError = UserErrorBase + 1,
         LoginNameOrPasswordError = UserErrorBase + 2,
         PaymentPasswordError = UserErrorBase + 3,
         PaymentPasswordNotInitialized = UserErrorBase + 4,
@@ -21,8 +21,8 @@ namespace Dotpay.Common
         OldPaymentPasswordError = UserErrorBase + 8,
         RealNameVerifationHasPassed = UserErrorBase + 9,
         UserMobileIsNotSet = UserErrorBase + 10,
-        SmsPasswordError = UserErrorBase + 11,
-        EmailHasVerified = UserErrorBase + 12,
+        ExceedMaxPaymentPasswordFailTime = UserErrorBase + 11,
+        SmsPasswordError = UserErrorBase + 12,
         MobileHasSet = UserErrorBase + 13,
         ExceedMaxLoginFailTime = UserErrorBase + 14,
         ExceedMaxResetLoginPasswordRequestTime = UserErrorBase + 15,      //登陆密码重置次数过多，控制Email发送数量

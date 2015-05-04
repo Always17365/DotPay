@@ -337,6 +337,30 @@
     <value>收款人:</value>
   </data>
   <data name="transferPaymentPasswordError" xml:space="preserve">
-    <value>支付密码错误</value>
+    <value>支付密码错误，输入错误3次，将被锁定5个小时</value>
+  </data>
+  <data name="transferPaymentPasswordNotInit" xml:space="preserve">
+    <value>您还没有设置支付密码，请先设置支付密码</value>
+  </data>
+  <data name="transferPaymentPasswordMaxErrorTime" xml:space="preserve">
+    <value>支付密码已达最大重试次数，请5个小时之后再次重试</value>
+  </data>
+  <data name="verifyIdentityFirst" xml:space="preserve">
+    <value>请先进行实名认证</value>
+  </data>
+  <data name="IdNoTypeCertificateOfOfficer" xml:space="preserve">
+    <value>军官证</value>
+  </data>
+  <data name="IdNoTypeHKAndMacauResidentsPass" xml:space="preserve">
+    <value>港澳通行证</value>
+  </data>
+  <data name="IdNoTypeIdentificationCard" xml:space="preserve">
+    <value>身份证</value>
+  </data>
+  <data name="IdNoTypePassport" xml:space="preserve">
+    <value>护照</value>
+  </data>
+  <data name="IdNoTypeTaiwanResidentsPass" xml:space="preserve">
+    <value>台湾通行证</value>
   </data>
 </root>

@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 1 })
 <div class="profile-main">
     <div class="sub-nav ">
         <div class="container">
@@ -12,8 +13,8 @@
                     <a href="/profile">基本信息 <i class="icon-chevron-right"></i></a>
                 </li>
                 @*<li>
-                    <a href="/profile/mobile">手机设置<i class="icon-chevron-right"></i></a>
-                </li>*@
+                        <a href="/profile/mobile">手机设置<i class="icon-chevron-right"></i></a>
+                    </li>*@
                 <li>
                     <a href="#">实名认证<i class="icon-chevron-right"></i></a>
                 </li>
@@ -36,7 +37,7 @@
                     <td colspan="3">
                         <div class="col-sm-2 col-lg-1"><img class="head-icon" src="~/assets/img/head.gif" /></div>
                         <div class="base-info col-sm-8">
-                            <p>账户：@ViewBag.CurrentUser.Email</p> 
+                            <p>账户：@ViewBag.CurrentUser.Email</p>
                             <p>
                                 真实姓名：
                                 @if (ViewBag.CurrentUser.IdentityInfo != null)
@@ -83,9 +84,16 @@
                     </td>
                     <td>
                         <div class="base-content pull-right">
-                            <a class="app-link" href="/deposit/cny">修改支付密码</a>
-                            <span>|</span>
-                            <a class="app-link" href="javascript:void(0)" onclick="forgetpaypwd();">找回支付密码</a>
+                            @if (ViewBag.CurrentUser.IsInitPaymentPassword)
+                            {
+                                <a class="app-link" href="/profile/modifypaymentpassword">修改支付密码</a>
+                                <span>|</span>
+                                <a class="app-link" href="/profile/forgetpaymentpassword">找回支付密码</a>
+                            }
+                            else
+                            {
+                                <a class="app-link" href="/profile/setpaymentpassword">设置支付密码</a>
+                            }
                         </div>
                     </td>
                 </tr>
@@ -99,7 +107,7 @@
                         <div class="base-content">
                             @if (ViewBag.CurrentUser.IdentityInfo != null)
                             {
-                                @("身份证号码 " + ViewBag.CurrentUser.IdentityInfo.IdNo.Substring(0,2) + "****************" + ViewBag.CurrentUser.IdentityInfo.IdNo[17])
+                                @("身份证号码 " + ViewBag.CurrentUser.IdentityInfo.IdNo.Substring(0, 2) + "****************" + ViewBag.CurrentUser.IdentityInfo.IdNo[17])
                             }
                             else
                             {

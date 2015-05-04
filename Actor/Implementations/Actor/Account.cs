@@ -35,6 +35,7 @@ namespace Dotpay.Actor.Implementations
         async Task<ErrorCode> IAccount.AddTransactionPreparation(Guid transactionId, TransactionType transactionType,
             PreparationType preparationType, CurrencyType currency, decimal amount)
         {
+            if (this.State.TransactionPreparations == null) this.State.TransactionPreparations = new Dictionary<Guid, TransactionPreparation>();
             if (preparationType == PreparationType.DebitPreparation && this.GetAvailableBalance(currency) < amount)
                 return ErrorCode.AccountBalanceNotEnough;
 
@@ -52,7 +53,6 @@ namespace Dotpay.Actor.Implementations
         async Task IAccount.CommitTransactionPreparation(Guid transactionId)
         {
             TransactionPreparation transferTransactionPreparationInfo;
-
             if (this.State.TransactionPreparations != null && this.State.TransactionPreparations.TryGetValue(transactionId, out transferTransactionPreparationInfo))
             {
                 var currentBalance = this.GetCurrentBalance(transferTransactionPreparationInfo.Currency);

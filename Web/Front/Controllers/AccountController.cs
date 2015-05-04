@@ -52,7 +52,7 @@ namespace Dotpay.Front.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(UserRegisterViewModel user)
         {
-            var result = DotpayJsonResult.UnknowFail;
+            var result = DotpayJsonResult.SystemError;
             var validator = new UserRegisterViewModelValidator();
             var validResult = validator.Validate(user);
 
@@ -103,7 +103,7 @@ namespace Dotpay.Front.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SignIn(UserLoginViewModel user)
         {
-            var result = DotpayJsonResult.UnknowFail;
+            var result = DotpayJsonResult.SystemError;
             var validator = new UserLoginViewModelValidator();
             var validResult = validator.Validate(user);
             var MAX_RETRY_COUNT = 5;
@@ -176,7 +176,7 @@ namespace Dotpay.Front.Controllers
         #region logout
 
         [Route("~/logout")]
-        [HttpGet] 
+        [HttpGet]
         public ActionResult Logout()
         {
             Session.Abandon();
@@ -222,7 +222,7 @@ namespace Dotpay.Front.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResendActiveEmail()
         {
-            var result = DotpayJsonResult.UnknowFail;
+            var result = DotpayJsonResult.SystemError;
             var email = this.CurrentUnactiveUserEmail;
             if (!string.IsNullOrEmpty(email))
             {
@@ -250,6 +250,32 @@ namespace Dotpay.Front.Controllers
             return Json(result);
         }
         #endregion
+
+        #region 设置支付密码
+        [Route("~/set/paymentpassword")]
+        [HttpPost]
+        public async Task<ActionResult> SetPaymentPassword(string paymentPassword, string confirmpassword)
+        {
+            var result = DotpayJsonResult.SystemError;
+
+            if (!paymentPassword.IsEmpty() && !confirmpassword.IsEmpty())
+            {
+                try
+                {
+                    var cmd = new InitalizePaymentPasswordCommand(this.CurrentUser.UserId, paymentPassword);
+                    await this.CommandBus.SendAsync(cmd);
+                    this.CurrentUser.IsInitPaymentPassword = true;
+                    result = DotpayJsonResult.Success;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Active Exception", ex);
+                }
+            }
+            return Json(result);
+        }
+        #endregion
+
 
     }
 }

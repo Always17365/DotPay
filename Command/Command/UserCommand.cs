@@ -151,6 +151,7 @@ namespace Dotpay.Command
     }
     #endregion
 
+
     #region Forget Payment Password Command
     public class ForgetPaymentPasswordCommand : DFramework.Command<ErrorCode>
     {
@@ -167,7 +168,7 @@ namespace Dotpay.Command
         public Lang Lang { get; private set; }
     }
 
-    #endregion
+    #endregion 
 
     #region Reset Payment Password Command
     public class ResetPaymentPasswordCommand : DFramework.Command<ErrorCode>

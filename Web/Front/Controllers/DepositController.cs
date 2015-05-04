@@ -46,7 +46,7 @@ namespace Dotpay.Front.Controllers
         {
             if (errorCode.HasValue || string.IsNullOrEmpty(bank) || string.IsNullOrEmpty(orderBizNo) || amount <= 0)
             {
-                ViewBag.ErrorMessage = DotpayJsonResult.UnknowFail.Message;
+                ViewBag.ErrorMessage = DotpayJsonResult.SystemError.Message;
             }
             else
             {
@@ -343,7 +343,7 @@ namespace Dotpay.Front.Controllers
         [Route("~/deposit/alipay/submit")]
         public async Task<ActionResult> AlipayDepositSubmit(decimal amount)
         {
-            var result = DotpayJsonResult.UnknowFail;
+            var result = DotpayJsonResult.SystemError;
             if (amount <= 0) result = DotpayJsonResult.CreateFailResult(this.Lang("Invalid amount"));
             else
             {

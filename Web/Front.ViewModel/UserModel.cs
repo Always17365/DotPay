@@ -16,6 +16,7 @@ namespace Dotpay.Front.ViewModel
         public DateTime? CreateAt { get; set; }
         public IdentityInfoViewModel IdentityInfo { get; set; }
         public bool IsActive { get; set; }
+        public bool IsInitPaymentPassword { get; set; }
     }
     [Serializable]
     public class IdentityInfoViewModel

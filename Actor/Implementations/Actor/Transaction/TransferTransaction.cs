@@ -188,7 +188,8 @@ namespace Dotpay.Actor.Implementations
                 this.State.RippleTxStatus = RippleTransactionStatus.Initialized;
             }
 
-            this.State.CreateAt = @event.UTCTimestamp;
+            this.State.CreateAt = @event.UTCTimestamp; 
+            this.State.WriteStateAsync();
         }
 
         private void Handle(ConfirmedTransferTransactionPreparationEvent @event)
