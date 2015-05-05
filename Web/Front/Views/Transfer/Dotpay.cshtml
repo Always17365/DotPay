@@ -14,13 +14,13 @@
                     <a href="#">转账到点付<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/deposit/alipay">转账到支付宝<i class="icon-chevron-right"></i></a>
+                    <a href="/transfer/alipay">转账到支付宝<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/deposit/taobao">转账到银行<i class="icon-chevron-right"></i></a>
+                    <a href="/transfer/bank">转账到银行<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/deposit/taobao">转账到Ripple<i class="icon-chevron-right"></i></a>
+                    <a href="/transfer/ripple">转账到Ripple<i class="icon-chevron-right"></i></a>
                 </li>
             </ul>
         </div>
@@ -31,7 +31,7 @@
                 <h4>转账到点付</h4>
             </div>
             <hr />
-            <form id="transferToDotpayForm" class="form-horizontal" method="POST" action="~/deposit/epsubmit">
+            <form id="transferToDotpayForm" class="form-horizontal">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="frontAccount" class="col-sm-3 col-md-3 col-lg-2 control-label">收款人：</label>

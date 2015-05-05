@@ -5,50 +5,65 @@
 @{
     Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
-@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 4 })
 <div class="profile-main">
     <div class="sub-nav ">
         <div class="container">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/deposit/index">在线支付<i class="icon-chevron-right"></i></a>
+                    <a href="/transfer/index">转账到点付<i class="icon-chevron-right"></i></a>
                 </li>
                 <li class="active">
-                    <a href="#">支付宝<i class="icon-chevron-right"></i></a>
+                    <a href="#">转账到支付宝<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
-                    <a href="/deposit/taobao">淘宝<i class="icon-chevron-right"></i></a>
+                    <a href="/transfer/bank">转账到银行<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/transfer/ripple">转账到Ripple<i class="icon-chevron-right"></i></a>
                 </li>
             </ul>
         </div>
-    </div> 
+    </div>
     <div class="container deposit">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <div>
-                <h4>支付宝充值</h4>
+                <h4>转账到支付宝</h4>
             </div>
-            <hr/>
-            <div class="note" id="noticeBox" style="display: none;">
-            </div>
-            <form id="depositAlipayForm" class="form-horizontal" method="POST" action="~/deposit/alipay/submit">
+            <hr />
+            <form id="transferToAlipayForm" class="form-horizontal">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
-                    <label class="col-sm-2 col-md-2 control-label" for="amount">充值金额</label>
-                    <div class="col-sm-4 controls">
-                        <input class="form-control" id="amount" name="amount" type="text" autocomplete="off">
+                    <label for="receiverAccount" class="col-sm-3 col-md-3 col-lg-2 control-label">收款账号：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="off" id="receiverAccount" name="receiverAccount" placeholder="手机号/邮箱">
                     </div>
-                    <div class="col-sm-2 col-md-2   controls">
-                        <input type="submit" class="btn btn-primary btn-large btn-block" value="下一步">
+                </div>
+                <div class="form-group">
+                    <label for="transferAmount" class="col-sm-3 col-md-3 col-lg-2  control-label">付款金额：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="transferAmount" name="transferAmount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="memo" class="col-sm-3 col-md-3 col-lg-2 control-label">备注：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="memo" name="memo" placeholder="转账">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                        <button type="submit" class="btn btn-primary">下一步</button>
                     </div>
                 </div>
             </form>
         </div>
-        <script>
+    </div>
+    <script>
         $(document).ready(function () {
-            $.getScript('/assets/js/deposit.js').done(function () {
-                Deposit.initAlipayDeposit();
+            $.getScript('/assets/js/transfer.js').done(function () {
+                Transfer.initTransferToAlipay();
             });
         });
-        </script>
-    </div>
+    </script>
 </div>

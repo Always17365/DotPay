@@ -115,7 +115,9 @@ namespace Dotpay.Actor.Implementations
 
         private void Handle(TransactionPreparationAddedEvent @event)
         {
-            this.State.TransactionPreparations.Add(@event.TransferTransactionPreparation.TransactionId, @event.TransferTransactionPreparation);
+            if (this.State.TransactionPreparations == null)
+                this.State.TransactionPreparations =new Dictionary<Guid, TransactionPreparation>();
+            this.State.TransactionPreparations.Add(@event.TransactionPreparation.TransactionId, @event.TransactionPreparation);
         }
         private void Handle(TransactionPreparationCommittedEvent @event)
         {

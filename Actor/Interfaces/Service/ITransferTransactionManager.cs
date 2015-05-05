@@ -11,10 +11,10 @@ namespace Dotpay.Actor.Service
 {
     public interface ITransferTransactionManager : Orleans.IGrainWithIntegerKey
     {
-        Task<ErrorCode> SubmitTransferToDotpayTransaction(Guid transferTransactionId,Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo,string paymentPassword);
-        Task<ErrorCode> SubmitTransferToTppTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Payway targetPayway, CurrencyType currency, decimal amount, string memo,string paymentPassword);
+        Task<ErrorCode> SubmitTransferToDotpayTransaction(Guid transferTransactionId, Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo, string paymentPassword);
+        Task<ErrorCode> SubmitTransferToTppTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Payway targetPayway, CurrencyType currency, decimal amount, string memo, string paymentPassword);
         Task<ErrorCode> SubmitTransferToBankTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Bank targetBank, CurrencyType currency, decimal amount, string memo, string paymentPassword);
-        Task<ErrorCode> SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo,string paymentPassword);
+        Task<ErrorCode> SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo, string paymentPassword);
         Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid managerId);
         Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid managerId, string reason);
         Task<ErrorCode> ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo);
@@ -25,16 +25,18 @@ namespace Dotpay.Actor.Service
 
     #region Mq Message
 
+    public enum TransferTransactionMessageType : uint
+    {
+        SubmitTransferTransactionMessage = 1,
+        RippleTransactionPresubmitMessage=2,
+        RippleTransactionResultMessage=3
+    }
+
     [Immutable]
     [Serializable]
     public class TransferTransactionMessage : MqMessage
     {
-        public TransferTransactionMessage(string typeName)
-        {
-            this.Type = typeName;
-        }
-
-        public string Type { get; private set; }
+        public uint Type { get; set; }
     }
 
     #region SubmitTransferTransactionMessage
@@ -43,20 +45,20 @@ namespace Dotpay.Actor.Service
     [Serializable]
     public class SubmitTransferTransactionMessage : TransferTransactionMessage
     {
-        public SubmitTransferTransactionMessage(Guid transferTransactionId, TransferFromDotpayInfo source,
-            TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
-            : base(typeof(SubmitTransferTransactionMessage).Name)
+        public SubmitTransferTransactionMessage(Guid transferTransactionId, Guid userId,
+            TransferTargetInfo target, CurrencyType currency, decimal amount, string memo, TransferTransactionMessageType type)
         {
-            this.Source = source;
+            this.Type = (uint)type;
             this.Target = target;
             this.Currency = currency;
             this.Amount = amount;
             this.Memo = memo;
             this.TransferTransactionId = transferTransactionId;
+            this.UserId = userId;
         }
 
         public Guid TransferTransactionId { get; private set; }
-        public TransferFromDotpayInfo Source { get; private set; }
+        public Guid UserId { get; set; }
         public TransferTargetInfo Target { get; private set; }
         public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }
@@ -72,16 +74,16 @@ namespace Dotpay.Actor.Service
     public class SubmitTransferTransactionToRippleMessage : MqMessage
     {
         public SubmitTransferTransactionToRippleMessage(Guid transferTransactionId,
-            TransferToRippleTargetInfo target, CurrencyType currency, decimal amount)
+            string destination, CurrencyType currency, decimal amount)
         {
             this.TransferTransactionId = transferTransactionId;
-            this.Target = target;
+            this.Destination = destination;
             this.Currency = currency;
             this.Amount = amount;
         }
 
         public Guid TransferTransactionId { get; private set; }
-        public TransferToRippleTargetInfo Target { get; private set; }
+        public string Destination { get; private set; }
         public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }
     }
@@ -95,14 +97,14 @@ namespace Dotpay.Actor.Service
     public class RippleTransactionPresubmitMessage : TransferTransactionMessage
     {
         public RippleTransactionPresubmitMessage(Guid transferTransactionId, string rippleTxId,
-            CurrencyType currency, decimal amount, long lastLedgerIndex)
-            : base(typeof(RippleTransactionPresubmitMessage).Name)
+            CurrencyType currency, decimal amount, long lastLedgerIndex, TransferTransactionMessageType type)
         {
             this.TransferTransactionId = transferTransactionId;
             this.RippleTxId = rippleTxId;
             this.Currency = currency;
             this.Amount = amount;
             this.LastLedgerIndex = lastLedgerIndex;
+            this.Type = (uint)type;
         }
 
         public Guid TransferTransactionId { get; private set; }
@@ -121,13 +123,13 @@ namespace Dotpay.Actor.Service
     public class RippleTransactionResultMessage : TransferTransactionMessage
     {
         public RippleTransactionResultMessage(Guid transferTransactionId, string rippleTxId, bool success,
-            RippleTransactionFailedType failedReason)
-            : base(typeof(RippleTransactionResultMessage).Name)
+            RippleTransactionFailedType failedReason, TransferTransactionMessageType type)
         {
             this.TransferTransactionId = transferTransactionId;
             this.RippleTxId = rippleTxId;
             this.Success = success;
             this.FailedReason = failedReason;
+            this.Type = (uint)type;
         }
 
         public Guid TransferTransactionId { get; private set; }

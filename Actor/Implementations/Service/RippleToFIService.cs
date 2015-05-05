@@ -58,7 +58,8 @@ namespace Dotpay.Actor.Service.Implementations
                 {
                     var rippleToFiQuoteInfo = await rippleToFiQuote.GetQuoteInfo();
                     await rippleToFiTx.Initialize(rippleToFiTxMessage.TxId, rippleToFiTxMessage.InvoiceId,
-                                  rippleToFiQuoteInfo.TransferTargetInfo, rippleToFiQuoteInfo.Amount,
+                                  rippleToFiQuoteInfo.Payway, rippleToFiQuoteInfo.Destination, rippleToFiQuoteInfo.RealName,
+                                  rippleToFiQuoteInfo.Currency,rippleToFiQuoteInfo.Amount,
                                   rippleToFiQuoteInfo.SendAmount, rippleToFiQuoteInfo.Memo);
                 }
             }

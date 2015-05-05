@@ -11,7 +11,7 @@ namespace Dotpay.Common.Enum
         /// <summary>
         /// 中国工商银行
         /// </summary> 
-        ICBC,
+        ICBC=1,
         /// <summary>
         /// 中国银行
         /// </summary> 

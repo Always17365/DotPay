@@ -37,9 +37,9 @@ namespace Dotpay.Command
         public string RealName { get; private set; }
         public string PaymentPassword { get; private set; }
     }
-    public class SubmitTransferToTppTransactionCommand : DFramework.Command<ErrorCode>
+    public class SubmitTransferToAlipayTransactionCommand : DFramework.Command<ErrorCode>
     {
-        public SubmitTransferToTppTransactionCommand(Guid transferTransactionId,Guid sourceAccountId, string targetAccount, Payway payway, CurrencyType currency, decimal amount, string memo, string realName, string paymentPassword)
+        public SubmitTransferToAlipayTransactionCommand(Guid transferTransactionId,Guid sourceAccountId, string targetAccount, Payway payway, CurrencyType currency, decimal amount, string memo, string realName, string paymentPassword)
         {
             Check.Argument.IsNotEmpty(transferTransactionId, "transferTransactionId");
             Check.Argument.IsNotEmpty(sourceAccountId, "sourceAccountId");
@@ -52,6 +52,7 @@ namespace Dotpay.Command
             this.SourceAccountId = sourceAccountId;
             this.TargetAccount = targetAccount;
             this.Currency = currency;
+            this.Payway = payway;
             this.Amount = amount;
             this.Memo = memo;
             this.RealName = realName;

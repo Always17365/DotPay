@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DFramework;
@@ -14,15 +16,47 @@ namespace Dotpay.Front.Controllers
 {
     public class TransferController : BaseController
     {
-        #region Internal Transfer Page
+        #region Transfer Page
+        #region Internal transfer page
         [Route("~/transfer")]
         [Route("~/transfer/index")]
-        public ActionResult Internal()
+        public ActionResult Dotpay()
         {
-            if (this.CurrentUser.IdentityInfo==null) return Redirect("/profile/identityverify?source=transfer");
+            if (this.CurrentUser.IdentityInfo == null) return Redirect("/profile/identityverify?source=transfer");
             if (!this.CurrentUser.IsInitPaymentPassword) return Redirect("/profile/setpaymentpassword?source=transfer");
             return View();
         }
+        #endregion
+
+        #region Alipay Transfer Page
+        [Route("~/transfer/alipay")]
+        public ActionResult Alipay()
+        {
+            if (this.CurrentUser.IdentityInfo == null) return Redirect("/profile/identityverify?source=transfer");
+            if (!this.CurrentUser.IsInitPaymentPassword) return Redirect("/profile/setpaymentpassword?source=transfer");
+            return View();
+        }
+        #endregion
+
+        #region Bank Transfer Page
+        [Route("~/transfer/bank")]
+        public ActionResult Bank()
+        {
+            if (this.CurrentUser.IdentityInfo == null) return Redirect("/profile/identityverify?source=transfer");
+            if (!this.CurrentUser.IsInitPaymentPassword) return Redirect("/profile/setpaymentpassword?source=transfer");
+            return View();
+        }
+        #endregion
+
+        #region Ripple Transfer Page
+        [Route("~/transfer/ripple")]
+        public ActionResult Ripple()
+        {
+            if (this.CurrentUser.IdentityInfo == null) return Redirect("/profile/identityverify?source=transfer");
+            if (!this.CurrentUser.IsInitPaymentPassword) return Redirect("/profile/setpaymentpassword?source=transfer");
+            return View();
+        }
+        #endregion
         #endregion
 
         #region ValidateAccount
@@ -48,7 +82,7 @@ namespace Dotpay.Front.Controllers
                 userIdentity = await query.GetUserByLoginName(receiverAccount.Trim());
             }
 
-            if (userIdentity != null&&userIdentity.IsActive)
+            if (userIdentity != null && userIdentity.IsActive)
                 return
                     Json(
                         new
@@ -65,66 +99,43 @@ namespace Dotpay.Front.Controllers
         #endregion
 
         #region Transfer Confirm Page
-        [Route("~/transfer/dotpay/confirm")]
-        public async Task<ActionResult> InternalConfirm(Guid txid)
+        [Route("~/transfer/{type}/confirm")]
+        public async Task<ActionResult> CommonConfirm(string type, Guid txid)
         {
             var transferTransaction = Cache.Get<TransferTransactionSubmitViewModel>(txid.ToString());
 
+            if (transferTransaction == null)
+            {
+                var query = IoC.Resolve<ITransactionQuery>();
+                transferTransaction = await query.GetTransferTransactionSubmitDetailByTxid(txid);
+
+                if (transferTransaction != null) Cache.Add(txid.ToString(), transferTransaction, TimeSpan.FromMinutes(20));
+            }
+
             if (transferTransaction != null &&
                 transferTransaction.TransferUserId == this.CurrentUser.UserId)
             {
                 ViewBag.TransferTransaction = transferTransaction;
             }
-            return View();
+            type = type.Substring(0, 1).ToUpper() + type.Substring(1);
+            return View(type + "Confirm");
         }
 
-        [Route("~/transfer/tpp/confirm")]
-        public async Task<ActionResult> TppConfirm(string targetAccount, Payway payway, string realname, decimal amount)
-        {
-            return View();
-        }
-
-        [Route("~/transfer/bank/confirm")]
-        public async Task<ActionResult> BankConfirm(string targetAccount, Bank bank, string realname, decimal amount)
-        {
-            return View();
-        }
-        [Route("~/transfer/ripple/confirm")]
-        public async Task<ActionResult> RippleConfirm(string rippleAddress, CurrencyType currency, decimal amount)
-        {
-            return View();
-        }
         #endregion
 
         #region Transfer Result Page
-        [Route("~/transfer/dotpay/result")]
-        public async Task<ActionResult> InternalResult(string txid)
+        [Route("~/transfer/{type}/result")]
+        public ActionResult InternalResult(string type, string txid)
         {
-            var transferTransaction = Cache.Get<TransferTransactionSubmitViewModel>(txid);
+            var transferTransaction = Cache.Get<TransferTransactionSubmitViewModel>(type + txid);
 
             if (transferTransaction != null &&
                 transferTransaction.TransferUserId == this.CurrentUser.UserId)
             {
                 ViewBag.TransferTransaction = transferTransaction;
             }
-            return View();
-        }
-
-        [Route("~/transfer/tpp/result")]
-        public async Task<ActionResult> TppResult(string targetAccount, Payway payway, string realname, decimal amount)
-        {
-            return View();
-        }
-
-        [Route("~/transfer/bank/result")]
-        public async Task<ActionResult> BankResult(string targetAccount, Bank bank, string realname, decimal amount)
-        {
-            return View();
-        }
-        [Route("~/transfer/ripple/result")]
-        public async Task<ActionResult> RippleResult(string rippleAddress, CurrencyType currency, decimal amount)
-        {
-            return View();
+            type = type.Substring(0, 1).ToUpper() + type.Substring(1);
+            return View(type + "Result");
         }
         #endregion
 
@@ -133,6 +144,7 @@ namespace Dotpay.Front.Controllers
         #region 转账到点付-预提交
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("~/transfer/dotpay/submit")]
         public async Task<ActionResult> DotpayTransferSubmit(string receiverAccount, decimal transferAmount, string memo, string realName)
         {
@@ -171,16 +183,51 @@ namespace Dotpay.Front.Controllers
                     };
                     Cache.Add(txId.ToString(), tx, TimeSpan.FromMinutes(20));
                     result = DotpayJsonResult<string>.CreateSuccessResult(txId.ToString());
-                    //var cmd = new CreateTransferToDotpayTransactionCommand(this.CurrentUser.AccountId,
-                    //    userIdentity.AccountId, CurrencyType.Cny, transferAmount,
-                    //    memo, string.Empty);
-                    //await this.CommandBus.SendAsync(cmd);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("DotpayTransferSubmit Excepiton", ex);
+                }
+            }
 
-                    //if (cmd.CommandResult.Item1 == ErrorCode.None)
-                    //    result = DotpayJsonResult<string>.CreateSuccessResult(cmd.CommandResult.Item2);
-                    //else if (cmd.CommandResult.Item1 == ErrorCode.AccountBalanceNotEnough)
-                    //    result = DotpayJsonResult.CreateFailResult(this.Lang("transferBalanceNotEnough"));
+            return Json(result);
+        }
+        #endregion
 
+        #region 转账到支付宝-预提交
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("~/transfer/alipay/submit")]
+        public ActionResult AlipayTransferSubmit(string receiverAccount, decimal transferAmount, string memo,
+            string realName)
+        {
+            var result = DotpayJsonResult.SystemError;
+            receiverAccount = receiverAccount.NullSafe().Trim();
+            var query = IoC.Resolve<IUserQuery>();
+
+            Regex regex = new Regex(@"^1[3|4|5|7|8][0-9]\d{4,8}$");
+
+            if (!receiverAccount.IsEmail() && !regex.IsMatch(receiverAccount)) result = DotpayJsonResult.CreateFailResult(this.Lang("invalidAlipayAccount"));
+            else if (transferAmount <= 0) result = DotpayJsonResult.CreateFailResult(this.Lang("Invalid amount"));
+            else
+            {
+                try
+                {
+                    var txId = Guid.NewGuid();
+                    var tx = new TransferTransactionSubmitViewModel()
+                    {
+                        TransferUserId = this.CurrentUser.UserId,
+                        TransferTransactionId = txId,
+                        Destination = receiverAccount,
+                        Currency = CurrencyType.Cny,
+                        Amount = transferAmount,
+                        Payway = Payway.Alipay,
+                        RealName = realName,
+                        Memo = memo
+                    };
+                    Cache.Add(txId.ToString(), tx, TimeSpan.FromMinutes(20));
+                    result = DotpayJsonResult<string>.CreateSuccessResult(txId.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -191,17 +238,61 @@ namespace Dotpay.Front.Controllers
             return Json(result);
         }
         #endregion
+
+        #region 转账到银行-预提交
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("~/transfer/bank/submit")]
+        public ActionResult BankTransferSubmit(Bank bank, string receiverAccount, decimal transferAmount, string memo,
+            string realName)
+        {
+            var result = DotpayJsonResult.SystemError;
+            receiverAccount = receiverAccount.NullSafe().Trim();
+            var query = IoC.Resolve<IUserQuery>();
+
+            Regex regex = new Regex(@"^\d{16}|\d{19}$");
+
+            if (!regex.IsMatch(receiverAccount)) result = DotpayJsonResult.CreateFailResult(this.Lang("invalidBankAccount"));
+            else if (transferAmount <= 0) result = DotpayJsonResult.CreateFailResult(this.Lang("Invalid amount"));
+            else
+            {
+                try
+                {
+                    var txId = Guid.NewGuid();
+                    var tx = new TransferTransactionSubmitViewModel()
+                    {
+                        TransferUserId = this.CurrentUser.UserId,
+                        TransferTransactionId = txId,
+                        Destination = receiverAccount,
+                        Currency = CurrencyType.Cny,
+                        Amount = transferAmount,
+                        Bank = bank,
+                        Payway = Payway.Bank,
+                        RealName = realName,
+                        Memo = memo
+                    };
+                    Cache.Add(txId.ToString(), tx, TimeSpan.FromMinutes(20));
+                    result = DotpayJsonResult<string>.CreateSuccessResult(txId.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("BankTransferSubmit Excepiton", ex);
+                }
+            }
+
+            return Json(result);
+        }
         #endregion
-
-
+        #endregion
 
         #region 确认提交
 
         #region 转账到点付-确认提交
 
         [HttpPost]
-        [Route("~/transfer/dotpay/confirm")]
-        public async Task<ActionResult> DotpayTransferConfirm(Guid txid, string paymentPassword)
+        [Route("~/transfer/{type}/confirm")]
+        public async Task<ActionResult> DotpayTransferConfirm(string type, Guid txid, string paymentPassword)
         {
             var result = DotpayJsonResult.SystemError;
 
@@ -211,12 +302,33 @@ namespace Dotpay.Front.Controllers
 
                 if (tx != null)
                 {
-                    var cmd = new SubmitTransferToDotpayTransactionCommand(txid, this.CurrentUser.AccountId,
-                        tx.DestinationAccountId, CurrencyType.Cny, tx.Amount, tx.Memo, tx.RealName, paymentPassword);
-                    await this.CommandBus.SendAsync(cmd);
+                    dynamic cmd = null;
+                    if (type.Equals("dotpay", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cmd = new SubmitTransferToDotpayTransactionCommand(txid, this.CurrentUser.AccountId,
+                          tx.DestinationAccountId, CurrencyType.Cny, tx.Amount, tx.Memo, tx.RealName, paymentPassword);
+                        await this.CommandBus.SendAsync(cmd);
+                    }
+                    else if (type.Equals("alipay", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cmd = new SubmitTransferToAlipayTransactionCommand(txid, this.CurrentUser.AccountId,
+                          tx.Destination, Payway.Alipay, CurrencyType.Cny, tx.Amount, tx.Memo, tx.RealName, paymentPassword);
+                        await this.CommandBus.SendAsync(cmd);
+                    }
+                    else if (type.Equals("bank", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cmd = new SubmitTransferToBankTransactionCommand(txid, this.CurrentUser.AccountId,
+                          tx.Destination, tx.RealName, tx.Bank.Value, CurrencyType.Cny, tx.Amount, tx.Memo, paymentPassword);
+                        await this.CommandBus.SendAsync(cmd);
+                    }
 
                     if (cmd.CommandResult == ErrorCode.None)
-                        result = DotpayJsonResult<string>.CreateSuccessResult(txid.ToString());
+                    {
+                        var newId = Guid.NewGuid().Shrink().ToLower();
+                        Cache.Add(type + newId, tx, TimeSpan.FromMinutes(5));
+                        Cache.Remove(txid.ToString());
+                        result = DotpayJsonResult<string>.CreateSuccessResult(newId);
+                    }
                     else if (cmd.CommandResult == ErrorCode.AccountBalanceNotEnough)
                         result = DotpayJsonResult.CreateFailResult(-2, this.Lang("transferBalanceNotEnough"));
                     else if (cmd.CommandResult == ErrorCode.PaymentPasswordError)

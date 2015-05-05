@@ -106,6 +106,150 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 ABC 的本地化字符串。
+        /// </summary>
+        internal static string BankABC {
+            get {
+                return ResourceManager.GetString("BankABC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 BCM 的本地化字符串。
+        /// </summary>
+        internal static string BankBCM {
+            get {
+                return ResourceManager.GetString("BankBCM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 BOC 的本地化字符串。
+        /// </summary>
+        internal static string BankBOC {
+            get {
+                return ResourceManager.GetString("BankBOC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CCB 的本地化字符串。
+        /// </summary>
+        internal static string BankCCB {
+            get {
+                return ResourceManager.GetString("BankCCB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CEB 的本地化字符串。
+        /// </summary>
+        internal static string BankCEB {
+            get {
+                return ResourceManager.GetString("BankCEB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CIB 的本地化字符串。
+        /// </summary>
+        internal static string BankCIB {
+            get {
+                return ResourceManager.GetString("BankCIB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CMB 的本地化字符串。
+        /// </summary>
+        internal static string BankCMB {
+            get {
+                return ResourceManager.GetString("BankCMB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CMBC 的本地化字符串。
+        /// </summary>
+        internal static string BankCMBC {
+            get {
+                return ResourceManager.GetString("BankCMBC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ECITIC 的本地化字符串。
+        /// </summary>
+        internal static string BankECITIC {
+            get {
+                return ResourceManager.GetString("BankECITIC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 GDB 的本地化字符串。
+        /// </summary>
+        internal static string BankGDB {
+            get {
+                return ResourceManager.GetString("BankGDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 HXB 的本地化字符串。
+        /// </summary>
+        internal static string BankHXB {
+            get {
+                return ResourceManager.GetString("BankHXB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ICBC 的本地化字符串。
+        /// </summary>
+        internal static string BankICBC {
+            get {
+                return ResourceManager.GetString("BankICBC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 OtherBank 的本地化字符串。
+        /// </summary>
+        internal static string BankOtherBank {
+            get {
+                return ResourceManager.GetString("BankOtherBank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 PAB 的本地化字符串。
+        /// </summary>
+        internal static string BankPAB {
+            get {
+                return ResourceManager.GetString("BankPAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 PSBC 的本地化字符串。
+        /// </summary>
+        internal static string BankPSBC {
+            get {
+                return ResourceManager.GetString("BankPSBC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 SPDB 的本地化字符串。
+        /// </summary>
+        internal static string BankSPDB {
+            get {
+                return ResourceManager.GetString("BankSPDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 You can not transfer to your self 的本地化字符串。
         /// </summary>
         internal static string cannotTransferToYourSelf {
@@ -336,6 +480,24 @@ namespace Dotpay.Language {
         internal static string Invalid_receiver_account {
             get {
                 return ResourceManager.GetString("Invalid receiver account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Invalid alipay account 的本地化字符串。
+        /// </summary>
+        internal static string invalidAlipayAccount {
+            get {
+                return ResourceManager.GetString("invalidAlipayAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Invalid bank account 的本地化字符串。
+        /// </summary>
+        internal static string invalidBankAccount {
+            get {
+                return ResourceManager.GetString("invalidBankAccount", resourceCulture);
             }
         }
         
@@ -723,6 +885,15 @@ namespace Dotpay.Language {
         internal static string TransferTransactionStatusLockeByProcessor {
             get {
                 return ResourceManager.GetString("TransferTransactionStatusLockeByProcessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusPreparationCompleted {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusPreparationCompleted", resourceCulture);
             }
         }
         

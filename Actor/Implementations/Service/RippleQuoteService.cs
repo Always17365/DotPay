@@ -14,51 +14,52 @@ namespace Dotpay.Actor.Service.Implementations
         private const string AUTO_INCREMENT_KEY_FI = "RippleToFIId";
         private const string AUTO_INCREMENT_KEY_DOTPAY = "RippleToDotpayId";
 
-        async Task<QuoteResult> IRippleQuoteService.Quote(TransferTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, string memo)
+        async Task<QuoteResult> IRippleQuoteService.Quote(Payway payway, string destionation, string realName, CurrencyType currency, decimal amount, string memo)
         {
-            var toFi = transferTargetInfo as TransferToFITargetInfo;
-
-            if (toFi != null)
+            if (payway == Payway.Alipay || payway == Payway.Tenpay || payway == Payway.Bank)
             {
                 var errorCode = await CheckToFiAmountRange(amount);
                 if (errorCode != ErrorCode.None) return new QuoteResult(errorCode);
                 var autoIncrement = GrainFactory.GetGrain<IAtomicIncrement>(AUTO_INCREMENT_KEY_FI);
                 var rtfiId = await autoIncrement.GetNext();
-                var destinationTag = Convert.ToInt64(toFi.Payway.ToString("D") + rtfiId);
+                var destinationTag = Convert.ToInt64(payway.ToString("D") + rtfiId);
 
-                var signMessage = toFi.DestinationAccount + toFi.Payway +
-                                  toFi.RealName + currency + amount + memo;
+                var signMessage = destionation + payway +
+                                  realName + currency + amount + memo;
 
                 var invoiceId = GenerateInvoiceId(signMessage);
 
                 var rippleToFiQuote = GrainFactory.GetGrain<IRippleToFIQuote>(rtfiId);
-                var fee = await CalcToFiTransferFee(transferTargetInfo, amount);
+                var fee = await CalcToFiTransferFee(amount);
                 var sendAmount = amount + fee;
-                await rippleToFiQuote.Initialize(invoiceId, toFi, amount, amount + fee, memo);
-                return new QuoteResult(errorCode, new Quote(destinationTag, invoiceId, sendAmount));
-            }
-
-            //转到Dotpay，按照自动充值处理
-            var toDotpay = transferTargetInfo as TransferToDotpayTargetInfo;
-            if (toDotpay != null)
-            {
-                var errorCode = await CheckToDotpayAmountRange(amount);
-                if (errorCode != ErrorCode.None) return new QuoteResult(errorCode);
-                var account = GrainFactory.GetGrain<IAccount>(toDotpay.AccountId);
-                var autoIncrement = GrainFactory.GetGrain<IAtomicIncrement>(AUTO_INCREMENT_KEY_DOTPAY);
-                var rtDotpayId = await autoIncrement.GetNext();
-                var destinationTag = Convert.ToInt64(toDotpay.Payway.ToString("D") + rtDotpayId);
-                var signMessage = toDotpay.AccountId.ToString() + destinationTag + toDotpay.Payway + currency + amount;
-
-                var invoiceId = GenerateInvoiceId(signMessage);
-                var fee = await CalcToDotpayTransferFee(transferTargetInfo, amount);
-                var sendAmount = amount + fee;
-                var rippleToDotpayQuote = GrainFactory.GetGrain<IRippleToDotpayQuote>(rtDotpayId);
-                await rippleToDotpayQuote.Initialize(await account.GetOwnerId(), invoiceId, toDotpay, currency, amount, amount + fee, memo);
+                await rippleToFiQuote.Initialize(invoiceId, payway, destionation, realName, amount, amount + fee, memo);
                 return new QuoteResult(errorCode, new Quote(destinationTag, invoiceId, sendAmount));
             }
 
             return new QuoteResult(ErrorCode.RippleQuoteUnsupport); ;
+        }
+
+        async Task<QuoteResult> IRippleQuoteService.Quote(Guid userId, string realName, CurrencyType currency, decimal amount, string memo)
+        {
+
+            //转到Dotpay，按照自动充值处理 
+            var user = GrainFactory.GetGrain<IUser>(userId);
+            var accountId = await user.GetAccountId();
+            var errorCode = await CheckToDotpayAmountRange(amount);
+            if (errorCode != ErrorCode.None) return new QuoteResult(errorCode);
+            var account = GrainFactory.GetGrain<IAccount>(accountId);
+            var autoIncrement = GrainFactory.GetGrain<IAtomicIncrement>(AUTO_INCREMENT_KEY_DOTPAY);
+            var rtDotpayId = await autoIncrement.GetNext();
+            var destinationTag = Convert.ToInt64(Payway.Dotpay.ToString("D") + rtDotpayId);
+            var signMessage = accountId.ToString() + destinationTag + Payway.Dotpay.ToString("D") + currency + amount;
+
+            var invoiceId = GenerateInvoiceId(signMessage);
+            var fee = await CalcToDotpayTransferFee(amount);
+            var sendAmount = amount + fee;
+            var rippleToDotpayQuote = GrainFactory.GetGrain<IRippleToDotpayQuote>(rtDotpayId);
+            await rippleToDotpayQuote.Initialize(userId, invoiceId, currency, amount, amount + fee, memo);
+            return new QuoteResult(errorCode, new Quote(destinationTag, invoiceId, sendAmount));
+
         }
 
         private static string GenerateInvoiceId(string signMessage)
@@ -75,7 +76,7 @@ namespace Dotpay.Actor.Service.Implementations
 
             return errorCode;
         }
-        private static async Task<decimal> CalcToFiTransferFee(TransferTargetInfo transferTargetInfo, decimal amount)
+        private static async Task<decimal> CalcToFiTransferFee(decimal amount)
         {
             var fee = 0M;
             var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToFISetting();
@@ -99,7 +100,7 @@ namespace Dotpay.Actor.Service.Implementations
 
             return errorCode;
         }
-        private static async Task<decimal> CalcToDotpayTransferFee(TransferTargetInfo transferTargetInfo, decimal amount)
+        private static async Task<decimal> CalcToDotpayTransferFee(decimal amount)
         {
             var fee = 0M;
             var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToDotpaySetting();

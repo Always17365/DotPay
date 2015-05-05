@@ -36,9 +36,13 @@
     depositAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
     //transfer 
     receiverAccountIsRequited: "Receiver account is required",
+    receiverAlipayAccountIsInvalid: "Receiver account should be a mobile or email",
+    receiverBankAccountIsInvalid: "Receiver bank account invalid",
+    receiverBankAccountUserRealNameIsInvalid: "Please type the bank account user's fullname",
     transferAmountIsRequited: "The amount is required",
     transferAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
     paymentPasswordIsRequited: "Please type your payment password",
+    transferBankIsRequited: "Please choose bank",
     //setpaymentpassword 
     paymentPasswordIsRequited_Set: "Payment password is required",
     paymentPasswordNotMatch: "Payment password must be more than 6",

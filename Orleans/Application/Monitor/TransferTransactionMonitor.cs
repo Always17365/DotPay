@@ -63,15 +63,15 @@ namespace Dotpay.Application.Monitor
                 {
                     message = JsonConvert.DeserializeObject<TransferTransactionMessage>(messageBody);
 
-                    if (message.Type == typeof(SubmitTransferTransactionMessage).Name)
+                    if (message.Type == (uint)TransferTransactionMessageType.SubmitTransferTransactionMessage)
                     {
                         message = JsonConvert.DeserializeObject<SubmitTransferTransactionMessage>(messageBody);
                     }
-                    else if (message.Type == typeof(RippleTransactionPresubmitMessage).Name)
+                    else if (message.Type == (uint)TransferTransactionMessageType.RippleTransactionPresubmitMessage)
                     {
                         message = JsonConvert.DeserializeObject<RippleTransactionPresubmitMessage>(messageBody);
                     }
-                    else if (message.Type == typeof(RippleTransactionResultMessage).Name)
+                    else if (message.Type == (uint)TransferTransactionMessageType.RippleTransactionResultMessage)
                     {
                         message = JsonConvert.DeserializeObject<RippleTransactionResultMessage>(messageBody);
                     }

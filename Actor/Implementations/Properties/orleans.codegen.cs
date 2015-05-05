@@ -175,7 +175,11 @@ namespace Dotpay.Actor.Implementations
 
             public String @TxId { get; set; }
 
-            public TransferToDotpayTargetInfo @TransferTargetInfo { get; set; }
+            public Guid @AccountId { get; set; }
+
+            public String @Email { get; set; }
+
+            public String @LoginName { get; set; }
 
             public CurrencyType @Currency { get; set; }
 
@@ -198,7 +202,9 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Status", out value)) @Status = (RippleTransactionStatus) value;
                 if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
                 if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
-                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferToDotpayTargetInfo) value;
+                if (values.TryGetValue("AccountId", out value)) @AccountId = (Guid) value;
+                if (values.TryGetValue("Email", out value)) @Email = (String) value;
+                if (values.TryGetValue("LoginName", out value)) @LoginName = (String) value;
                 if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
                 if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
                 if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
@@ -209,7 +215,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("RippleToDotpayQuoteState( Id={0} UserId={1} Status={2} InvoiceId={3} TxId={4} TransferTargetInfo={5} Currency={6} Amount={7} SendAmount={8} Memo={9} CreateAt={10} ReceiveAt={11} )", @Id, @UserId, @Status, @InvoiceId, @TxId, @TransferTargetInfo, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
+                return System.String.Format("RippleToDotpayQuoteState( Id={0} UserId={1} Status={2} InvoiceId={3} TxId={4} AccountId={5} Email={6} LoginName={7} Currency={8} Amount={9} SendAmount={10} Memo={11} CreateAt={12} ReceiveAt={13} )", @Id, @UserId, @Status, @InvoiceId, @TxId, @AccountId, @Email, @LoginName, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
             }
         
         public RippleToDotpayQuoteState() : 
@@ -226,7 +232,9 @@ namespace Dotpay.Actor.Implementations
             result["Status"] = this.Status;
             result["InvoiceId"] = this.InvoiceId;
             result["TxId"] = this.TxId;
-            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["AccountId"] = this.AccountId;
+            result["Email"] = this.Email;
+            result["LoginName"] = this.LoginName;
             result["Currency"] = this.Currency;
             result["Amount"] = this.Amount;
             result["SendAmount"] = this.SendAmount;
@@ -243,7 +251,9 @@ namespace Dotpay.Actor.Implementations
             this.Status = default(RippleTransactionStatus);
             this.InvoiceId = default(String);
             this.TxId = default(String);
-            this.TransferTargetInfo = new TransferToDotpayTargetInfo();
+            this.AccountId = default(Guid);
+            this.Email = default(String);
+            this.LoginName = default(String);
             this.Currency = default(CurrencyType);
             this.Amount = default(Decimal);
             this.SendAmount = default(Decimal);
@@ -291,7 +301,13 @@ namespace Dotpay.Actor.Implementations
 
             public String @TxId { get; set; }
 
-            public TransferToFITargetInfo @TransferTargetInfo { get; set; }
+            public Payway @Payway { get; set; }
+
+            public String @Destination { get; set; }
+
+            public String @RealName { get; set; }
+
+            public CurrencyType @Currency { get; set; }
 
             public Decimal @Amount { get; set; }
 
@@ -311,7 +327,10 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Status", out value)) @Status = (RippleTransactionStatus) value;
                 if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
                 if (values.TryGetValue("TxId", out value)) @TxId = (String) value;
-                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferToFITargetInfo) value;
+                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
+                if (values.TryGetValue("Destination", out value)) @Destination = (String) value;
+                if (values.TryGetValue("RealName", out value)) @RealName = (String) value;
+                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
                 if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
                 if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
                 if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
@@ -321,7 +340,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("RippleToFIQuoteState( Id={0} Status={1} InvoiceId={2} TxId={3} TransferTargetInfo={4} Amount={5} SendAmount={6} Memo={7} CreateAt={8} ReceiveAt={9} )", @Id, @Status, @InvoiceId, @TxId, @TransferTargetInfo, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
+                return System.String.Format("RippleToFIQuoteState( Id={0} Status={1} InvoiceId={2} TxId={3} Payway={4} Destination={5} RealName={6} Currency={7} Amount={8} SendAmount={9} Memo={10} CreateAt={11} ReceiveAt={12} )", @Id, @Status, @InvoiceId, @TxId, @Payway, @Destination, @RealName, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
             }
         
         public RippleToFIQuoteState() : 
@@ -337,7 +356,10 @@ namespace Dotpay.Actor.Implementations
             result["Status"] = this.Status;
             result["InvoiceId"] = this.InvoiceId;
             result["TxId"] = this.TxId;
-            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["Payway"] = this.Payway;
+            result["Destination"] = this.Destination;
+            result["RealName"] = this.RealName;
+            result["Currency"] = this.Currency;
             result["Amount"] = this.Amount;
             result["SendAmount"] = this.SendAmount;
             result["Memo"] = this.Memo;
@@ -352,7 +374,10 @@ namespace Dotpay.Actor.Implementations
             this.Status = default(RippleTransactionStatus);
             this.InvoiceId = default(String);
             this.TxId = default(String);
-            this.TransferTargetInfo = default(TransferToFITargetInfo);
+            this.Payway = default(Payway);
+            this.Destination = default(String);
+            this.RealName = default(String);
+            this.Currency = default(CurrencyType);
             this.Amount = default(Decimal);
             this.SendAmount = default(Decimal);
             this.Memo = default(String);
@@ -760,7 +785,11 @@ namespace Dotpay.Actor.Implementations
 
             public String @InvoiceId { get; set; }
 
-            public TransferTargetInfo @TransferTargetInfo { get; set; }
+            public Payway @Payway { get; set; }
+
+            public String @Destination { get; set; }
+
+            public CurrencyType @Currency { get; set; }
 
             public Decimal @Amount { get; set; }
 
@@ -789,7 +818,9 @@ namespace Dotpay.Actor.Implementations
                 if (values.TryGetValue("Status", out value)) @Status = (RippleToFITransactionStatus) value;
                 if (values.TryGetValue("RippleTxId", out value)) @RippleTxId = (String) value;
                 if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
-                if (values.TryGetValue("TransferTargetInfo", out value)) @TransferTargetInfo = (TransferTargetInfo) value;
+                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
+                if (values.TryGetValue("Destination", out value)) @Destination = (String) value;
+                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
                 if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
                 if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
                 if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
@@ -803,7 +834,7 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("RippleToFIState( Version={0} Id={1} Status={2} RippleTxId={3} InvoiceId={4} TransferTargetInfo={5} Amount={6} SendAmount={7} Memo={8} ManagerMemo={9} Locked={10} OperatorId={11} CreateAt={12} CompleteAt={13} FailAt={14} )", @Version, @Id, @Status, @RippleTxId, @InvoiceId, @TransferTargetInfo, @Amount, @SendAmount, @Memo, @ManagerMemo, @Locked, @OperatorId, @CreateAt, @CompleteAt, @FailAt);
+                return System.String.Format("RippleToFIState( Version={0} Id={1} Status={2} RippleTxId={3} InvoiceId={4} Payway={5} Destination={6} Currency={7} Amount={8} SendAmount={9} Memo={10} ManagerMemo={11} Locked={12} OperatorId={13} CreateAt={14} CompleteAt={15} FailAt={16} )", @Version, @Id, @Status, @RippleTxId, @InvoiceId, @Payway, @Destination, @Currency, @Amount, @SendAmount, @Memo, @ManagerMemo, @Locked, @OperatorId, @CreateAt, @CompleteAt, @FailAt);
             }
         
         public RippleToFIState() : 
@@ -820,7 +851,9 @@ namespace Dotpay.Actor.Implementations
             result["Status"] = this.Status;
             result["RippleTxId"] = this.RippleTxId;
             result["InvoiceId"] = this.InvoiceId;
-            result["TransferTargetInfo"] = this.TransferTargetInfo;
+            result["Payway"] = this.Payway;
+            result["Destination"] = this.Destination;
+            result["Currency"] = this.Currency;
             result["Amount"] = this.Amount;
             result["SendAmount"] = this.SendAmount;
             result["Memo"] = this.Memo;
@@ -840,7 +873,9 @@ namespace Dotpay.Actor.Implementations
             this.Status = default(RippleToFITransactionStatus);
             this.RippleTxId = default(String);
             this.InvoiceId = default(String);
-            this.TransferTargetInfo = default(TransferTargetInfo);
+            this.Payway = default(Payway);
+            this.Destination = default(String);
+            this.Currency = default(CurrencyType);
             this.Amount = default(Decimal);
             this.SendAmount = default(Decimal);
             this.Memo = default(String);

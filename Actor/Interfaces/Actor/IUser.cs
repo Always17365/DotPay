@@ -26,7 +26,7 @@ namespace Dotpay.Actor
         Task<Tuple<ErrorCode, string>> ForgetPaymentPassword(string token);
         Task<ErrorCode> ResetPaymentPassword(string newPaymentPassword, string resetToken);
         Task<ErrorCode> CheckLoginPassword(string loginPassword);
-        Task<ErrorCode> CheckPaymentPassword(string tradePassword);
+        Task<ErrorCode> CheckPaymentPassword(string paymentPassword);
         Task<ErrorCode> ModifyLoginPassword(string oldLoginPassword, string newLoginPassword);
         Task<ErrorCode> ModifyPaymentPassword(string oldPaymentPassword, string newPaymentPassword, string smsVerifyCode = "");
         Task<Guid> GetAccountId();

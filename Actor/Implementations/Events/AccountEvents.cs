@@ -29,11 +29,12 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class TransactionPreparationAddedEvent : GrainEvent
     {
-        public TransactionPreparationAddedEvent(TransactionPreparation transferPreparation)
+        public TransactionPreparationAddedEvent(TransactionPreparation transactionPreparation)
         {
-            this.TransferTransactionPreparation = transferPreparation;
+            this.TransactionPreparation = transactionPreparation;
         }
-        public TransactionPreparation TransferTransactionPreparation { get; private set; }
+
+        public TransactionPreparation TransactionPreparation { get; private set; }
     }
 
     [Immutable]

@@ -9,7 +9,7 @@ using Orleans;
 namespace Dotpay.CommandExecutor
 {
     public class TransferCommandExecutor : ICommandExecutor<SubmitTransferToDotpayTransactionCommand>,
-                                           ICommandExecutor<SubmitTransferToTppTransactionCommand>,
+                                           ICommandExecutor<SubmitTransferToAlipayTransactionCommand>,
                                            ICommandExecutor<SubmitTransferToBankTransactionCommand>,
                                            ICommandExecutor<SubmitTransferToRippleTransactionCommand>
     {
@@ -22,7 +22,7 @@ namespace Dotpay.CommandExecutor
                     cmd.TargetAccountId, cmd.RealName, cmd.Currency, cmd.Amount, cmd.Memo, cmd.PaymentPassword);
         }
 
-        public async Task ExecuteAsync(SubmitTransferToTppTransactionCommand cmd)
+        public async Task ExecuteAsync(SubmitTransferToAlipayTransactionCommand cmd)
         {
             var transferManager = GrainFactory.GetGrain<ITransferTransactionManager>(0);
             cmd.CommandResult =

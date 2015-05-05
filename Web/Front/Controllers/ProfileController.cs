@@ -21,11 +21,20 @@ namespace Dotpay.Front.Controllers
         {
             var accountQuery = IoC.Resolve<IAccountQuery>();
             var txQuery = IoC.Resolve<ITransactionQuery>();
-            var userBalances = await accountQuery.GetAccountBalanceByOwnerId(this.CurrentUser.UserId);
+            var currentUser = this.CurrentUser;
+            var userBalances = await accountQuery.GetAccountBalanceByOwnerId(currentUser.UserId);
             ViewBag.Balances = userBalances;
-            var indexTxs = await txQuery.GetLastTenTransationByAccountId(this.CurrentUser.AccountId);
+            var indexTxs = await txQuery.GetLastTenTransationByAccountId(currentUser.AccountId);
+            var dateStart = DateTime.Now.AddDays(-30);
+            var end = DateTime.Now;
+            var depositSum = await txQuery.SumDepositAmount(currentUser.AccountId, dateStart, end);
+            var transferTuple = await txQuery.SumTransferOutAndInAmount(currentUser.AccountId, dateStart, end);
+
+
 
             ViewBag.RecentTxs = indexTxs;
+            ViewBag.Out = transferTuple.Item1;
+            ViewBag.In = depositSum + transferTuple.Item2;
             return View();
         }
 
@@ -47,7 +56,7 @@ namespace Dotpay.Front.Controllers
 
         #region 设置支付密码
         [Route("~/profile/setpaymentpassword")]
-        [HttpGet] 
+        [HttpGet]
         public ActionResult SetPaymentPassword(string source)
         {
             ViewBag.Message = this.Lang("transferPaymentPasswordNotInit");
@@ -62,7 +71,7 @@ namespace Dotpay.Front.Controllers
         public ActionResult IdentityVerify(string source)
         {
             if (source.NullSafe().Trim().Equals("transfer"))
-                ViewBag.Message =this.Lang("verifyIdentityFirst");
+                ViewBag.Message = this.Lang("verifyIdentityFirst");
             return View();
         }
 

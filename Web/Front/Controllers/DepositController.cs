@@ -324,7 +324,7 @@ namespace Dotpay.Front.Controllers
         #region 支付宝充值
         [HttpGet]
         [Route("~/deposit/alipayredirect")]
-        public async Task<ActionResult> AlipayRedirect(decimal amount, string seq)
+        public ActionResult AlipayRedirect(decimal amount, string seq)
         {
             var result = DotpayJsonResult.SystemError;
 

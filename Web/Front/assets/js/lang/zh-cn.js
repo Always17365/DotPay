@@ -36,9 +36,13 @@
     depositAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
     //transfer 
     receiverAccountIsRequited: "收款人账号不能为空",
+    receiverAlipayAccountIsInvalid: "收款账号应该是手机号或Email格式",
+    receiverBankAccountIsInvalid: "银行账号格式错误",
+    receiverBankAccountUserRealNameIsInvalid: "请输入收款人真实姓名",
     transferAmountIsRequited: "转账金额不能为空",
     transferAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
     paymentPasswordIsRequited: "请输入支付密码",
+    transferBankIsRequited: "请选择转账银行",
     //setpaymentpassword 
     paymentPasswordIsRequited_Set: "请输入支付密码",
     paymentPasswordNotMatch: "支付密码不能少于6位",

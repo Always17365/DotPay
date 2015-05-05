@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Orleans.EventSourcing;
 using Dotpay.Common;
 using Dotpay.Actor;
+using Dotpay.Common.Enum;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Events
@@ -14,12 +15,14 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class RippleToFIInitializedEvent : GrainEvent
     {
-        public RippleToFIInitializedEvent(long transactionId, string rippleTxId, string invoiceId, TransferTargetInfo transferTargetInfo, decimal amount, decimal sendAmount, string memo)
+        public RippleToFIInitializedEvent(long transactionId, string rippleTxId, string invoiceId, Payway payway,string destination, CurrencyType currency,decimal amount, decimal sendAmount, string memo)
         {
             this.TransactionId = transactionId;
             this.RippleTxId = rippleTxId;
             this.InvoiceId = invoiceId;
-            this.TransferTargetInfo = transferTargetInfo;
+            this.Payway = payway;
+            this.Destination = destination;
+            this.Currency = currency;
             this.Amount = amount;
             this.SendAmount = sendAmount;
             this.Memo = memo;
@@ -27,7 +30,9 @@ namespace Dotpay.Actor.Events
         public long TransactionId { get; private set; }
         public string RippleTxId { get; private set; }
         public string InvoiceId { get; private set; }
-        public TransferTargetInfo TransferTargetInfo { get; private set; }
+        public Payway Payway { get; private set; }
+        public string Destination { get; private set; }
+        public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }
         public decimal SendAmount { get; private set; }
         public string Memo { get; private set; }

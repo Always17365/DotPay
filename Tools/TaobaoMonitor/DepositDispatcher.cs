@@ -153,7 +153,7 @@ namespace Dotpay.TaobaoMonitor
                     {
                         taobao_status = "WAIT_SELLER_SEND_GOODS",
                         ripple_status = RippleTransactionStatus.Init,
-                        seller_nick=sellerNick
+                        seller_nick = sellerNick
                     });
 
                     return tradesInDb;
@@ -192,12 +192,12 @@ namespace Dotpay.TaobaoMonitor
         {
             const string sql =
                 "UPDATE taobao SET ripple_address=@ripple_address,ripple_status=@ripple_status_new " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
+                " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { ripple_address = rippleAddress, ripple_status_new = RippleTransactionStatus.Pending, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
+                    return conn.Execute(sql, new { tid, ripple_address = rippleAddress, ripple_status_new = RippleTransactionStatus.Pending, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
                 }
             }
             catch (Exception ex)
@@ -212,12 +212,12 @@ namespace Dotpay.TaobaoMonitor
         {
             const string sql =
                 "UPDATE taobao SET ripple_status=@ripple_status_new,memo=@memo,ripple_address=@ripple_address " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
+                " WHERE tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status_old";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { memo = "留言错误", ripple_address = errmsg, ripple_status_new = RippleTransactionStatus.Failed, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
+                    return conn.Execute(sql, new { tid, memo = "留言错误", ripple_address = errmsg, ripple_status_new = RippleTransactionStatus.Failed, taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status_old = RippleTransactionStatus.Init });
                 }
             }
             catch (Exception ex)
@@ -230,12 +230,12 @@ namespace Dotpay.TaobaoMonitor
         {
             const string sql =
                 "UPDATE taobao SET memo=@memo " +
-                " WHERE taobao_status=@taobao_status AND ripple_status=@ripple_status AND memo<>'有未确认收货订单'";
+                " WHERE  tid=@tid AND taobao_status=@taobao_status AND ripple_status=@ripple_status AND memo<>'有未确认收货订单'";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    return conn.Execute(sql, new { memo = "有未确认收货订单", taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status = RippleTransactionStatus.Init });
+                    return conn.Execute(sql, new { tid, memo = "有未确认收货订单", taobao_status = "WAIT_SELLER_SEND_GOODS", ripple_status = RippleTransactionStatus.Init });
                 }
             }
             catch (Exception ex)

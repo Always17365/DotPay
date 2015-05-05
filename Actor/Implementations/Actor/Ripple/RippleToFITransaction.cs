@@ -14,10 +14,10 @@ namespace Dotpay.Actor.Implementations
     public class RippleToFI : EventSourcingGrain<RippleToFI, IRippleToFITransactionState>, IRippleToFITransaction
     {
         #region IRippleToFITransaction
-        Task IRippleToFITransaction.Initialize(string rippleTxId, string invoiceId, TransferToFITargetInfo transferTargetInfo, decimal amount, decimal sendAmount, string memo)
+        Task IRippleToFITransaction.Initialize(string rippleTxId, string invoiceId, Payway payway, string destination, string realName, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
         {
             if (string.IsNullOrEmpty(this.State.InvoiceId))
-                return this.ApplyEvent(new RippleToFIInitializedEvent(this.GetPrimaryKeyLong(), rippleTxId, invoiceId, transferTargetInfo, amount, sendAmount, memo));
+                return this.ApplyEvent(new RippleToFIInitializedEvent(this.GetPrimaryKeyLong(), rippleTxId, invoiceId, payway, destination, currency, amount, sendAmount, memo));
 
             return TaskDone.Done;
         }
@@ -80,7 +80,9 @@ namespace Dotpay.Actor.Implementations
             this.State.Status = RippleToFITransactionStatus.Initialized;
             this.State.RippleTxId = @event.RippleTxId;
             this.State.InvoiceId = @event.InvoiceId;
-            this.State.TransferTargetInfo = @event.TransferTargetInfo;
+            this.State.Payway = @event.Payway;
+            this.State.Destination = @event.Destination;
+            this.State.Currency = @event.Currency;
             this.State.Amount = @event.Amount;
             this.State.SendAmount = @event.SendAmount;
             this.State.Memo = @event.Memo;
@@ -116,7 +118,9 @@ namespace Dotpay.Actor.Implementations
         RippleToFITransactionStatus Status { get; set; }
         string RippleTxId { get; set; }
         string InvoiceId { get; set; }
-        TransferTargetInfo TransferTargetInfo { get; set; }
+        Payway Payway { get; set; }
+        string Destination { get; set; }
+        CurrencyType Currency { get; set; }
         decimal Amount { get; set; }
         decimal SendAmount { get; set; }
         string Memo { get; set; }

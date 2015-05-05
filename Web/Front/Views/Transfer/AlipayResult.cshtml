@@ -14,11 +14,7 @@
                 <div class="note note-success" id="noticeBox">
                     <h4>转账成功</h4>
                     <p>
-                        @{
-                            Bank bank = ViewBag.TransferTransaction.Bank;
-                            string bankAccount = ViewBag.TransferTransaction.Destination;
-                        }
-                        恭喜，向 @Html.Lang(bank.ToLangString())@(bankAccount.Substring(0, 2) + "********" + bankAccount.Substring(bankAccount.Length-1))@(ViewBag.TransferTransaction.RealName)转账 @ViewBag.TransferTransaction.Amount.ToString("0.##") 已成功提交
+                        恭喜，向支付宝 @ViewBag.TransferTransaction.Destination 转账 @ViewBag.TransferTransaction.Amount.ToString("0.##") 已成功提交
 
                     </p>
                     <p>

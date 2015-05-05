@@ -210,7 +210,7 @@ namespace Dotpay.Actor.Implementations
         async Task<Tuple<ErrorCode, int>> IUser.Login(string loginPassword, string ip)
         {
             var now = DateTime.Now;
-            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.SkipWhile(f => f.Add(LoginRetryLimitPeriod) > DateTime.Now).Count();
+            var remainRetryCounter = MAX_RETRY_LOGIN_TIMES - _loginFailCounter.Count(f => f.Add(LoginRetryLimitPeriod) > DateTime.Now);
             if (remainRetryCounter <= 0)
                 return new Tuple<ErrorCode, int>(ErrorCode.ExceedMaxLoginFailTime, 0);
             else
@@ -250,7 +250,7 @@ namespace Dotpay.Actor.Implementations
                 return Task.FromResult(ErrorCode.None);
 
              var now = DateTime.Now;
-             var remainRetryCounter = MAX_RETRY_PAYMENT_PASSWORD_TIMES - _paymentPasswordFailCounter.SkipWhile(f => f.Add(PaymentRetryLimitPeriod) > DateTime.Now).Count();
+             var remainRetryCounter = MAX_RETRY_PAYMENT_PASSWORD_TIMES - _paymentPasswordFailCounter.Count(f => f.Add(PaymentRetryLimitPeriod) > DateTime.Now);
             if (remainRetryCounter <= 0)
                 return Task.FromResult(ErrorCode.ExceedMaxPaymentPasswordFailTime)  ;
             else

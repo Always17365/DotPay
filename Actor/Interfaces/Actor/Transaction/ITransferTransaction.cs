@@ -45,7 +45,7 @@ namespace Dotpay.Actor
     [Serializable]
     public class TransferTransactionInfo
     {
-        public TransferTransactionInfo(TransferFromDotpayInfo source, TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
+        public TransferTransactionInfo(TransferSourceInfo source, TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
         {
             this.Source = source;
             this.Target = target;
@@ -54,7 +54,7 @@ namespace Dotpay.Actor
             this.Memo = memo;
         }
 
-        public TransferFromDotpayInfo Source { get; set; }
+        public TransferSourceInfo Source { get; set; }
         public TransferTargetInfo Target { get; set; }
         public CurrencyType Currency { get; set; }
         public decimal Amount { get; set; }

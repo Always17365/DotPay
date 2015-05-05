@@ -1,17 +1,17 @@
 ﻿/// <reference path="../plugins/jquery/jquery-1.11.2.js" />
 /// <reference path="../plugins/amcharts/amcharts.js" />
-var handleProfilePieChart = function () {
+var handleProfilePieChart = function (inAmount,outAmount) {
 
     $("#assetsCharts").size() > 0 ? console.log(123) : console.log(3)
     var chart = AmCharts.makeChart("assetsCharts", {
         "type": "pie",
         "theme": "light",
         "dataProvider": [{
-            "title": "USD",
-            "value": 4852
+            "title": "收入",
+            "value": inAmount
         }, {
-            "title": "CNY",
-            "value": 9899
+            "title": "支出",
+            "value": outAmount
         }],
         "titleField": "title",
         "valueField": "value",
@@ -146,10 +146,10 @@ var handleProfilePieChart = function () {
 var Profile = function () {
     "use strict";
     return {
-        handleChart: function () {
+        handleChart: function (inAmount,outAmount) {
             $.getScript('/assets/plugins/amcharts/pie.js').done(function () {
                 $.getScript('/assets/plugins/amcharts/themes/light.js').done(function () {
-                    handleProfilePieChart();
+                    handleProfilePieChart(inAmount, outAmount);
                 });
             });
         }

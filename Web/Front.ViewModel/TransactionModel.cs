@@ -13,12 +13,14 @@ namespace Dotpay.Front.ViewModel
     [Serializable]
     public class IndexTransactionListViewModel
     {
+        public string Id { get; set; }
         public string Type { get; set; }
         public string SequenceNo { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public string Status { get; set; }
-        public string Payway { get; set; }
+        public Bank? Bank { get; set; } 
+        public Payway Payway { get; set; } 
         public string Destination { get; set; }
         public string Memo { get; set; }
         public DateTime CreateAt { get; set; }
@@ -52,21 +54,6 @@ namespace Dotpay.Front.ViewModel
         public CurrencyType Currency { get; set; }
         public decimal Amount { get; set; }
         public string Memo { get; set; }
-        public string BankName
-        {
-            get
-            {
-                return this.Bank.HasValue ? this.Bank.ToLangString() : string.Empty;
-            }
-        }
-        public string PaywayName
-        {
-            get { return this.Payway.ToLangString(); }
-        }
-        public string CurrencyName
-        {
-            get { return this.Currency.ToLangString(); }
-        }
     }
 
     [Serializable]
@@ -82,22 +69,7 @@ namespace Dotpay.Front.ViewModel
         public Payway Payway { get; set; }
         public CurrencyType Currency { get; set; }
         public decimal Amount { get; set; }
-        public string Memo { get; set; }
-        public string BankName
-        {
-            get
-            {
-                return this.Bank.HasValue ? this.Bank.ToLangString() : string.Empty;
-            }
-        }
-        public string PaywayName
-        {
-            get { return this.Payway.ToLangString(); }
-        }
-        public string CurrencyName
-        {
-            get { return this.Currency.ToLangString(); }
-        }
+        public string Memo { get; set; } 
     }
     [Serializable]
     public class TransferTransactionListViewModel
@@ -114,7 +86,7 @@ namespace Dotpay.Front.ViewModel
     [Serializable]
     public class TransferTransactionInfo
     {
-        public TransferTransactionInfo(TransferFromDotpayInfo source, TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
+        public TransferTransactionInfo(TransferSourceInfo source, TransferTargetInfo target, CurrencyType currency, decimal amount, string memo)
         {
             this.Source = source;
             this.Target = target;
@@ -123,7 +95,7 @@ namespace Dotpay.Front.ViewModel
             this.Memo = memo;
         }
 
-        public TransferFromDotpayInfo Source { get; set; }
+        public TransferSourceInfo Source { get; set; }
         public TransferTargetInfo Target { get; set; }
         public CurrencyType Currency { get; set; }
         public decimal Amount { get; set; }
@@ -149,61 +121,27 @@ namespace Dotpay.Front.ViewModel
     public class TransferSourceInfo
     {
         public Payway Payway { get; set; }
-    }
-
-    [Serializable]
-    public class TransferFromRippleInfo : TransferSourceInfo
-    {
         public string TxId { get; set; }
-    }
-
-    [Serializable]
-    public class TransferFromDotpayInfo : TransferSourceInfo
-    {
-        public TransferFromDotpayInfo(Guid accountId)
-        {
-            this.AccountId = accountId;
-        }
-
+        #region 冗余
         public Guid UserId { get; set; }
-        public string Email { get; set; }
         public string UserLoginName { get; set; }
+        public string Email { get; set; }
+        #endregion
         public Guid AccountId { get; set; }
     }
     [Serializable]
     public class TransferTargetInfo
     {
+        /// <summary>
+        /// 用于标记转账的目标方式
+        /// </summary>
         public Payway Payway { get; set; }
-    }
-
-    [Serializable]
-    public class TransferToRippleTargetInfo : TransferTargetInfo
-    {
+        public Bank? Bank { get; set; }
         public string Destination { get; set; }
-    }
-    [Serializable]
-    public class TransferToDotpayTargetInfo : TransferTargetInfo
-    {
-        public string Email { get; set; }
         public string RealName { get; set; }
         public Guid AccountId { get; set; }
+        public string Email { get; set; }
         public Guid UserId { get; set; }
         public string UserLoginName { get; set; }
-    }
-    [Serializable]
-    public abstract class TransferToFITargetInfo : TransferTargetInfo
-    {
-        public string RealName { get; set; }
-        public string DestinationAccount { get; set; }
-    }
-    [Serializable]
-    public class TransferToTppTargetInfo : TransferToFITargetInfo
-    {
-    }
-
-    [Serializable]
-    public class TransferToBankTargetInfo : TransferToFITargetInfo
-    {
-        public Bank Bank { get; set; }
     }
 }

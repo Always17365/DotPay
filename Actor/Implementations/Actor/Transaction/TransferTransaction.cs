@@ -183,7 +183,7 @@ namespace Dotpay.Actor.Implementations
             this.State.TransactionInfo = @event.TransferTransactionInfo;
             this.State.Status = TransferTransactionStatus.Submited;
 
-            if (@event.TransferTransactionInfo.Target is TransferToRippleTargetInfo)
+            if (@event.TransferTransactionInfo.Target.Payway==Payway.Ripple)
             {
                 this.State.RippleTxStatus = RippleTransactionStatus.Initialized;
             }
@@ -262,6 +262,11 @@ namespace Dotpay.Actor.Implementations
         }
         #endregion
         #endregion
+
+        public override Task OnActivateAsync()
+        {
+            return base.OnActivateAsync();
+        }
     }
 
     public interface ITransferTransactionState : IEventSourcingState

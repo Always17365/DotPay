@@ -110,7 +110,7 @@ var handleTransferToDotpay = function () {
 
     }).on('err.field.fv', function (e, data) {
         if (data.field === 'frontAccount' && data.validator === 'promise') {
-            var field = data.field, $field = data.element; 
+            var field = data.field, $field = data.element;
 
             $field.nextUntil('[data-fv-validator="promise"][data-fv-for="' + field + '"]')
                   .hide();
@@ -118,7 +118,7 @@ var handleTransferToDotpay = function () {
     });
 }
 var handleConfrimTransferToDotpay = function () {
-    $('#transferConfrimFrom').formValidation({
+    $('#transferConfrimForm').formValidation({
         framework: 'bootstrap',
         //err: { container: 'tooltip' },
         fields: {
@@ -139,27 +139,42 @@ var handleConfrimTransferToDotpay = function () {
                 window.location.href = "/transfer/dotpay/result?txid=" + txid;
 
             } else {
-                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class","note note-danger").show();
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class", "note note-danger").show();
             }
         });
     })
 }
-var handelTransferToAlipay = function () {
-    $('#depositAlipayForm').formValidation({
+var handleTransferToAlipay = function () {
+    $('#transferToAlipayForm').formValidation({
         framework: 'bootstrap',
         //err: { container: 'tooltip' },
         fields: {
-            bank: {
+            receiverAccount: {
                 validators: {
                     notEmpty: {
-                        message: Language.bankIsRequited
+                        message: Language.receiverAccountIsRequited
+                    },
+                    callback: {
+                        message: "",
+                        callback: function (value, validator, $field) {
+                            var regMobile = /^1[3|4|5|8][0-9]\d{4,8}$/;
+                            var regEmail = /^[a-zA-Z0-9_\.]+@[a-zA-Z0-9-]+[\.a-zA-Z]+$/;
+                            console.log(1)
+                            if (!regMobile.test(value) && !regEmail.test(value)) {
+                                return {
+                                    valid: false,
+                                    message: Language.receiverAlipayAccountIsInvalid
+                                };
+                            }
+                            return true;
+                        }
                     }
                 }
             },
-            amount: {
+            transferAmount: {
                 validators: {
                     notEmpty: {
-                        message: Language.depositAmountIsRequited
+                        message: Language.transferAmountIsRequited
                     },
                     callback: {
                         message: "",
@@ -168,7 +183,7 @@ var handelTransferToAlipay = function () {
                             if (!reg.test(value)) {
                                 return {
                                     valid: false,
-                                    message: Language.depositAmountFormatNotMatch
+                                    message: Language.transferAmountFormatNotMatch
                                 };
                             }
                             return true;
@@ -180,11 +195,10 @@ var handelTransferToAlipay = function () {
     }).on('success.form.fv', function (e) {
         e.preventDefault();
         var $form = $(e.target);
-        var amount = $form.find("[name='amount']").val();
-        $.post("/deposit/alipay/submit", $(this).serialize(), function (result, status) {
+        $.post("/transfer/alipay/submit", $(this).serialize(), function (result, status) {
             if (result.Code === 1) {
-                var seq = result.Data;
-                window.location.href = "/deposit/alipayredirect?amount=" + amount + "&seq=" + seq;
+                var txid = result.Data;
+                window.location.href = "/transfer/alipay/confirm?txid=" + txid;
 
             } else {
                 $("#noticeBox").html("<h4>" + result.Message + "</h4>");
@@ -192,7 +206,136 @@ var handelTransferToAlipay = function () {
         });
     });
 }
+var handleConfrimTransferToAlipay = function () {
+    $('#transferConfrimForm').formValidation({
+        framework: 'bootstrap',
+        //err: { container: 'tooltip' },
+        fields: {
+            paymentpassword: {
+                validators: {
+                    notEmpty: {
+                        message: Language.paymentPasswordIsRequited
+                    }
+                }
+            }
+        }
+    }).on('success.form.fv', function (e) {
+        e.preventDefault();
+        var $form = $(e.target);
+        $.post("/transfer/alipay/confirm", $(this).serialize(), function (result, status) {
+            console.log(1);
+            if (result.Code === 1) {
+                var txid = result.Data;
+                window.location.href = "/transfer/alipay/result?txid=" + txid;
 
+            } else {
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class", "note note-danger").show();
+            }
+        });
+    })
+}
+var handleTransferToBank = function () {
+    $('#transferToBankForm').formValidation({
+        framework: 'bootstrap',
+        //err: { container: 'tooltip' },
+        fields: {
+            bank: {
+                validators: {
+                    notEmpty: {
+                        message: Language.transferBankIsRequited
+                    }
+                }
+            },
+            receiverAccount: {
+                validators: {
+                    notEmpty: {
+                        message: Language.receiverAccountIsRequited
+                    },
+                    callback: {
+                        message: "",
+                        callback: function (value, validator, $field) {
+                            var reg = /^(\d{16}|\d{19})$/;;
+                            if (!reg.test(value) ) {
+                                return {
+                                    valid: false,
+                                    message: Language.receiverBankAccountIsInvalid
+                                };
+                            }
+                            return true;
+                        }
+                    }
+                }
+            },
+            realName: {
+                validators: {
+                    notEmpty: {
+                        message: Language.receiverBankAccountUserRealNameIsInvalid
+                    }
+                }
+            },
+            transferAmount: {
+                validators: {
+                    notEmpty: {
+                        message: Language.transferAmountIsRequited
+                    },
+                    callback: {
+                        message: "",
+                        callback: function (value, validator, $field) {
+                            var reg = /^\d{1,12}(?:\.\d{1,2})?$/;
+                            if (!reg.test(value)) {
+                                return {
+                                    valid: false,
+                                    message: Language.transferAmountFormatNotMatch
+                                };
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }).on('success.form.fv', function (e) {
+        e.preventDefault();
+        var $form = $(e.target);
+        $.post("/transfer/bank/submit", $(this).serialize(), function (result, status) {
+            if (result.Code === 1) {
+                var txid = result.Data;
+                window.location.href = "/transfer/bank/confirm?txid=" + txid;
+
+            } else {
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>");
+            }
+        });
+    });
+}
+var handleConfrimTransferToBank = function () {  
+    console.log(1);
+    $('#transferConfirmForm').formValidation({
+        framework: 'bootstrap',
+        //err: { container: 'tooltip' },
+        fields: {
+            paymentpassword: {
+                validators: {
+                    notEmpty: {
+                        message: Language.paymentPasswordIsRequited
+                    }
+                }
+            }
+        }
+    }).on('success.form.fv', function (e) {
+        e.preventDefault();
+        var $form = $(e.target); 
+        $.post("/transfer/bank/confirm", $(this).serialize(), function (result, status) {
+            if (result.Code === 1) {
+                var txid = result.Data;
+                window.location.href = "/transfer/bank/result?txid=" + txid;
+
+            } else {
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class", "note note-danger").show();
+            }
+        });
+    })
+}
 var Transfer = function () {
     "use strict";
     return {
@@ -204,10 +347,21 @@ var Transfer = function () {
             $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
                 handleConfrimTransferToDotpay();
             });
-        },
-        initTransferToAlipay: function () {
+        }, initTransferToAlipay: function () {
             $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
-                handelTransferToAlipay();
+                handleTransferToAlipay();
+            });
+        }, initConfrimTransferToAlipay: function () {
+            $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
+                handleConfrimTransferToAlipay();
+            });
+        }, initTransferToBank: function () {
+            $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
+                handleTransferToBank();
+            });
+        }, initConfrimTransferToBank: function () {
+            $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
+                handleConfrimTransferToBank();
             });
         }
     };

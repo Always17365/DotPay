@@ -10,8 +10,9 @@ using Orleans.Concurrency;
 namespace Dotpay.Actor.Service
 {
     public interface IRippleQuoteService : IGrainWithIntegerKey
-    {
-        Task<QuoteResult> Quote(TransferTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, string memo);
+    { 
+        Task<QuoteResult> Quote(Payway payway, string destionation, string realName, CurrencyType currency, decimal amount, string memo);
+        Task<QuoteResult> Quote(Guid userId, string realName, CurrencyType currency, decimal amount, string memo);
     }
 
     [Immutable]

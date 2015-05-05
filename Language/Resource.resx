@@ -360,4 +360,61 @@
   <data name="IdNoTypeTaiwanResidentsPass" xml:space="preserve">
     <value>TaiwanResidentsPass</value>
   </data>
+  <data name="BankABC" xml:space="preserve">
+    <value>ABC</value>
+  </data>
+  <data name="BankBCM" xml:space="preserve">
+    <value>BCM</value>
+  </data>
+  <data name="BankBOC" xml:space="preserve">
+    <value>BOC</value>
+  </data>
+  <data name="BankCCB" xml:space="preserve">
+    <value>CCB</value>
+  </data>
+  <data name="BankCEB" xml:space="preserve">
+    <value>CEB</value>
+  </data>
+  <data name="BankCIB" xml:space="preserve">
+    <value>CIB</value>
+  </data>
+  <data name="BankCMB" xml:space="preserve">
+    <value>CMB</value>
+  </data>
+  <data name="BankCMBC" xml:space="preserve">
+    <value>CMBC</value>
+  </data>
+  <data name="BankECITIC" xml:space="preserve">
+    <value>ECITIC</value>
+  </data>
+  <data name="BankGDB" xml:space="preserve">
+    <value>GDB</value>
+  </data>
+  <data name="BankHXB" xml:space="preserve">
+    <value>HXB</value>
+  </data>
+  <data name="BankICBC" xml:space="preserve">
+    <value>ICBC</value>
+  </data>
+  <data name="BankOtherBank" xml:space="preserve">
+    <value>OtherBank</value>
+  </data>
+  <data name="BankPAB" xml:space="preserve">
+    <value>PAB</value>
+  </data>
+  <data name="BankPSBC" xml:space="preserve">
+    <value>PSBC</value>
+  </data>
+  <data name="BankSPDB" xml:space="preserve">
+    <value>SPDB</value>
+  </data>
+  <data name="TransferTransactionStatusPreparationCompleted" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="invalidAlipayAccount" xml:space="preserve">
+    <value>Invalid alipay account</value>
+  </data>
+  <data name="invalidBankAccount" xml:space="preserve">
+    <value>Invalid bank account</value>
+  </data>
 </root>

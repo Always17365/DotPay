@@ -20,7 +20,7 @@ namespace Dotpay.FrontQueryServiceImpl
             var result = new List<AccountBalanceViewModel>();
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
-            var filter = new BsonDocument("OwnerId", userId);
+            var filter = new BsonDocument("OwnerId", userId.ToString());
             var projection = BsonDocument.Parse("{Id:1,Balances:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {
@@ -48,7 +48,7 @@ namespace Dotpay.FrontQueryServiceImpl
             Guid result;
             var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
 
-            var filter = new BsonDocument("OwnerId", userId);
+            var filter = new BsonDocument("OwnerId", userId.ToString());
             var projection = BsonDocument.Parse("{Id:1,OwnerId:1,_id:0}");
             var options = new FindOptions<BsonDocument, BsonDocument>
             {

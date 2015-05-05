@@ -14,14 +14,15 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RippleToFIQuote : Grain<IRippleToFIQuoteState>, IRippleToFIQuote, IRemindable
     {
-        async Task IRippleToFIQuote.Initialize(string invoiceId, TransferToFITargetInfo transferTargetInfo, decimal amount,
-              decimal sendAmount, string memo)
+        async Task IRippleToFIQuote.Initialize(string invoiceId, Payway payway, string destination, string realName, decimal amount, decimal sendAmount, string memo)
         {
             if (this.State.Status < RippleTransactionStatus.Completed) return;
 
             this.State.Id = this.GetPrimaryKeyLong();
             this.State.InvoiceId = invoiceId;
-            this.State.TransferTargetInfo = transferTargetInfo;
+            this.State.Payway = payway;
+            this.State.Destination = destination;
+            this.State.RealName = realName;
             this.State.Amount = amount;
             this.State.SendAmount = sendAmount;
             this.State.Memo = memo;
@@ -61,8 +62,8 @@ namespace Dotpay.Actor.Implementations
 
         Task<RippleToFiQuoteInfo> IRippleToFIQuote.GetQuoteInfo()
         {
-            return Task.FromResult(new RippleToFiQuoteInfo(this.State.InvoiceId, this.State.TransferTargetInfo,
-                this.State.Amount, this.State.SendAmount, this.State.Memo));
+            return Task.FromResult(new RippleToFiQuoteInfo(this.State.InvoiceId, this.State.Payway, this.State.Destination,
+                this.State.RealName, this.State.Currency, this.State.Amount, this.State.SendAmount, this.State.Memo));
         }
 
         public async Task ReceiveReminder(string reminderName, TickStatus status)
@@ -85,7 +86,10 @@ namespace Dotpay.Actor.Implementations
         RippleTransactionStatus Status { get; set; }
         string InvoiceId { get; set; }
         string TxId { get; set; }
-        TransferToFITargetInfo TransferTargetInfo { get; set; }
+        Payway Payway { get; set; }
+        string Destination { get; set; }
+        string RealName { get; set; }
+        CurrencyType Currency { get; set; }
         decimal Amount { get; set; }
         decimal SendAmount { get; set; }
         string Memo { get; set; }

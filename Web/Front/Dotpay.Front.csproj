@@ -570,10 +570,8 @@
     <Content Include="Views\Deposit\Alipay.cshtml" />
     <Content Include="Views\Deposit\AlipayRedirect.cshtml" />
     <Content Include="Views\Transfer\Alipay.cshtml" />
-    <Content Include="Views\Transfer\AlipayRedirect.cshtml" />
     <Content Include="Views\Transfer\InternalResult.cshtml" />
-    <Content Include="Views\Transfer\Internal.cshtml" />
-    <Content Include="Views\Transfer\Taobao.cshtml" />
+    <Content Include="Views\Transfer\Dotpay.cshtml" />
     <Content Include="Views\Transfer\YiShengRedirect.cshtml" />
     <Content Include="Views\Profile\SetPaymentPassword.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
@@ -589,7 +587,12 @@
     <Content Include="Views\Transfer\ToDotpayConfirm.cshtml" />
     <Content Include="Views\Transfer\TppResult.cshtml" />
     <Content Include="Views\Transfer\RippleResult.cshtml" />
-    <Content Include="Views\Transfer\InternalConfirm.cshtml" />
+    <Content Include="Views\Transfer\DotpayConfirm.cshtml" />
+    <Content Include="Views\Transfer\Ripple.cshtml" />
+    <Content Include="Views\Transfer\RippleConfirm.cshtml" />
+    <Content Include="Views\Transfer\AlipayConfirm.cshtml" />
+    <Content Include="Views\Transfer\AlipayResult.cshtml" />
+    <Content Include="Views\Transfer\BankConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

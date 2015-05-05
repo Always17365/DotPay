@@ -853,10 +853,10 @@ namespace Dotpay.Actor
                 return RippleToDotpayQuoteMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IRippleToDotpayQuote.Initialize(System.Guid @userId, string @invoiceId, Dotpay.Actor.TransferToDotpayTargetInfo @trgetInfo, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, decimal @sendAmount, string @memo)
+            System.Threading.Tasks.Task Dotpay.Actor.IRippleToDotpayQuote.Initialize(System.Guid @userId, string @invoiceId, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, decimal @sendAmount, string @memo)
             {
 
-                return base.InvokeMethodAsync<object>(1623715054, new object[] {@userId, @invoiceId, @trgetInfo, @currency, @amount, @sendAmount, @memo} );
+                return base.InvokeMethodAsync<object>(575395056, new object[] {@userId, @invoiceId, @currency, @amount, @sendAmount, @memo} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToDotpayQuote.Complete(string @invoiceId, string @txId, decimal @sendAmount)
@@ -897,8 +897,8 @@ namespace Dotpay.Actor
                     case -77435361:  // IRippleToDotpayQuote
                         switch (methodId)
                         {
-                            case 1623715054: 
-                                return ((IRippleToDotpayQuote)grain).Initialize((Guid)arguments[0], (String)arguments[1], (TransferToDotpayTargetInfo)arguments[2], (CurrencyType)arguments[3], (Decimal)arguments[4], (Decimal)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 575395056: 
+                                return ((IRippleToDotpayQuote)grain).Initialize((Guid)arguments[0], (String)arguments[1], (CurrencyType)arguments[2], (Decimal)arguments[3], (Decimal)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1382115995: 
                                 return ((IRippleToDotpayQuote)grain).Complete((String)arguments[0], (String)arguments[1], (Decimal)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -278901934: 
@@ -932,7 +932,7 @@ namespace Dotpay.Actor
                 case -77435361:  // IRippleToDotpayQuote
                     switch (methodId)
                     {
-                        case 1623715054:
+                        case 575395056:
                             return "Initialize";
                     case -1382115995:
                             return "Complete";
@@ -1049,10 +1049,10 @@ namespace Dotpay.Actor
                 return RippleToFIQuoteMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFIQuote.Initialize(string @invoiceId, Dotpay.Actor.TransferToFITargetInfo @transferTargetInfo, decimal @amount, decimal @sendAmount, string @memo)
+            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFIQuote.Initialize(string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, decimal @amount, decimal @sendAmount, string @memo)
             {
 
-                return base.InvokeMethodAsync<object>(566013831, new object[] {@invoiceId, @transferTargetInfo, @amount, @sendAmount, @memo} );
+                return base.InvokeMethodAsync<object>(-238753123, new object[] {@invoiceId, @payway, @destination, @realName, @amount, @sendAmount, @memo} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFIQuote.Complete(string @invoiceId, string @txId, decimal @sendAmount)
@@ -1093,8 +1093,8 @@ namespace Dotpay.Actor
                     case 1937682618:  // IRippleToFIQuote
                         switch (methodId)
                         {
-                            case 566013831: 
-                                return ((IRippleToFIQuote)grain).Initialize((String)arguments[0], (TransferToFITargetInfo)arguments[1], (Decimal)arguments[2], (Decimal)arguments[3], (String)arguments[4]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -238753123: 
+                                return ((IRippleToFIQuote)grain).Initialize((String)arguments[0], (Payway)arguments[1], (String)arguments[2], (String)arguments[3], (Decimal)arguments[4], (Decimal)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1382115995: 
                                 return ((IRippleToFIQuote)grain).Complete((String)arguments[0], (String)arguments[1], (Decimal)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -278901934: 
@@ -1128,7 +1128,7 @@ namespace Dotpay.Actor
                 case 1937682618:  // IRippleToFIQuote
                     switch (methodId)
                     {
-                        case 566013831:
+                        case -238753123:
                             return "Initialize";
                     case -1382115995:
                             return "Complete";
@@ -2295,10 +2295,10 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1388525298, new object[] {@loginPassword} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.CheckPaymentPassword(string @tradePassword)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.CheckPaymentPassword(string @paymentPassword)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1286558509, new object[] {@tradePassword} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1286558509, new object[] {@paymentPassword} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IUser.ModifyLoginPassword(string @oldLoginPassword, string @newLoginPassword)
@@ -2575,10 +2575,10 @@ namespace Dotpay.Actor
                 return RippleToFITransactionMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFITransaction.Initialize(string @rippleTxId, string @invoiceId, Dotpay.Actor.TransferToFITargetInfo @transferTargetInfo, decimal @amount, decimal @sendAmount, string @memo)
+            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFITransaction.Initialize(string @rippleTxId, string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, decimal @sendAmount, string @memo)
             {
 
-                return base.InvokeMethodAsync<object>(752736993, new object[] {@rippleTxId, @invoiceId, @transferTargetInfo, @amount, @sendAmount, @memo} );
+                return base.InvokeMethodAsync<object>(503831240, new object[] {@rippleTxId, @invoiceId, @payway, @destination, @realName, @currency, @amount, @sendAmount, @memo} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFITransaction.Lock(System.Guid @managerId)
@@ -2625,8 +2625,8 @@ namespace Dotpay.Actor
                     case -1079091560:  // IRippleToFITransaction
                         switch (methodId)
                         {
-                            case 752736993: 
-                                return ((IRippleToFITransaction)grain).Initialize((String)arguments[0], (String)arguments[1], (TransferToFITargetInfo)arguments[2], (Decimal)arguments[3], (Decimal)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case 503831240: 
+                                return ((IRippleToFITransaction)grain).Initialize((String)arguments[0], (String)arguments[1], (Payway)arguments[2], (String)arguments[3], (String)arguments[4], (CurrencyType)arguments[5], (Decimal)arguments[6], (Decimal)arguments[7], (String)arguments[8]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1710042935: 
                                 return ((IRippleToFITransaction)grain).Lock((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 961769098: 
@@ -2662,7 +2662,7 @@ namespace Dotpay.Actor
                 case -1079091560:  // IRippleToFITransaction
                     switch (methodId)
                     {
-                        case 752736993:
+                        case 503831240:
                             return "Initialize";
                     case 1710042935:
                             return "Lock";
@@ -2724,51 +2724,6 @@ namespace Dotpay.Actor
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferToDotpayTargetInfoSerialization
-    {
-        
-        static Dotpay_Actor_TransferToDotpayTargetInfoSerialization()
-        {
-            Register();
-        }
-        
-        public static object DeepCopier(object original)
-        {
-            return original;
-        }
-        
-        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            Dotpay.Actor.TransferToDotpayTargetInfo input = ((Dotpay.Actor.TransferToDotpayTargetInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.UserLoginName, stream, typeof(string));
-        }
-        
-        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            Dotpay.Actor.TransferToDotpayTargetInfo result = new Dotpay.Actor.TransferToDotpayTargetInfo();
-            result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
-            result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
-            result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.UserId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
-            result.UserLoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            return result;
-        }
-        
-        public static void Register()
-        {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferToDotpayTargetInfo), DeepCopier, Serializer, Deserializer);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
     internal class Dotpay_Actor_RippleToDotpayQuoteInfoSerialization
     {
         
@@ -2790,7 +2745,6 @@ namespace Dotpay.Actor
             Orleans.Serialization.SerializationManager.SerializeInner(input.InvoiceId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Memo, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.SendAmount, stream, typeof(decimal));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTargetInfo, stream, typeof(Dotpay.Actor.TransferToDotpayTargetInfo));
             Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
         }
         
@@ -2802,7 +2756,6 @@ namespace Dotpay.Actor
             result.InvoiceId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Memo = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.SendAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
-            result.TransferTargetInfo = ((Dotpay.Actor.TransferToDotpayTargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferToDotpayTargetInfo), stream)));
             result.UserId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             return result;
         }
@@ -2833,20 +2786,26 @@ namespace Dotpay.Actor
         {
             Dotpay.Actor.RippleToFiQuoteInfo input = ((Dotpay.Actor.RippleToFiQuoteInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Destination, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.InvoiceId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Memo, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.SendAmount, stream, typeof(decimal));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTargetInfo, stream, typeof(Dotpay.Actor.TransferToFITargetInfo));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
             Dotpay.Actor.RippleToFiQuoteInfo result = ((Dotpay.Actor.RippleToFiQuoteInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.RippleToFiQuoteInfo))));
             result.Amount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
+            result.Currency = ((Dotpay.Common.Enum.CurrencyType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.CurrencyType), stream)));
+            result.Destination = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.InvoiceId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Memo = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
+            result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.SendAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
-            result.TransferTargetInfo = ((Dotpay.Actor.TransferToFITargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferToFITargetInfo), stream)));
             return result;
         }
         
@@ -2944,13 +2903,23 @@ namespace Dotpay.Actor
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
             Dotpay.Actor.TransferSourceInfo input = ((Dotpay.Actor.TransferSourceInfo)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.TxId, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserLoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
             Dotpay.Actor.TransferSourceInfo result = new Dotpay.Actor.TransferSourceInfo();
+            result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
+            result.TxId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            result.UserId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            result.UserLoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
         }
         
@@ -2963,10 +2932,10 @@ namespace Dotpay.Actor
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferFromRippleInfoSerialization
+    internal class Dotpay_Actor_TransferTargetInfoSerialization
     {
         
-        static Dotpay_Actor_TransferFromRippleInfoSerialization()
+        static Dotpay_Actor_TransferTargetInfoSerialization()
         {
             Register();
         }
@@ -2978,57 +2947,26 @@ namespace Dotpay.Actor
         
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
-            Dotpay.Actor.TransferFromRippleInfo input = ((Dotpay.Actor.TransferFromRippleInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.TxId, stream, typeof(string));
-        }
-        
-        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            Dotpay.Actor.TransferFromRippleInfo result = new Dotpay.Actor.TransferFromRippleInfo();
-            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
-            result.TxId = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            return result;
-        }
-        
-        public static void Register()
-        {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferFromRippleInfo), DeepCopier, Serializer, Deserializer);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferFromDotpayInfoSerialization
-    {
-        
-        static Dotpay_Actor_TransferFromDotpayInfoSerialization()
-        {
-            Register();
-        }
-        
-        public static object DeepCopier(object original)
-        {
-            return original;
-        }
-        
-        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            Dotpay.Actor.TransferFromDotpayInfo input = ((Dotpay.Actor.TransferFromDotpayInfo)(untypedInput));
+            Dotpay.Actor.TransferTargetInfo input = ((Dotpay.Actor.TransferTargetInfo)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.AccountId, stream, typeof(System.Guid));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Bank, stream, typeof(System.Nullable<Dotpay.Common.Enum.Bank>));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Destination, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Email, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
             Orleans.Serialization.SerializationManager.SerializeInner(input.UserLoginName, stream, typeof(string));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.TransferFromDotpayInfo result = ((Dotpay.Actor.TransferFromDotpayInfo)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.TransferFromDotpayInfo))));
+            Dotpay.Actor.TransferTargetInfo result = new Dotpay.Actor.TransferTargetInfo();
             result.AccountId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            result.Bank = ((System.Nullable<Dotpay.Common.Enum.Bank>)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Nullable<Dotpay.Common.Enum.Bank>), stream)));
+            result.Destination = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Email = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
+            result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             result.UserId = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             result.UserLoginName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             return result;
@@ -3036,124 +2974,7 @@ namespace Dotpay.Actor
         
         public static void Register()
         {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferFromDotpayInfo), DeepCopier, Serializer, Deserializer);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferToRippleTargetInfoSerialization
-    {
-        
-        static Dotpay_Actor_TransferToRippleTargetInfoSerialization()
-        {
-            Register();
-        }
-        
-        public static object DeepCopier(object original)
-        {
-            return original;
-        }
-        
-        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            Dotpay.Actor.TransferToRippleTargetInfo input = ((Dotpay.Actor.TransferToRippleTargetInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Destination, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
-        }
-        
-        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            Dotpay.Actor.TransferToRippleTargetInfo result = new Dotpay.Actor.TransferToRippleTargetInfo();
-            result.Destination = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
-            return result;
-        }
-        
-        public static void Register()
-        {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferToRippleTargetInfo), DeepCopier, Serializer, Deserializer);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferToTppTargetInfoSerialization
-    {
-        
-        static Dotpay_Actor_TransferToTppTargetInfoSerialization()
-        {
-            Register();
-        }
-        
-        public static object DeepCopier(object original)
-        {
-            return original;
-        }
-        
-        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            Dotpay.Actor.TransferToTppTargetInfo input = ((Dotpay.Actor.TransferToTppTargetInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.DestinationAccount, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
-        }
-        
-        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            Dotpay.Actor.TransferToTppTargetInfo result = new Dotpay.Actor.TransferToTppTargetInfo();
-            result.DestinationAccount = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
-            result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            return result;
-        }
-        
-        public static void Register()
-        {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferToTppTargetInfo), DeepCopier, Serializer, Deserializer);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_TransferToBankTargetInfoSerialization
-    {
-        
-        static Dotpay_Actor_TransferToBankTargetInfoSerialization()
-        {
-            Register();
-        }
-        
-        public static object DeepCopier(object original)
-        {
-            return original;
-        }
-        
-        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            Dotpay.Actor.TransferToBankTargetInfo input = ((Dotpay.Actor.TransferToBankTargetInfo)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Bank, stream, typeof(Dotpay.Common.Enum.Bank));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.DestinationAccount, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Payway, stream, typeof(Dotpay.Common.Enum.Payway));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.RealName, stream, typeof(string));
-        }
-        
-        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            Dotpay.Actor.TransferToBankTargetInfo result = new Dotpay.Actor.TransferToBankTargetInfo();
-            result.Bank = ((Dotpay.Common.Enum.Bank)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Bank), stream)));
-            result.DestinationAccount = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.Payway = ((Dotpay.Common.Enum.Payway)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.Payway), stream)));
-            result.RealName = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            return result;
-        }
-        
-        public static void Register()
-        {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferToBankTargetInfo), DeepCopier, Serializer, Deserializer);
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.TransferTargetInfo), DeepCopier, Serializer, Deserializer);
         }
     }
     
@@ -3269,7 +3090,7 @@ namespace Dotpay.Actor
             Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Memo, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Source, stream, typeof(Dotpay.Actor.TransferFromDotpayInfo));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Source, stream, typeof(Dotpay.Actor.TransferSourceInfo));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Target, stream, typeof(Dotpay.Actor.TransferTargetInfo));
         }
         
@@ -3279,7 +3100,7 @@ namespace Dotpay.Actor
             result.Amount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
             result.Currency = ((Dotpay.Common.Enum.CurrencyType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.CurrencyType), stream)));
             result.Memo = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            result.Source = ((Dotpay.Actor.TransferFromDotpayInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferFromDotpayInfo), stream)));
+            result.Source = ((Dotpay.Actor.TransferSourceInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferSourceInfo), stream)));
             result.Target = ((Dotpay.Actor.TransferTargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferTargetInfo), stream)));
             return result;
         }
@@ -4658,10 +4479,16 @@ namespace Dotpay.Actor.Service
                 return RippleQuoteServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Actor.Service.QuoteResult> Dotpay.Actor.Service.IRippleQuoteService.Quote(Dotpay.Actor.TransferTargetInfo @transferTargetInfo, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo)
+            System.Threading.Tasks.Task<Dotpay.Actor.Service.QuoteResult> Dotpay.Actor.Service.IRippleQuoteService.Quote(Dotpay.Common.Enum.Payway @payway, string @destionation, string @realName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Actor.Service.QuoteResult>(-1643086377, new object[] {@transferTargetInfo, @currency, @amount, @memo} );
+                return base.InvokeMethodAsync<Dotpay.Actor.Service.QuoteResult>(849109650, new object[] {@payway, @destionation, @realName, @currency, @amount, @memo} );
+            }
+            
+            System.Threading.Tasks.Task<Dotpay.Actor.Service.QuoteResult> Dotpay.Actor.Service.IRippleQuoteService.Quote(System.Guid @userId, string @realName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, string @memo)
+            {
+
+                return base.InvokeMethodAsync<Dotpay.Actor.Service.QuoteResult>(-1874380761, new object[] {@userId, @realName, @currency, @amount, @memo} );
             }
         }
     }
@@ -4690,8 +4517,10 @@ namespace Dotpay.Actor.Service
                     case -806227585:  // IRippleQuoteService
                         switch (methodId)
                         {
-                            case -1643086377: 
-                                return ((IRippleQuoteService)grain).Quote((Dotpay.Actor.TransferTargetInfo)arguments[0], (Dotpay.Common.Enum.CurrencyType)arguments[1], (Decimal)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 849109650: 
+                                return ((IRippleQuoteService)grain).Quote((Dotpay.Common.Enum.Payway)arguments[0], (String)arguments[1], (String)arguments[2], (Dotpay.Common.Enum.CurrencyType)arguments[3], (Decimal)arguments[4], (String)arguments[5]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1874380761: 
+                                return ((IRippleQuoteService)grain).Quote((Guid)arguments[0], (String)arguments[1], (Dotpay.Common.Enum.CurrencyType)arguments[2], (Decimal)arguments[3], (String)arguments[4]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -4721,7 +4550,9 @@ namespace Dotpay.Actor.Service
                 case -806227585:  // IRippleQuoteService
                     switch (methodId)
                     {
-                        case -1643086377:
+                        case 849109650:
+                            return "Quote";
+                    case -1874380761:
                             return "Quote";
                     
                         default: 
@@ -5919,8 +5750,6 @@ namespace Dotpay.Actor.Service
     internal class Dotpay_Actor_Service_TransferTransactionMessageSerialization
     {
         
-        private static System.Reflection.FieldInfo fieldInfo1;
-        
         static Dotpay_Actor_Service_TransferTransactionMessageSerialization()
         {
             Register();
@@ -5934,23 +5763,19 @@ namespace Dotpay.Actor.Service
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
             Dotpay.Actor.Service.TransferTransactionMessage input = ((Dotpay.Actor.Service.TransferTransactionMessage)(untypedInput));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(uint));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.Service.TransferTransactionMessage result = ((Dotpay.Actor.Service.TransferTransactionMessage)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Service.TransferTransactionMessage))));
-            object objResult = ((object)(result));
-            object temp1 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
-            fieldInfo1.SetValue(objResult, temp1);
-            return objResult;
+            Dotpay.Actor.Service.TransferTransactionMessage result = new Dotpay.Actor.Service.TransferTransactionMessage();
+            result.Type = ((uint)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(uint), stream)));
+            return result;
         }
         
         public static void Register()
         {
             global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Service.TransferTransactionMessage), DeepCopier, Serializer, Deserializer);
-            fieldInfo1 = typeof(Dotpay.Actor.Service.TransferTransactionMessage).GetField("<Type>k__BackingField", (System.Reflection.BindingFlags.Instance 
-                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }
     
@@ -5990,10 +5815,10 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Memo, stream, typeof(string));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Source, stream, typeof(Dotpay.Actor.TransferFromDotpayInfo));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Target, stream, typeof(Dotpay.Actor.TransferTargetInfo));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTransactionId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(uint));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.UserId, stream, typeof(System.Guid));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6006,13 +5831,13 @@ namespace Dotpay.Actor.Service
             fieldInfo2.SetValue(objResult, temp2);
             object temp3 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             fieldInfo3.SetValue(objResult, temp3);
-            object temp4 = ((Dotpay.Actor.TransferFromDotpayInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferFromDotpayInfo), stream)));
+            object temp4 = ((Dotpay.Actor.TransferTargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferTargetInfo), stream)));
             fieldInfo4.SetValue(objResult, temp4);
-            object temp5 = ((Dotpay.Actor.TransferTargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferTargetInfo), stream)));
+            object temp5 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo5.SetValue(objResult, temp5);
-            object temp6 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
+            object temp6 = ((uint)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(uint), stream)));
             fieldInfo6.SetValue(objResult, temp6);
-            object temp7 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            object temp7 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo7.SetValue(objResult, temp7);
             return objResult;
         }
@@ -6026,13 +5851,13 @@ namespace Dotpay.Actor.Service
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
             fieldInfo3 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<Memo>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo4 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<Source>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo4 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<Target>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo5 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<Target>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo5 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<TransferTransactionId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo6 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<TransferTransactionId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo6 = typeof(Dotpay.Actor.Service.TransferTransactionMessage).GetField("<Type>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo7 = typeof(Dotpay.Actor.Service.TransferTransactionMessage).GetField("<Type>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo7 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionMessage).GetField("<UserId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }
@@ -6066,7 +5891,7 @@ namespace Dotpay.Actor.Service
             Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage input = ((Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Amount, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Currency, stream, typeof(Dotpay.Common.Enum.CurrencyType));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Target, stream, typeof(Dotpay.Actor.TransferToRippleTargetInfo));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Destination, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTransactionId, stream, typeof(System.Guid));
         }
         
@@ -6078,7 +5903,7 @@ namespace Dotpay.Actor.Service
             fieldInfo1.SetValue(objResult, temp1);
             object temp2 = ((Dotpay.Common.Enum.CurrencyType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.CurrencyType), stream)));
             fieldInfo2.SetValue(objResult, temp2);
-            object temp3 = ((Dotpay.Actor.TransferToRippleTargetInfo)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Actor.TransferToRippleTargetInfo), stream)));
+            object temp3 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
             fieldInfo3.SetValue(objResult, temp3);
             object temp4 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo4.SetValue(objResult, temp4);
@@ -6092,7 +5917,7 @@ namespace Dotpay.Actor.Service
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
             fieldInfo2 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage).GetField("<Currency>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
-            fieldInfo3 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage).GetField("<Target>k__BackingField", (System.Reflection.BindingFlags.Instance 
+            fieldInfo3 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage).GetField("<Destination>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
             fieldInfo4 = typeof(Dotpay.Actor.Service.SubmitTransferTransactionToRippleMessage).GetField("<TransferTransactionId>k__BackingField", (System.Reflection.BindingFlags.Instance 
                             | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
@@ -6135,7 +5960,7 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.LastLedgerIndex, stream, typeof(long));
             Orleans.Serialization.SerializationManager.SerializeInner(input.RippleTxId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTransactionId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(uint));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6152,7 +5977,7 @@ namespace Dotpay.Actor.Service
             fieldInfo4.SetValue(objResult, temp4);
             object temp5 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo5.SetValue(objResult, temp5);
-            object temp6 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            object temp6 = ((uint)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(uint), stream)));
             fieldInfo6.SetValue(objResult, temp6);
             return objResult;
         }
@@ -6208,7 +6033,7 @@ namespace Dotpay.Actor.Service
             Orleans.Serialization.SerializationManager.SerializeInner(input.RippleTxId, stream, typeof(string));
             Orleans.Serialization.SerializationManager.SerializeInner(input.Success, stream, typeof(bool));
             Orleans.Serialization.SerializationManager.SerializeInner(input.TransferTransactionId, stream, typeof(System.Guid));
-            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(uint));
         }
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
@@ -6223,7 +6048,7 @@ namespace Dotpay.Actor.Service
             fieldInfo3.SetValue(objResult, temp3);
             object temp4 = ((System.Guid)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(System.Guid), stream)));
             fieldInfo4.SetValue(objResult, temp4);
-            object temp5 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            object temp5 = ((uint)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(uint), stream)));
             fieldInfo5.SetValue(objResult, temp5);
             return objResult;
         }

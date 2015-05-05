@@ -1,0 +1,128 @@
+﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
+@{
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
+}
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
+<div class="profile-main">
+    <div class="sub-nav ">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">转账到点付<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/deposit/alipay">转账到支付宝<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/deposit/taobao">转账到银行<i class="icon-chevron-right"></i></a>
+                </li>
+                <li>
+                    <a href="/deposit/taobao">转账到Ripple<i class="icon-chevron-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container deposit">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div>
+                <h4>在线支付</h4>
+            </div>
+            <hr />
+            <form id="depositForm" class="form-horizontal" method="POST" action="~/deposit/epsubmit">
+                <div class="row selectbank">
+                    @Html.AntiForgeryToken()
+                    <ul>
+                        <li>
+                            <input name="bank" type="radio" value="ICBC" checked="checked" />
+                            <label><img src="~/assets/img/bank/ICBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="ABC" />
+                            <label><img src="~/assets/img/bank/ABC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CCB" />
+                            <label><img src="~/assets/img/bank/CCB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CMB" />
+                            <label><img src="~/assets/img/bank/CMB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="BOC" />
+                            <label><img src="~/assets/img/bank/BOC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HSBC" />
+                            <label><img src="~/assets/img/bank/COMM_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CEB" />
+                            <label><img src="~/assets/img/bank/CEB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CITIC" />
+                            <label><img src="~/assets/img/bank/CITIC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SPDB" />
+                            <label><img src="~/assets/img/bank/SPDB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SDB" />
+                            <label><img src="~/assets/img/bank/SDB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="CMBC" />
+                            <label><img src="~/assets/img/bank/CMBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HXB" />
+                            <label><img src="~/assets/img/bank/HXB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="PSBC" />
+                            <label><img src="~/assets/img/bank/PSBC_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HSBK" />
+                            <label><img src="~/assets/img/bank/HSBK_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="HZBANK" />
+                            <label><img src="~/assets/img/bank/HZBANK_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="NJB" />
+                            <label><img src="~/assets/img/bank/NJB_OUT.png" /></label>
+                        </li>
+                        <li>
+                            <input name="bank" type="radio" value="SHBANK" />
+                            <label><img src="~/assets/img/bank/SHBANK_OUT.png" /></label>
+                        </li>
+                    </ul>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-2 control-label" for="amount">充值金额</label>
+                    <div class="col-sm-4 controls">
+                        <input class="form-control" id="amount" name="amount" type="text" autocomplete="off">
+                    </div>
+                    <div class="col-sm-2 col-md-2   controls">
+                        <input type="submit" class="btn btn-primary btn-large btn-block" value="确定">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.getScript('/assets/js/deposit.js').done(function () {
+                Deposit.initOnlineDeposit();
+            });
+        });
+    </script>
+</div>

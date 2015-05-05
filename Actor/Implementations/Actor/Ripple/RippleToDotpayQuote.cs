@@ -15,14 +15,13 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RippleToDotpayQuote : Grain<IRippleToDotpayQuoteState>, IRippleToDotpayQuote
     {
-        async Task IRippleToDotpayQuote.Initialize(Guid userId, string invoiceId, TransferToDotpayTargetInfo transferTargetInfo, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
+        async Task IRippleToDotpayQuote.Initialize(Guid userId, string invoiceId, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
         {
             if (this.State.Status < RippleTransactionStatus.Completed) return;
 
             this.State.Id = this.GetPrimaryKeyLong();
             this.State.UserId = userId;
             this.State.InvoiceId = invoiceId;
-            this.State.TransferTargetInfo = transferTargetInfo;
             this.State.Currency = currency;
             this.State.Amount = amount;
             this.State.SendAmount = sendAmount;
@@ -63,7 +62,7 @@ namespace Dotpay.Actor.Implementations
 
         public Task<RippleToDotpayQuoteInfo> GetQuoteInfo()
         {
-            return Task.FromResult(new RippleToDotpayQuoteInfo(this.State.UserId, this.State.InvoiceId, this.State.TransferTargetInfo,
+            return Task.FromResult(new RippleToDotpayQuoteInfo(this.State.UserId, this.State.InvoiceId,
               this.State.Currency, this.State.Amount, this.State.SendAmount, this.State.Memo));
         }
 
@@ -88,7 +87,11 @@ namespace Dotpay.Actor.Implementations
         RippleTransactionStatus Status { get; set; }
         string InvoiceId { get; set; }
         string TxId { get; set; }
-        TransferToDotpayTargetInfo TransferTargetInfo { get; set; }
+        Guid AccountId { get; set; }
+        #region 冗余
+        string Email { get; set; }
+        string LoginName { get; set; } 
+        #endregion
         CurrencyType Currency { get; set; }
         decimal Amount { get; set; }
         decimal SendAmount { get; set; }
