@@ -164,7 +164,7 @@ namespace Dotpay.Admin.Controllers
             return PartialView();
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowRoles(Role = ManagerType.SuperUser, Role1 = ManagerType.MaintenanceManager)]
         [Route("~/ajax/manager/list")]
         public async Task<ActionResult> GetManager(string loginName, int draw, int start, int length)

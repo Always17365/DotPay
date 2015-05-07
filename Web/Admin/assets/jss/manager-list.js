@@ -24,6 +24,7 @@
             "sort": false,
             "ajax": {
                 "url": "/ajax/manager/list",
+                "type": "POST",
                 "data": function (d) {
                     return $.extend({}, d, {
                         "loginName": $('#search_loginName').val()

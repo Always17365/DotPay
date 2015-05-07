@@ -27,8 +27,7 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.Submited)
             {
-                await
-                    this.ApplyEvent(new ConfirmedTransferTransactionPreparationEvent(this.State.TransactionInfo));
+                await this.ApplyEvent(new ConfirmedTransferTransactionPreparationEvent(this.State.TransactionInfo));
             }
         }
 
@@ -36,8 +35,7 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.Submited)
             {
-                await
-                    this.ApplyEvent(new TransferTransactionCanceldEvent(cancelReason));
+                await this.ApplyEvent(new TransferTransactionCanceldEvent(cancelReason));
             }
         }
 
@@ -46,20 +44,22 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted)
             {
-                await this.ApplyEvent(new TransferTransactionMarkedAsProcessingEvent(managerId));
+                var manager = GrainFactory.GetGrain<IManager>(managerId);
+                var loginName = await manager.GetManagerLoginName();
+                await this.ApplyEvent(new TransferTransactionMarkedAsProcessingEvent(managerId, loginName));
                 return ErrorCode.None;
             }
-            else
+            else if (this.State.ManagerId != managerId)
                 return ErrorCode.TranasferTransactionIsLockedByOther;
+
+            return ErrorCode.None;
         }
 
         async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid managerId, string transferTxNo)
         {
             if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
             {
-                var manager = GrainFactory.GetGrain<IManager>(managerId);
-                var loginName = await manager.GetManagerLoginName();
-                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, loginName, transferTxNo));
+                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
                 return ErrorCode.None;
             }
             else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
@@ -74,7 +74,7 @@ namespace Dotpay.Actor.Implementations
             {
                 var manager = GrainFactory.GetGrain<IManager>(managerId);
                 var loginName = await manager.GetManagerLoginName();
-                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(managerId, loginName, reason));
+                await this.ApplyEvent(new TransferTransactionConfirmedFailEvent(managerId, reason, loginName));
                 return ErrorCode.None;
             }
             else if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId != managerId)
@@ -183,12 +183,12 @@ namespace Dotpay.Actor.Implementations
             this.State.TransactionInfo = @event.TransferTransactionInfo;
             this.State.Status = TransferTransactionStatus.Submited;
 
-            if (@event.TransferTransactionInfo.Target.Payway==Payway.Ripple)
+            if (@event.TransferTransactionInfo.Target.Payway == Payway.Ripple)
             {
                 this.State.RippleTxStatus = RippleTransactionStatus.Initialized;
             }
 
-            this.State.CreateAt = @event.UTCTimestamp; 
+            this.State.CreateAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
         }
 
@@ -206,6 +206,8 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionMarkedAsProcessingEvent @event)
         {
             this.State.Status = TransferTransactionStatus.LockeByProcessor;
+            this.State.ManagerId = @event.ManagerId;
+            this.State.Manager = @event.ManagerName;
             this.State.LockAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
         }
@@ -214,8 +216,6 @@ namespace Dotpay.Actor.Implementations
             this.State.Status = TransferTransactionStatus.Completed;
             this.State.FiTransactionNo = @event.FiTransactionNo;
             this.State.CompleteAt = @event.UTCTimestamp;
-            this.State.ManagerId = @event.ManagerId;
-            this.State.Manager = @event.Manager;
             this.State.WriteStateAsync();
         }
         //如果转账失败，考虑把钱自动退到账户上

@@ -41,6 +41,7 @@
             "sort": false,
             "ajax": {
                 "url": "/ajax/user/list",
+                "type": "POST",
                 "data": function (d) {
                     return $.extend({}, d, {
                         "email": $('#search_email').val()

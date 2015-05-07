@@ -2,11 +2,12 @@
 <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 <link href="/assets/plugins/DataTables/css/data-table.css" rel="stylesheet" />
 <link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 <!-- ================== END PAGE LEVEL STYLE ================== -->
 <!-- begin #content -->
 <div id="content" class="content">
     <!-- begin page-header -->
-    <h1 class="page-header">待处理支付宝充值 <small> 来自支付宝的充值</small></h1>
+    <h1 class="page-header">点付转出交易历史 <small> 点付余额转账到金融机构的业务处理记录</small></h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row">
@@ -15,7 +16,7 @@
             <!-- begin panel -->
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">充值列表</h4>
+                    <h4 class="panel-title">已处理转账历史</h4>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -24,50 +25,63 @@
                                 <tr>
                                     <th>用户</th>
                                     <th>流水号</th>
+                                    <th>收款方式</th>
+                                    <th>收款账号</th>
                                     <th>金额</th>
-                                    <th>支付方式</th>
+                                    <th>转账交易号</th>
+                                    <th>处理人</th>
                                     <th>备注</th>
                                     <th>创建时间</th>
+                                    <th>处理时间</th>
                                 </tr>
                             </thead>
                         </table>
-                        <!-- #confirm deposit dialog-->
-                        <div class="modal fade" tabindex="-1" id="confirmDepositDialog">
+                        <!-- # complete dialog-->
+                        <div class="modal fade" tabindex="-1" id="completeTxDialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form class="form-horizontal form-bordered" data-parsley-validate id="formConfirmDeposit">
+                                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="formCompleteTx">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title">确认充值有效</h4>
+                                            <h4 class="modal-title">记录实际转账信息</h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="seqno">流水号 :</label>
+                                                <label class="control-label col-md-4 col-sm-4">转账目标机构 :</label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <input class="form-control" type="text" id="seqno" readonly />
+                                                    <input class="form-control" type="text" id="transferTo" readonly />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="amount">金额* :</label>
+                                                <label class="control-label col-md-4 col-sm-4">收款账号 :</label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <input class="form-control" type="text" id="amount" name="amount" autocomplete="off" placeholder="请输入金额再次核实" data-parsley-type="number" data-parsley-required>
+                                                    <input class="form-control" type="text" id="toaccount" readonly />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-4 col-sm-4" for="transferNo">支付宝交易号* :</label>
+                                                <label class="control-label col-md-4 col-sm-4" for="transferAmount">收款金额(核实)* :</label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <input class="form-control" type="text" id="transferNo" name="transferNo" autocomplete="off" placeholder="请输入支付宝交易号" data-parsley-required>
+                                                    <input type="hidden" id="txid" />
+                                                    <input type="hidden" id="transferHideAmount" />
+                                                    <input class="form-control" type="text" id="transferAmount" name="amount" autocomplete="off" placeholder="请输入转账金额以便核对" data-parsley-equalto="#transferHideAmount" data-parsley-required="true" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4 col-sm-4" for="transferNo">转账交易号* :</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input class="form-control" type="text" id="transferNo" name="transferNo" autocomplete="off" placeholder="请输入转账交易号" data-parsley-required="true" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <a class="btn btn-sm btn-white" data-dismiss="modal">关闭</a>
-                                            <button type="submit" class="btn btn-sm btn-success">确认</button>
+                                            <button type="submit" class="btn btn-sm btn-success">锁定</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                    
                     </div>
                 </div>
             </div>
@@ -78,19 +92,19 @@
     <!-- end row -->
 </div>
 <!-- end #content -->
+<!-- ================== BEGIN BASE JS ================== -->
+<script src="~/assets/plugins/parsley/dist/parsley.js"></script>
+<script src="~/assets/plugins/parsley/src/i18n/zh_cn.js"></script>
+<!-- ================== END BASE JS ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script>
     App.restartGlobalFunction();
-    App.setPageTitle('点付管理后台--待处理支付宝充值列表');
-
-    $.getScript('/assets/jss/deposit-list.js').done(function () {
-        DepositList.initAlipayPendingDepositListTable();
-    }); 
-
-    $.getScript('/assets/plugins/parsley/dist/parsley.js').done(function () {
-        $.getScript('/assets/plugins/parsley/src/i18n/zh_cn.js').done(function () {
-            window.ParsleyValidator.setLocale('zh_cn');
-        });
+    App.setPageTitle('点付管理后台--已处理转账历史');
+    $.getScript('/assets/jss/notification.js').done(function () {
+        Notification.init();
+    });
+    $.getScript('/assets/jss/dotpayToFi-list.js').done(function () {
+        DotpayToFiList.initCompleteList();
     });
 </script>
 <!-- ================== END PAGE LEVEL JS ================== -->

@@ -13,20 +13,21 @@ namespace Dotpay.Admin.ViewModel
     public class TransferFromDotpayToFiListViewModel
     {
         public Guid Id { get; set; }
-        public string UserLoginName { get; set; }
+        public string Email { get; set; }
         public string SequenceNo { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public string Payway { get; set; }
-        public string Bank { get; set; }
+        public Bank? Bank { get; set; }
+        public string BankName { get; set; }
         public string RealName { get; set; }
-        public string DestinationAccount { get; set; }
-        public string TransactionNo { get; set; }
+        public string Destination { get; set; }
+        public string FiTransactionNo { get; set; }
         public string Memo { get; set; }
 
         public DateTime CreateAt { get; set; }
         public DateTime? FailAt { get; set; }
-        DateTime? CompleteAt { get; set; }
+        public DateTime? CompleteAt { get; set; }
         public string Manager  { get; set; }
         public string Reason { get; set; }
     }

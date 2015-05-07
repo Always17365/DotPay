@@ -307,7 +307,7 @@
     <value>已取消</value>
   </data>
   <data name="TransferTransactionStatusFailed" xml:space="preserve">
-    <value>转账失败</value>
+    <value>交易失败-已退款</value>
   </data>
   <data name="TransferTransactionStatusLockeByProcessor" xml:space="preserve">
     <value>处理中</value>
@@ -419,5 +419,11 @@
   </data>
   <data name="invalidBankAccount" xml:space="preserve">
     <value>错误的银行账号格式</value>
+  </data>
+  <data name="TransferTransactionStatusCompleted" xml:space="preserve">
+    <value>交易成功</value>
+  </data>
+  <data name="FailReason" xml:space="preserve">
+    <value>失败原因:</value>
   </data>
 </root>

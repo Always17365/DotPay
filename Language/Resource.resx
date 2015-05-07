@@ -417,4 +417,10 @@
   <data name="invalidBankAccount" xml:space="preserve">
     <value>Invalid bank account</value>
   </data>
+  <data name="TransferTransactionStatusCompleted" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="FailReason" xml:space="preserve">
+    <value>Fail Reason :</value>
+  </data>
 </root>

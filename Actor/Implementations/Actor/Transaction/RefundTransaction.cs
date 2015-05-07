@@ -9,7 +9,7 @@
 ﻿using Orleans.EventSourcing;
 ﻿using Orleans.Providers;
 
-namespace Dotpay.Actor.Implementations.Actors.Transaction
+namespace Dotpay.Actor.Implementations
 {
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class RefundTransaction : EventSourcingGrain<RefundTransaction, IRefundTransactionState>, IRefundTransaction

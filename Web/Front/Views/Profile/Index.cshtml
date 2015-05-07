@@ -118,7 +118,7 @@
                                     else
                                     {
                                         <td>@Html.Lang(tx.Type)-@Html.Lang(tx.Payway==Payway.Bank?tx.Bank.Value.ToLangString():tx.Payway.ToLangString())<br>@(string.IsNullOrEmpty(tx.Destination) ? "" : Html.Lang("Receiver Account:") + tx.Destination)</td>
-                                    } 
+                                    }
                                     <td class="hide600">@tx.SequenceNo</td>
                                     <td>@(tx.Type.Contains("Deposit") ? tx.Amount.ToString("+#;0") : tx.Amount.ToString("-#;0"))</td>
                                     <td>
@@ -126,9 +126,14 @@
                                         {
                                             <a href="/transfer/@tx.Payway.ToString("F").ToLower()/confirm?txid=@tx.Id" class='btn btn-info btn-sm'>付款</a>
                                         }
+                                        else if (tx.Status == "TransferTransactionStatusFailed")
+                                        {
+                                        <span>@Html.Lang(tx.Status)</span> <br />
+                                        <span class="hide600">@Html.Lang("FailReason") @tx.Reason</span>
+                                        }
                                         else
                                         {
-                                            @Html.Lang(tx.Status)
+                                        @Html.Lang(tx.Status)
                                         }
                                     </td>
                                 </tr>

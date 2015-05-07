@@ -25,7 +25,7 @@ namespace Dotpay.Admin.Controllers
             return PartialView();
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowRoles(Role = ManagerType.TransferManager, Role1 = ManagerType.DepositManager, Role2 = ManagerType.MaintenanceManager)]
         [Route("~/ajax/user/list")]
         public async Task<ActionResult> GetUser(string email, int draw, int start, int length)

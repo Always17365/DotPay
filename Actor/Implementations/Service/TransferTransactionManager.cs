@@ -23,11 +23,7 @@ namespace Dotpay.Actor.Service.Implementations
         private const string MqTransferRouteKey = Constants.TransferTransactionManagerRouteKey;
         private const string MqToRippleQueueRouteKey = Constants.TransferToRippleRouteKey;
         private const string MqToRippleQueueName = Constants.TransferToRippleQueueName + Constants.QueueSuffix;
-        private const string MqRefundExchangeName = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix;
-
-        private static readonly ConcurrentDictionary<Guid, TaskScheduler> OrleansSchedulerContainer =
-            new ConcurrentDictionary<Guid, TaskScheduler>();
-
+        private const string MqRefundExchangeName = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix; 
 
         async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToDotpayTransaction(Guid transferTransactionId, Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo, string paymentPassword)
         {
@@ -78,8 +74,15 @@ namespace Dotpay.Actor.Service.Implementations
         async Task<ErrorCode> ITransferTransactionManager.MarkAsProcessing(Guid transferTransactionId, Guid managerId)
         {
             if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
-
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
+            var txinfo = await transferTransaction.GetTransactionInfo();
+
+            if (txinfo.Target.Payway == Payway.Ripple ||
+              txinfo.Target.Payway == Payway.Dotpay)
+            {
+                return ErrorCode.AutomaticTranasferTransactionCanNotProccessByManager;
+            }
+           
             return await transferTransaction.MarkAsProcessing(managerId);
         }
 
@@ -89,21 +92,37 @@ namespace Dotpay.Actor.Service.Implementations
             if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
+            var txinfo = await transferTransaction.GetTransactionInfo();
+
+            if (txinfo.Target.Payway == Payway.Ripple ||
+              txinfo.Target.Payway == Payway.Dotpay)
+            {
+                return ErrorCode.AutomaticTranasferTransactionCanNotProccessByManager;
+            }
             var code = await transferTransaction.ConfirmFail(managerId, reason);
+
             if (code == ErrorCode.None)
                 await PublishRefundMessage(transferTransactionId);
 
             return code;
         }
 
-        async Task<ErrorCode> ITransferTransactionManager.ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo)
+        async Task<ErrorCode> ITransferTransactionManager.ConfirmTransactionComplete(Guid transferTransactionId, string transferNo, decimal amount, Guid managerId)
         {
             if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
-            var code = await transferTransaction.ConfirmComplete(managerId, transferNo);
-
-            return code;
+            var txinfo =await transferTransaction.GetTransactionInfo();
+            if (txinfo.Target.Payway == Payway.Ripple ||
+                txinfo.Target.Payway == Payway.Dotpay)
+            {
+                return ErrorCode.AutomaticTranasferTransactionCanNotProccessByManager;
+            }
+            if (txinfo.Amount != amount)
+            {
+                return ErrorCode.TranasferTransactionAmountNotMatch;
+            }
+            return await transferTransaction.ConfirmComplete(managerId, transferNo); 
         }
 
         async Task ITransferTransactionManager.Receive(MqMessage message)

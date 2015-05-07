@@ -17,7 +17,7 @@ namespace Dotpay.Actor.Service
         Task<ErrorCode> SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo, string paymentPassword);
         Task<ErrorCode> MarkAsProcessing(Guid transferTransactionId, Guid managerId);
         Task<ErrorCode> ConfirmTransactionFail(Guid transferTransactionId, Guid managerId, string reason);
-        Task<ErrorCode> ConfirmTransactionComplete(Guid transferTransactionId, Guid managerId, string transferNo);
+        Task<ErrorCode> ConfirmTransactionComplete(Guid transferTransactionId, string transferNo,decimal amount, Guid managerId);
         Task Receive(MqMessage message);
     }
 

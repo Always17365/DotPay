@@ -36,7 +36,7 @@ namespace Dotpay.Common
         #region Manager
         UserManagerErrorBase = 1500,
         HasNoPermission = UserManagerErrorBase + 1,
-        SuperManagerHasInitialized = UserManagerErrorBase + 2, 
+        SuperManagerHasInitialized = UserManagerErrorBase + 2,
         #endregion
         #endregion
 
@@ -49,14 +49,16 @@ namespace Dotpay.Common
 
         #region Deposit
         DepositErrorBase = 3000,
-        DepositAmountNotMatch = DepositErrorBase+1,                      //充值金额不匹配
+        DepositAmountNotMatch = DepositErrorBase + 1,                        //充值金额不匹配
         #endregion
 
         #region Tranasfer
         TranasferErrorBase = 4000,
-        TranasferTransactionIsLockedByOther = TranasferErrorBase + 1,
-        TranasferTransactionSourceAccountNotExist = TranasferErrorBase + 2,
-        TranasferTransactionTargetAccountNotExist = TranasferErrorBase + 3,
+        TranasferTransactionIsLockedByOther = TranasferErrorBase + 1,                         //转账已被其它人在处理                                                                                  
+        TranasferTransactionSourceAccountNotExist = TranasferErrorBase + 2,                   //转账来源账户不存在
+        TranasferTransactionTargetAccountNotExist = TranasferErrorBase + 3,                   //目标账户不存在
+        TranasferTransactionAmountNotMatch = TranasferErrorBase + 4,                          //转账金额不相符
+        AutomaticTranasferTransactionCanNotProccessByManager = TranasferErrorBase + 5,        //自动处理的转账不可以被管理员人工处理
 
         #endregion
 

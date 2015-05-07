@@ -570,7 +570,7 @@
     <Content Include="Views\Deposit\Alipay.cshtml" />
     <Content Include="Views\Deposit\AlipayRedirect.cshtml" />
     <Content Include="Views\Transfer\Alipay.cshtml" />
-    <Content Include="Views\Transfer\InternalResult.cshtml" />
+    <Content Include="Views\Transfer\DotpayResult.cshtml" />
     <Content Include="Views\Transfer\Dotpay.cshtml" />
     <Content Include="Views\Transfer\YiShengRedirect.cshtml" />
     <Content Include="Views\Profile\SetPaymentPassword.cshtml" />

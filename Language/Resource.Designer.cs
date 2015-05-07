@@ -403,6 +403,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 Fail Reason : 的本地化字符串。
+        /// </summary>
+        internal static string FailReason {
+            get {
+                return ResourceManager.GetString("FailReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string Forget_password_ {
@@ -867,6 +876,15 @@ namespace Dotpay.Language {
         internal static string TransferTransactionStatusCanceled {
             get {
                 return ResourceManager.GetString("TransferTransactionStatusCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Success 的本地化字符串。
+        /// </summary>
+        internal static string TransferTransactionStatusCompleted {
+            get {
+                return ResourceManager.GetString("TransferTransactionStatusCompleted", resourceCulture);
             }
         }
         

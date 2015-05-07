@@ -54,27 +54,27 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class TransferTransactionMarkedAsProcessingEvent : GrainEvent
     {
-        public TransferTransactionMarkedAsProcessingEvent(Guid managerId)
+        public TransferTransactionMarkedAsProcessingEvent(Guid managerId,string managerName)
         {
             this.ManagerId = managerId;
+            this.ManagerName = managerName;
         }
 
         public Guid ManagerId { get; private set; }
+        public string ManagerName { get; set; }
     }
 
     [Immutable]
     [Serializable]
     public class TransferTransactionConfirmCompletedEvent : GrainEvent
     {
-        public TransferTransactionConfirmCompletedEvent(Guid managerId, string fiTransactionNo, string manager)
+        public TransferTransactionConfirmCompletedEvent(Guid managerId, string fiTransactionNo)
         {
             this.ManagerId = managerId;
             this.FiTransactionNo = fiTransactionNo;
-            this.Manager = manager;
         }
 
         public Guid ManagerId { get; private set; }
-        public string Manager { get; private set; }
         public string FiTransactionNo { get; private set; }
     }
 

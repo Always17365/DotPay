@@ -96,7 +96,7 @@ namespace Dotpay.FrontQueryServiceImpl
                                     Status = ((TransferTransactionStatus)row["Status"].AsInt32).ToLangString(),
                                     Payway = txinfo.Target.Payway,
                                     CreateAt = row["CreateAt"].AsDouble.ToLocalDateTime(),
-                                    Memo = row.GetValue("Memo", BsonValue.Create("")).AsString,
+                                    Memo = txinfo.Memo,
                                     Reason = row.GetValue("Reason", BsonValue.Create("")).AsString
                                 };
 
@@ -174,21 +174,26 @@ namespace Dotpay.FrontQueryServiceImpl
             {
                 Filter = filter
             };
-
-            using (var cursor = await collection.MapReduceAsync<BsonDocument>(map, reduce, options))
+            try
             {
-                var results = await cursor.ToListAsync();
-
-                var row = results.FirstOrDefault();
-                if (row != null)
+                using (var cursor = await collection.MapReduceAsync<BsonDocument>(map, reduce, options))
                 {
-                    if (row["value"].IsBsonDocument)
+                    var results = await cursor.ToListAsync();
+
+                    var row = results.FirstOrDefault();
+                    if (row != null)
                     {
-                        result = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        if (row["value"].IsBsonDocument)
+                        {
+                            result = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        }
+                        else
+                            result = (Decimal)row.GetValue("value", 0).ToDouble();
                     }
-                    else
-                        result = (Decimal)row.GetValue("value", 0).ToDouble();
                 }
+            }
+            catch (Exception ex)
+            {
             }
             return result;
         }
@@ -201,7 +206,9 @@ namespace Dotpay.FrontQueryServiceImpl
             #region out
             var condation1 = "'TransactionInfo.Source.AccountId' : '" + accountId.ToString().ToLower() + "'";
             var condation2 = "CreateAt:{ $gte:" + start.ToDoubleUnixTimestamp() + ",$lte:" + end.ToDoubleUnixTimestamp() + "}";
-            var condation3 = "Status: { $in:[" + TransferTransactionStatus.PreparationCompleted.ToString("D") + "," + TransferTransactionStatus.Completed.ToString("D") + "]}";
+            var condation3 = "Status: { $in:[" + TransferTransactionStatus.LockeByProcessor.ToString("D") + "," +
+                                                 TransferTransactionStatus.PreparationCompleted.ToString("D") + "," +
+                                                 TransferTransactionStatus.Completed.ToString("D") + "]}";
 
             var condations = new[] { condation1, condation2, condation3 };
 
@@ -217,22 +224,28 @@ namespace Dotpay.FrontQueryServiceImpl
             {
                 Filter = filter
             };
-
-            using (var cursor = await collection.MapReduceAsync<BsonDocument>(map, reduce, options))
+            try
             {
-                var results = await cursor.ToListAsync();
-
-                var row = results.FirstOrDefault();
-                if (row != null)
+                using (var cursor = await collection.MapReduceAsync<BsonDocument>(map, reduce, options))
                 {
-                    if (row["value"].IsBsonDocument)
+                    var results = await cursor.ToListAsync();
+
+                    var row = results.FirstOrDefault();
+                    if (row != null)
                     {
-                        @out = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        if (row["value"].IsBsonDocument)
+                        {
+                            @out = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        }
+                        else
+                            @out = (Decimal)row.GetValue("value", 0).ToDouble();
                     }
-                    else
-                        @out = (Decimal)row.GetValue("value", 0).ToDouble();
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
             #endregion
 
             #region in
@@ -255,21 +268,28 @@ namespace Dotpay.FrontQueryServiceImpl
                 Filter = filterIn
             };
 
-            using (var cursor = await collection.MapReduceAsync<BsonDocument>(mapIn, reduceIn, options_in))
+            try
             {
-                var results = await cursor.ToListAsync();
-
-                var row = results.FirstOrDefault();
-                if (row != null)
+                using (var cursor = await collection.MapReduceAsync<BsonDocument>(mapIn, reduceIn, options_in))
                 {
-                    if (row["value"].IsBsonDocument)
+                    var results = await cursor.ToListAsync();
+
+                    var row = results.FirstOrDefault();
+                    if (row != null)
                     {
-                        @in = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        if (row["value"].IsBsonDocument)
+                        {
+                            @in = (Decimal)row["value"].AsBsonDocument.GetValue("sum", 0).ToDouble();
+                        }
+                        else
+                            @in = (Decimal)row.GetValue("value", 0).ToDouble();
                     }
-                    else
-                        @in = (Decimal)row.GetValue("value", 0).ToDouble();
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
             #endregion
 
             return new Tuple<decimal, decimal>(@out, @in);

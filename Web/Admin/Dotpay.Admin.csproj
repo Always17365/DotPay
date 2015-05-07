@@ -3529,12 +3529,14 @@
     <Content Include="Views\Home\NoPermission.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\List.cshtml" />
-    <Content Include="Views\Transfer\DotpayToFi.cshtml" />
+    <Content Include="Views\Transfer\DotpayToFiPendingList.cshtml" />
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\Deposit\PendingList.cshtml" />
     <Content Include="Views\Deposit\AlipayPendingList.cshtml" />
     <Content Include="Views\Deposit\CompleteList.cshtml" />
     <Content Include="Views\Deposit\FailList.cshtml" />
+    <Content Include="Views\Transfer\DotpayToFiCompleteList.cshtml" />
+    <Content Include="Views\Transfer\DotpayToFiFailList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3561,6 +3563,10 @@
     <ProjectReference Include="..\..\Common\Dotpay.Common.csproj">
       <Project>{1e3c1df9-8ccb-473b-8a04-1f5c6d87c6a1}</Project>
       <Name>Dotpay.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Language\Dotpay.Language.csproj">
+      <Project>{9e132226-8ecc-4ea6-8982-4b13096843c0}</Project>
+      <Name>Dotpay.Language</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Query\AdminQueryService\Dotpay.AdminQueryService.csproj">
       <Project>{5fd23753-4087-4027-ac84-7cdc77023af3}</Project>

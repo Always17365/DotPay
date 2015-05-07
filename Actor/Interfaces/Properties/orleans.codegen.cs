@@ -4887,10 +4887,10 @@ namespace Dotpay.Actor.Service
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1362925427, new object[] {@transferTransactionId, @managerId, @reason} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.ConfirmTransactionComplete(System.Guid @transferTransactionId, System.Guid @managerId, string @transferNo)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ITransferTransactionManager.ConfirmTransactionComplete(System.Guid @transferTransactionId, string @transferNo, decimal @amount, System.Guid @managerId)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-468232727, new object[] {@transferTransactionId, @managerId, @transferNo} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(2000391533, new object[] {@transferTransactionId, @transferNo, @amount, @managerId} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.Service.ITransferTransactionManager.Receive(Dotpay.Actor.MqMessage @message)
@@ -4937,8 +4937,8 @@ namespace Dotpay.Actor.Service
                                 return ((ITransferTransactionManager)grain).MarkAsProcessing((Guid)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1362925427: 
                                 return ((ITransferTransactionManager)grain).ConfirmTransactionFail((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
-                            case -468232727: 
-                                return ((ITransferTransactionManager)grain).ConfirmTransactionComplete((Guid)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case 2000391533: 
+                                return ((ITransferTransactionManager)grain).ConfirmTransactionComplete((Guid)arguments[0], (String)arguments[1], (Decimal)arguments[2], (Guid)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 992454065: 
                                 return ((ITransferTransactionManager)grain).Receive((Dotpay.Actor.MqMessage)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             default: 
@@ -4982,7 +4982,7 @@ namespace Dotpay.Actor.Service
                             return "MarkAsProcessing";
                     case 1362925427:
                             return "ConfirmTransactionFail";
-                    case -468232727:
+                    case 2000391533:
                             return "ConfirmTransactionComplete";
                     case 992454065:
                             return "Receive";

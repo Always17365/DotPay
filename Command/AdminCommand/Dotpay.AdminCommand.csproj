@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TransferCommand.cs" />
     <Compile Include="DepositCommand.cs" />
     <Compile Include="UserCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
