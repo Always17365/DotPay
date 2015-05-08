@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dotpay.Common.Enum;
+﻿using System.Threading.Tasks;
 using Orleans;
-﻿using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Tools
 {
-    public interface ISequenceNoGenerator : Orleans.IGrainWithIntegerKey
+    public interface ISequenceNoGenerator : IGrainWithIntegerKey
     {
         Task<string> GetNext();
     }

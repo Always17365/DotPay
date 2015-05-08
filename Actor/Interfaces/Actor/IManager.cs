@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orleans;
 using Dotpay.Common;
+using Orleans;
 
 namespace Dotpay.Actor
 {
-    public interface IManager : Orleans.IGrainWithGuidKey
+    public interface IManager : IGrainWithGuidKey
     {
         Task Initialize(string loginName, string loginPassword, string twofactorKey, Guid createBy);
         Task<ErrorCode> Login(string loginPassword, string ip);

@@ -20,7 +20,7 @@ namespace Dotpay.Actor.Implementations
         private readonly List<DateTime> _paymentPasswordFailCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetLoginPasswordCounter = new List<DateTime>();
         private readonly List<DateTime> _forgetPaymentPasswordCounter = new List<DateTime>();
-        private DateTime lastResetActiveTokenAt;
+        private DateTime _lastResetActiveTokenAt;
         private const int MAX_RETRY_LOGIN_TIMES = 5;
         private const int MAX_RETRY_PAYMENT_PASSWORD_TIMES = 3;
         private const int MAX_FORGET_PASSWORD_TIMES = 3;
@@ -47,12 +47,12 @@ namespace Dotpay.Actor.Implementations
             }
             else
             {
-                if (lastResetActiveTokenAt.AddMinutes(15) > DateTime.Now)
+                if (this._lastResetActiveTokenAt.AddMinutes(15) > DateTime.Now)
                     return ErrorCode.UserActiveEmailSendFrequently;
                 else
                 {
                     await this.ApplyEvent(new UserActiveTokenResetEvent(activeToken));
-                    lastResetActiveTokenAt = DateTime.Now;
+                    this._lastResetActiveTokenAt = DateTime.Now;
                     return ErrorCode.None;
                 }
             }

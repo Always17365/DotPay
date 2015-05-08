@@ -8,13 +8,13 @@ using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
-namespace Dotpay.Actor.Implementations
+namespace Dotpay.Actor.Implementationsi
 {
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public class RippleToFI : EventSourcingGrain<RippleToFI, IRippleToFITransactionState>, IRippleToFITransaction
+    public class RippleToFi : EventSourcingGrain<RippleToFi, IRippleToFITransactionState>, IRippleToFiTransaction
     {
         #region IRippleToFITransaction
-        Task IRippleToFITransaction.Initialize(string rippleTxId, string invoiceId, Payway payway, string destination, string realName, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
+        Task IRippleToFiTransaction.Initialize(string rippleTxId, string invoiceId, Payway payway, string destination, string realName, CurrencyType currency, decimal amount, decimal sendAmount, string memo)
         {
             if (string.IsNullOrEmpty(this.State.InvoiceId))
                 return this.ApplyEvent(new RippleToFIInitializedEvent(this.GetPrimaryKeyLong(), rippleTxId, invoiceId, payway, destination, currency, amount, sendAmount, memo));
@@ -22,7 +22,7 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        async Task<ErrorCode> IRippleToFITransaction.Lock(Guid managerId)
+        async Task<ErrorCode> IRippleToFiTransaction.Lock(Guid managerId)
         {
             if (this.State.Locked && this.State.OperatorId != managerId)
             {
@@ -35,7 +35,7 @@ namespace Dotpay.Actor.Implementations
             }
         }
 
-        async Task<ErrorCode> IRippleToFITransaction.Complete(string transferNo, Guid managerId, string managerMemo)
+        async Task<ErrorCode> IRippleToFiTransaction.Complete(string transferNo, Guid managerId, string managerMemo)
         {
             //如果被标记为失败的，允许管理员直接再次进行完成操作
             if (this.State.Status == RippleToFITransactionStatus.LockeByProcessor ||
@@ -54,7 +54,7 @@ namespace Dotpay.Actor.Implementations
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> IRippleToFITransaction.Fail(string reason, Guid managerId)
+        async Task<ErrorCode> IRippleToFiTransaction.Fail(string reason, Guid managerId)
         {
             if (this.State.Status == RippleToFITransactionStatus.LockeByProcessor)
             {

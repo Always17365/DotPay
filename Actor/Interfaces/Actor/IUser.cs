@@ -1,10 +1,8 @@
-﻿using Orleans;
+﻿using System;
 using System.Threading.Tasks;
 using Dotpay.Common;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 using Dotpay.Common.Enum;
+using Orleans;
 
 namespace Dotpay.Actor
 {

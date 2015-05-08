@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using DFramework;
+using Dotpay.Common.Enum;
 using Dotpay.Front.ViewModel;
 using Dotpay.FrontQueryService;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using DFramework;
-using Dotpay.Common.Enum;
 
 namespace Dotpay.FrontQueryServiceImpl
 {

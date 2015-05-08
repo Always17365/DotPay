@@ -17,7 +17,7 @@ namespace Dotpay.AdminCommandExcutor
         public async Task ExecuteAsync(UpdateToFISettingCommand cmd)
         {
             var systemSettingService = GrainFactory.GetGrain<ISystemSettingService>(0);
-            var setting = new RippleToFISetting()
+            var setting = new RippleToFiSetting()
             {
                 MinAmount = cmd.MinAmount,
                 MaxAmount = cmd.MaxAmount,
@@ -26,7 +26,7 @@ namespace Dotpay.AdminCommandExcutor
                 MinFee = cmd.MinFee,
                 MaxFee = cmd.MaxFee
             };
-            cmd.CommandResult = await systemSettingService.UpdateRippleToFISetting(setting, cmd.UpdateBy);
+            cmd.CommandResult = await systemSettingService.UpdateRippleToFiSetting(setting, cmd.UpdateBy);
         }
 
         public async Task ExecuteAsync(UpdateToDotpaySettingCommand cmd)

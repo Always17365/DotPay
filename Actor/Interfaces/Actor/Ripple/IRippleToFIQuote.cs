@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor
 {
-    public interface IRippleToFIQuote : IGrainWithIntegerKey
+    public interface IRippleToFiQuote : IGrainWithIntegerKey
     {
         Task Initialize(string invoiceId, Payway payway, string destination, string realName, decimal amount, decimal sendAmount, string memo);
         Task<ErrorCode> Complete(string invoiceId, string txId, decimal sendAmount);

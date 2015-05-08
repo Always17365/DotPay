@@ -2,7 +2,6 @@
 ﻿using System;
 ﻿using System.Threading.Tasks;
 ﻿using Dotpay.Actor.Events;
-﻿using Dotpay.Actor;
 ﻿using Dotpay.Common;
 ﻿using Orleans.EventSourcing;
 ﻿using Orleans.Providers;
@@ -12,12 +11,12 @@ namespace Dotpay.Actor.Implementations
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
     public class SystemSetting : EventSourcingGrain<SystemSetting, ISystemSettingState>, ISystemSetting
     {
-        Task<RippleToFISetting> ISystemSetting.GetRippleToFISetting()
+        Task<RippleToFiSetting> ISystemSetting.GetRippleToFiSetting()
         {
             return Task.FromResult(this.State.RippleToFISetting);
         }
 
-        Task ISystemSetting.UpdateRippleToFISetting(RippleToFISetting setting, Guid updateBy)
+        Task ISystemSetting.UpdateRippleToFiSetting(RippleToFiSetting setting, Guid updateBy)
         {
             return this.ApplyEvent(new RippleToFISettingUpdatedEvent(setting, updateBy));
         }
@@ -52,7 +51,7 @@ namespace Dotpay.Actor.Implementations
 
     public interface ISystemSettingState : IEventSourcingState
     {
-        RippleToFISetting RippleToFISetting { get; set; }
+        RippleToFiSetting RippleToFISetting { get; set; }
         RippleToDotpaySetting RippleToDotpaySetting { get; set; }
         DateTime FISettingUpdateAt { get; set; }
         Guid FISettingUpdateBy { get; set; }

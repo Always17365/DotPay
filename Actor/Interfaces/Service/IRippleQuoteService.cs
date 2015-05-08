@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dotpay.Actor;
-using Dotpay.Actor.Ripple;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;

@@ -288,8 +288,8 @@ namespace Dotpay.Actor.Implementations
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFIQuote")]
-    public class RippleToFIQuoteState : global::Orleans.CodeGeneration.GrainState, IRippleToFIQuoteState
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFiQuote")]
+    public class RippleToFiQuoteState : global::Orleans.CodeGeneration.GrainState, IRippleToFIQuoteState
     {
         
 
@@ -340,11 +340,11 @@ namespace Dotpay.Actor.Implementations
 
             public override System.String ToString()
             {
-                return System.String.Format("RippleToFIQuoteState( Id={0} Status={1} InvoiceId={2} TxId={3} Payway={4} Destination={5} RealName={6} Currency={7} Amount={8} SendAmount={9} Memo={10} CreateAt={11} ReceiveAt={12} )", @Id, @Status, @InvoiceId, @TxId, @Payway, @Destination, @RealName, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
+                return System.String.Format("RippleToFiQuoteState( Id={0} Status={1} InvoiceId={2} TxId={3} Payway={4} Destination={5} RealName={6} Currency={7} Amount={8} SendAmount={9} Memo={10} CreateAt={11} ReceiveAt={12} )", @Id, @Status, @InvoiceId, @TxId, @Payway, @Destination, @RealName, @Currency, @Amount, @SendAmount, @Memo, @CreateAt, @ReceiveAt);
             }
         
-        public RippleToFIQuoteState() : 
-                base("Dotpay.Actor.Implementations.RippleToFIQuote")
+        public RippleToFiQuoteState() : 
+                base("Dotpay.Actor.Implementations.RippleToFiQuote")
         {
             this.InitStateFields();
         }
@@ -388,21 +388,21 @@ namespace Dotpay.Actor.Implementations
         [global::Orleans.CodeGeneration.CopierMethodAttribute()]
         public static object _Copier(object original)
         {
-            RippleToFIQuoteState input = ((RippleToFIQuoteState)(original));
+            RippleToFiQuoteState input = ((RippleToFiQuoteState)(original));
             return input.DeepCopy();
         }
         
         [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
         public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
-            RippleToFIQuoteState input = ((RippleToFIQuoteState)(original));
+            RippleToFiQuoteState input = ((RippleToFiQuoteState)(original));
             input.SerializeTo(stream);
         }
         
         [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
         public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            RippleToFIQuoteState result = new RippleToFIQuoteState();
+            RippleToFiQuoteState result = new RippleToFiQuoteState();
             result.DeserializeFrom(stream);
             return result;
         }
@@ -873,149 +873,6 @@ namespace Dotpay.Actor.Implementations
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [SerializableAttribute()]
-    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.RippleToFI")]
-    public class RippleToFIState : global::Orleans.CodeGeneration.GrainState, IRippleToFITransactionState
-    {
-        
-
-            public Int64 @Version { get; set; }
-
-            public Int64 @Id { get; set; }
-
-            public RippleToFITransactionStatus @Status { get; set; }
-
-            public String @RippleTxId { get; set; }
-
-            public String @InvoiceId { get; set; }
-
-            public Payway @Payway { get; set; }
-
-            public String @Destination { get; set; }
-
-            public CurrencyType @Currency { get; set; }
-
-            public Decimal @Amount { get; set; }
-
-            public Decimal @SendAmount { get; set; }
-
-            public String @Memo { get; set; }
-
-            public String @ManagerMemo { get; set; }
-
-            public Boolean @Locked { get; set; }
-
-            public Nullable<Guid> @OperatorId { get; set; }
-
-            public DateTime @CreateAt { get; set; }
-
-            public Nullable<DateTime> @CompleteAt { get; set; }
-
-            public Nullable<DateTime> @FailAt { get; set; }
-
-            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
-            {   
-                object value;
-                if (values == null) { InitStateFields(); return; }
-                if (values.TryGetValue("Version", out value)) @Version = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("Status", out value)) @Status = (RippleToFITransactionStatus) value;
-                if (values.TryGetValue("RippleTxId", out value)) @RippleTxId = (String) value;
-                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
-                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
-                if (values.TryGetValue("Destination", out value)) @Destination = (String) value;
-                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
-                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
-                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
-                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
-                if (values.TryGetValue("ManagerMemo", out value)) @ManagerMemo = (String) value;
-                if (values.TryGetValue("Locked", out value)) @Locked = (Boolean) value;
-                if (values.TryGetValue("OperatorId", out value)) @OperatorId = (Nullable<Guid>) value;
-                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
-                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
-                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
-            }
-
-            public override System.String ToString()
-            {
-                return System.String.Format("RippleToFIState( Version={0} Id={1} Status={2} RippleTxId={3} InvoiceId={4} Payway={5} Destination={6} Currency={7} Amount={8} SendAmount={9} Memo={10} ManagerMemo={11} Locked={12} OperatorId={13} CreateAt={14} CompleteAt={15} FailAt={16} )", @Version, @Id, @Status, @RippleTxId, @InvoiceId, @Payway, @Destination, @Currency, @Amount, @SendAmount, @Memo, @ManagerMemo, @Locked, @OperatorId, @CreateAt, @CompleteAt, @FailAt);
-            }
-        
-        public RippleToFIState() : 
-                base("Dotpay.Actor.Implementations.RippleToFI")
-        {
-            this.InitStateFields();
-        }
-        
-        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
-        {
-            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
-            result["Version"] = this.Version;
-            result["Id"] = this.Id;
-            result["Status"] = this.Status;
-            result["RippleTxId"] = this.RippleTxId;
-            result["InvoiceId"] = this.InvoiceId;
-            result["Payway"] = this.Payway;
-            result["Destination"] = this.Destination;
-            result["Currency"] = this.Currency;
-            result["Amount"] = this.Amount;
-            result["SendAmount"] = this.SendAmount;
-            result["Memo"] = this.Memo;
-            result["ManagerMemo"] = this.ManagerMemo;
-            result["Locked"] = this.Locked;
-            result["OperatorId"] = this.OperatorId;
-            result["CreateAt"] = this.CreateAt;
-            result["CompleteAt"] = this.CompleteAt;
-            result["FailAt"] = this.FailAt;
-            return result;
-        }
-        
-        private void InitStateFields()
-        {
-            this.Version = default(Int64);
-            this.Id = default(Int64);
-            this.Status = default(RippleToFITransactionStatus);
-            this.RippleTxId = default(String);
-            this.InvoiceId = default(String);
-            this.Payway = default(Payway);
-            this.Destination = default(String);
-            this.Currency = default(CurrencyType);
-            this.Amount = default(Decimal);
-            this.SendAmount = default(Decimal);
-            this.Memo = default(String);
-            this.ManagerMemo = default(String);
-            this.Locked = default(Boolean);
-            this.OperatorId = default(Nullable<Guid>);
-            this.CreateAt = default(DateTime);
-            this.CompleteAt = default(Nullable<DateTime>);
-            this.FailAt = default(Nullable<DateTime>);
-        }
-        
-        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
-        public static object _Copier(object original)
-        {
-            RippleToFIState input = ((RippleToFIState)(original));
-            return input.DeepCopy();
-        }
-        
-        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
-        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
-        {
-            RippleToFIState input = ((RippleToFIState)(original));
-            input.SerializeTo(stream);
-        }
-        
-        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
-        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
-        {
-            RippleToFIState result = new RippleToFIState();
-            result.DeserializeFrom(stream);
-            return result;
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
-    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [SerializableAttribute()]
     [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementations.Dotpay.Actor.Implementations.SystemSetting")]
     public class SystemSettingState : global::Orleans.CodeGeneration.GrainState, ISystemSettingState
     {
@@ -1023,7 +880,7 @@ namespace Dotpay.Actor.Implementations
 
             public Int64 @Version { get; set; }
 
-            public RippleToFISetting @RippleToFISetting { get; set; }
+            public RippleToFiSetting @RippleToFISetting { get; set; }
 
             public RippleToDotpaySetting @RippleToDotpaySetting { get; set; }
 
@@ -1040,7 +897,7 @@ namespace Dotpay.Actor.Implementations
                 object value;
                 if (values == null) { InitStateFields(); return; }
                 if (values.TryGetValue("Version", out value)) @Version = value is Int32 ? (Int32)value : (Int64)value;
-                if (values.TryGetValue("RippleToFISetting", out value)) @RippleToFISetting = (RippleToFISetting) value;
+                if (values.TryGetValue("RippleToFISetting", out value)) @RippleToFISetting = (RippleToFiSetting) value;
                 if (values.TryGetValue("RippleToDotpaySetting", out value)) @RippleToDotpaySetting = (RippleToDotpaySetting) value;
                 if (values.TryGetValue("FISettingUpdateAt", out value)) @FISettingUpdateAt = (DateTime) value;
                 if (values.TryGetValue("FISettingUpdateBy", out value)) @FISettingUpdateBy = (Guid) value;
@@ -1075,7 +932,7 @@ namespace Dotpay.Actor.Implementations
         private void InitStateFields()
         {
             this.Version = default(Int64);
-            this.RippleToFISetting = new RippleToFISetting();
+            this.RippleToFISetting = new RippleToFiSetting();
             this.RippleToDotpaySetting = new RippleToDotpaySetting();
             this.FISettingUpdateAt = default(DateTime);
             this.FISettingUpdateBy = default(Guid);
@@ -1384,6 +1241,162 @@ namespace Dotpay.Actor.Service.Implementations
     using System.Runtime.InteropServices;
     using System.Runtime.Serialization;
     
+}
+namespace Dotpay.Actor.Implementationsi
+{
+    using System;
+    using Dotpay.Common.Enum;
+    using System.Collections.Generic;
+    using System.Collections;
+    using System.Runtime.Serialization;
+    using Orleans.CodeGeneration;
+    using Orleans;
+    using Orleans.EventSourcing;
+    using System.Runtime.InteropServices;
+    
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [SerializableAttribute()]
+    [global::Orleans.CodeGeneration.GrainStateAttribute("Dotpay.Actor.Implementationsi.Dotpay.Actor.Implementationsi.RippleToFi")]
+    public class RippleToFiState : global::Orleans.CodeGeneration.GrainState, IRippleToFITransactionState
+    {
+        
+
+            public Int64 @Version { get; set; }
+
+            public Int64 @Id { get; set; }
+
+            public RippleToFITransactionStatus @Status { get; set; }
+
+            public String @RippleTxId { get; set; }
+
+            public String @InvoiceId { get; set; }
+
+            public Payway @Payway { get; set; }
+
+            public String @Destination { get; set; }
+
+            public CurrencyType @Currency { get; set; }
+
+            public Decimal @Amount { get; set; }
+
+            public Decimal @SendAmount { get; set; }
+
+            public String @Memo { get; set; }
+
+            public String @ManagerMemo { get; set; }
+
+            public Boolean @Locked { get; set; }
+
+            public Nullable<Guid> @OperatorId { get; set; }
+
+            public DateTime @CreateAt { get; set; }
+
+            public Nullable<DateTime> @CompleteAt { get; set; }
+
+            public Nullable<DateTime> @FailAt { get; set; }
+
+            public override void SetAll(System.Collections.Generic.IDictionary<string,object> values)
+            {   
+                object value;
+                if (values == null) { InitStateFields(); return; }
+                if (values.TryGetValue("Version", out value)) @Version = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Id", out value)) @Id = value is Int32 ? (Int32)value : (Int64)value;
+                if (values.TryGetValue("Status", out value)) @Status = (RippleToFITransactionStatus) value;
+                if (values.TryGetValue("RippleTxId", out value)) @RippleTxId = (String) value;
+                if (values.TryGetValue("InvoiceId", out value)) @InvoiceId = (String) value;
+                if (values.TryGetValue("Payway", out value)) @Payway = (Payway) value;
+                if (values.TryGetValue("Destination", out value)) @Destination = (String) value;
+                if (values.TryGetValue("Currency", out value)) @Currency = (CurrencyType) value;
+                if (values.TryGetValue("Amount", out value)) @Amount = (Decimal) value;
+                if (values.TryGetValue("SendAmount", out value)) @SendAmount = (Decimal) value;
+                if (values.TryGetValue("Memo", out value)) @Memo = (String) value;
+                if (values.TryGetValue("ManagerMemo", out value)) @ManagerMemo = (String) value;
+                if (values.TryGetValue("Locked", out value)) @Locked = (Boolean) value;
+                if (values.TryGetValue("OperatorId", out value)) @OperatorId = (Nullable<Guid>) value;
+                if (values.TryGetValue("CreateAt", out value)) @CreateAt = (DateTime) value;
+                if (values.TryGetValue("CompleteAt", out value)) @CompleteAt = (Nullable<DateTime>) value;
+                if (values.TryGetValue("FailAt", out value)) @FailAt = (Nullable<DateTime>) value;
+            }
+
+            public override System.String ToString()
+            {
+                return System.String.Format("RippleToFiState( Version={0} Id={1} Status={2} RippleTxId={3} InvoiceId={4} Payway={5} Destination={6} Currency={7} Amount={8} SendAmount={9} Memo={10} ManagerMemo={11} Locked={12} OperatorId={13} CreateAt={14} CompleteAt={15} FailAt={16} )", @Version, @Id, @Status, @RippleTxId, @InvoiceId, @Payway, @Destination, @Currency, @Amount, @SendAmount, @Memo, @ManagerMemo, @Locked, @OperatorId, @CreateAt, @CompleteAt, @FailAt);
+            }
+        
+        public RippleToFiState() : 
+                base("Dotpay.Actor.Implementationsi.RippleToFi")
+        {
+            this.InitStateFields();
+        }
+        
+        public override System.Collections.Generic.IDictionary<string, object> AsDictionary()
+        {
+            System.Collections.Generic.Dictionary<string, object> result = new System.Collections.Generic.Dictionary<string, object>();
+            result["Version"] = this.Version;
+            result["Id"] = this.Id;
+            result["Status"] = this.Status;
+            result["RippleTxId"] = this.RippleTxId;
+            result["InvoiceId"] = this.InvoiceId;
+            result["Payway"] = this.Payway;
+            result["Destination"] = this.Destination;
+            result["Currency"] = this.Currency;
+            result["Amount"] = this.Amount;
+            result["SendAmount"] = this.SendAmount;
+            result["Memo"] = this.Memo;
+            result["ManagerMemo"] = this.ManagerMemo;
+            result["Locked"] = this.Locked;
+            result["OperatorId"] = this.OperatorId;
+            result["CreateAt"] = this.CreateAt;
+            result["CompleteAt"] = this.CompleteAt;
+            result["FailAt"] = this.FailAt;
+            return result;
+        }
+        
+        private void InitStateFields()
+        {
+            this.Version = default(Int64);
+            this.Id = default(Int64);
+            this.Status = default(RippleToFITransactionStatus);
+            this.RippleTxId = default(String);
+            this.InvoiceId = default(String);
+            this.Payway = default(Payway);
+            this.Destination = default(String);
+            this.Currency = default(CurrencyType);
+            this.Amount = default(Decimal);
+            this.SendAmount = default(Decimal);
+            this.Memo = default(String);
+            this.ManagerMemo = default(String);
+            this.Locked = default(Boolean);
+            this.OperatorId = default(Nullable<Guid>);
+            this.CreateAt = default(DateTime);
+            this.CompleteAt = default(Nullable<DateTime>);
+            this.FailAt = default(Nullable<DateTime>);
+        }
+        
+        [global::Orleans.CodeGeneration.CopierMethodAttribute()]
+        public static object _Copier(object original)
+        {
+            RippleToFiState input = ((RippleToFiState)(original));
+            return input.DeepCopy();
+        }
+        
+        [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
+        public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            RippleToFiState input = ((RippleToFiState)(original));
+            input.SerializeTo(stream);
+        }
+        
+        [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
+        public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            RippleToFiState result = new RippleToFiState();
+            result.DeserializeFrom(stream);
+            return result;
+        }
+    }
 }
 namespace Dotpay.Actors.Service.Implementations
 {

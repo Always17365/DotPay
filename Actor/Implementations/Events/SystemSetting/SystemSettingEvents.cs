@@ -9,13 +9,13 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class RippleToFISettingUpdatedEvent : GrainEvent
     {
-        public RippleToFISettingUpdatedEvent(RippleToFISetting setting, Guid updateBy)
+        public RippleToFISettingUpdatedEvent(RippleToFiSetting setting, Guid updateBy)
         {
             this.Setting = setting; 
             this.UpdateBy = updateBy;
         }
 
-        public RippleToFISetting Setting { get; private set; } 
+        public RippleToFiSetting Setting { get; private set; } 
         public Guid UpdateBy { get; private set; }
     }
 

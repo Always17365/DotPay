@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
-﻿using Orleans;
+using Orleans;
 
 namespace Dotpay.Actor.Service
 {
 
-    public interface IUserResetPasswordService : Orleans.IGrainWithIntegerKey
+    public interface IUserResetPasswordService : IGrainWithIntegerKey
     {
         Task<ErrorCode> ForgetLoginPassword(Guid userId, Lang lang);
         Task<ErrorCode> ResetLoginPassword(Guid userId, string newLoginPassword, string resetToken);

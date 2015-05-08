@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-﻿using Dotpay.Actor;
 using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service
 {
-    public interface IRefundTransactionManager : Orleans.IGrainWithIntegerKey
+    public interface IRefundTransactionManager : IGrainWithIntegerKey
     {
         Task Receive(MqMessage message);
     }

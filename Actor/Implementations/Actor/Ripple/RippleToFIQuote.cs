@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-﻿using Dotpay.Common;
-﻿using Dotpay.Common.Enum;
-﻿using Orleans;
-﻿using Orleans.Providers;
-﻿using Orleans.Runtime;
+using Dotpay.Common;
+using Dotpay.Common.Enum;
+using Orleans;
+using Orleans.Providers;
+using Orleans.Runtime;
 
 namespace Dotpay.Actor.Implementations
 {
     [StorageProvider(ProviderName = Constants.StorageProviderName)]
-    public class RippleToFIQuote : Grain<IRippleToFIQuoteState>, IRippleToFIQuote, IRemindable
+    public class RippleToFiQuote : Grain<IRippleToFIQuoteState>, IRippleToFiQuote, IRemindable
     {
-        async Task IRippleToFIQuote.Initialize(string invoiceId, Payway payway, string destination, string realName, decimal amount, decimal sendAmount, string memo)
+        async Task IRippleToFiQuote.Initialize(string invoiceId, Payway payway, string destination, string realName, decimal amount, decimal sendAmount, string memo)
         {
             if (this.State.Status < RippleTransactionStatus.Completed) return;
 
@@ -33,7 +30,7 @@ namespace Dotpay.Actor.Implementations
             await this.State.WriteStateAsync();
         }
 
-        async Task<ErrorCode> IRippleToFIQuote.Complete(string invoiceId, string txId, decimal sendAmount)
+        async Task<ErrorCode> IRippleToFiQuote.Complete(string invoiceId, string txId, decimal sendAmount)
         {
             if (this.State.Status == RippleTransactionStatus.Initialized)
             {
@@ -60,7 +57,7 @@ namespace Dotpay.Actor.Implementations
             return ErrorCode.None;
         }
 
-        Task<RippleToFiQuoteInfo> IRippleToFIQuote.GetQuoteInfo()
+        Task<RippleToFiQuoteInfo> IRippleToFiQuote.GetQuoteInfo()
         {
             return Task.FromResult(new RippleToFiQuoteInfo(this.State.InvoiceId, this.State.Payway, this.State.Destination,
                 this.State.RealName, this.State.Currency, this.State.Amount, this.State.SendAmount, this.State.Memo));

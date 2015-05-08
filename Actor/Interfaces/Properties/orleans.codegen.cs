@@ -958,46 +958,46 @@ namespace Dotpay.Actor
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class RippleToFIQuoteFactory
+    public class RippleToFiQuoteFactory
     {
         
 
-                        public static Dotpay.Actor.IRippleToFIQuote GetGrain(long primaryKey)
+                        public static Dotpay.Actor.IRippleToFiQuote GetGrain(long primaryKey)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFIQuote), 1937682618, primaryKey));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFiQuote), 2095194828, primaryKey));
                         }
 
-                        public static Dotpay.Actor.IRippleToFIQuote GetGrain(long primaryKey, string grainClassNamePrefix)
+                        public static Dotpay.Actor.IRippleToFiQuote GetGrain(long primaryKey, string grainClassNamePrefix)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFIQuote), 1937682618, primaryKey, grainClassNamePrefix));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFiQuote), 2095194828, primaryKey, grainClassNamePrefix));
                         }
 
-            public static Dotpay.Actor.IRippleToFIQuote Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.IRippleToFiQuote Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return RippleToFIQuoteReference.Cast(grainRef);
+                return RippleToFiQuoteReference.Cast(grainRef);
             }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
-        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFIQuote")]
-        internal class RippleToFIQuoteReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.IRippleToFIQuote
+        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFiQuote")]
+        internal class RippleToFiQuoteReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.IRippleToFiQuote
         {
             
 
-            public static Dotpay.Actor.IRippleToFIQuote Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.IRippleToFiQuote Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return (Dotpay.Actor.IRippleToFIQuote) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.IRippleToFIQuote), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFIQuoteReference(gr);}, grainRef, 1937682618);
+                return (Dotpay.Actor.IRippleToFiQuote) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.IRippleToFiQuote), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFiQuoteReference(gr);}, grainRef, 2095194828);
             }
             
-            protected internal RippleToFIQuoteReference(global::Orleans.Runtime.GrainReference reference) : 
+            protected internal RippleToFiQuoteReference(global::Orleans.Runtime.GrainReference reference) : 
                     base(reference)
             {
             }
             
-            protected internal RippleToFIQuoteReference(SerializationInfo info, StreamingContext context) : 
+            protected internal RippleToFiQuoteReference(SerializationInfo info, StreamingContext context) : 
                     base(info, context)
             {
             }
@@ -1006,7 +1006,7 @@ namespace Dotpay.Actor
             {
                 get
                 {
-                    return 1937682618;
+                    return 2095194828;
                 }
             }
             
@@ -1014,28 +1014,28 @@ namespace Dotpay.Actor
             {
                 get
                 {
-                    return "Dotpay.Actor.Dotpay.Actor.IRippleToFIQuote";
+                    return "Dotpay.Actor.Dotpay.Actor.IRippleToFiQuote";
                 }
             }
             
             [global::Orleans.CodeGeneration.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                RippleToFIQuoteReference input = ((RippleToFIQuoteReference)(original));
-                return ((RippleToFIQuoteReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+                RippleToFiQuoteReference input = ((RippleToFiQuoteReference)(original));
+                return ((RippleToFiQuoteReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
             }
             
             [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
             public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                RippleToFIQuoteReference input = ((RippleToFIQuoteReference)(original));
+                RippleToFiQuoteReference input = ((RippleToFiQuoteReference)(original));
                 global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return RippleToFIQuoteReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+                return RippleToFiQuoteReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
             public override bool IsCompatible(int interfaceId)
@@ -1046,22 +1046,22 @@ namespace Dotpay.Actor
             
             protected override string GetMethodName(int interfaceId, int methodId)
             {
-                return RippleToFIQuoteMethodInvoker.GetMethodName(interfaceId, methodId);
+                return RippleToFiQuoteMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFIQuote.Initialize(string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, decimal @amount, decimal @sendAmount, string @memo)
+            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFiQuote.Initialize(string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, decimal @amount, decimal @sendAmount, string @memo)
             {
 
                 return base.InvokeMethodAsync<object>(-238753123, new object[] {@invoiceId, @payway, @destination, @realName, @amount, @sendAmount, @memo} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFIQuote.Complete(string @invoiceId, string @txId, decimal @sendAmount)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFiQuote.Complete(string @invoiceId, string @txId, decimal @sendAmount)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1382115995, new object[] {@invoiceId, @txId, @sendAmount} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Actor.RippleToFiQuoteInfo> Dotpay.Actor.IRippleToFIQuote.GetQuoteInfo()
+            System.Threading.Tasks.Task<Dotpay.Actor.RippleToFiQuoteInfo> Dotpay.Actor.IRippleToFiQuote.GetQuoteInfo()
             {
 
                 return base.InvokeMethodAsync<Dotpay.Actor.RippleToFiQuoteInfo>(-278901934, new object[] {} );
@@ -1071,15 +1071,15 @@ namespace Dotpay.Actor
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFIQuote", 1937682618)]
-    internal class RippleToFIQuoteMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFiQuote", 2095194828)]
+    internal class RippleToFiQuoteMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
     {
         
         int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
         {
             get
             {
-                return 1937682618;
+                return 2095194828;
             }
         }
         
@@ -1090,15 +1090,15 @@ namespace Dotpay.Actor
             {                    if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case 1937682618:  // IRippleToFIQuote
+                    case 2095194828:  // IRippleToFiQuote
                         switch (methodId)
                         {
                             case -238753123: 
-                                return ((IRippleToFIQuote)grain).Initialize((String)arguments[0], (Payway)arguments[1], (String)arguments[2], (String)arguments[3], (Decimal)arguments[4], (Decimal)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((IRippleToFiQuote)grain).Initialize((String)arguments[0], (Payway)arguments[1], (String)arguments[2], (String)arguments[3], (Decimal)arguments[4], (Decimal)arguments[5], (String)arguments[6]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1382115995: 
-                                return ((IRippleToFIQuote)grain).Complete((String)arguments[0], (String)arguments[1], (Decimal)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiQuote)grain).Complete((String)arguments[0], (String)arguments[1], (Decimal)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -278901934: 
-                                return ((IRippleToFIQuote)grain).GetQuoteInfo().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiQuote)grain).GetQuoteInfo().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -1125,7 +1125,7 @@ namespace Dotpay.Actor
             switch (interfaceId)
             {
                 
-                case 1937682618:  // IRippleToFIQuote
+                case 2095194828:  // IRippleToFiQuote
                     switch (methodId)
                     {
                         case -238753123:
@@ -1677,16 +1677,16 @@ namespace Dotpay.Actor
                 return SystemSettingMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Actor.RippleToFISetting> Dotpay.Actor.ISystemSetting.GetRippleToFISetting()
+            System.Threading.Tasks.Task<Dotpay.Actor.RippleToFiSetting> Dotpay.Actor.ISystemSetting.GetRippleToFiSetting()
             {
 
-                return base.InvokeMethodAsync<Dotpay.Actor.RippleToFISetting>(262714427, new object[] {} );
+                return base.InvokeMethodAsync<Dotpay.Actor.RippleToFiSetting>(-1874019442, new object[] {} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.ISystemSetting.UpdateRippleToFISetting(Dotpay.Actor.RippleToFISetting @setting, System.Guid @updateBy)
+            System.Threading.Tasks.Task Dotpay.Actor.ISystemSetting.UpdateRippleToFiSetting(Dotpay.Actor.RippleToFiSetting @setting, System.Guid @updateBy)
             {
 
-                return base.InvokeMethodAsync<object>(591687068, new object[] {@setting, @updateBy} );
+                return base.InvokeMethodAsync<object>(-1107259188, new object[] {@setting, @updateBy} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Actor.RippleToDotpaySetting> Dotpay.Actor.ISystemSetting.GetRippleToDotpaySetting()
@@ -1727,10 +1727,10 @@ namespace Dotpay.Actor
                     case 1802451026:  // ISystemSetting
                         switch (methodId)
                         {
-                            case 262714427: 
-                                return ((ISystemSetting)grain).GetRippleToFISetting().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
-                            case 591687068: 
-                                return ((ISystemSetting)grain).UpdateRippleToFISetting((RippleToFISetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                            case -1874019442: 
+                                return ((ISystemSetting)grain).GetRippleToFiSetting().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1107259188: 
+                                return ((ISystemSetting)grain).UpdateRippleToFiSetting((RippleToFiSetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 643282754: 
                                 return ((ISystemSetting)grain).GetRippleToDotpaySetting().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -110632307: 
@@ -1764,10 +1764,10 @@ namespace Dotpay.Actor
                 case 1802451026:  // ISystemSetting
                     switch (methodId)
                     {
-                        case 262714427:
-                            return "GetRippleToFISetting";
-                    case 591687068:
-                            return "UpdateRippleToFISetting";
+                        case -1874019442:
+                            return "GetRippleToFiSetting";
+                    case -1107259188:
+                            return "UpdateRippleToFiSetting";
                     case 643282754:
                             return "GetRippleToDotpaySetting";
                     case -110632307:
@@ -2484,46 +2484,46 @@ namespace Dotpay.Actor
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class RippleToFITransactionFactory
+    public class RippleToFiTransactionFactory
     {
         
 
-                        public static Dotpay.Actor.IRippleToFITransaction GetGrain(long primaryKey)
+                        public static Dotpay.Actor.IRippleToFiTransaction GetGrain(long primaryKey)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFITransaction), -1079091560, primaryKey));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFiTransaction), 636312208, primaryKey));
                         }
 
-                        public static Dotpay.Actor.IRippleToFITransaction GetGrain(long primaryKey, string grainClassNamePrefix)
+                        public static Dotpay.Actor.IRippleToFiTransaction GetGrain(long primaryKey, string grainClassNamePrefix)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFITransaction), -1079091560, primaryKey, grainClassNamePrefix));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.IRippleToFiTransaction), 636312208, primaryKey, grainClassNamePrefix));
                         }
 
-            public static Dotpay.Actor.IRippleToFITransaction Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.IRippleToFiTransaction Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return RippleToFITransactionReference.Cast(grainRef);
+                return RippleToFiTransactionReference.Cast(grainRef);
             }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
-        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFITransaction")]
-        internal class RippleToFITransactionReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.IRippleToFITransaction
+        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFiTransaction")]
+        internal class RippleToFiTransactionReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.IRippleToFiTransaction
         {
             
 
-            public static Dotpay.Actor.IRippleToFITransaction Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.IRippleToFiTransaction Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return (Dotpay.Actor.IRippleToFITransaction) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.IRippleToFITransaction), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFITransactionReference(gr);}, grainRef, -1079091560);
+                return (Dotpay.Actor.IRippleToFiTransaction) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.IRippleToFiTransaction), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFiTransactionReference(gr);}, grainRef, 636312208);
             }
             
-            protected internal RippleToFITransactionReference(global::Orleans.Runtime.GrainReference reference) : 
+            protected internal RippleToFiTransactionReference(global::Orleans.Runtime.GrainReference reference) : 
                     base(reference)
             {
             }
             
-            protected internal RippleToFITransactionReference(SerializationInfo info, StreamingContext context) : 
+            protected internal RippleToFiTransactionReference(SerializationInfo info, StreamingContext context) : 
                     base(info, context)
             {
             }
@@ -2532,7 +2532,7 @@ namespace Dotpay.Actor
             {
                 get
                 {
-                    return -1079091560;
+                    return 636312208;
                 }
             }
             
@@ -2540,28 +2540,28 @@ namespace Dotpay.Actor
             {
                 get
                 {
-                    return "Dotpay.Actor.Dotpay.Actor.IRippleToFITransaction";
+                    return "Dotpay.Actor.Dotpay.Actor.IRippleToFiTransaction";
                 }
             }
             
             [global::Orleans.CodeGeneration.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                RippleToFITransactionReference input = ((RippleToFITransactionReference)(original));
-                return ((RippleToFITransactionReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+                RippleToFiTransactionReference input = ((RippleToFiTransactionReference)(original));
+                return ((RippleToFiTransactionReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
             }
             
             [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
             public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                RippleToFITransactionReference input = ((RippleToFITransactionReference)(original));
+                RippleToFiTransactionReference input = ((RippleToFiTransactionReference)(original));
                 global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return RippleToFITransactionReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+                return RippleToFiTransactionReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
             public override bool IsCompatible(int interfaceId)
@@ -2572,28 +2572,28 @@ namespace Dotpay.Actor
             
             protected override string GetMethodName(int interfaceId, int methodId)
             {
-                return RippleToFITransactionMethodInvoker.GetMethodName(interfaceId, methodId);
+                return RippleToFiTransactionMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFITransaction.Initialize(string @rippleTxId, string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, decimal @sendAmount, string @memo)
+            System.Threading.Tasks.Task Dotpay.Actor.IRippleToFiTransaction.Initialize(string @rippleTxId, string @invoiceId, Dotpay.Common.Enum.Payway @payway, string @destination, string @realName, Dotpay.Common.Enum.CurrencyType @currency, decimal @amount, decimal @sendAmount, string @memo)
             {
 
                 return base.InvokeMethodAsync<object>(503831240, new object[] {@rippleTxId, @invoiceId, @payway, @destination, @realName, @currency, @amount, @sendAmount, @memo} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFITransaction.Lock(System.Guid @managerId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFiTransaction.Lock(System.Guid @managerId)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1710042935, new object[] {@managerId} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFITransaction.Complete(string @transferNo, System.Guid @managerId, string @memo)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFiTransaction.Complete(string @transferNo, System.Guid @managerId, string @memo)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(961769098, new object[] {@transferNo, @managerId, @memo} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFITransaction.Fail(string @reason, System.Guid @managerId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.IRippleToFiTransaction.Fail(string @reason, System.Guid @managerId)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(1826733962, new object[] {@reason, @managerId} );
@@ -2603,15 +2603,15 @@ namespace Dotpay.Actor
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFITransaction", -1079091560)]
-    internal class RippleToFITransactionMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Dotpay.Actor.IRippleToFiTransaction", 636312208)]
+    internal class RippleToFiTransactionMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
     {
         
         int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
         {
             get
             {
-                return -1079091560;
+                return 636312208;
             }
         }
         
@@ -2622,17 +2622,17 @@ namespace Dotpay.Actor
             {                    if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case -1079091560:  // IRippleToFITransaction
+                    case 636312208:  // IRippleToFiTransaction
                         switch (methodId)
                         {
                             case 503831240: 
-                                return ((IRippleToFITransaction)grain).Initialize((String)arguments[0], (String)arguments[1], (Payway)arguments[2], (String)arguments[3], (String)arguments[4], (CurrencyType)arguments[5], (Decimal)arguments[6], (Decimal)arguments[7], (String)arguments[8]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((IRippleToFiTransaction)grain).Initialize((String)arguments[0], (String)arguments[1], (Payway)arguments[2], (String)arguments[3], (String)arguments[4], (CurrencyType)arguments[5], (Decimal)arguments[6], (Decimal)arguments[7], (String)arguments[8]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case 1710042935: 
-                                return ((IRippleToFITransaction)grain).Lock((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiTransaction)grain).Lock((Guid)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 961769098: 
-                                return ((IRippleToFITransaction)grain).Complete((String)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiTransaction)grain).Complete((String)arguments[0], (Guid)arguments[1], (String)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1826733962: 
-                                return ((IRippleToFITransaction)grain).Fail((String)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiTransaction)grain).Fail((String)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -2659,7 +2659,7 @@ namespace Dotpay.Actor
             switch (interfaceId)
             {
                 
-                case -1079091560:  // IRippleToFITransaction
+                case 636312208:  // IRippleToFiTransaction
                     switch (methodId)
                     {
                         case 503831240:
@@ -2981,10 +2981,10 @@ namespace Dotpay.Actor
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
-    internal class Dotpay_Actor_RippleToFISettingSerialization
+    internal class Dotpay_Actor_RippleToFiSettingSerialization
     {
         
-        static Dotpay_Actor_RippleToFISettingSerialization()
+        static Dotpay_Actor_RippleToFiSettingSerialization()
         {
             Register();
         }
@@ -2996,7 +2996,7 @@ namespace Dotpay.Actor
         
         public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
         {
-            Dotpay.Actor.RippleToFISetting input = ((Dotpay.Actor.RippleToFISetting)(untypedInput));
+            Dotpay.Actor.RippleToFiSetting input = ((Dotpay.Actor.RippleToFiSetting)(untypedInput));
             Orleans.Serialization.SerializationManager.SerializeInner(input.FeeRate, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.FixedFee, stream, typeof(decimal));
             Orleans.Serialization.SerializationManager.SerializeInner(input.MaxAmount, stream, typeof(decimal));
@@ -3007,7 +3007,7 @@ namespace Dotpay.Actor
         
         public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
         {
-            Dotpay.Actor.RippleToFISetting result = new Dotpay.Actor.RippleToFISetting();
+            Dotpay.Actor.RippleToFiSetting result = new Dotpay.Actor.RippleToFiSetting();
             result.FeeRate = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
             result.FixedFee = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
             result.MaxAmount = ((decimal)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(decimal), stream)));
@@ -3019,7 +3019,7 @@ namespace Dotpay.Actor
         
         public static void Register()
         {
-            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.RippleToFISetting), DeepCopier, Serializer, Deserializer);
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.RippleToFiSetting), DeepCopier, Serializer, Deserializer);
         }
     }
     
@@ -4665,10 +4665,10 @@ namespace Dotpay.Actor.Service
                 return SystemSettingServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ISystemSettingService.UpdateRippleToFISetting(Dotpay.Actor.RippleToFISetting @setting, System.Guid @updateBy)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ISystemSettingService.UpdateRippleToFiSetting(Dotpay.Actor.RippleToFiSetting @setting, System.Guid @updateBy)
             {
 
-                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(591687068, new object[] {@setting, @updateBy} );
+                return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1107259188, new object[] {@setting, @updateBy} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Service.ISystemSettingService.UpdateRippleToDotpaySetting(Dotpay.Actor.RippleToDotpaySetting @setting, System.Guid @updateBy)
@@ -4703,8 +4703,8 @@ namespace Dotpay.Actor.Service
                     case -2118031124:  // ISystemSettingService
                         switch (methodId)
                         {
-                            case 591687068: 
-                                return ((ISystemSettingService)grain).UpdateRippleToFISetting((Dotpay.Actor.RippleToFISetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                            case -1107259188: 
+                                return ((ISystemSettingService)grain).UpdateRippleToFiSetting((Dotpay.Actor.RippleToFiSetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -110632307: 
                                 return ((ISystemSettingService)grain).UpdateRippleToDotpaySetting((Dotpay.Actor.RippleToDotpaySetting)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             default: 
@@ -4736,8 +4736,8 @@ namespace Dotpay.Actor.Service
                 case -2118031124:  // ISystemSettingService
                     switch (methodId)
                     {
-                        case 591687068:
-                            return "UpdateRippleToFISetting";
+                        case -1107259188:
+                            return "UpdateRippleToFiSetting";
                     case -110632307:
                             return "UpdateRippleToDotpaySetting";
                     
@@ -6254,46 +6254,46 @@ namespace Dotpay.Actor.Ripple
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    public class RippleToFIServiceFactory
+    public class RippleToFiServiceFactory
     {
         
 
-                        public static Dotpay.Actor.Ripple.IRippleToFIService GetGrain(long primaryKey)
+                        public static Dotpay.Actor.Ripple.IRippleToFiService GetGrain(long primaryKey)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Ripple.IRippleToFIService), 2047056698, primaryKey));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Ripple.IRippleToFiService), 2083396734, primaryKey));
                         }
 
-                        public static Dotpay.Actor.Ripple.IRippleToFIService GetGrain(long primaryKey, string grainClassNamePrefix)
+                        public static Dotpay.Actor.Ripple.IRippleToFiService GetGrain(long primaryKey, string grainClassNamePrefix)
                         {
-                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Ripple.IRippleToFIService), 2047056698, primaryKey, grainClassNamePrefix));
+                            return Cast(global::Orleans.CodeGeneration.GrainFactoryBase.MakeGrainReferenceInternal(typeof(Dotpay.Actor.Ripple.IRippleToFiService), 2083396734, primaryKey, grainClassNamePrefix));
                         }
 
-            public static Dotpay.Actor.Ripple.IRippleToFIService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.Ripple.IRippleToFiService Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return RippleToFIServiceReference.Cast(grainRef);
+                return RippleToFiServiceReference.Cast(grainRef);
             }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
         [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
         [System.SerializableAttribute()]
-        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFIService")]
-        internal class RippleToFIServiceReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Ripple.IRippleToFIService
+        [global::Orleans.CodeGeneration.GrainReferenceAttribute("Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFiService")]
+        internal class RippleToFiServiceReference : global::Orleans.Runtime.GrainReference, global::Orleans.Runtime.IAddressable, Dotpay.Actor.Ripple.IRippleToFiService
         {
             
 
-            public static Dotpay.Actor.Ripple.IRippleToFIService Cast(global::Orleans.Runtime.IAddressable grainRef)
+            public static Dotpay.Actor.Ripple.IRippleToFiService Cast(global::Orleans.Runtime.IAddressable grainRef)
             {
                 
-                return (Dotpay.Actor.Ripple.IRippleToFIService) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Ripple.IRippleToFIService), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFIServiceReference(gr);}, grainRef, 2047056698);
+                return (Dotpay.Actor.Ripple.IRippleToFiService) global::Orleans.Runtime.GrainReference.CastInternal(typeof(Dotpay.Actor.Ripple.IRippleToFiService), (global::Orleans.Runtime.GrainReference gr) => { return new RippleToFiServiceReference(gr);}, grainRef, 2083396734);
             }
             
-            protected internal RippleToFIServiceReference(global::Orleans.Runtime.GrainReference reference) : 
+            protected internal RippleToFiServiceReference(global::Orleans.Runtime.GrainReference reference) : 
                     base(reference)
             {
             }
             
-            protected internal RippleToFIServiceReference(SerializationInfo info, StreamingContext context) : 
+            protected internal RippleToFiServiceReference(SerializationInfo info, StreamingContext context) : 
                     base(info, context)
             {
             }
@@ -6302,7 +6302,7 @@ namespace Dotpay.Actor.Ripple
             {
                 get
                 {
-                    return 2047056698;
+                    return 2083396734;
                 }
             }
             
@@ -6310,28 +6310,28 @@ namespace Dotpay.Actor.Ripple
             {
                 get
                 {
-                    return "Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFIService";
+                    return "Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFiService";
                 }
             }
             
             [global::Orleans.CodeGeneration.CopierMethodAttribute()]
             public static object _Copier(object original)
             {
-                RippleToFIServiceReference input = ((RippleToFIServiceReference)(original));
-                return ((RippleToFIServiceReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
+                RippleToFiServiceReference input = ((RippleToFiServiceReference)(original));
+                return ((RippleToFiServiceReference)(global::Orleans.Runtime.GrainReference.CopyGrainReference(input)));
             }
             
             [global::Orleans.CodeGeneration.SerializerMethodAttribute()]
             public static void _Serializer(object original, global::Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
             {
-                RippleToFIServiceReference input = ((RippleToFIServiceReference)(original));
+                RippleToFiServiceReference input = ((RippleToFiServiceReference)(original));
                 global::Orleans.Runtime.GrainReference.SerializeGrainReference(input, stream, expected);
             }
             
             [global::Orleans.CodeGeneration.DeserializerMethodAttribute()]
             public static object _Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
             {
-                return RippleToFIServiceReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
+                return RippleToFiServiceReference.Cast(((global::Orleans.Runtime.GrainReference)(global::Orleans.Runtime.GrainReference.DeserializeGrainReference(expected, stream))));
             }
             
             public override bool IsCompatible(int interfaceId)
@@ -6342,28 +6342,28 @@ namespace Dotpay.Actor.Ripple
             
             protected override string GetMethodName(int interfaceId, int methodId)
             {
-                return RippleToFIServiceMethodInvoker.GetMethodName(interfaceId, methodId);
+                return RippleToFiServiceMethodInvoker.GetMethodName(interfaceId, methodId);
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFIService.MarkAsProcessing(long @rippleToFiTransactionId, System.Guid @managerId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFiService.MarkAsProcessing(long @rippleToFiTransactionId, System.Guid @managerId)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(348327892, new object[] {@rippleToFiTransactionId, @managerId} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFIService.ConfirmTransactionComplete(long @rippleToFiTransactionId, string @transferNo, System.Guid @managerId, string @managerMemo)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFiService.ConfirmTransactionComplete(long @rippleToFiTransactionId, string @transferNo, System.Guid @managerId, string @managerMemo)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-2145752210, new object[] {@rippleToFiTransactionId, @transferNo, @managerId, @managerMemo} );
             }
             
-            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFIService.ConfirmTransactionFail(long @rippleToFiTransactionId, string @reason, System.Guid @managerId)
+            System.Threading.Tasks.Task<Dotpay.Common.ErrorCode> Dotpay.Actor.Ripple.IRippleToFiService.ConfirmTransactionFail(long @rippleToFiTransactionId, string @reason, System.Guid @managerId)
             {
 
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(269884956, new object[] {@rippleToFiTransactionId, @reason, @managerId} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.Ripple.IRippleToFIService.Receive(Dotpay.Actor.MqMessage @message)
+            System.Threading.Tasks.Task Dotpay.Actor.Ripple.IRippleToFiService.Receive(Dotpay.Actor.MqMessage @message)
             {
 
                 return base.InvokeMethodAsync<object>(992454065, new object[] {@message} );
@@ -6373,15 +6373,15 @@ namespace Dotpay.Actor.Ripple
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
-    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFIService", 2047056698)]
-    internal class RippleToFIServiceMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
+    [global::Orleans.CodeGeneration.MethodInvokerAttribute("Dotpay.Actor.Ripple.Dotpay.Actor.Ripple.IRippleToFiService", 2083396734)]
+    internal class RippleToFiServiceMethodInvoker : global::Orleans.CodeGeneration.IGrainMethodInvoker
     {
         
         int global::Orleans.CodeGeneration.IGrainMethodInvoker.InterfaceId
         {
             get
             {
-                return 2047056698;
+                return 2083396734;
             }
         }
         
@@ -6392,17 +6392,17 @@ namespace Dotpay.Actor.Ripple
             {                    if (grain == null) throw new System.ArgumentNullException("grain");
                 switch (interfaceId)
                 {
-                    case 2047056698:  // IRippleToFIService
+                    case 2083396734:  // IRippleToFiService
                         switch (methodId)
                         {
                             case 348327892: 
-                                return ((IRippleToFIService)grain).MarkAsProcessing((Int64)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiService)grain).MarkAsProcessing((Int64)arguments[0], (Guid)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -2145752210: 
-                                return ((IRippleToFIService)grain).ConfirmTransactionComplete((Int64)arguments[0], (String)arguments[1], (Guid)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiService)grain).ConfirmTransactionComplete((Int64)arguments[0], (String)arguments[1], (Guid)arguments[2], (String)arguments[3]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 269884956: 
-                                return ((IRippleToFIService)grain).ConfirmTransactionFail((Int64)arguments[0], (String)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
+                                return ((IRippleToFiService)grain).ConfirmTransactionFail((Int64)arguments[0], (String)arguments[1], (Guid)arguments[2]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 992454065: 
-                                return ((IRippleToFIService)grain).Receive((Dotpay.Actor.MqMessage)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((IRippleToFiService)grain).Receive((Dotpay.Actor.MqMessage)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             default: 
                             throw new NotImplementedException("interfaceId="+interfaceId+",methodId="+methodId);
                         }case 1928988877:  // IGrainWithIntegerKey
@@ -6429,7 +6429,7 @@ namespace Dotpay.Actor.Ripple
             switch (interfaceId)
             {
                 
-                case 2047056698:  // IRippleToFIService
+                case 2083396734:  // IRippleToFiService
                     switch (methodId)
                     {
                         case 348327892:

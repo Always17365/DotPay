@@ -29,7 +29,7 @@ namespace Dotpay.Actor.Service.Implementations
 
                 var invoiceId = GenerateInvoiceId(signMessage);
 
-                var rippleToFiQuote = GrainFactory.GetGrain<IRippleToFIQuote>(rtfiId);
+                var rippleToFiQuote = GrainFactory.GetGrain<IRippleToFiQuote>(rtfiId);
                 var fee = await CalcToFiTransferFee(amount);
                 var sendAmount = amount + fee;
                 await rippleToFiQuote.Initialize(invoiceId, payway, destionation, realName, amount, amount + fee, memo);
@@ -68,7 +68,7 @@ namespace Dotpay.Actor.Service.Implementations
         }
         private static async Task<ErrorCode> CheckToFiAmountRange(decimal amount)
         {
-            var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToFISetting();
+            var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToFiSetting();
 
             var errorCode = (setting.MinAmount > amount || setting.MaxAmount < amount)
                             ? ErrorCode.RippleQuoteAmountOutOfRange
@@ -79,7 +79,7 @@ namespace Dotpay.Actor.Service.Implementations
         private static async Task<decimal> CalcToFiTransferFee(decimal amount)
         {
             var fee = 0M;
-            var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToFISetting();
+            var setting = await GrainFactory.GetGrain<ISystemSetting>(0).GetRippleToFiSetting();
 
             fee += setting.FixedFee;
             fee += amount * setting.FeeRate;

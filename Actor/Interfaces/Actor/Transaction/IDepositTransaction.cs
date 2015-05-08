@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-﻿using Dotpay.Common;
 using Dotpay.Common.Enum;
 using Orleans;
 using Orleans.Concurrency;
@@ -12,7 +10,7 @@ namespace Dotpay.Actor
     /// 充值
     /// <remarks>暂时只考虑人民币的充值,currency实际留作以后扩展</remarks>
     /// </summary>
-    public interface IDepositTransaction : Orleans.IGrainWithGuidKey
+    public interface IDepositTransaction : IGrainWithGuidKey
     {
         Task Initiliaze(string sequenceNo, Guid accountId, CurrencyType currency, decimal amount, Payway payway, string memo);
         Task ConfirmDepositPreparation();

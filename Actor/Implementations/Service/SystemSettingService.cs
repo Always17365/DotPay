@@ -7,13 +7,13 @@ namespace Dotpay.Actor.Service.Implementations
 {
     public class SystemSettingService : Grain, ISystemSettingService
     {
-        async Task<ErrorCode> ISystemSettingService.UpdateRippleToFISetting(
-            RippleToFISetting setting, Guid updateBy)
+        async Task<ErrorCode> ISystemSettingService.UpdateRippleToFiSetting(
+            RippleToFiSetting setting, Guid updateBy)
         {
             if (await CheckManagerPermission(updateBy))
             {
                 var systemSetting = GrainFactory.GetGrain<ISystemSetting>(0);
-                await systemSetting.UpdateRippleToFISetting(setting, updateBy);
+                await systemSetting.UpdateRippleToFiSetting(setting, updateBy);
                 return ErrorCode.None;
             }
             else return ErrorCode.HasNoPermission;

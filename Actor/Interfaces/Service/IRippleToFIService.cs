@@ -8,7 +8,7 @@
 
 namespace Dotpay.Actor.Ripple
 {
-    public interface IRippleToFIService : IGrainWithIntegerKey
+    public interface IRippleToFiService : IGrainWithIntegerKey
     {
         Task<ErrorCode> MarkAsProcessing(long rippleToFiTransactionId, Guid managerId);
         Task<ErrorCode> ConfirmTransactionComplete(long rippleToFiTransactionId, string transferNo, Guid managerId, string managerMemo);

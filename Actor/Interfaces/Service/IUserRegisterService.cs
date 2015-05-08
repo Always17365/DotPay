@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service
 {
-    public interface IUserRegisterService : Orleans.IGrainWithIntegerKey
+    public interface IUserRegisterService : IGrainWithIntegerKey
     {
         Task Register(string email, string loginPassword, Lang lang);
         Task<ErrorCode> ResendActiveEmail(Guid userId);

@@ -56,7 +56,7 @@ namespace Dotpay.Actor.Service
         }
 
         public Guid TransferTransactionId { get; private set; }
-        public Guid UserId { get; set; }
+        public Guid UserId { get; private set; }
         public TransferTargetInfo Target { get; private set; }
         public CurrencyType Currency { get; private set; }
         public decimal Amount { get; private set; }

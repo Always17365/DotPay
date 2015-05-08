@@ -13,31 +13,31 @@
 namespace Dotpay.Actor.Service.Implementations
 {
     [StatelessWorker]
-    public class RippleToFIService : Grain, IRippleToFIService
+    public class RippleToFIService : Grain, IRippleToFiService
     {
         private const string DEPOSIT_TX_MANAGER_EXCHANGE_NAME = Constants.DepositTransactionManagerMQName + Constants.ExechangeSuffix;
 
-        async Task<ErrorCode> IRippleToFIService.MarkAsProcessing(long rippleToFiTransactionId, Guid managerId)
+        async Task<ErrorCode> IRippleToFiService.MarkAsProcessing(long rippleToFiTransactionId, Guid managerId)
         {
             if (!await this.CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
-            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFITransaction>(rippleToFiTransactionId);
+            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFiTransaction>(rippleToFiTransactionId);
             return await rippleToFiTx.Lock(managerId);
         }
 
-        async Task<ErrorCode> IRippleToFIService.ConfirmTransactionComplete(long rippleToFiTransactionId, string transferNo, Guid managerId, string managerMemo)
+        async Task<ErrorCode> IRippleToFiService.ConfirmTransactionComplete(long rippleToFiTransactionId, string transferNo, Guid managerId, string managerMemo)
         {
             if (!await this.CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
-            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFITransaction>(rippleToFiTransactionId);
+            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFiTransaction>(rippleToFiTransactionId);
             return await rippleToFiTx.Complete(transferNo, managerId, managerMemo);
         }
 
-        async Task<ErrorCode> IRippleToFIService.ConfirmTransactionFail(long rippleToFiTransactionId, string reason, Guid managerId)
+        async Task<ErrorCode> IRippleToFiService.ConfirmTransactionFail(long rippleToFiTransactionId, string reason, Guid managerId)
         {
             if (!await this.CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
-            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFITransaction>(rippleToFiTransactionId);
+            var rippleToFiTx = GrainFactory.GetGrain<IRippleToFiTransaction>(rippleToFiTransactionId);
             return await rippleToFiTx.Fail(reason, managerId);
         }
 
@@ -48,8 +48,8 @@ namespace Dotpay.Actor.Service.Implementations
             if (rippleToFiTxMessage != null)
             {
                 var rippleToFiQuoteId = rippleToFiTxMessage.RippleToFiTxId;
-                var rippleToFiQuote = GrainFactory.GetGrain<IRippleToFIQuote>(rippleToFiQuoteId);
-                var rippleToFiTx = GrainFactory.GetGrain<IRippleToFITransaction>(rippleToFiTxMessage.RippleToFiTxId);
+                var rippleToFiQuote = GrainFactory.GetGrain<IRippleToFiQuote>(rippleToFiQuoteId);
+                var rippleToFiTx = GrainFactory.GetGrain<IRippleToFiTransaction>(rippleToFiTxMessage.RippleToFiTxId);
 
                 var errorCode = await rippleToFiQuote.Complete(rippleToFiTxMessage.InvoiceId, rippleToFiTxMessage.TxId,
                       rippleToFiTxMessage.Amount);

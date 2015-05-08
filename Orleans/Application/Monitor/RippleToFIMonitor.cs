@@ -124,7 +124,7 @@ namespace Dotpay.Application.Monitor
                             InvoiceId = message.InvoiceId,
                             TxId = message.TxId
                         };
-                        var rippleToFi = GrainFactory.GetGrain<IRippleToFIService>(0);
+                        var rippleToFi = GrainFactory.GetGrain<IRippleToFiService>(0);
                         await rippleToFi.Receive(rippleToFiTxMessage);
                     }
 

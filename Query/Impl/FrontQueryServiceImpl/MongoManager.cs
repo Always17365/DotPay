@@ -9,18 +9,18 @@ namespace Dotpay.FrontQueryServiceImpl
     internal class MongoManager
     {
         private static IMongoDatabase _database;
-        private static bool initialized = false;
+        private static bool _initialized = false;
         public static void Initialize(string connectionString, string databaseName)
         {
-            if (initialized) return;
+            if (_initialized) return;
             MongoClient client = new MongoClient(connectionString);
             _database = client.GetDatabase(databaseName);
-            initialized = true;
+            _initialized = true;
         }
 
         public static IMongoCollection<T> GetCollection<T>(string collectionName)
         {
-            if (!initialized) throw new Exception("mongoManager uninitialize");
+            if (!_initialized) throw new Exception("mongoManager uninitialize");
 
             return _database.GetCollection<T>(collectionName);
         }

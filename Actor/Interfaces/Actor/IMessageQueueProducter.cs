@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orleans;
-﻿using Orleans.Concurrency;
+using Orleans.Concurrency;
 
 namespace Dotpay.Actor
 {
-    public interface IMessageQueueProducter : Orleans.IGrainWithIntegerKey
+    public interface IMessageQueueProducter : IGrainWithIntegerKey
     {
         Task RegisterAndBindQueue(string exchange, string exchangeType, string queue, string routeKey, bool durable);
         Task PublishMessage(MqMessage message, string exchangeName, string routeKey, bool durable);

@@ -31,9 +31,6 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class RefundTransactionPreparationCompletedEvent : GrainEvent
     {
-        public RefundTransactionPreparationCompletedEvent()
-        {
-        }
     }
     [Immutable]
     [Serializable]

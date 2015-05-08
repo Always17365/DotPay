@@ -7,13 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using DFramework;
-using DFramework.Utilities;
 using MySql.Data.MySqlClient;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Content;
-using Top.Api.Domain;
-using ConfigurationManagerWrapper = DFramework.ConfigurationManagerWrapper;
-using Task = System.Threading.Tasks.Task;
 
 namespace Dotpay.TaobaoMonitor
 {

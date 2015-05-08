@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Actor\Manager.cs" />
     <Compile Include="Actor\Ripple\RippleToDotpayQuote.cs" />
-    <Compile Include="Actor\Ripple\RippleToFIQuote.cs" />
+    <Compile Include="Actor\Ripple\RippleToFiQuote.cs" />
     <Compile Include="Actor\Tools\RippleRpcClient.cs" />
     <Compile Include="Actor\Transaction\RefundTransaction.cs" />
     <Compile Include="Events\Transaction\RefundTransactionEvents.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="Service\DepositTransactionManager.cs" />
     <Compile Include="Service\RefundTransactionManager.cs" />
     <Compile Include="Service\RippleQuoteService.cs" />
-    <Compile Include="Actor\Ripple\RippleToFITransaction.cs" />
+    <Compile Include="Actor\Ripple\RippleToFi.cs" />
     <Compile Include="Actor\SystemSetting\SystemSetting.cs" />
     <Compile Include="Actor\Tools\AtomicIncrement.cs" />
     <Compile Include="Events\Ripple\RippleToFinancialInstitutionEvents.cs" />
