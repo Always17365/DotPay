@@ -19,24 +19,28 @@ Website: http://www.seantheme.com/color-admin-v1.5/admin/
     .home-content h1, .home-content h2, .home-content h3, .home-content h4 { margin: 0 0 15px; }
     .home-content p { margin-bottom: 30px; }
 }
- @media (min-width: 851px) {   
-     .profile-dashboard .right .assetsChartsContainer { display: block;}
-} 
+
+@media (min-width: 851px) {
+    .profile-dashboard .right .assetsChartsContainer { display: block; }
+}
 
 @media only screen and (max-width:800px) {
     .hide800 { display: none !important; }
     .show800 { display: block !important; }
     body.home #contentinner .topbanner h3 { font-size: 170%; }
 }
-@media (max-width: 600px) {  
-    .profile-dashboard .right {display: none !important;}   
-     .hide600 { display: none !important; }
-     .show600 { display: block !important; }
+
+@media (max-width: 600px) {
+    .profile-dashboard .right { display: none !important; }
+    .hide600 { display: none !important; }
+    .show600 { display: block !important; }
+    .header.navbar.navbar-profile .navbar-brand .logo { width: 200px; height: 33px; }
+    .header.navbar.navbar-profile .navbar-nav > li > a { padding: 10px 15px; }
 }
 
-@media (min-width: 500px) {   
-    .profile-main .sub-nav .navbar-nav{  float: left;margin: 0;}
-    .profile-main .sub-nav .navbar-nav>li{  float: left;}
+@media (min-width: 500px) {
+    .profile-main .sub-nav .navbar-nav { float: left; margin: 0; }
+        .profile-main .sub-nav .navbar-nav > li { float: left; }
 }
 
 @media (max-width: 767px) {
@@ -63,5 +67,5 @@ Website: http://www.seantheme.com/color-admin-v1.5/admin/
     .pricing-table.col-4 > li,
     .pricing-table.col-3 > li { width: 100%; }
     .pricing-table .highlight { margin-top: 0 !important; padding: 10px !important; }
-     .profile-dashboard .right .assetsChartsContainer { display: none !important; }
+    .profile-dashboard .right .assetsChartsContainer { display: none !important; }
 }

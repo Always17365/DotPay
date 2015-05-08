@@ -1,13 +1,12 @@
 ﻿using System;
-﻿using System.Collections.Concurrent;
-﻿using System.Text;
-﻿using System.Threading.Tasks;
-﻿using DFramework;
-﻿using Dotpay.Actor;
-﻿using Orleans;
-﻿using Orleans.Concurrency;
-﻿using RabbitMQ.Client;
-﻿using RabbitMQ.Client.Content;
+using System.Collections.Concurrent;
+using System.Text;
+using System.Threading.Tasks;
+using DFramework;
+using Orleans;
+using Orleans.Concurrency;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Content;
 
 namespace Dotpay.Actor.Implementations
 {

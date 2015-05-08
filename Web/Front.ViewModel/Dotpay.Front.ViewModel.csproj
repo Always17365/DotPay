@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PagerListModel.cs" />
     <Compile Include="TransactionModel.cs" />
     <Compile Include="AccountModel.cs" />
     <Compile Include="UserModel.cs" />

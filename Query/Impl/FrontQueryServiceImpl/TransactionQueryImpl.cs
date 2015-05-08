@@ -137,20 +137,6 @@ namespace Dotpay.FrontQueryServiceImpl
             return result.OrderByDescending(r => r.CreateAt).Take(10);
         }
 
-        public async Task<int> CountDepositTransaction(Guid accountId, DateTime start, DateTime end)
-        {
-            var condation = "{ AccountId : '" + accountId.ToString() + "'" +
-                            " ,Status:{ $in:[" + TransferTransactionStatus.Submited.ToString("D") +
-                                   "," + TransferTransactionStatus.LockeByProcessor.ToString("D") + "]}}";
-            long result = 0;
-            var collection = MongoManager.GetCollection<BsonDocument>(DEPOSIT_COLLECTION_NAME);
-            var filter = BsonDocument.Parse(condation);
-
-            result = await collection.CountAsync(filter);
-
-            return (int)result;
-        }
-
         public async Task<decimal> SumDepositAmount(Guid accountId, DateTime start, DateTime end)
         {
             decimal result = 0;
@@ -295,19 +281,119 @@ namespace Dotpay.FrontQueryServiceImpl
             return new Tuple<decimal, decimal>(@out, @in);
         }
 
-        public Task<IEnumerable<DepositTransactionListViewModel>> GetDepositTransaction(Guid accountId, DateTime start, DateTime end, int page, int pagesize)
+        public async Task<int> CountDepositTransaction(Guid accountId, DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            var condation1 = "AccountId : '" + accountId.ToString().ToLower() + "'";
+            var condation2 = "CreateAt:{ $gte:" + start.ToDoubleUnixTimestamp() + ",$lte:" + end.ToDoubleUnixTimestamp() + "}";
+
+            var condations = new[] { condation1, condation2 };
+
+            var filter = BsonDocument.Parse("{" + string.Join(",", condations.Where(c => !string.IsNullOrEmpty(c))) + " }");
+            long result = 0;
+            var collection = MongoManager.GetCollection<BsonDocument>(DEPOSIT_COLLECTION_NAME);
+
+            result = await collection.CountAsync(filter);
+
+            return (int)result;
         }
 
-        public Task<int> CountTransferTransaction(Guid accountId, DateTime start, DateTime end)
+        public async Task<IEnumerable<DepositTransactionListViewModel>> GetDepositTransaction(Guid accountId, DateTime start, DateTime end, int page, int pagesize)
         {
-            throw new NotImplementedException();
+            var result = new List<DepositTransactionListViewModel>();
+            var collection = MongoManager.GetCollection<BsonDocument>(DEPOSIT_COLLECTION_NAME);
+
+            var condation1 = "AccountId : '" + accountId.ToString().ToLower() + "'";
+            var condation2 = "CreateAt:{ $gte:" + start.ToDoubleUnixTimestamp() + ",$lte:" + end.ToDoubleUnixTimestamp() + "}";
+
+            var condations = new[] { condation1, condation2 };
+            var filter = BsonDocument.Parse("{" + string.Join(",", condations.Where(c => !string.IsNullOrEmpty(c))) + " }");
+            var sort = BsonDocument.Parse("{CreateAt:-1}");
+            //var projection = BsonDocument.Parse("{Id:1,Currency:1,SequenceNo:1,Amount:1,Status:1,Payway:1,Memo:1,CreateAt:1,_id:0}");
+            var options = new FindOptions<BsonDocument, BsonDocument>
+            {
+                //Projection = projection,
+                Sort = sort,
+                Skip = page * pagesize,
+                Limit = pagesize
+            };
+            using (var cursor = await collection.FindAsync<BsonDocument>(filter, options))
+            {
+                var results = await cursor.ToListAsync();
+                if (results.Any())
+                {
+                    results.ForEach(r => r.Remove("_id"));
+                    var json = results.ToJson();
+                    result = IoC.Resolve<IJsonSerializer>().Deserialize<List<DepositTransactionListViewModel>>(json);
+                }
+            }
+            return result;
         }
 
-        public Task<IEnumerable<TransferTransactionListViewModel>> GetTransferTransaction(Guid accountId, DateTime start, DateTime end, int page, int pagesize)
+        public async Task<int> CountTransferTransaction(Guid accountId, DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            var condation1 = "'TransactionInfo.Source.AccountId' : '" + accountId.ToString().ToLower() + "'";
+            var condation2 = "CreateAt:{ $gte:" + start.ToDoubleUnixTimestamp() + ",$lte:" + end.ToDoubleUnixTimestamp() + "}";
+
+            var condations = new[] { condation1, condation2 };
+
+            var filter = BsonDocument.Parse("{" + string.Join(",", condations.Where(c => !string.IsNullOrEmpty(c))) + " }");
+            long result = 0;
+            var collection = MongoManager.GetCollection<BsonDocument>(TRANSFER_COLLECTION_NAME);
+
+            result = await collection.CountAsync(filter);
+
+            return (int)result;
+        }
+
+        public async Task<IEnumerable<TransferTransactionListViewModel>> GetTransferTransaction(Guid accountId, DateTime start, DateTime end, int page, int pagesize)
+        {
+            var result = new List<TransferTransactionListViewModel>();
+            var collection = MongoManager.GetCollection<BsonDocument>(TRANSFER_COLLECTION_NAME);
+
+            var condation1 = "'TransactionInfo.Source.AccountId' : '" + accountId.ToString().ToLower() + "'";
+            var condation2 = "CreateAt:{ $gte:" + start.ToDoubleUnixTimestamp() + ",$lte:" + end.ToDoubleUnixTimestamp() + "}";
+
+            var condations = new[] { condation1, condation2 };
+
+            var filter = BsonDocument.Parse("{" + string.Join(",", condations.Where(c => !string.IsNullOrEmpty(c))) + " }");
+            var sort = BsonDocument.Parse("{CreateAt:-1}");
+            //var projection = BsonDocument.Parse("{Id:1,Currency:1,SequenceNo:1,Amount:1,Status:1,Payway:1,Memo:1,CreateAt:1,_id:0}");
+            var options = new FindOptions<BsonDocument, BsonDocument>
+            {
+                //Projection = projection,
+                Sort = sort,
+                Skip = page * pagesize,
+                Limit = pagesize
+            };
+            using (var cursor = await collection.FindAsync<BsonDocument>(filter, options))
+            {
+                var results = await cursor.ToListAsync();
+                if (results.Any())
+                {
+                    results.ForEach(row =>
+                    {
+                        var transactionInfo = row["TransactionInfo"].AsBsonDocument;
+                        //var source = row["TransactionInfo"]["Source"].AsBsonDocument;
+                        var target = row["TransactionInfo"]["Target"].AsBsonDocument;
+
+                        var item = new TransferTransactionListViewModel()
+                        {
+                            SequenceNo = row["SequenceNo"].AsString,
+                            Amount = (decimal)row["TransactionInfo"]["Amount"].AsDouble,
+                            Bank = ((Bank)target.GetValue("Bank", 0).AsInt32).ToLangString(),
+                            Currency = ((CurrencyType)transactionInfo["Currency"].AsInt32).ToLangString(),
+                            Destination =transactionInfo.GetValue("Destination", "").AsString,
+                            Memo = transactionInfo["Memo"].AsString,
+                            Reason = transactionInfo.GetValue("Reason", "").AsString,
+                            Payway = ((Payway)target["Payway"].AsInt32).ToLangString(),
+                            Status = ((TransferTransactionStatus)row["Status"].AsInt32).ToLangString(),
+                            CreateAt = (row["CreateAt"].AsDouble).ToLocalDateTime()
+                        };
+                        result.Add(item);
+                    });
+                }
+            }
+            return result;
         }
 
         public async Task<Guid> GetDepositTransactionIdBySeqNo(string sequenceNo)

@@ -386,6 +386,7 @@ namespace Dotpay.Actor.Service.Implementations
                     Payway = target.Payway,
                     UserId = targetUserId,
                     RealName = target.RealName,
+                    Destination = target.Destination,
                     UserLoginName = targetUserInfo.LoginName
                 };
             }

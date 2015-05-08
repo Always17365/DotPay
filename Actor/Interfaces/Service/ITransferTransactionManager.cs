@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dotpay.Actor;
-using Orleans;
 using Dotpay.Common;
 using Dotpay.Common.Enum;
+using Orleans;
 using Orleans.Concurrency;
 
 namespace Dotpay.Actor.Service
 {
-    public interface ITransferTransactionManager : Orleans.IGrainWithIntegerKey
+    public interface ITransferTransactionManager : IGrainWithIntegerKey
     {
         Task<ErrorCode> SubmitTransferToDotpayTransaction(Guid transferTransactionId, Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo, string paymentPassword);
         Task<ErrorCode> SubmitTransferToTppTransaction(Guid transferTransactionId, Guid sourceAccountId, string targetAccount, string realName, Payway targetPayway, CurrencyType currency, decimal amount, string memo, string paymentPassword);

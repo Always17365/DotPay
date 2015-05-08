@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Dotpay.Admin
+﻿namespace Dotpay.Admin
 {
     public class DotpayJsonResult
     {
@@ -20,7 +15,7 @@ namespace Dotpay.Admin
         {
             get
             {
-                return DotpayJsonResult.CreateFailResult("未知异常，请刷新页面后重试");
+                return CreateFailResult("未知异常，请刷新页面后重试");
             }
         }
         public static DotpayJsonResult CreateSuccessResult(string message = "")

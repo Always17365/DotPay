@@ -36,6 +36,8 @@ namespace Dotpay.Front.ViewModel
         public decimal Amount { get; set; }
         public DepositStatus Status { get; set; }
         public Payway Payway { get; set; }
+        public string StatusName { get; set; }
+        public string PaywayName { get; set; }
         public string Memo { get; set; }
         public DateTime CreateAt { get; set; }
         public string Reason { get; set; }
@@ -78,9 +80,12 @@ namespace Dotpay.Front.ViewModel
         public string Destination { get; set; }
         public string Bank { get; set; }
         public string Payway { get; set; }
+        public string Status { get; set; }
         public string Currency { get; set; }
         public decimal Amount { get; set; }
         public string Memo { get; set; }
+        public string Reason { get; set; }
+        public DateTime CreateAt { get; set; }
     }
 
     [Serializable]
