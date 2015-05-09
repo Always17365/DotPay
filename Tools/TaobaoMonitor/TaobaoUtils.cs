@@ -131,19 +131,22 @@ namespace Dotpay.TaobaoMonitor
                             {
                                 msg += s.NickName + "的session即将超时,还剩余" + leftMinutes + "<br>";
                             }
-                            else if (leftMinutes < 0)
+                            else if (leftMinutes < 0 && leftMinutes > -30)
                             {
                                 msg += s.NickName + "的session已超时<br>";
                             }
                         });
 
-                        msg += "点击<a href='https://www.dotpay.co/taobao/login' >https://www.dotpay.co<a/>进行授权";
-                        if (mailList.Any())
+                        if (!string.IsNullOrEmpty(msg))
                         {
-                            mailList.ForEach(m =>
+                            msg += "点击<a href='https://www.dotpay.co/taobao/login' >https://www.dotpay.co<a/>进行授权";
+                            if (mailList.Any())
                             {
-                                EmailHelper.SendMailAsync(m, title, msg);
-                            });
+                                mailList.ForEach(m =>
+                                {
+                                    EmailHelper.SendMailAsync(m, title, msg);
+                                });
+                            }
                         }
                     }
                 }

@@ -152,8 +152,8 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
 
 /* 2.2 Navbar Brand Logo & Text Setting */
 
-.brand-logo { width: }
-   
+.brand-logo { width:; }
+
 
 
 /* 2.3 Navbar Mobile Toggle */
@@ -189,7 +189,7 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
     .header.navbar.navbar-transparent.navbar-small .brand-logo + .brand-text { color: #2d353c; }
 .navbar-small .navbar-toggle { border-color: #ddd; margin-top: 8px; margin-bottom: 8px; }
     .navbar-small .navbar-toggle .icon-bar { background: #888; }
-    .navbar-small .logo { width: 120px;height: 30px }
+.navbar-small .logo { width: 120px; height: 30px; }
 
 
 /* 2.7 Navbar Dropdown */
@@ -215,7 +215,7 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
     .content .content-desc { text-align: center; margin-bottom: 60px; color: #242a30; }
     .content.has-bg { padding-bottom: 60px; overflow: hidden; position: relative; }
         .content.has-bg .content-bg { position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
-            .content.has-bg .content-bg img { max-width: 100%;width: 100%; }
+            .content.has-bg .content-bg img { max-width: 100%; width: 100%; }
         .content.has-bg .content-title:after { background: #fff; }
         .content.has-bg .content-bg:before { content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
         .content.has-bg .container { position: relative; }
@@ -287,20 +287,21 @@ body.page-navbar-fixed-top-profile-nobg { padding-top: 30px; }
 
 
 /* -------------------------------
-   6.0 Team Setting
+   6.0 Future
 ------------------------------- */
 
-/* 6.1 Team Element Setting */
+/* 6.1 Future Element Setting */
 
-.team { text-align: center; padding: 0 30px; }
-    .team .image { display: inline-block; border-radius: 300px; overflow: hidden; }
-    .team .info { margin-top: 15px; }
-    .team .image img { border-radius: 300px; }
-    .team .name { margin-bottom: 5px; }
-    .team .title { font-size: 12px; margin-bottom: 15px; font-weight: 600; }
-    .team p { margin-bottom: 15px; }
-    .team .social a { border-radius: 300px; border: 1px solid #ccc; padding: 5px; width: 40px; height: 40px; line-height: 28px; text-align: center; display: inline-block; color: #ccc; }
-        .team .social a + a { margin-left: 5px; }
+.future { text-align: center; padding: 0 30px; }
+    .future .fb { display: inline-block; background: url(/assets/img/future.png) 6px 0px; width: 180px; height: 100px; overflow: hidden; }
+    .future .safe { display: inline-block; background: url(/assets/img/future.png) 184px 0px; width: 180px; height: 100px; overflow: hidden; }
+    .future .fast { display: inline-block; background: url(/assets/img/future.png) 330px 0px; width: 180px; height: 100px; overflow: hidden; }
+    .future .info { margin-top: 15px; }
+    .future .name { margin-bottom: 5px; }
+    .future .title { font-size: 12px; margin-bottom: 15px; font-weight: 600; }
+    .future p { margin-bottom: 15px; }
+    .future .social a { border-radius: 300px; border: 1px solid #ccc; padding: 5px; width: 40px; height: 40px; line-height: 28px; text-align: center; display: inline-block; color: #ccc; }
+        .future .social a + a { margin-left: 5px; }
 
 
 
@@ -1567,5 +1568,5 @@ a.list-group-item.active:focus { background: #348fe2; }
 .profile-main .deposit .selectbank ul li { float: left; width: 170px; list-style: none; }
     .profile-main .deposit .selectbank ul li input[type="radio"] { margin: 20px 0 5px 5px; }
     .profile-main .deposit .selectbank ul li label { vertical-align: top; }
-    .profile-main .deposit .selectbank ul li img { border: 1px solid #ccc; padding: 2px;  cursor: pointer; }
+    .profile-main .deposit .selectbank ul li img { border: 1px solid #ccc; padding: 2px; cursor: pointer; }
 .profile-main .deposit .depositamount { margin: 30px 30px 30px 20px; height: 30px; }

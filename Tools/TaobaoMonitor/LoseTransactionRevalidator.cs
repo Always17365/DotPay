@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace Dotpay.TaobaoMonitor
 
                         if (loseTxs.Any())
                         {
-                            completeLedgerIndex = _ledgerIndexRpcClient.GetLastLedgerIndex();
+                            completeLedgerIndex = _ledgerIndexRpcClient.GetLastLedgerIndex().Result;
 
                             if (completeLedgerIndex != -1)
                             {
@@ -61,7 +62,7 @@ namespace Dotpay.TaobaoMonitor
                                     {
                                         Log.Info("发现丢失结果的tx的最大ledger已经过了-->ripple tx : txid=" + lt.txid + ",tid=" +
                                                  lt.tid + ",amount=" + lt.amount + ",address=" + lt.ripple_address);
-                                        var result = _validatorRpcClient.ValidateTx(lt.txid);
+                                        var result = _validatorRpcClient.ValidateTx(lt.txid).Result;
 
                                         if (result == 1)
                                         {
@@ -119,9 +120,10 @@ namespace Dotpay.TaobaoMonitor
         private class LedgerIndexRpcClient
         {
             private readonly IModel channel;
-            private readonly QueueingBasicConsumer consumer;
+            private readonly DefaultBasicConsumer consumer;
             private readonly string replyQueueName;
             private IConnection connection;
+            private ConcurrentDictionary<string, TaskCompletionSource<long>> requsetDic = new ConcurrentDictionary<string, TaskCompletionSource<long>>();
 
             public LedgerIndexRpcClient(IConnection connection)
             {
@@ -131,11 +133,29 @@ namespace Dotpay.TaobaoMonitor
                 channel.ExchangeDeclare(RIPPLE_VALIDATE_EXCHANGE_NAME, ExchangeType.Direct);
                 channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE, true, false, false, null);
                 channel.QueueBind(RIPPLE_VALIDATE_QUEUE, RIPPLE_VALIDATE_EXCHANGE_NAME, "");
-                consumer = new QueueingBasicConsumer(channel);
+                consumer = new ValidatorMessageConsumer(channel, (p, b) =>
+                {
+                    TaskCompletionSource<long> ts;
+                    requsetDic.TryRemove(p.CorrelationId, out ts);
+
+                    if (ts != null)
+                    {
+                        try
+                        {
+                            var result = Convert.ToInt64(Encoding.UTF8.GetString(b));
+                            ts.SetResult(result);
+                        }
+                        catch
+                        {
+                            ts.SetResult(-1);
+                        }
+                    }
+                });
                 channel.BasicConsume(replyQueueName, true, consumer);
+
             }
 
-            public long GetLastLedgerIndex()
+            public Task<long> GetLastLedgerIndex()
             {
                 var corrId = Guid.NewGuid().ToString();
                 var props = channel.CreateBasicProperties();
@@ -146,32 +166,33 @@ namespace Dotpay.TaobaoMonitor
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new GetLastLedgerIndexMessage());
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 channel.BasicPublish(RIPPLE_VALIDATE_EXCHANGE_NAME, string.Empty, props, messageBytes);
-                var sw = Stopwatch.StartNew(); 
-                while (true)
+                var ts = new TaskCompletionSource<long>();
+
+                requsetDic.TryAdd(corrId, ts);
+
+                Task.Factory.StartNew(() =>
                 {
-                    BasicDeliverEventArgs ea;
-                    if (consumer.Queue.Dequeue(10 * 1000, out ea))
+                    Task.Delay(10000).ContinueWith((t) =>
                     {
-                        if (ea != null && ea.BasicProperties.CorrelationId == corrId)
+                        TaskCompletionSource<long> tsGet;
+                        if (requsetDic.TryRemove(corrId, out tsGet))
                         {
-                            return Convert.ToInt64(Encoding.UTF8.GetString(ea.Body));
+                            tsGet.SetResult(-1); 
                         }
-                    }
-                    if (sw.ElapsedMilliseconds > 10 * 1000)
-                    {
-                        sw.Stop();
-                        return -1;
-                    } 
-                }
+                    });
+                });
+                return ts.Task;
             }
         }
 
         private class ValidatorRpcClient
         {
             private readonly IModel channel;
-            private readonly QueueingBasicConsumer consumer;
+            private readonly DefaultBasicConsumer consumer;
             private readonly string replyQueueName;
             private IConnection connection;
+            private ConcurrentDictionary<string, TaskCompletionSource<int>> requsetDic = new ConcurrentDictionary<string, TaskCompletionSource<int>>();
+
 
             public ValidatorRpcClient(IConnection connection)
             {
@@ -181,7 +202,24 @@ namespace Dotpay.TaobaoMonitor
                 channel.ExchangeDeclare(RIPPLE_VALIDATE_EXCHANGE_NAME, ExchangeType.Direct);
                 channel.QueueDeclare(RIPPLE_VALIDATE_QUEUE, true, false, false, null);
                 channel.QueueBind(RIPPLE_VALIDATE_QUEUE, RIPPLE_VALIDATE_EXCHANGE_NAME, "");
-                consumer = new QueueingBasicConsumer(channel);
+                consumer = new ValidatorMessageConsumer(channel, (p, b) =>
+                {
+                    TaskCompletionSource<int> ts;
+                    requsetDic.TryRemove(p.CorrelationId, out ts);
+
+                    if (ts != null)
+                    {
+                        try
+                        {
+                            var result = Convert.ToInt32(Encoding.UTF8.GetString(b));
+                            ts.SetResult(result);
+                        }
+                        catch
+                        {
+                            ts.SetResult(-1);
+                        }
+                    }
+                });
                 channel.BasicConsume(replyQueueName, true, consumer);
             }
 
@@ -189,7 +227,7 @@ namespace Dotpay.TaobaoMonitor
             /// </summary>
             /// <param name="txid"></param>
             /// <returns>-1 超时，1 true, 0 false</returns>
-            public int ValidateTx(string txid)
+            public Task<int> ValidateTx(string txid)
             {
                 var corrId = Guid.NewGuid().ToString();
                 var props = channel.CreateBasicProperties();
@@ -200,25 +238,53 @@ namespace Dotpay.TaobaoMonitor
                 var message = IoC.Resolve<IJsonSerializer>().Serialize(new ValidateTxMessage(txid));
                 var messageBytes = Encoding.UTF8.GetBytes(message);
                 channel.BasicPublish(RIPPLE_VALIDATE_EXCHANGE_NAME, string.Empty, props, messageBytes);
-                var sw = Stopwatch.StartNew();
-                while (true)
+
+                var ts = new TaskCompletionSource<int>();
+
+                requsetDic.TryAdd(corrId, ts);
+
+                Task.Factory.StartNew(() =>
                 {
-                    BasicDeliverEventArgs ea;
-                    if (consumer.Queue.Dequeue(10 * 1000, out ea))
+                    Task.Delay(10000).ContinueWith((t) =>
                     {
-                        if (ea != null && ea.BasicProperties.CorrelationId == corrId)
+                        TaskCompletionSource<int> tsGet;
+                        if (requsetDic.TryRemove(corrId, out tsGet))
                         {
-                            return Convert.ToInt32(Encoding.UTF8.GetString(ea.Body));
+                            tsGet.SetResult(-1);
                         }
-                    }
-                    if (sw.ElapsedMilliseconds > 10 * 1000)
-                    {
-                        sw.Stop();
-                        return -1;
-                    }
+                    });
+                });
+                return ts.Task;
+            }
+        }
+
+        #region Consumer
+
+        private class ValidatorMessageConsumer : DefaultBasicConsumer
+        {
+            private Action<IBasicProperties, byte[]> action;
+
+            public ValidatorMessageConsumer(IModel model, Action<IBasicProperties, byte[]> task)
+                : base(model)
+            {
+                this.action = task;
+            }
+
+            public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey, IBasicProperties properties, byte[] body)
+            {
+                var messageBody = Encoding.UTF8.GetString(body);
+
+                try
+                {
+                    this.action(properties, body);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ValidatorMessageConsumer Deserialize Message Exception.", ex);
                 }
             }
         }
+        #endregion
 
         #endregion
 
