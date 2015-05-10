@@ -5,124 +5,74 @@
 @{
     Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
-@Html.Action("ProfileHeader", "Profile", new { activeIndex = 3 })
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 4 })
 <div class="profile-main">
-    <div class="sub-nav ">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="#">转账到点付<i class="icon-chevron-right"></i></a>
-                </li>
-                <li>
-                    <a href="/deposit/alipay">转账到支付宝<i class="icon-chevron-right"></i></a>
-                </li>
-                <li>
-                    <a href="/deposit/taobao">转账到银行<i class="icon-chevron-right"></i></a>
-                </li>
-                <li>
-                    <a href="/deposit/taobao">转账到Ripple<i class="icon-chevron-right"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="container deposit">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <div>
-                <h4>在线支付</h4>
-            </div>
-            <hr />
-            <form id="depositForm" class="form-horizontal" method="POST" action="~/deposit/epsubmit">
-                <div class="row selectbank">
-                    @Html.AntiForgeryToken()
-                    <ul>
-                        <li>
-                            <input name="bank" type="radio" value="ICBC" checked="checked" />
-                            <label><img src="~/assets/img/bank/ICBC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="ABC" />
-                            <label><img src="~/assets/img/bank/ABC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="CCB" />
-                            <label><img src="~/assets/img/bank/CCB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="CMB" />
-                            <label><img src="~/assets/img/bank/CMB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="BOC" />
-                            <label><img src="~/assets/img/bank/BOC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="HSBC" />
-                            <label><img src="~/assets/img/bank/COMM_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="CEB" />
-                            <label><img src="~/assets/img/bank/CEB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="CITIC" />
-                            <label><img src="~/assets/img/bank/CITIC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="SPDB" />
-                            <label><img src="~/assets/img/bank/SPDB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="SDB" />
-                            <label><img src="~/assets/img/bank/SDB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="CMBC" />
-                            <label><img src="~/assets/img/bank/CMBC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="HXB" />
-                            <label><img src="~/assets/img/bank/HXB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="PSBC" />
-                            <label><img src="~/assets/img/bank/PSBC_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="HSBK" />
-                            <label><img src="~/assets/img/bank/HSBK_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="HZBANK" />
-                            <label><img src="~/assets/img/bank/HZBANK_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="NJB" />
-                            <label><img src="~/assets/img/bank/NJB_OUT.png" /></label>
-                        </li>
-                        <li>
-                            <input name="bank" type="radio" value="SHBANK" />
-                            <label><img src="~/assets/img/bank/SHBANK_OUT.png" /></label>
-                        </li>
-                    </ul>
-                </div>
-                <hr />
-                <div class="form-group">
-                    <label class="col-sm-2 col-md-2 control-label" for="amount">充值金额</label>
-                    <div class="col-sm-4 controls">
-                        <input class="form-control" id="amount" name="amount" type="text" autocomplete="off">
+        <div class="col-sm-10 col-sm-offset-1">
+            @if (@ViewBag.TransferTransaction != null)
+            {
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4>转账到Ripple-确认</h4>
                     </div>
-                    <div class="col-sm-2 col-md-2   controls">
-                        <input type="submit" class="btn btn-primary btn-large btn-block" value="确定">
+                    <div class="panel-body">
+                        <h3>请确认您的转账信息</h3>
+                        <hr />
+                        <div class="note" id="noticeBox" style="display: none;"></div>
+                        <form id="transferConfirmForm" class="form-horizontal" role="form" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Ripple地址：</label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        @ViewBag.TransferTransaction.Destination
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">付款金额：</label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        <input type="hidden" id="txid" name="txid" value="@ViewBag.TransferTransaction.TransferTransactionId" />
+                                        @ViewBag.TransferTransaction.Amount.ToString("0.##")
+                                    </label>
+                                    <a href="#">收费标准</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">付款说明：</label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        @ViewBag.TransferTransaction.Memo
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="paymentpassword" class="col-sm-2 control-label">支付密码：</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" id="paymentpassword" name="paymentpassword">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-8">
+                                    <button type="submit" class="btn btn-primary">确认并付款</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
+            }
+            else
+            {
+                <div class="fail box" id="failBox"><img src="/assets/img/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("systemError")!</strong><br><span id="spanFailBox">@Html.Lang("systemProcessError")</span></div>
+            }
         </div>
-    </div>
-    <script>
-        $(document).ready(function () {
-            $.getScript('/assets/js/deposit.js').done(function () {
-                Deposit.initOnlineDeposit();
+        <script>
+            $(document).ready(function () {
+                $.getScript('/assets/js/transfer.js').done(function () {
+                    Transfer.initConfrimTransferToRipple();
+                });
             });
-        });
-    </script>
+        </script>
+    </div>
 </div>

@@ -39,6 +39,7 @@
     receiverAlipayAccountIsInvalid: "收款账号应该是手机号或Email格式",
     receiverBankAccountIsInvalid: "银行账号格式错误",
     receiverBankAccountUserRealNameIsInvalid: "请输入收款人真实姓名",
+    receiverRippleAccountIsInvalid: "Ripple地址格式错误",
     transferAmountIsRequited: "转账金额不能为空",
     transferAmountFormatNotMatch: "充值金额必须是数字，且小数部分不超过2位",
     paymentPasswordIsRequited: "请输入支付密码",

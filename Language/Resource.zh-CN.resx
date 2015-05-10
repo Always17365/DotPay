@@ -426,4 +426,7 @@
   <data name="FailReason" xml:space="preserve">
     <value>失败原因:</value>
   </data>
+  <data name="invalidRippleAccount" xml:space="preserve">
+    <value>错误的Ripple账户</value>
+  </data>
 </root>

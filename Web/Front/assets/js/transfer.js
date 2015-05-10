@@ -1,4 +1,5 @@
 ﻿/// <reference path="../plugins/jquery/jquery-1.11.2.js" />
+/// <reference path="../plugins/Ripple/ripple.js" />
 var handleTransferToDotpay = function () {
     var remoteHandle;
     var receiverChange;
@@ -102,7 +103,6 @@ var handleTransferToDotpay = function () {
                 $("#frontAccount").attr("readonly", "readonly");
                 $("#realAccount").val(result.account);
                 var field = data.field, $field = data.element;
-                console.log(1)
                 $field.nextUntil('[data-fv-validator="promise"][data-fv-for="' + field + '"]')
                       .text(result.message).show();
             }
@@ -159,7 +159,6 @@ var handleTransferToAlipay = function () {
                         callback: function (value, validator, $field) {
                             var regMobile = /^1[3|4|5|8][0-9]\d{4,8}$/;
                             var regEmail = /^[a-zA-Z0-9_\.]+@[a-zA-Z0-9-]+[\.a-zA-Z]+$/;
-                            console.log(1)
                             if (!regMobile.test(value) && !regEmail.test(value)) {
                                 return {
                                     valid: false,
@@ -223,7 +222,6 @@ var handleConfrimTransferToAlipay = function () {
         e.preventDefault();
         var $form = $(e.target);
         $.post("/transfer/alipay/confirm", $(this).serialize(), function (result, status) {
-            console.log(1);
             if (result.Code === 1) {
                 var txid = result.Data;
                 window.location.href = "/transfer/alipay/result?txid=" + txid;
@@ -255,7 +253,7 @@ var handleTransferToBank = function () {
                         message: "",
                         callback: function (value, validator, $field) {
                             var reg = /^(\d{16}|\d{19})$/;;
-                            if (!reg.test(value) ) {
+                            if (!reg.test(value)) {
                                 return {
                                     valid: false,
                                     message: Language.receiverBankAccountIsInvalid
@@ -308,7 +306,95 @@ var handleTransferToBank = function () {
         });
     });
 }
-var handleConfrimTransferToBank = function () {  
+var handleConfrimTransferToBank = function () {
+    $('#transferConfirmForm').formValidation({
+        framework: 'bootstrap',
+        //err: { container: 'tooltip' },
+        fields: {
+            paymentpassword: {
+                validators: {
+                    notEmpty: {
+                        message: Language.paymentPasswordIsRequited
+                    }
+                }
+            }
+        }
+    }).on('success.form.fv', function (e) {
+        e.preventDefault();
+        var $form = $(e.target);
+        $.post("/transfer/bank/confirm", $(this).serialize(), function (result, status) {
+            if (result.Code === 1) {
+                var txid = result.Data;
+                window.location.href = "/transfer/bank/result?txid=" + txid;
+
+            } else {
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class", "note note-danger").show();
+            }
+        });
+    })
+}
+var handleTransferToRipple = function () {
+    $('#transferToRippleForm').formValidation({
+        framework: 'bootstrap',
+        //err: { container: 'tooltip' },
+        fields: {
+            receiverAccount: {
+                validators: {
+                    notEmpty: {
+                        message: Language.receiverAccountIsRequited
+                    },
+                    callback: {
+                        message: "",
+                        callback: function (value, validator, $field) {
+                            //var reg = /^r[a-zA-Z0-9]{32,33}$/; 
+                            // if (!reg.test(value)) { 
+                            if (!ripple.UInt160.is_valid(value)) {
+                                return {
+                                    valid: false,
+                                    message: Language.receiverRippleAccountIsInvalid,
+                                };
+                            }
+                            return true;
+                        }
+                    }
+                }
+            },
+            transferAmount: {
+                validators: {
+                    notEmpty: {
+                        message: Language.transferAmountIsRequited
+                    },
+                    callback: {
+                        message: "",
+                        callback: function (value, validator, $field) {
+                            var reg = /^\d{1,12}(?:\.\d{1,2})?$/;
+                            if (!reg.test(value)) {
+                                return {
+                                    valid: false,
+                                    message: Language.transferAmountFormatNotMatch
+                                };
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }).on('success.form.fv', function (e) {
+        e.preventDefault();
+        var $form = $(e.target);
+        $.post("/transfer/ripple/submit", $(this).serialize(), function (result, status) {
+            if (result.Code === 1) {
+                var txid = result.Data;
+                window.location.href = "/transfer/ripple/confirm?txid=" + txid;
+
+            } else {
+                $("#noticeBox").html("<h4>" + result.Message + "</h4>");
+            }
+        });
+    });
+}
+var handleConfrimTransferToRipple = function () {
     console.log(1);
     $('#transferConfirmForm').formValidation({
         framework: 'bootstrap',
@@ -324,11 +410,11 @@ var handleConfrimTransferToBank = function () {
         }
     }).on('success.form.fv', function (e) {
         e.preventDefault();
-        var $form = $(e.target); 
-        $.post("/transfer/bank/confirm", $(this).serialize(), function (result, status) {
+        var $form = $(e.target);
+        $.post("/transfer/ripple/confirm", $(this).serialize(), function (result, status) {
             if (result.Code === 1) {
                 var txid = result.Data;
-                window.location.href = "/transfer/bank/result?txid=" + txid;
+                window.location.href = "/transfer/ripple/result?txid=" + txid;
 
             } else {
                 $("#noticeBox").html("<h4>" + result.Message + "</h4>").attr("class", "note note-danger").show();
@@ -362,6 +448,16 @@ var Transfer = function () {
         }, initConfrimTransferToBank: function () {
             $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
                 handleConfrimTransferToBank();
+            });
+        }, initTransferToRipple: function () {
+            $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
+                $.getScript('/assets/plugins/Ripple/ripple-min.js').done(function () {
+                    handleTransferToRipple();
+                });
+            });
+        }, initConfrimTransferToRipple: function () {
+            $.getScript('/assets/plugins/formvalidation/js/framework/bootstrap.min.js').done(function () {
+                handleConfrimTransferToRipple();
             });
         }
     };

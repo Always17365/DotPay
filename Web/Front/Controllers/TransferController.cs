@@ -284,11 +284,52 @@ namespace Dotpay.Front.Controllers
             return Json(result);
         }
         #endregion
+
+        #region 转账到ripple-预提交
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("~/transfer/ripple/submit")]
+        public ActionResult RippleTransferSubmit(string receiverAccount, decimal transferAmount, string memo)
+        {
+            var result = DotpayJsonResult.SystemError;
+            receiverAccount = receiverAccount.NullSafe().Trim();
+            var query = IoC.Resolve<IUserQuery>();
+
+            Regex regex = new Regex(@"^r[a-zA-Z0-9]{32,33}$");
+
+            if (!regex.IsMatch(receiverAccount)) result = DotpayJsonResult.CreateFailResult(this.Lang("invalidRippleAccount"));
+            else if (transferAmount <= 0) result = DotpayJsonResult.CreateFailResult(this.Lang("Invalid amount"));
+            else
+            {
+                try
+                {
+                    var txId = Guid.NewGuid();
+                    var tx = new TransferTransactionSubmitViewModel()
+                    {
+                        TransferUserId = this.CurrentUser.UserId,
+                        TransferTransactionId = txId,
+                        Destination = receiverAccount,
+                        Currency = CurrencyType.Cny,
+                        Amount = transferAmount,
+                        Payway = Payway.Bank,
+                        Memo = memo
+                    };
+                    Cache.Add(txId.ToString(), tx, TimeSpan.FromMinutes(20));
+                    result = DotpayJsonResult<string>.CreateSuccessResult(txId.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("RippleTransferSubmit Excepiton", ex);
+                }
+            }
+
+            return Json(result);
+        }
+        #endregion
         #endregion
 
         #region 确认提交
-
-        #region 转账到点付-确认提交
 
         [HttpPost]
         [Route("~/transfer/{type}/confirm")]
@@ -321,6 +362,12 @@ namespace Dotpay.Front.Controllers
                           tx.Destination, tx.RealName, tx.Bank.Value, CurrencyType.Cny, tx.Amount, tx.Memo, paymentPassword);
                         await this.CommandBus.SendAsync(cmd);
                     }
+                    else if (type.Equals("ripple", StringComparison.OrdinalIgnoreCase))
+                    {
+                        cmd = new SubmitTransferToRippleTransactionCommand(txid, this.CurrentUser.AccountId,
+                          tx.Destination, CurrencyType.Cny, tx.Amount, tx.Memo, paymentPassword);
+                        await this.CommandBus.SendAsync(cmd);
+                    }
 
                     if (cmd.CommandResult == ErrorCode.None)
                     {
@@ -348,7 +395,6 @@ namespace Dotpay.Front.Controllers
 
             return Json(result);
         }
-        #endregion
         #endregion
     }
 }

@@ -798,6 +798,9 @@
     <Content Include="assets\plugins\jquery-ui\ui\minified\jquery.ui.widget.min.js" />
     <Content Include="assets\plugins\jquery\jquery-1.11.2.js" />
     <Content Include="assets\plugins\jquery\jquery-1.11.2.min.js" />
+    <Content Include="assets\plugins\Ripple\ripple-debug.js" />
+    <Content Include="assets\plugins\Ripple\ripple-min.js" />
+    <Content Include="assets\plugins\Ripple\ripple.js" />
     <Content Include="assets\plugins\scrollMonitor\demos\fixed.html" />
     <Content Include="assets\plugins\scrollMonitor\demos\list.html" />
     <Content Include="assets\plugins\scrollMonitor\demos\scoreboard.html" />
@@ -900,6 +903,8 @@
     <Content Include="assets\plugins\jquery-ui\ui\.jshintrc" />
     <Content Include="assets\plugins\DataTables\img\Sorting icons.psd" />
     <Content Include="assets\plugins\DataTables\json\scroller-demo.json" />
+    <Content Include="assets\plugins\Ripple\bower.json" />
+    <Content Include="assets\plugins\Ripple\README.md" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />

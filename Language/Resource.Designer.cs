@@ -511,6 +511,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 Invalid ripple account 的本地化字符串。
+        /// </summary>
+        internal static string invalidRippleAccount {
+            get {
+                return ResourceManager.GetString("invalidRippleAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string Invlid_activation_link_ {

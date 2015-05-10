@@ -39,6 +39,7 @@
     receiverAlipayAccountIsInvalid: "Receiver account should be a mobile or email",
     receiverBankAccountIsInvalid: "Receiver bank account invalid",
     receiverBankAccountUserRealNameIsInvalid: "Please type the bank account user's fullname",
+    receiverRippleAccountIsInvalid: "Ripple account invalid",
     transferAmountIsRequited: "The amount is required",
     transferAmountFormatNotMatch: "amount should be a valid number, no more than 2 decimal places",
     paymentPasswordIsRequited: "Please type your payment password",

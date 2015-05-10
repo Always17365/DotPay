@@ -13,13 +13,13 @@
                 <li>
                     <a href="/transfer/index">转账到点付<i class="icon-chevron-right"></i></a>
                 </li>
-                <li class="active">
-                    <a href="#">转账到支付宝<i class="icon-chevron-right"></i></a>
+                <li>
+                    <a href="/transfer/alipay">转账到支付宝<i class="icon-chevron-right"></i></a>
                 </li>
                 <li>
                     <a href="/transfer/bank">转账到银行<i class="icon-chevron-right"></i></a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/transfer/ripple">转账到Ripple<i class="icon-chevron-right"></i></a>
                 </li>
             </ul>
@@ -28,10 +28,10 @@
     <div class="container deposit">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
             <div>
-                <h4>转账到支付宝</h4>
+                <h4>转账到 Ripple</h4>
             </div>
             <hr />
-            <form id="transferToAlipayForm" class="form-horizontal">
+            <form id="transferToRippleForm" class="form-horizontal">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="receiverAccount" class="col-sm-3 col-md-3 col-lg-2 control-label">收款地址：</label>
@@ -62,7 +62,7 @@
     <script>
         $(document).ready(function () {
             $.getScript('/assets/js/transfer.js').done(function () {
-                Transfer.initTransferToAlipay();
+                Transfer.initTransferToRipple();
             });
         });
     </script>

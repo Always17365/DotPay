@@ -423,4 +423,7 @@
   <data name="FailReason" xml:space="preserve">
     <value>Fail Reason :</value>
   </data>
+  <data name="invalidRippleAccount" xml:space="preserve">
+    <value>Invalid ripple account</value>
+  </data>
 </root>

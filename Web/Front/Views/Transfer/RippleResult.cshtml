@@ -1,72 +1,35 @@
-﻿@using Dotpay.Language
-
+﻿@using Dotpay.Common
+@using Dotpay.Common.Enum
+@using Dotpay.Front.Controllers
+@using Dotpay.Language
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout_Profile.cshtml";
 }
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en">
-<!--<![endif]-->
-<head>
-    <meta charset="utf-8" />
-    <title>点付</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="点付 , 您的快捷支付专家" name="description" />
-    <!--  BEGIN BASE CSS STYLE  -->
-    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/assets/css/animate.min.css" rel="stylesheet" />
-    <link href="/assets/css/style@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
-    <link href="/assets/css/style-responsive@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
-    <link href="/assets/plugins/formvalidation/css/formValidation.min.css" rel="stylesheet" />
-    <link href="/assets/css/theme/default@(ViewBag.Debug==true?"":".min").css" rel="stylesheet" />
-    <link href="/assets/css/lang/@(ViewBag.Lang != "zh-cn" && ViewBag.Lang != "zh-tw"?"other":ViewBag.Lang).css" id="fontstyle" rel="stylesheet" />
-    <!-- END BASE CSS STYLE -->
-    <!-- end #page-container -->
+@Html.Action("ProfileHeader", "Profile", new { activeIndex = 4 })
+<div class="profile-main">
+    <div class="container deposit">
+        <div class="col-sm-10 col-sm-offset-1">
+            @if (@ViewBag.TransferTransaction != null)
+            {
+                <div class="note note-success" id="noticeBox">
+                    <h4>转账成功</h4>
+                    <p>
+                        恭喜，向Ripple地址 @ViewBag.TransferTransaction.Destination 转账 @ViewBag.TransferTransaction.Amount.ToString("0.##") 已成功提交
 
-</head>
-<body>
-    <!-- begin #header -->
-    <div id="header" class="header navbar navbar-default navbar-profile" data-state-change="disabled">
-        <!-- begin container -->
-        <div class="container">
-            <!-- begin navbar-header -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="#" class="navbar-brand">
-                    <span class="brand-logo"></span>
-                    <span class="brand-text">
-                        <span class="text-theme">@Html.Lang("DotpayLogoTitle")</span>|收银台
-                    </span>
-                </a>
-            </div>
-            <!-- end navbar-header -->
-        </div>
-        <!-- end container -->
-    </div>
-    <!-- end #header -->
-    <div class="container">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    @Html.Lang("depositResult")
+                    </p>
                 </div>
-                <div class="panel-body form-horizontal">
-                    <div class="alert@(ViewBag.Result.Code == 1 ? " alert-success" : " alert-danger") fade in"> 
-                        <i class="fa fa-check fa-2x pull-left"></i>
-                        <p>@ViewBag.Result.Message</p>
-                    </div>
-                    <a href="/deposit">@Html.Lang("continueDeposit")</a>
-                    <a href="/deposit/list">@Html.Lang("viewDepositRecord")</a>
-                    <a href="/i">@Html.Lang("returnToI")</a>
-                </div>
-            </div>
+            }
+            else
+            {
+                <div class="fail box" id="failBox"><img src="/assets/img/error.png" alt="Error!" class="left 2x" width="32"><strong>@Html.Lang("systemError")!</strong><br><span id="spanFailBox">@Html.Lang("systemProcessError")</span></div>
+            }
         </div>
+        <script>
+            $(document).ready(function () {
+                $.getScript('/assets/js/deposit.js').done(function () {
+                    Deposit.initAlipayDeposit();
+                });
+            });
+        </script>
     </div>
-    @Html.Partial("_ProfileFooter")
-</body>
-</html>
+</div>
