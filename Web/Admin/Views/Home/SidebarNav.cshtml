@@ -5,7 +5,7 @@
         var user = (ManagerIdentity)ViewBag.CurrentUser;
     }
     <li class="nav-header">管理导航</li>
-    <li class="has-sub">
+    @*<li class="has-sub">
         <a href="javascript:;">
             <b class="caret pull-right"></b>
             <i class="ion-monitor"></i>
@@ -66,7 +66,7 @@
             <li><a href="index.html#ajax/form_editable.html">X-Editable</a></li>
             <li><a href="index.html#ajax/form_multiple_upload.html">Multiple File Upload</a></li>
         </ul>
-    </li>
+    </li>*@
     @if (user.Roles.Any(r => r == ManagerType.TransferManager || r == ManagerType.MaintenanceManager || r == ManagerType.DepositManager))
     {
         <li class="has-sub">
@@ -83,7 +83,7 @@
             </ul>
         </li>
     }
-    <li class="has-sub">
+    @*<li class="has-sub">
         <a href="javascript:;">
             <b class="caret pull-right"></b>
             <i class="ion-aperture"></i>
@@ -116,7 +116,7 @@
             <li><a href="index.html#ajax/chart-js.html">Chart JS <i class="ion-paper-airplane text-theme m-l-5"></i></a></li>
         </ul>
     </li>
-    <li><a href="index.html#ajax/calendar.html"><i class="ion-calendar"></i> <span>Calendar</span></a></li>
+    <li><a href="index.html#ajax/calendar.html"><i class="ion-calendar"></i> <span>Calendar</span></a></li>*@
     @if (user.Roles.Any(r => r == ManagerType.TransferManager || r == ManagerType.MaintenanceManager || r == ManagerType.DepositManager))
     {
         <li><a href="#/ajax/user"><i class="fa fa-users"></i> <span>用户管理</span></a></li>

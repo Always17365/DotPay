@@ -42,7 +42,7 @@ namespace Dotpay.Actor.Implementations
         #region Common Transfer
         async Task<ErrorCode> ITransferTransaction.MarkAsProcessing(Guid managerId)
         {
-            if (this.State.Status == TransferTransactionStatus.PreparationCompleted)
+            if (this.State.Status == TransferTransactionStatus.PreparationCompleted&&this.State.TransactionInfo.Target.Payway!=Payway.Ripple)
             {
                 var manager = GrainFactory.GetGrain<IManager>(managerId);
                 var loginName = await manager.GetManagerLoginName();
@@ -57,7 +57,7 @@ namespace Dotpay.Actor.Implementations
 
         async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid managerId, string transferTxNo)
         {
-            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
+            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId && this.State.TransactionInfo.Target.Payway != Payway.Ripple)
             {
                 await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
                 return ErrorCode.None;
@@ -70,7 +70,7 @@ namespace Dotpay.Actor.Implementations
 
         async Task<ErrorCode> ITransferTransaction.ConfirmFail(Guid managerId, string reason)
         {
-            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId)
+            if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId && this.State.TransactionInfo.Target.Payway != Payway.Ripple)
             {
                 var manager = GrainFactory.GetGrain<IManager>(managerId);
                 var loginName = await manager.GetManagerLoginName();
@@ -88,7 +88,8 @@ namespace Dotpay.Actor.Implementations
         public Task SubmitToRipple()
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus == RippleTransactionStatus.Initialized)
+                this.State.RippleTxStatus == RippleTransactionStatus.Initialized && 
+                this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 return this.ApplyEvent(new TransferTransactionSubmitedToRippleEvent());
             }
@@ -100,7 +101,8 @@ namespace Dotpay.Actor.Implementations
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
                 this.State.RippleTxStatus == RippleTransactionStatus.Submited &&
-                !string.IsNullOrEmpty(this.State.RippleTransactionInfo.RippleTxId))
+                !string.IsNullOrEmpty(this.State.RippleTransactionInfo.RippleTxId) && 
+                this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 return this.ApplyEvent(new TransferTransactionResubmitedToRippleEvent(this.State.RippleTransactionInfo.RippleTxId));
             }
@@ -111,7 +113,8 @@ namespace Dotpay.Actor.Implementations
         Task ITransferTransaction.RippleTransactionPersubmit(string rippleTxId, long lastLedgerIndex)
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited)
+                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited &&
+                this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 var retryCount = this.State.RippleTransactionInfo == null
                     ? 0
@@ -125,11 +128,12 @@ namespace Dotpay.Actor.Implementations
 
         Task ITransferTransaction.RippleTransactionComplete(string rippleTxId)
         {
-            if (rippleTxId == this.State.RippleTransactionInfo.RippleTxId)
+            if (rippleTxId != this.State.RippleTransactionInfo.RippleTxId)
                 this.GetLogger().Warn(-1, "TransferTransaction To Ripple TxId Not Match! currenct={0}, param={1}", this.State.RippleTransactionInfo.RippleTxId, rippleTxId);
 
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited)
+                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited && 
+                this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 return this.ApplyEvent(new TransferTransactionConfirmedRippleTxCompleteEvent(rippleTxId));
             }
@@ -139,11 +143,12 @@ namespace Dotpay.Actor.Implementations
 
         Task ITransferTransaction.RippleTransactionFail(string rippleTxId, RippleTransactionFailedType failedReason)
         {
-            if (rippleTxId == this.State.RippleTransactionInfo.RippleTxId)
+            if (rippleTxId != this.State.RippleTransactionInfo.RippleTxId)
                 this.GetLogger().Warn(-1, "TransferTransaction To Ripple TxId Not Match! currenct={0}, param={1}", this.State.RippleTransactionInfo.RippleTxId, rippleTxId);
 
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited)
+                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited &&
+                this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 return this.ApplyEvent(new TransferTransactionConfirmedRippleTxFailEvent(rippleTxId, failedReason));
             }

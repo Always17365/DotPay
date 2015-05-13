@@ -65,6 +65,11 @@
         });
         //锁定交易
         $("#btnLockTx").click(function () {
+            if (selectedItem && selectedItem.Payway === "Ripple") {
+                Notification.notice("操作失败", "Ripple转账无需人工干预");
+                return;
+            }
+
             if (selectedItem) {
                 $.post("/ajax/dotpaytofi/tx/lock", "txid=" + selectedItem.Id, function (result, status) {
                     if (result.Code === 1) {
@@ -81,6 +86,10 @@
 
         //转账完成
         $("#btnCompleteTx").click(function () {
+            if (selectedItem && selectedItem.Payway === "Ripple") {
+                Notification.notice("操作失败", "Ripple转账无需人工干预");
+                return;
+            }
             if (selectedItem && !selectedItem.Manager) {
                 Notification.notice("操作失败", "在进行此操作前，需先锁定该笔交易");
             } else if (selectedItem) {
@@ -111,9 +120,15 @@
         });
         //转账失败
         $("#btnFailTx").click(function () {
+            if (selectedItem && selectedItem.Payway === "Ripple") {
+                Notification.notice("操作失败", "Ripple转账无需人工干预");
+                return;
+            }
             if (selectedItem && !selectedItem.Manager) {
                 Notification.notice("操作失败", "在进行此操作前，需先锁定该笔交易");
-            } else if (selectedItem) {
+                return;
+            }
+            if (selectedItem) {
                 $("#formFailTx")[0].reset();
                 $("#failTxDialog").modal('show');
                 $("#formFailTx #transferFailTo").val(selectedItem.Payway + (!selectedItem.Bank ? "" : "-" + selectedItem.BankName));
@@ -276,7 +291,6 @@ var handleDotpayToFiFailListTable = function () {
         window.ParsleyValidator.setLocale('zh_cn');
     }
 };
-
 
 var DotpayToFiList = function () {
     "use strict";
