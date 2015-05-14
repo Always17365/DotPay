@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dotpay.Actor.Ripple;
-using Dotpay.Actor.Service;
+﻿using System.Threading.Tasks;
+using Dotpay.Actor.Tools;
 using Orleans;
 
 namespace Dotpay.SiloHost.BootstrapTask
@@ -32,7 +27,9 @@ namespace Dotpay.SiloHost.BootstrapTask
             ////退款监听器-监听来自转账失败等的处理消息，及时进行退款处理
             ////----------------------------------- 
             //var refundTransactionManager = GrainFactory.GetGrain<IRefundTransactionManager>(0);
-            //await refundTransactionManager.Start();
+            //await refundTransactionManager.Start(); 
+            var rippleRpcClient = GrainFactory.GetGrain<IRippleRpcClient>(0);
+            rippleRpcClient.GetLastLedgerIndex();
             return TaskDone.Done;
         }
     }

@@ -1919,16 +1919,16 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<Dotpay.Common.ErrorCode>(-1750574128, new object[] {@managerId, @reason} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.ITransferTransaction.SubmitToRipple()
+            System.Threading.Tasks.Task<bool> Dotpay.Actor.ITransferTransaction.SubmitToRipple()
             {
 
-                return base.InvokeMethodAsync<object>(-1422131439, new object[] {} );
+                return base.InvokeMethodAsync<System.Boolean>(-1422131439, new object[] {} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.ITransferTransaction.ReSubmitToRipple()
+            System.Threading.Tasks.Task<bool> Dotpay.Actor.ITransferTransaction.ReSubmitToRipple()
             {
 
-                return base.InvokeMethodAsync<object>(2094704894, new object[] {} );
+                return base.InvokeMethodAsync<System.Boolean>(2094704894, new object[] {} );
             }
             
             System.Threading.Tasks.Task Dotpay.Actor.ITransferTransaction.RippleTransactionPersubmit(string @rippleTxId, long @lastLedgerIndex)
@@ -1943,10 +1943,10 @@ namespace Dotpay.Actor
                 return base.InvokeMethodAsync<object>(-1740166163, new object[] {@rippleTxId} );
             }
             
-            System.Threading.Tasks.Task Dotpay.Actor.ITransferTransaction.RippleTransactionFail(string @rippleTxId, Dotpay.Common.Enum.RippleTransactionFailedType @railedReason)
+            System.Threading.Tasks.Task<bool> Dotpay.Actor.ITransferTransaction.RippleTransactionFail(string @rippleTxId, Dotpay.Common.Enum.RippleTransactionFailedType @railedReason)
             {
 
-                return base.InvokeMethodAsync<object>(-1756296834, new object[] {@rippleTxId, @railedReason} );
+                return base.InvokeMethodAsync<System.Boolean>(-1756296834, new object[] {@rippleTxId, @railedReason} );
             }
             
             System.Threading.Tasks.Task<Dotpay.Common.Enum.TransferTransactionStatus> Dotpay.Actor.ITransferTransaction.GetStatus()
@@ -2012,15 +2012,15 @@ namespace Dotpay.Actor
                             case -1750574128: 
                                 return ((ITransferTransaction)grain).ConfirmFail((Guid)arguments[0], (String)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1422131439: 
-                                return ((ITransferTransaction)grain).SubmitToRipple().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((ITransferTransaction)grain).SubmitToRipple().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 2094704894: 
-                                return ((ITransferTransaction)grain).ReSubmitToRipple().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((ITransferTransaction)grain).ReSubmitToRipple().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -784453910: 
                                 return ((ITransferTransaction)grain).RippleTransactionPersubmit((String)arguments[0], (Int64)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1740166163: 
                                 return ((ITransferTransaction)grain).RippleTransactionComplete((String)arguments[0]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
                             case -1756296834: 
-                                return ((ITransferTransaction)grain).RippleTransactionFail((String)arguments[0], (RippleTransactionFailedType)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)null; });
+                                return ((ITransferTransaction)grain).RippleTransactionFail((String)arguments[0], (RippleTransactionFailedType)arguments[1]).ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case -1251605435: 
                                 return ((ITransferTransaction)grain).GetStatus().ContinueWith(t => {if (t.Status == System.Threading.Tasks.TaskStatus.Faulted) throw t.Exception; return (object)t.Result; });
                             case 1706394981: 
@@ -3205,9 +3205,12 @@ namespace Dotpay.Actor.Tools
     using System.Runtime.Serialization.Formatters.Binary;
     using System.IO;
     using System.Collections.Generic;
+    using System.Reflection;
+    using Orleans.Serialization;
+    using Dotpay.Actor.Tools;
+    using Dotpay.Common.Enum;
     using Orleans;
     using Orleans.Runtime;
-    using Dotpay.Common.Enum;
     using System.Collections;
     
     
@@ -3756,6 +3759,89 @@ namespace Dotpay.Actor.Tools
                 default:
                     throw new System.InvalidCastException("interfaceId="+interfaceId);
             }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
+    internal class Dotpay_Actor_Tools_GetLastLedgerIndexRequestMessageSerialization
+    {
+        
+        static Dotpay_Actor_Tools_GetLastLedgerIndexRequestMessageSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage input = ((Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(Dotpay.Common.Enum.RippleValidateRequestType));
+        }
+        
+        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage result = ((Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage))));
+            result.Type = ((Dotpay.Common.Enum.RippleValidateRequestType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.RippleValidateRequestType), stream)));
+            return result;
+        }
+        
+        public static void Register()
+        {
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Tools.GetLastLedgerIndexRequestMessage), DeepCopier, Serializer, Deserializer);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Orleans-CodeGenerator", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [global::Orleans.CodeGeneration.RegisterSerializerAttribute()]
+    internal class Dotpay_Actor_Tools_ValidateTxRequestMessageSerialization
+    {
+        
+        private static System.Reflection.FieldInfo fieldInfo1;
+        
+        private static System.Reflection.FieldInfo fieldInfo2;
+        
+        static Dotpay_Actor_Tools_ValidateTxRequestMessageSerialization()
+        {
+            Register();
+        }
+        
+        public static object DeepCopier(object original)
+        {
+            return original;
+        }
+        
+        public static void Serializer(object untypedInput, Orleans.Serialization.BinaryTokenStreamWriter stream, System.Type expected)
+        {
+            Dotpay.Actor.Tools.ValidateTxRequestMessage input = ((Dotpay.Actor.Tools.ValidateTxRequestMessage)(untypedInput));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.RippleTxId, stream, typeof(string));
+            Orleans.Serialization.SerializationManager.SerializeInner(input.Type, stream, typeof(Dotpay.Common.Enum.RippleValidateRequestType));
+        }
+        
+        public static object Deserializer(System.Type expected, global::Orleans.Serialization.BinaryTokenStreamReader stream)
+        {
+            Dotpay.Actor.Tools.ValidateTxRequestMessage result = ((Dotpay.Actor.Tools.ValidateTxRequestMessage)(System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Dotpay.Actor.Tools.ValidateTxRequestMessage))));
+            object objResult = ((object)(result));
+            object temp1 = ((string)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(string), stream)));
+            fieldInfo1.SetValue(objResult, temp1);
+            object temp2 = ((Dotpay.Common.Enum.RippleValidateRequestType)(Orleans.Serialization.SerializationManager.DeserializeInner(typeof(Dotpay.Common.Enum.RippleValidateRequestType), stream)));
+            fieldInfo2.SetValue(objResult, temp2);
+            return objResult;
+        }
+        
+        public static void Register()
+        {
+            global::Orleans.Serialization.SerializationManager.Register(typeof(Dotpay.Actor.Tools.ValidateTxRequestMessage), DeepCopier, Serializer, Deserializer);
+            fieldInfo1 = typeof(Dotpay.Actor.Tools.ValidateTxRequestMessage).GetField("<RippleTxId>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
+            fieldInfo2 = typeof(Dotpay.Actor.Tools.ValidateTxRequestMessage).GetField("<Type>k__BackingField", (System.Reflection.BindingFlags.Instance 
+                            | (System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using DFramework;
+using Dotpay.Actor;
 using Dotpay.Actor.Service;
 using Dotpay.Common;
 using Newtonsoft.Json;
@@ -9,7 +10,8 @@ using RabbitMQ.Client;
 
 namespace Dotpay.Application.Monitor
 {
-    internal class TransferTransactionMonitor : IApplicationMonitor
+    //Dotpay转账到Ripple后，此处主要监听Ripple处理交易的结果
+    internal class RippleResultMessageMonitor : IApplicationMonitor
     {
         private IModel _channel;
         private bool started;
@@ -34,50 +36,44 @@ namespace Dotpay.Application.Monitor
 
         private void StartMessageConsumer()
         {
-            var exchangeName = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
-            var queueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
-            var routeKey = Constants.TransferTransactionManagerRouteKey;
+            var exchangeName = Constants.RippleTxResultMQName + Constants.ExechangeSuffix;
+            var routeKey = string.Empty;
+            var queueName = Constants.RippleTxResultMQName + Constants.QueueSuffix;
+
             _channel = RabbitMqConnectionManager.GetConnection().CreateModel();
             _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, true, false, null);
             _channel.QueueDeclare(queueName, true, false, false, null);
             _channel.QueueBind(queueName, exchangeName, routeKey);
 
-            var consumer = new TransferTransactionMessageConsumer(_channel);
+            var consumer = new RippleResultMessageConsumer(_channel);
             _channel.BasicQos(0, 1, false);
             _channel.BasicConsume(queueName, false, consumer);
 
         }
         #region Consumer
 
-        private class TransferTransactionMessageConsumer : DefaultBasicConsumer
+        private class RippleResultMessageConsumer : DefaultBasicConsumer
         {
-            public TransferTransactionMessageConsumer(IModel model) : base(model) { }
+            public RippleResultMessageConsumer(IModel model) : base(model) { }
 
             public override async void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered,
                 string exchange, string routingKey, IBasicProperties properties, byte[] body)
             {
                 var messageBody = Encoding.UTF8.GetString(body);
-                TransferTransactionMessage message;
 
                 try
                 {
-                    message = JsonConvert.DeserializeObject<TransferTransactionMessage>(messageBody);
+                    var message = JsonConvert.DeserializeObject<TransferTransactionMessage>(messageBody);
 
-                    if (message.Type == (uint)TransferTransactionMessageType.SubmitTransferTransactionMessage)
+                    if (message.Type == (uint)TransferTransactionMessageType.RippleTransactionPresubmitMessage)
                     {
-                        message = JsonConvert.DeserializeObject<SubmitTransferTransactionMessage>(messageBody);
+                        message = JsonConvert.DeserializeObject<RippleTransactionPresubmitMessage>(messageBody);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Model.BasicAck(deliveryTag, false);
-                    Log.Error("TransferTransactionMessageConsumer Message Error Format,Message=" + messageBody, ex);
-                    return;
-                }
-
-
-                try
-                {
+                    else if (message.Type == (uint)TransferTransactionMessageType.RippleTransactionResultMessage)
+                    {
+                        message = JsonConvert.DeserializeObject<RippleTransactionResultMessage>(messageBody);
+                    }
+                    Log.Info("收到ripple的转账结果消息" + messageBody);
                     var transferTransactionManager = GrainFactory.GetGrain<ITransferTransactionManager>(0);
                     await transferTransactionManager.Receive(message);
 
@@ -85,8 +81,9 @@ namespace Dotpay.Application.Monitor
                 }
                 catch (Exception ex)
                 {
-                    Model.BasicNack(deliveryTag, false, true);
-                    Log.Error("TransferTransactionMessageConsumer Exception,Message=" + messageBody, ex);
+
+                    Log.Error("RippleResultMessageConsumer Message Error Format,Message=" + messageBody, ex);
+                    return;
                 }
             }
         }

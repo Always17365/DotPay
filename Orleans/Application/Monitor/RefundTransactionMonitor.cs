@@ -9,6 +9,7 @@ using RabbitMQ.Client;
 
 namespace Dotpay.Application.Monitor
 {
+    //处理转账失败后，自动退款的消息
     internal class RefundTransactionMonitor : IApplicationMonitor
     {
         private IModel _channel;
@@ -51,7 +52,7 @@ namespace Dotpay.Application.Monitor
         #region Message Consumer
 
         private class RefundTransactionMessageConsumer : DefaultBasicConsumer
-        { 
+        {
             public RefundTransactionMessageConsumer(IModel model) : base(model) { }
 
             public override async void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey, IBasicProperties properties, byte[] body)

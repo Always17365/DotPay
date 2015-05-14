@@ -26,7 +26,7 @@ namespace Dotpay.Application
             while (true)
             {
                 var input = Console.ReadLine();
-                if(input==exitCode)
+                if (input == exitCode)
                     break;
             }
         }
@@ -53,13 +53,15 @@ namespace Dotpay.Application
             var rippleTxMessageMonitor = new RippleToFIMonitor();
             var transferTxMonitor = new TransferTransactionMonitor();
             var userActiveMonitor = new UserActiveMessageMonitor();
+            var rippleResultMonitor = new RippleResultMessageMonitor();
 
-             depositRecheckerMonitor.Start();
-             emailMessagMonitor.Start();
-             refundTransactionMonitor.Start();
-             rippleTxMessageMonitor.Start();
-             transferTxMonitor.Start();
-             userActiveMonitor.Start(); 
+            depositRecheckerMonitor.Start();
+            emailMessagMonitor.Start();
+            refundTransactionMonitor.Start();
+            rippleTxMessageMonitor.Start();
+            transferTxMonitor.Start();
+            userActiveMonitor.Start();
+            rippleResultMonitor.Start();
         }
     }
 }

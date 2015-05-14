@@ -99,6 +99,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Monitor\RippleResultMessageMonitor.cs" />
     <Compile Include="Monitor\TaobaoDepositMessageMonitor.cs" />
     <Compile Include="Monitor\EmailMessageMonitor.cs" />
     <Compile Include="Monitor\UserActiveMessageMonitor.cs" />

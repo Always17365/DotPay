@@ -58,6 +58,7 @@
     <Compile Include="CacheKey.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EnumExtensionForLang.cs" />
+    <Compile Include="Enum\RippleValidateRequestType.cs" />
     <Compile Include="Enum\RippleTransactionValidateResult.cs" />
     <Compile Include="Enum\SequenceNoType.cs" />
     <Compile Include="Enum\CurrencyType.cs" />

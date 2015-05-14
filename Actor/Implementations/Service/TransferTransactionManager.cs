@@ -18,12 +18,12 @@ namespace Dotpay.Actor.Service.Implementations
     [StatelessWorker]
     public class TransferTransactionManager : Grain, ITransferTransactionManager, IRemindable
     {
-        private const string MqTransferExchangeName = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
-        private const string MqTransferQueueName = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
-        private const string MqTransferRouteKey = Constants.TransferTransactionManagerRouteKey;
-        private const string MqToRippleQueueRouteKey = Constants.TransferToRippleRouteKey;
-        private const string MqToRippleQueueName = Constants.TransferToRippleQueueName + Constants.QueueSuffix;
-        private const string MqRefundExchangeName = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix; 
+        private const string MQ_TRANSFER_EXCHANGE_NAME = Constants.TransferTransactionManagerMQName + Constants.ExechangeSuffix;
+        private const string MQ_TRANSFER_QUEUE_NAME = Constants.TransferTransactionManagerMQName + Constants.QueueSuffix;
+        private const string MQ_TRANSFER_ROUTE_KEY = Constants.TransferTransactionManagerRouteKey;
+        private const string MQ_TO_RIPPLE_QUEUE_ROUTE_KEY = Constants.TransferToRippleRouteKey;
+        private const string MQ_TO_RIPPLE_QUEUE_NAME = Constants.TransferToRippleQueueName + Constants.QueueSuffix;
+        private const string MQ_REFUND_EXCHANGE_NAME = Constants.RefundTransactionManagerMQName + Constants.ExechangeSuffix;
 
         async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToDotpayTransaction(Guid transferTransactionId, Guid sourceAccountId, Guid targetAccountId, string targetUserRealName, CurrencyType currency, decimal amount, string memo, string paymentPassword)
         {
@@ -82,7 +82,7 @@ namespace Dotpay.Actor.Service.Implementations
             {
                 return ErrorCode.AutomaticTranasferTransactionCanNotProccessByManager;
             }
-           
+
             return await transferTransaction.MarkAsProcessing(managerId);
         }
 
@@ -99,12 +99,16 @@ namespace Dotpay.Actor.Service.Implementations
             {
                 return ErrorCode.AutomaticTranasferTransactionCanNotProccessByManager;
             }
-            var code = await transferTransaction.ConfirmFail(managerId, reason);
+            if (await transferTransaction.GetStatus() == TransferTransactionStatus.LockeByProcessor)
+            {
+                var code = await transferTransaction.ConfirmFail(managerId, reason);
 
-            if (code == ErrorCode.None)
-                await PublishRefundMessage(transferTransactionId);
+                if (code == ErrorCode.None)
+                    await PublishRefundMessage(transferTransactionId);
 
-            return code;
+                return code;
+            }
+            return ErrorCode.None;
         }
 
         async Task<ErrorCode> ITransferTransactionManager.ConfirmTransactionComplete(Guid transferTransactionId, string transferNo, decimal amount, Guid managerId)
@@ -112,7 +116,7 @@ namespace Dotpay.Actor.Service.Implementations
             if (!await CheckManagerPermission(managerId)) return ErrorCode.HasNoPermission;
 
             var transferTransaction = GrainFactory.GetGrain<ITransferTransaction>(transferTransactionId);
-            var txinfo =await transferTransaction.GetTransactionInfo();
+            var txinfo = await transferTransaction.GetTransactionInfo();
             if (txinfo.Target.Payway == Payway.Ripple ||
                 txinfo.Target.Payway == Payway.Dotpay)
             {
@@ -122,7 +126,7 @@ namespace Dotpay.Actor.Service.Implementations
             {
                 return ErrorCode.TranasferTransactionAmountNotMatch;
             }
-            return await transferTransaction.ConfirmComplete(managerId, transferNo); 
+            return await transferTransaction.ConfirmComplete(managerId, transferNo);
         }
 
         async Task ITransferTransactionManager.Receive(MqMessage message)
@@ -142,6 +146,15 @@ namespace Dotpay.Actor.Service.Implementations
                 await ProcessRippleTransactionPresubmitMessage(rippleTransactionPresubmitMessage);
                 return;
             }
+
+            var rippleTxResultMessage = message as RippleTransactionResultMessage;
+
+            if (rippleTxResultMessage != null)
+            {
+                await ProcessRippleTransactionResultMessage(rippleTxResultMessage);
+                return;
+            }
+
         }
 
         #region override
@@ -164,11 +177,17 @@ namespace Dotpay.Actor.Service.Implementations
                     if (validateResult == RippleTransactionValidateResult.NotFound)
                     {
                         //resubmit
-                        await transferTx.ReSubmitToRipple();
-                        var transaferTxInfo = await transferTx.GetTransactionInfo();
-                        await
-                            PublishSubmitToRippleMessage(transferTxId, transaferTxInfo.Target.Destination,
-                                transaferTxInfo.Currency, transaferTxInfo.Amount);
+                        await transferTx.ReSubmitToRipple().ContinueWith(async (t) =>
+                        {
+                            if (t.Result)
+                            {
+                                var transaferTxInfo = await transferTx.GetTransactionInfo();
+                                await
+                                    PublishSubmitToRippleMessage(transferTxId, transaferTxInfo.Target.Destination,
+                                        transaferTxInfo.Currency, transaferTxInfo.Amount);
+                            }
+                        });
+
                     }
                     else if (validateResult == RippleTransactionValidateResult.Success)
                     {
@@ -341,7 +360,7 @@ namespace Dotpay.Actor.Service.Implementations
                 transactionInfo.Target, transactionInfo.Currency, transactionInfo.Amount, transactionInfo.Memo,
                 TransferTransactionMessageType.SubmitTransferTransactionMessage);
             await MessageProducterManager.GetProducter()
-                    .PublishMessage(message, MqTransferExchangeName, MqTransferRouteKey, true);
+                    .PublishMessage(message, MQ_TRANSFER_EXCHANGE_NAME, MQ_TRANSFER_ROUTE_KEY, true);
             return await ProcessSubmitedTransferTransactionMessage(message);
         }
 
@@ -441,10 +460,16 @@ namespace Dotpay.Actor.Service.Implementations
 
                 await Task.WhenAll(commitTasks);
 
-                if (message.Target.Payway == Payway.Ripple)
+                var rippleTxStatus = await transferTransaction.GetRippleTransactionStatus();
+                if (message.Target.Payway == Payway.Ripple && rippleTxStatus == RippleTransactionStatus.Initialized)
                 {
-                    await transferTransaction.SubmitToRipple();
-                    await PublishSubmitToRippleMessage(message.TransferTransactionId, target.Destination, message.Currency, message.Amount);
+                    await transferTransaction.SubmitToRipple().ContinueWith((t) =>
+                    {
+                        if (t.Result)
+                        {
+                            PublishSubmitToRippleMessage(message.TransferTransactionId, target.Destination, message.Currency, message.Amount);
+                        }
+                    });
                 }
 
             }
@@ -487,17 +512,20 @@ namespace Dotpay.Actor.Service.Implementations
                 await transferTransaction.RippleTransactionComplete(message.RippleTxId);
             else
             {
-                await transferTransaction.RippleTransactionFail(message.RippleTxId, message.FailedReason);
-                await PublishRefundMessage(transferTransactionId);
+                await transferTransaction.RippleTransactionFail(message.RippleTxId, message.FailedReason)
+                                         .ContinueWith((t) =>
+                                         {
+                                             if (t.Result) PublishRefundMessage(transferTransactionId);
+                                         });
             }
         }
 
         private async Task RegisterAndBindMqQueue()
         {
-            await MessageProducterManager.RegisterAndBindQueue(MqTransferExchangeName, ExchangeType.Direct, MqTransferQueueName,
-                  MqTransferRouteKey, true);
-            await MessageProducterManager.RegisterAndBindQueue(MqTransferExchangeName, ExchangeType.Direct, MqToRippleQueueName,
-                  MqToRippleQueueRouteKey, true);
+            await MessageProducterManager.RegisterAndBindQueue(MQ_TRANSFER_EXCHANGE_NAME, ExchangeType.Direct, MQ_TRANSFER_QUEUE_NAME,
+                  MQ_TRANSFER_ROUTE_KEY, true);
+            await MessageProducterManager.RegisterAndBindQueue(MQ_TRANSFER_EXCHANGE_NAME, ExchangeType.Direct, MQ_TO_RIPPLE_QUEUE_NAME,
+                  MQ_TO_RIPPLE_QUEUE_ROUTE_KEY, true);
         }
 
         private async Task PublishSubmitToRippleMessage(Guid transferTransactionId, string destination,
@@ -506,7 +534,7 @@ namespace Dotpay.Actor.Service.Implementations
             var toRippleMessage = new SubmitTransferTransactionToRippleMessage(transferTransactionId,
                 destination, currency, amount);
             await MessageProducterManager.GetProducter()
-                .PublishMessage(toRippleMessage, MqTransferExchangeName, MqToRippleQueueRouteKey, true);
+                .PublishMessage(toRippleMessage, MQ_TRANSFER_EXCHANGE_NAME, MQ_TO_RIPPLE_QUEUE_ROUTE_KEY, true);
         }
 
         private async Task PublishRefundMessage(Guid transferTransactionId)
@@ -514,7 +542,7 @@ namespace Dotpay.Actor.Service.Implementations
             var toRippleMessage = new RefundTransactionMessage(Guid.NewGuid(), transferTransactionId,
                 RefundTransactionType.TransferRefund);
             await MessageProducterManager.GetProducter()
-                .PublishMessage(toRippleMessage, MqRefundExchangeName, "", true);
+                .PublishMessage(toRippleMessage, MQ_REFUND_EXCHANGE_NAME, "", true);
         }
         private Task<bool> CheckManagerPermission(Guid operatorId)
         {

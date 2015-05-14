@@ -42,7 +42,7 @@ namespace Dotpay.Actor.Implementations
         #region Common Transfer
         async Task<ErrorCode> ITransferTransaction.MarkAsProcessing(Guid managerId)
         {
-            if (this.State.Status == TransferTransactionStatus.PreparationCompleted&&this.State.TransactionInfo.Target.Payway!=Payway.Ripple)
+            if (this.State.Status == TransferTransactionStatus.PreparationCompleted && this.State.TransactionInfo.Target.Payway != Payway.Ripple)
             {
                 var manager = GrainFactory.GetGrain<IManager>(managerId);
                 var loginName = await manager.GetManagerLoginName();
@@ -85,29 +85,31 @@ namespace Dotpay.Actor.Implementations
         #endregion
 
         #region Transfer To Ripple
-        public Task SubmitToRipple()
+        async Task<bool> ITransferTransaction.SubmitToRipple()
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus == RippleTransactionStatus.Initialized && 
+                this.State.RippleTxStatus == RippleTransactionStatus.Initialized &&
                 this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
-                return this.ApplyEvent(new TransferTransactionSubmitedToRippleEvent());
+                await this.ApplyEvent(new TransferTransactionSubmitedToRippleEvent());
+                return true;
             }
 
-            return TaskDone.Done;
+            return false;
         }
 
-        public Task ReSubmitToRipple()
+        async Task<bool> ITransferTransaction.ReSubmitToRipple()
         {
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
                 this.State.RippleTxStatus == RippleTransactionStatus.Submited &&
-                !string.IsNullOrEmpty(this.State.RippleTransactionInfo.RippleTxId) && 
+                !string.IsNullOrEmpty(this.State.RippleTransactionInfo.RippleTxId) &&
                 this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
-                return this.ApplyEvent(new TransferTransactionResubmitedToRippleEvent(this.State.RippleTransactionInfo.RippleTxId));
+                await this.ApplyEvent(new TransferTransactionResubmitedToRippleEvent(this.State.RippleTransactionInfo.RippleTxId));
+                return true;
             }
 
-            return TaskDone.Done;
+            return false;
         }
 
         Task ITransferTransaction.RippleTransactionPersubmit(string rippleTxId, long lastLedgerIndex)
@@ -132,7 +134,7 @@ namespace Dotpay.Actor.Implementations
                 this.GetLogger().Warn(-1, "TransferTransaction To Ripple TxId Not Match! currenct={0}, param={1}", this.State.RippleTransactionInfo.RippleTxId, rippleTxId);
 
             if (this.State.Status == TransferTransactionStatus.PreparationCompleted &&
-                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited && 
+                this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited &&
                 this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
                 return this.ApplyEvent(new TransferTransactionConfirmedRippleTxCompleteEvent(rippleTxId));
@@ -141,7 +143,7 @@ namespace Dotpay.Actor.Implementations
             return TaskDone.Done;
         }
 
-        Task ITransferTransaction.RippleTransactionFail(string rippleTxId, RippleTransactionFailedType failedReason)
+        async Task<bool> ITransferTransaction.RippleTransactionFail(string rippleTxId, RippleTransactionFailedType failedReason)
         {
             if (rippleTxId != this.State.RippleTransactionInfo.RippleTxId)
                 this.GetLogger().Warn(-1, "TransferTransaction To Ripple TxId Not Match! currenct={0}, param={1}", this.State.RippleTransactionInfo.RippleTxId, rippleTxId);
@@ -150,10 +152,11 @@ namespace Dotpay.Actor.Implementations
                 this.State.RippleTxStatus.GetValueOrDefault() == RippleTransactionStatus.Submited &&
                 this.State.TransactionInfo.Target.Payway == Payway.Ripple)
             {
-                return this.ApplyEvent(new TransferTransactionConfirmedRippleTxFailEvent(rippleTxId, failedReason));
+                await this.ApplyEvent(new TransferTransactionConfirmedRippleTxFailEvent(rippleTxId, failedReason));
+                return true;
             }
 
-            return TaskDone.Done;
+            return false;
         }
 
         public Task<TransferTransactionStatus> GetStatus()
@@ -253,6 +256,7 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionConfirmedRippleTxCompleteEvent @event)
         {
             this.State.RippleTransactionInfo.RippleTxId = @event.RippleTxId;
+            this.State.Status=TransferTransactionStatus.Completed;
             this.State.RippleTxStatus = RippleTransactionStatus.Completed;
             this.State.CompleteAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
@@ -262,6 +266,7 @@ namespace Dotpay.Actor.Implementations
             this.State.RippleTransactionInfo.RippleTxId = @event.RippleTxId;
             this.State.RippleTransactionInfo.FailReason = @event.FailedReason;
             this.State.RippleTxStatus = RippleTransactionStatus.Failed;
+            this.State.Status = TransferTransactionStatus.Failed;
             this.State.FailAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
         }

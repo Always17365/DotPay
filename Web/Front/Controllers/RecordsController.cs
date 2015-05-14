@@ -38,7 +38,7 @@ namespace Dotpay.Front.Controllers
             }
             else
             {
-                var page = start;
+                var page = start / length;
                 var pagesize = length;
                 var query = IoC.Resolve<ITransactionQuery>();
                 IEnumerable<DepositTransactionListViewModel> dataList = null;
@@ -79,7 +79,7 @@ namespace Dotpay.Front.Controllers
             }
             else
             {
-                var page = start;
+                var page = start / length;
                 var pagesize = length;
                 var query = IoC.Resolve<ITransactionQuery>();
                 IEnumerable<TransferTransactionListViewModel> dataList = null;

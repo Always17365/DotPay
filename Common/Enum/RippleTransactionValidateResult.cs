@@ -2,8 +2,9 @@
 {
     public enum RippleTransactionValidateResult
     {
-        NotFound = 1,
-        Success = 2,
-        Timeout = 3
+        Timeout=-2,
+        Error=-1,
+        NotFound = 0,
+        Success = 1
     }
 }

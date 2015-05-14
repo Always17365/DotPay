@@ -23,16 +23,16 @@ namespace Dotpay.Actor
         #endregion
 
         #region 自动处理接口 for ripple
-        Task SubmitToRipple();
+        Task<bool> SubmitToRipple();
         /// <summary>
         /// 在Ripple提交之后，特定原因下，重新提交该笔交易到Ripple.
         /// <remarks>由于网络等原因，未返回结果，需要提交Rpc请求，判断当前的处理结果，检查如果未成功处理的情况,重复提交。原因只能是一个，即TxnNotFound</remarks> 
         /// </summary>
         /// <returns></returns>
-        Task ReSubmitToRipple();
+        Task<bool> ReSubmitToRipple();
         Task RippleTransactionPersubmit(string rippleTxId, long lastLedgerIndex);
         Task RippleTransactionComplete(string rippleTxId);
-        Task RippleTransactionFail(string rippleTxId, RippleTransactionFailedType railedReason);
+        Task<bool> RippleTransactionFail(string rippleTxId, RippleTransactionFailedType railedReason);
         #endregion
 
         Task<TransferTransactionStatus> GetStatus();

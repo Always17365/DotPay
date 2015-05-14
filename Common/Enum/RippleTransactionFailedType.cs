@@ -2,7 +2,8 @@
 {
     public enum RippleTransactionFailedType
     {
-        DestinationNotActive = 1,
-        DestinationNotTrustOrTrustNotEnough = 2
+        DestinationInvalid = 1,
+        DestinationNotActive = 2,
+        DestinationNotTrustOrTrustNotEnough = 3
     }
 }

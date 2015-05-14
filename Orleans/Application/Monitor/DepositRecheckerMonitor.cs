@@ -10,6 +10,7 @@ using RabbitMQ.Client;
 
 namespace Dotpay.Application.Monitor
 {
+    //主要处理，当充值处理一半，服务器宕机或断电导致处理中断的情况
     internal class DepositRecheckerMonitor : IApplicationMonitor
     {
         private IModel _channel;

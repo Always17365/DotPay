@@ -23,16 +23,21 @@ namespace Dotpay.Common
         public const string TaobaoMQName = "Taobao";
 
         public const string TransferTransactionManagerMQName = "TransferTransactionManager";
-        public const string TransferToRippleQueueName = "TransferToRipple";
         public const string TransferTransactionManagerRouteKey = "Inside";
-        public const string TransferToRippleRouteKey = "ToRipple";
+
+        /*此处的Ripple相关的名称不可随意修改，这里的名称 在nodejs端也有使用*/
+        /**/public const string TransferToRippleQueueName = "TransferToRipple";
+        /**/public const string TransferToRippleRouteKey = "ToRipple";
+        /*-----------------------------------------------------------------*/
 
         public const string RefundTransactionManagerMQName = "RefundTransactionManager";
 
-        public const string RippleTxResultMQName = "RippleTxResult";
-        public const string RippleValidatorMQExchangeName = "RippleValidator";
-        public const string RippleLedgerIndexResultQueueName = "RippleLedgerIndex";
-        public const string RippleValidateResultQueueName = "RippleValidator";
+        //此处的Ripple相关的名称不可随意修改，这里的名称 在nodejs端也有使用
+        /**/public const string RippleTxResultMQName = "RippleTxResult";
+        /**/public const string RippleValidatorMQName = "RippleValidator";                 //验证和获取last ledger index
+        /**/public const string RippleLedgerIndexResultQueueName = "RippleGetLedgerIndex"; //获取last ledger index的Replay Queue 
+        /**/public const string RippleValidateResultQueueName = "RippleValidator";         //tx验证消息Replay Queue
+        /*-----------------------------------------------------------------*/
 
         public const string RippleToFIMQName = "RippleToFI";
 
@@ -42,7 +47,7 @@ namespace Dotpay.Common
         public const string UserMQName = "UserMQ";
         public const string UserRouteKey = "User";
         public const string UserEmailRouteKey = "Email";
-        public const string UserEmailMQName = "UserEmailMQ"; 
+        public const string UserEmailMQName = "UserEmailMQ";
 
         #endregion
     }
