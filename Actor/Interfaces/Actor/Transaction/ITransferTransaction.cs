@@ -18,7 +18,7 @@ namespace Dotpay.Actor
 
         #region 手工处理接口
         Task<ErrorCode> MarkAsProcessing(Guid managerId);
-        Task<ErrorCode> ConfirmComplete(Guid managerId, string transferTxNo);
+        Task<ErrorCode> ConfirmComplete(Guid? guid, string transferTxNo);
         Task<ErrorCode> ConfirmFail(Guid managerId, string reason);
         #endregion
 

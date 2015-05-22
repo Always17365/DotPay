@@ -63,13 +63,13 @@ namespace Dotpay.Actor.Events
     [Serializable]
     public class TransferTransactionConfirmCompletedEvent : GrainEvent
     {
-        public TransferTransactionConfirmCompletedEvent(Guid managerId, string fiTransactionNo)
+        public TransferTransactionConfirmCompletedEvent(Guid? managerId, string fiTransactionNo)
         {
             this.ManagerId = managerId;
             this.FiTransactionNo = fiTransactionNo;
         }
 
-        public Guid ManagerId { get; private set; }
+        public Guid? ManagerId { get; private set; }
         public string FiTransactionNo { get; private set; }
     }
 

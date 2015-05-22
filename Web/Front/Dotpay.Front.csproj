@@ -227,6 +227,10 @@
     <Content Include="assets\img\work-6.jpg" />
     <Content Include="assets\img\work-7.jpg" />
     <Content Include="assets\img\work-8.jpg" />
+    <Content Include="assets\js\resetpassword.js" />
+    <Content Include="assets\js\forgetpassword.js" />
+    <Content Include="assets\js\modifypaypwd.js" />
+    <Content Include="assets\js\modifyloginpwd.js" />
     <Content Include="assets\js\transfer-records.js" />
     <Content Include="assets\js\setpaymentpwd.js" />
     <Content Include="assets\js\deposit-records.js" />
@@ -905,6 +909,12 @@
     <Content Include="assets\plugins\DataTables\json\scroller-demo.json" />
     <Content Include="assets\plugins\Ripple\bower.json" />
     <Content Include="assets\plugins\Ripple\README.md" />
+    <Content Include="Views\Profile\ModifyLoginPassword.cshtml" />
+    <Content Include="Views\Profile\ModifyPaymentPassword.cshtml" />
+    <Content Include="Views\Account\ForgetLoginPasswordResult.cshtml" />
+    <Content Include="Views\Account\ForgetLoginPassword.cshtml" />
+    <Content Include="Views\Account\ResetLoginPassword.cshtml" />
+    <Content Include="Views\Account\ResetLoginPasswordResult.cshtml" />
     <None Include="Views\Shared\_IndexFeture.cshtml" />
     <Content Include="Views\Shared\_IndexHelpPanel.cshtml" />
     <Content Include="Views\Shared\_IndexFooter.cshtml" />

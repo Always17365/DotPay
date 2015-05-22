@@ -36,6 +36,7 @@ Website: http://www.seantheme.com/color-admin-v1.5/admin/
     .show600 { display: block !important; }
     .header.navbar.navbar-profile .navbar-brand .logo { width: 200px; height: 33px; }
     .header.navbar.navbar-profile .navbar-nav > li > a { padding: 10px 15px; }
+    body.page-navbar-fixed-top-profile-nobg { padding-top: 0px !important; }
 }
 
 @media (min-width: 500px) {

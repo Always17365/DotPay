@@ -6,6 +6,7 @@ using System.Web.WebPages;
 using DFramework;
 using Dotpay.Command;
 using Dotpay.Common;
+using Dotpay.Common.Enum;
 using Dotpay.Front.Validators;
 using Dotpay.Front.ViewModel;
 using Dotpay.FrontQueryService;
@@ -184,6 +185,7 @@ namespace Dotpay.Front.Controllers
         }
 
         #endregion
+
         #region 激活
         [Route("~/active")]
         [HttpGet]
@@ -276,6 +278,165 @@ namespace Dotpay.Front.Controllers
         }
         #endregion
 
+        #region 找回登陆密码
 
+        #region 忘记登陆密码
+        [Route("~/forget/loginpwd")]
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ForgetLoginPassword(Lang lang)
+        {
+            return View();
+        }
+        #endregion
+
+        #region 忘记登陆密码-邮件发送提示
+        [Route("~/forget/loginpwd/result")]
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ForgetLoginPasswordResult(string rid)
+        {
+            if (Session["ForgetLoginPassword"] != null)
+            {
+                var guid = Session["ForgetLoginPassword"].ToString();
+                if (guid.Equals(rid, StringComparison.OrdinalIgnoreCase))
+                {
+                    ViewBag.Valid = true;
+                }
+                else
+                {
+                    ViewBag.Valid = false;
+                }
+            }
+            return View();
+        }
+        #endregion
+
+        #region 发送找回密码邮件
+        [Route("~/forget/loginpwd/sendmail")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> SendResetLoginPasswordEmail(string email, Lang lang)
+        {
+            var result = DotpayJsonResult.SystemError;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var query = IoC.Resolve<IUserQuery>();
+                var userIdentity = await query.GetUserByEmail(email);
+                if (userIdentity != null)
+                {
+                    try
+                    {
+                        var cmd = new ForgetLoginPasswordCommand(userIdentity.UserId, lang);
+                        await this.CommandBus.SendAsync(cmd);
+                        if (cmd.CommandResult == ErrorCode.None)
+                        {
+                            var guid = Guid.NewGuid().ToString();
+                            Session["ForgetLoginPassword"] = guid;
+                            result = DotpayJsonResult<string>.CreateSuccessResult(guid);
+                        }
+                        else if (cmd.CommandResult == ErrorCode.ExceedMaxResetLoginPasswordRequestTime)
+                        {
+                            result =
+                                DotpayJsonResult.CreateFailResult(this.Lang("ExceedMaxResetLoginPasswordRequestTime"));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("SendResetLoginPasswordEmail Exception", ex);
+                    }
+                }
+            }
+            return Json(result);
+        }
+        #endregion
+
+        #region 重置登陆密码页面
+        [Route("~/reset/loginpwd")]
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> ResetLoginPassword(string email, string token, Lang lang)
+        {
+            var query = IoC.Resolve<IUserQuery>();
+
+            var resetTokenTuple = await query.GetLoginPasswordResetTokenByEmail(email.NullSafe().Trim());
+
+            if (resetTokenTuple != null &&
+                resetTokenTuple.Item1.Equals(token.NullSafe().Trim(), StringComparison.OrdinalIgnoreCase) &&
+                resetTokenTuple.Item2.AddMinutes(30) > DateTime.Now)
+            {
+                ViewBag.Valid = true;
+                ViewBag.Email = email;
+                ViewBag.Token = token;
+                SetCurrentLanaguage(this.GetLangName(lang));
+            }
+            else
+                ViewBag.Valid = false;
+            return View();
+        }
+        #endregion
+
+        #region 重置登陆密码POST
+        [Route("~/reset/loginpwd")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> ResetLoginPassword(string email, string token, string password, string confirmpassword, Lang lang)
+        {
+            var query = IoC.Resolve<IUserQuery>();
+            var user = await query.GetUserByEmail(email.NullSafe().Trim());
+            var resetTokenTuple = await query.GetLoginPasswordResetTokenByEmail(email.NullSafe().Trim());
+            var result = DotpayJsonResult.SystemError;
+            if (resetTokenTuple != null &&
+                resetTokenTuple.Item1.Equals(token.NullSafe().Trim(), StringComparison.OrdinalIgnoreCase) &&
+                resetTokenTuple.Item2.AddMinutes(30) > DateTime.Now &&
+                !string.IsNullOrEmpty(password) &&
+                password == confirmpassword)
+            {
+                try
+                {
+                    var cmd = new ResetLoginPasswordCommand(user.UserId, password, token);
+                    await this.CommandBus.SendAsync(cmd);
+
+                    if (cmd.CommandResult == ErrorCode.None)
+                    {
+                        var guid = Guid.NewGuid().ToString();
+                        Session["ResetLoginPassword"] = guid;
+                        result = DotpayJsonResult<string>.CreateSuccessResult(guid);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ResetLoginPassword Exception", ex);
+                }
+            }
+            else
+                ViewBag.Valid = false;
+            return View();
+        }
+        #endregion
+
+
+        #region 充值登陆密码-结果提示
+        [Route("~/reset/loginpwd/result")]
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ResetLoginPasswordResult(string rid)
+        {
+            if (Session["ResetLoginPassword"] != null)
+            {
+                var guid = Session["ResetLoginPassword"].ToString();
+                if (guid.Equals(rid, StringComparison.OrdinalIgnoreCase))
+                {
+                    ViewBag.Valid = true;
+                }
+                else
+                {
+                    ViewBag.Valid = false;
+                }
+            }
+            return View();
+        }
+        #endregion
+        #endregion
     }
 }

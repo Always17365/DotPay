@@ -36,7 +36,7 @@ namespace Dotpay.Common
         /**/public const string RippleTxResultMQName = "RippleTxResult";
         /**/public const string RippleValidatorMQName = "RippleValidator";                 //验证和获取last ledger index
         /**/public const string RippleLedgerIndexResultQueueName = "RippleGetLedgerIndex"; //获取last ledger index的Replay Queue 
-        /**/public const string RippleValidateResultQueueName = "RippleValidator";         //tx验证消息Replay Queue
+        /**/public const string RippleValidateResultQueueName = "RippleValidatorResult";   //tx验证消息Replay Queue
         /*-----------------------------------------------------------------*/
 
         public const string RippleToFIMQName = "RippleToFI";

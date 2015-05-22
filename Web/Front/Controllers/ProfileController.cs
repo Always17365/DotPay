@@ -16,6 +16,7 @@ namespace Dotpay.Front.Controllers
 {
     public class ProfileController : BaseController
     {
+        #region Views
         [Route("~/i")]
         public async Task<ActionResult> Index()
         {
@@ -54,6 +55,30 @@ namespace Dotpay.Front.Controllers
             return View();
         }
 
+
+        #region 修改登陆密码 View
+
+        [Route("~/profile/modifyloginpwd")]
+        [HttpGet]
+        public ActionResult ModifyLoginPassword()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region 修改支付密码 View
+
+        [Route("~/profile/modifypaypwd")]
+        [HttpGet]
+        public ActionResult ModifyPaymentPassword()
+        {
+            return View();
+        }
+
+        #endregion
+        #endregion
+
         #region 设置支付密码
         [Route("~/profile/setpaymentpassword")]
         [HttpGet]
@@ -90,6 +115,78 @@ namespace Dotpay.Front.Controllers
                 await this.CommandBus.SendAsync(cmd);
                 this.CurrentUser.IdentityInfo = identity;
                 result = DotpayJsonResult.Success;
+            }
+
+            return Json(result);
+        }
+
+        #endregion
+
+        #region 修改登陆密码
+
+        [Route("~/profile/modifyloginpwd")]
+        [HttpPost]
+        public async Task<ActionResult> ModifyLoginPassword(string oldpassword, string newpassword, string confirmpassword)
+        {
+            var result = DotpayJsonResult.SystemError;
+
+            if (!string.IsNullOrEmpty(oldpassword) &&
+                !string.IsNullOrEmpty(newpassword) &&
+                newpassword == confirmpassword)
+            {
+                try
+                {
+                    var cmd = new ModifyLoginPasswordCommand(this.CurrentUser.UserId, oldpassword, newpassword);
+                    await this.CommandBus.SendAsync(cmd);
+                    if (cmd.CommandResult == ErrorCode.None)
+                    {
+                        result = DotpayJsonResult.Success;
+                    }
+                    else if (cmd.CommandResult == ErrorCode.OldLoginPasswordError)
+                    {
+                        result = DotpayJsonResult.CreateFailResult(this.Lang("OldLoginPasswordError"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ModifyLoginPassword Exception", ex);
+                }
+            }
+
+            return Json(result);
+        }
+
+        #endregion
+
+        #region 修改支付密码
+
+        [Route("~/profile/modifypaypwd")]
+        [HttpPost]
+        public async Task<ActionResult> ModifyPaymentPassword(string oldpassword, string newpassword, string confirmpassword)
+        {
+            var result = DotpayJsonResult.SystemError;
+
+            if (!string.IsNullOrEmpty(oldpassword) &&
+                !string.IsNullOrEmpty(newpassword) &&
+                newpassword == confirmpassword)
+            {
+                try
+                {
+                    var cmd = new ModifyPaymentPasswordCommand(this.CurrentUser.UserId, oldpassword, newpassword);
+                    await this.CommandBus.SendAsync(cmd);
+                    if (cmd.CommandResult == ErrorCode.None)
+                    {
+                        result = DotpayJsonResult.Success;
+                    }
+                    else if (cmd.CommandResult == ErrorCode.OldPaymentPasswordError)
+                    {
+                        result = DotpayJsonResult.CreateFailResult(this.Lang("OldPaymentPasswordError"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ModifyPaymentPassword Exception", ex);
+                }
             }
 
             return Json(result);

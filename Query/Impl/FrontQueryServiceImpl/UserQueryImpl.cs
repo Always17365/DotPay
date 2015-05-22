@@ -92,5 +92,33 @@ namespace Dotpay.FrontQueryServiceImpl
             }
             return result;
         }
+
+        public async Task<Tuple<string, DateTime>> GetLoginPasswordResetTokenByEmail(string email)
+        {
+            Tuple<string, DateTime> result = null;
+            var collection = MongoManager.GetCollection<BsonDocument>(COLLECTION_NAME);
+
+            var filter = new BsonDocument("Email", email.ToLower());
+            var projection = BsonDocument.Parse("{LoginPasswordResetTokenGenerateAt:1,LoginPasswordResetToken:1,_id:0}");
+            var options = new FindOptions<BsonDocument, BsonDocument>
+            {
+                Limit = 1,
+                Projection = projection
+            };
+            using (var cursor = await collection.FindAsync<BsonDocument>(filter, options))
+            {
+                var results = await cursor.ToListAsync();
+
+                if (results.Any())
+                {
+                    results.ForEach(row =>
+                    {
+                        result = new Tuple<string, DateTime>(row.GetValue("LoginPasswordResetToken", "").AsString,
+                              row.GetValue("LoginPasswordResetTokenGenerateAt", 0d).AsDouble.ToLocalDateTime());
+                    });
+                }
+            }
+            return result;
+        }
     }
 }

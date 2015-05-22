@@ -55,9 +55,14 @@ namespace Dotpay.Actor.Implementations
             return ErrorCode.None;
         }
 
-        async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid managerId, string transferTxNo)
+        async Task<ErrorCode> ITransferTransaction.ConfirmComplete(Guid? managerId, string transferTxNo)
         {
             if (this.State.Status == TransferTransactionStatus.LockeByProcessor && this.State.ManagerId == managerId && this.State.TransactionInfo.Target.Payway != Payway.Ripple)
+            {
+                await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
+                return ErrorCode.None;
+            }
+            else if (this.State.Status == TransferTransactionStatus.PreparationCompleted && this.State.TransactionInfo.Target.Payway == Payway.Dotpay)
             {
                 await this.ApplyEvent(new TransferTransactionConfirmCompletedEvent(managerId, transferTxNo));
                 return ErrorCode.None;
@@ -222,7 +227,8 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionConfirmCompletedEvent @event)
         {
             this.State.Status = TransferTransactionStatus.Completed;
-            this.State.FiTransactionNo = @event.FiTransactionNo;
+            if (string.IsNullOrEmpty(@event.FiTransactionNo))
+                this.State.FiTransactionNo = @event.FiTransactionNo;
             this.State.CompleteAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();
         }
@@ -256,7 +262,7 @@ namespace Dotpay.Actor.Implementations
         private void Handle(TransferTransactionConfirmedRippleTxCompleteEvent @event)
         {
             this.State.RippleTransactionInfo.RippleTxId = @event.RippleTxId;
-            this.State.Status=TransferTransactionStatus.Completed;
+            this.State.Status = TransferTransactionStatus.Completed;
             this.State.RippleTxStatus = RippleTransactionStatus.Completed;
             this.State.CompleteAt = @event.UTCTimestamp;
             this.State.WriteStateAsync();

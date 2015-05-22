@@ -56,7 +56,6 @@ namespace Dotpay.Actor.Service.Implementations
             var transferTransactionInfo = await BuildTransferToBankTransactionInfo(sourceAccountId, targetAccount,
                  realName, targetBank, currency, amount, memo);
             return await SubmitTransferTransaction(transferTransactionId, transferTransactionInfo);
-
         }
 
         async Task<ErrorCode> ITransferTransactionManager.SubmitTransferToRippleTransaction(Guid transferTransactionId, Guid sourceAccountId, string rippleAddress, CurrencyType currency, decimal amount, string memo, string paymentPassword)
@@ -467,11 +466,15 @@ namespace Dotpay.Actor.Service.Implementations
                     {
                         if (t.Result)
                         {
-                            PublishSubmitToRippleMessage(message.TransferTransactionId, target.Destination, message.Currency, message.Amount);
+                            PublishSubmitToRippleMessage(message.TransferTransactionId, target.Destination,
+                                message.Currency, message.Amount);
                         }
                     });
                 }
-
+                else
+                {
+                    await transferTransaction.ConfirmComplete(null, string.Empty);
+                }
             }
 
             return ErrorCode.None;

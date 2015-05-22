@@ -162,6 +162,12 @@ namespace Dotpay.Actor.Implementations
             newLoginPassword = PasswordHelper.EncryptMD5(newLoginPassword + this.State.Salt);
             if (this.State.IsVerified)
             {
+                if (!this.State.LoginPasswordResetTokenGenerateAt.HasValue ||
+                    !(this.State.LoginPasswordResetTokenGenerateAt.Value.AddMinutes(30) > DateTime.Now))
+                {
+                    return ErrorCode.InvalidResetLoginPasswordToken;
+                }
+
                 if (this.State.LoginPasswordResetToken.Equals(resetToken, StringComparison.OrdinalIgnoreCase))
                 {
                     await this.ApplyEvent(new UserLoginPasswordResetEvent(resetToken, newLoginPassword));
@@ -249,12 +255,12 @@ namespace Dotpay.Actor.Implementations
             if (this.State.PaymentPassword == PasswordHelper.EncryptMD5(paymentPassword + this.State.Salt))
                 return Task.FromResult(ErrorCode.None);
 
-             var now = DateTime.Now;
-             var remainRetryCounter = MAX_RETRY_PAYMENT_PASSWORD_TIMES - _paymentPasswordFailCounter.Count(f => f.Add(PaymentRetryLimitPeriod) > DateTime.Now);
+            var now = DateTime.Now;
+            var remainRetryCounter = MAX_RETRY_PAYMENT_PASSWORD_TIMES - _paymentPasswordFailCounter.Count(f => f.Add(PaymentRetryLimitPeriod) > DateTime.Now);
             if (remainRetryCounter <= 0)
-                return Task.FromResult(ErrorCode.ExceedMaxPaymentPasswordFailTime)  ;
+                return Task.FromResult(ErrorCode.ExceedMaxPaymentPasswordFailTime);
             else
-                this._paymentPasswordFailCounter.Add(DateTime.Now); 
+                this._paymentPasswordFailCounter.Add(DateTime.Now);
 
             return Task.FromResult(ErrorCode.PaymentPasswordError);
         }
@@ -387,31 +393,37 @@ namespace Dotpay.Actor.Implementations
         {
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         private void Handle(UserLoginPasswordForgetEvent @event)
         {
             this.State.LoginPasswordResetToken = @event.ResetToken;
             this.State.LoginPasswordResetTokenGenerateAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         private void Handle(UserLoginPasswordResetEvent @event)
         {
             this.State.LoginPassword = @event.NewLoginPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         private void Handle(UserPaymentPasswordModifiedEvent @event)
         {
             this.State.PaymentPassword = @event.NewPaymentPassword;
             this.State.LastPaymentPasswordChangeAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         private void Handle(UserPaymentPasswordForgetEvent @event)
         {
             this.State.PaymentPasswordResetToken = @event.ResetToken;
             this.State.PaymentPasswordResetTokenGenerateAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         private void Handle(UserPaymentPasswordResetEvent @event)
         {
             this.State.LoginPassword = @event.NewPaymentPassword;
             this.State.LastLoginPasswordChangeAt = @event.UTCTimestamp;
+            this.State.WriteStateAsync();
         }
         #endregion
 
@@ -420,7 +432,7 @@ namespace Dotpay.Actor.Implementations
         {
             var result = false;
 
-            if (this.State.MobileSetting != null)
+            if (this.State.MobileSetting != null && !string.IsNullOrEmpty(this.State.MobileSetting.SmsKey))
             {
                 result = Utilities.GenerateSmsOTP(this.State.MobileSetting.SmsKey, this.State.MobileSetting.SmsCounter) == otp;
             }

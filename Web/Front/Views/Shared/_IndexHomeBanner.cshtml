@@ -1,4 +1,5 @@
-﻿@using Dotpay.Language
+﻿@using Dotpay.Front.Controllers
+@using Dotpay.Language
 <!-- begin #home -->
 <div id="home" class="content has-bg home">
     <link href="~/assets/css/login.css" rel="stylesheet" />
@@ -44,7 +45,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-md-12 col-sm-12 text-right">
-                        <a class="link" href="/signup">@Html.Lang("Sign Up")</a> <a class="link" href="/forget">@Html.Lang("Forget password?")</a>
+                        <a class="link" href="/signup">@Html.Lang("Sign Up")</a> <a class="link" href="/forget/loginpwd?lang=@Html.GetLang().ToString("D")">@Html.Lang("Forget password?")</a>
                         <button type="submit" class="btn btn-sm btn-success col-md-offset-1">@Html.Lang("loginBtnText")</button>
                     </div>
                 </div>

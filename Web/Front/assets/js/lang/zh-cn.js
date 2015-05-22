@@ -50,4 +50,20 @@
     confirmPaymentPasswordIsRequited: "请再次输入支付密码",
     confirmPaymentPasswordMustEquals: "两次输入密码不一致",
     paymentPasswordInitializeSuccess: "支付密码设置成功",
+    //modify login password 
+    oldLoginPasswordRequired: "请输入原登陆密码",
+    newLoginPasswordRequired: "请输入新登陆密码",
+    newLoginPasswordNotMatch: "登陆密码不能少于6位",
+    newConfirmLoginPasswordRequired: "请再次输入登陆密码",
+    newConfirmLoginPasswordNotMatch: "两次密码输入不一致",
+    modifyLoginPasswordSuccess: "登陆密码修改成功",
+    modifyLoginPasswordFail: "登陆密码修改失败",
+    //modify payment password 
+    oldPaymentPasswordRequired: "请输入原支付密码",
+    newPaymentPasswordRequired: "请输入新的支付密码",
+    newPaymentPasswordNotMatch: "支付密码不能少于6位",
+    newConfirmPayamentPasswordRequired: "请再次确认密码",
+    newConfirmPayamentPasswordNotMatch: "两次输入密码不一致",
+    modifyPaymentPasswordSuccess: "修改支付密码成功",
+    modifyPaymentPasswordFail: "修改支付密码失败",
 };

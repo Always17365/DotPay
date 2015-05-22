@@ -426,4 +426,31 @@
   <data name="invalidRippleAccount" xml:space="preserve">
     <value>Invalid ripple account</value>
   </data>
+  <data name="OldLoginPasswordError" xml:space="preserve">
+    <value>Old login password error.</value>
+  </data>
+  <data name="OldPaymentPasswordError" xml:space="preserve">
+    <value>Old payment password error</value>
+  </data>
+  <data name="Login password reset email send success" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invalid link" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invlid login password reset link." xml:space="preserve">
+    <value />
+  </data>
+  <data name="click here login" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Login password reset success" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ExceedMaxResetLoginPasswordRequestTime" xml:space="preserve">
+    <value>You send too many reset email.Please retry after 2 hours.</value>
+  </data>
 </root>

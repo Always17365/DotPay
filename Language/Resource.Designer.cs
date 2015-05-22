@@ -268,6 +268,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string click_here_login {
+            get {
+                return ResourceManager.GetString("click here login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Continue deposit 的本地化字符串。
         /// </summary>
         internal static string continueDeposit {
@@ -403,6 +412,15 @@ namespace Dotpay.Language {
         }
         
         /// <summary>
+        ///   查找类似 You send too many reset email.Please retry after 2 hours. 的本地化字符串。
+        /// </summary>
+        internal static string ExceedMaxResetLoginPasswordRequestTime {
+            get {
+                return ResourceManager.GetString("ExceedMaxResetLoginPasswordRequestTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Fail Reason : 的本地化字符串。
         /// </summary>
         internal static string FailReason {
@@ -486,6 +504,15 @@ namespace Dotpay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string Invalid_link {
+            get {
+                return ResourceManager.GetString("Invalid link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Invalid_receiver_account {
             get {
                 return ResourceManager.GetString("Invalid receiver account", resourceCulture);
@@ -531,6 +558,15 @@ namespace Dotpay.Language {
         /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
+        internal static string Invlid_login_password_reset_link_ {
+            get {
+                return ResourceManager.GetString("Invlid login password reset link.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
         internal static string Login_fail_too_much_times_You_can_try_again_1_hour_later_ {
             get {
                 return ResourceManager.GetString("Login fail too much times.You can try again 1 hour later.", resourceCulture);
@@ -552,6 +588,24 @@ namespace Dotpay.Language {
         internal static string Login_name_or_password_error__You_can_try__0__times_ {
             get {
                 return ResourceManager.GetString("Login name or password error. You can try {0} times.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Login_password_reset_email_send_success {
+            get {
+                return ResourceManager.GetString("Login password reset email send success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Login_password_reset_success {
+            get {
+                return ResourceManager.GetString("Login password reset success", resourceCulture);
             }
         }
         
@@ -597,6 +651,24 @@ namespace Dotpay.Language {
         internal static string loginFieldUserNamePlaceholder {
             get {
                 return ResourceManager.GetString("loginFieldUserNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Old login password error. 的本地化字符串。
+        /// </summary>
+        internal static string OldLoginPasswordError {
+            get {
+                return ResourceManager.GetString("OldLoginPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Old payment password error 的本地化字符串。
+        /// </summary>
+        internal static string OldPaymentPasswordError {
+            get {
+                return ResourceManager.GetString("OldPaymentPasswordError", resourceCulture);
             }
         }
         
@@ -795,6 +867,15 @@ namespace Dotpay.Language {
         internal static string Sign_Up {
             get {
                 return ResourceManager.GetString("Sign Up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         

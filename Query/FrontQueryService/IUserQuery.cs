@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Dotpay.Front.ViewModel; 
 using System.Collections.Generic;
 
@@ -8,5 +9,6 @@ namespace Dotpay.FrontQueryService
     {
         Task<UserIdentity> GetUserByEmail(string email);
         Task<UserIdentity> GetUserByLoginName(string loginName); 
+        Task<Tuple<string,DateTime>> GetLoginPasswordResetTokenByEmail(string email);
     }
 }

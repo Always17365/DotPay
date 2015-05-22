@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -68,13 +69,28 @@ namespace Dotpay.Front.Controllers
             switch (cultureName)
             {
                 case "zh-CN":
-                    return Dotpay.Common.Enum.Lang.SimplifiedChinese;
+                    return Common.Enum.Lang.SimplifiedChinese;
                 case "en-US":
-                    return Dotpay.Common.Enum.Lang.English;
+                    return Common.Enum.Lang.English;
                 case "zh-TW":
-                    return Dotpay.Common.Enum.Lang.TraditionalChinese;
+                    return Common.Enum.Lang.TraditionalChinese;
                 default:
-                    return Dotpay.Common.Enum.Lang.Unkown;
+                    return Common.Enum.Lang.Unkown;
+            }
+        }
+
+        protected string GetLangName(Lang lang)
+        { 
+            switch (lang)
+            {
+                case Common.Enum.Lang.SimplifiedChinese :
+                    return "zh-CN";
+                case Common.Enum.Lang.English:
+                    return  "en-US";
+                case Common.Enum.Lang.TraditionalChinese:
+                    return  "zh-TW";
+                default:
+                    return "";
             }
         }
         protected string Lang(string key, params string[] strs)
@@ -90,6 +106,12 @@ namespace Dotpay.Front.Controllers
             ViewBag.Lang = cultureName;
             ViewBag.Debug = DotpayConfig.Debug;
             base.EndExecute(asyncResult);
+        }
+
+        protected void SetCurrentLanaguage(string lang)
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(lang);
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
 
         #region Json
@@ -165,6 +187,22 @@ namespace Dotpay.Front.Controllers
             }
 
             return new SelectList(enumValueList, "Key", "Value");
+        }
+
+        public static Lang GetLang(this HtmlHelper html )
+        {
+            var cultureName = Thread.CurrentThread.CurrentCulture.Name;
+            switch (cultureName)
+            {
+                case "zh-CN":
+                    return Dotpay.Common.Enum.Lang.SimplifiedChinese;
+                case "en-US":
+                    return Dotpay.Common.Enum.Lang.English;
+                case "zh-TW":
+                    return Dotpay.Common.Enum.Lang.TraditionalChinese;
+                default:
+                    return Dotpay.Common.Enum.Lang.Unkown;
+            }
         }
     }
 

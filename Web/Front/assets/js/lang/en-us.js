@@ -50,4 +50,20 @@
     confirmPaymentPasswordIsRequited: "Please type your payment password again",
     confirmPaymentPasswordMustEquals: "confirm password not equals payment password",
     paymentPasswordInitializeSuccess: "payment passwort initialized success",
+    //modify login password 
+    oldLoginPasswordRequired: "Old login password is required",
+    newLoginPasswordRequired: "Please type your new login password",
+    newLoginPasswordNotMatch: "Login password must be more than 6",
+    newConfirmLoginPasswordRequired: "Please type your login password again",
+    newConfirmLoginPasswordNotMatch: "Confirm password not equals password",
+    modifyLoginPasswordSuccess: "Modify login password success",
+    modifyLoginPasswordFail: "Modify login password fail",
+    //modify payment password 
+    oldPaymentPasswordRequired: "Old payment password is required",
+    newPaymentPasswordRequired: "Please type your new payment password",
+    newPaymentPasswordNotMatch: "Payment password must be more than 6",
+    newConfirmPaymentPasswordRequired: "Please type your payment password again",
+    newConfirmPaymentPasswordNotMatch: "Confirm password not equals password",
+    modifyPaymentPasswordSuccess: "Modify payment password success",
+    modifyPaymentPasswordFail: "Modify payment password fail",
 };
