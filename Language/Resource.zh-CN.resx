@@ -250,7 +250,7 @@
     <value>中国招商银行</value>
   </data>
   <data name="Currently the Direct Transfer service is still in test phase,it's free and for each transfer the amount is limited to 1-1000CNY." xml:space="preserve">
-    <value>目前点付直通车手续费为5‰(最低每笔2元)，每笔转账限额1-20000元。</value>
+    <value>目前点付直通车手续费为5‰(最低每笔5元)，每笔转账限额1-20000元。</value>
   </data>
   <data name="Direct Transfer is a service provided by dotpay.co to enable rippletrade client users to pay to Alipay account or bank account in China directly." xml:space="preserve">
     <value>直通车是点付科技推出的由&lt;a href="https://rippletrade.com/#/send" class="label label-info"&gt;rippletrade 客户端&lt;/a&gt;直接转账给支付宝或银行账户的工具。</value>

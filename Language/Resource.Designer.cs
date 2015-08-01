@@ -169,7 +169,7 @@ namespace DotPay.Language {
         }
         
         /// <summary>
-        ///   查找类似 Currently the Direct Transfer service charge 5‰, at least 2 CNY for fee, and for each transfer the amount is limited to 1-20000CNY. 的本地化字符串。
+        ///   查找类似 Currently the Direct Transfer service charge 5‰, at least 5 CNY for fee, and for each transfer the amount is limited to 1-20000CNY. 的本地化字符串。
         /// </summary>
         internal static string Currently_the_Direct_Transfer_service_is_still_in_test_phase_it_s_free_and_for_each_transfer_the_amount_is_limited_to_1_1000CNY_ {
             get {

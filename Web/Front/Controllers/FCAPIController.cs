@@ -410,7 +410,7 @@ namespace DotPay.Web.Controllers
 
         private decimal CalcFee(decimal amount)
         {
-            var minFee = 2;
+            var minFee = 5;
             var feeRate = 5 / 1000M;
 
             var result = Math.Max(amount * feeRate, minFee);
