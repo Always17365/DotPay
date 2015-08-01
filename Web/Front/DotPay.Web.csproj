@@ -213,6 +213,10 @@
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TopSdk, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\TopSdk.1.0.20728.1\lib\net40\TopSdk.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -490,10 +494,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\taobaosdk\TopSdk.csproj">
-      <Project>{9c11cae5-5188-4e71-825b-68fc3135728a}</Project>
-      <Name>TopSdk</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Application\CommandExecutor\MainCommand\DotPay.Command.Executor.csproj">
       <Project>{bbc4a647-afb1-42e2-ab93-ae7386031e75}</Project>
       <Name>DotPay.Command.Executor</Name>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{2194CC78-6B40-4ACC-998D-D2174C5CAF3E}"
 EndProject
@@ -82,8 +82,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotPay.Web.Admin", "Web\Admin\DotPay.Web.Admin.csproj", "{D96CDE25-4625-4987-AD05-33F92C8CFE95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RippleRPC.Net", "Tools\RippleRPC.Net\RippleRPC.Net.csproj", "{84FF702A-EE56-4A84-8699-1A28F28D5A4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopSdk", "..\..\taobaosdk\TopSdk.csproj", "{9C11CAE5-5188-4E71-825B-68FC3135728A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,10 +185,6 @@ Global
 		{84FF702A-EE56-4A84-8699-1A28F28D5A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84FF702A-EE56-4A84-8699-1A28F28D5A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84FF702A-EE56-4A84-8699-1A28F28D5A4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C11CAE5-5188-4E71-825B-68FC3135728A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -218,6 +212,5 @@ Global
 		{348A0490-C89E-4BB6-8426-3146CBEDBE51} = {CAA5FF23-8DA0-4C7F-AC0A-B7C330896C97}
 		{D96CDE25-4625-4987-AD05-33F92C8CFE95} = {F5D6B007-34C0-4071-8B41-3D456F40E63F}
 		{84FF702A-EE56-4A84-8699-1A28F28D5A4B} = {507D104C-39D6-40AD-8A28-203505933F47}
-		{9C11CAE5-5188-4E71-825B-68FC3135728A} = {507D104C-39D6-40AD-8A28-203505933F47}
 	EndGlobalSection
 EndGlobal

@@ -31,8 +31,8 @@ namespace Newtonsoft.Json.Converters
         }
 
     }
-
-    public class PathConverter : JsonConverter
+   
+    public class PathConverter : StringEnumConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

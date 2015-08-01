@@ -37,7 +37,8 @@ namespace DotPay.Common
             Check.Argument.IsNotEmpty(mqConnectionString, "mqConnectionString");
 
             _factory = new ConnectionFactory();
-            _factory.Uri = mqConnectionString;
+            _factory.Uri = mqConnectionString; 
+            _factory.AutomaticRecoveryEnabled = true;
         }
 
         public IModel GetMQChannel(string mqname)

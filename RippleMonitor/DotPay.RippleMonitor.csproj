@@ -91,6 +91,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TopSdk">
+      <HintPath>..\packages\TopSdk.1.0.20728.1\lib\net40\TopSdk.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />

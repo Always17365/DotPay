@@ -21,7 +21,7 @@ namespace DotPay.Web.Controllers
         private const string TaobaoRestUrl = "http://gw.api.taobao.com/router/rest";
         private const string TaobaoDebugRestUrl = "http://gw.api.tbsandbox.com/router/rest";
         private const bool Debug = false;
-        private const string TaobaoSessionKey = "_taobao_session";
+        private const string TaobaoSessionKey = "_taobao_session_json";
         [AllowAnonymous]
         [Route("~/taobao/login")]
         public ActionResult Index()
@@ -44,10 +44,47 @@ namespace DotPay.Web.Controllers
                 var taobaoParams = TopUtils.DecodeTopParams(taobaoParamsString);
 
                 Log.Info(taobaoParams["visitor_nick"] + "淘宝授权成功");
-                Cache.Add(TaobaoSessionKey, session, TimeSpan.FromHours(24));
+
+
+                var nickName = taobaoParams["visitor_nick"];
+                  
+                var currentAuthList = Cache.Get<Dictionary<string, TaobaoSession>>(TaobaoSessionKey);
+
+                currentAuthList = currentAuthList ?? new Dictionary<string, TaobaoSession>();
+                Log.Info("更新前=" +IoC.Resolve<IJsonSerializer>().Serialize(currentAuthList));
+                if (currentAuthList.ContainsKey(nickName))
+                {
+                    Log.Info("更新" + nickName + "淘宝授权成功:原-" + currentAuthList[nickName].Session + ",新:" + session);
+                    currentAuthList[nickName].Session = session;
+                    currentAuthList[nickName].AuthAt = DateTime.Now;
+                }
+                else
+                {
+                    currentAuthList.Add(nickName, new TaobaoSession()
+                    {
+                        NickName = nickName,
+                        Session = session,
+                        AuthAt = DateTime.Now
+                    });
+                }
+
+                Log.Info("更新后=" + IoC.Resolve<IJsonSerializer>().Serialize(currentAuthList));
+
+                Cache.Add(TaobaoSessionKey, currentAuthList, TimeSpan.FromDays(3));
+
+                currentAuthList = Cache.Get<Dictionary<string, TaobaoSession>>(TaobaoSessionKey);
+
+                Log.Info("更新取出最新数据=" + IoC.Resolve<IJsonSerializer>().Serialize(currentAuthList));
                 ViewBag.Message = "授权成功";
             }
             return View();
-        } 
+        }
+
+        public class TaobaoSession
+        {
+            public string NickName { get; set; }
+            public string Session { get; set; }
+            public DateTime AuthAt { get; set; }
+        }
     }
 }

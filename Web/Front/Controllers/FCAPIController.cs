@@ -393,9 +393,9 @@ namespace DotPay.Web.Controllers
                 else
                 {
                     if (req.Amount.Value < minAcceptAmount)
-                        result = QuoteResult.ErrorDetail(req, "Only accept amount not less than  " + minAcceptAmount);
+                        result = QuoteResult.ErrorDetail(req, "amount don't less than  " + minAcceptAmount);
                     else if (req.Amount.Value > maxAcceptAmount)
-                        result = QuoteResult.ErrorDetail(req, "Only accept amount not greate than  " + maxAcceptAmount);
+                        result = QuoteResult.ErrorDetail(req, "amount don't greate than  " + maxAcceptAmount);
                     else
                         result = QuoteResult.ErrorDetail(req, "data invlid");
 
@@ -411,7 +411,7 @@ namespace DotPay.Web.Controllers
         private decimal CalcFee(decimal amount)
         {
             var minFee = 2;
-            var feeRate = 1 / 1000M;
+            var feeRate = 5 / 1000M;
 
             var result = Math.Max(amount * feeRate, minFee);
 
