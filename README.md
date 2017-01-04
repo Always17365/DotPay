@@ -2,6 +2,4 @@
 项目使用了我自己的写的框架DFramework,OrleansEventSource,OrleansMongoDbProvider;
 https://github.com/weitaolee/DFramework   
 https://github.com/weitaolee/Orleans.EventSourcing   
-https://github.com/weitaolee/Orleans.Storage.MongoDB   
-
-我建立的Orleans&Akka.net的讨论群，174511582，欢迎大家加入一起学习
+https://github.com/weitaolee/Orleans.Storage.MongoDB
